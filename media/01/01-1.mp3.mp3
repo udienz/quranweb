@@ -1,0 +1,13 @@
+<?
+    $str = "Is yo'ur nam\"e O'reilly?";
+
+    // Outputs: Is your name O'reilly?
+    //echo htmlspecialchars($str,ENT_QUOTES);
+    $encode = htmlspecialchars($str,ENT_QUOTES);
+    echo $encode;
+    print "\n";
+    echo $encode;
+    //$decode = htmlspecialchars($encode);
+    //echo $decode
+
+?>

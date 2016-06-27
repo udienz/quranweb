@@ -1,0 +1,6 @@
+<?
+for ($i=1; $i<=60; $i++) {
+$dir = substr(dirname(__FILE__), 21);   
+rename($dir."-{$i}.mp3", $dir."_{$i}.mp3");
+}
+?>

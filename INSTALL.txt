@@ -1,0 +1,11 @@
+1. ekstak quranweb.tgz ke direktori yang diinginkan atau ke docroot (/var/www/html/)
+2. Edit config.php
+   - ubah alamat url, nama database, user, dan password database
+        misal : $myURL = '202.23.32.128/quranweb';
+                $sDB = 'quran';
+                $sUser = 'userdb';
+                $sServer = 'localhost';
+   - ubah nilai mediaFile menjadi path tempat mengkestrak quranweb.tgz
+        misal:  $mediaFile = '/var/www/html/quranweb/media';
+3. masukkan data dari file Quranweb.sql ke database, dengan perintah sbb:
+   misal :  mysql namadatabase -u userdb -p < Quransql.sql

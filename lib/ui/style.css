@@ -1,0 +1,34 @@
+.mdbSearch { color: #1b8b03; font-weight: normal; font-size: 14pt; }
+.mdbSearchMessage { 
+  color: #031b8b; 
+  font-weight:bold; 
+  font-family: Arial, Helvetica; 
+  background-color: #eeeeee;
+  border: dashed 1px #cccccc;
+}
+
+.mdbEven {}
+.mdbOdd  { background-color: #eeeeee; }
+
+.mdbTableHead { color: #343ed2; font-weight:bold; font-size: 9pt; }
+.mdbListTop { color: #343ed2; font-weight:bold; font-size: 12pt; }
+
+.mdbError, .mdbDebug, .mdbWarning {
+  margin-top: 0;
+  margin-bottom: 4pt;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-weight:bold; 
+  font-family: Courier New, Geneva, Courier, Clean; 
+  font-size: 9pt;
+}
+
+.mdbError { color: #8b031b; }
+.mdbDebug { color: #004400; }
+.mdbWarning { color: #000088; }
+
+.mdbGoBtn {
+  font-family: Verdana, Arial, Helvetica;
+  font-weight: bold; font-size: 8pt;
+  border: 1px #CCCCCC solid;
+}

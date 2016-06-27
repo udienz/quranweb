@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><title>The XMLHttpRequest Object</title>
+
+
+<link rel="shortcut icon" href="http://www.w3schools.com/favicon.ico" type="image/x-icon">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Keywords" content="xml,tutorial,html,dhtml,css,xsl,xhtml,javascript,asp,ado,vbscript,dom,sql,colors,soap,php,authoring,programming,training,learning,beginner's guide,primer,lessons,school,howto,reference,examples,samples,source code,tags,demos,tips,links,FAQ,tag list,forms,frames,color table,w3c,cascading style sheets,active server pages,dynamic html,internet,database,development,Web building,Webmaster,html guide">
+<meta name="Description" content="HTML,CSS,JavaScript,DHTML,XML,XHTML,ASP,ADO and VBScript tutorial from W3Schools.">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="xml_http.asp_files/stdtheme.css"></head>
+
+<body>
+
+
+<table bgcolor="#808080" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td valign="top" width="234">
+<a href="http://www.w3schools.com/"><img src="xml_http.asp_files/w3default80.jpg" alt="W3Schools" border="0"></a>
+</td>
+<th class="right" valign="middle" width="470"><center>
+<a href="http://www.altova.com/ref?s=w3schools&amp;q=ps" target="_blank">
+<img src="xml_http.asp_files/professional_services.gif" alt="Altova" border="0"></a>
+
+
+<br></center></th>
+<td>&nbsp;</td>
+</tr>
+</tbody></table>
+
+
+<table border="0" cellpadding="0" cellspacing="3">
+<tbody><tr>
+<td class="content" valign="top" width="137"><br>
+<a class="left" href="http://www.w3schools.com/default.asp" target="_top">
+<img src="xml_http.asp_files/homeicon.gif" alt="home" border="0"></a>
+<a class="left" href="http://www.w3schools.com/default.asp" target="_top">
+<b>HOME</b></a>
+<br><br>
+<b>XML Basic</b><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/default.asp">XML HOME</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_whatis.asp">XML Introduction</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_usedfor.asp">XML How to use</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_syntax.asp">XML Syntax</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_elements.asp">XML Elements</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_attributes.asp">XML Attributes</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_dtd.asp">XML Validation</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_browsers.asp">XML Browsers</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_view.asp">XML Viewing</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_display.asp">XML CSS</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_xsl.asp">XML XSL</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_data_island.asp">XML Data Island</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_parser.asp">XML Parser</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_real_life.asp">XML in Real Life</a><br>
+<br>
+<b>XML Advanced</b><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_namespaces.asp">XML Namespaces</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_cdata.asp">XML CDATA</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_encoding.asp">XML Encoding</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_server.asp">XML Server</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_applications.asp">XML Application</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_http.asp" style="font-weight: bold; color: rgb(0, 0, 0); background-color: transparent;">XML HTTP Request</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_behaviors.asp">XML Behaviors</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_technologies.asp">XML Technologies</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_editors.asp">XML Editors</a><br>
+<br>
+<b>Examples/Quiz</b><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_examples.asp">XML Examples</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/xml/xml_quiz.asp">XML Quiz</a><br><br>
+<b>Selected Reading</b><br>
+<a class="left" target="_top" href="http://www.w3schools.com/browsers/browsers_stats.asp">Web Statistics</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/site/site_glossary.asp">Web Glossary</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/hosting/default.asp">Web Hosting</a><br>
+<a class="left" target="_top" href="http://www.w3schools.com/quality/default.asp">Web Quality</a><br>
+<img src="xml_http.asp_files/pixel.gif" alt="" height="1" width="137">
+</td>
+<td valign="top" width="490">
+<table bgcolor="#ffffff" border="1" cellpadding="5" cellspacing="0" width="100%">
+<tbody><tr>
+<td>
+
+<h1>The XMLHttpRequest Object</h1>
+
+<a href="http://www.w3schools.com/xml/xml_applications.asp"><img alt="back" src="xml_http.asp_files/btn_previous.gif" border="0" height="20" width="100"></a>
+<a href="http://www.w3schools.com/xml/xml_behaviors.asp"><img alt="next" src="xml_http.asp_files/btn_next.gif" border="0" height="20" width="100"></a>
+
+<hr>
+<p class="intro">The XMLHttpRequest object is supported in Internet Explorer 
+5.0+, Safari 1.2, Mozilla 1.0 / Firefox, and Netscape 7.</p>
+<hr>
+
+<h2>What is an HTTP Request?</h2>
+<p>With an HTTP request, a web page can make a request to, and get a response from a web 
+server - without reloading the page. The user will stay on the same page, and he 
+or she will 
+not notice that scripts might request pages, or send data to a 
+server in the background.</p>
+<p><b>By using the XMLHttpRequest object, a web developer can change a page with data from the server 
+after the page has loaded.</b></p>
+<p><a target="_blank" href="http://www.google.com/webhp?complete=1">Google Suggest</a> 
+is using the XMLHttpRequest object to create a very dynamic web interface: 
+When you start typing in Google's search box, a JavaScript sends the letters off 
+to a server and the server returns a list of suggestions.</p>
+<hr>
+
+<h2>Is the XMLHttpRequest Object a W3C Standard?</h2>
+<p>The XMLHttpRequest object is not a W3C standard.</p>
+<p>The W3C DOM 
+Level 3 "Load and Save" specification contains some similar functionality, but these 
+are not implemented in any browsers yet. So, at the moment, if you need to send 
+an HTTP request from a browser, you will have to use the XMLHttpRequest object.</p>
+<hr>
+
+<h2>Creating an XMLHttpRequest Object</h2>
+<p>For Mozilla, Firefox, Safari, and Netscape:</p>
+
+<table class="ex" id="table1" border="1" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td>
+      <pre>var xmlhttp=new XMLHttpRequest()</pre>
+    </td>
+  </tr>
+</tbody></table>
+
+<p>For Internet Explorer:</p>
+
+<table class="ex" id="table2" border="1" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td>
+      <pre>var xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")</pre>
+    </td>
+  </tr>
+</tbody></table>
+
+<h3>Example</h3>
+
+<table class="ex" id="table7" border="1" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td>
+      <pre>&lt;script type="text/javascript"&gt;
+var xmlhttp</pre>
+		<pre>function loadXMLDoc(url)
+{
+// code for Mozilla, etc.
+if (window.XMLHttpRequest)
+  {
+  xmlhttp=new XMLHttpRequest()
+  xmlhttp.onreadystatechange=xmlhttpChange
+  xmlhttp.open("GET",url,true)
+  xmlhttp.send(null)
+  }
+// code for IE
+else if (window.ActiveXObject)
+  {
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+    if (xmlhttp)
+    {
+    xmlhttp.onreadystatechange=xmlhttpChange
+    xmlhttp.open("GET",url,true)
+    xmlhttp.send()
+    }
+  }
+}</pre>
+		<pre>function xmlhttpChange()
+{
+// if xmlhttp shows "loaded"
+if (xmlhttp.readyState==4)
+  {
+  // if "OK"
+  if (xmlhttp.status==200)
+    {
+    // ...some code here...
+    }
+  else
+    {
+    alert("Problem retrieving XML data")
+    }
+  }
+}
+&lt;/script&gt;</pre>
+    </td>
+  </tr>
+</tbody></table>
+
+<p><a target="_blank" href="http://www.w3schools.com/xml/tryit.asp?filename=try_xmlhttprequest_js">Try it yourself using JavaScript</a></p>
+<p>The syntax is a little bit different in VBScript:
+<a target="_blank" href="http://www.w3schools.com/xml/tryit.asp?filename=try_xmlhttprequest_vb">Try it yourself using 
+VBScript</a></p>
+<p><b>Note:</b> An important property in the example above is the 
+onreadystatechange property. This property is an event handler which is 
+triggered each time the state of the request changes. The states run from 0 (uninitialized) 
+to 4 (complete). By having the function xmlhttpChange() check for the 
+state changing, we can tell when the process is complete and continue only if 
+it has been successful.</p>
+<hr>
+
+<h2>Why are we Using async in our Examples?</h2>
+<p>All the examples here use the async mode (the third parameter of open() set 
+to true).</p>
+<p>The async parameter specifies 
+	whether the request should be handled asynchronously or not. True means 
+	that script 
+	continues to run after the send() method, without waiting for a response 
+from the server. false 
+	means that the script waits for a response before continuing script 
+processing. By setting this parameter to false, you run the risk of having your 
+	script hang if there is a network or server problem, or if the request is 
+long (the UI locks while the request is being made) a user may even 
+see the "Not Responding" message. It is safer to send asynchronously and design your code around 
+	the onreadystatechange event!</p>
+<hr>
+
+<h2>More Examples</h2>
+
+<p><a target="_blank" href="http://www.w3schools.com/xml/tryit.asp?filename=try_xmlhttprequest_js1">Load a 
+textfile into a div element with XML HTTP (JavaScript)</a></p>
+
+<p><a target="_blank" href="http://www.w3schools.com/xml/tryit.asp?filename=try_xmlhttprequest_js2">Make a 
+HEAD request with XML HTTP (JavaScript)</a></p>
+
+<p><a target="_blank" href="http://www.w3schools.com/xml/tryit.asp?filename=try_xmlhttprequest_js3">Make a 
+specified HEAD request with XML HTTP (JavaScript)</a></p>
+<hr>
+
+<h2>The XMLHttpRequest Object Reference</h2>
+
+<h3>Methods</h3>
+<table class="ex" id="table3" border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody><tr valign="top">
+    <th align="left" width="45%">Method</th>
+    <th align="left" width="55%">Description</th>
+  </tr>
+  <tr valign="top">
+    <td>abort()</td>
+    <td>Cancels the current request</td>
+  </tr>
+  <tr valign="top">
+    <td>getAllResponseHeaders()</td>
+    <td>Returns the complete set of http headers as a string</td>
+  </tr>
+  <tr valign="top">
+    <td>getResponseHeader("headername")</td>
+    <td>Returns the value of the specified http header</td>
+  </tr>
+  <tr valign="top">
+    <td>open("method","URL",async,"uname","pswd")</td>
+    <td>Specifies the method, URL, and other optional attributes of a 
+	request<p>The method parameter can have a value of "GET", "POST", 
+	or "PUT" (use "GET" when requesting data and use "POST" 
+	when sending data (especially if the length of the data is 
+	greater than 512 bytes.</p>
+	<p>The URL parameter may be either a relative or 
+	complete URL.</p>
+	<p>The async parameter specifies 
+	whether the request should be handled asynchronously or not. true means 
+	that script 
+	processing carries on after the send() method, without waiting for a response. false 
+	means that the script waits for a response before continuing script 
+	processing</p></td>
+  </tr>
+  <tr valign="top">
+    <td>send(content)</td>
+    <td>Sends the request</td>
+  </tr>
+  <tr valign="top">
+    <td>setRequestHeader("label","value")</td>
+    <td>Adds a label/value pair to the http header to be sent</td>
+  </tr>
+</tbody></table>
+
+<h3>Properties</h3>
+<table class="ex" id="table4" border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody><tr valign="top">
+    <th align="left" width="30%">Property</th>
+    <th align="left" width="70%">Description</th>
+  </tr>
+  <tr valign="top">
+    <td>onreadystatechange</td>
+    <td>An event handler for an event that fires at every state change</td>
+  </tr>
+  <tr valign="top">
+    <td>readyState</td>
+    <td>Returns the state of the object:<p>0 = uninitialized<br>
+	1 = loading<br>
+	2 = loaded<br>
+	3 = interactive<br>
+	4 = complete </p></td>
+  </tr>
+  <tr valign="top">
+    <td>responseText</td>
+    <td>Returns the response as a string</td>
+  </tr>
+  <tr valign="top">
+    <td>responseXML</td>
+    <td>Returns the response as XML. This property returns an XML document 
+	object, which can be examined and parsed using W3C DOM node tree methods and 
+	properties</td>
+  </tr>
+  <tr valign="top">
+    <td>status</td>
+    <td>Returns the status as a number (e.g. 404 for "Not Found" or 200 for 
+	"OK")</td>
+  </tr>
+  <tr valign="top">
+    <td>statusText</td>
+    <td>Returns the status as a string (e.g. "Not Found" or  
+	"OK")</td>
+  </tr>
+</tbody></table>
+<br>
+<hr>
+<a href="http://www.w3schools.com/xml/xml_applications.asp"><img alt="back" src="xml_http.asp_files/btn_previous.gif" border="0" height="20" width="100"></a>
+<a href="http://www.w3schools.com/xml/xml_behaviors.asp"><img alt="next" src="xml_http.asp_files/btn_next.gif" border="0" height="20" width="100"></a>
+
+<br>
+<hr>
+
+<h2>Product Spotlight</h2>
+<p><script src="xml_http.asp_files/displayad.js" type="text/javascript" language="javascript"></script><a target="_blank" href="http://ads.aspalliance.com/adredir.asp?id=614&amp;m=43&amp;s=&amp;">Infragistics NetAdvantage&#8482; 2005 Vol. 1 &#8211; </a>
+Download the latest trial version of the ultimate presentation layer
+toolset for building Microsoft&#8211;style user interfaces for Windows Forms,
+ASP.NET, TabletPC and COM applications.</p>
+<hr>
+
+
+<!-- **************** SPOTLIGHTS ******************************************* -->
+
+
+<!-- **************** SPOTLIGHTS ******************************************* -->
+
+<center>
+<script type="text/javascript"><!--
+google_ad_client = "pub-3440800076797949";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "900B09";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript" src="xml_http.asp_files/show_ads">
+</script><iframe name="google_ads_frame" src="xml_http.asp_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="60" scrolling="no" width="468">&lt;img&gt;</iframe>
+</center>
+<hr>
+
+
+<h2>We Help You For Free. You Can Help Us!</h2>
+<ul>
+<li><a href="http://www.w3schools.com/about/about_free.asp">Make a small donation</a></li>
+<li><a href="http://www.w3schools.com/tellyourgroup.htm" target="blank">Tell your newsgroup or mailing list</a></li>
+<li><a href="http://www.w3schools.com/about/about_linking.asp">Link to us from your pages</a></li>
+<li><a href="http://www.w3schools.com/about/about_helpers.asp">Help us correct errors and broken links</a></li>
+<li><a href="http://www.w3schools.com/about/about_helpers.asp">Help us with spelling and grammar</a></li>
+<li><a href="http://validator.w3.org/check/referer" target="_blank">Validate the XHTML code of this page</a></li>
+</ul>
+
+<hr>
+<p>
+Jump to: <a href="#top" target="_top"><b>Top of Page</b></a>
+or <a href="http://www.w3schools.com/default.asp" target="_top"><b>HOME</b></a> or
+<a href="http://www.w3schools.com/xml/xml_http.asp?output=print" target="_blank">
+<img src="xml_http.asp_files/print.gif" alt="Printer Friendly" border="0">
+<b>Printer friendly page</b></a>
+</p>
+
+<hr>
+<h2>What Others Say About Us</h2>
+<p>Does the world know about us? Check out these places:</p>
+<p>
+<a href="http://www.google.com/search?q=W3Schools&amp;safe=active" target="_blank">Google</a>&nbsp;
+<a href="http://search.yahoo.com/search?p=w3schools&amp;vm=r" target="_blank">Yahoo</a>&nbsp;
+<a href="http://www.altavista.com/web/results?q=w3schools" target="_blank">Alta Vista</a>&nbsp;
+<a href="http://search.msn.com/results.asp?q=W3Schools" target="_blank">MSN</a>&nbsp;
+<a href="http://search.lycos.com/main/?query=W3Schools" target="_blank">Lycos</a>&nbsp;
+<a href="http://search.excite.com/search.gw?search=W3Schools" target="_blank">Excite</a>&nbsp;
+<a href="http://www.ask.com/main/askJeeves.asp?ask=W3Schools" target="_blank">Ask Jeeves</a>&nbsp;
+<a href="http://www.hotbot.com/default.asp?query=w3schools" target="_blank">HotBot</a>
+</p>
+
+
+<hr>
+<p>
+W3Schools provides material for training only. We do not warrant the correctness of its contents.
+The risk from using it lies entirely with the user.
+While using this site, you agree to have read and accepted our
+<a href="http://www.w3schools.com/about/about_copyright.asp">terms of use</a> and
+<a href="http://www.w3schools.com/about/about_privacy.asp">privacy policy</a>.
+</p>
+<p>
+<a href="http://www.w3schools.com/about/about_copyright.asp">Copyright 1999-2005</a> by Refsnes Data. All Rights Reserved.</p>
+<hr>
+<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td align="left" width="60%">
+<a href="http://validator.w3.org/check/referer" target="_blank">
+<img src="xml_http.asp_files/vxhtml.gif" alt="Validate" border="0" height="31" width="88"></a>
+<a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank">
+<img src="xml_http.asp_files/vcss.gif" alt="Validate" border="0" height="31" width="88"></a>
+<a href="http://www.w3.org/WAI/WCAG1AA-Conformance" target="_blank">
+<img src="xml_http.asp_files/wai.gif" alt="Validate" border="0" height="31" width="88"></a>
+</td>
+<td>
+<a href="http://www.w3schools.com/xhtml/xhtml_howto.asp" target="_top">W3Schools was converted to XHTML in December 1999</a>
+</td>
+</tr></tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+
+
+<td align="center" valign="top" width="145">
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">SITE SEARCH</th></tr>
+<tr>
+<td class="right" align="center" valign="top">
+<form style="margin-top: 4px; margin-bottom: 4px;" method="get" name="searchform" action="http://www.google.com/search" target="_blank">
+<input name="as_sitesearch" value="www.w3schools.com" type="hidden">
+<input style="width: 95px;" name="as_q" size="20" type="text">&nbsp;<input style="width: 20px; font-weight: bold;" value="..." type="submit">
+</form><a class="right" href="http://www.w3schools.com/about/default.asp" target="_top">About W3Schools</a></td></tr>
+</tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+
+<a href="http://www.iiscart.com/" target="_blank"><img src="xml_http.asp_files/iiscartbtn.gif" alt="IISCart" border="0"></a>
+<br>
+<a class="right" href="http://www.iiscart.com/" target="_blank">ASP Ecommerce &amp; Shopping Cart</a>
+
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">WEB HOSTING</th></tr>
+<tr><td class="right" align="center">
+<a class="red" href="http://www.dotdnr.com/" target="_blank">$15 Domain Name<br>Registration<br>Save $20 / year!</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a href="http://www.pickaweb.co.uk/" target="_blank">UK Domain Names<br>
+Web Hosting</a><br>
+<a href="http://www.merkaweb.com/" target="_blank">Registro de Dominios</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a href="http://www.net2.co.uk/" target="_blank">Buy UK Domain Names</a><br>
+<a href="http://www.123domainnames.co.uk/" target="_blank">Register Domain Names</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a target="_blank" href="http://www.lowcostnames.co.uk/">Cheap Domain Names UK</a><br>
+<a target="_blank" href="http://www.telivo.com/">Web Hosting UK<br>
+Domain Names UK</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a target="_blank" href="http://www.redstation.com/">Web Hosting UK</a><br>
+<a target="_blank" href="http://www.redstation.com/">Dedicated Servers UK</a><br>
+<a target="_blank" href="http://www.redstation.com/">Dedicated Hosting UK</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a target="_blank" href="http://www.domain-names-etc.com/">Register a Domain</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a target="_blank" href="http://www.names.co.uk/">Cheap Domain Names</a><br>
+<a target="_blank" href="http://www.simply.com/">Cheap Web Hosting</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td class="right" align="center">
+<a target="_blank" href="http://www.weycrest.co.uk/standard-hosting.php">Cheap Web Hosting UK</a>
+</td></tr></tbody></table>
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">WEB BUILDING</th></tr>
+<tr><td class="right" align="center">
+<a target="_blank" href="http://www.trendytemplates.com/">Website Templates</a><br>
+<a target="_blank" href="http://www.trendyflash.com/">Website Builder</a><br>
+<a target="_blank" href="http://www.flashdd.com/">Flash Templates</a><br>
+<a target="_blank" href="http://www.templatesdd.com/">Web Templates</a>
+</td></tr></tbody></table>
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.getafreelancer.com/">Custom Programming</a><br>
+</td></tr></tbody></table>
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.sorbose.com/">BEST Flash Templates</a><br>
+</td></tr></tbody></table>
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.deep-software.com/">Website Log Analyzer</a><br>
+</td></tr></tbody></table>
+
+<table class="right" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.troubleticketsoftware.com/index2.htm?s=w3schools">Help Desk Software</a><br>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">XML TOOLS</th></tr>
+<tr><td class="right" align="center">
+<a target="_blank" href="http://www.stylusstudio.com/">Stylus Studio</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">SHOPPING</th></tr>
+<tr><td class="right" align="center">
+<a target="_blank" href="http://www.finance-onthenet.co.uk/">Home Finance</a><br>
+<a target="_blank" href="http://www.shopsdirect.com/">Shopping UK</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.uk-wholesaler.co.uk/">UK Wholesalers</a><br>
+<a target="_blank" href="http://www.wholesalepages.co.uk/">UK Wholesale</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><td class="right" align="center">
+<a target="_blank" href="http://www.yescarcredit.net/">Yes Car Credit<br>Car Finance &amp; Loans</a>
+</td></tr></tbody></table>
+
+<table class="right" bgcolor="#ffffff" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr><th class="right">ONLINE DEGREE</th></tr>
+<tr><td class="right" align="center">
+<a href="http://www.drexel.com/rd/rd.asp?SID=D357-tl-U2-NONE-Schools-&amp;RD=http://www.drexel.com/Fields_of_Study/business/gen-studies-comp-tech/index.shtml" target="_blank">Credit for Certs<br>
+Online Degree<br>
+BS CompTech<br>
+Drexel University</a>
+</td></tr></tbody></table>
+
+
+
+<br>
+<img src="xml_http.asp_files/pixel.gif" alt="" height="1" width="145">
+</td></tr></tbody></table>
+
+</body></html>

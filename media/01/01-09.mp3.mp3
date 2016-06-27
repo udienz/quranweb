@@ -1,0 +1,657 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta name="verify-v1" content="faejOoKaQtpDmNFjygshSgCt7ckcmBGEGpaE1GAw/wg="><title>WYSIWYG editor problems</title>
+    
+<meta name="title" content="WYSIWYG editor problems">
+<meta name="description" content="The wysiwyg editors in Joomla often give Javascript errors - here are some tips to overcome these">
+<meta name="keywords" content="wysiwyg, joomla, editors, TinyMCE">
+<meta name="Generator" content="Joomla! - Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.">
+<meta name="robots" content="index, follow">
+<script type="text/javascript" src="wysiwyg-editor-problems_files/prototype.js"></script>
+<script type="text/javascript" src="wysiwyg-editor-problems_files/jgfw_functions.js"></script>
+<link rel="stylesheet" type="text/css" href="wysiwyg-editor-problems_files/jgfw_css.css" media="all">
+<!-- base href="http://www.tm4y.co.za/" -->
+	<link rel="shortcut icon" href="http://www.tm4y.co.za/images/favicon.ico">
+	    <link href="wysiwyg-editor-problems_files/template_css.css" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="http://www.tm4y.co.za/templates/tm4y-modern/favicon.ico">
+<script src="wysiwyg-editor-problems_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-816483-1";
+urchinTracker();
+</script><!-- START OF ACTIVEMETER CODE -->
+
+<script type="text/javascript" language="javascript">
+var __pid=12833;
+var __am_invisible=1;
+</script>
+<script type="text/javascript" language="javascript" src="wysiwyg-editor-problems_files/counter.js"></script><!-- END OF ACTIVEMETER CODE -->
+
+
+<style type="text/css">
+<!--
+div.tagbots {      clear: both;   text-align: right;   float: right;     } 
+     
+div.tagbots div {       padding-right:4px;      
+float: left;      
+text-align: left;   
+} 
+      
+div.sociotag_header {       font-weight: bold;      }      
+
+div.sociotag_seperator {      clear: both;   height: 0px;     }
+
+div.tagbot a img {
+ filter:alpha(opacity=50); -moz-opacity:0.50; opacity:0.50; -khtml-opacity:0.50;
+}
+
+div.tagbot a:hover img {
+ filter:alpha(opacity=99); -moz-opacity:0.99; opacity:0.99; -khtml-opacity:0.99;
+} r
+//-->
+</style></head><noscript> <a href="http://www.activemeter.com/"
+target="_blank"> <img
+src="http://am1.activemeter.com/webtracker/track.html?method=track&pid=12833&java=0"
+alt="Web Statistics" border="0"> </a>
+</noscript><body id="page_bg">
+    <a name="up" id="up"></a>
+    <table class="maincontainer" align="center" border="0" cellpadding="0" cellspacing="0" height="100%">
+      <tbody><tr>
+        <td class="top-l"></td>
+        <td class="logouser4container" valign="top">
+          <div class="logocontainer"><a href="http://www.tm4y.co.za/index.php"><img src="wysiwyg-editor-problems_files/company-logo.gif" style="vertical-align: middle;" alt="TM4Y Website Design | Web Site Design | Web Development | Websites in South Africa" border="0"></a></div>
+          <div class="user4container">
+          <div id="ddcolortabs">
+          <ul>
+          <li style="margin-left: 1px;"><a href="http://www.tm4y.co.za/"><span>Home</span></a></li>
+<li><a href="http://www.tm4y.co.za/blog.html" class=""><span>Blog</span></a></li>
+<li><a href="http://www.tm4y.co.za/directory.html" class=""><span>Directory</span></a></li>
+<li><a href="http://www.tm4y.co.za/affiliates/" class=""><span>Affiliates</span></a></li>
+<li><a href="http://www.tm4y.co.za/contact/"><span>Contact</span></a></li>
+
+            </ul>
+                    </div>
+          </div></td>
+        <td class="top-r"></td>
+      </tr>
+      <tr>
+        <td class="shadowleft"></td>
+        <td class="topmenucontainer">
+          <div class="pathwaycontainer"><span class="pathway"><a href="http://www.tm4y.co.za/index.php" class="pathway">Home</a> <img src="wysiwyg-editor-problems_files/arrow.png" alt="arrow" border="0"> <a href="http://www.tm4y.co.za/blog.html" class="pathway">Blog</a> <img src="wysiwyg-editor-problems_files/arrow.png" alt="arrow" border="0">   WYSIWYG editor problems </span></div>
+          <div class="topmenu">
+                   </div>
+        </td>
+        <td class="shadowright"></td>
+      </tr>
+      <tr>
+        <td class="shadowleft"></td>
+        <td class="topspacecontainer"></td>
+        <td class="shadowright"></td>
+      </tr>
+
+      <tr>
+        <td class="shadowleft"></td>
+        <td class="headercontainer"><img src="wysiwyg-editor-problems_files/main_header1.jpg">
+        </td>
+        <td class="shadowright"></td>
+      </tr>
+      <tr height="100%">
+        <td class="shadowleft"></td>
+        <td class="contentcontainer" valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tbody><tr height="100%">
+              <td class="leftmenucontainer" valign="top">		<table class="moduletable" cellpadding="0" cellspacing="0">
+				<tbody><tr>
+			<td>
+				<img src="wysiwyg-editor-problems_files/abp_favs.png" align="absmiddle" hspace="3" vspace="3"><a href="javascript:;" onclick="window.external.addFavorite('http://www.tm4y.co.za', 'TM4Y Website Design | Web Site Design | Web Development | Websites in South Africa')">Bookmark Website</a><br><img src="wysiwyg-editor-problems_files/abp_page.png" align="absmiddle" hspace="3" vspace="3"><a href="javascript:;" onclick="window.external.addFavorite(top.location.href, 'WYSIWYG editor problems')">Bookmark Page</a><br>			</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletable" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Main Menu				</th>
+			</tr>
+					<tr>
+			<td>
+				
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr align="left"><td><a href="http://www.tm4y.co.za/home/" class="mainlevel">Home</a></td></tr>
+<tr align="left"><td><a href="http://www.tm4y.co.za/contacts/" class="mainlevel">Contact Us</a></td></tr>
+<tr align="left"><td><a href="http://www.tm4y.co.za/search-the-site.html" class="mainlevel">Search the site</a></td></tr>
+<tr align="left"><td><a href="http://www.tm4y.co.za/services/who-we-work-with.html" class="mainlevel">Who we work with</a></td></tr>
+<tr align="left"><td><a href="http://www.tm4y.co.za/clients/" class="mainlevel">Clients</a></td></tr>
+<tr align="left"><td><span class="menu-separator">Our Products</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/products/startup-package.html" class="sublevel">Startup Website</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/products/business-website-package.html" class="sublevel">Business Website</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/products/website-redesign-package.html" class="sublevel">Redesigned Website</a></div>
+</td></tr>
+<tr align="left"><td><span class="menu-separator">Other Services</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/services/joomla-installations.html" class="sublevel">Joomla Installations</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/services/wordpress-installations.html" class="sublevel">Wordpress Installations</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/services/web-site-development.html" class="sublevel">Web Development</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/services/banner-and-header-design.html" class="sublevel">Banners and Headers</a></div>
+</td></tr>
+<tr align="left"><td><span class="menu-separator">Web Hosting</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.internet-web-hosting.co.za/" target="_blank" class="sublevel">Cheap Web Hosting</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/web-hosting-info/" class="sublevel">Web Hosting Info</a></div>
+</td></tr>
+<tr align="left"><td><span class="menu-separator">Web Design Tips</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/joomla-tutorials/" class="sublevel">Joomla Tutorials</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/joomla-tips/" class="sublevel">Joomla tips</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/wordpress-tips/" class="sublevel">Wordpress tips</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/general-tips/" class="sublevel">General  tips</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/cakephp/" class="sublevel">CakePHP tips</a></div>
+</td></tr>
+<tr align="left"><td><span class="menu-separator">Web Marketing Tips</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/internet-marketing-tips/" class="sublevel">Internet Marketing Tips</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/seo-articles/" class="sublevel">SEO Articles</a></div>
+</td></tr>
+<tr align="left"><td><span class="menu-separator">Interesting stuff</span>
+
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/wacky-webs/" class="sublevel">Wacky Internet Sites</a></div>
+<div style="padding-left: 4px;"><img src="wysiwyg-editor-problems_files/folder.png" alt=""><a href="http://www.tm4y.co.za/info/the-lady-in-the-logo.html" class="sublevel">The Lady in the Logo</a></div>
+</td></tr>
+</tbody></table>			</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletable" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Online Support				</th>
+			</tr>
+					<tr>
+			<td>
+					<script type="text/javascript" src="wysiwyg-editor-problems_files/skypeCheck.js">
+	</script>
+	I am currently... Unknown&nbsp;<a href="skype:greenmamba-lady?call" onclick="return skypeCheck();"><img src="wysiwyg-editor-problems_files/greenmamba-lady.png" border="0"></a><br><a href="skype:greenmamba-lady?call" onclick="return skypeCheck();"><img src="wysiwyg-editor-problems_files/Skype.png" border="0" height="96" width="96"></a>Not detected. See <a href="http://www.skype.com/share/buttons/status.html" target="_blank">Info about SkypeWebStatus</a>			</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletable" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Archives				</th>
+			</tr>
+					<tr>
+			<td>
+				<ul>
+	<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2007/month,03/">
+			March, 2007</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2007/month,02/">
+			February, 2007</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2007/month,01/">
+			January, 2007</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,12/">
+			December, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,11/">
+			November, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,10/">
+			October, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,09/">
+			September, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,08/">
+			August, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,07/">
+			July, 2006</a>
+	</li>
+		<li>
+		<a href="http://www.tm4y.co.za/component/option,com_ab_archives/Itemid,0/year,2006/month,06/">
+			June, 2006</a>
+	</li>
+	</ul>			</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletablebottom" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Login 				</th>
+			</tr>
+					<tr>
+			<td>
+					<form action="index.php" method="post" name="login">
+		
+	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td>
+			<label for="mod_login_username">
+				Username			</label>
+			<br>
+			<input name="username" id="mod_login_username" class="inputbox" alt="username" size="10" type="text">
+			<br>
+			<label for="mod_login_password">
+				Password			</label>
+			<br>
+			<input id="mod_login_password" name="passwd" class="inputbox" size="10" alt="password" type="password">
+			<br>
+			<input name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="Remember Me" type="checkbox">
+			<label for="mod_login_remember">
+				Remember me			</label>
+			<br>
+			<input name="Submit" class="button" value="Login" type="submit">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="http://www.tm4y.co.za/component/option,com_registration/Itemid,0/task,lostPassword/">
+				Lost Password?</a>
+		</td>
+	</tr>
+			<tr>
+			<td>
+				No account yet?				<a href="http://www.tm4y.co.za/component/option,com_registration/Itemid,0/task,register/">
+					Register</a>
+			</td>
+		</tr>
+			</tbody></table>
+	If you find that you don't stay logged in, please select the 'Remember me' box
+	<input name="option" value="login" type="hidden">
+	<input name="op2" value="login" type="hidden">
+	<input name="lang" value="english" type="hidden">
+	<input name="return" value="http://www.tm4y.co.za/index.php?option=com_content&amp;task=view&amp;id=137&amp;Itemid=46" type="hidden">
+	<input name="message" value="0" type="hidden">
+	<input name="je5c50d27f035ab4d2e7af2e51c65c93f" value="1" type="hidden">
+	</form>
+				</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletable" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Syndicate				</th>
+			</tr>
+					<tr>
+			<td>
+				<div class="syndicate">
+			<div class="syndicate_text" align="center">
+			Syndicate our blog - receive fresh content on your web page on a weekly basis		</div>
+				<div align="center">
+			<a href="http://www.tm4y.co.za/component/option,com_rss/Itemid,0/feed,RSS1.0/no_html,1/">
+				<img src="wysiwyg-editor-problems_files/rss10.gif" alt="RSS 1.0" name="RSS10" align="middle" border="0"></a>
+		</div>
+				<div align="center">
+			<a href="http://www.tm4y.co.za/component/option,com_rss/Itemid,0/feed,ATOM0.3/no_html,1/">
+				<img src="wysiwyg-editor-problems_files/atom03.gif" alt="ATOM 0.3" name="ATOM03" align="middle" border="0"></a>
+		</div>
+				<div align="center">
+			<a href="http://www.tm4y.co.za/component/option,com_rss/Itemid,0/feed,OPML/no_html,1/">
+				<img src="wysiwyg-editor-problems_files/opml.png" alt="OPML" name="OPML" align="middle" border="0"></a>
+		</div>
+		</div>			</td>
+		</tr>
+		</tbody></table>
+				<table class="moduletable" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Webhosting Services				</th>
+			</tr>
+					<tr>
+			<td>
+				<div>We offer reliable<strong> webhosting</strong>
+to give your web site a home on the Internet. You can find our
+hosting&nbsp; packages on our website specifically dealing with
+webhosting. Please visit <a href="http://www.internet-web-hosting.co.za/" target="_blank" title="Internet Web Hosting">Tailormade4you Webhosting - Internet Web Hosting </a> services for South Africa for more information and to sign up. </div><div><br></div>			</td>
+		</tr>
+		</tbody></table>
+		</td>              <td style="padding-left: 5px; padding-right: 5px;" valign="top">
+                                <table class="maincontentcontainer" cellpadding="0" cellspacing="0">
+                   <tbody><tr>
+                    <td>
+                      		<table class="moduletable" cellpadding="0" cellspacing="0">
+				<tbody><tr>
+			<td>
+				<script type="text/javascript"><!--
+google_ad_client = "pub-8645468615011968";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+//2006-12-04: TM4Y
+google_ad_channel = "0405143741";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "43639E";
+google_color_text = "474747";
+google_color_url = "008000";
+//--></script>
+<script type="text/javascript" src="wysiwyg-editor-problems_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="wysiwyg-editor-problems_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" frameborder="0" height="60" scrolling="no" width="468"></iframe>			</td>
+		</tr>
+		</tbody></table>
+		                      	
+
+ 			<table class="contentpaneopen">
+			<tbody><tr>
+								<td class="contentheading" width="100%">
+					WYSIWYG editor problems									</td>
+							</tr>
+			</tbody></table>
+			
+		<table class="contentpaneopen">
+					<tbody><tr>
+				<td colspan="2" align="left" valign="top" width="70%">
+					<span class="small">
+						 Written by Christine					</span>
+					&nbsp;&nbsp;
+				</td>
+			</tr>
+						<tr>
+				<td colspan="2" class="createdate" valign="top">
+					Monday, 17 July 2006				</td>
+			</tr>
+					<tr>
+			<td colspan="2" valign="top">
+				<p>
+You could possibly have the following problems with either the Administration backend and/or with the WYSIWYG editor.
+</p>
+<p>
+<strong>Problem 1:</strong>
+</p>
+<p>
+You might get a blank screen when you try to log in to the
+Administration backend. This is almost always because your 'live-site'
+setting in your Configuration.php file doesn't correspond with your
+Administration URL. You either have a www in your live-site setting in
+your configuration.php file and you are accessing your administration
+backend without the www or vice versa. </p>
+<p>
+<strong>Problem 2:</strong>
+</p>
+<p>
+You might log into the administration backend and find that none of
+your menus are showing! After lots of searching I found that this was
+an Internet Explorer Cache problem. The menus were showing fine when I
+accessed the Admin backend through Firefox.
+</p>
+<p>Clear your IE cache by going into Tools-&gt;Internet Options and
+deleting your&nbsp;temporary Internet files. This solved the problem of
+my menu tabs not showing in the Admin backend.
+</p>
+<p>
+<strong>Problem 3:</strong>
+</p>
+<p>
+You might get one or more of the following problems when you try to use the WYSIWYG editor:
+</p>
+<p>When you try to open a popup, for example when you try to insert an
+image into your content, or a table, you might get this message and the
+popup will show a blank window:
+</p>
+<p>
+"tinyMCE object reference not found from pop up"
+</p>
+<p>
+You might also get&nbsp;this error or something similar:
+</p>
+<p>
+error tinyMCE has no properties in<br>
+mambots/editors/tinymce/jscripts/tiny_mce/themes/<br>
+advanced/jscripts/source_editor.js <br>
+line 51<br>
+</p>
+<p>
+or an error referring directly to not being able to find tiny_mce_popup.js or that tiny_mce_popup is&nbsp;undefined.
+</p>
+<p>Please note that sometimes the Popup will&nbsp;be blank, with just
+the little yellow triangle in the left-hand corner of your Internet
+Explorer indicating that there was a Javascript error. Double-Click on
+the triangle to see what the actual error was. In Firefox you can look
+at&nbsp;Tools-&gt;Javascript Console. The problem ocurred under Firefox
+too. </p>
+<p>
+This problem can be related&nbsp;to one, (or more!) of the following:&nbsp;
+</p>
+<p>
+1. Please note that you should go into your Mambots and&nbsp;check
+first that your WYSIWYG mambots are correct, especially if you have
+installed/uninstalled some special WYSIWYG editors
+previously.&nbsp;&nbsp;&nbsp;
+</p>
+<p>2. Make sure that your live site setting in your Configuration.php
+has the www if you are accessing your admin backend through your URL
+WITH the www. This is probably the most common cause of the problem
+</p>
+<p>3. This problem could also be related to file permissions of your
+editor mambot directories. If you were doing an upgrade from Mambo to
+Joomla and copied files across from different folders, the file
+permissions could also have changed when you copied the files across
+from your Joomla sub-folder where you tested your installation&nbsp;to
+their permanent home.&nbsp;If you followed my <a href="http://www.tm4y.co.za/joomla-tips/upgrading-from-mambo-to-joomla.html">Mambo to Joomla Upgrade procedure </a>&nbsp;and
+made a list of the required file permission that I suggested in Step 2
+of the upgrade path, you should use this list&nbsp; to make sure that
+the mambots/editors directory has the right permissions.
+</p>
+<p>4. In the end, in my case, this error was due to cache, again! Make
+sure that your Joomla cache settings are correct and that your cache
+directory is writeable. Clean out the cache&nbsp;folder just to make
+sure. But the biggest problem is your Internet Explorer cache. I traced
+the source of the problem to the html file called <strong>source-editor.htm.&nbsp; </strong>This file is located here:
+</p>
+<p>
+/public_html/mambots/editors/tinymce/jscripts/tiny_mce/<br>
+themes/advanced/source-editor.htm
+</p>
+<p>
+You will see that&nbsp;this html file&nbsp;refers to two external
+javascript files. First make sure that these Javascript files are not
+corrupted by pasting their location/path directly into your browser,
+for example:
+</p>
+<p>
+<a href="http://www.sitename.com/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_popup.js">http://www.sitename.com/mambots/editors/tinymce/jscripts/<br>
+tiny_mce/tiny_mce_popup.js</a>
+</p>
+<p>
+In IE you should &nbsp;get the option of running or saving the file. Open the file in an editor to see if the code looks OK.
+</p>
+<p>If this is OK, then you should try and force IE to read the actual
+source-editor.htm and not the one in cache.&nbsp;If you paste the
+path&nbsp;of this html file into your browser and execute in a
+standalone way, you should also get the error related to the popup. </p>
+<p>
+For example:
+</p>
+<p>
+<a href="http://www.sitename.com/mambots/editors/tinymce/jscripts/tiny_mce/themes/advanced/source-editor.htm">http://www.sitename.com/mambots/editors/tinymce/jscripts/<br>
+tiny_mce/themes/advanced/source-editor.htm</a>
+</p>
+<p>
+Keep on executing this file, refreshing it until it loads eventually
+without the Javascript error. You should then be able to go back to
+your Admin backend and use the popups in your WYSIWYG editor. If you
+had this problem in Firefox, you need to clear the cache in Firefox
+too. You can do this by going into Firefox and doing the following:
+</p>
+<ol>
+	<li>Click <strong>Tools</strong> and select <strong>Options</strong>. </li>
+	<li>Click the <strong>Privacy </strong>Icon. </li>
+	<li>Click <strong>Clear</strong> across from the <strong>Cache</strong> option. </li>
+	<li>Click <strong>Ok</strong>. </li>
+	<li>Exit and relaunch. </li></ol>
+	<p>
+	This solved my TinyMCE problem with inserting images, tables etc.
+	</p>
+	<p>
+	Tags: <a href="http://www.technorati.com/tag/Joomla" title="Tag:www.technorati.com/tag/Joomla" target="_blank" class="taglink" rel="tag">Joomla</a>, <a href="http://www.technorati.com/tag/WYSIWYG" title="Tag:www.technorati.com/tag/WYSIWYG" target="_blank" class="taglink" rel="tag">WYSIWYG</a>, <a href="http://www.technorati.com/tag/Editors" title="Tag:www.technorati.com/tag/Editors" target="_blank" class="taglink" rel="tag">Editors</a>
+	</p>
+
+
+<p></p><table border="0" cellpadding="4" cellspacing="1" width="100%"><tbody><tr><td class="sectiontableheader">Comments</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment38"></a><b>Thanks for this tip!</b><br><span class="small">Written by SolarCat on 2006-08-06 02:33:47</span><hr>Thanks so much for posting this tip. I was experiencing problem 3, and your solution number 2 cleared it right up.&nbsp;<br>&nbsp;<br>SolarCat&nbsp;<br></td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment41"></a><span class="small">Written by Guest on 2006-08-05 20:19:59</span><hr>Solution #4 has resolved the problem for me. Thank you very much.</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment45"></a><b>Wyswig editor problem:symbols</b><br><span class="small">Written by Guest on 2006-08-14 08:55:09</span><hr>Each
+time i go int to edit, after saving and then viewing the page again , I
+have been finding weird symbols littering the page: A's with squiggly
+lines, upside down question marks etc...the only way to clear them is
+to FTP but then it renders wyswyg useless. What is this problem and how
+can it be solved?</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment47"></a><b>Oh god thank you!</b><br><span class="small">Written by Guest on 2006-08-14 18:54:09</span><hr>I
+was having this problem with blank pop up editors and it was a huge
+pain that I couldn't fix. I just had to add the www to the site name in
+the config file as you mentioned. I am so happy and I'd have never
+figured this out on my own. You're great!</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment48"></a><b>Thank you! Thank you!</b><br><span class="small">Written by Jason on 2006-08-15 14:09:22</span><hr>As
+soon as I did #4 - clearing the cache, the problem disappeared. I'm
+hoping it doesn't occur soon; it did appear to be intermittent but with
+this list, I'm sure to be able to resolve it if it does.</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment49"></a><b>Hmmm... Spoke too soon?</b><br><span class="small">Written by Jason on 2006-08-15 14:31:08</span><hr>I
+just discovered something and wonder if anybody else is having the same
+problem. My live site is at an address without the www. &nbsp;<br>&nbsp;<br>If
+I enter administration via that address directly and login, the address
+of the administration has "www" added to the front and the hyperlink
+popup doesn't so it doesn't work.&nbsp;<br>&nbsp;<br>However, if I
+enter the adminstration by visiting my domain again at the normal
+visitor page and then click on the Administrator button, no "www" is
+added and everything works fine.&nbsp;<br>&nbsp;<br>Seems like a bug maybe?</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment50"></a><b>Spoke too soon?</b><br><span class="small">Written by Jason on 2006-08-15 14:35:25</span><hr>I
+just discovered something and wonder if anybody else is having the same
+problem. My live site is at an address without the www. &nbsp;<br>&nbsp;<br>If
+I enter administration via that address directly and login, the address
+of the administration has "www" added to the front and the hyperlink
+popup doesn't so it doesn't work.&nbsp;<br>&nbsp;<br>However, if I
+enter the adminstration by visiting my domain again at the normal
+visitor page and then click on the Administrator button, no "www" is
+added and everything works fine.&nbsp;<br>&nbsp;<br>Seems like a bug maybe?&nbsp;<br>&nbsp;<br>Thanks for your help!</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment53"></a><b>Others causes of blank HTML area</b><br><span class="small">Written by Guest on 2006-08-22 05:48:03</span><hr>Hello,&nbsp;<br>&nbsp;<br>I took 20mn to redact complements with url references which are refused by antispam system.&nbsp;<br>So you will not know where additianal informations can be found.&nbsp;<br>&nbsp;<br>By&nbsp;<br></td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment55"></a><b>Man, you saved my life</b><br><span class="small">Written by Tommy Thompson on 2006-09-01 09:17:09</span><hr>My
+Joomla admin back end was referencing the site with the miss-matched
+live site and admin "www" settings. I never would have figgured that
+out!&nbsp;<br>Thanks a ton </td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment56"></a><b>Same problem.. or more</b><br><span class="small">Written by radix_angel@hotmail.com on 2006-09-01 18:25:15</span><hr>I
+have a strange problem... when i open the editor.. this dont show me
+the tab panel.. i cant add text formats or image or anything else
+because i cant see the edit panel... i check everything.. and read many
+forums.. but nothing work.&nbsp;<br>Im runing on last apache with the last joomla on loclahost. could be some problem on localhost and not on normal hosting?&nbsp;<br></td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment57"></a><b>Thanks!</b><br><span class="small">Written by amansker on 2006-09-03 12:21:28</span><hr>Thanks for the detailed info. VERY helpful!</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment60"></a><b>Thanks so much for this!</b><br><span class="small">Written by Guest - T.Watson on 2006-09-08 12:38:41</span><hr>Such
+a hard thing to figure out on my own, this post made my life much
+easier. Mine was the blank window deal...I just had to put the www on
+the live site config. Thanks a bunch! Better than the joomla forums!</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment61"></a><b>Thanks for the help!</b><br><span class="small">Written by RextheRunt on 2006-09-12 04:30:51</span><hr>I
+was going crazy with problem 3 - and I couldn't figure out why it was
+working on my one machine and not the other. Same Firefox version etc.
+Just a stupid www missing!&nbsp;<br></td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment62"></a><b>One more issue...</b><br><span class="small">Written by Mark on 2006-09-12 12:07:18</span><hr>Hi, I have a different issue here, for me the styles also are not working.&nbsp;<br>The "Styles" menu beside the "Format" menu does not show the list of styles. What would be the problem????</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment73"></a><b>Thank you sooo much!</b><br><span class="small">Written by Guest on 2006-11-02 22:45:46</span><hr>added www to the live-site setting in the configuration.php and that cleared up the problem!  You are great.</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment74"></a><b>Thanks</b><br><span class="small">Written by Guest on 2006-11-03 11:33:22</span><hr>I
+had to remove the www from mine. It was a backwards process to this
+one. But I never would have figured that one out without your
+post.&nbsp;<br>&nbsp;<br>Thanks</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment76"></a><b>A editor instance must be focused before</b><br><span class="small">Written by ilya on 2006-11-06 15:47:48</span><hr>I get the following error:&nbsp;<br>&nbsp;<br>A editor instance must be focused before using this command.&nbsp;<br>&nbsp;<br>my
+domain name is localhost.com, and not www.sitename.com, i'd like to
+work on the site on localhost.com, is there a way to get around this?
+&nbsp;<br>any help is appreciated</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment77"></a><b>THANK YOU!</b><br><span class="small">Written by Lisa on 2006-11-29 19:37:02</span><hr>I
+was baffled why sometimes the TinyMCE editor would work and sometimes
+it wouldn't and it is because sometimes I am lazy and don't put www
+before the url and sometimes I do. I cannot thank you enough for these
+troubleshooting tips!</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment78"></a><b>Thanks a Million!!!!</b><br><span class="small">Written by ivagarfitt on 2006-12-02 04:57:09</span><hr>I hade problems with my editors and it was that problem with the live site www thing.&nbsp;<br>&nbsp;<br>So simple but you realy need someone like you to point it to a right direction.&nbsp;<br>&nbsp;<br>THANK YOU  THANK YOU    THANK YOU</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment79"></a><b>Thanks</b><br><span class="small">Written by Guest on 2006-12-09 11:15:16</span><hr>Thanks...&nbsp;<br>&nbsp;<br>This one is helpful for me..</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment84"></a><b>genius</b><br><span class="small">Written by jay cosmo on 2007-01-13 14:42:20</span><hr>this
+site is the bomb! i kept having issues with joomla's configurations,
+frustrated me cause my client was expecting stuff to work. amazingly
+every icon in the wysiwyg editor work now. thanks to this site. good
+job.</td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment85"></a><b>WOW! You're a genius!</b><br><span class="small">Written by Nana on 2007-01-19 17:41:34</span><hr>Thank
+you so so much! I had Problem#3 , turned out the solution was #2 ...
+All I did is added the www to the configuration.php file, and the
+problem was resolved...</td></tr><tr class="akosectiontableentry2"><td valign="top"><a name="akocomment90"></a><b>Thank you</b><br><span class="small">Written by Kiru on 2007-03-06 10:33:17</span><hr>Hi thank you very much for the nice note, Just www was my problem, thx a lot &nbsp;<br></td></tr><tr class="akosectiontableentry1"><td valign="top"><a name="akocomment95"></a><b>THANK YOU!</b><br><span class="small">Written by Mark on 2007-03-09 04:21:15</span><hr>Thank
+god for this post. I had prob #3 with the missing "www" in the config
+file. Man that was sooo frustrating having to work around the empty
+popups for so long. Thank you!!!</td></tr></tbody></table><script language="javascript" type="text/javascript">
+  function x () { return; }
+
+  function ac_smilie(thesmile) { 
+document.akocommentform.comment.value += " "+thesmile+" ";
+    document.akocommentform.comment.focus();
+  }
+  function validate(){
+    if (document.akocommentform.security_try.value=='') {
+      alert("Please try to guess characters in security image before submitting."); } else
+    if (document.akocommentform.comment.value==''){
+      alert("Please insert at least a comment.");
+    } else {
+      document.akocommentform.action = 'index.php';
+      document.akocommentform.submit();
+    
+}
+  }
+function DoPrompt(action) {  var revisedMessage;  var currentMessage = document.akocommentform.comment.value;  if (action == "url") {    var thisURL = prompt("Enter the URL for the link you want to add.", "http://");    var thisTitle = prompt("Enter the web site title", "Page Title");    var urlBBCode = "[URL="+thisURL+"]"+thisTitle+"[/URL]";    revisedMessage = currentMessage+urlBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "email") {    var thisEmail = prompt("Enter the email address you want to add.", "");    var emailBBCode = "[EMAIL]"+thisEmail+"[/EMAIL]";    revisedMessage = currentMessage+emailBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "bold") {    var thisBold = prompt("Enter the text that you want to make bold.", "");    var boldBBCode = "[B]"+thisBold+"[/B]";    revisedMessage = currentMessage+boldBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "italic") {    var thisItal = prompt("Enter the text that you want to make italic.", "");    var italBBCode = "[I]"+thisItal+"[/I]";    revisedMessage = currentMessage+italBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "underline") {    var thisUndl = prompt("Enter the text that you want to be undelined.", "");    var undlBBCode = "[U]"+thisUndl+"[/U]";    revisedMessage = currentMessage+undlBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "image") {    var thisImage = prompt("Enter the URL for the image you want to display.", "http://");    var imageBBCode = "[IMG]"+thisImage+"[/IMG]";    revisedMessage = currentMessage+imageBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "quote") {    var quoteBBCode = "[QUOTE]  [/QUOTE]";    revisedMessage = currentMessage+quoteBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "code") {    var codeBBCode = "[CODE]  [/CODE]";    revisedMessage = currentMessage+codeBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "listopen") {    var liststartBBCode = "[LIST]";    revisedMessage = currentMessage+liststartBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "listclose") {    var listendBBCode = "[/LIST]";    revisedMessage = currentMessage+listendBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }  if (action == "listitem") {    var thisItem = prompt("Enter the new list item. Note that each list group must be preceeded by a List Close and must be ended with List Close.", "");    var itemBBCode = "[*]"+thisItem;    revisedMessage = currentMessage+itemBBCode;    document.akocommentform.comment.value=revisedMessage;    document.akocommentform.comment.focus();    return;  }}</script><p></p><input name="option" value="com_akocomment" type="hidden">
+<input value="46" name="acitemid" type="hidden">
+<input value="137" name="contentid" type="hidden">
+<input value="entry" name="func" type="hidden">
+<table align="center" border="0" cellpadding="4" cellspacing="1" width="100%"><tbody><tr><td colspan="2" class="sectiontableheader">Write Comment</td></tr><tr><td colspan="2" class="sectiontableheader"><ul><li>Please keep the topic of messages relevant to the subject of the article.</li><li>Personal verbal attacks will be deleted.</li><li>Please don't use comments to plug your web site.. Such material will be removed</li></ul></td></tr><form name="akocommentform" action="index.php" target="_top" method="post"></form><tr class="sectiontableentry1"><td>Name:</td><td><input name="acname" style="width: 75%;" class="inputbox" value="Guest" type="text"></td></tr><tr class="sectiontableentry1"><td>Title:</td><td><input name="title" style="width: 75%;" class="inputbox" type="text"></td></tr><tr class="sectiontableentry1"><td width="130">BBCode:</td><td><a href="javascript:x();" onclick='DoPrompt("url");'><img src="wysiwyg-editor-problems_files/bburl.gif" alt="Web Address" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("email");'><img src="wysiwyg-editor-problems_files/bbemail.gif" alt="Email Address" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("bold");'><img src="wysiwyg-editor-problems_files/bbbold.gif" alt="Bold Text" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("italic");'><img src="wysiwyg-editor-problems_files/bbitalic.gif" alt="Italic Text" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("underline");'><img src="wysiwyg-editor-problems_files/bbunderline.gif" alt="Underlined Text" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("quote");'><img src="wysiwyg-editor-problems_files/bbquote.gif" alt="Quote" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("code");'><img src="wysiwyg-editor-problems_files/bbcode.gif" alt="Code" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("listopen");'><img src="wysiwyg-editor-problems_files/bblistopen.gif" alt="Open List" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("listitem");'><img src="wysiwyg-editor-problems_files/bblistitem.gif" alt="List Item" border="0" hspace="1"></a>
+<a href="javascript:x();" onclick='DoPrompt("listclose");'><img src="wysiwyg-editor-problems_files/bblistclose.gif" alt="Close List" border="0" hspace="1"></a>
+</td></tr><tr class="sectiontableentry1"><td valign="top">Comment:<br><br></td><td valign="top"><textarea style="width: 75%;" rows="8" name="comment" class="inputbox" wrap="VIRTUAL"></textarea></td></tr><tr class="sectiontableentry1"><td> </td><td align="left"> <script type="text/javascript" src="wysiwyg-editor-problems_files/securityImages.js"></script><a href="http://www.waltercedric.com/"><img src="wysiwyg-editor-problems_files/imageGenerator.jpeg" title="This image contains a scrambled text, it is using a combination of colors, font size, background, angle in order to disallow computer to automate reading. You will have to reproduce it to post on my homepage" alt="This image contains a scrambled text, it is using a combination of colors, font size, background, angle in order to disallow computer to automate reading. You will have to reproduce it to post on my homepage" id="securityId" name="securityId" border="0"></a><a href="javascript:SecurityImagesNew();" id="askNewPicture" title="Ask a new picture" alt="Ask a new picture"> <img src="wysiwyg-editor-problems_files/reload.gif" border="0"></a><input name="security_refid" value="0f40053f623e4a0dd5402a59e86083f3a07da303" type="hidden"><input name="security_reload" value="0" type="hidden"></td></tr><tr class="sectiontableentry1"><td> </td><td align="left">Enter what you see: *<br>tips: hit Reload page before writing a text if you have difficulty reading characters in image<input name="security_try" class="inputbox" id="security_try" size="20" maxlength="10" type="text">
+<script type="text/javascript">SecurityImagesInit(GetElement('securityId'),GetElement('security_try'), GetElement('security_reload'));</script></td></tr><tr class="sectiontableentry1"><td> </td><td align="left"><input name="send" value="Send" class="button" onclick="validate()" type="button"></td></tr></tbody></table><p align="center"><span class="small">Powered by <a href="http://www.mamboportal.com/" target="_blank">AkoComment 2.0</a>!</span><span class="small"> and <a href="http://www.waltercedric.com/" target="_blank">SecurityImage 3.0.8</a></span>			</p></td>
+		</tr>
+				</tbody></table>
+		
+		<span class="article_seperator">&nbsp;</span>
+		
+		
+<div class="tagbots"><div class="sociotag_header createdate">Tag it:</div><div class="tagbot"><a href="http://del.icio.us/post?v=4&amp;noui&amp;jump=close&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://del.icio.us/post?v=4&noui&jump=close&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'Delicious','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/delicious.gif" alt="Delicious" title="Delicious" border="0"></a></div><div class="tagbot"><a href="http://www.furl.net/storeIt.jsp?t=WYSIWYG+editor+problems&amp;u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html" target="_blank" onclick="window.open('http://www.furl.net/storeIt.jsp?t=WYSIWYG+editor+problems&u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html', 'Furl it!','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/furl.gif" alt="Furl it!" title="Furl it!" border="0"></a></div><div class="tagbot"><a href="http://www.spurl.net/spurl.php?v=3&amp;title=WYSIWYG+editor+problems&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html" target="_blank" onclick="window.open('http://www.spurl.net/spurl.php?v=3&title=WYSIWYG+editor+problems&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html', 'Spurl','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/spurl.gif" alt="Spurl" title="Spurl" border="0"></a></div><div class="tagbot"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://digg.com/submit?phase=2&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'digg','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/digg.png" alt="digg" title="digg" border="0"></a></div><div class="tagbot"><a href="http://www.blinkbits.com/bookmarklets/save.php?v=1&amp;source_url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems&amp;body=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.blinkbits.com/bookmarklets/save.php?v=1&source_url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems&body=WYSIWYG+editor+problems', 'Blinkbits','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/blinkbits.png" alt="Blinkbits" title="Blinkbits" border="0"></a></div><div class="tagbot"><a href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&amp;Description=&amp;Url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;Title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.blinklist.com/index.php?Action=Blink/addblink.php&Description=&Url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&Title=WYSIWYG+editor+problems', 'BlinkList','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/blinklist.png" alt="BlinkList" title="BlinkList" border="0"></a></div><div class="tagbot"><a href="http://blogmarks.net/my/new.php?mini=1&amp;simple=1&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://blogmarks.net/my/new.php?mini=1&simple=1&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'blogmarks','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/blogmarks.png" alt="blogmarks" title="blogmarks" border="0"></a></div><div class="tagbot"><a href="http://co.mments.com/track?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://co.mments.com/track?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'co.mments','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/co.gif" alt="co.mments" title="co.mments" border="0"></a></div><div class="tagbot"><a href="http://www.connotea.org/addpopup?continue=confirm&amp;uri=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.connotea.org/addpopup?continue=confirm&uri=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'connotea','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/connotea.png" alt="connotea" title="connotea" border="0"></a></div><div class="tagbot"><a href="http://de.lirio.us/rubric/post?uri=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html;title=WYSIWYG+editor+problems;when_done=go_back" target="_blank" onclick="window.open('http://de.lirio.us/rubric/post?uri=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html;title=WYSIWYG+editor+problems;when_done=go_back', 'De.lirio.us','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/delirious.png" alt="De.lirio.us" title="De.lirio.us" border="0"></a></div><div class="tagbot"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://digg.com/submit?phase=2&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'digg','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/digg.png" alt="digg" title="digg" border="0"></a></div><div class="tagbot"><a href="http://cgi.fark.com/cgi/fark/edit.pl?new_url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;new_comment=WYSIWYG+editor+problems&amp;linktype=Misc" target="_blank" onclick="window.open('http://cgi.fark.com/cgi/fark/edit.pl?new_url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&new_comment=WYSIWYG+editor+problems&linktype=Misc', 'Fark','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/fark.png" alt="Fark" title="Fark" border="0"></a></div><div class="tagbot"><a href="http://feedmelinks.com/categorize?from=toolbar&amp;op=submit&amp;url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;name=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://feedmelinks.com/categorize?from=toolbar&op=submit&url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&name=WYSIWYG+editor+problems', 'feedmelinks','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/feedmelinks.png" alt="feedmelinks" title="feedmelinks" border="0"></a></div><div class="tagbot"><a href="http://www.linkagogo.com/go/AddNoPopup?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.linkagogo.com/go/AddNoPopup?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'LinkaGoGo','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/linkagogo.png" alt="LinkaGoGo" title="LinkaGoGo" border="0"></a></div><div class="tagbot"><a href="http://ma.gnolia.com/beta/bookmarklet/add?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems&amp;description=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://ma.gnolia.com/beta/bookmarklet/add?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems&description=WYSIWYG+editor+problems', 'Ma.gnolia','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/magnolia.png" alt="Ma.gnolia" title="Ma.gnolia" border="0"></a></div><div class="tagbot"><a href="http://www.netvouz.com/action/submitBookmark?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems&amp;description=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.netvouz.com/action/submitBookmark?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems&description=WYSIWYG+editor+problems', 'Netvouz','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/netvouz.png" alt="Netvouz" title="Netvouz" border="0"></a></div><div class="tagbot"><a href="http://www.newsvine.com/_tools/seed&amp;save?u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;h=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.newsvine.com/_tools/seed&save?u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&h=WYSIWYG+editor+problems', 'NewsVine','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/newsvine.png" alt="NewsVine" title="NewsVine" border="0"></a></div><div class="tagbot"><a href="http://www.rawsugar.com/tagger/?turl=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;tttl=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.rawsugar.com/tagger/?turl=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&tttl=WYSIWYG+editor+problems', 'RawSugar','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/rawsugar.png" alt="RawSugar" title="RawSugar" border="0"></a></div><div class="tagbot"><a href="http://reddit.com/submit?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://reddit.com/submit?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'Reddit','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/reddit.png" alt="Reddit" title="Reddit" border="0"></a></div><div class="tagbot"><a href="http://www.shadows.com/features/tcr.htm?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.shadows.com/features/tcr.htm?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'Shadows','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/shadows.png" alt="Shadows" title="Shadows" border="0"></a></div><div class="tagbot"><a href="http://www.simpy.com/simpy/LinkAdd.do?href=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://www.simpy.com/simpy/LinkAdd.do?href=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'Simpy','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/simpy.png" alt="Simpy" title="Simpy" border="0"></a></div><div class="tagbot"><a href="http://smarking.com/editbookmark/?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;description=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://smarking.com/editbookmark/?url=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&description=WYSIWYG+editor+problems', 'Smarking','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/smarking.png" alt="Smarking" title="Smarking" border="0"></a></div><div class="tagbot"><a href="http://tailrank.com/share/?text=&amp;link_href=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://tailrank.com/share/?text=&link_href=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'TailRank','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/tailrank.png" alt="TailRank" title="TailRank" border="0"></a></div><div class="tagbot"><a href="http://wists.com/r.php?c=&amp;r=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;title=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://wists.com/r.php?c=&r=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&title=WYSIWYG+editor+problems', 'Wists','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/wists.png" alt="Wists" title="Wists" border="0"></a></div><div class="tagbot"><a href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&amp;=WYSIWYG+editor+problems" target="_blank" onclick="window.open('http://myweb2.search.yahoo.com/myresults/bookmarklet?u=http%3A%2F%2Fwww.tm4y.co.za%2Fjoomla-tips%2Fwysiwyg-editor-problems.html&=WYSIWYG+editor+problems', 'YahooMyWeb','toolbar=yes,scrollbars=yes,width=700,height=300,resizable=yes'); return false;"><img src="wysiwyg-editor-problems_files/yahoomyweb.png" alt="YahooMyWeb" title="YahooMyWeb" border="0"></a></div></div><div class="sociotag_seperator"></div>                                            <table border="0" cellpadding="0" cellspacing="1" width="100%">
+<tbody><tr>
+<td valign="top">
+		<table class="moduletablebottom" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					Register 				</th>
+			</tr>
+					<tr>
+			<td>
+Why don't you sign up for membership to the site? It is free and easy
+to do.The benefits are that you will then have access to free resources
+such as tutorials and E-Books, and will also be able to submit 'How do
+I do that?' questions, which I will answer and publish on the site as
+well as in the newsletters.<br><strong><a href="http://www.tm4y.co.za/index.php?option=com_registration&amp;task=register">So sign up now!</a></strong>			</td>
+		</tr>
+		</tbody></table>
+		</td>
+<td valign="top">
+		<table class="moduletablebottom" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+				<th valign="top">
+					FREE Internet Marketing Course!				</th>
+			</tr>
+					<tr>
+			<td>
+Whether you already have a website or are looking at creating a new
+website for yourself or your business, you need to take a look at the
+following information - subscribe to my FREE E-course on turning your
+website into a marketing machine that will atract and keep new
+customers.<br><br><a href="http://www.web-marketing.co.za/" target="_blank" mce_real_href="http://www.web-marketing.co.za">
+</a><h3 editor_id="mce_editor_0" align="center"><a href="http://www.web-marketing.co.za/" target="_blank" editor_id="mce_editor_0" mce_real_href="http://www.web-marketing.co.za">Sign up here for your free Internet Marketing E-Course!</a></h3>			</td>
+		</tr>
+		</tbody></table>
+		</td>
+</tr>
+</tbody></table>
+                    </td>
+                                      </tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+        </td>
+        <td class="shadowright"></td>
+      </tr>
+      <tr>
+        <td class="shadowleft"></td>
+        <td class="footercontainer"><div align="center">
+	© 2007 <a href="http://www.tm4y.co.za/">TM4Y Website Design | Web Site Design | Web Development | Websites in South Africa</a></div>
+</td>
+        <td class="shadowright"></td>
+      </tr>
+    </tbody></table>
+  <!-- 1174524980 --></body></html>
