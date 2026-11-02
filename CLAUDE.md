@@ -57,11 +57,16 @@ src/
 ```bash
 npm install
 npm run dev              # dev server
-npm run build             # production build — TIDAK butuh QURAN_API_URL
-                           # atau jaringan ke API (lihat instant=false di atas)
 npm run lint
-npx tsc --noEmit
+npm run build             # production build — TIDAK butuh QURAN_API_URL
+                           # atau jaringan ke API (lihat instant=false di atas).
+                           # Sudah termasuk type-check penuh.
 ```
+
+Jangan jalankan `tsc --noEmit` sebagai step terpisah SEBELUM `npm run build`:
+tipe seperti `LayoutProps` di-generate Next.js sendiri ke `.next/types/` saat
+build/dev, jadi `tsc` yang dijalankan lebih dulu akan gagal dengan
+"Cannot find name 'LayoutProps'" — ini bukan error kode, cuma salah urutan.
 
 ## Docker
 
