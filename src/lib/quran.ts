@@ -1,13 +1,15 @@
 // API client untuk Quran API (self-hosted, fork dari gadingnst/quran-api).
 // Lihat README bagian "Sumber Data" untuk cara deploy instance sendiri.
 // Default di bawah mengarah ke live instance resmi (ada rate limit),
-// hanya dipakai saat NEXT_PUBLIC_QURAN_API_URL belum diset.
-import { cacheLife } from "next/cache";
+// hanya dipakai saat QURAN_API_URL belum diset.
 
 const DEFAULT_API_URL = "https://api.quran.gading.dev";
 
+// Server-only (sengaja tanpa prefix NEXT_PUBLIC_): dibaca saat request,
+// bukan di-inline saat build, jadi bisa diganti lewat `docker run -e` /
+// env var platform tanpa perlu rebuild image.
 export function getApiBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_QURAN_API_URL?.replace(/\/$/, "") || DEFAULT_API_URL;
+  return process.env.QURAN_API_URL?.replace(/\/$/, "") || DEFAULT_API_URL;
 }
 
 export interface SurahName {
@@ -79,14 +81,16 @@ async function apiFetch<T>(path: string): Promise<T> {
   return json.data;
 }
 
+// Catatan: sengaja TIDAK "use cache" di sini. Dengan Cache Components,
+// fungsi "use cache" dicoba di-prerender saat build — tapi URL API baru
+// diketahui saat runtime (env var QURAN_API_URL beda per deployment), dan
+// build image (Docker/CI) tidak selalu punya akses jaringan ke API itu.
+// Jadi data diambil di request-time (lihat `instant = false` di tiap page),
+// dan caching 1 hari dilakukan lewat header HTTP cache API-nya sendiri.
 export async function getAllSurah(): Promise<SurahSummary[]> {
-  "use cache";
-  cacheLife("days"); // Sesuai header cache API (s-maxage 86400): aman 1 hari.
   return apiFetch<SurahSummary[]>("/surah");
 }
 
 export async function getSurah(number: number): Promise<SurahDetail> {
-  "use cache";
-  cacheLife("days");
   return apiFetch<SurahDetail>(`/surah/${number}`);
 }

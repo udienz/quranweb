@@ -1,0 +1,30 @@
+name: Docker build
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  docker:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (not pushed)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: quranweb:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Untuk push image ke registry (misal GHCR) setelah ini divalidasi,
+      # tambahkan step `docker/login-action` + ubah `push: true` di atas,
+      # lalu set tag ke `ghcr.io/<owner>/<repo>:latest`.

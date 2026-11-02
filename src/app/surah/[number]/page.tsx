@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getSurah } from "@/lib/quran";
 import VerseCard from "@/components/VerseCard";
 
+// Render per-request — lihat catatan di app/page.tsx.
+export const instant = false;
+
 export default async function SurahPage({
   params,
 }: {

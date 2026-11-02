@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { getAllSurah } from "@/lib/quran";
 
+// Render per-request, jangan prerender statis saat build — data berasal
+// dari API eksternal (self-hosted) yang tidak perlu/bisa dijangkau saat
+// `docker build`/`next build` berjalan.
+export const instant = false;
+
 export default async function Home() {
   const surahList = await getAllSurah();
 
