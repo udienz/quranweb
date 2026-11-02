@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Lint, typecheck & build
+    name: Lint & build (includes typecheck)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,9 +25,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Typecheck
-        run: npx tsc --noEmit
-
+      # Tidak ada step `tsc --noEmit` terpisah: tipe seperti `LayoutProps`
+      # di-generate oleh Next.js sendiri saat build (`.next/types/`), jadi
+      # tsc yang dijalankan sebelum build akan gagal dengan "Cannot find
+      # name 'LayoutProps'". `next build` di bawah sudah menjalankan
+      # type-check penuh secara internal.
       - name: Build
         run: npm run build
         env:
