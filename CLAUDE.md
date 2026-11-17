@@ -80,6 +80,15 @@ own format.
   (`store.ts`). It also works in memory when storage is unavailable, ignores corrupt
   data, and syncs between tabs. The `/my-reading` page shows it and offers JSON export and
   merge-import. Last read is recorded by an `IntersectionObserver` in `SurahReader`.
+- **Schema version 2 is made to be synchronised** (roadmap phase 3, see `PHASE3.md` in the
+  workspace repository). Every item has the time of its last change (`updatedAt`, or `at` for
+  last read and progress), and a removed bookmark or cleared progress stays as a tombstone
+  (`deletedAt`) for 90 days, so a removal reaches every device. `mergeUserData` takes the
+  newest change per item (a removal wins a tie), and it is commutative, associative and
+  idempotent, which tests check on 300 random triples: copies merged in any order converge.
+  Show data with `liveBookmarks` and `liveProgress`, never by reading `bookmarks` or
+  `progress` directly. Version 1 data (and backup files) is migrated when read; the stored
+  copy becomes version 2 at the next change. The backup envelope stays `format: 1`.
 - **Display toggles** (Arabic, transliteration, translation) and the theme are also
   browser-only (`PrefsProvider`, `ThemeToggle`).
 - This schema is designed to move to accounts later (roadmap phase 3).

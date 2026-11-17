@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import { verseHref, verseId } from "@/lib/anchors";
 import type { VerseView } from "@/lib/quran";
-import { findBookmark } from "@/lib/userdata/schema";
+import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 import { usePrefs } from "./PrefsProvider";
 
@@ -101,7 +101,7 @@ export default function VerseCard({
   const n = verse.number;
 
   const bookmark = findBookmark(data, surahNumber, n);
-  const readUpTo = data.progress[surahNumber]?.readUpTo ?? 0;
+  const readUpTo = progressOf(data, surahNumber);
   const isRead = n <= readUpTo;
 
   async function copy(text: string) {

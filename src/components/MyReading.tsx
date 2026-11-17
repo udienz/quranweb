@@ -6,7 +6,7 @@ import { verseHref } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import type { StringKey } from "@/lib/i18n/messages";
 import type { SurahMeta } from "@/lib/quran";
-import { exportUserData, UserDataError, type UserDataErrorCode } from "@/lib/userdata/schema";
+import { exportUserData, liveBookmarks, liveProgress, UserDataError, type UserDataErrorCode } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 
 const ERROR_MESSAGES: Record<UserDataErrorCode, StringKey> = {
@@ -36,10 +36,8 @@ export default function MyReading({ surahs }: { surahs: SurahMeta[] }) {
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const meta = (n: number) => surahs.find((s) => s.number === n);
 
-  const progress = Object.entries(data.progress)
-    .map(([key, p]) => ({ surah: Number(key), ...p }))
-    .sort((a, b) => a.surah - b.surah);
-  const bookmarks = [...data.bookmarks].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const progress = liveProgress(data);
+  const bookmarks = liveBookmarks(data).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const last = data.lastRead && meta(data.lastRead.surah);
 
   function download() {
