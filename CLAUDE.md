@@ -115,11 +115,8 @@ Itu bukan bug di Dockerfile.
   `node scripts/sync-mirror.mjs --out /srv/quranweb-mirror --force`. Timer systemd
   `quranweb-mirror-sync.timer` sempat dipasang lalu dinonaktifkan. Server tidak
   punya `crontab`. Hanya teks;
-  audio tetap dari `cdn.equran.id`. Dipakai di produksi atas keputusan pemilik
-  karena non-komersial (data tidak dijual, EQuran.id dan Kemenag RI dicantumkan
-  sebagai sumber). Catatan: syarat layanan equran.id tidak menyebut mirror secara
-  tegas dan menyatakan terjemahan, tafsir, audio dilindungi hak cipta; izin
-  tertulis dari admin@equran.id tidak tercatat di repo.
+  audio tetap dari `cdn.equran.id`. Non-komersial: data tidak dijual, EQuran.id
+  dan Kemenag RI dicantumkan sebagai sumber.
 - **Produksi:** https://quranweb.udienz.web.id (server sama, container
   `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari mirror).
   Deploy lewat tag rilis, hanya untuk commit yang sudah ada di `master`:
