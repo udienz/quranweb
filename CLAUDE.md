@@ -91,9 +91,12 @@ Itu bukan bug di Dockerfile.
 
 ## CI
 
-- `.github/workflows/ci.yml` — lint, typecheck, `next build` di tiap push/PR.
-- `.github/workflows/docker.yml` — build image Docker di CI (tidak push ke
-  registry mana pun secara default) untuk menjaga `Dockerfile` tetap valid.
+- `.github/workflows/ci.yml` — lint dan `next build` (sudah termasuk type-check) di
+  tiap push ke `master` dan tiap PR.
+- Tidak ada build Docker terpisah di CI (dihapus 2026-11-17: tidak pernah gagal dalam
+  14 run, mengulang `npm run build`, dan `Dockerfile` hanya berubah sekali). `Dockerfile`
+  divalidasi saat deploy QA, yang membangun image yang sama dan rollback otomatis.
+  Kalau `Dockerfile` diubah, uji `docker build` secara lokal sebelum merge.
 
 - `.github/workflows/deploy-qa.yml` — deploy ke server QA
   (`quranweb-qa.udienz.web.id`) lewat SSH + `scripts/deploy.sh` setelah push

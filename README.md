@@ -51,7 +51,7 @@ Build image tidak butuh akses jaringan ke API Qur'an sama sekali — halaman di-
 
 ## CI (GitHub Actions)
 
-Dua workflow di `.github/workflows/`:
+Workflow di `.github/workflows/`:
 
-- **`ci.yml`** — jalan di tiap push/PR: `npm run lint`, typecheck (`tsc --noEmit`), dan `npm run build`.
-- **`docker.yml`** — build image dari `Dockerfile` di CI (tidak push ke registry mana pun secara default) untuk memastikan Dockerfile selalu valid.
+- **`ci.yml`** — jalan di tiap push ke `master` dan tiap PR: `npm run lint` dan `npm run build` (sudah termasuk type-check).
+- **`deploy-qa.yml`** dan **`deploy-prod.yml`** — deploy ke server lewat SSH (lihat `CLAUDE.md`). `Dockerfile` divalidasi saat deploy: image dibangun di server dan dikembalikan ke versi sebelumnya kalau app baru tidak merespons, jadi tidak ada build Docker terpisah di CI.
