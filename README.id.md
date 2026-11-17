@@ -12,6 +12,7 @@ Situs: **https://quranweb.udienz.web.id** (produksi) dan https://quranweb-qa.udi
 
 - **Antarmuka bahasa Inggris dan Indonesia**, dipilih dari bahasa browser Anda dan bisa diganti dengan tombol EN/ID. Arti nama surat, terjemahan, dan kredit ikut berganti bahasa.
 - **Membaca** 114 surat: teks Arab (Uthmani Hafs atau teks EQuran.id), transliterasi Latin, dan satu atau beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, ...).
+- **Bacaan berhalaman**: surat yang panjang dibagi menjadi halaman berisi 10 ayat (`?page=3`), sehingga satu halaman tetap pendek dan cepat dimuat (Al-Baqarah turun dari sekitar 2 MB menjadi sekitar 230 KB). Tautan ke ayat, menu lompat, "lanjutkan membaca", dan audio yang lanjut otomatis semuanya bekerja lintas halaman.
 - Tab **Tafsir** dengan tafsir pilihan Anda (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per ayat dari enam qari, otomatis lanjut ke ayat berikutnya.
 - **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan, dan mencadangkan semuanya sebagai berkas JSON. Hanya tersimpan di browser Anda.

@@ -12,6 +12,7 @@ Live: **https://quranweb.udienz.web.id** (production) and https://quranweb-qa.ud
 
 - **English and Indonesian interface**, chosen from your browser language and switchable with the EN/ID button. Surah names, translations and credits follow the language too.
 - **Read** all 114 surahs: Arabic text (Uthmani Hafs or the EQuran.id text), Latin transliteration, and one or more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall, ...).
+- **Paged reading**: a long surah is split into pages of 10 verses (`?page=3`), so a page stays short and fast to load (Al-Baqarah went from about 2 MB to about 230 KB). Links to a verse, the jump menu, "continue reading" and the audio auto-advance all work across pages.
 - **Tafsir** tab with a tafsir of your choice (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per verse from six reciters, with automatic advance to the next verse.
 - **Your reading, without an account**: it remembers where you stopped ("continue reading"), lets you mark verses as read up to a point, bookmark verses with notes, and back everything up as a JSON file. It is stored in your browser only.
