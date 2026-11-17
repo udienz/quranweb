@@ -126,8 +126,10 @@ Itu bukan bug di Dockerfile.
 - **Produksi:** https://quranweb.udienz.web.id (server sama, container
   `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari mirror).
   Deploy lewat tag rilis, hanya untuk commit yang sudah ada di `master`:
-  `git tag v1.0.0 && git push origin v1.0.0` memicu `deploy-prod.yml`
-  (GitHub Environment `production`). Rollback: jalankan ulang workflow untuk tag lama.
+  `git tag -a v2.0.1 <commit> && git push origin v2.0.1` memicu `deploy-prod.yml`
+  (GitHub Environment `production`). Rilis pertama: `v2.0.0` (2026-11-17, penulisan
+  ulang total; tag lama `1.0` dan `1.1` milik aplikasi PHP). Pakai nomor di atas 2.0.0
+  supaya tidak bentrok dengan tag lama. Rollback: jalankan ulang workflow untuk tag lama.
   Kedua lingkungan memakai `scripts/deploy.sh <qa|prod> <ref>`, yang otomatis
   rollback ke image sebelumnya kalau app baru tidak merespons.
 
