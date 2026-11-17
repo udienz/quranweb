@@ -3,17 +3,17 @@
 #   ssh server 'bash -s' -- <qa|prod> <git-ref> < scripts/deploy.sh
 # nginx + certbot di host sudah meneruskan domain ke port lokal di bawah.
 #   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000 (data: mirror)
-#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002 (data: eQuran.id)
+#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002 (data: mirror)
 set -euo pipefail
 
 ENVIRONMENT="${1:?usage: deploy.sh <qa|prod> <git-ref>}"
 REF="${2:?usage: deploy.sh <qa|prod> <git-ref>}"
 
 case "$ENVIRONMENT" in
-  # API_URL: sumber data aplikasi. QA memakai mirror lokal (scripts/sync-mirror.mjs);
-  # prod masih langsung ke eQuran.id (kosong = default di src/lib/quran.ts).
+  # API_URL: sumber data aplikasi, mirror lokal di domain masing-masing
+  # (scripts/sync-mirror.mjs, disajikan nginx di /api/v2).
   qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2" ;;
-  prod) PORT=3002; API_URL="" ;;
+  prod) PORT=3002; API_URL="https://quranweb.udienz.web.id/api/v2" ;;
   *) echo "environment harus qa atau prod" >&2; exit 2 ;;
 esac
 
