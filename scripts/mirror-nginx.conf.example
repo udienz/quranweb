@@ -1,0 +1,16 @@
+# Contoh nginx untuk menyajikan hasil scripts/sync-mirror.mjs sebagai API.
+# Taruh di dalam blok `server { ... }` yang sudah ada, ganti /srv/quranweb-mirror
+# dengan nilai --out. Setelah itu set QURAN_API_URL=https://<domain>/api/v2.
+#
+# /api/v2/surat    -> surat.json
+# /api/v2/surat/1  -> surat/1.json
+# /api/v2/tafsir/1 -> tafsir/1.json
+
+location /api/v2/ {
+    root /srv/quranweb-mirror;
+    default_type application/json;
+    try_files $uri.json =404;
+
+    add_header Cache-Control "public, max-age=86400";
+    add_header Access-Control-Allow-Origin "*";
+}
