@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllSurah } from "@/lib/quran";
+import ContinueReading from "@/components/ContinueReading";
 import SurahGrid from "@/components/SurahGrid";
 
 // Render per-request, jangan prerender statis saat build — data berasal
@@ -29,6 +30,7 @@ export default async function Home() {
           </Link>
         </div>
       </section>
+      <ContinueReading surahs={surahList} />
       <SurahGrid surahs={surahList} />
     </div>
   );

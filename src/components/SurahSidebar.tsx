@@ -4,25 +4,15 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SurahMeta } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
-import { usePrefs, type Prefs } from "./PrefsProvider";
-
-const PREF_LABELS: { key: keyof Prefs; label: string }[] = [
-  { key: "arab", label: "Teks Arab" },
-  { key: "latin", label: "Transliterasi" },
-  { key: "terjemahan", label: "Terjemahan" },
-];
 
 export default function SurahSidebar({
   surahs,
   current,
-  showPrefs = true,
 }: {
   surahs: SurahMeta[];
   current?: number;
-  showPrefs?: boolean;
 }) {
   const [q, setQ] = useState("");
-  const { prefs, toggle } = usePrefs();
   const listRef = useRef<HTMLUListElement>(null);
 
   // Gulirkan daftar ke surat yang sedang dibuka (hanya di dalam daftar, bukan halaman).
@@ -85,33 +75,6 @@ export default function SurahSidebar({
           )}
         </ul>
       </section>
-
-      {showPrefs && (
-        <section className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="mb-3 font-display font-semibold">Preferensi bacaan</h2>
-          <ul className="flex flex-col gap-3">
-            {PREF_LABELS.map(({ key, label }) => (
-              <li key={key} className="flex items-center justify-between text-sm">
-                <span id={`pref-${key}`}>{label}</span>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={prefs[key]}
-                  aria-labelledby={`pref-${key}`}
-                  onClick={() => toggle(key)}
-                  className={`relative h-6 w-11 rounded-full transition ${prefs[key] ? "bg-primary" : "bg-muted"}`}
-                >
-                  <span
-                    className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
-                      prefs[key] ? "left-[22px]" : "left-0.5"
-                    }`}
-                  />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
     </div>
   );
 }

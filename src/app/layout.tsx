@@ -29,12 +29,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4">
             <Link href="/" className="flex items-center gap-2.5">
               <Logo />
-              <span className="font-display text-xl font-bold tracking-tight text-primary">QuranWeb</span>
+              <span className="hidden font-display text-xl font-bold tracking-tight text-primary min-[480px]:inline">QuranWeb</span>
             </Link>
-            <nav className="hidden rounded-full border border-border bg-card p-1 text-sm sm:block">
-              <Link href="/" className="flex items-center gap-2 rounded-full bg-background px-4 py-1.5 font-medium shadow-sm">
+            <nav className="flex rounded-full border border-border bg-card p-1 text-sm">
+              <Link href="/" className="flex items-center gap-2 rounded-full px-3 py-1.5 font-medium hover:bg-background sm:px-4">
                 <span className="h-2 w-2 rounded-full bg-gold" />
                 Al-Quran
+              </Link>
+              <Link href="/saya" className="rounded-full px-3 py-1.5 font-medium hover:bg-background sm:px-4">
+                Bacaan saya
               </Link>
             </nav>
             <ThemeToggle />
@@ -44,9 +47,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main className="flex-1">{children}</main>
         </PrefsProvider>
         <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
-          Data teks, terjemahan, audio, dan tafsir dari{" "}
+          Sumber tiap teks, terjemahan, tafsir, dan audio tercantum di bawah setiap surat. Data utama dari{" "}
           <a href="https://equran.id" className="text-primary hover:underline" rel="noopener">
-            eQuran.id
+            EQuran.id
+          </a>{" "}
+          dan{" "}
+          <a href="https://github.com/fawazahmed0/quran-api" className="text-primary hover:underline" rel="noopener">
+            fawazahmed0/quran-api
           </a>
           .
         </footer>

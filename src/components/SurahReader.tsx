@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { SurahView } from "@/lib/quran";
 import { meaningOf, revelationLabel } from "@/lib/quran/labels";
+import { userDataActions } from "@/lib/userdata/store";
 import VerseCard from "./VerseCard";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
@@ -23,6 +24,29 @@ export default function SurahReader({
   // Indeks URL audio yang sedang dicoba untuk ayat yang diputar (0 = utama).
   const audioIndex = useRef(0);
   const { meta, verses } = view;
+  const editionInfo = Object.fromEntries(view.editions.map((e) => [e.id, { name: e.name, language: e.language }]));
+
+  // Catat ayat yang sedang ada di sekitar sepertiga atas layar sebagai "terakhir dibaca".
+  // Ditunda sebentar supaya menggulir cepat tidak menulis ke penyimpanan terus-menerus.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const ayat = Number(entry.target.id.replace("ayat-", ""));
+          clearTimeout(timer);
+          timer = setTimeout(() => userDataActions.setLastRead(meta.number, ayat), 700);
+        }
+      },
+      { rootMargin: "-30% 0px -65% 0px" },
+    );
+    document.querySelectorAll("article[id^='ayat-']").forEach((el) => observer.observe(el));
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [meta.number, verses.length]);
   // Kelompokkan nama edisi per atribusi: "Teks Arab, Terjemahan: Kemenag RI, melalui EQuran.id".
   const groups = new Map<string, string[]>();
   for (const e of view.editions) groups.set(e.source.attribution, [...(groups.get(e.source.attribution) ?? []), e.name]);
@@ -148,6 +172,7 @@ export default function SurahReader({
             mode={mode}
             playing={playingN === verse.number}
             onPlay={() => togglePlay(i)}
+            editions={editionInfo}
           />
         ))}
         <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
