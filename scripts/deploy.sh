@@ -2,16 +2,18 @@
 # Deploy quranweb ke server. Dijalankan DI SERVER dari workflow GitHub:
 #   ssh server 'bash -s' -- <qa|prod> <git-ref> < scripts/deploy.sh
 # nginx + certbot di host sudah meneruskan domain ke port lokal di bawah.
-#   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000
-#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002
+#   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000 (data: mirror)
+#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002 (data: eQuran.id)
 set -euo pipefail
 
 ENVIRONMENT="${1:?usage: deploy.sh <qa|prod> <git-ref>}"
 REF="${2:?usage: deploy.sh <qa|prod> <git-ref>}"
 
 case "$ENVIRONMENT" in
-  qa)   PORT=3000 ;;
-  prod) PORT=3002 ;;
+  # API_URL: sumber data aplikasi. QA memakai mirror lokal (scripts/sync-mirror.mjs);
+  # prod masih langsung ke eQuran.id (kosong = default di src/lib/quran.ts).
+  qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2" ;;
+  prod) PORT=3002; API_URL="" ;;
   *) echo "environment harus qa atau prod" >&2; exit 2 ;;
 esac
 
@@ -34,6 +36,7 @@ PREVIOUS="$(sudo docker image inspect -f '{{.Id}}' "$IMAGE" 2>/dev/null || true)
 sudo docker build -t "$IMAGE" .
 sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
 sudo docker run -d --name "$NAME" --restart unless-stopped \
+  -e QURAN_API_URL="$API_URL" \
   -p "127.0.0.1:$PORT:3000" "$IMAGE" >/dev/null
 
 for i in $(seq 1 20); do
@@ -51,6 +54,7 @@ if [ -n "$PREVIOUS" ]; then
   echo "rollback ke image sebelumnya" >&2
   sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
   sudo docker run -d --name "$NAME" --restart unless-stopped \
+    -e QURAN_API_URL="$API_URL" \
     -p "127.0.0.1:$PORT:3000" "$PREVIOUS" >/dev/null
 fi
 exit 1

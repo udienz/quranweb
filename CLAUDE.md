@@ -105,6 +105,14 @@ Itu bukan bug di Dockerfile.
 - **QA/demo:** https://quranweb-qa.udienz.web.id (server 103.155.224.33, container
   `quranweb-qa` di belakang nginx + certbot, DNS lewat Cloudflare). Deploy otomatis
   dari `master` lewat `deploy-qa.yml`.
+- **Mirror data (QA saja untuk saat ini):** salinan statis eQuran.id API v2 di
+  `/srv/quranweb-mirror` (dibuat `scripts/sync-mirror.mjs`, disajikan nginx di
+  `https://quranweb-qa.udienz.web.id/api/v2`, contoh konfigurasi di
+  `scripts/mirror-nginx.conf.example`). `deploy.sh qa` mengarahkan
+  `QURAN_API_URL` ke mirror itu. Cron bulanan (user `mahyuddin`, tanggal 1 pukul 03:17)
+  menyinkronkan ulang. Hanya teks; audio tetap dari `cdn.equran.id`. Syarat layanan
+  equran.id tidak tegas soal mirror (terjemahan, tafsir, audio dilindungi hak cipta):
+  izin tertulis ke admin@equran.id belum ada, jadi jangan dipakai di produksi sebelum itu.
 - **Produksi:** https://quranweb.udienz.web.id (server sama, container
   `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari eQuran.id).
   Deploy lewat tag rilis, hanya untuk commit yang sudah ada di `master`:
