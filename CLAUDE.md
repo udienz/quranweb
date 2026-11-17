@@ -26,8 +26,16 @@ arsip/referensi — jangan dikembangkan lagi, jangan di-merge ke `master`.
   ada di katalog, kalau tidak aplikasi gagal sejak awal.
   Provider yang ada: `providers/equran.ts` ([eQuran.id API v2](https://equran.id/apidev/v2),
   endpoint `/surat`, `/surat/{n}`, `/tafsir/{n}`; 6 qari, bawaan `misyari-rasyid-al-afasi`).
-  Calon berikutnya: `fawazahmed0/quran-api` (lihat `project/quranweb/ROADMAP.md`
-  di repo workspace). Menambah sumber = tulis provider baru + daftarkan di
+  `providers/fawazahmed0.ts` ([fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api),
+  teks saja): 6 edisi kandidat diaktifkan (Arab Uthmani Hafs, Kemenag, Quraish
+  Shihab, Jalalayn, Yusuf Ali, Pickthall), hanya menambah katalog; pilihan bawaan tetap
+  dari EQuran.id. Diuji dengan data nyata: semua edisi punya 6.236 ayat dan jumlah ayat
+  per surat sama dengan metadata EQuran.id. Lisensi per edisi dan keputusan edisi final
+  ada di `project/quranweb/ROADMAP.md` (repo workspace). **Jangan andalkan jsDelivr saat
+  runtime**: repo itu sekitar 4,2 GB sehingga jsDelivr kadang menolak berkas (403 "Package
+  size exceeded the configured limit of 50 MB", teramati pada `ind-indonesianislam/45`);
+  provider punya cadangan raw GitHub, tetapi untuk produksi pakai mirror sendiri lewat
+  `QURAN_FAWAZ_URL`. Menambah sumber = tulis provider baru + daftarkan di
   `defaultConfig` + catat lisensinya di daftar sumber roadmap, tanpa mengubah komponen.
   **Jangan pakai `api.quran.gading.dev`**: rate limit 10 req/5 menit/IP, dan bentuk
   datanya (`preBismillah` tanpa `number`/`audio`/`tafsir`) membuat UI crash.
@@ -39,6 +47,8 @@ arsip/referensi — jangan dikembangkan lagi, jangan di-merge ke `master`.
   `https://equran.id/api/v2`. Isi hanya untuk mengarah ke mirror berformat sama.
   `QURAN_AUDIO_URL` (opsional, bawaan `https://cdn.equran.id`) mengatur basis URL
   audio dengan cara yang sama; dipakai nanti kalau audio dihosting sendiri.
+  `QURAN_FAWAZ_URL` (opsional) mengatur basis URL fawazahmed0/quran-api; kosong =
+  jsDelivr lalu raw GitHub.
 - **Halaman `/` dan `/surah/[number]` pakai `export const instant = false`.**
   Ini SENGAJA: tanpa ini, Next.js 16 (Cache Components) akan mencoba
   prerender halaman ini secara statis saat `next build`, yang berarti build
@@ -75,6 +85,7 @@ src/
       index.ts                   # API publik + defaultConfig (daftar provider, pilihan bawaan)
       labels.ts                  # label tampilan (tempat turun, arti nama)
       providers/equran.ts        # adaptor EQuran.id (teks dan audio)
+      providers/fawazahmed0.ts   # adaptor fawazahmed0/quran-api (teks saja)
       *.test.ts                  # tes (vitest), tanpa jaringan
 ```
 
@@ -85,6 +96,8 @@ npm install
 npm run dev              # dev server
 npm run lint
 npm test                 # vitest, tanpa jaringan
+npm run test:live        # opsional: uji ke sumber nyata (EQuran.id dan jsDelivr), sekitar 8 menit;
+                           # set LIVE_QURAN_API_URL ke mirror sendiri supaya EQuran.id tidak dibebani
 npm run build             # production build — TIDAK butuh QURAN_API_URL
                            # atau jaringan ke API (lihat instant=false di atas).
                            # Sudah termasuk type-check penuh.

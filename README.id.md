@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-Buka [http://localhost:3000](http://localhost:3000). Jalankan tes (tanpa jaringan) dengan `npm test`.
+Buka [http://localhost:3000](http://localhost:3000). Jalankan tes (tanpa jaringan) dengan `npm test`; `npm run test:live` memeriksa sumber nyata (sekitar 8 menit).
 
 ## Sumber Data
 
@@ -37,7 +37,7 @@ QURAN_API_URL=https://host-anda/api/v2
 ```
 (lihat `.env.example`). Variabel ini sengaja tanpa prefix `NEXT_PUBLIC_` — dibaca di server saat request (halaman tidak di-prerender statis saat build), jadi bisa diganti kapan saja lewat env var platform / `docker run -e` tanpa perlu rebuild. Kalau kosong, dipakai `https://equran.id/api/v2`.
 
-Di dalam, aplikasi tidak bergantung pada format API itu. Semuanya dipetakan ke **skema berbasis edisi** (satu edisi = satu teks Arab, transliterasi, terjemahan, atau tafsir) lewat **provider** di `src/lib/quran/`. Daftar provider, edisi bawaan, dan qari bawaan dikonfigurasi di satu tempat (`defaultConfig` di `src/lib/quran/index.ts`), provider dicoba menurut urutan prioritas dengan fallback, dan audio punya provider sendiri. Menambah sumber berarti menulis provider lalu mendaftarkannya; UI tidak berubah. Basis URL audio bisa diganti dengan `QURAN_AUDIO_URL` (bawaan `https://cdn.equran.id`).
+Di dalam, aplikasi tidak bergantung pada format API itu. Semuanya dipetakan ke **skema berbasis edisi** (satu edisi = satu teks Arab, transliterasi, terjemahan, atau tafsir) lewat **provider** di `src/lib/quran/`. Daftar provider, edisi bawaan, dan qari bawaan dikonfigurasi di satu tempat (`defaultConfig` di `src/lib/quran/index.ts`), provider dicoba menurut urutan prioritas dengan fallback, dan audio punya provider sendiri. Menambah sumber berarti menulis provider lalu mendaftarkannya; UI tidak berubah. Basis URL audio bisa diganti dengan `QURAN_AUDIO_URL` (bawaan `https://cdn.equran.id`). Provider kedua menambah edisi dari [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) (hanya teks: teks Arab lain, lebih banyak edisi Indonesia dan Inggris); basis URL-nya `QURAN_FAWAZ_URL` (bawaan jsDelivr dengan cadangan raw GitHub; arahkan ke mirror sendiri di produksi).
 
 Catatan: link audio per ayat (`audio` di tiap ayat, qari `05` Misyari Rasyid Al-Afasi sebagai utama) mengarah ke CDN eksternal `cdn.equran.id`, bukan ke API itu sendiri, jadi audio masih bergantung pada pihak ketiga.
 

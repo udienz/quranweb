@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Run the tests (no network needed) with `npm test`.
+Open [http://localhost:3000](http://localhost:3000). Run the tests (no network needed) with `npm test`; `npm run test:live` checks the real sources (about 8 minutes).
 
 ## Data source
 
@@ -37,7 +37,7 @@ QURAN_API_URL=https://your-host/api/v2
 ```
 (see `.env.example`). The variable intentionally has no `NEXT_PUBLIC_` prefix: it is read on the server at request time (pages are not prerendered statically at build), so it can be changed at any time through the platform's environment variables or `docker run -e` without a rebuild. If it is empty, `https://equran.id/api/v2` is used.
 
-Internally the app does not depend on that API's format. Everything is mapped to an **edition-based schema** (one edition = one Arabic text, transliteration, translation or tafsir) through **providers** in `src/lib/quran/`. The list of providers and the default editions and reciter are configured in one place (`defaultConfig` in `src/lib/quran/index.ts`), providers are tried in priority order with fallback, and audio has its own provider. Adding a source means writing a provider and registering it; the UI does not change. The audio base URL can be changed with `QURAN_AUDIO_URL` (default `https://cdn.equran.id`).
+Internally the app does not depend on that API's format. Everything is mapped to an **edition-based schema** (one edition = one Arabic text, transliteration, translation or tafsir) through **providers** in `src/lib/quran/`. The list of providers and the default editions and reciter are configured in one place (`defaultConfig` in `src/lib/quran/index.ts`), providers are tried in priority order with fallback, and audio has its own provider. Adding a source means writing a provider and registering it; the UI does not change. The audio base URL can be changed with `QURAN_AUDIO_URL` (default `https://cdn.equran.id`). A second provider adds more editions from [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) (text only: another Arabic text, more Indonesian and English editions); its base URL is `QURAN_FAWAZ_URL` (default jsDelivr with a raw GitHub fallback; point it to your own mirror in production).
 
 Note: the per-verse audio links (`audio` on each verse, with qari `05` Mishary Rasyid Al-Afasi as the primary one) point to the external CDN `cdn.equran.id`, not to the API itself, so audio still depends on a third party.
 
