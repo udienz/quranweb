@@ -90,6 +90,8 @@ export interface VerseView {
 export interface SurahView {
   meta: SurahMeta;
   selection: Selection;
+  /** The verses in `verses`, as verse numbers (`meta.verseCount` is the whole surah). */
+  range: { from: number; to: number };
   /** The editions and reciter used, for the credits in the UI. */
   editions: Edition[];
   qari: Qari;

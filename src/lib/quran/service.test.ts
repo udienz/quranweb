@@ -161,6 +161,46 @@ describe("getSurahView", () => {
   });
 });
 
+describe("a range of verses", () => {
+  // A longer surah so that there is something to slice.
+  const long = (): QuranConfig => {
+    const surah: SurahMeta = { ...META, verseCount: 25 };
+    const provider: TextProvider = {
+      ...textProvider("p1", EDITIONS),
+      surahs: async () => [surah],
+      text: async (edition, number) => ({
+        edition,
+        surah: number,
+        verses: Array.from({ length: 25 }, (_, i) => ({ number: i + 1, text: `${edition}:${i + 1}` })),
+      }),
+    };
+    return config({ textProviders: [provider] });
+  };
+
+  it("builds only the verses asked for, with their own numbers and audio", async () => {
+    const view = await createQuranService(long()).getSurahView(1, {}, undefined, { from: 11, to: 20 });
+    expect(view.range).toEqual({ from: 11, to: 20 });
+    expect(view.meta.verseCount).toBe(25);
+    expect(view.verses.map((v) => v.number)).toEqual([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+    expect(view.verses[0]).toMatchObject({ arabic: "ara-x:11", tafsir: "ind-x-tafsir:11", audio: ["https://a1/1/11.mp3"] });
+  });
+
+  it("the whole surah is the default, and the last page may be short", async () => {
+    const svc = createQuranService(long());
+    const all = await svc.getSurahView(1);
+    expect(all.range).toEqual({ from: 1, to: 25 });
+    expect(all.verses).toHaveLength(25);
+    expect((await svc.getSurahView(1, {}, undefined, { from: 21, to: 25 })).verses).toHaveLength(5);
+  });
+
+  it("rejects a range outside the surah", async () => {
+    const svc = createQuranService(long());
+    for (const range of [{ from: 0, to: 5 }, { from: 5, to: 4 }, { from: 21, to: 26 }, { from: 1.5, to: 3 }]) {
+      await expect(svc.getSurahView(1, {}, undefined, range), JSON.stringify(range)).rejects.toThrow(/Invalid verse range/);
+    }
+  });
+});
+
 describe("defaults per interface language", () => {
   const withEnglish = (): QuranConfig =>
     config({

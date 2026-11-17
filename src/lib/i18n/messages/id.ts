@@ -53,6 +53,13 @@ export const id: Messages = {
     sources: "Sumber: {list}",
     audioBy: "Audio {qari}",
   },
+  pagination: {
+    label: "Halaman",
+    previous: "Halaman sebelumnya",
+    next: "Halaman berikutnya",
+    page: "Halaman {number}",
+    range: "Ayat {from}–{to} dari {total}",
+  },
   verse: {
     play: "Putar audio",
     pause: "Jeda audio",

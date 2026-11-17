@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
-import { verseId } from "@/lib/anchors";
+import { verseHref, verseId } from "@/lib/anchors";
 import type { VerseView } from "@/lib/quran";
 import { findBookmark } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
@@ -114,7 +114,7 @@ export default function VerseCard({
 
   const copyText = () =>
     copy(`${verse.arabic}\n\n${verse.translations.map((tr) => tr.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
-  const copyLink = () => copy(`${location.origin}/surah/${surahNumber}#${verseId(n)}`);
+  const copyLink = () => copy(`${location.origin}${verseHref(surahNumber, n)}`);
 
   return (
     <article
