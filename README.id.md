@@ -74,6 +74,8 @@ Di produksi kedua sumber teks disajikan dari mirror statis milik sendiri, jadi s
 
 Keduanya berkas JSON biasa yang disimpan di repo data terpisah. Audio murottal masih dari `cdn.equran.id`. Sumber tiap edisi dicantumkan di UI dan di entrinya pada `editions.json`.
 
+Basis URL juga bisa berupa **direktori berisi salinan lokal data itu** (misalnya `/data/api/v2`), dan aplikasi lalu tidak membuat permintaan HTTP sama sekali untuk teks: QA dan produksi berjalan seperti ini, dengan direktori mirror dipasang read-only ke container. Untuk mengubah provider yang aktif, urutannya, edisi yang diaktifkan, dan nilai bawaan tanpa menyentuh kode, arahkan `QURAN_CONFIG` ke berkas JSON (lihat `config/sources.example.json`, yang membaca salinan lokal lebih dulu lalu beralih ke EQuran.id). Ketiga variabel di atas hanya mengisi `baseUrl` yang tidak ditulis di berkas itu.
+
 ## Docker
 
 Ada `Dockerfile` (multi-stage, pakai [output `standalone`](https://nextjs.org/docs/app/api-reference/config/next-config-js/output) Next.js, image akhir berbasis `node:20-alpine`) yang juga dipakai untuk deploy ke server.
