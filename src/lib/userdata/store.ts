@@ -17,6 +17,7 @@ import {
   toggleReadUpTo,
   removeBookmark,
   clearProgress,
+  pruneTombstones,
   type UserData,
 } from "./schema";
 
@@ -64,21 +65,22 @@ function parseOrEmpty(raw: string): UserData {
   }
 }
 
+const now = () => new Date().toISOString();
+
 function update(fn: (data: UserData) => UserData): void {
-  const next = fn(parseOrEmpty(readRaw()));
+  // Tombstones that every device has had time to see are dropped on each write.
+  const next = pruneTombstones(fn(parseOrEmpty(readRaw())), now());
   writeRaw(JSON.stringify(next));
 }
-
-const now = () => new Date().toISOString();
 
 /** The actions are stable and always work on the latest data. */
 export const userDataActions = {
   setLastRead: (surah: number, verse: number) => update((d) => setLastRead(d, surah, verse, now())),
   toggleReadUpTo: (surah: number, verse: number) => update((d) => toggleReadUpTo(d, surah, verse, now())),
-  clearProgress: (surah: number) => update((d) => clearProgress(d, surah)),
+  clearProgress: (surah: number) => update((d) => clearProgress(d, surah, now())),
   toggleBookmark: (surah: number, verse: number) => update((d) => toggleBookmark(d, surah, verse, now())),
-  removeBookmark: (surah: number, verse: number) => update((d) => removeBookmark(d, surah, verse)),
-  setBookmarkNote: (surah: number, verse: number, note: string) => update((d) => setBookmarkNote(d, surah, verse, note)),
+  removeBookmark: (surah: number, verse: number) => update((d) => removeBookmark(d, surah, verse, now())),
+  setBookmarkNote: (surah: number, verse: number, note: string) => update((d) => setBookmarkNote(d, surah, verse, note, now())),
   /** Merge a backup into the current data. Throws a UserDataError if the file is not valid. */
   importMerge: (text: string) => update((d) => mergeUserData(d, importUserData(text))),
   /** The current data, for export. */
