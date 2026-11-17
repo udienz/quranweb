@@ -1,71 +1,74 @@
-// Skema internal berbasis edisi. Semua sumber data (EQuran.id, mirror sendiri,
-// fawazahmed0/quran-api, dst.) dipetakan ke bentuk ini lewat provider, jadi UI
-// tidak bergantung pada format API mana pun.
+// Internal edition-based schema. Every data source (EQuran.id, our own mirrors,
+// fawazahmed0/quran-api, ...) is mapped to these shapes by a provider, so the UI
+// never depends on a particular API's format.
 //
-// Satu EDISI = satu terjemahan, satu tafsir, satu teks Arab, atau satu
-// transliterasi. ID edisi stabil dan tidak bergantung pada provider (nanti
-// dipakai untuk pilihan pengguna), mengikuti penamaan fawazahmed0/quran-api:
-// `{bahasa-iso3}-{nama}`, akhiran `-la` untuk transliterasi Latin.
+// One EDITION = one translation, one tafsir, one Arabic text or one
+// transliteration. Edition IDs are stable and independent of the provider (they are
+// stored in user choices) and follow fawazahmed0's naming: `{iso3-language}-{name}`,
+// with the suffix `-la` for a Latin transliteration.
+
+import type { LocalizedText } from "../i18n/translate";
 
 export type EditionKind = "arabic" | "transliteration" | "translation" | "tafsir";
 
-/** Dari mana sebuah konten berasal dan apa yang wajib dicantumkan. */
+/** Where a piece of content comes from and what must be credited. */
 export interface SourceInfo {
   name: string;
   url?: string;
-  /** Lisensi atau syarat penggunaan, kalau diketahui. */
+  /** Licence or terms of use, when known. */
   license?: string;
-  /** Teks atribusi tanpa label, mis. "Kementerian Agama RI, melalui EQuran.id". UI yang menambahkan labelnya. */
-  attribution: string;
+  /** Credit line shown in the UI, per language, without a label ("Ministry, via EQuran.id"). */
+  attribution: LocalizedText;
 }
 
 export interface Edition {
   id: string;
   kind: EditionKind;
-  /** Kode bahasa ISO 639-1, mis. "ar", "id", "en". */
+  /** ISO 639-1 code of the content, e.g. "ar", "id", "en". */
   language: string;
   direction: "ltr" | "rtl";
-  /** Nama untuk ditampilkan, mis. "Terjemahan Kemenag RI". */
-  name: string;
+  /** Display name per interface language. */
+  name: LocalizedText;
   author?: string;
   source: SourceInfo;
 }
 
 export interface Qari {
   id: string;
+  /** A person's name, the same in every language. */
   name: string;
   source: SourceInfo;
 }
 
-/** Metadata surat, tidak bergantung pada edisi. */
+/** Surah metadata, independent of any edition. */
 export interface SurahMeta {
   number: number;
-  ayatCount: number;
+  verseCount: number;
   name: {
     arabic: string;
     latin: string;
-    /** Arti nama per bahasa, mis. { id: "Pembukaan" }. */
+    /** Meaning of the name per language, e.g. { id: "Pembukaan", en: "The Opening" }. */
     meaning: Record<string, string>;
   };
   revelation: "mecca" | "medina";
-  /** Deskripsi singkat (teks biasa) per bahasa. */
+  /** Short description (plain text) per language. */
   description: Record<string, string>;
 }
 
 export interface VerseText {
-  /** Nomor ayat dalam surat, mulai dari 1. */
+  /** Verse number within the surah, starting at 1. */
   number: number;
   text: string;
 }
 
-/** Isi satu edisi untuk satu surat. */
+/** The content of one edition for one surah. */
 export interface EditionText {
   edition: string;
   surah: number;
   verses: VerseText[];
 }
 
-/** Pilihan edisi dan qari untuk satu tampilan. */
+/** The editions and reciter chosen for one view. */
 export interface Selection {
   arabic: string;
   transliteration: string | null;
@@ -80,14 +83,14 @@ export interface VerseView {
   transliteration: string | null;
   translations: { edition: string; text: string }[];
   tafsir: string | null;
-  /** URL audio berurutan menurut prioritas; yang pertama dicoba dulu. */
+  /** Audio URLs in priority order; the first one is tried first. */
   audio: string[];
 }
 
 export interface SurahView {
   meta: SurahMeta;
   selection: Selection;
-  /** Edisi dan qari yang dipakai, untuk atribusi di UI. */
+  /** The editions and reciter used, for the credits in the UI. */
   editions: Edition[];
   qari: Qari;
   verses: VerseView[];

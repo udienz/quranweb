@@ -2,18 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { useOptimistic, useTransition } from "react";
+import { writeCookie } from "@/lib/cookies";
+import { useI18n } from "@/lib/i18n/client";
+import type { StringKey } from "@/lib/i18n/messages";
+import { localized } from "@/lib/i18n/translate";
 import type { Catalog, Edition, Selection } from "@/lib/quran";
 import { SELECTION_COOKIE, serializeSelection } from "@/lib/selection";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 
-const PREF_LABELS: { key: keyof Prefs; label: string }[] = [
-  { key: "arab", label: "Teks Arab" },
-  { key: "latin", label: "Transliterasi" },
-  { key: "terjemahan", label: "Terjemahan" },
+const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
+  { key: "arabic", label: "settings.show.arabic" },
+  { key: "transliteration", label: "settings.show.transliteration" },
+  { key: "translation", label: "settings.show.translation" },
 ];
 
-const LANGUAGE: Record<string, string> = { ar: "Arab", id: "Indonesia", en: "Inggris" };
-const languageLabel = (code: string) => LANGUAGE[code] ?? code.toUpperCase();
+const LANGUAGE_LABELS: Record<string, StringKey> = {
+  ar: "settings.languages.ar",
+  id: "settings.languages.id",
+  en: "settings.languages.en",
+};
 
 const selectClass =
   "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
@@ -27,7 +34,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-/** Tampilan (disimpan di browser) dan pilihan edisi dan qari (disimpan di cookie, dibaca server). */
+/** Display toggles (kept in the browser) and the edition and reciter choice (kept in a cookie the server reads). */
 export default function SettingsPanel({
   catalog,
   selection: saved,
@@ -35,19 +42,22 @@ export default function SettingsPanel({
 }: {
   catalog: Catalog;
   selection: Selection;
-  /** Sembunyikan judul bila panel sudah berada di bawah judul lain (mis. <details>). */
+  /** Hide the title when the panel already sits under another heading (e.g. a <details>). */
   hideTitle?: boolean;
 }) {
+  const { t, locale } = useI18n();
   const router = useRouter();
   const { prefs, toggle } = usePrefs();
   const [pending, startTransition] = useTransition();
-  // Tampilkan pilihan baru seketika; server menyusul setelah refresh selesai.
+  // Show the new choice at once; the server catches up when the refresh finishes.
   const [selection, setOptimistic] = useOptimistic(saved);
 
   const ofKind = (kind: Edition["kind"]) => catalog.editions.filter((e) => e.kind === kind);
+  const nameOf = (e: Edition) => localized(e.name, locale);
+  const languageLabel = (code: string) => (LANGUAGE_LABELS[code] ? t(LANGUAGE_LABELS[code]) : code.toUpperCase());
 
   function save(next: Selection) {
-    document.cookie = `${SELECTION_COOKIE}=${serializeSelection(next)}; path=/; max-age=31536000; samesite=lax`;
+    writeCookie(SELECTION_COOKIE, serializeSelection(next));
     startTransition(() => {
       setOptimistic(next);
       router.refresh();
@@ -59,12 +69,12 @@ export default function SettingsPanel({
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
-      {!hideTitle && <h2 className="mb-3 font-display font-semibold">Pengaturan bacaan</h2>}
+      {!hideTitle && <h2 className="mb-3 font-display font-semibold">{t("settings.title")}</h2>}
 
       <ul className="mb-4 flex flex-col gap-3 border-b border-border pb-4">
-        {PREF_LABELS.map(({ key, label }) => (
+        {DISPLAY_TOGGLES.map(({ key, label }) => (
           <li key={key} className="flex items-center justify-between text-sm">
-            <span id={`pref-${key}`}>{label}</span>
+            <span id={`pref-${key}`}>{t(label)}</span>
             <button
               type="button"
               role="switch"
@@ -84,7 +94,7 @@ export default function SettingsPanel({
       </ul>
 
       <div className="flex flex-col gap-4">
-        <Field label="Teks Arab">
+        <Field label={t("settings.arabic")}>
           <select
             className={selectClass}
             value={selection.arabic}
@@ -92,14 +102,14 @@ export default function SettingsPanel({
           >
             {ofKind("arabic").map((e) => (
               <option key={e.id} value={e.id}>
-                {e.name}
+                {nameOf(e)}
               </option>
             ))}
           </select>
         </Field>
 
         <fieldset>
-          <legend className="mb-1 text-sm font-medium">Terjemahan</legend>
+          <legend className="mb-1 text-sm font-medium">{t("settings.translation")}</legend>
           {[...translationGroups].map(([language, editions]) => (
             <div key={language} className="mb-2 last:mb-0">
               <p className="mb-1 text-xs text-muted-foreground">{languageLabel(language)}</p>
@@ -115,12 +125,12 @@ export default function SettingsPanel({
                         save({
                           ...selection,
                           translations: checked
-                            ? selection.translations.filter((t) => t !== e.id)
+                            ? selection.translations.filter((id) => id !== e.id)
                             : [...selection.translations, e.id],
                         })
                       }
                     />
-                    <span>{e.name}</span>
+                    <span>{nameOf(e)}</span>
                   </label>
                 );
               })}
@@ -128,22 +138,22 @@ export default function SettingsPanel({
           ))}
         </fieldset>
 
-        <Field label="Tafsir">
+        <Field label={t("settings.tafsir")}>
           <select
             className={selectClass}
             value={selection.tafsir ?? ""}
             onChange={(e) => save({ ...selection, tafsir: e.target.value || null })}
           >
-            <option value="">Tanpa tafsir</option>
+            <option value="">{t("settings.noTafsir")}</option>
             {ofKind("tafsir").map((e) => (
               <option key={e.id} value={e.id}>
-                {e.name}
+                {nameOf(e)}
               </option>
             ))}
           </select>
         </Field>
 
-        <Field label="Qari">
+        <Field label={t("settings.qari")}>
           <select
             className={selectClass}
             value={selection.qari}
@@ -157,7 +167,7 @@ export default function SettingsPanel({
           </select>
         </Field>
       </div>
-      <p className="mt-3 text-xs text-muted-foreground">Pilihan disimpan di browser ini.</p>
+      <p className="mt-3 text-xs text-muted-foreground">{t("settings.savedInBrowser")}</p>
     </section>
   );
 }

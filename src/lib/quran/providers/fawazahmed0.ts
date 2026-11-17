@@ -1,26 +1,39 @@
-// Adaptor fawazahmed0/quran-api (https://github.com/fawazahmed0/quran-api).
-// Repo berlisensi Unlicense, tetapi tiap edisi punya sumber aslinya sendiri
-// (field `source` di editions.json): cek lisensinya sebelum mengaktifkan edisi
-// baru dan catat di daftar sumber (project/quranweb/ROADMAP.md, repo workspace).
+// Adapter for fawazahmed0/quran-api (https://github.com/fawazahmed0/quran-api).
+// The repository is licensed under the Unlicense, but every edition has its own
+// original source (the `source` field in editions.json): check the licence before
+// enabling a new edition and record it in the source register of the roadmap
+// (project/quranweb/ROADMAP.md in the workspace repository).
 //
-// Hanya teks: tidak ada audio, tidak ada metadata surat (daftar surat tetap dari
-// provider lain). Format per surat: {"chapter":[{"chapter":1,"verse":1,"text":"…"}]}.
-// Base URL bisa diarahkan ke mirror sendiri yang berstruktur sama (QURAN_FAWAZ_URL).
+// Text only: no audio and no surah names or descriptions (the surah list comes from
+// another provider; English meanings of the names come from info.json). Chapter
+// format: {"chapter":[{"chapter":1,"verse":1,"text":"…"}]}. The base URL can point to
+// our own mirror with the same structure (QURAN_FAWAZ_URL).
 
+import { cache } from "react";
 import type { TextProvider } from "../provider";
-import type { Edition, EditionText } from "../types";
+import type { Edition, EditionText, SourceInfo } from "../types";
 
 export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1";
-// Cadangan: repo ini sekitar 4,2 GB sehingga jsDelivr kadang menolak berkas tertentu
-// ("Package size exceeded the configured limit of 50 MB", diamati pada
-// editions/ind-indonesianislam/45.min.json). Lihat catatan di createFawazTextProvider.
+// Fallback: that repository is about 4.2 GB, so jsDelivr sometimes refuses specific
+// files ("Package size exceeded the configured limit of 50 MB", seen on
+// editions/ind-indonesianislam/45.min.json). See createFawazTextProvider.
 export const FAWAZ_RAW_URL = "https://raw.githubusercontent.com/fawazahmed0/quran-api/1";
 
-const via = "melalui fawazahmed0/quran-api";
+const via = (en: string, id: string): SourceInfo["attribution"] => ({
+  en: `${en}, via fawazahmed0/quran-api`,
+  id: `${id}, melalui fawazahmed0/quran-api`,
+});
+
+const source = (url: string, attribution: SourceInfo["attribution"]): SourceInfo => ({
+  name: "fawazahmed0/quran-api",
+  url,
+  attribution,
+});
 
 /**
- * Edisi yang diaktifkan. ID = nama edisi di fawazahmed0 (`{iso3}-{nama}`).
- * Menambah edisi = tambah satu baris di sini setelah lisensinya dicek.
+ * The enabled editions. The ID is the edition's name at fawazahmed0
+ * (`{iso3}-{name}`). Enabling another edition = one more entry here, after its
+ * licence has been checked.
  */
 export const FAWAZ_EDITIONS: Edition[] = [
   {
@@ -28,80 +41,65 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "arabic",
     language: "ar",
     direction: "rtl",
-    name: "Arab Uthmani Hafs",
-    author: "Quran Complex (Raja Fahd)",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "https://qurancomplex.gov.sa/",
-      attribution: `King Fahd Quran Complex, ${via}`,
-    },
+    name: { en: "Arabic, Uthmani Hafs", id: "Arab Uthmani Hafs" },
+    author: "King Fahd Quran Complex",
+    source: source("https://qurancomplex.gov.sa/", via("King Fahd Quran Complex", "King Fahd Quran Complex")),
   },
   {
     id: "ind-indonesianislam",
     kind: "translation",
     language: "id",
     direction: "ltr",
-    name: "Terjemahan Kemenag RI (QuranEnc)",
+    name: { en: "Indonesian translation (Kemenag, QuranEnc)", id: "Terjemahan Kemenag RI (QuranEnc)" },
     author: "Kementerian Agama RI",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "https://quranenc.com/check/indonesian_affairs/v1",
-      attribution: `Kementerian Agama RI melalui QuranEnc, ${via}`,
-    },
+    source: source(
+      "https://quranenc.com/check/indonesian_affairs/v1",
+      via("Indonesian Ministry of Religious Affairs (Kemenag) through QuranEnc", "Kementerian Agama RI melalui QuranEnc"),
+    ),
   },
   {
-    // Teksnya bersifat menjelaskan (rata-rata sekitar 400 huruf per ayat), jadi
-    // digolongkan tafsir. Perlu dipastikan pemilik.
+    // Its text explains rather than translates (about 400 characters per verse), so it
+    // is classified as a tafsir. The owner confirmed this.
     id: "ind-muhammadquraish",
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: "Tafsir Quraish Shihab dkk.",
-    author: "Muhammad Quraish Shihab dkk.",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "http://tanzil.net",
-      attribution: `Muhammad Quraish Shihab dkk. via Tanzil, ${via}`,
-    },
+    name: { en: "Tafsir by Quraish Shihab and others (Indonesian)", id: "Tafsir Quraish Shihab dkk." },
+    author: "Muhammad Quraish Shihab et al.",
+    source: source("http://tanzil.net", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil")),
   },
   {
     id: "ind-jalaladdinalmah",
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: "Tafsir Jalalayn",
-    author: "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "http://tanzil.net",
-      attribution: `Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi via Tanzil, ${via}`,
-    },
+    name: { en: "Tafsir Jalalayn (Indonesian)", id: "Tafsir Jalalayn" },
+    author: "Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi",
+    source: source(
+      "http://tanzil.net",
+      via("Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi through Tanzil", "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi melalui Tanzil"),
+    ),
   },
   {
     id: "eng-abdullahyusufal",
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: "Translation by Yusuf Ali",
+    name: { en: "English translation by Yusuf Ali", id: "Terjemahan Inggris oleh Yusuf Ali" },
     author: "Abdullah Yusuf Ali",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "http://tanzil.net",
-      attribution: `Abdullah Yusuf Ali via Tanzil, ${via}`,
-    },
+    source: source("http://tanzil.net", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil")),
   },
   {
     id: "eng-mohammedmarmadu",
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: "Translation by Pickthall",
+    name: { en: "English translation by Pickthall", id: "Terjemahan Inggris oleh Pickthall" },
     author: "Mohammed Marmaduke William Pickthall",
-    source: {
-      name: "fawazahmed0/quran-api",
-      url: "http://tanzil.net",
-      attribution: `Mohammed Marmaduke William Pickthall via Tanzil, ${via}`,
-    },
+    source: source(
+      "http://tanzil.net",
+      via("Mohammed Marmaduke William Pickthall through Tanzil", "Mohammed Marmaduke William Pickthall melalui Tanzil"),
+    ),
   },
 ];
 
@@ -109,34 +107,40 @@ interface RawChapter {
   chapter: { chapter: number; verse: number; text: string }[];
 }
 
+interface RawInfo {
+  chapters: { chapter: number; englishname: string }[];
+}
+
 export interface FawazOptions {
   /**
-   * Base URL tunggal, mis. mirror sendiri; kalau diisi, hanya ini yang dipakai.
-   * Kosong = jsDelivr, lalu raw GitHub sebagai cadangan. Untuk produksi sebaiknya
-   * mirror sendiri (QURAN_FAWAZ_URL), bukan CDN publik.
+   * A single base URL, e.g. our own mirror; when set, only this one is used.
+   * Empty = jsDelivr, then raw GitHub as a fallback. Production should use our own
+   * mirror (QURAN_FAWAZ_URL), not a public CDN.
    */
   baseUrl?: string;
 }
 
-async function fetchChapter(bases: string[], edition: string, surah: number): Promise<RawChapter> {
-  // README fawazahmed0: sediakan fallback `.min.json` <-> `.json`; kita tambah
-  // fallback antar base URL (jsDelivr lalu raw GitHub).
-  const urls = bases.flatMap((base) => [
-    `${base}/editions/${edition}/${surah}.min.json`,
-    `${base}/editions/${edition}/${surah}.json`,
-  ]);
+/**
+ * Fetch `{path}.min.json`, then `{path}.json` (the source's README asks for this
+ * fallback), on each base URL in turn.
+ */
+async function fetchJson<T>(bases: string[], path: string): Promise<T> {
+  const urls = bases.flatMap((base) => [`${base}/${path}.min.json`, `${base}/${path}.json`]);
   const errors: string[] = [];
   for (const url of urls) {
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`status ${res.status}`);
-      return (await res.json()) as RawChapter;
+      return (await res.json()) as T;
     } catch (err) {
       errors.push(`${url}: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
-  throw new Error(`Gagal memuat ${edition} surat ${surah} (${errors.join("; ")})`);
+  throw new Error(`Failed to load ${path} (${errors.join("; ")})`);
 }
+
+// One request per page render is enough: share the result like the EQuran provider does.
+const fetchInfo = cache((bases: string) => fetchJson<RawInfo>(bases.split("|"), "info"));
 
 export function createFawazTextProvider(options: FawazOptions = {}): TextProvider {
   const bases = (options.baseUrl ? [options.baseUrl] : [FAWAZ_API_URL, FAWAZ_RAW_URL]).map((b) => b.replace(/\/$/, ""));
@@ -146,11 +150,16 @@ export function createFawazTextProvider(options: FawazOptions = {}): TextProvide
     id: "fawazahmed0",
     editions: () => FAWAZ_EDITIONS,
 
+    async surahMeanings() {
+      const info = await fetchInfo(bases.join("|"));
+      return Object.fromEntries(info.chapters.map((c) => [c.chapter, { en: c.englishname }]));
+    },
+
     async text(edition, surah): Promise<EditionText> {
-      if (!known.has(edition)) throw new Error(`Provider fawazahmed0 tidak melayani edisi "${edition}"`);
-      const raw = await fetchChapter(bases, edition, surah);
+      if (!known.has(edition)) throw new Error(`The fawazahmed0 provider does not serve edition "${edition}"`);
+      const raw = await fetchJson<RawChapter>(bases, `editions/${edition}/${surah}`);
       if (!Array.isArray(raw.chapter) || raw.chapter.some((v) => v.chapter !== surah)) {
-        throw new Error(`Respons ${edition} surat ${surah} tidak sesuai format`);
+        throw new Error(`The response for ${edition} surah ${surah} has an unexpected format`);
       }
       return {
         edition,

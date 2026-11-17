@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { getAllSurah } from "@/lib/quran";
+import { getI18n } from "@/lib/i18n/server";
 import ContinueReading from "@/components/ContinueReading";
 import SurahGrid from "@/components/SurahGrid";
 
-// Render per-request, jangan prerender statis saat build — data berasal
-// dari API eksternal yang tidak perlu/bisa dijangkau saat
-// `docker build`/`next build` berjalan.
+// Rendered per request instead of prerendered at build time: the data comes from
+// external sources that must not be needed while `docker build` / `next build` run.
 export const instant = false;
 
 export default async function Home() {
-  const surahList = await getAllSurah();
+  const [surahList, { t }] = await Promise.all([getAllSurah(), getI18n()]);
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8">
@@ -20,13 +20,11 @@ export default async function Home() {
         <p className="font-arabic text-center text-4xl text-gold sm:text-5xl" dir="rtl" lang="ar">
           بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
         </p>
-        <h1 className="mt-6 text-center font-display text-3xl font-bold">Baca Al-Qur&apos;an</h1>
-        <p className="mx-auto mt-2 max-w-xl text-center text-white/75">
-          Teks Arab, transliterasi, terjemahan Bahasa Indonesia, audio murottal, dan tafsir.
-        </p>
+        <h1 className="mt-6 text-center font-display text-3xl font-bold">{t("home.title")}</h1>
+        <p className="mx-auto mt-2 max-w-xl text-center text-white/75">{t("home.subtitle")}</p>
         <div className="mt-6 flex justify-center">
           <Link href="/surah/1" className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-[hsl(190_70%_12%)] hover:opacity-90">
-            Mulai dari Al-Fatihah
+            {t("home.start")}
           </Link>
         </div>
       </section>

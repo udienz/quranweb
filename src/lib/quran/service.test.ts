@@ -3,37 +3,38 @@ import type { AudioProvider, TextProvider } from "./provider";
 import { createQuranService, type QuranConfig } from "./service";
 import type { Edition, Qari, SurahMeta } from "./types";
 
-const source = { name: "Uji", attribution: "Sumber uji" };
+const source = { name: "Test", attribution: { en: "Test source" } };
 const edition = (id: string, kind: Edition["kind"]): Edition => ({
   id,
   kind,
   language: kind === "arabic" ? "ar" : "id",
   direction: kind === "arabic" ? "rtl" : "ltr",
-  name: id,
+  name: { en: id },
   source,
 });
 
 const META: SurahMeta = {
   number: 1,
-  ayatCount: 2,
+  verseCount: 2,
   name: { arabic: "الفاتحة", latin: "Al-Fatihah", meaning: { id: "Pembukaan" } },
   revelation: "mecca",
   description: { id: "Surat pembuka" },
 };
 
-/** Provider uji: teks = `${edisi}:${ayat}`, bisa diatur gagal atau salah jumlah ayat. */
+/** A test provider: the text is `${edition}:${verse}`; it can be made to fail or to return the wrong verse count. */
 function textProvider(
   id: string,
   editions: Edition[],
-  opts: { fail?: boolean; verses?: number; surahs?: boolean } = {},
+  opts: { fail?: boolean; verses?: number; surahs?: boolean; meanings?: Record<number, Record<string, string>> } = {},
 ): TextProvider {
   return {
     id,
     editions: () => editions,
     ...(opts.surahs === false ? {} : { surahs: async () => [META] }),
+    ...(opts.meanings ? { surahMeanings: async () => opts.meanings! } : {}),
     async text(editionId, surah) {
-      if (opts.fail) throw new Error(`${id} mati`);
-      const n = opts.verses ?? META.ayatCount;
+      if (opts.fail) throw new Error(`${id} is down`);
+      const n = opts.verses ?? META.verseCount;
       return {
         edition: editionId,
         surah,
@@ -47,7 +48,7 @@ const QARI: Qari = { id: "qari-a", name: "Qari A", source };
 const audioProvider = (id: string, base: string): AudioProvider => ({
   id,
   qaris: () => [QARI],
-  urls: (_q, surah, ayat) => [`${base}/${surah}/${ayat}.mp3`],
+  urls: (_q, surah, verse) => [`${base}/${surah}/${verse}.mp3`],
 });
 
 const EDITIONS = [
@@ -72,36 +73,42 @@ function config(overrides: Partial<QuranConfig> = {}): QuranConfig {
   };
 }
 
-describe("konfigurasi", () => {
-  it("menolak pilihan bawaan yang tidak ada di katalog", () => {
+describe("configuration", () => {
+  it("rejects defaults that are not in the catalog", () => {
     const bad = config();
-    bad.defaults = { ...bad.defaults, translations: ["tidak-ada"] };
-    expect(() => createQuranService(bad)).toThrow(/tidak ada di katalog/);
+    bad.defaults = { ...bad.defaults, translations: ["missing"] };
+    expect(() => createQuranService(bad)).toThrow(/not in the catalog/);
   });
 
-  it("menolak edisi dengan tipe yang salah", () => {
+  it("rejects an edition of the wrong kind", () => {
     const bad = config();
     bad.defaults = { ...bad.defaults, arabic: "ind-x" };
-    expect(() => createQuranService(bad)).toThrow(/bertipe translation, bukan arabic/);
+    expect(() => createQuranService(bad)).toThrow(/has kind "translation", expected "arabic"/);
   });
 
-  it("menolak qari yang tidak ada", () => {
+  it("rejects an unknown reciter", () => {
     const bad = config();
     bad.defaults = { ...bad.defaults, qari: "qari-z" };
-    expect(() => createQuranService(bad)).toThrow(/Qari "qari-z"/);
+    expect(() => createQuranService(bad)).toThrow(/Reciter "qari-z"/);
   });
 
-  it("menolak edisi yang sama dengan tipe berbeda antar provider", () => {
+  it("rejects the same edition with different kinds across providers", () => {
     expect(() =>
       createQuranService(
         config({
           textProviders: [textProvider("p1", EDITIONS), textProvider("p2", [edition("ara-x", "tafsir")])],
         }),
       ),
-    ).toThrow(/bertipe arabic di satu provider dan tafsir/);
+    ).toThrow(/is arabic in one provider and tafsir/);
   });
 
-  it("menggabungkan edisi dari beberapa provider tanpa duplikat", () => {
+  it("rejects invalid defaults for a locale at startup", () => {
+    expect(() => createQuranService(config({ localeDefaults: { en: { translations: ["missing"] } } }))).toThrow(
+      /Invalid defaults for locale "en"/,
+    );
+  });
+
+  it("merges the editions of several providers without duplicates", () => {
     const svc = createQuranService(
       config({ textProviders: [textProvider("p1", EDITIONS), textProvider("p2", [EDITIONS[0], edition("eng-y", "translation")])] }),
     );
@@ -111,7 +118,7 @@ describe("konfigurasi", () => {
 });
 
 describe("getSurahView", () => {
-  it("menyusun ayat dari edisi terpilih", async () => {
+  it("builds the verses from the selected editions", async () => {
     const view = await createQuranService(config()).getSurahView(1);
     expect(view.meta.name.latin).toBe("Al-Fatihah");
     expect(view.verses).toHaveLength(2);
@@ -127,7 +134,7 @@ describe("getSurahView", () => {
     expect(view.qari.id).toBe("qari-a");
   });
 
-  it("mendukung banyak terjemahan dan transliterasi/tafsir dimatikan", async () => {
+  it("supports several translations, and no transliteration or tafsir", async () => {
     const svc = createQuranService(
       config({ textProviders: [textProvider("p1", [...EDITIONS, edition("eng-y", "translation")])] }),
     );
@@ -137,55 +144,97 @@ describe("getSurahView", () => {
     expect(view.verses[0].tafsir).toBeNull();
   });
 
-  it("menolak pilihan yang tidak valid dan nomor surat di luar rentang", async () => {
+  it("rejects invalid choices and surah numbers out of range", async () => {
     const svc = createQuranService(config());
-    await expect(svc.getSurahView(1, { translations: ["ara-x"] })).rejects.toThrow(/bertipe arabic, bukan translation/);
-    await expect(svc.getSurahView(0)).rejects.toThrow(/Nomor surat tidak valid/);
-    await expect(svc.getSurahView(115)).rejects.toThrow(/Nomor surat tidak valid/);
+    await expect(svc.getSurahView(1, { translations: ["ara-x"] })).rejects.toThrow(/has kind "arabic", expected "translation"/);
+    await expect(svc.getSurahView(0)).rejects.toThrow(/Invalid surah number/);
+    await expect(svc.getSurahView(115)).rejects.toThrow(/Invalid surah number/);
   });
 
-  it("gagal jelas bila jumlah ayat sebuah edisi tidak cocok", async () => {
+  it("fails clearly when an edition has the wrong number of verses", async () => {
     const svc = createQuranService(config({ textProviders: [textProvider("p1", EDITIONS, { verses: 1 })] }));
-    await expect(svc.getSurahView(1)).rejects.toThrow(/1 ayat, seharusnya 2/);
+    await expect(svc.getSurahView(1)).rejects.toThrow(/1 verses, expected 2/);
   });
 
-  it("gagal bila surat tidak ada di daftar surat", async () => {
-    await expect(createQuranService(config()).getSurahView(2)).rejects.toThrow(/Surat 2 tidak ada/);
+  it("fails when the surah is not in the surah list", async () => {
+    await expect(createQuranService(config()).getSurahView(2)).rejects.toThrow(/Surah 2 is not in the surah list/);
   });
 });
 
-describe("fallback antar provider", () => {
-  it("memakai provider berikutnya bila yang pertama gagal", async () => {
+describe("defaults per interface language", () => {
+  const withEnglish = (): QuranConfig =>
+    config({
+      textProviders: [textProvider("p1", [...EDITIONS, edition("eng-y", "translation")])],
+      localeDefaults: { en: { translations: ["eng-y"] } },
+    });
+
+  it("uses the language's defaults, and the general ones for other languages", async () => {
+    const svc = createQuranService(withEnglish());
+    expect((await svc.getSurahView(1, {}, "en")).selection.translations).toEqual(["eng-y"]);
+    expect((await svc.getSurahView(1, {}, "id")).selection.translations).toEqual(["ind-x"]);
+    expect(svc.resolveSelection({}, undefined).translations).toEqual(["ind-x"]);
+  });
+
+  it("lets an explicit choice win over the language's defaults", () => {
+    const svc = createQuranService(withEnglish());
+    expect(svc.resolveSelection({ translations: ["ind-x"] }, "en").translations).toEqual(["ind-x"]);
+  });
+});
+
+describe("surah meanings from other providers", () => {
+  it("merges extra meanings into the surah list and ignores providers that fail", async () => {
+    const failing: TextProvider = {
+      ...textProvider("p3", []),
+      surahMeanings: async () => {
+        throw new Error("down");
+      },
+    };
+    const svc = createQuranService(
+      config({
+        textProviders: [
+          textProvider("p1", EDITIONS),
+          textProvider("p2", [], { surahs: false, meanings: { 1: { en: "The Opening" } } }),
+          failing,
+        ],
+      }),
+    );
+    const [first] = await svc.getSurahList();
+    expect(first.name.meaning).toEqual({ id: "Pembukaan", en: "The Opening" });
+  });
+});
+
+describe("fallback between providers", () => {
+  it("uses the next provider when the first one fails", async () => {
     const svc = createQuranService(
       config({ textProviders: [textProvider("p1", EDITIONS, { fail: true }), textProvider("p2", EDITIONS, { surahs: false })] }),
     );
-    // Teks p1 gagal, jadi tiap edisi diambil dari p2; daftar surat tetap dari p1.
+    // The text of p1 fails, so each edition comes from p2; the surah list still comes from p1.
     const view = await svc.getSurahView(1);
     expect(view.verses[0].arabic).toBe("ara-x:1");
   });
 
-  it("melaporkan semua galat bila semua provider gagal", async () => {
+  it("reports every error when all providers fail", async () => {
     const svc = createQuranService(
       config({ textProviders: [textProvider("p1", EDITIONS, { fail: true }), textProvider("p2", EDITIONS, { fail: true })] }),
     );
-    await expect(svc.getSurahView(1)).rejects.toThrow(/p1 mati; p2 mati/);
+    await expect(svc.getSurahView(1)).rejects.toThrow(/p1 is down; p2 is down/);
   });
 
-  it("daftar surat dicari ke provider yang menyediakannya", async () => {
+  it("looks for the surah list in the provider that has it", async () => {
     const svc = createQuranService(
       config({ textProviders: [textProvider("p1", EDITIONS, { surahs: false }), textProvider("p2", [], {})] }),
     );
     expect((await svc.getSurahList())[0].number).toBe(1);
   });
 
-  it("gagal jelas bila tidak ada provider yang punya daftar surat", async () => {
+  it("fails clearly when no provider has the surah list", async () => {
     const svc = createQuranService(config({ textProviders: [textProvider("p1", EDITIONS, { surahs: false })] }));
-    await expect(svc.getSurahList()).rejects.toThrow(/tidak ada provider/);
+    await expect(svc.getSurahList()).rejects.toThrow(/no provider has it/);
   });
 });
 
 describe("audio", () => {
-  it("mengurutkan URL menurut prioritas provider dan membuang duplikat", async () => {
+  it("orders the URLs by provider priority and removes duplicates", async () => {
     const svc = createQuranService(
       config({
         audioProviders: [audioProvider("a1", "https://a1"), audioProvider("a2", "https://a2"), audioProvider("a3", "https://a1")],

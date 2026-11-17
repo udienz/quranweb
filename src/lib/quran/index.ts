@@ -1,13 +1,13 @@
-// API publik untuk halaman dan komponen. Konfigurasi dibaca dari environment
-// saat dipanggil (bukan saat build), jadi bisa diganti lewat env var platform
-// atau `docker run -e` tanpa rebuild.
+// Public API for pages and components. The configuration is read from the environment
+// when called (not at build time), so it can be changed through platform environment
+// variables or `docker run -e` without a rebuild.
 //
-//   QURAN_API_URL    base URL API berformat EQuran.id v2 (default https://equran.id/api/v2)
-//   QURAN_AUDIO_URL  base URL audio (default https://cdn.equran.id)
-//   QURAN_FAWAZ_URL  base URL fawazahmed0/quran-api (default jsDelivr; arahkan ke mirror sendiri)
+//   QURAN_API_URL    base URL of an EQuran.id v2 format API (default https://equran.id/api/v2)
+//   QURAN_AUDIO_URL  base URL of the audio (default https://cdn.equran.id)
+//   QURAN_FAWAZ_URL  base URL of fawazahmed0/quran-api (default jsDelivr; point it to our own mirror)
 //
-// Sengaja TANPA "use cache": data diambil saat request (lihat `instant = false`
-// di tiap page), jadi build tidak butuh jaringan ke sumber data.
+// Deliberately NOT wrapped in "use cache": data is fetched per request (see
+// `instant = false` on every page), so the build needs no network access to the sources.
 
 import { createEquranAudioProvider, createEquranTextProvider } from "./providers/equran";
 import { createFawazTextProvider } from "./providers/fawazahmed0";
@@ -21,8 +21,8 @@ export type { QuranConfig, QuranService } from "./service";
 export function defaultConfig(env: Record<string, string | undefined> = process.env): QuranConfig {
   const options = { baseUrl: env.QURAN_API_URL, audioBaseUrl: env.QURAN_AUDIO_URL };
   return {
-    // Urutan = prioritas. fawazahmed0 hanya menambah edisi ke katalog; pilihan
-    // bawaan di bawah tetap dari EQuran.id.
+    // Order = priority. fawazahmed0 only adds editions to the catalog; the defaults
+    // below still come from EQuran.id.
     textProviders: [createEquranTextProvider(options), createFawazTextProvider({ baseUrl: env.QURAN_FAWAZ_URL })],
     audioProviders: [createEquranAudioProvider(options)],
     defaults: {
@@ -32,6 +32,8 @@ export function defaultConfig(env: Record<string, string | undefined> = process.
       tafsir: "ind-kemenag-tafsir",
       qari: "misyari-rasyid-al-afasi",
     },
+    // With the English interface, read an English translation unless the reader chose otherwise.
+    localeDefaults: { en: { translations: ["eng-abdullahyusufal"] } },
   };
 }
 
@@ -40,5 +42,3 @@ export function getQuran(): QuranService {
 }
 
 export const getAllSurah = () => getQuran().getSurahList();
-export const getSurahView = (...args: Parameters<QuranService["getSurahView"]>) =>
-  getQuran().getSurahView(...args);

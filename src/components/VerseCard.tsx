@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
+import { verseId } from "@/lib/anchors";
 import type { VerseView } from "@/lib/quran";
 import { findBookmark } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
@@ -45,7 +47,8 @@ function IconButton({
   );
 }
 
-function NoteEditor({ surah, ayat, note }: { surah: number; ayat: number; note: string }) {
+function NoteEditor({ surah, verse, note }: { surah: number; verse: number; note: string }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   if (!open) {
     return (
@@ -54,7 +57,7 @@ function NoteEditor({ surah, ayat, note }: { surah: number; ayat: number; note: 
         onClick={() => setOpen(true)}
         className="mt-3 text-sm font-medium text-primary hover:underline"
       >
-        {note ? `Catatan: ${note}` : "Tambah catatan"}
+        {note ? t("verse.note", { note }) : t("verse.addNote")}
       </button>
     );
   }
@@ -64,10 +67,10 @@ function NoteEditor({ surah, ayat, note }: { surah: number; ayat: number; note: 
       defaultValue={note}
       maxLength={500}
       rows={3}
-      aria-label="Catatan untuk ayat ini"
-      placeholder="Catatan pribadi (disimpan di browser ini)"
+      aria-label={t("verse.noteLabel")}
+      placeholder={t("verse.notePlaceholder")}
       onBlur={(e) => {
-        userDataActions.setBookmarkNote(surah, ayat, e.target.value);
+        userDataActions.setBookmarkNote(surah, verse, e.target.value);
         setOpen(false);
       }}
       className="mt-3 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
@@ -85,12 +88,13 @@ export default function VerseCard({
 }: {
   verse: VerseView;
   surahNumber: number;
-  mode: "bacaan" | "tafsir";
+  mode: "reading" | "tafsir";
   playing: boolean;
   onPlay: () => void;
-  /** Nama dan bahasa tiap edisi yang dipakai, untuk label dan atribut `lang`. */
+  /** Name and language of each edition in use, for labels and the `lang` attribute. */
   editions: Record<string, { name: string; language: string }>;
 }) {
+  const { t } = useI18n();
   const { prefs } = usePrefs();
   const data = useUserData();
   const [copied, setCopied] = useState(false);
@@ -109,12 +113,12 @@ export default function VerseCard({
   }
 
   const copyText = () =>
-    copy(`${verse.arabic}\n\n${verse.translations.map((t) => t.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
-  const copyLink = () => copy(`${location.origin}/surah/${surahNumber}#ayat-${n}`);
+    copy(`${verse.arabic}\n\n${verse.translations.map((tr) => tr.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
+  const copyLink = () => copy(`${location.origin}/surah/${surahNumber}#${verseId(n)}`);
 
   return (
     <article
-      id={`ayat-${n}`}
+      id={verseId(n)}
       className={`scroll-mt-24 border-b border-l-4 border-border px-5 py-6 last:border-b-0 sm:px-8 ${
         isRead ? "border-l-primary/50" : "border-l-transparent"
       }`}
@@ -127,11 +131,11 @@ export default function VerseCard({
           <span className="font-mono text-xs text-muted-foreground">
             {surahNumber}:{n}
           </span>
-          {copied && <span className="text-xs text-primary">Tersalin</span>}
-          {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">sudah dibaca</span>}
+          {copied && <span className="text-xs text-primary">{t("verse.copied")}</span>}
+          {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">{t("verse.read")}</span>}
         </div>
         <div className="flex items-center">
-          <IconButton label={playing ? "Jeda audio" : "Putar audio"} onClick={onPlay} active={playing}>
+          <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
             {playing ? (
               <svg {...iconProps}>
                 <path d="M8 5v14M16 5v14" />
@@ -143,7 +147,7 @@ export default function VerseCard({
             )}
           </IconButton>
           <IconButton
-            label={bookmark ? "Hapus penanda ayat" : "Beri penanda ayat"}
+            label={bookmark ? t("verse.removeBookmark") : t("verse.bookmark")}
             onClick={() => userDataActions.toggleBookmark(surahNumber, n)}
             active={!!bookmark}
           >
@@ -152,7 +156,7 @@ export default function VerseCard({
             </svg>
           </IconButton>
           <IconButton
-            label={readUpTo === n ? "Batalkan tanda sudah dibaca" : "Tandai sudah dibaca sampai ayat ini"}
+            label={readUpTo === n ? t("verse.unmarkRead") : t("verse.markRead")}
             onClick={() => userDataActions.toggleReadUpTo(surahNumber, n)}
             active={readUpTo === n}
           >
@@ -161,13 +165,13 @@ export default function VerseCard({
               <path d="M8 12.5l3 3 5-6" />
             </svg>
           </IconButton>
-          <IconButton label="Salin ayat" onClick={copyText}>
+          <IconButton label={t("verse.copy")} onClick={copyText}>
             <svg {...iconProps}>
               <rect x="9" y="9" width="11" height="11" rx="2" />
               <path d="M5 15V6a2 2 0 0 1 2-2h9" />
             </svg>
           </IconButton>
-          <IconButton label="Salin tautan ayat" onClick={copyLink}>
+          <IconButton label={t("verse.copyLink")} onClick={copyLink}>
             <svg {...iconProps}>
               <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
             </svg>
@@ -175,24 +179,24 @@ export default function VerseCard({
         </div>
       </div>
 
-      {mode === "bacaan" ? (
+      {mode === "reading" ? (
         <>
-          {prefs.arab && (
+          {prefs.arabic && (
             <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[2.25rem] leading-[2.4] sm:text-[2.6rem]">
               {verse.arabic}
             </p>
           )}
-          {prefs.latin && verse.transliteration && (
+          {prefs.transliteration && verse.transliteration && (
             <p className="mb-3 text-[15px] italic leading-relaxed text-primary">{verse.transliteration}</p>
           )}
-          {prefs.terjemahan &&
-            verse.translations.map((t) => (
-              <div key={t.edition} className="mb-2 last:mb-0">
+          {prefs.translation &&
+            verse.translations.map((tr) => (
+              <div key={tr.edition} className="mb-2 last:mb-0">
                 {verse.translations.length > 1 && (
-                  <p className="text-xs font-medium text-muted-foreground">{editions[t.edition]?.name}</p>
+                  <p className="text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}</p>
                 )}
-                <p lang={editions[t.edition]?.language} className="leading-relaxed">
-                  {t.text}
+                <p lang={editions[tr.edition]?.language} className="leading-relaxed">
+                  {tr.text}
                 </p>
               </div>
             ))}
@@ -203,12 +207,12 @@ export default function VerseCard({
             {verse.arabic}
           </p>
           <p className="whitespace-pre-line leading-relaxed">
-            {verse.tafsir ?? "Tafsir tidak dipilih. Pilih tafsir di Pengaturan bacaan."}
+            {verse.tafsir ?? t("verse.tafsirNotSelected")}
           </p>
         </>
       )}
 
-      {bookmark && <NoteEditor key={bookmark.note} surah={surahNumber} ayat={n} note={bookmark.note} />}
+      {bookmark && <NoteEditor key={bookmark.note} surah={surahNumber} verse={n} note={bookmark.note} />}
     </article>
   );
 }

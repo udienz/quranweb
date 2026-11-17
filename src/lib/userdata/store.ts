@@ -1,10 +1,9 @@
 "use client";
 
-// Penyimpanan data pengguna di localStorage, dibaca lewat useSyncExternalStore:
-// semua komponen melihat data yang sama, tab lain ikut diperbarui lewat event
-// `storage`, dan tidak ada state yang disetel di dalam effect. Kalau localStorage
-// tidak bisa dipakai (mode privat, diblokir), data tetap berjalan di memori selama
-// halaman terbuka.
+// User data storage in localStorage, read through useSyncExternalStore: every component
+// sees the same data, other tabs are updated through the `storage` event, and no state
+// is set inside an effect. When localStorage cannot be used (private mode, blocked),
+// the data keeps working in memory while the page is open.
 
 import { useMemo, useSyncExternalStore } from "react";
 import {
@@ -39,7 +38,7 @@ function writeRaw(raw: string): void {
   try {
     localStorage.setItem(STORAGE_KEY, raw);
   } catch {
-    /* tetap di memori */
+    /* keep it in memory */
   }
   listeners.forEach((l) => l());
 }
@@ -61,7 +60,7 @@ function parseOrEmpty(raw: string): UserData {
   try {
     return parseUserData(JSON.parse(raw));
   } catch {
-    return emptyUserData(); // data rusak tidak boleh membuat halaman gagal
+    return emptyUserData(); // corrupt data must not break the page
   }
 }
 
@@ -72,21 +71,21 @@ function update(fn: (data: UserData) => UserData): void {
 
 const now = () => new Date().toISOString();
 
-/** Aksi bersifat stabil dan selalu bekerja di atas data terbaru. */
+/** The actions are stable and always work on the latest data. */
 export const userDataActions = {
-  setLastRead: (surah: number, ayat: number) => update((d) => setLastRead(d, surah, ayat, now())),
-  toggleReadUpTo: (surah: number, ayat: number) => update((d) => toggleReadUpTo(d, surah, ayat, now())),
+  setLastRead: (surah: number, verse: number) => update((d) => setLastRead(d, surah, verse, now())),
+  toggleReadUpTo: (surah: number, verse: number) => update((d) => toggleReadUpTo(d, surah, verse, now())),
   clearProgress: (surah: number) => update((d) => clearProgress(d, surah)),
-  toggleBookmark: (surah: number, ayat: number) => update((d) => toggleBookmark(d, surah, ayat, now())),
-  removeBookmark: (surah: number, ayat: number) => update((d) => removeBookmark(d, surah, ayat)),
-  setBookmarkNote: (surah: number, ayat: number, note: string) => update((d) => setBookmarkNote(d, surah, ayat, note)),
-  /** Gabungkan cadangan ke data sekarang. Melempar galat bila berkasnya tidak valid. */
+  toggleBookmark: (surah: number, verse: number) => update((d) => toggleBookmark(d, surah, verse, now())),
+  removeBookmark: (surah: number, verse: number) => update((d) => removeBookmark(d, surah, verse)),
+  setBookmarkNote: (surah: number, verse: number, note: string) => update((d) => setBookmarkNote(d, surah, verse, note)),
+  /** Merge a backup into the current data. Throws a UserDataError if the file is not valid. */
   importMerge: (text: string) => update((d) => mergeUserData(d, importUserData(text))),
-  /** Data mentah saat ini, untuk ekspor. */
+  /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),
 };
 
-/** Data pengguna saat ini; kosong di server dan sebelum hidrasi selesai. */
+/** The current user data; empty on the server and before hydration is done. */
 export function useUserData(): UserData {
   const raw = useSyncExternalStore(subscribe, readRaw, () => "");
   return useMemo(() => parseOrEmpty(raw), [raw]);
