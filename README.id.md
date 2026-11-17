@@ -2,21 +2,47 @@
 
 [English](README.md) · **Bahasa Indonesia**
 
-Website bacaan Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia, audio murottal (Syekh Mishary Rashid Alafasy), dan tafsir Bahasa Indonesia. Dibangun dengan Next.js, menggantikan versi PHP lama (lihat branch `legacy-php` untuk kode sebelumnya).
+Website bacaan Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia dan Inggris, audio murottal, dan tafsir. Dibangun dengan Next.js, menggantikan versi PHP lama (lihat branch `legacy-php` untuk kode sebelumnya).
 
-Tidak ada panel untuk mengubah isi Al-Qur'an — ini website baca untuk publik. Akun pengguna dan manajemen pengguna direncanakan nanti.
+Situs: **https://quranweb.udienz.web.id** (produksi) dan https://quranweb-qa.udienz.web.id (QA).
+
+![Halaman bacaan: daftar surat di kiri, ayat dengan dua terjemahan di kanan](docs/screenshots/reading.png)
+
+## Fitur
+
+- **Membaca** 114 surat: teks Arab (Uthmani Hafs atau teks EQuran.id), transliterasi Latin, dan satu atau beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, ...).
+- Tab **Tafsir** dengan tafsir pilihan Anda (Kemenag, Quraish Shihab, Jalalayn).
+- **Audio** per ayat dari enam qari, otomatis lanjut ke ayat berikutnya.
+- **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan, dan mencadangkan semuanya sebagai berkas JSON. Hanya tersimpan di browser Anda.
+- **Pilihan** teks Arab, terjemahan, tafsir, dan qari, tersimpan di browser.
+- Tema terang dan gelap, nyaman di ponsel, salin ayat atau tautannya.
+- Setiap halaman mencantumkan sumber dari apa yang ditampilkan.
+
+### Tangkapan layar
+
+| | |
+|---|---|
+| ![Tab Tafsir dengan Tafsir Jalalayn](docs/screenshots/tafsir.png) | ![Tema gelap](docs/screenshots/reading-dark.png) |
+| Tab Tafsir, di sini dengan Tafsir Jalalayn | Tema gelap |
+| ![Beranda dengan lanjutkan membaca](docs/screenshots/home.png) | ![Bacaan saya: terakhir dibaca, progres, penanda, cadangan](docs/screenshots/my-reading.png) |
+| Beranda dengan "lanjutkan membaca" | "Bacaan saya": terakhir dibaca, progres, penanda, cadangan |
+
+Di ponsel, pengaturan ada di panel lipat di atas surat:
+
+<p>
+  <img src="docs/screenshots/mobile.png" alt="Halaman bacaan di ponsel" width="260">
+  <img src="docs/screenshots/mobile-settings.png" alt="Panel pengaturan di ponsel" width="260">
+</p>
 
 ## Lingkungan dan URL
 
 | Lingkungan | URL | Untuk apa | Cara deploy | Sumber data |
 |---|---|---|---|---|
-| **Produksi** | https://quranweb.udienz.web.id | situs publik | otomatis saat tag rilis `v*` di-push (`deploy-prod.yml`), hanya untuk commit yang sudah ada di `master` | mirror di `https://quranweb.udienz.web.id/api/v2` |
-| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | otomatis di setiap push ke `master` (`deploy-qa.yml`) | mirror di `https://quranweb-qa.udienz.web.id/api/v2` |
-| Lokal | http://localhost:3000 | pengembangan | `npm run dev` | EQuran.id langsung (default) |
+| **Produksi** | https://quranweb.udienz.web.id | situs publik | otomatis saat tag rilis `v*` di-push (`deploy-prod.yml`), hanya untuk commit yang sudah ada di `master` | mirror sendiri di `/api/v2` dan `/quran-api` pada domain yang sama |
+| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | otomatis di setiap push ke `master` (`deploy-qa.yml`) | mirror sendiri di domainnya |
+| Lokal | http://localhost:3000 | pengembangan | `npm run dev` | EQuran.id dan fawazahmed0 langsung (bawaan) |
 
-Keduanya berjalan di satu VM yang sama: container Docker (`quranweb-prod` dan `quranweb-qa`) di belakang nginx dengan sertifikat Let's Encrypt (certbot), dan DNS lewat Cloudflare. Deploy memakai SSH dan `scripts/deploy.sh`, yang membangun image di server dan kembali ke image sebelumnya kalau aplikasi baru tidak merespons.
-
-Data teks disajikan dari mirror statis milik sendiri di path `/api/v2` pada tiap domain, bukan memanggil EQuran.id saat ada permintaan. Audio murottal masih dari `cdn.equran.id`. Rilis pertama: `v2.0.0` (2026-11-17).
+Keduanya berjalan di satu VM yang sama: container Docker (`quranweb-prod` dan `quranweb-qa`) di belakang nginx dengan sertifikat Let's Encrypt (certbot), dan DNS lewat Cloudflare. Deploy memakai SSH dan `scripts/deploy.sh`, yang membangun image di server dan kembali ke image sebelumnya kalau aplikasi baru tidak merespons. Rilis pertama: `v2.0.0` (2026-11-17).
 
 ## Menjalankan secara lokal
 
@@ -27,23 +53,23 @@ npm run dev
 
 Buka [http://localhost:3000](http://localhost:3000). Jalankan tes (tanpa jaringan) dengan `npm test`; `npm run test:live` memeriksa sumber nyata (sekitar 8 menit).
 
-## Sumber Data
+## Sumber data
 
-Semua konten (teks Arab, transliterasi, terjemahan ID, audio murottal, tafsir ID) diambil dari [eQuran.id API v2](https://equran.id/apidev/v2) (`https://equran.id/api/v2`). Tidak perlu API key.
+Aplikasi tidak bergantung pada format satu API saja. Semuanya dipetakan ke **skema berbasis edisi** (satu edisi = satu teks Arab, transliterasi, terjemahan, atau tafsir) lewat **provider** di `src/lib/quran/`. Provider, edisi bawaan, dan qari bawaan dikonfigurasi di satu tempat (`defaultConfig` di `src/lib/quran/index.ts`), provider dicoba menurut urutan prioritas dengan fallback, dan audio punya provider sendiri. Menambah sumber berarti menulis provider lalu mendaftarkannya; UI tidak berubah.
 
-Untuk memakai instance lain yang berformat sama (mis. mirror sendiri), set environment variable:
-```
-QURAN_API_URL=https://host-anda/api/v2
-```
-(lihat `.env.example`). Variabel ini sengaja tanpa prefix `NEXT_PUBLIC_` — dibaca di server saat request (halaman tidak di-prerender statis saat build), jadi bisa diganti kapan saja lewat env var platform / `docker run -e` tanpa perlu rebuild. Kalau kosong, dipakai `https://equran.id/api/v2`.
+| Sumber | Menyediakan | Variabel (opsional) |
+|---|---|---|
+| [EQuran.id API v2](https://equran.id/apidev/v2) | teks Arab, transliterasi Latin, terjemahan dan tafsir Indonesia (Kemenag), audio enam qari | `QURAN_API_URL` (bawaan `https://equran.id/api/v2`), `QURAN_AUDIO_URL` (bawaan `https://cdn.equran.id`) |
+| [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) | edisi tambahan, hanya teks: Arab Uthmani Hafs, Indonesia (Kemenag, Quraish Shihab, Jalalayn), Inggris (Yusuf Ali, Pickthall) | `QURAN_FAWAZ_URL` (bawaan jsDelivr dengan cadangan raw GitHub) |
 
-Di dalam, aplikasi tidak bergantung pada format API itu. Semuanya dipetakan ke **skema berbasis edisi** (satu edisi = satu teks Arab, transliterasi, terjemahan, atau tafsir) lewat **provider** di `src/lib/quran/`. Daftar provider, edisi bawaan, dan qari bawaan dikonfigurasi di satu tempat (`defaultConfig` di `src/lib/quran/index.ts`), provider dicoba menurut urutan prioritas dengan fallback, dan audio punya provider sendiri. Menambah sumber berarti menulis provider lalu mendaftarkannya; UI tidak berubah. Basis URL audio bisa diganti dengan `QURAN_AUDIO_URL` (bawaan `https://cdn.equran.id`). Provider kedua menambah edisi dari [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) (hanya teks: teks Arab lain, lebih banyak edisi Indonesia dan Inggris); basis URL-nya `QURAN_FAWAZ_URL` (bawaan jsDelivr dengan cadangan raw GitHub; arahkan ke mirror sendiri di produksi).
+Variabel sengaja tanpa prefix `NEXT_PUBLIC_`: dibaca di server saat request (halaman tidak di-prerender saat build), jadi bisa diganti lewat environment variable platform atau `docker run -e` tanpa rebuild. Lihat `.env.example`.
 
-Catatan: link audio per ayat (`audio` di tiap ayat, qari `05` Misyari Rasyid Al-Afasi sebagai utama) mengarah ke CDN eksternal `cdn.equran.id`, bukan ke API itu sendiri, jadi audio masih bergantung pada pihak ketiga.
+Di produksi kedua sumber teks disajikan dari mirror statis milik sendiri, jadi situs tidak memanggil pihak ketiga untuk teks:
 
-## Deploy
+- `/api/v2/...` berformat EQuran.id.
+- `/quran-api/...` berformat fawazahmed0 (`editions.json`, `info.json`, `editions/{edisi}/{surat}.json`).
 
-Deploy dilakukan ke VM sendiri lewat GitHub Actions dan SSH, bukan ke Vercel: lihat tabel [Lingkungan dan URL](#lingkungan-dan-url) di atas dan bagian CI di bawah.
+Keduanya berkas JSON biasa yang disimpan di repo data terpisah. Audio murottal masih dari `cdn.equran.id`. Sumber tiap edisi dicantumkan di UI dan di entrinya pada `editions.json`.
 
 ## Docker
 
@@ -53,24 +79,24 @@ Ada `Dockerfile` (multi-stage, pakai [output `standalone`](https://nextjs.org/do
 # build image
 docker build -t quranweb .
 
-# jalankan (QURAN_API_URL opsional, default eQuran.id)
+# jalankan (variabel QURAN_* opsional)
 docker run -p 3000:3000 quranweb
 ```
 
-Atau pakai `docker-compose.yml` (edit `QURAN_API_URL` di file-nya dulu):
+Atau pakai `docker-compose.yml` (edit variabelnya di file itu dulu):
 
 ```bash
 docker compose up --build
 ```
 
-Build image tidak butuh akses jaringan ke API Qur'an sama sekali — halaman di-render per-request (`export const instant = false`), bukan di-generate statis saat `next build`/`docker build`.
+Build image tidak butuh akses jaringan ke sumber data sama sekali: halaman di-render per request (`export const instant = false`), bukan di-generate statis saat `next build` atau `docker build`.
 
 ## CI (GitHub Actions)
 
 Workflow di `.github/workflows/`:
 
-- **`ci.yml`** — jalan di tiap push ke `master` dan tiap PR: `npm run lint`, `npm test`, dan `npm run build` (sudah termasuk type-check).
-- **`deploy-qa.yml`** dan **`deploy-prod.yml`** — deploy ke server lewat SSH (lihat `CLAUDE.md`). `Dockerfile` divalidasi saat deploy: image dibangun di server dan dikembalikan ke versi sebelumnya kalau app baru tidak merespons, jadi tidak ada build Docker terpisah di CI.
+- **`ci.yml`**: jalan di tiap push ke `master` dan tiap PR: `npm run lint`, `npm test`, dan `npm run build` (sudah termasuk type-check).
+- **`deploy-qa.yml`** dan **`deploy-prod.yml`**: deploy ke server lewat SSH (lihat `CLAUDE.md`). `Dockerfile` divalidasi saat deploy: image dibangun di server dan dikembalikan ke versi sebelumnya kalau app baru tidak merespons, jadi tidak ada build Docker terpisah di CI.
 
 ## Bahasa dokumentasi
 
