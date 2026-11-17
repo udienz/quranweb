@@ -10,8 +10,8 @@ Tailwind). It fully replaces the old PHP application, whose code stays on the
 `legacy-php` branch as an archive: do not develop it further and never merge it
 into `master`.
 
-There is **no panel for editing Qur'an content** and no backend or database yet.
-Reading progress and bookmarks live in the browser. Google sign-in, a database and
+There is **no panel for editing Qur'an content** and no sign-in yet. Reading progress and bookmarks live in the browser; a SQLite database
+is being added for accounts (roadmap phase 3) and nothing uses it yet. Google sign-in and
 user management are planned for later; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
@@ -138,7 +138,18 @@ is 29 pages instead of one very long scroll.
 
 ### Rendering and configuration
 
-- **No own backend or database.** Reading data never leaves the browser.
+- **A database exists, but nothing reads it yet** (phase 3, step 3 of `PHASE3.md`). Reading data
+  still never leaves the browser. The account database is SQLite through the built-in
+  `node:sqlite` (`src/lib/db/`, chosen over `better-sqlite3` in a spike: no dependency and no
+  native module in the standalone build; Node documents it as a release candidate, so re-check
+  it on each Node upgrade). `openDatabase` sets WAL and foreign keys and applies the numbered
+  migrations in `migrations.ts`, each in a transaction. A migration is never edited after it ships
+  and is additive only (rollback runs the previous image against a migrated database; a destructive
+  change takes two releases); an older build refuses a newer schema. `src/instrumentation.ts`
+  opens the database at server start when `QURAN_DB_PATH` is set, so a deploy that cannot use it
+  fails and rolls back; with the variable unset the app runs as before. `deploy.sh` mounts
+  `/srv/quranweb-db/<env>` (mode 700, uid 1001) at `/db` and never replaces it. Backups, restore and
+  the systemd timer are in `docs/backup.md`.
 - **Pages `/`, `/my-reading`, `/surah/[number]` and `not-found` use `export const instant = false`.**
   This is intentional. Without it, Next.js 16 (Cache Components) tries to prerender
   them at `next build`, which would make `docker build` and CI depend on external
@@ -154,6 +165,7 @@ is 29 pages instead of one very long scroll.
 | `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL (or local directory) of an EQuran.id-format API (point it to our mirror) |
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
+| `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
 ## Project structure
@@ -183,6 +195,7 @@ src/
       types.ts, provider.ts, service.ts, sources.ts, transport.ts, index.ts, labels.ts
       providers/equran.ts, providers/fawazahmed0.ts
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
+    db/                        SQLite (node:sqlite): open, migrations, tests on temp files
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
@@ -193,6 +206,8 @@ scripts/
   deploy.sh                    server deploy (see CI and deployment)
   mirror-nginx.conf.example    nginx locations for the data mirrors
   sync-mirror.mjs              copy the EQuran.id text to static JSON
+  backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
+deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
 ```
@@ -207,6 +222,7 @@ npm test                  # vitest, no network
 npm run test:live         # optional: real sources (about 8 minutes from the CDN, about
                           # 30 s against our mirrors). Set LIVE_QURAN_API_URL and
                           # LIVE_QURAN_FAWAZ_URL to our mirrors to spare the upstreams.
+bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs it)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
 ```

@@ -26,6 +26,13 @@ if [ ! -d "$MIRROR_DIR/api/v2" ] || [ ! -d "$MIRROR_DIR/quran-api" ]; then
 fi
 DATA_ARGS=(-v "$MIRROR_DIR:/data:ro" -e QURAN_API_URL=/data/api/v2 -e QURAN_FAWAZ_URL=/data/quran-api)
 
+# The account database (SQLite) lives in its own directory per environment, mounted read-write at
+# /db. It is created if missing and NEVER replaced or emptied by a deploy. The app opens it and
+# applies the migrations at start, so a deploy that cannot use it does not answer and rolls back.
+DB_DIR="${DB_DIR:-/srv/quranweb-db/$ENVIRONMENT}"
+sudo install -d -m 700 -o 1001 -g 1001 "$DB_DIR"
+DATA_ARGS+=(-v "$DB_DIR:/db" -e QURAN_DB_PATH=/db/quranweb.db)
+
 NAME="quranweb-$ENVIRONMENT"
 IMAGE="quranweb:$ENVIRONMENT"
 DIR="${DEPLOY_DIR:-$HOME/deploy/$NAME}"
