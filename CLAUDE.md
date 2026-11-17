@@ -96,9 +96,22 @@ Itu bukan bug di Dockerfile.
   registry mana pun secara default) untuk menjaga `Dockerfile` tetap valid.
 
 - `.github/workflows/deploy-qa.yml` — deploy ke server QA
-  (`quranweb-qa.udienz.web.id`) lewat SSH + `scripts/deploy-qa.sh` setelah push
+  (`quranweb-qa.udienz.web.id`) lewat SSH + `scripts/deploy.sh` setelah push
   ke `master`. Nonaktif sampai variable `QA_DEPLOY=true` dan secret `QA_SSH_*`
   diisi (daftarnya ada di komentar workflow).
+
+## Lingkungan
+
+- **QA/demo:** https://quranweb-qa.udienz.web.id (server 103.155.224.33, container
+  `quranweb-qa` di belakang nginx + certbot, DNS lewat Cloudflare). Deploy otomatis
+  dari `master` lewat `deploy-qa.yml`.
+- **Produksi:** https://quranweb.udienz.web.id (server sama, container
+  `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari eQuran.id).
+  Deploy lewat tag rilis, hanya untuk commit yang sudah ada di `master`:
+  `git tag v1.0.0 && git push origin v1.0.0` memicu `deploy-prod.yml`
+  (GitHub Environment `production`). Rollback: jalankan ulang workflow untuk tag lama.
+  Kedua lingkungan memakai `scripts/deploy.sh <qa|prod> <ref>`, yang otomatis
+  rollback ke image sebelumnya kalau app baru tidak merespons.
 
 ## Aturan kerja
 

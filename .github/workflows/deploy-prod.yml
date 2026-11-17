@@ -1,0 +1,58 @@
+name: Deploy Production
+
+# Deploy ke https://quranweb.udienz.web.id saat tag rilis `v*` didorong:
+#   git tag v1.0.0 && git push origin v1.0.0
+# Hanya commit yang sudah ada di `master` yang boleh dirilis. Rollback:
+# jalankan ulang workflow ini untuk tag lama (Actions > Re-run) atau tekan
+# "Run workflow" dengan memilih tag lama.
+#
+# Memakai GitHub Environment `production` (secret QA_SSH_* diambil dari
+# repository). Tambahkan "Required reviewers" di Settings > Environments >
+# production kalau ingin persetujuan manual sebelum deploy.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://quranweb.udienz.web.id
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require a v* tag on master
+        run: |
+          case "$GITHUB_REF" in
+            refs/tags/v*) ;;
+            *) echo "Deploy produksi hanya dari tag v*, bukan $GITHUB_REF" >&2; exit 1 ;;
+          esac
+          git fetch origin master
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "Commit $GITHUB_SHA belum ada di master, rilis dibatalkan" >&2
+            exit 1
+          fi
+
+      - name: Configure SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.QA_SSH_PRIVATE_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          echo "${{ secrets.QA_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${{ secrets.QA_SSH_PORT }}" \
+            "${{ secrets.QA_SSH_USER }}@${{ secrets.QA_SSH_HOST }}" \
+            'bash -s' -- prod "${{ github.sha }}" < scripts/deploy.sh

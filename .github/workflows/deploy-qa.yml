@@ -38,4 +38,4 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_deploy -p "${{ secrets.QA_SSH_PORT }}" \
             "${{ secrets.QA_SSH_USER }}@${{ secrets.QA_SSH_HOST }}" \
-            'bash -s' -- "${{ github.sha }}" < scripts/deploy-qa.sh
+            'bash -s' -- qa "${{ github.sha }}" < scripts/deploy.sh
