@@ -2,7 +2,19 @@
 
 Website bacaan Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia, audio murottal (Syekh Mishary Rashid Alafasy), dan tafsir Bahasa Indonesia. Dibangun dengan Next.js, menggantikan versi PHP lama (lihat branch `legacy-php` untuk kode sebelumnya).
 
-Tidak ada panel admin — ini murni website baca untuk publik.
+Tidak ada panel untuk mengubah isi Al-Qur'an — ini website baca untuk publik. Akun pengguna dan manajemen pengguna direncanakan nanti.
+
+## Lingkungan dan URL
+
+| Lingkungan | URL | Untuk apa | Cara deploy | Sumber data |
+|---|---|---|---|---|
+| **Produksi** | https://quranweb.udienz.web.id | situs publik | otomatis saat tag rilis `v*` di-push (`deploy-prod.yml`), hanya untuk commit yang sudah ada di `master` | mirror di `https://quranweb.udienz.web.id/api/v2` |
+| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | otomatis di setiap push ke `master` (`deploy-qa.yml`) | mirror di `https://quranweb-qa.udienz.web.id/api/v2` |
+| Lokal | http://localhost:3000 | pengembangan | `npm run dev` | EQuran.id langsung (default) |
+
+Keduanya berjalan di satu VM yang sama: container Docker (`quranweb-prod` dan `quranweb-qa`) di belakang nginx dengan sertifikat Let's Encrypt (certbot), dan DNS lewat Cloudflare. Deploy memakai SSH dan `scripts/deploy.sh`, yang membangun image di server dan kembali ke image sebelumnya kalau aplikasi baru tidak merespons.
+
+Data teks disajikan dari mirror statis milik sendiri di path `/api/v2` pada tiap domain, bukan memanggil EQuran.id saat ada permintaan. Audio murottal masih dari `cdn.equran.id`. Rilis pertama: `v2.0.0` (2026-11-17).
 
 ## Menjalankan secara lokal
 

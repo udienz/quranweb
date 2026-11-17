@@ -108,7 +108,7 @@ Itu bukan bug di Dockerfile.
 
 ## Lingkungan
 
-- **QA/demo:** https://quranweb-qa.udienz.web.id (server 103.155.224.33, container
+- **QA/demo:** https://quranweb-qa.udienz.web.id (satu VM, container
   `quranweb-qa` di belakang nginx + certbot, DNS lewat Cloudflare). Deploy otomatis
   dari `master` lewat `deploy-qa.yml`.
 - **Mirror data (QA dan produksi):** salinan statis eQuran.id API v2 di
