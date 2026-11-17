@@ -10,6 +10,9 @@
     "test": "vitest run",
     "test:live": "LIVE=1 vitest run src/lib/quran/live.test.ts"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
     "@fontsource-variable/space-grotesk": "^5.3.0",
@@ -20,7 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

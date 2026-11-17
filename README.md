@@ -50,6 +50,8 @@ Both run on the same VM: Docker containers (`quranweb-prod` and `quranweb-qa`) b
 
 ## Running locally
 
+Node.js 24 or newer is needed (the Docker image and CI use Node 26, the current LTS).
+
 ```bash
 npm install
 npm run dev
@@ -79,7 +81,7 @@ A base URL can also be a **directory with a local copy of that data** (for examp
 
 ## Docker
 
-There is a `Dockerfile` (multi-stage, using the Next.js [`standalone` output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), final image based on `node:20-alpine`), which is also used for server deployment.
+There is a `Dockerfile` (multi-stage, using the Next.js [`standalone` output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), final image based on `node:26-alpine`), which is also used for server deployment.
 
 ```bash
 # build the image

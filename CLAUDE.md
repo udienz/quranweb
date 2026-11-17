@@ -218,9 +218,11 @@ docker run -p 3000:3000 quranweb       # QURAN_* variables are optional
 docker compose up --build
 ```
 
-Base images (`node:20-alpine`) are pulled from Docker Hub. In an environment with a
+Base images (`node:26-alpine`) are pulled from Docker Hub. In an environment with a
 limited network allowlist the pull can fail even though the Dockerfile is valid.
-Node 20 is past its end of life: moving to a current LTS is on the todo list.
+The project runs on the Node LTS that is current when it is upgraded: Node 26 ("Lithium", LTS since
+October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (both were tested:
+`npm ci`, lint, the tests and the build). Upgrade again before the LTS you use reaches its end of life.
 
 ## CI and deployment
 
