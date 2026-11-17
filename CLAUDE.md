@@ -258,6 +258,11 @@ sources of each edition are credited in the UI (the "Sources" line under each su
   User management (view, disable, delete accounts) may be added together with the
   account feature.
 - Non-trivial changes go through a PR, not a direct push to `master`.
+- **One branch per task.** Start every task on a new branch named after the work (for
+  example `source-registry`), from the latest `master`, or from the branch it depends on
+  when the work is stacked on an open PR. Never reuse a merged branch or its name: once its
+  pull request is merged the branch is deleted and the next task gets a new one. Open the
+  PR as a draft and keep it a draft until it is ready.
 - **Two READMEs.** `README.md` is English and `README.id.md` is Indonesian. Any change
   to one MUST be made in the other in the same commit (sections, tables and commands
   stay aligned). Before committing a change that touches a README, check that both
