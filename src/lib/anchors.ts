@@ -1,9 +1,16 @@
-// Anchors of verses in the reader. Links copied from earlier versions used the
-// Indonesian prefix "ayat-", so it is still understood and rewritten.
+// Links to pages and verses of a surah, and the anchors of verses in the reader. Links
+// copied from earlier versions used the Indonesian prefix "ayat-", so it is still
+// understood and rewritten.
+
+import { pageOf } from "./pagination";
 
 export const verseId = (verse: number) => `verse-${verse}`;
 
-export const verseHref = (surah: number, verse: number) => `/surah/${surah}#${verseId(verse)}`;
+/** The URL of one page of a surah; the first page has no query. */
+export const pageHref = (surah: number, page: number) => `/surah/${surah}${page > 1 ? `?page=${page}` : ""}`;
+
+/** The URL of a verse: the page that contains it, then the anchor. */
+export const verseHref = (surah: number, verse: number) => `${pageHref(surah, pageOf(verse))}#${verseId(verse)}`;
 
 /** The verse number in an element ID such as "verse-12", or null. */
 export function verseFromId(id: string): number | null {
@@ -15,4 +22,9 @@ export function verseFromId(id: string): number | null {
 export function normalizeHash(hash: string): string {
   const legacy = /^#ayat-(\d+)$/.exec(hash);
   return legacy ? `#verse-${legacy[1]}` : hash;
+}
+
+/** The verse a location hash points to ("#verse-12" or the legacy "#ayat-12"), or null. */
+export function verseFromHash(hash: string): number | null {
+  return verseFromId(normalizeHash(hash).slice(1));
 }

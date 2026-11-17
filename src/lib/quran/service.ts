@@ -148,7 +148,16 @@ export function createQuranService(config: QuranConfig) {
     return [...new Set(urls)];
   }
 
-  async function getSurahView(number: number, partial?: Partial<Selection>, locale?: string): Promise<SurahView> {
+  /**
+   * The view of a surah: all of it, or only the verses from `range.from` to `range.to`
+   * (inclusive), which keeps a page of a long surah small.
+   */
+  async function getSurahView(
+    number: number,
+    partial?: Partial<Selection>,
+    locale?: string,
+    range?: { from: number; to: number },
+  ): Promise<SurahView> {
     if (!Number.isInteger(number) || number < 1 || number > 114) {
       throw new Error(`Invalid surah number: ${number}`);
     }
@@ -169,10 +178,16 @@ export function createQuranService(config: QuranConfig) {
     if (!meta) throw new Error(`Surah ${number} is not in the surah list`);
     for (const text of texts) checkVerses(text, meta);
 
+    const from = range?.from ?? 1;
+    const to = range?.to ?? meta.verseCount;
+    if (!Number.isInteger(from) || !Number.isInteger(to) || from < 1 || to < from || to > meta.verseCount) {
+      throw new Error(`Invalid verse range ${from}-${to} for surah ${number} (${meta.verseCount} verses)`);
+    }
+
     const byEdition = new Map(texts.map((t) => [t.edition, t]));
     const textOf = (id: string, i: number) => byEdition.get(id)!.verses[i].text;
 
-    const verses: VerseView[] = Array.from({ length: meta.verseCount }, (_, i) => ({
+    const verses: VerseView[] = Array.from({ length: to - from + 1 }, (_, k) => k + from - 1).map((i) => ({
       number: i + 1,
       arabic: textOf(selection.arabic, i),
       transliteration: selection.transliteration ? textOf(selection.transliteration, i) : null,
@@ -184,6 +199,7 @@ export function createQuranService(config: QuranConfig) {
     return {
       meta,
       selection,
+      range: { from, to },
       editions: ids.map((id) => editions.get(id)!.edition),
       qari: qaris.get(selection.qari)!.qari,
       verses,

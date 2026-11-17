@@ -53,6 +53,13 @@ export const en = {
     sources: "Sources: {list}",
     audioBy: "Audio {qari}",
   },
+  pagination: {
+    label: "Pages",
+    previous: "Previous page",
+    next: "Next page",
+    page: "Page {number}",
+    range: "Verses {from}–{to} of {total}",
+  },
   verse: {
     play: "Play audio",
     pause: "Pause audio",

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getI18n, getLocale } from "@/lib/i18n/server";
+import { clampPage, pageCount, pageRange } from "@/lib/pagination";
 import { getQuran } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import SettingsPanel from "@/components/SettingsPanel";
@@ -12,8 +13,10 @@ export const instant = false;
 
 export default async function SurahPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ number: string }>;
+  searchParams: Promise<{ page?: string | string[] }>;
 }) {
   const { number } = await params;
   const surahNumber = Number(number);
@@ -34,7 +37,13 @@ export default async function SurahPage({
     selection = quran.resolveSelection({}, locale);
   }
 
-  const [view, surahs] = await Promise.all([quran.getSurahView(surahNumber, selection, locale), quran.getSurahList()]);
+  // Only the verses of the requested page are built and sent to the browser.
+  const surahs = await quran.getSurahList();
+  const meta = surahs.find((s) => s.number === surahNumber);
+  if (!meta) notFound();
+  const count = pageCount(meta.verseCount);
+  const page = clampPage((await searchParams).page, meta.verseCount);
+  const view = await quran.getSurahView(surahNumber, selection, locale, pageRange(page, meta.verseCount));
   const catalog = quran.getCatalog();
   const { t } = await getI18n();
 
@@ -56,6 +65,8 @@ export default async function SurahPage({
         </details>
         <SurahReader
           view={view}
+          page={page}
+          pageCount={count}
           prev={surahNumber > 1 ? surahNumber - 1 : null}
           next={surahNumber < 114 ? surahNumber + 1 : null}
         />

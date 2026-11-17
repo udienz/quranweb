@@ -108,6 +108,25 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   `verse` in `quranweb:user`). Older links keep working: `/saya` redirects to
   `/my-reading` and `#ayat-N` is rewritten to `#verse-N` in the browser.
 
+### Paging of long surahs
+
+A surah is shown 10 verses at a time (`PAGE_SIZE` in `src/lib/pagination.ts`), so Al-Baqarah
+is 29 pages instead of one very long scroll.
+
+- **The page is in the URL** (`/surah/2?page=3`): `clampPage` makes anything unusable page 1
+  and anything past the end the last page. The page component builds only that page's verses
+  (`getSurahView(..., { from, to })`), so the HTML shrinks from about 2 MB to about 230 KB for
+  Al-Baqarah. The providers still return and check the whole surah on the server.
+- **Links to a verse carry the page** (`verseHref` in `anchors.ts`, used by "continue reading",
+  bookmarks, progress and copy link). A hash that points to a verse on another page (an old
+  `#ayat-N` link, a shared link, a hand-edited URL) is sent to the right page by an effect in
+  `SurahReader`; the jump menu lists every verse of the surah and navigates when needed.
+- **Audio auto-advance** continues across a page boundary: at the end of the last verse of a
+  page the reader goes to the next page and starts the next verse (`playOnArrival`). The
+  `<audio>` element stays mounted, so the browser still allows playback. The tab (Reading or
+  Tafsir) and the settings also survive a page change.
+- The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
+
 ### Rendering and configuration
 
 - **No own backend or database.** Reading data never leaves the browser.
@@ -146,6 +165,7 @@ src/
     VerseCard.tsx              one verse: text, bookmark, mark as read, note, copy
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
+    Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
@@ -157,7 +177,8 @@ src/
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
-    anchors.ts, cookies.ts     verse anchors (incl. legacy #ayat-N), cookie helper
+    anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper
+    pagination.ts              page size, page of a verse, clamping, which page numbers to show
   **/*.test.ts                 vitest tests, no network
 scripts/
   deploy.sh                    server deploy (see CI and deployment)
