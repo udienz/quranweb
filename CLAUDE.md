@@ -53,8 +53,11 @@ own format.
   4.2 GB, so jsDelivr sometimes refuses a file (403 "Package size exceeded the
   configured limit of 50 MB", seen on `ind-indonesianislam/45`). The provider falls
   back to raw GitHub, but production uses our own mirror (`QURAN_FAWAZ_URL`).
-- Known data limits: EQuran.id has no English translation and one tafsir version;
-  the Bismillah above every surah except Al-Fatihah and At-Taubah is added by the UI.
+- Known data limits: EQuran.id has no English translation and one tafsir version, and its
+  surah names have only an Indonesian meaning (the English meanings come from fawazahmed0's
+  `info.json`); the Bismillah above every surah except Al-Fatihah and At-Taubah is added by the UI.
+- Edition names and credits are localized (`LocalizedText`, one text per interface language),
+  so a provider must give both `en` and `id`.
 
 ### Reader choices and user data
 
@@ -67,16 +70,40 @@ own format.
   `localStorage` under `quranweb:user`, as a versioned schema
   (`src/lib/userdata/schema.ts`, pure functions) read through `useSyncExternalStore`
   (`store.ts`). It also works in memory when storage is unavailable, ignores corrupt
-  data, and syncs between tabs. The `/saya` page shows it and offers JSON export and
+  data, and syncs between tabs. The `/my-reading` page shows it and offers JSON export and
   merge-import. Last read is recorded by an `IntersectionObserver` in `SurahReader`.
 - **Display toggles** (Arabic, transliteration, translation) and the theme are also
   browser-only (`PrefsProvider`, `ThemeToggle`).
 - This schema is designed to move to accounts later (roadmap phase 3).
 
+### Interface language (i18n)
+
+The interface is available in English and Indonesian (`src/lib/i18n/`).
+
+- **Which language:** the cookie `qw-lang` (set by the EN/ID button) wins, then the first
+  supported language in the browser's `Accept-Language`, then Indonesian
+  (`negotiateLocale`). The root layout reads it per request, sets `<html lang>`, and gives
+  the messages to client components through `I18nProvider` / `useI18n()`; server
+  components use `getI18n()`.
+- **Messages:** every user-visible string lives in `messages/en.ts` (the source catalog)
+  and `messages/id.ts`. The shape of `id` is derived from `en` by TypeScript, so a missing
+  key does not compile, and a test checks that both catalogs have the same keys and the
+  same placeholders. Use `t("area.key", { name })` and, for counts, `tn("common.verses", n)`
+  (plural forms by CLDR category). Never write a user-visible string in a component.
+- **Adding a language:** add the code to `LOCALES` in `config.ts`, create the catalog
+  (typed as `Messages`), register it in `messages/index.ts`, give every edition name and
+  credit a text for it (`LocalizedText`), and add the intl code in `translate.ts`.
+- **Language of the content** is separate: editions have their own language and the reader
+  chooses them (cookie `qw-sel`). With the English interface and no saved choice, the
+  default translation is English (`localeDefaults` in `defaultConfig`).
+- **URLs, anchors and storage keys are English** (`/my-reading`, `#verse-12`, the field
+  `verse` in `quranweb:user`). Older links keep working: `/saya` redirects to
+  `/my-reading` and `#ayat-N` is rewritten to `#verse-N` in the browser.
+
 ### Rendering and configuration
 
 - **No own backend or database.** Reading data never leaves the browser.
-- **Pages `/`, `/saya` and `/surah/[number]` use `export const instant = false`.**
+- **Pages `/`, `/my-reading`, `/surah/[number]` and `not-found` use `export const instant = false`.**
   This is intentional. Without it, Next.js 16 (Cache Components) tries to prerender
   them at `next build`, which would make `docker build` and CI depend on external
   APIs whose URLs are not even known at build time. With it, data is fetched at
@@ -100,16 +127,18 @@ src/
     layout.tsx                 shell: header, theme, fonts (@fontsource), footer
     globals.css                colour tokens (light/dark), Amiri font for Arabic
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
-    saya/page.tsx              "Bacaan saya": last read, progress, bookmarks, backup
+    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
+    not-found.tsx              404 page (translated)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
-    SurahReader.tsx            surah header, Bacaan/Tafsir tabs, jump to verse, audio
+    SurahReader.tsx            surah header, Reading/Tafsir tabs, jump to verse, audio
                                (one <audio>, auto-advance, falls back through URLs),
                                last-read tracking, list of sources
     VerseCard.tsx              one verse: text, bookmark, mark as read, note, copy
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     ContinueReading.tsx, MyReading.tsx
+    LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
@@ -117,6 +146,9 @@ src/
       providers/equran.ts, providers/fawazahmed0.ts
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     selection.ts               parse/serialize the selection cookie
+    i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
+                               server.ts, client.tsx, messages/{en,id,types,index}.ts
+    anchors.ts, cookies.ts     verse anchors (incl. legacy #ayat-N), cookie helper
   **/*.test.ts                 vitest tests, no network
 scripts/
   deploy.sh                    server deploy (see CI and deployment)
@@ -210,7 +242,14 @@ repository, review the diff and copy the result to the server. Only text is mirr
 audio still comes from `cdn.equran.id`.
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
-sources of each edition are credited in the UI (the "Sumber" line under each surah).
+sources of each edition are credited in the UI (the "Sources" line under each surah).
+
+### Known limits
+
+- `/surah/<invalid>` shows the translated 404 page but the HTTP status is 200: Cache
+  Components does not support `dynamicParams = false`, and a `proxy.ts` check was judged
+  too much for links nobody has.
+- The surah list is fetched on every request (from our mirror, so it is cheap).
 
 ## Working rules
 
@@ -223,6 +262,15 @@ sources of each edition are credited in the UI (the "Sumber" line under each sur
   to one MUST be made in the other in the same commit (sections, tables and commands
   stay aligned). Before committing a change that touches a README, check that both
   files are updated, and keep the language links on the second line of each file.
-- Screenshots in `docs/screenshots/` show the real UI; retake them when the UI changes
-  noticeably.
-- Commit messages and PR descriptions are in English.
+- Screenshots in `docs/screenshots/en/` and `docs/screenshots/id/` show the real UI in each
+  language (English README and Indonesian README respectively); retake both sets when the
+  UI changes noticeably.
+- **Language of the repository.** Everything is in English: code, identifiers, comments,
+  error messages and logs, test names, scripts, workflows, configuration and documentation.
+  The only exceptions are the Indonesian interface strings (`messages/id.ts`),
+  `README.id.md`, and data that is Indonesian by nature (edition text, `LocalizedText.id`
+  values, API field names such as `nomor` that belong to a source). Commit messages and
+  PR descriptions are in English too.
+- **No hard-coded UI text.** A user-visible string goes into both message catalogs; error
+  classes carry a code and an English message, and the UI maps the code to a translated
+  message (see `UserDataError`).
