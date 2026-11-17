@@ -1,28 +1,41 @@
-// Data pengguna yang disimpan di browser (localStorage): terakhir dibaca, progres
-// per surat, dan bookmark. Semua fungsi di sini murni (tanpa efek samping) supaya
-// mudah diuji; penyimpanannya ada di store.ts. Skema bernomor versi supaya nanti
-// mudah dipindahkan ke akun (Fase 3).
+// User data kept in the browser (localStorage): last read position, per-surah
+// progress and bookmarks. Everything here is a pure function so it is easy to test;
+// the storage itself is in store.ts. The schema is versioned so it can be moved to
+// accounts later (roadmap phase 3).
 
 export const USER_DATA_VERSION = 1;
 
 const MAX_SURAH = 114;
-const MAX_AYAT = 286; // ayat terpanjang: Al-Baqarah
+const MAX_VERSE = 286; // the longest surah, Al-Baqarah
 const MAX_NOTE = 500;
 const MAX_BOOKMARKS = 5000;
 
 export interface Bookmark {
   surah: number;
-  ayat: number;
+  verse: number;
   note: string;
   createdAt: string;
 }
 
 export interface UserData {
   version: typeof USER_DATA_VERSION;
-  lastRead: { surah: number; ayat: number; at: string } | null;
-  /** Per nomor surat: ayat terakhir yang ditandai selesai dibaca (ayat 1 sampai readUpTo). */
+  lastRead: { surah: number; verse: number; at: string } | null;
+  /** By surah number: the last verse marked as read (verses 1 to readUpTo). */
   progress: Record<string, { readUpTo: number; at: string }>;
   bookmarks: Bookmark[];
+}
+
+/** Why user data was rejected; the UI turns the code into a message in the reader's language. */
+export type UserDataErrorCode = "not-json" | "not-backup" | "unsupported-version" | "invalid";
+
+export class UserDataError extends Error {
+  constructor(
+    public readonly code: UserDataErrorCode,
+    message: string,
+  ) {
+    super(message);
+    this.name = "UserDataError";
+  }
 }
 
 export function emptyUserData(): UserData {
@@ -34,24 +47,26 @@ const isInt = (v: unknown, min: number, max: number): v is number =>
 
 const isDate = (v: unknown): v is string => typeof v === "string" && !Number.isNaN(Date.parse(v));
 
-function assertPosition(surah: number, ayat: number): void {
-  if (!isInt(surah, 1, MAX_SURAH) || !isInt(ayat, 1, MAX_AYAT)) {
-    throw new Error(`Posisi tidak valid: ${surah}:${ayat}`);
+const invalid = (message: string) => new UserDataError("invalid", message);
+
+function assertPosition(surah: number, verse: number): void {
+  if (!isInt(surah, 1, MAX_SURAH) || !isInt(verse, 1, MAX_VERSE)) {
+    throw new Error(`Invalid position: ${surah}:${verse}`);
   }
 }
 
-export function setLastRead(data: UserData, surah: number, ayat: number, at: string): UserData {
-  assertPosition(surah, ayat);
-  if (data.lastRead?.surah === surah && data.lastRead.ayat === ayat) return data;
-  return { ...data, lastRead: { surah, ayat, at } };
+export function setLastRead(data: UserData, surah: number, verse: number, at: string): UserData {
+  assertPosition(surah, verse);
+  if (data.lastRead?.surah === surah && data.lastRead.verse === verse) return data;
+  return { ...data, lastRead: { surah, verse, at } };
 }
 
-/** Tandai ayat 1 sampai `ayat` selesai dibaca. Menandai ayat yang sama lagi membatalkannya. */
-export function toggleReadUpTo(data: UserData, surah: number, ayat: number, at: string): UserData {
-  assertPosition(surah, ayat);
+/** Mark verses 1 to `verse` as read. Marking the same verse again undoes it. */
+export function toggleReadUpTo(data: UserData, surah: number, verse: number, at: string): UserData {
+  assertPosition(surah, verse);
   const progress = { ...data.progress };
-  if (progress[surah]?.readUpTo === ayat) delete progress[surah];
-  else progress[surah] = { readUpTo: ayat, at };
+  if (progress[surah]?.readUpTo === verse) delete progress[surah];
+  else progress[surah] = { readUpTo: verse, at };
   return { ...data, progress };
 }
 
@@ -62,73 +77,75 @@ export function clearProgress(data: UserData, surah: number): UserData {
   return { ...data, progress };
 }
 
-export const findBookmark = (data: UserData, surah: number, ayat: number): Bookmark | undefined =>
-  data.bookmarks.find((b) => b.surah === surah && b.ayat === ayat);
+export const findBookmark = (data: UserData, surah: number, verse: number): Bookmark | undefined =>
+  data.bookmarks.find((b) => b.surah === surah && b.verse === verse);
 
-/** Tambah bookmark, atau hapus kalau sudah ada. */
-export function toggleBookmark(data: UserData, surah: number, ayat: number, at: string): UserData {
-  assertPosition(surah, ayat);
-  if (findBookmark(data, surah, ayat)) return removeBookmark(data, surah, ayat);
-  if (data.bookmarks.length >= MAX_BOOKMARKS) throw new Error(`Bookmark maksimal ${MAX_BOOKMARKS}`);
-  return { ...data, bookmarks: [...data.bookmarks, { surah, ayat, note: "", createdAt: at }] };
+/** Add a bookmark, or remove it when it already exists. */
+export function toggleBookmark(data: UserData, surah: number, verse: number, at: string): UserData {
+  assertPosition(surah, verse);
+  if (findBookmark(data, surah, verse)) return removeBookmark(data, surah, verse);
+  if (data.bookmarks.length >= MAX_BOOKMARKS) throw new Error(`At most ${MAX_BOOKMARKS} bookmarks are allowed`);
+  return { ...data, bookmarks: [...data.bookmarks, { surah, verse, note: "", createdAt: at }] };
 }
 
-export function removeBookmark(data: UserData, surah: number, ayat: number): UserData {
-  return { ...data, bookmarks: data.bookmarks.filter((b) => !(b.surah === surah && b.ayat === ayat)) };
+export function removeBookmark(data: UserData, surah: number, verse: number): UserData {
+  return { ...data, bookmarks: data.bookmarks.filter((b) => !(b.surah === surah && b.verse === verse)) };
 }
 
-export function setBookmarkNote(data: UserData, surah: number, ayat: number, note: string): UserData {
-  if (!findBookmark(data, surah, ayat)) return data;
+export function setBookmarkNote(data: UserData, surah: number, verse: number, note: string): UserData {
+  if (!findBookmark(data, surah, verse)) return data;
   const clean = note.trim().slice(0, MAX_NOTE);
   return {
     ...data,
-    bookmarks: data.bookmarks.map((b) => (b.surah === surah && b.ayat === ayat ? { ...b, note: clean } : b)),
+    bookmarks: data.bookmarks.map((b) => (b.surah === surah && b.verse === verse ? { ...b, note: clean } : b)),
   };
 }
 
-/** Periksa dan bersihkan data mentah (dari localStorage atau berkas impor). Melempar galat bila rusak. */
+/** Check and clean raw data (from localStorage or an import file). Throws a UserDataError if it is broken. */
 export function parseUserData(raw: unknown): UserData {
-  if (typeof raw !== "object" || raw === null) throw new Error("Data pengguna bukan objek");
+  if (typeof raw !== "object" || raw === null) throw invalid("User data is not an object");
   const r = raw as Record<string, unknown>;
-  if (r.version !== USER_DATA_VERSION) throw new Error(`Versi data tidak didukung: ${String(r.version)}`);
+  if (r.version !== USER_DATA_VERSION) {
+    throw new UserDataError("unsupported-version", `Unsupported data version: ${String(r.version)}`);
+  }
 
   let lastRead: UserData["lastRead"] = null;
   if (r.lastRead != null) {
     const l = r.lastRead as Record<string, unknown>;
-    if (!isInt(l.surah, 1, MAX_SURAH) || !isInt(l.ayat, 1, MAX_AYAT) || !isDate(l.at)) {
-      throw new Error("Terakhir dibaca tidak valid");
+    if (!isInt(l.surah, 1, MAX_SURAH) || !isInt(l.verse, 1, MAX_VERSE) || !isDate(l.at)) {
+      throw invalid("Invalid last read position");
     }
-    lastRead = { surah: l.surah, ayat: l.ayat, at: l.at };
+    lastRead = { surah: l.surah, verse: l.verse, at: l.at };
   }
 
   const progress: UserData["progress"] = {};
   for (const [key, value] of Object.entries((r.progress ?? {}) as Record<string, unknown>)) {
     const v = value as Record<string, unknown>;
-    if (!isInt(Number(key), 1, MAX_SURAH) || !isInt(v?.readUpTo, 1, MAX_AYAT) || !isDate(v.at)) {
-      throw new Error(`Progres surat ${key} tidak valid`);
+    if (!isInt(Number(key), 1, MAX_SURAH) || !isInt(v?.readUpTo, 1, MAX_VERSE) || !isDate(v.at)) {
+      throw invalid(`Invalid progress for surah ${key}`);
     }
     progress[String(Number(key))] = { readUpTo: v.readUpTo, at: v.at };
   }
 
-  if (!Array.isArray(r.bookmarks ?? [])) throw new Error("Bookmark bukan daftar");
+  if (!Array.isArray(r.bookmarks ?? [])) throw invalid("Bookmarks are not a list");
   const seen = new Set<string>();
   const bookmarks: Bookmark[] = [];
   for (const item of (r.bookmarks ?? []) as unknown[]) {
     const b = item as Record<string, unknown>;
-    if (!isInt(b?.surah, 1, MAX_SURAH) || !isInt(b.ayat, 1, MAX_AYAT) || !isDate(b.createdAt)) {
-      throw new Error("Ada bookmark yang tidak valid");
+    if (!isInt(b?.surah, 1, MAX_SURAH) || !isInt(b.verse, 1, MAX_VERSE) || !isDate(b.createdAt)) {
+      throw invalid("A bookmark is invalid");
     }
-    const key = `${b.surah}:${b.ayat}`;
+    const key = `${b.surah}:${b.verse}`;
     if (seen.has(key)) continue;
     seen.add(key);
     bookmarks.push({
       surah: b.surah,
-      ayat: b.ayat,
+      verse: b.verse,
       note: typeof b.note === "string" ? b.note.trim().slice(0, MAX_NOTE) : "",
       createdAt: b.createdAt,
     });
   }
-  if (bookmarks.length > MAX_BOOKMARKS) throw new Error(`Bookmark maksimal ${MAX_BOOKMARKS}`);
+  if (bookmarks.length > MAX_BOOKMARKS) throw invalid(`At most ${MAX_BOOKMARKS} bookmarks are allowed`);
 
   return { version: USER_DATA_VERSION, lastRead, progress, bookmarks };
 }
@@ -145,16 +162,16 @@ export function importUserData(text: string): UserData {
   try {
     parsed = JSON.parse(text);
   } catch {
-    throw new Error("Berkas bukan JSON yang valid");
+    throw new UserDataError("not-json", "The file is not valid JSON");
   }
   const p = parsed as Record<string, unknown> | null;
   if (!p || p.app !== EXPORT_APP || p.format !== EXPORT_FORMAT) {
-    throw new Error("Berkas ini bukan cadangan QuranWeb");
+    throw new UserDataError("not-backup", "The file is not a QuranWeb backup");
   }
   return parseUserData(p.data);
 }
 
-/** Gabungkan data impor ke data sekarang tanpa menghapus apa pun. */
+/** Merge imported data into the current data without removing anything. */
 export function mergeUserData(current: UserData, incoming: UserData): UserData {
   const lastRead =
     !current.lastRead || (incoming.lastRead && incoming.lastRead.at > current.lastRead.at)
@@ -167,9 +184,9 @@ export function mergeUserData(current: UserData, incoming: UserData): UserData {
     if (!cur || inc.readUpTo > cur.readUpTo) progress[key] = inc;
   }
 
-  const byKey = new Map(current.bookmarks.map((b) => [`${b.surah}:${b.ayat}`, b]));
+  const byKey = new Map(current.bookmarks.map((b) => [`${b.surah}:${b.verse}`, b]));
   for (const inc of incoming.bookmarks) {
-    const key = `${inc.surah}:${inc.ayat}`;
+    const key = `${inc.surah}:${inc.verse}`;
     const cur = byKey.get(key);
     byKey.set(
       key,

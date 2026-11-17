@@ -1,14 +1,14 @@
 name: Deploy Production
 
-# Deploy ke https://quranweb.udienz.web.id saat tag rilis `v*` didorong:
-#   git tag v1.0.0 && git push origin v1.0.0
-# Hanya commit yang sudah ada di `master` yang boleh dirilis. Rollback:
-# jalankan ulang workflow ini untuk tag lama (Actions > Re-run) atau tekan
-# "Run workflow" dengan memilih tag lama.
+# Deploys to https://quranweb.udienz.web.id when a `v*` release tag is pushed:
+#   git tag -a v2.1.0 && git push origin v2.1.0
+# Only commits that are already on `master` can be released. To roll back, re-run
+# this workflow for an older tag (Actions > Re-run) or press "Run workflow" and pick
+# an older tag.
 #
-# Memakai GitHub Environment `production` (secret QA_SSH_* diambil dari
-# repository). Tambahkan "Required reviewers" di Settings > Environments >
-# production kalau ingin persetujuan manual sebelum deploy.
+# It uses the GitHub Environment `production` (the QA_SSH_* secrets come from the
+# repository). Add "Required reviewers" in Settings > Environments > production if
+# you want a manual approval before each deploy.
 
 on:
   push:
@@ -36,11 +36,11 @@ jobs:
         run: |
           case "$GITHUB_REF" in
             refs/tags/v*) ;;
-            *) echo "Deploy produksi hanya dari tag v*, bukan $GITHUB_REF" >&2; exit 1 ;;
+            *) echo "Production deploys only from a v* tag, not $GITHUB_REF" >&2; exit 1 ;;
           esac
           git fetch origin master
           if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
-            echo "Commit $GITHUB_SHA belum ada di master, rilis dibatalkan" >&2
+            echo "Commit $GITHUB_SHA is not on master, release cancelled" >&2
             exit 1
           fi
 

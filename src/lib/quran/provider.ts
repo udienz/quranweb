@@ -1,24 +1,29 @@
 import type { Edition, EditionText, Qari, SurahMeta } from "./types";
 
 /**
- * Sumber teks. Satu provider melayani satu atau lebih edisi dan memetakan
- * respons sumbernya ke skema internal (lihat types.ts).
+ * A text source. A provider serves one or more editions and maps its source's
+ * responses to the internal schema (see types.ts).
  */
 export interface TextProvider {
-  /** ID unik provider, dipakai di pesan galat dan log. */
+  /** Unique provider ID, used in error messages and logs. */
   id: string;
-  /** Edisi yang dilayani provider ini. */
+  /** The editions this provider serves. */
   editions(): Edition[];
-  /** Metadata 114 surat. Opsional: provider khusus teks boleh tidak menyediakannya. */
+  /** Metadata of the 114 surahs. Optional: a text-only provider may not have it. */
   surahs?(): Promise<SurahMeta[]>;
-  /** Isi satu edisi untuk satu surat. Melempar galat kalau gagal. */
+  /**
+   * Extra meanings of surah names per language, keyed by surah number, merged into the
+   * metadata (for example English meanings). Optional; failures are ignored.
+   */
+  surahMeanings?(): Promise<Record<number, Record<string, string>>>;
+  /** The content of one edition for one surah. Throws on failure. */
   text(edition: string, surah: number): Promise<EditionText>;
 }
 
-/** Sumber audio murottal, terpisah dari teks. */
+/** A recitation audio source, separate from text. */
 export interface AudioProvider {
   id: string;
   qaris(): Qari[];
-  /** URL audio satu ayat untuk qari tertentu, yang utama lebih dulu. */
-  urls(qari: string, surah: number, ayat: number): string[];
+  /** Audio URLs of one verse for a reciter, preferred first. */
+  urls(qari: string, surah: number, verse: number): string[];
 }

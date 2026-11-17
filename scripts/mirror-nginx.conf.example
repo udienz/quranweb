@@ -1,11 +1,12 @@
-# Contoh nginx untuk menyajikan hasil scripts/sync-mirror.mjs sebagai API.
-# Taruh di dalam blok `server { ... }` yang sudah ada, ganti /srv/quranweb-mirror
-# dengan nilai --out. Setelah itu set QURAN_API_URL=https://<domain>/api/v2.
-#
-# /api/v2/surat    -> surat.json
-# /api/v2/surat/1  -> surat/1.json
-# /api/v2/tafsir/1 -> tafsir/1.json
+# nginx example for serving our static data mirrors as APIs. Put the locations inside
+# an existing `server { ... }` block and replace /srv/quranweb-mirror with the --out
+# directory you used. Then set QURAN_API_URL=https://<domain>/api/v2 and
+# QURAN_FAWAZ_URL=https://<domain>/quran-api.
 
+# EQuran.id format (scripts/sync-mirror.mjs):
+#   /api/v2/surat    -> surat.json
+#   /api/v2/surat/1  -> surat/1.json
+#   /api/v2/tafsir/1 -> tafsir/1.json
 location /api/v2/ {
     root /srv/quranweb-mirror;
     default_type application/json;
@@ -15,13 +16,13 @@ location /api/v2/ {
     add_header Access-Control-Allow-Origin "*";
 }
 
-# API statis berformat fawazahmed0/quran-api (hasil scripts/sync-fawaz.mjs di repo
-# quranweb-data, disalin ke <root>/quran-api). `.json` dan `.min.json` sama-sama
-# dilayani dari berkas `.min.json`. Set QURAN_FAWAZ_URL=https://<domain>/quran-api.
+# fawazahmed0/quran-api format (scripts/sync-fawaz.mjs in the quranweb-data repository,
+# copied to <root>/quran-api). `.json` and `.min.json` are both served from the
+# `.min.json` files.
 #
-# /quran-api/editions.json                  -> katalog edisi
-# /quran-api/info.json                      -> metadata Al-Qur'an
-# /quran-api/editions/<edisi>/<surat>.json  -> satu surat
+#   /quran-api/editions.json                  -> the catalog of editions
+#   /quran-api/info.json                      -> Qur'an metadata (English surah names, ...)
+#   /quran-api/editions/<edition>/<surah>.json -> one surah
 location ~ ^/quran-api/(.+?)(\.min)?\.json$ {
     root /srv/quranweb-mirror;
     default_type application/json;

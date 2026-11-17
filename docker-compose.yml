@@ -4,6 +4,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # Opsional. Kosong = https://equran.id/api/v2
+      # Optional. Empty = the defaults (https://equran.id/api/v2 and fawazahmed0 on jsDelivr).
       QURAN_API_URL: ""
+      QURAN_FAWAZ_URL: ""
     restart: unless-stopped

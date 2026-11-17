@@ -10,7 +10,7 @@ const chapter = (surah: number, texts: string[]) => ({
 function mockFetch(routes: Record<string, unknown>) {
   const fn = vi.fn(async (url: string | URL | Request) => {
     const data = routes[String(url)];
-    if (data === undefined) return new Response("tidak ada", { status: 404 });
+    if (data === undefined) return new Response("not found", { status: 404 });
     return new Response(JSON.stringify(data));
   });
   vi.stubGlobal("fetch", fn);
@@ -19,8 +19,8 @@ function mockFetch(routes: Record<string, unknown>) {
 
 afterEach(() => vi.unstubAllGlobals());
 
-describe("provider fawazahmed0", () => {
-  it("memetakan satu surat dan merapikan spasi", async () => {
+describe("fawazahmed0 provider", () => {
+  it("maps a surah and trims whitespace", async () => {
     const fetchMock = mockFetch({
       [`${BASE}/editions/ind-indonesianislam/1.min.json`]: chapter(1, [" Dengan nama Allah ", "Segala puji"]),
     });
@@ -37,7 +37,7 @@ describe("provider fawazahmed0", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it("jatuh ke .json bila .min.json gagal (saran README sumbernya)", async () => {
+  it("falls back to .json when .min.json fails (as the source's README advises)", async () => {
     const fetchMock = mockFetch({ [`${BASE}/editions/eng-abdullahyusufal/2.json`]: chapter(2, ["Alif Lam Mim"]) });
     const text = await createFawazTextProvider({ baseUrl: BASE }).text("eng-abdullahyusufal", 2);
     expect(text.verses[0].text).toBe("Alif Lam Mim");
@@ -47,10 +47,10 @@ describe("provider fawazahmed0", () => {
     ]);
   });
 
-  it("tanpa base URL sendiri: jsDelivr dulu, lalu raw GitHub bila jsDelivr menolak", async () => {
+  it("without a custom base URL: jsDelivr first, then raw GitHub when jsDelivr refuses", async () => {
     const fetchMock = vi.fn(async (url: string | URL | Request) => {
       const u = String(url);
-      // Meniru 403 "Package size exceeded the configured limit of 50 MB" dari jsDelivr.
+      // Imitates jsDelivr's 403 "Package size exceeded the configured limit of 50 MB".
       if (u.startsWith(FAWAZ_API_URL)) return new Response("Package size exceeded", { status: 403 });
       return new Response(JSON.stringify(chapter(45, ["ok"])));
     });
@@ -64,38 +64,57 @@ describe("provider fawazahmed0", () => {
     ]);
   });
 
-  it("dengan base URL sendiri tidak pernah menyentuh CDN publik", async () => {
+  it("never touches a public CDN when given a custom base URL", async () => {
     const fetchMock = mockFetch({});
     await expect(createFawazTextProvider({ baseUrl: BASE }).text("ara-quranuthmanihaf", 1)).rejects.toThrow();
     expect(fetchMock.mock.calls.every((c) => String(c[0]).startsWith(BASE))).toBe(true);
   });
 
-  it("melaporkan kedua URL bila keduanya gagal", async () => {
+  it("reports both URLs when both fail", async () => {
     mockFetch({});
     await expect(createFawazTextProvider({ baseUrl: BASE }).text("ara-quranuthmanihaf", 5)).rejects.toThrow(
-      /ara-quranuthmanihaf surat 5.*5\.min\.json: status 404.*5\.json: status 404/,
+      /ara-quranuthmanihaf\/5.*5\.min\.json: status 404.*5\.json: status 404/,
     );
   });
 
-  it("menolak edisi yang tidak diaktifkan dan respons surat yang salah", async () => {
+  it("rejects an edition that is not enabled and a response for the wrong surah", async () => {
     mockFetch({ [`${BASE}/editions/ind-jalaladdinalmah/3.min.json`]: chapter(4, ["x"]) });
     const p = createFawazTextProvider({ baseUrl: BASE });
-    await expect(p.text("ben-lain", 1)).rejects.toThrow(/tidak melayani edisi "ben-lain"/);
-    await expect(p.text("ind-jalaladdinalmah", 3)).rejects.toThrow(/tidak sesuai format/);
+    await expect(p.text("ben-other", 1)).rejects.toThrow(/does not serve edition "ben-other"/);
+    await expect(p.text("ind-jalaladdinalmah", 3)).rejects.toThrow(/unexpected format/);
   });
 
-  it("katalog: ID unik, tipe benar, atribusi dan sumber terisi", () => {
+  it("gets English surah meanings from info.json", async () => {
+    mockFetch({
+      [`${BASE}/info.min.json`]: {
+        chapters: [
+          { chapter: 1, englishname: "The Opening" },
+          { chapter: 2, englishname: "The Cow" },
+        ],
+      },
+    });
+    expect(await createFawazTextProvider({ baseUrl: BASE }).surahMeanings!()).toEqual({
+      1: { en: "The Opening" },
+      2: { en: "The Cow" },
+    });
+  });
+
+  it("catalog: unique IDs, correct kinds, credits in both languages", () => {
     const ids = FAWAZ_EDITIONS.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(FAWAZ_EDITIONS.find((e) => e.id === "ara-quranuthmanihaf")).toMatchObject({ kind: "arabic", direction: "rtl" });
     expect(FAWAZ_EDITIONS.find((e) => e.id === "ind-jalaladdinalmah")?.kind).toBe("tafsir");
+    expect(FAWAZ_EDITIONS.find((e) => e.id === "ind-muhammadquraish")?.kind).toBe("tafsir");
     for (const e of FAWAZ_EDITIONS) {
-      expect(e.source.attribution).toMatch(/fawazahmed0\/quran-api/);
+      expect(e.source.attribution.en).toMatch(/fawazahmed0\/quran-api/);
+      expect(e.source.attribution.id).toMatch(/fawazahmed0\/quran-api/);
+      expect(e.name.en).toBeTruthy();
+      expect(e.name.id).toBeTruthy();
       expect(e.source.url).toBeTruthy();
     }
   });
 
-  it("tidak menyediakan metadata surat (daftar surat dari provider lain)", () => {
+  it("has no surah list (it comes from another provider)", () => {
     expect(createFawazTextProvider().surahs).toBeUndefined();
   });
 });

@@ -6,10 +6,11 @@ A website for reading the Qur'an: Arabic text, translations in Indonesian and En
 
 Live: **https://quranweb.udienz.web.id** (production) and https://quranweb-qa.udienz.web.id (QA).
 
-![Reading page: surah list on the left, verses with two translations on the right](docs/screenshots/reading.png)
+![Reading page: surah list on the left, verses with two translations on the right](docs/screenshots/en/reading.png)
 
 ## Features
 
+- **English and Indonesian interface**, chosen from your browser language and switchable with the EN/ID button. Surah names, translations and credits follow the language too.
 - **Read** all 114 surahs: Arabic text (Uthmani Hafs or the EQuran.id text), Latin transliteration, and one or more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall, ...).
 - **Tafsir** tab with a tafsir of your choice (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per verse from six reciters, with automatic advance to the next verse.
@@ -20,18 +21,20 @@ Live: **https://quranweb.udienz.web.id** (production) and https://quranweb-qa.ud
 
 ### Screenshots
 
+The pictures show the English interface; the Indonesian README shows the Indonesian one.
+
 | | |
 |---|---|
-| ![Tafsir tab with Tafsir Jalalayn](docs/screenshots/tafsir.png) | ![Dark theme](docs/screenshots/reading-dark.png) |
+| ![Tafsir tab with Tafsir Jalalayn](docs/screenshots/en/tafsir.png) | ![Dark theme](docs/screenshots/en/reading-dark.png) |
 | Tafsir tab, here with Tafsir Jalalayn | Dark theme |
-| ![Home page with continue reading](docs/screenshots/home.png) | ![My reading: last read, progress, bookmarks, backup](docs/screenshots/my-reading.png) |
-| Home page with "continue reading" | "Bacaan saya": last read, progress, bookmarks, backup |
+| ![Home page with continue reading](docs/screenshots/en/home.png) | ![My reading: last read, progress, bookmarks, backup](docs/screenshots/en/my-reading.png) |
+| Home page with "continue reading" | "My reading": last read, progress, bookmarks, backup |
 
 On phones the settings sit in a collapsible panel above the surah:
 
 <p>
-  <img src="docs/screenshots/mobile.png" alt="Reading page on a phone" width="260">
-  <img src="docs/screenshots/mobile-settings.png" alt="Settings panel on a phone" width="260">
+  <img src="docs/screenshots/en/mobile.png" alt="Reading page on a phone" width="260">
+  <img src="docs/screenshots/en/mobile-settings.png" alt="Settings panel on a phone" width="260">
 </p>
 
 ## Environments and URLs

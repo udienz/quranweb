@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
-import { meaningOf, revelationLabel } from "@/lib/quran/labels";
+import { meaningOf } from "@/lib/quran/labels";
 
 export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
+  const { t, tn, locale } = useI18n();
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -15,20 +17,20 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
       (s) =>
         String(s.number) === term ||
         s.name.latin.toLowerCase().includes(term) ||
-        meaningOf(s).toLowerCase().includes(term),
+        meaningOf(s, locale).toLowerCase().includes(term),
     );
-  }, [q, surahs]);
+  }, [q, surahs, locale]);
 
   return (
     <section>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="font-display text-xl font-semibold">Daftar surat</h2>
+        <h2 className="font-display text-xl font-semibold">{t("home.listTitle")}</h2>
         <input
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Cari nama atau nomor…"
-          aria-label="Cari surat"
+          placeholder={t("home.searchPlaceholder")}
+          aria-label={t("home.searchLabel")}
           className="w-full rounded-full border border-border bg-card px-4 py-2 text-sm outline-none focus:border-primary sm:w-72"
         />
       </div>
@@ -45,7 +47,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-semibold">{s.name.latin}</span>
                 <span className="block truncate text-xs text-muted-foreground">
-                  {meaningOf(s)} · {s.ayatCount} ayat · {revelationLabel(s.revelation)}
+                  {meaningOf(s, locale)} · {tn("common.verses", s.verseCount)} · {t(`revelation.${s.revelation}`)}
                 </span>
               </span>
               <span className="font-arabic text-2xl text-primary" dir="rtl">
@@ -55,7 +57,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
           </li>
         ))}
       </ul>
-      {filtered.length === 0 && <p className="py-10 text-center text-muted-foreground">Surat tidak ditemukan.</p>}
+      {filtered.length === 0 && <p className="py-10 text-center text-muted-foreground">{t("home.noResults")}</p>}
     </section>
   );
 }

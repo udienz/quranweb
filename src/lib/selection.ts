@@ -1,6 +1,6 @@
-// Pilihan edisi dan qari milik pengguna. Disimpan di cookie supaya server bisa
-// membaca saat merender halaman. Isinya hanya ID edisi; server tetap
-// memvalidasinya terhadap katalog, jadi nilai yang rusak atau diubah diabaikan.
+// The reader's choice of editions and reciter. It is kept in a cookie so that the
+// server can read it when rendering a page. It only holds edition IDs; the server still
+// validates them against the catalog, so a broken or tampered value is ignored.
 
 import type { Selection } from "./quran/types";
 

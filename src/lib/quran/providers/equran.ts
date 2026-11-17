@@ -1,6 +1,8 @@
-// Adaptor EQuran.id API v2 (https://equran.id/apidev/v2). Bisa diarahkan ke
-// mirror sendiri yang berformat sama lewat `baseUrl` (env QURAN_API_URL).
-// Sumber ayat dan tafsir: Kementerian Agama RI; audio: Verse By Verse Quran.
+// Adapter for the EQuran.id API v2 (https://equran.id/apidev/v2). It can also be
+// pointed to our own mirror of the same format through `baseUrl` (QURAN_API_URL).
+// Verses and tafsir come from the Indonesian Ministry of Religious Affairs (Kemenag);
+// the audio is by Verse By Verse Quran. The field names below (nomor, namaLatin, ...)
+// are the API's own and are only used inside this file.
 
 import { cache } from "react";
 import type { AudioProvider, TextProvider } from "../provider";
@@ -12,7 +14,10 @@ export const EQURAN_AUDIO_URL = "https://cdn.equran.id";
 const SOURCE: SourceInfo = {
   name: "EQuran.id",
   url: "https://equran.id",
-  attribution: "Kementerian Agama RI, melalui EQuran.id",
+  attribution: {
+    en: "Indonesian Ministry of Religious Affairs (Kemenag), via EQuran.id",
+    id: "Kementerian Agama RI, melalui EQuran.id",
+  },
 };
 
 export const EQURAN_EDITIONS: Edition[] = [
@@ -21,7 +26,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "arabic",
     language: "ar",
     direction: "rtl",
-    name: "Teks Arab",
+    name: { en: "Arabic text (EQuran.id)", id: "Teks Arab (EQuran.id)" },
     source: SOURCE,
   },
   {
@@ -29,7 +34,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "transliteration",
     language: "ar",
     direction: "ltr",
-    name: "Transliterasi Latin",
+    name: { en: "Latin transliteration", id: "Transliterasi Latin" },
     source: SOURCE,
   },
   {
@@ -37,7 +42,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "translation",
     language: "id",
     direction: "ltr",
-    name: "Terjemahan Kemenag RI",
+    name: { en: "Indonesian translation (Kemenag)", id: "Terjemahan Kemenag RI" },
     author: "Kementerian Agama RI",
     source: SOURCE,
   },
@@ -46,13 +51,13 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: "Tafsir Kemenag RI",
+    name: { en: "Tafsir (Kemenag, Indonesian)", id: "Tafsir Kemenag RI" },
     author: "Kementerian Agama RI",
     source: SOURCE,
   },
 ];
 
-// Kunci qari di API EQuran ("01".."06") dan nama folder di CDN-nya.
+// The API's reciter keys ("01".."06") map to these folders on its CDN.
 const QARIS = [
   { id: "abdullah-al-juhany", name: "Abdullah Al-Juhany", folder: "Abdullah-Al-Juhany" },
   { id: "abdul-muhsin-al-qasim", name: "Abdul Muhsin Al-Qasim", folder: "Abdul-Muhsin-Al-Qasim" },
@@ -63,9 +68,12 @@ const QARIS = [
 ];
 
 const AUDIO_SOURCE: SourceInfo = {
-  name: "Verse By Verse Quran, melalui EQuran.id",
+  name: "Verse By Verse Quran, via EQuran.id",
   url: "https://equran.id",
-  attribution: "Verse By Verse Quran, melalui EQuran.id",
+  attribution: {
+    en: "Verse By Verse Quran, via EQuran.id",
+    id: "Verse By Verse Quran, melalui EQuran.id",
+  },
 };
 
 interface ApiEnvelope<T> {
@@ -84,7 +92,7 @@ interface RawSurah {
   deskripsi: string;
 }
 
-interface RawAyat {
+interface RawVerse {
   nomorAyat: number;
   teksArab: string;
   teksLatin: string;
@@ -92,21 +100,21 @@ interface RawAyat {
 }
 
 interface RawSurahDetail extends RawSurah {
-  ayat: RawAyat[];
+  ayat: RawVerse[];
 }
 
 interface RawTafsir {
   tafsir: { ayat: number; teks: string }[];
 }
 
-// Dibungkus cache() React supaya satu permintaan halaman yang butuh beberapa
-// edisi dari surat yang sama (Arab, Latin, terjemahan) hanya mengambil sekali.
-// Di luar React Server Components fungsi ini langsung dipanggil apa adanya.
+// Wrapped in React's cache() so that one page request that needs several editions of
+// the same surah (Arabic, Latin, translation) fetches it only once. Outside React
+// Server Components the function is simply called as is.
 const fetchData = cache(async (url: string): Promise<unknown> => {
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`Gagal memuat ${url} (status ${res.status})`);
+  if (!res.ok) throw new Error(`Failed to load ${url} (status ${res.status})`);
   const json = (await res.json()) as ApiEnvelope<unknown>;
-  if (json.code !== 200 || json.data == null) throw new Error(`Respons tidak valid dari ${url}`);
+  if (json.code !== 200 || json.data == null) throw new Error(`Invalid response from ${url}`);
   return json.data;
 });
 
@@ -121,13 +129,13 @@ export function stripHtml(html: string): string {
 function toRevelation(place: string): SurahMeta["revelation"] {
   if (place === "Mekah") return "mecca";
   if (place === "Madinah") return "medina";
-  throw new Error(`Tempat turun tidak dikenal: "${place}"`);
+  throw new Error(`Unknown place of revelation: "${place}"`);
 }
 
 export function toSurahMeta(raw: RawSurah): SurahMeta {
   return {
     number: raw.nomor,
-    ayatCount: raw.jumlahAyat,
+    verseCount: raw.jumlahAyat,
     name: { arabic: raw.nama, latin: raw.namaLatin, meaning: { id: raw.arti } },
     revelation: toRevelation(raw.tempatTurun),
     description: { id: stripHtml(raw.deskripsi) },
@@ -163,19 +171,19 @@ export function createEquranTextProvider(options: EquranOptions = {}): TextProvi
         };
       }
 
-      const pick: Record<string, (a: RawAyat) => string> = {
-        "ara-equran": (a) => a.teksArab,
-        "ara-equran-la": (a) => a.teksLatin,
-        "ind-kemenag": (a) => a.teksIndonesia,
+      const pick: Record<string, (v: RawVerse) => string> = {
+        "ara-equran": (v) => v.teksArab,
+        "ara-equran-la": (v) => v.teksLatin,
+        "ind-kemenag": (v) => v.teksIndonesia,
       };
       const field = pick[edition];
-      if (!field) throw new Error(`Provider equran tidak melayani edisi "${edition}"`);
+      if (!field) throw new Error(`The equran provider does not serve edition "${edition}"`);
 
       const raw = (await fetchData(`${base}/surat/${surah}`)) as RawSurahDetail;
       return {
         edition,
         surah,
-        verses: raw.ayat.map((a) => ({ number: a.nomorAyat, text: field(a).trim() })),
+        verses: raw.ayat.map((v) => ({ number: v.nomorAyat, text: field(v).trim() })),
       };
     },
   };
@@ -189,10 +197,10 @@ export function createEquranAudioProvider(options: EquranOptions = {}): AudioPro
   return {
     id: "equran-audio",
     qaris: () => qaris,
-    urls(qari, surah, ayat) {
+    urls(qari, surah, verse) {
       const found = QARIS.find((q) => q.id === qari);
-      if (!found) throw new Error(`Provider equran-audio tidak melayani qari "${qari}"`);
-      return [`${base}/audio-partial/${found.folder}/${pad(surah)}${pad(ayat)}.mp3`];
+      if (!found) throw new Error(`The equran-audio provider does not serve reciter "${qari}"`);
+      return [`${base}/audio-partial/${found.folder}/${pad(surah)}${pad(verse)}.mp3`];
     },
   };
 }

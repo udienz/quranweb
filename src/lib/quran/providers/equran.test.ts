@@ -20,7 +20,7 @@ function mockFetch(routes: Record<string, unknown>, status = 200) {
   const fn = vi.fn(async (url: string | URL | Request) => {
     const key = String(url);
     const data = routes[key];
-    if (data === undefined) return new Response("tidak ada", { status: 404 });
+    if (data === undefined) return new Response("not found", { status: 404 });
     return new Response(JSON.stringify({ code: 200, message: "ok", data }), { status });
   });
   vi.stubGlobal("fetch", fn);
@@ -29,31 +29,30 @@ function mockFetch(routes: Record<string, unknown>, status = 200) {
 
 afterEach(() => vi.unstubAllGlobals());
 
-describe("pemetaan metadata", () => {
-  it("menormalkan surat dan membuang HTML dari deskripsi", () => {
-    const meta = toSurahMeta(SURAH_1);
-    expect(meta).toEqual({
+describe("metadata mapping", () => {
+  it("normalizes a surah and strips HTML from the description", () => {
+    expect(toSurahMeta(SURAH_1)).toEqual({
       number: 1,
-      ayatCount: 2,
+      verseCount: 2,
       name: { arabic: "الفاتحة", latin: "Al-Fatihah", meaning: { id: "Pembukaan" } },
       revelation: "mecca",
       description: { id: "Surat Al Faatihah (Pembukaan) terdiri dari 7 ayat." },
     });
   });
 
-  it("menolak tempat turun yang tidak dikenal", () => {
+  it("rejects an unknown place of revelation", () => {
     expect(() => toSurahMeta({ ...SURAH_1, tempatTurun: "Atlantis" })).toThrow(/Atlantis/);
   });
 
-  it("stripHtml merapikan spasi", () => {
+  it("stripHtml tidies whitespace", () => {
     expect(stripHtml("a<br/>b  <b>c</b>")).toBe("a b c");
   });
 });
 
-describe("provider teks EQuran", () => {
+describe("EQuran text provider", () => {
   const base = "https://mirror.test/api/v2";
 
-  it("memetakan edisi Arab, Latin, terjemahan, dan tafsir", async () => {
+  it("maps the Arabic, Latin, translation and tafsir editions", async () => {
     const fetchMock = mockFetch({ [`${base}/surat/1`]: SURAH_1, [`${base}/tafsir/1`]: TAFSIR_1 });
     const p = createEquranTextProvider({ baseUrl: `${base}/` });
 
@@ -67,32 +66,43 @@ describe("provider teks EQuran", () => {
     expect(fetchMock).toHaveBeenCalledWith(`${base}/surat/1`);
   });
 
-  it("mengambil daftar surat", async () => {
+  it("fetches the surah list", async () => {
     mockFetch({ [`${base}/surat`]: [SURAH_1] });
     const list = await createEquranTextProvider({ baseUrl: base }).surahs!();
     expect(list.map((s) => s.name.latin)).toEqual(["Al-Fatihah"]);
   });
 
-  it("melempar galat untuk edisi yang tidak dilayani dan respons gagal", async () => {
+  it("throws for an edition it does not serve and for a failed response", async () => {
     mockFetch({ [`${base}/surat/1`]: SURAH_1 });
     const p = createEquranTextProvider({ baseUrl: base });
-    await expect(p.text("eng-lain", 1)).rejects.toThrow(/tidak melayani edisi "eng-lain"/);
+    await expect(p.text("eng-other", 1)).rejects.toThrow(/does not serve edition "eng-other"/);
     await expect(p.text("ind-kemenag", 2)).rejects.toThrow(/status 404/);
   });
 
-  it("menolak respons yang bukan envelope valid", async () => {
+  it("rejects a response that is not a valid envelope", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ code: 500, data: null }))));
-    await expect(createEquranTextProvider({ baseUrl: base }).text("ara-equran", 1)).rejects.toThrow(/tidak valid/);
+    await expect(createEquranTextProvider({ baseUrl: base }).text("ara-equran", 1)).rejects.toThrow(/Invalid response/);
   });
 
-  it("katalog edisi lengkap dan berformat benar", () => {
-    const ids = createEquranTextProvider().editions().map((e) => `${e.id}:${e.kind}`);
-    expect(ids).toEqual(["ara-equran:arabic", "ara-equran-la:transliteration", "ind-kemenag:translation", "ind-kemenag-tafsir:tafsir"]);
+  it("has a complete, well-formed edition catalog", () => {
+    const editions = createEquranTextProvider().editions();
+    expect(editions.map((e) => `${e.id}:${e.kind}`)).toEqual([
+      "ara-equran:arabic",
+      "ara-equran-la:transliteration",
+      "ind-kemenag:translation",
+      "ind-kemenag-tafsir:tafsir",
+    ]);
+    for (const e of editions) {
+      expect(e.name.en).toBeTruthy();
+      expect(e.name.id).toBeTruthy();
+      expect(e.source.attribution.en).toBeTruthy();
+      expect(e.source.attribution.id).toBeTruthy();
+    }
   });
 });
 
-describe("provider audio EQuran", () => {
-  it("membentuk URL dari pola CDN dengan nomor tiga digit", () => {
+describe("EQuran audio provider", () => {
+  it("builds the URL from the CDN pattern with three-digit numbers", () => {
     const p = createEquranAudioProvider({ audioBaseUrl: "https://audio.test/" });
     expect(p.urls("misyari-rasyid-al-afasi", 2, 255)).toEqual([
       "https://audio.test/audio-partial/Misyari-Rasyid-Al-Afasi/002255.mp3",
@@ -100,10 +110,10 @@ describe("provider audio EQuran", () => {
     expect(p.urls("abdurrahman-as-sudais", 114, 6)[0]).toMatch(/Abdurrahman-as-Sudais\/114006\.mp3$/);
   });
 
-  it("memakai CDN bawaan dan menolak qari yang tidak dikenal", () => {
+  it("uses the default CDN and rejects an unknown reciter", () => {
     const p = createEquranAudioProvider();
     expect(p.urls("yasser-al-dosari", 1, 1)[0]).toBe("https://cdn.equran.id/audio-partial/Yasser-Al-Dosari/001001.mp3");
-    expect(() => p.urls("tidak-ada", 1, 1)).toThrow(/tidak melayani qari/);
+    expect(() => p.urls("missing", 1, 1)).toThrow(/does not serve reciter/);
     expect(p.qaris()).toHaveLength(6);
   });
 });

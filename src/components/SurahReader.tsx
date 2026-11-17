@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { normalizeHash, verseFromId, verseId } from "@/lib/anchors";
+import { useI18n } from "@/lib/i18n/client";
+import { localized } from "@/lib/i18n/translate";
 import type { SurahView } from "@/lib/quran";
-import { meaningOf, revelationLabel } from "@/lib/quran/labels";
+import { meaningOf } from "@/lib/quran/labels";
 import { userDataActions } from "@/lib/userdata/store";
 import VerseCard from "./VerseCard";
 
@@ -18,40 +21,54 @@ export default function SurahReader({
   prev: number | null;
   next: number | null;
 }) {
-  const [mode, setMode] = useState<"bacaan" | "tafsir">("bacaan");
+  const { t, tn, locale } = useI18n();
+  const [mode, setMode] = useState<"reading" | "tafsir">("reading");
   const [playingN, setPlayingN] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  // Indeks URL audio yang sedang dicoba untuk ayat yang diputar (0 = utama).
+  // Index of the audio URL being tried for the verse that is playing (0 = preferred).
   const audioIndex = useRef(0);
   const { meta, verses } = view;
-  const editionInfo = Object.fromEntries(view.editions.map((e) => [e.id, { name: e.name, language: e.language }]));
+  const editionInfo = Object.fromEntries(
+    view.editions.map((e) => [e.id, { name: localized(e.name, locale), language: e.language }]),
+  );
 
-  // Catat ayat yang sedang ada di sekitar sepertiga atas layar sebagai "terakhir dibaca".
-  // Ditunda sebentar supaya menggulir cepat tidak menulis ke penyimpanan terus-menerus.
+  // Record the verse near the top third of the screen as the "last read" position.
+  // Debounced so that fast scrolling does not write to storage constantly.
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          const ayat = Number(entry.target.id.replace("ayat-", ""));
+          const verse = verseFromId(entry.target.id);
+          if (verse === null) continue;
           clearTimeout(timer);
-          timer = setTimeout(() => userDataActions.setLastRead(meta.number, ayat), 700);
+          timer = setTimeout(() => userDataActions.setLastRead(meta.number, verse), 700);
         }
       },
       { rootMargin: "-30% 0px -65% 0px" },
     );
-    document.querySelectorAll("article[id^='ayat-']").forEach((el) => observer.observe(el));
+    document.querySelectorAll("article[id^='verse-']").forEach((el) => observer.observe(el));
     return () => {
       clearTimeout(timer);
       observer.disconnect();
     };
   }, [meta.number, verses.length]);
-  // Kelompokkan nama edisi per atribusi: "Teks Arab, Terjemahan: Kemenag RI, melalui EQuran.id".
+  // Links copied from earlier versions end in "#ayat-N"; rewrite them to "#verse-N" and go there.
+  useEffect(() => {
+    const hash = normalizeHash(location.hash);
+    if (hash !== location.hash) {
+      history.replaceState(null, "", hash);
+      document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
+    }
+  }, []);
+
+  // Group the names by credit: "Arabic text, Translation: Ministry of Religious Affairs, via EQuran.id".
   const groups = new Map<string, string[]>();
-  for (const e of view.editions) groups.set(e.source.attribution, [...(groups.get(e.source.attribution) ?? []), e.name]);
-  groups.set(view.qari.source.attribution, [...(groups.get(view.qari.source.attribution) ?? []), `Audio ${view.qari.name}`]);
-  const attributions = [...groups].map(([attribution, names]) => `${names.join(", ")}: ${attribution}`);
+  const addCredit = (credit: string, name: string) => groups.set(credit, [...(groups.get(credit) ?? []), name]);
+  for (const e of view.editions) addCredit(localized(e.source.attribution, locale), localized(e.name, locale));
+  addCredit(localized(view.qari.source.attribution, locale), t("reader.audioBy", { qari: view.qari.name }));
+  const credits = [...groups].map(([credit, names]) => `${names.join(", ")}: ${credit}`);
 
   function startVerse(index: number) {
     const audio = audioRef.current;
@@ -61,7 +78,7 @@ export default function SurahReader({
     audio.src = verse.audio[0];
     setPlayingN(verse.number);
     audio.play().catch(() => setPlayingN(null));
-    document.getElementById(`ayat-${verse.number}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById(verseId(verse.number))?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   function togglePlay(index: number) {
@@ -96,7 +113,7 @@ export default function SurahReader({
   }
 
   function jump(n: number) {
-    document.getElementById(`ayat-${n}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(verseId(n))?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   const tabClass = (active: boolean) =>
@@ -120,7 +137,7 @@ export default function SurahReader({
             <div>
               <h1 className="font-display text-xl font-bold">{meta.name.latin}</h1>
               <p className="font-mono text-xs text-white/70">
-                {meta.ayatCount} ayat · {revelationLabel(meta.revelation)}
+                {tn("common.verses", meta.verseCount)} · {t(`revelation.${meta.revelation}`)}
               </p>
             </div>
           </div>
@@ -128,29 +145,29 @@ export default function SurahReader({
             {meta.name.arabic}
           </p>
         </div>
-        <p className="mt-3 text-sm text-white/75">{meaningOf(meta)}</p>
+        <p className="mt-3 text-sm text-white/75">{meaningOf(meta, locale)}</p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex gap-2">
-            <button type="button" className={tabClass(mode === "bacaan")} onClick={() => setMode("bacaan")}>
-              Bacaan
+            <button type="button" className={tabClass(mode === "reading")} onClick={() => setMode("reading")}>
+              {t("common.reading")}
             </button>
             <button type="button" className={tabClass(mode === "tafsir")} onClick={() => setMode("tafsir")}>
-              Tafsir
+              {t("common.tafsir")}
             </button>
           </div>
           <label className="flex items-center gap-2 text-sm text-white/85">
-            <span className="sr-only">Lompat ke ayat</span>
+            <span className="sr-only">{t("reader.jumpToVerse")}</span>
             <select
               defaultValue=""
               onChange={(e) => e.target.value && jump(Number(e.target.value))}
               className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
             >
               <option value="" disabled>
-                Ayat…
+                {t("reader.jumpPlaceholder")}
               </option>
               {verses.map((v) => (
                 <option key={v.number} value={v.number}>
-                  Ayat {v.number}
+                  {t("reader.verseOption", { number: v.number })}
                 </option>
               ))}
             </select>
@@ -159,7 +176,7 @@ export default function SurahReader({
       </header>
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
-        {mode === "bacaan" && meta.number !== 1 && meta.number !== 9 && (
+        {mode === "reading" && meta.number !== 1 && meta.number !== 9 && (
           <p dir="rtl" lang="ar" className="font-arabic border-b border-border py-8 text-center text-4xl text-primary">
             {BISMILLAH}
           </p>
@@ -176,21 +193,21 @@ export default function SurahReader({
           />
         ))}
         <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
-          Sumber: {attributions.join("; ")}.
+          {t("reader.sources", { list: credits.join("; ") })}.
         </p>
       </div>
 
       <nav className="mt-6 flex justify-between text-sm font-medium">
         {prev ? (
           <Link href={`/surah/${prev}`} className="rounded-full border border-border bg-card px-4 py-2 text-primary hover:bg-muted">
-            &larr; Surat sebelumnya
+            &larr; {t("reader.previousSurah")}
           </Link>
         ) : (
           <span />
         )}
         {next ? (
           <Link href={`/surah/${next}`} className="rounded-full border border-border bg-card px-4 py-2 text-primary hover:bg-muted">
-            Surat berikutnya &rarr;
+            {t("reader.nextSurah")} &rarr;
           </Link>
         ) : (
           <span />

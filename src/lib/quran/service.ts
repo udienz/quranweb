@@ -1,5 +1,5 @@
-// Layanan yang menyusun tampilan surat dari provider yang dikonfigurasi:
-// registri edisi, fallback antar provider, dan pemeriksaan data.
+// Builds the surah view from the configured providers: edition registry, fallback
+// between providers, and data checks.
 
 import type { AudioProvider, TextProvider } from "./provider";
 import type {
@@ -15,11 +15,13 @@ import type {
 } from "./types";
 
 export interface QuranConfig {
-  /** Urutan = prioritas: provider pertama dicoba dulu, sisanya jadi cadangan. */
+  /** Order = priority: the first provider is tried first, the rest are fallbacks. */
   textProviders: TextProvider[];
   audioProviders: AudioProvider[];
-  /** Pilihan bawaan; semua ID-nya harus ada di katalog. */
+  /** Default choices; every ID must exist in the catalog. */
   defaults: Selection;
+  /** Defaults that replace the general ones for an interface language (e.g. an English translation for "en"). */
+  localeDefaults?: Record<string, Partial<Selection>>;
 }
 
 function describeErrors(errors: unknown[]): string {
@@ -35,7 +37,7 @@ export function createQuranService(config: QuranConfig) {
         editions.set(edition.id, { edition, providers: [provider] });
       } else if (known.edition.kind !== edition.kind) {
         throw new Error(
-          `Edisi "${edition.id}" bertipe ${known.edition.kind} di satu provider dan ${edition.kind} di "${provider.id}"`,
+          `Edition "${edition.id}" is ${known.edition.kind} in one provider and ${edition.kind} in "${provider.id}"`,
         );
       } else {
         known.providers.push(provider);
@@ -54,9 +56,9 @@ export function createQuranService(config: QuranConfig) {
 
   function requireEdition(id: string, kind: EditionKind): Edition {
     const found = editions.get(id);
-    if (!found) throw new Error(`Edisi "${id}" tidak ada di katalog`);
+    if (!found) throw new Error(`Edition "${id}" is not in the catalog`);
     if (found.edition.kind !== kind) {
-      throw new Error(`Edisi "${id}" bertipe ${found.edition.kind}, bukan ${kind}`);
+      throw new Error(`Edition "${id}" has kind "${found.edition.kind}", expected "${kind}"`);
     }
     return found.edition;
   }
@@ -66,35 +68,61 @@ export function createQuranService(config: QuranConfig) {
     if (selection.transliteration) requireEdition(selection.transliteration, "transliteration");
     for (const id of selection.translations) requireEdition(id, "translation");
     if (selection.tafsir) requireEdition(selection.tafsir, "tafsir");
-    if (!qaris.has(selection.qari)) throw new Error(`Qari "${selection.qari}" tidak ada di katalog`);
+    if (!qaris.has(selection.qari)) throw new Error(`Reciter "${selection.qari}" is not in the catalog`);
   }
 
-  // Konfigurasi yang salah harus gagal sejak awal, bukan saat halaman dibuka.
+  // A wrong configuration must fail at startup, not when a page is opened.
   validate(config.defaults);
+  for (const [locale, defaults] of Object.entries(config.localeDefaults ?? {})) {
+    try {
+      validate({ ...config.defaults, ...defaults });
+    } catch (err) {
+      throw new Error(`Invalid defaults for locale "${locale}": ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
 
-  /** Gabungkan pilihan sebagian dengan bawaan, lalu periksa terhadap katalog. */
-  function resolveSelection(partial: Partial<Selection> = {}): Selection {
-    const selection: Selection = { ...config.defaults, ...partial };
+  /**
+   * Merge a partial choice over the defaults (general, then the interface language's),
+   * then check it against the catalog.
+   */
+  function resolveSelection(partial: Partial<Selection> = {}, locale?: string): Selection {
+    const selection: Selection = {
+      ...config.defaults,
+      ...(locale ? config.localeDefaults?.[locale] : undefined),
+      ...partial,
+    };
     validate(selection);
     return selection;
   }
 
   async function getSurahList(): Promise<SurahMeta[]> {
     const errors: unknown[] = [];
+    let list: SurahMeta[] | undefined;
     for (const provider of config.textProviders) {
       if (!provider.surahs) continue;
       try {
-        return await provider.surahs();
+        list = await provider.surahs();
+        break;
       } catch (err) {
         errors.push(err);
       }
     }
-    throw new Error(`Daftar surat tidak bisa dimuat: ${describeErrors(errors) || "tidak ada provider"}`);
+    if (!list) throw new Error(`The surah list could not be loaded: ${describeErrors(errors) || "no provider has it"}`);
+
+    // Optional extras (e.g. English meanings) from any provider; failures only lose the extras.
+    const extras = await Promise.all(
+      config.textProviders.map((p) => p.surahMeanings?.().catch(() => ({}) as Record<number, Record<string, string>>)),
+    );
+    return list.map((surah) => {
+      const meaning = { ...surah.name.meaning };
+      for (const extra of extras) Object.assign(meaning, extra?.[surah.number]);
+      return { ...surah, name: { ...surah.name, meaning } };
+    });
   }
 
   async function getEditionText(edition: string, surah: number): Promise<EditionText> {
     const entry = editions.get(edition);
-    if (!entry) throw new Error(`Edisi "${edition}" tidak ada di katalog`);
+    if (!entry) throw new Error(`Edition "${edition}" is not in the catalog`);
     const errors: unknown[] = [];
     for (const provider of entry.providers) {
       try {
@@ -103,29 +131,28 @@ export function createQuranService(config: QuranConfig) {
         errors.push(err);
       }
     }
-    throw new Error(`Edisi "${edition}" surat ${surah} tidak bisa dimuat: ${describeErrors(errors)}`);
+    throw new Error(`Edition "${edition}" surah ${surah} could not be loaded: ${describeErrors(errors)}`);
   }
 
   function checkVerses(text: EditionText, meta: SurahMeta): void {
-    const ok =
-      text.verses.length === meta.ayatCount && text.verses.every((v, i) => v.number === i + 1);
+    const ok = text.verses.length === meta.verseCount && text.verses.every((v, i) => v.number === i + 1);
     if (!ok) {
       throw new Error(
-        `Edisi "${text.edition}" surat ${meta.number}: ${text.verses.length} ayat, seharusnya ${meta.ayatCount} (berurutan dari 1)`,
+        `Edition "${text.edition}" surah ${meta.number}: ${text.verses.length} verses, expected ${meta.verseCount} (numbered from 1)`,
       );
     }
   }
 
-  function audioUrls(qari: string, surah: number, ayat: number): string[] {
-    const urls = (qaris.get(qari)?.providers ?? []).flatMap((p) => p.urls(qari, surah, ayat));
+  function audioUrls(qari: string, surah: number, verse: number): string[] {
+    const urls = (qaris.get(qari)?.providers ?? []).flatMap((p) => p.urls(qari, surah, verse));
     return [...new Set(urls)];
   }
 
-  async function getSurahView(number: number, partial?: Partial<Selection>): Promise<SurahView> {
+  async function getSurahView(number: number, partial?: Partial<Selection>, locale?: string): Promise<SurahView> {
     if (!Number.isInteger(number) || number < 1 || number > 114) {
-      throw new Error(`Nomor surat tidak valid: ${number}`);
+      throw new Error(`Invalid surah number: ${number}`);
     }
-    const selection = resolveSelection(partial);
+    const selection = resolveSelection(partial, locale);
 
     const ids = [
       selection.arabic,
@@ -139,13 +166,13 @@ export function createQuranService(config: QuranConfig) {
     ]);
 
     const meta = list.find((s) => s.number === number);
-    if (!meta) throw new Error(`Surat ${number} tidak ada di daftar surat`);
+    if (!meta) throw new Error(`Surah ${number} is not in the surah list`);
     for (const text of texts) checkVerses(text, meta);
 
     const byEdition = new Map(texts.map((t) => [t.edition, t]));
     const textOf = (id: string, i: number) => byEdition.get(id)!.verses[i].text;
 
-    const verses: VerseView[] = Array.from({ length: meta.ayatCount }, (_, i) => ({
+    const verses: VerseView[] = Array.from({ length: meta.verseCount }, (_, i) => ({
       number: i + 1,
       arabic: textOf(selection.arabic, i),
       transliteration: selection.transliteration ? textOf(selection.transliteration, i) : null,

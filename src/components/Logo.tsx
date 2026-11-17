@@ -1,4 +1,4 @@
-// Logo QuranWeb: buku terbuka dengan bintang segi delapan, warna mengikuti tema.
+// QuranWeb logo: an open book under an eight-pointed star, coloured by the theme.
 export default function Logo({ size = 32 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>

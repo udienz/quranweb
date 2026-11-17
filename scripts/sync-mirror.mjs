@@ -1,22 +1,22 @@
 #!/usr/bin/env node
-// Sinkronisasi mirror teks eQuran.id API v2 ke file JSON statis.
+// Sync a static mirror of the EQuran.id API v2 text as JSON files.
 //
 //   node scripts/sync-mirror.mjs [--out mirror] [--only 1,2,114] [--delay 500] [--force]
 //
-// Hasil (di bawah <out>/api/v2/):
-//   surat.json          daftar 114 surat       <- GET /surat
-//   surat/<n>.json      detail surat + ayat    <- GET /surat/<n>
-//   tafsir/<n>.json     tafsir per ayat        <- GET /tafsir/<n>
-//   ../../MANIFEST.json waktu ambil, jumlah file, sumber data
+// Output (under <out>/api/v2/):
+//   surat.json          the list of 114 surahs      <- GET /surat
+//   surat/<n>.json      a surah with its verses     <- GET /surat/<n>
+//   tafsir/<n>.json     the tafsir per verse        <- GET /tafsir/<n>
+//   ../../MANIFEST.json when it was fetched, number of requests, data source
 //
-// Sajikan dengan nginx (lihat scripts/mirror-nginx.conf.example), lalu set
-// QURAN_API_URL ke https://<domain>/api/v2. Kode aplikasi tidak berubah.
+// Serve it with nginx (see scripts/mirror-nginx.conf.example) and set QURAN_API_URL to
+// https://<domain>/api/v2. The app code does not change.
 //
-// Sopan terhadap sumber: berurutan (tanpa paralel), jeda antar request,
-// User-Agent yang jelas, hormati Retry-After, dan lewati file yang sudah
-// valid kecuali --force. Cakupan: hanya teks; audio TIDAK disalin.
+// Polite to the source: sequential (no parallel requests), a pause between requests,
+// a clear User-Agent, Retry-After is honoured, and files that are already valid are
+// skipped unless --force is given. Scope: text only; audio is NOT copied.
 //
-// Tanpa dependensi, butuh Node 18+.
+// No dependencies, needs Node 18+.
 
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -47,7 +47,7 @@ async function fetchJson(path) {
       if (res.ok) return await res.json();
       if (res.status === 429 || res.status >= 500) {
         const wait = Number(res.headers.get("retry-after")) * 1000 || 2000 * attempt;
-        console.warn(`  ${url} -> ${res.status}, coba lagi dalam ${wait} ms`);
+        console.warn(`  ${url} -> ${res.status}, retrying in ${wait} ms`);
         await sleep(wait);
         continue;
       }
@@ -57,11 +57,11 @@ async function fetchJson(path) {
       await sleep(2000 * attempt);
     }
   }
-  throw new Error(`${url} gagal setelah 5 percobaan`);
+  throw new Error(`${url} failed after 5 attempts`);
 }
 
-// Tulis atomik: tulis ke file sementara lalu rename, supaya nginx tidak pernah
-// menyajikan file setengah jadi.
+// Atomic write: write to a temporary file, then rename, so that nginx never serves a
+// half-written file.
 async function writeJson(file, data) {
   await mkdir(dirname(file), { recursive: true });
   const tmp = `${file}.tmp`;
@@ -79,7 +79,7 @@ async function readJson(file) {
 
 function assertEnvelope(json, what) {
   if (!json || json.code !== 200 || json.data == null) {
-    throw new Error(`${what}: respons bukan envelope {code:200,data} yang valid`);
+    throw new Error(`${what}: the response is not a valid {code:200,data} envelope`);
   }
   return json;
 }
@@ -87,22 +87,22 @@ function assertEnvelope(json, what) {
 const checks = {
   list(json) {
     if (!Array.isArray(json.data) || json.data.length !== 114) {
-      throw new Error(`daftar surat harus 114 item, dapat ${json.data?.length}`);
+      throw new Error(`the surah list must have 114 items, got ${json.data?.length}`);
     }
   },
   surat(json, n) {
     const d = json.data;
     if (d.nomor !== n || !Array.isArray(d.ayat) || d.ayat.length !== d.jumlahAyat) {
-      throw new Error(`surat ${n}: nomor atau jumlah ayat tidak cocok`);
+      throw new Error(`surah ${n}: the number or the verse count does not match`);
     }
     for (const a of d.ayat) {
-      if (!a.teksArab || !a.teksIndonesia || !a.audio) throw new Error(`surat ${n} ayat ${a.nomorAyat}: field kosong`);
+      if (!a.teksArab || !a.teksIndonesia || !a.audio) throw new Error(`surah ${n} verse ${a.nomorAyat}: an empty field`);
     }
   },
   tafsir(json, n) {
     const d = json.data;
     if (d.nomor !== n || !Array.isArray(d.tafsir) || d.tafsir.length !== d.jumlahAyat) {
-      throw new Error(`tafsir ${n}: nomor atau jumlah ayat tidak cocok`);
+      throw new Error(`tafsir ${n}: the number or the verse count does not match`);
     }
   },
 };
@@ -113,10 +113,10 @@ async function sync(path, file, check, n) {
     if (existing) {
       try {
         check(assertEnvelope(existing, path), n);
-        console.log(`lewati ${path} (sudah ada dan valid)`);
+        console.log(`skip   ${path} (already there and valid)`);
         return false;
       } catch {
-        /* file rusak: ambil ulang */
+        /* broken file: fetch it again */
       }
     }
   }
@@ -132,7 +132,7 @@ const numbers = opt.only
   ? opt.only.split(",").map((s) => Number(s.trim()))
   : Array.from({ length: 114 }, (_, i) => i + 1);
 if (numbers.some((n) => !Number.isInteger(n) || n < 1 || n > 114)) {
-  console.error("--only harus berisi nomor surat 1-114 dipisah koma");
+  console.error("--only must be a comma-separated list of surah numbers from 1 to 114");
   process.exit(2);
 }
 
@@ -149,8 +149,8 @@ await writeJson(join(opt.out, "MANIFEST.json"), {
   surahs: numbers.length,
   requestsMade: fetched,
   attribution: {
-    quranText: "Kementerian Agama Republik Indonesia (via EQuran.id)",
-    notes: "Terjemahan dan tafsir dilindungi hak cipta pemiliknya. Cantumkan sumber (EQuran.id) saat menampilkan.",
+    quranText: "Indonesian Ministry of Religious Affairs (Kemenag), via EQuran.id",
+    notes: "The translation and tafsir belong to their owners. Credit the source (EQuran.id) when showing them.",
   },
 });
-console.log(`\nSelesai: ${fetched} request baru, ${numbers.length} surat di ${API_DIR}`);
+console.log(`\nDone: ${fetched} new requests, ${numbers.length} surahs in ${API_DIR}`);

@@ -1,15 +1,7 @@
+import { localized } from "../i18n/translate";
 import type { SurahMeta } from "./types";
 
-const REVELATION: Record<SurahMeta["revelation"], string> = {
-  mecca: "Mekah",
-  medina: "Madinah",
-};
-
-export function revelationLabel(revelation: SurahMeta["revelation"]): string {
-  return REVELATION[revelation];
-}
-
-/** Arti nama surat dalam bahasa tertentu, jatuh ke bahasa pertama yang ada. */
-export function meaningOf(meta: SurahMeta, language = "id"): string {
-  return meta.name.meaning[language] ?? Object.values(meta.name.meaning)[0] ?? "";
+/** The meaning of a surah's name in a language, falling back to English or any available one. */
+export function meaningOf(meta: SurahMeta, language: string): string {
+  return localized(meta.name.meaning, language);
 }

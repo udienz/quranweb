@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Palet: teal tua, aksen emas, latar krem (mode terang) / teal gelap (mode gelap). */
+/* Palette: deep teal, gold accent, cream background (light) / dark teal (dark). */
 :root {
   --background: 42 33% 94%;
   --foreground: 190 28% 21%;
@@ -61,7 +61,7 @@ body {
   font-family: var(--font-arabic);
 }
 
-/* Scrollbar tipis untuk daftar surat. */
+/* Thin scrollbar for the surah list. */
 .thin-scroll {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--primary) / 0.35) transparent;

@@ -3,12 +3,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 export interface Prefs {
-  arab: boolean;
-  latin: boolean;
-  terjemahan: boolean;
+  arabic: boolean;
+  transliteration: boolean;
+  translation: boolean;
 }
 
-const DEFAULTS: Prefs = { arab: true, latin: true, terjemahan: true };
+const DEFAULTS: Prefs = { arabic: true, transliteration: true, translation: true };
 const KEY = "reading-prefs";
 
 const PrefsContext = createContext<{
@@ -23,12 +23,20 @@ export function usePrefs() {
 export default function PrefsProvider({ children }: { children: React.ReactNode }) {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULTS);
 
-  // Baca preferensi tersimpan setelah mount supaya HTML server dan client sama.
+  // Read the saved preferences after mount so the server and client HTML match.
   useEffect(() => {
     try {
       const saved = localStorage.getItem(KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (saved) setPrefs({ ...DEFAULTS, ...JSON.parse(saved) });
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Earlier versions saved the keys as arab, latin and terjemahan.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setPrefs({
+          arabic: parsed.arabic ?? parsed.arab ?? true,
+          transliteration: parsed.transliteration ?? parsed.latin ?? true,
+          translation: parsed.translation ?? parsed.terjemahan ?? true,
+        });
+      }
     } catch {}
   }, []);
 

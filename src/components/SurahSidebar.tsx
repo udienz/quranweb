@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 
@@ -12,10 +13,11 @@ export default function SurahSidebar({
   surahs: SurahMeta[];
   current?: number;
 }) {
+  const { t, locale } = useI18n();
   const [q, setQ] = useState("");
   const listRef = useRef<HTMLUListElement>(null);
 
-  // Gulirkan daftar ke surat yang sedang dibuka (hanya di dalam daftar, bukan halaman).
+  // Scroll the list to the open surah (inside the list only, not the page).
   useEffect(() => {
     const list = listRef.current;
     const active = list?.querySelector<HTMLElement>("[aria-current=page]");
@@ -29,21 +31,21 @@ export default function SurahSidebar({
       (s) =>
         String(s.number) === term ||
         s.name.latin.toLowerCase().includes(term) ||
-        meaningOf(s).toLowerCase().includes(term),
+        meaningOf(s, locale).toLowerCase().includes(term),
     );
-  }, [q, surahs]);
+  }, [q, surahs, locale]);
 
   return (
     <div className="flex flex-col gap-4">
       <section className="overflow-hidden rounded-2xl border border-border bg-card">
-        <h2 className="px-4 pt-4 font-display font-semibold">Daftar surat</h2>
+        <h2 className="px-4 pt-4 font-display font-semibold">{t("home.listTitle")}</h2>
         <div className="px-4 py-3">
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Cari nama atau nomor…"
-            aria-label="Cari surat"
+            placeholder={t("home.searchPlaceholder")}
+            aria-label={t("home.searchLabel")}
             className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
           />
         </div>
@@ -71,7 +73,7 @@ export default function SurahSidebar({
             );
           })}
           {filtered.length === 0 && (
-            <li className="px-4 py-6 text-center text-sm text-muted-foreground">Surat tidak ditemukan.</li>
+            <li className="px-4 py-6 text-center text-sm text-muted-foreground">{t("home.noResults")}</li>
           )}
         </ul>
       </section>

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Deploy quranweb ke server. Dijalankan DI SERVER dari workflow GitHub:
+# Deploy quranweb on the server. Run ON THE SERVER by the GitHub workflows:
 #   ssh server 'bash -s' -- <qa|prod> <git-ref> < scripts/deploy.sh
-# nginx + certbot di host sudah meneruskan domain ke port lokal di bawah.
+# nginx + certbot on the host already forward each domain to the local port below.
 #   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000 (data: mirror)
 #   prod -> quranweb.udienz.web.id,    127.0.0.1:3002 (data: mirror)
 set -euo pipefail
@@ -10,11 +10,11 @@ ENVIRONMENT="${1:?usage: deploy.sh <qa|prod> <git-ref>}"
 REF="${2:?usage: deploy.sh <qa|prod> <git-ref>}"
 
 case "$ENVIRONMENT" in
-  # API_URL dan FAWAZ_URL: sumber data aplikasi, mirror lokal di domain masing-masing
-  # (repo quranweb-data; disajikan nginx di /api/v2 dan /quran-api).
+  # API_URL and FAWAZ_URL: the app's data sources, our own mirrors on each domain
+  # (from the quranweb-data repository; served by nginx at /api/v2 and /quran-api).
   qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2";  FAWAZ_URL="https://quranweb-qa.udienz.web.id/quran-api" ;;
   prod) PORT=3002; API_URL="https://quranweb.udienz.web.id/api/v2";    FAWAZ_URL="https://quranweb.udienz.web.id/quran-api" ;;
-  *) echo "environment harus qa atau prod" >&2; exit 2 ;;
+  *) echo "environment must be qa or prod" >&2; exit 2 ;;
 esac
 
 NAME="quranweb-$ENVIRONMENT"
@@ -30,7 +30,7 @@ cd "$DIR"
 git fetch --tags origin
 git checkout --force --detach "$REF"
 
-# Simpan image sebelumnya supaya bisa rollback kalau deploy gagal.
+# Remember the previous image so we can roll back if the deploy fails.
 PREVIOUS="$(sudo docker image inspect -f '{{.Id}}' "$IMAGE" 2>/dev/null || true)"
 
 sudo docker build -t "$IMAGE" .
@@ -48,10 +48,10 @@ for i in $(seq 1 20); do
   sleep 2
 done
 
-echo "deploy $ENVIRONMENT GAGAL: app tidak merespons" >&2
+echo "deploy $ENVIRONMENT FAILED: the app does not answer" >&2
 sudo docker logs --tail 30 "$NAME" >&2
 if [ -n "$PREVIOUS" ]; then
-  echo "rollback ke image sebelumnya" >&2
+  echo "rolling back to the previous image" >&2
   sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
   sudo docker run -d --name "$NAME" --restart unless-stopped \
     -e QURAN_API_URL="$API_URL" -e QURAN_FAWAZ_URL="$FAWAZ_URL" \
