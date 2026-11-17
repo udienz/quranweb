@@ -50,7 +50,7 @@ export default async function SurahPage({
 
       <div className="flex flex-col gap-4">
         {surah.verses.map((verse) => (
-          <VerseCard key={verse.number.inQuran} verse={verse} />
+          <VerseCard key={verse.number.inSurah} verse={verse} />
         ))}
       </div>
 

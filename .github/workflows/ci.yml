@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Kosong = fallback ke live instance resmi gadingnst/quran-api.
+          # Kosong = default eQuran.id.
           # Halaman di-render per-request (instant = false), jadi build ini
           # tidak butuh akses ke API sama sekali — hanya memverifikasi
           # kode/bundle valid.
