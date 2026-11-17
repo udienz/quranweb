@@ -5,7 +5,10 @@ Konteks untuk Claude (atau siapa pun) yang mengerjakan repo ini.
 ## Apa ini
 
 Website bacaan Al-Qur'an publik: teks Arab, terjemahan Bahasa Indonesia, audio
-murottal, dan tafsir Bahasa Indonesia. **Tanpa panel admin.**
+murottal, dan tafsir Bahasa Indonesia. **Tanpa panel untuk mengubah isi
+Al-Qur'an.** Akun pengguna (login Google) dan manajemen pengguna direncanakan nanti.
+Rencana jangka panjang ada di `project/quranweb/ROADMAP.md` pada repo workspace
+`udienz/claude-project`.
 
 Dibangun dengan Next.js (App Router, TypeScript, Tailwind), menggantikan total
 aplikasi PHP lama. Kode PHP lama masih ada di branch `legacy-php` sebagai
@@ -130,6 +133,8 @@ Itu bukan bug di Dockerfile.
 
 ## Aturan kerja
 
-- Jangan tambahkan panel admin atau fitur manajemen konten — scope-nya
-  sengaja hanya website baca.
+- Jangan tambahkan panel atau fitur untuk mengubah surat, ayat, terjemahan, atau
+  tafsir: isi Al-Qur'an hanya berasal dari sumber yang sudah diverifikasi lewat
+  skrip sinkronisasi dan PR. Manajemen pengguna (lihat, nonaktifkan, hapus akun)
+  baru boleh ditambahkan bersama fitur akun (lihat roadmap).
 - Perubahan non-trivial lewat PR, bukan push langsung ke `master`.
