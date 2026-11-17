@@ -2,74 +2,139 @@
 
 import { useState } from "react";
 import type { Verse } from "@/lib/quran";
+import { usePrefs } from "./PrefsProvider";
 
-export default function VerseCard({ verse }: { verse: Verse }) {
-  const [showTafsir, setShowTafsir] = useState(false);
-  const [tafsirExpanded, setTafsirExpanded] = useState(false);
+const iconProps = {
+  width: 18,
+  height: 18,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.8,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+function IconButton({
+  label,
+  onClick,
+  active,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  active?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={`flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-muted ${
+        active ? "bg-primary-soft text-primary" : "text-muted-foreground"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default function VerseCard({
+  verse,
+  surahNumber,
+  mode,
+  playing,
+  onPlay,
+}: {
+  verse: Verse;
+  surahNumber: number;
+  mode: "bacaan" | "tafsir";
+  playing: boolean;
+  onPlay: () => void;
+}) {
+  const { prefs } = usePrefs();
+  const [copied, setCopied] = useState(false);
+  const n = verse.number.inSurah;
+
+  async function copyText() {
+    const text = `${verse.text.arab}\n\n${verse.translation.id}\n\n(QS ${surahNumber}:${n})`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {}
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(`${location.origin}/surah/${surahNumber}#ayat-${n}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {}
+  }
 
   return (
-    <article
-      id={`ayat-${verse.number.inSurah}`}
-      className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
-    >
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-xs font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-          {verse.number.inSurah}
-        </span>
-        <audio
-          controls
-          preload="none"
-          className="h-8 flex-1 max-w-[220px]"
-          src={verse.audio.primary}
-          onError={(e) => {
-            const fallback = verse.audio.secondary[0];
-            if (fallback && e.currentTarget.src !== fallback) {
-              e.currentTarget.src = fallback;
-            }
-          }}
-        >
-          Browser Anda tidak mendukung pemutar audio.
-        </audio>
+    <article id={`ayat-${n}`} className="scroll-mt-24 border-b border-border px-5 py-6 last:border-b-0 sm:px-8">
+      <div className="mb-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 rotate-45 items-center justify-center rounded-md bg-primary-soft text-primary">
+            <span className="-rotate-45 font-display text-xs font-bold">{n}</span>
+          </span>
+          <span className="font-mono text-xs text-muted-foreground">
+            {surahNumber}:{n}
+          </span>
+          {copied && <span className="text-xs text-primary">Tersalin</span>}
+        </div>
+        <div className="flex items-center">
+          <IconButton label={playing ? "Jeda audio" : "Putar audio"} onClick={onPlay} active={playing}>
+            {playing ? (
+              <svg {...iconProps}>
+                <path d="M8 5v14M16 5v14" />
+              </svg>
+            ) : (
+              <svg {...iconProps}>
+                <path d="M7 4.5v15l12-7.5z" />
+              </svg>
+            )}
+          </IconButton>
+          <IconButton label="Salin ayat" onClick={copyText}>
+            <svg {...iconProps}>
+              <rect x="9" y="9" width="11" height="11" rx="2" />
+              <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+            </svg>
+          </IconButton>
+          <IconButton label="Salin tautan ayat" onClick={copyLink}>
+            <svg {...iconProps}>
+              <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+            </svg>
+          </IconButton>
+        </div>
       </div>
 
-      <p dir="rtl" lang="ar" className="mb-3 text-right text-2xl leading-loose">
-        {verse.text.arab}
-      </p>
-
-      <p className="mb-2 text-sm italic text-zinc-500 dark:text-zinc-400">
-        {verse.text.transliteration.en}
-      </p>
-
-      <p className="text-zinc-800 dark:text-zinc-200">{verse.translation.id}</p>
-
-      <button
-        type="button"
-        onClick={() => setShowTafsir((v) => !v)}
-        className="mt-3 text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-400"
-      >
-        {showTafsir ? "Sembunyikan tafsir" : "Lihat tafsir"}
-      </button>
-
-      {showTafsir && (
-        <div className="mt-2 rounded-md bg-zinc-50 p-3 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-          <p>{verse.tafsir.id.short}</p>
-          {verse.tafsir.id.long && verse.tafsir.id.long !== verse.tafsir.id.short && (
-            <>
-              {tafsirExpanded && (
-                <p className="mt-2 whitespace-pre-line border-t border-zinc-200 pt-2 dark:border-zinc-700">
-                  {verse.tafsir.id.long}
-                </p>
-              )}
-              <button
-                type="button"
-                onClick={() => setTafsirExpanded((v) => !v)}
-                className="mt-2 text-xs font-medium text-emerald-700 hover:underline dark:text-emerald-400"
-              >
-                {tafsirExpanded ? "Tutup tafsir lengkap" : "Baca tafsir lengkap"}
-              </button>
-            </>
+      {mode === "bacaan" ? (
+        <>
+          {prefs.arab && (
+            <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[2.25rem] leading-[2.4] sm:text-[2.6rem]">
+              {verse.text.arab}
+            </p>
           )}
-        </div>
+          {prefs.latin && (
+            <p className="mb-3 text-[15px] italic leading-relaxed text-primary">{verse.text.transliteration.en}</p>
+          )}
+          {prefs.terjemahan && <p className="leading-relaxed">{verse.translation.id}</p>}
+        </>
+      ) : (
+        <>
+          <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-2xl leading-loose text-muted-foreground">
+            {verse.text.arab}
+          </p>
+          <p className="whitespace-pre-line leading-relaxed">
+            {verse.tafsir.id.short || "Tafsir untuk ayat ini belum tersedia."}
+          </p>
+        </>
       )}
     </article>
   );

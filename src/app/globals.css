@@ -1,24 +1,68 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Palet: teal tua, aksen emas, latar krem (mode terang) / teal gelap (mode gelap). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 42 33% 94%;
+  --foreground: 190 28% 21%;
+  --card: 0 0% 100%;
+  --muted: 44 29% 90%;
+  --muted-foreground: 191 13% 40%;
+  --border: 146 14% 89.5%;
+  --primary: 190 69% 29%;
+  --primary-soft: 190 40% 92%;
+  --gold: 39 65% 55%;
+  --hero-from: 190 70% 21%;
+  --hero-to: 192 64% 9%;
+}
+
+.dark {
+  --background: 192 64% 7.6%;
+  --foreground: 186 25% 92%;
+  --card: 192 54% 11%;
+  --muted: 193 46% 15%;
+  --muted-foreground: 191 13% 67%;
+  --border: 190 28% 17%;
+  --primary: 174 50% 48%;
+  --primary-soft: 193 46% 15%;
+  --gold: 42 67% 62%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-primary: hsl(var(--primary));
+  --color-primary-soft: hsl(var(--primary-soft));
+  --color-gold: hsl(var(--gold));
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", "Plus Jakarta Sans Variable", ui-sans-serif, sans-serif;
+  --font-arabic: "Amiri", "Scheherazade New", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+/* Scrollbar tipis untuk daftar surat. */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.35) transparent;
 }

@@ -4,7 +4,6 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # Ganti ke instance self-hosted Anda. Kosong = pakai live instance
-      # resmi (rate-limited, hanya cocok untuk testing).
+      # Opsional. Kosong = https://equran.id/api/v2
       QURAN_API_URL: ""
     restart: unless-stopped
