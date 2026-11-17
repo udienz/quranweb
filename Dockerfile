@@ -9,9 +9,9 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# QURAN_API_URL TIDAK dibutuhkan di sini: halaman di-render per-request
-# (lihat `export const instant = false` di src/app), bukan di-prerender
-# saat build, jadi build image tidak perlu akses jaringan ke API Qur'an.
+# The QURAN_* variables are NOT needed here: pages are rendered per request (see
+# `export const instant = false` in src/app) instead of prerendered at build time, so
+# building the image needs no network access to any Qur'an data source.
 RUN npm run build
 
 # 3. Runtime (standalone output Next.js — minim dependency)
@@ -30,6 +30,6 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-# Set QURAN_API_URL ke instance self-hosted Anda (lihat README),
-# contoh: docker run -e QURAN_API_URL=https://nama-instance-anda.vercel.app ...
+# Optionally point the data sources to your own mirrors (see the README), for example:
+#   docker run -e QURAN_API_URL=https://your-host/api/v2 -e QURAN_FAWAZ_URL=https://your-host/quran-api ...
 CMD ["node", "server.js"]

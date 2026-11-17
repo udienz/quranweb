@@ -1,13 +1,13 @@
 name: Deploy QA
 
-# Deploy otomatis ke https://quranweb-qa.udienz.web.id setelah push ke master.
-# Tidak aktif sampai repository variable QA_DEPLOY diset "true" dan secret
-# di bawah terisi (Settings > Secrets and variables > Actions):
-#   QA_SSH_HOST         host/IP server
-#   QA_SSH_PORT         port SSH
-#   QA_SSH_USER         user SSH (harus bisa `sudo docker` tanpa password)
-#   QA_SSH_PRIVATE_KEY  private key deploy (ed25519)
-#   QA_SSH_KNOWN_HOSTS  output `ssh-keyscan -p <port> <host>`
+# Deploys to https://quranweb-qa.udienz.web.id automatically after a push to master.
+# Inactive until the repository variable QA_DEPLOY is set to "true" and the secrets
+# below are filled in (Settings > Secrets and variables > Actions):
+#   QA_SSH_HOST         server host or IP
+#   QA_SSH_PORT         SSH port
+#   QA_SSH_USER         SSH user (must be able to run `sudo docker` without a password)
+#   QA_SSH_PRIVATE_KEY  deploy private key (ed25519)
+#   QA_SSH_KNOWN_HOSTS  output of `ssh-keyscan -p <port> <host>`
 
 on:
   push:
