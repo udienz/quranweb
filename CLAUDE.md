@@ -140,3 +140,8 @@ Itu bukan bug di Dockerfile.
   skrip sinkronisasi dan PR. Manajemen pengguna (lihat, nonaktifkan, hapus akun)
   baru boleh ditambahkan bersama fitur akun (lihat roadmap).
 - Perubahan non-trivial lewat PR, bukan push langsung ke `master`.
+- **README dua bahasa:** `README.md` berbahasa Inggris dan `README.id.md` berbahasa
+  Indonesia. Setiap perubahan pada salah satunya WAJIB dibuat juga di yang lain, dalam
+  commit yang sama (bagian, tabel, dan perintah harus tetap sejajar). Sebelum commit
+  yang menyentuh README, cek bahwa kedua file sudah diperbarui. Tautan bahasa di baris
+  kedua tiap file dipertahankan.

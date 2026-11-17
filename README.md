@@ -1,69 +1,75 @@
 # QuranWeb
 
-Website bacaan Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia, audio murottal (Syekh Mishary Rashid Alafasy), dan tafsir Bahasa Indonesia. Dibangun dengan Next.js, menggantikan versi PHP lama (lihat branch `legacy-php` untuk kode sebelumnya).
+**English** · [Bahasa Indonesia](README.id.md)
 
-Tidak ada panel untuk mengubah isi Al-Qur'an — ini website baca untuk publik. Akun pengguna dan manajemen pengguna direncanakan nanti.
+A website for reading the Qur'an: Arabic text, Indonesian translation, recitation audio (Sheikh Mishary Rashid Alafasy), and Indonesian tafsir. Built with Next.js, replacing the old PHP version (see the `legacy-php` branch for the previous code).
 
-## Lingkungan dan URL
+There is no panel for editing the Qur'an content: this is a read-only website for the public. User accounts and user management are planned for later.
 
-| Lingkungan | URL | Untuk apa | Cara deploy | Sumber data |
+## Environments and URLs
+
+| Environment | URL | Purpose | How it is deployed | Data source |
 |---|---|---|---|---|
-| **Produksi** | https://quranweb.udienz.web.id | situs publik | otomatis saat tag rilis `v*` di-push (`deploy-prod.yml`), hanya untuk commit yang sudah ada di `master` | mirror di `https://quranweb.udienz.web.id/api/v2` |
-| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | otomatis di setiap push ke `master` (`deploy-qa.yml`) | mirror di `https://quranweb-qa.udienz.web.id/api/v2` |
-| Lokal | http://localhost:3000 | pengembangan | `npm run dev` | EQuran.id langsung (default) |
+| **Production** | https://quranweb.udienz.web.id | public site | automatically when a `v*` release tag is pushed (`deploy-prod.yml`), only for commits already on `master` | mirror at `https://quranweb.udienz.web.id/api/v2` |
+| **QA** | https://quranweb-qa.udienz.web.id | testing before release | automatically on every push to `master` (`deploy-qa.yml`) | mirror at `https://quranweb-qa.udienz.web.id/api/v2` |
+| Local | http://localhost:3000 | development | `npm run dev` | EQuran.id directly (default) |
 
-Keduanya berjalan di satu VM yang sama: container Docker (`quranweb-prod` dan `quranweb-qa`) di belakang nginx dengan sertifikat Let's Encrypt (certbot), dan DNS lewat Cloudflare. Deploy memakai SSH dan `scripts/deploy.sh`, yang membangun image di server dan kembali ke image sebelumnya kalau aplikasi baru tidak merespons.
+Both run on the same VM: Docker containers (`quranweb-prod` and `quranweb-qa`) behind nginx with Let's Encrypt certificates (certbot), with DNS through Cloudflare. Deployment uses SSH and `scripts/deploy.sh`, which builds the image on the server and rolls back to the previous image if the new app does not respond.
 
-Data teks disajikan dari mirror statis milik sendiri di path `/api/v2` pada tiap domain, bukan memanggil EQuran.id saat ada permintaan. Audio murottal masih dari `cdn.equran.id`. Rilis pertama: `v2.0.0` (2026-11-17).
+Text data is served from our own static mirror under `/api/v2` on each domain instead of calling EQuran.id on every request. Recitation audio still comes from `cdn.equran.id`. First release: `v2.0.0` (2026-11-17).
 
-## Menjalankan secara lokal
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Buka [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
-## Sumber Data
+## Data source
 
-Semua konten (teks Arab, transliterasi, terjemahan ID, audio murottal, tafsir ID) diambil dari [eQuran.id API v2](https://equran.id/apidev/v2) (`https://equran.id/api/v2`). Tidak perlu API key.
+All content (Arabic text, transliteration, Indonesian translation, recitation audio, Indonesian tafsir) comes from the [eQuran.id API v2](https://equran.id/apidev/v2) (`https://equran.id/api/v2`). No API key is needed.
 
-Untuk memakai instance lain yang berformat sama (mis. mirror sendiri), set environment variable:
+To use another instance with the same format (for example your own mirror), set the environment variable:
 ```
-QURAN_API_URL=https://host-anda/api/v2
+QURAN_API_URL=https://your-host/api/v2
 ```
-(lihat `.env.example`). Variabel ini sengaja tanpa prefix `NEXT_PUBLIC_` — dibaca di server saat request (halaman tidak di-prerender statis saat build), jadi bisa diganti kapan saja lewat env var platform / `docker run -e` tanpa perlu rebuild. Kalau kosong, dipakai `https://equran.id/api/v2`.
+(see `.env.example`). The variable intentionally has no `NEXT_PUBLIC_` prefix: it is read on the server at request time (pages are not prerendered statically at build), so it can be changed at any time through the platform's environment variables or `docker run -e` without a rebuild. If it is empty, `https://equran.id/api/v2` is used.
 
-Catatan: link audio per-ayat (`audio.primary`/`audio.secondary`) mengarah ke CDN eksternal (`cdn.alquran.cloud` / `cdn.islamic.network`), bukan ke instance API itu sendiri — jadi streaming audio tidak ikut terbatas rate limit API.
+Note: the per-verse audio links (`audio` on each verse, with qari `05` Mishary Rasyid Al-Afasi as the primary one) point to the external CDN `cdn.equran.id`, not to the API itself, so audio still depends on a third party.
 
-## Deploy
+## Deployment
 
-Push ke `main`/`master` dan deploy lewat [Vercel](https://vercel.com/new), atau platform hosting Next.js lain.
+Deployment targets our own VM through GitHub Actions and SSH, not Vercel: see the [Environments and URLs](#environments-and-urls) table above and the CI section below.
 
 ## Docker
 
-Ada `Dockerfile` (multi-stage, pakai [output `standalone`](https://nextjs.org/docs/app/api-reference/config/next-config-js/output) Next.js, image akhir berbasis `node:20-alpine`) untuk testing build secara lokal tanpa Vercel.
+There is a `Dockerfile` (multi-stage, using the Next.js [`standalone` output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), final image based on `node:20-alpine`), which is also used for server deployment.
 
 ```bash
-# build image
+# build the image
 docker build -t quranweb .
 
-# jalankan (QURAN_API_URL opsional, default eQuran.id)
+# run it (QURAN_API_URL is optional, defaults to eQuran.id)
 docker run -p 3000:3000 quranweb
 ```
 
-Atau pakai `docker-compose.yml` (edit `QURAN_API_URL` di file-nya dulu):
+Or use `docker-compose.yml` (edit `QURAN_API_URL` in it first):
 
 ```bash
 docker compose up --build
 ```
 
-Build image tidak butuh akses jaringan ke API Qur'an sama sekali — halaman di-render per-request (`export const instant = false`), bukan di-generate statis saat `next build`/`docker build`.
+Building the image needs no network access to the Qur'an API at all: pages are rendered per request (`export const instant = false`) instead of being generated statically during `next build` or `docker build`.
 
 ## CI (GitHub Actions)
 
-Workflow di `.github/workflows/`:
+Workflows in `.github/workflows/`:
 
-- **`ci.yml`** — jalan di tiap push ke `master` dan tiap PR: `npm run lint` dan `npm run build` (sudah termasuk type-check).
-- **`deploy-qa.yml`** dan **`deploy-prod.yml`** — deploy ke server lewat SSH (lihat `CLAUDE.md`). `Dockerfile` divalidasi saat deploy: image dibangun di server dan dikembalikan ke versi sebelumnya kalau app baru tidak merespons, jadi tidak ada build Docker terpisah di CI.
+- **`ci.yml`**: runs on every push to `master` and every PR: `npm run lint` and `npm run build` (which already includes the type check).
+- **`deploy-qa.yml`** and **`deploy-prod.yml`**: deploy to the server over SSH (see `CLAUDE.md`). The `Dockerfile` is validated at deploy time: the image is built on the server and rolled back to the previous version if the new app does not respond, so there is no separate Docker build in CI.
+
+## Documentation language
+
+This README is in English and [README.id.md](README.id.md) is the Indonesian version. Keep both in sync: any change to one must be made in the other in the same commit.
