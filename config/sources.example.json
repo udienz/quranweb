@@ -1,0 +1,22 @@
+{
+  "textProviders": [
+    { "type": "equran", "baseUrl": "/data/api/v2" },
+    { "type": "equran" },
+    {
+      "type": "fawazahmed0",
+      "baseUrl": "/data/quran-api",
+      "editions": ["ara-quranuthmanihaf", "ind-indonesianislam", "eng-abdullahyusufal", "eng-mohammedmarmadu"]
+    }
+  ],
+  "audioProviders": [{ "type": "equran-audio" }],
+  "defaults": {
+    "arabic": "ara-quranuthmanihaf",
+    "transliteration": "ara-equran-la",
+    "translations": ["ind-kemenag"],
+    "tafsir": "ind-kemenag-tafsir",
+    "qari": "misyari-rasyid-al-afasi"
+  },
+  "localeDefaults": {
+    "en": { "translations": ["eng-abdullahyusufal"] }
+  }
+}

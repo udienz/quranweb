@@ -7,4 +7,12 @@ services:
       # Optional. Empty = the defaults (https://equran.id/api/v2 and fawazahmed0 on jsDelivr).
       QURAN_API_URL: ""
       QURAN_FAWAZ_URL: ""
+      # To run from a local copy of the data (no HTTP at all), mount it and point to it:
+      #   QURAN_API_URL: /data/api/v2
+      #   QURAN_FAWAZ_URL: /data/quran-api
+      # To replace the whole source registry with a JSON file, see config/sources.example.json:
+      #   QURAN_CONFIG: /config/sources.json
+    # volumes:
+    #   - /srv/quranweb-mirror:/data:ro
+    #   - ./config/sources.json:/config/sources.json:ro
     restart: unless-stopped

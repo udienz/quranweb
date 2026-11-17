@@ -74,6 +74,8 @@ In production both text sources are served from our own static mirrors, so the s
 
 They are plain JSON files kept in a separate data repository. Recitation audio still comes from `cdn.equran.id`. Every edition's source is credited in the UI and in its entry in `editions.json`.
 
+A base URL can also be a **directory with a local copy of that data** (for example `/data/api/v2`), and then the app makes no HTTP request at all for text: QA and production run this way, with the mirror directory mounted read-only into the container. To change which providers are active, their order, which editions are enabled and the defaults without touching code, point `QURAN_CONFIG` to a JSON file (see `config/sources.example.json`, which reads the local copy first and falls back to EQuran.id). The three variables above only fill in a `baseUrl` that the file leaves out.
+
 ## Docker
 
 There is a `Dockerfile` (multi-stage, using the Next.js [`standalone` output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), final image based on `node:20-alpine`), which is also used for server deployment.

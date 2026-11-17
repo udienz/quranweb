@@ -28,8 +28,15 @@ own format.
   the provider, named `{iso3-language}-{name}` like fawazahmed0 (for example
   `ind-kemenag`, `ara-quranuthmanihaf`). User choices are stored by these IDs.
 - **Providers** (`provider.ts`): a `TextProvider` maps one source to the schema; an
-  `AudioProvider` resolves audio URLs and is separate from text. The order in
-  `defaultConfig` (`index.ts`) is the priority, and later providers are fallbacks.
+  `AudioProvider` resolves audio URLs and is separate from text.
+- **Source registry** (`sources.ts`): which providers are active, in which order (the
+  priority; later ones are fallbacks), which fawazahmed0 editions are enabled and the
+  defaults. It is data: `DEFAULT_SOURCES` is the built-in registry, `QURAN_CONFIG` replaces
+  it with a JSON file (`config/sources.example.json`), and `parseSourceConfig` rejects typos,
+  unknown provider types and unknown editions with a message naming the path. The
+  `QURAN_*_URL` variables only fill in a `baseUrl` the registry leaves out; an explicit one wins.
+- **Transport** (`transport.ts`): a provider's base URL is an HTTP URL or a directory (or
+  `file://`) with a local copy of the mirror, so the app can run with no HTTP for text.
 - **Service** (`service.ts`): merges the catalogs, falls back between providers,
   validates the defaults against the catalog at startup, and checks every edition's
   verse count against the surah metadata, so a wrong or partial source fails with a
@@ -44,8 +51,9 @@ own format.
     (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall. They only extend the catalog.
     All have 6,236 verses and verse counts per surah identical to the EQuran.id
     metadata (verified for every surah).
-- **Adding a source** = write a provider, register it in `defaultConfig`, and record
-  its licence in the source register of the roadmap. No component changes.
+- **Adding a source** = write a provider, add its type to `sources.ts` (parser and
+  factory), and record its licence in the source register of the roadmap. No component
+  changes.
 - **Do not use `api.quran.gading.dev`**: it is limited to 10 requests per 5 minutes
   per IP, and its `preBismillah` payload lacks `number`, `audio` and `tafsir`, which
   crashed the UI.
@@ -95,7 +103,7 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   credit a text for it (`LocalizedText`), and add the intl code in `translate.ts`.
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With the English interface and no saved choice, the
-  default translation is English (`localeDefaults` in `defaultConfig`).
+  default translation is English (`localeDefaults` in the source registry).
 - **URLs, anchors and storage keys are English** (`/my-reading`, `#verse-12`, the field
   `verse` in `quranweb:user`). Older links keep working: `/saya` redirects to
   `/my-reading` and `#ayat-N` is rewritten to `#verse-N` in the browser.
@@ -115,9 +123,10 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL of an EQuran.id-format API (point it to our mirror) |
+| `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL (or local directory) of an EQuran.id-format API (point it to our mirror) |
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
-| `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL of a fawazahmed0-format API (point it to our mirror) |
+| `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
+| `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
 ## Project structure
 
@@ -142,7 +151,7 @@ src/
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
-      types.ts, provider.ts, service.ts, index.ts, labels.ts
+      types.ts, provider.ts, service.ts, sources.ts, transport.ts, index.ts, labels.ts
       providers/equran.ts, providers/fawazahmed0.ts
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     selection.ts               parse/serialize the selection cookie
@@ -154,6 +163,7 @@ scripts/
   deploy.sh                    server deploy (see CI and deployment)
   mirror-nginx.conf.example    nginx locations for the data mirrors
   sync-mirror.mjs              copy the EQuran.id text to static JSON
+config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
 ```
 
@@ -225,8 +235,10 @@ proxied.
 ### Data mirrors
 
 Both domains serve static JSON mirrors from `/srv/quranweb-mirror` (nginx locations in
-`scripts/mirror-nginx.conf.example`), and `deploy.sh` points `QURAN_API_URL` and
-`QURAN_FAWAZ_URL` at them:
+`scripts/mirror-nginx.conf.example`) as public APIs. The containers do not call them over
+HTTP: `deploy.sh` mounts the directory read-only at `/data` and sets `QURAN_API_URL=/data/api/v2`
+and `QURAN_FAWAZ_URL=/data/quran-api`, so the app reads the files directly (a deploy fails,
+and rolls back, if the directory is missing). The two mirrors are:
 
 - `/api/v2/...`: EQuran.id format (`surat.json`, `surat/{n}`, `tafsir/{n}`).
 - `/quran-api/...`: fawazahmed0 format (`editions.json`, `info.json`,
