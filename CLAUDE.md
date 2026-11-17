@@ -105,16 +105,23 @@ Itu bukan bug di Dockerfile.
 - **QA/demo:** https://quranweb-qa.udienz.web.id (server 103.155.224.33, container
   `quranweb-qa` di belakang nginx + certbot, DNS lewat Cloudflare). Deploy otomatis
   dari `master` lewat `deploy-qa.yml`.
-- **Mirror data (QA saja untuk saat ini):** salinan statis eQuran.id API v2 di
+- **Mirror data (QA dan produksi):** salinan statis eQuran.id API v2 di
   `/srv/quranweb-mirror` (dibuat `scripts/sync-mirror.mjs`, disajikan nginx di
-  `https://quranweb-qa.udienz.web.id/api/v2`, contoh konfigurasi di
-  `scripts/mirror-nginx.conf.example`). `deploy.sh qa` mengarahkan
-  `QURAN_API_URL` ke mirror itu. Cron bulanan (user `mahyuddin`, tanggal 1 pukul 03:17)
-  menyinkronkan ulang. Hanya teks; audio tetap dari `cdn.equran.id`. Syarat layanan
-  equran.id tidak tegas soal mirror (terjemahan, tafsir, audio dilindungi hak cipta):
-  izin tertulis ke admin@equran.id belum ada, jadi jangan dipakai di produksi sebelum itu.
+  `/api/v2` pada kedua domain, contoh konfigurasi di
+  `scripts/mirror-nginx.conf.example`). `deploy.sh` mengarahkan `QURAN_API_URL`
+  ke mirror di domain masing-masing. Mirror disalin SEKALI (17 Nov 2026) dan tidak
+  disinkronkan otomatis: teks Al-Qur'an tidak berubah. Kalau perlu memperbarui
+  (mis. koreksi terjemahan), jalankan manual
+  `node scripts/sync-mirror.mjs --out /srv/quranweb-mirror --force`. Timer systemd
+  `quranweb-mirror-sync.timer` sempat dipasang lalu dinonaktifkan. Server tidak
+  punya `crontab`. Hanya teks;
+  audio tetap dari `cdn.equran.id`. Dipakai di produksi atas keputusan pemilik
+  karena non-komersial (data tidak dijual, EQuran.id dan Kemenag RI dicantumkan
+  sebagai sumber). Catatan: syarat layanan equran.id tidak menyebut mirror secara
+  tegas dan menyatakan terjemahan, tafsir, audio dilindungi hak cipta; izin
+  tertulis dari admin@equran.id tidak tercatat di repo.
 - **Produksi:** https://quranweb.udienz.web.id (server sama, container
-  `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari eQuran.id).
+  `quranweb-prod` di `127.0.0.1:3002`, nginx + certbot, data dari mirror).
   Deploy lewat tag rilis, hanya untuk commit yang sudah ada di `master`:
   `git tag v1.0.0 && git push origin v1.0.0` memicu `deploy-prod.yml`
   (GitHub Environment `production`). Rollback: jalankan ulang workflow untuk tag lama.
