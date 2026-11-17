@@ -2,20 +2,29 @@
 # Deploy quranweb on the server. Run ON THE SERVER by the GitHub workflows:
 #   ssh server 'bash -s' -- <qa|prod> <git-ref> < scripts/deploy.sh
 # nginx + certbot on the host already forward each domain to the local port below.
-#   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000 (data: mirror)
-#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002 (data: mirror)
+#   qa   -> quranweb-qa.udienz.web.id, 127.0.0.1:3000
+#   prod -> quranweb.udienz.web.id,    127.0.0.1:3002
 set -euo pipefail
 
 ENVIRONMENT="${1:?usage: deploy.sh <qa|prod> <git-ref>}"
 REF="${2:?usage: deploy.sh <qa|prod> <git-ref>}"
 
 case "$ENVIRONMENT" in
-  # API_URL and FAWAZ_URL: the app's data sources, our own mirrors on each domain
-  # (from the quranweb-data repository; served by nginx at /api/v2 and /quran-api).
-  qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2";  FAWAZ_URL="https://quranweb-qa.udienz.web.id/quran-api" ;;
-  prod) PORT=3002; API_URL="https://quranweb.udienz.web.id/api/v2";    FAWAZ_URL="https://quranweb.udienz.web.id/quran-api" ;;
+  qa)   PORT=3000 ;;
+  prod) PORT=3002 ;;
   *) echo "environment must be qa or prod" >&2; exit 2 ;;
 esac
+
+# The app reads its data from the local copy of the mirrors (EQuran.id format under
+# api/v2, fawazahmed0 format under quran-api), mounted read-only into the container, so
+# it makes no HTTP request for text. nginx still serves the same files publicly at
+# /api/v2 and /quran-api. The directory comes from the quranweb-data repository.
+MIRROR_DIR="${MIRROR_DIR:-/srv/quranweb-mirror}"
+if [ ! -d "$MIRROR_DIR/api/v2" ] || [ ! -d "$MIRROR_DIR/quran-api" ]; then
+  echo "mirror directory $MIRROR_DIR does not have api/v2 and quran-api" >&2
+  exit 2
+fi
+DATA_ARGS=(-v "$MIRROR_DIR:/data:ro" -e QURAN_API_URL=/data/api/v2 -e QURAN_FAWAZ_URL=/data/quran-api)
 
 NAME="quranweb-$ENVIRONMENT"
 IMAGE="quranweb:$ENVIRONMENT"
@@ -36,7 +45,7 @@ PREVIOUS="$(sudo docker image inspect -f '{{.Id}}' "$IMAGE" 2>/dev/null || true)
 sudo docker build -t "$IMAGE" .
 sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
 sudo docker run -d --name "$NAME" --restart unless-stopped \
-  -e QURAN_API_URL="$API_URL" -e QURAN_FAWAZ_URL="$FAWAZ_URL" \
+  "${DATA_ARGS[@]}" \
   -p "127.0.0.1:$PORT:3000" "$IMAGE" >/dev/null
 
 for i in $(seq 1 20); do
@@ -54,7 +63,7 @@ if [ -n "$PREVIOUS" ]; then
   echo "rolling back to the previous image" >&2
   sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
   sudo docker run -d --name "$NAME" --restart unless-stopped \
-    -e QURAN_API_URL="$API_URL" -e QURAN_FAWAZ_URL="$FAWAZ_URL" \
+    "${DATA_ARGS[@]}" \
     -p "127.0.0.1:$PORT:3000" "$PREVIOUS" >/dev/null
 fi
 exit 1

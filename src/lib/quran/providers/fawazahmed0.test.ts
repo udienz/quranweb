@@ -73,7 +73,7 @@ describe("fawazahmed0 provider", () => {
   it("reports both URLs when both fail", async () => {
     mockFetch({});
     await expect(createFawazTextProvider({ baseUrl: BASE }).text("ara-quranuthmanihaf", 5)).rejects.toThrow(
-      /ara-quranuthmanihaf\/5.*5\.min\.json: status 404.*5\.json: status 404/,
+      /ara-quranuthmanihaf\/5.*5\.min\.json.*status 404.*5\.json.*status 404/,
     );
   });
 

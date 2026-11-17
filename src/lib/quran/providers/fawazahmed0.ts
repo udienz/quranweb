@@ -11,6 +11,7 @@
 
 import { cache } from "react";
 import type { TextProvider } from "../provider";
+import { loadJson } from "../transport";
 import type { Edition, EditionText, SourceInfo } from "../types";
 
 export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1";
@@ -113,11 +114,13 @@ interface RawInfo {
 
 export interface FawazOptions {
   /**
-   * A single base URL, e.g. our own mirror; when set, only this one is used.
-   * Empty = jsDelivr, then raw GitHub as a fallback. Production should use our own
-   * mirror (QURAN_FAWAZ_URL), not a public CDN.
+   * A single base URL, e.g. our own mirror (an HTTP URL, or a directory with the
+   * mirror's files); when set, only this one is used. Empty = jsDelivr, then raw GitHub
+   * as a fallback. Production should use our own mirror (QURAN_FAWAZ_URL), not a public CDN.
    */
   baseUrl?: string;
+  /** IDs of the editions to enable. Empty = all the editions listed above. */
+  editions?: string[];
 }
 
 /**
@@ -129,9 +132,7 @@ async function fetchJson<T>(bases: string[], path: string): Promise<T> {
   const errors: string[] = [];
   for (const url of urls) {
     try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`status ${res.status}`);
-      return (await res.json()) as T;
+      return (await loadJson(url)) as T;
     } catch (err) {
       errors.push(`${url}: ${err instanceof Error ? err.message : String(err)}`);
     }
@@ -144,11 +145,18 @@ const fetchInfo = cache((bases: string) => fetchJson<RawInfo>(bases.split("|"), 
 
 export function createFawazTextProvider(options: FawazOptions = {}): TextProvider {
   const bases = (options.baseUrl ? [options.baseUrl] : [FAWAZ_API_URL, FAWAZ_RAW_URL]).map((b) => b.replace(/\/$/, ""));
-  const known = new Set(FAWAZ_EDITIONS.map((e) => e.id));
+  const enabled = options.editions?.length
+    ? options.editions.map((id) => {
+        const found = FAWAZ_EDITIONS.find((e) => e.id === id);
+        if (!found) throw new Error(`Unknown fawazahmed0 edition "${id}"`);
+        return found;
+      })
+    : FAWAZ_EDITIONS;
+  const known = new Set(enabled.map((e) => e.id));
 
   return {
     id: "fawazahmed0",
-    editions: () => FAWAZ_EDITIONS,
+    editions: () => enabled,
 
     async surahMeanings() {
       const info = await fetchInfo(bases.join("|"));

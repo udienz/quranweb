@@ -1,11 +1,13 @@
 // Adapter for the EQuran.id API v2 (https://equran.id/apidev/v2). It can also be
-// pointed to our own mirror of the same format through `baseUrl` (QURAN_API_URL).
+// pointed to our own mirror of the same format through `baseUrl` (QURAN_API_URL): an
+// HTTP URL, or a directory with the mirror's files (`<dir>/surat.json`, ...).
 // Verses and tafsir come from the Indonesian Ministry of Religious Affairs (Kemenag);
 // the audio is by Verse By Verse Quran. The field names below (nomor, namaLatin, ...)
 // are the API's own and are only used inside this file.
 
 import { cache } from "react";
 import type { AudioProvider, TextProvider } from "../provider";
+import { isRemote, loadJson, toFilePath } from "../transport";
 import type { Edition, EditionText, Qari, SourceInfo, SurahMeta } from "../types";
 
 export const EQURAN_API_URL = "https://equran.id/api/v2";
@@ -110,13 +112,15 @@ interface RawTafsir {
 // Wrapped in React's cache() so that one page request that needs several editions of
 // the same surah (Arabic, Latin, translation) fetches it only once. Outside React
 // Server Components the function is simply called as is.
-const fetchData = cache(async (url: string): Promise<unknown> => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to load ${url} (status ${res.status})`);
-  const json = (await res.json()) as ApiEnvelope<unknown>;
-  if (json.code !== 200 || json.data == null) throw new Error(`Invalid response from ${url}`);
+const fetchData = cache(async (location: string): Promise<unknown> => {
+  const json = (await loadJson(location)) as ApiEnvelope<unknown>;
+  if (json.code !== 200 || json.data == null) throw new Error(`Invalid response from ${location}`);
   return json.data;
 });
+
+// A remote base serves `<base>/surat/1`; a local copy (the files of the mirror) stores
+// the same responses as `<dir>/surat/1.json`.
+const endpoint = (base: string, path: string) => (isRemote(base) ? `${base}${path}` : `${toFilePath(base)}${path}.json`);
 
 export function stripHtml(html: string): string {
   return html
@@ -157,13 +161,13 @@ export function createEquranTextProvider(options: EquranOptions = {}): TextProvi
     editions: () => EQURAN_EDITIONS,
 
     async surahs() {
-      const list = (await fetchData(`${base}/surat`)) as RawSurah[];
+      const list = (await fetchData(endpoint(base, "/surat"))) as RawSurah[];
       return list.map(toSurahMeta);
     },
 
     async text(edition, surah): Promise<EditionText> {
       if (edition === "ind-kemenag-tafsir") {
-        const raw = (await fetchData(`${base}/tafsir/${surah}`)) as RawTafsir;
+        const raw = (await fetchData(endpoint(base, `/tafsir/${surah}`))) as RawTafsir;
         return {
           edition,
           surah,
@@ -179,7 +183,7 @@ export function createEquranTextProvider(options: EquranOptions = {}): TextProvi
       const field = pick[edition];
       if (!field) throw new Error(`The equran provider does not serve edition "${edition}"`);
 
-      const raw = (await fetchData(`${base}/surat/${surah}`)) as RawSurahDetail;
+      const raw = (await fetchData(endpoint(base, `/surat/${surah}`))) as RawSurahDetail;
       return {
         edition,
         surah,
