@@ -109,9 +109,12 @@ Itu bukan bug di Dockerfile.
   `/srv/quranweb-mirror` (dibuat `scripts/sync-mirror.mjs`, disajikan nginx di
   `/api/v2` pada kedua domain, contoh konfigurasi di
   `scripts/mirror-nginx.conf.example`). `deploy.sh` mengarahkan `QURAN_API_URL`
-  ke mirror di domain masing-masing. Timer systemd `quranweb-mirror-sync.timer`
-  (tanggal 1 pukul 03:17, tanpa cron karena server tidak punya `crontab`)
-  menyinkronkan ulang; lihat `journalctl -u quranweb-mirror-sync`. Hanya teks;
+  ke mirror di domain masing-masing. Mirror disalin SEKALI (17 Nov 2026) dan tidak
+  disinkronkan otomatis: teks Al-Qur'an tidak berubah. Kalau perlu memperbarui
+  (mis. koreksi terjemahan), jalankan manual
+  `node scripts/sync-mirror.mjs --out /srv/quranweb-mirror --force`. Timer systemd
+  `quranweb-mirror-sync.timer` sempat dipasang lalu dinonaktifkan. Server tidak
+  punya `crontab`. Hanya teks;
   audio tetap dari `cdn.equran.id`. Dipakai di produksi atas keputusan pemilik
   karena non-komersial (data tidak dijual, EQuran.id dan Kemenag RI dicantumkan
   sebagai sumber). Catatan: syarat layanan equran.id tidak menyebut mirror secara
