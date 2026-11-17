@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAllSurah, getSurah } from "@/lib/quran";
+import { getAllSurah, getSurahView } from "@/lib/quran";
 import SurahReader from "@/components/SurahReader";
 import SurahSidebar from "@/components/SurahSidebar";
 
@@ -18,7 +18,7 @@ export default async function SurahPage({
     notFound();
   }
 
-  const [surah, surahs] = await Promise.all([getSurah(surahNumber), getAllSurah()]);
+  const [view, surahs] = await Promise.all([getSurahView(surahNumber), getAllSurah()]);
 
   return (
     <div className="mx-auto grid max-w-[1200px] gap-6 px-4 py-6 lg:grid-cols-[320px_1fr]">
@@ -28,7 +28,7 @@ export default async function SurahPage({
         </div>
       </aside>
       <SurahReader
-        surah={surah}
+        view={view}
         prev={surahNumber > 1 ? surahNumber - 1 : null}
         next={surahNumber < 114 ? surahNumber + 1 : null}
       />

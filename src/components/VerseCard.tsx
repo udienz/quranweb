@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Verse } from "@/lib/quran";
+import type { VerseView } from "@/lib/quran";
 import { usePrefs } from "./PrefsProvider";
 
 const iconProps = {
@@ -49,7 +49,7 @@ export default function VerseCard({
   playing,
   onPlay,
 }: {
-  verse: Verse;
+  verse: VerseView;
   surahNumber: number;
   mode: "bacaan" | "tafsir";
   playing: boolean;
@@ -57,10 +57,11 @@ export default function VerseCard({
 }) {
   const { prefs } = usePrefs();
   const [copied, setCopied] = useState(false);
-  const n = verse.number.inSurah;
+  const n = verse.number;
 
   async function copyText() {
-    const text = `${verse.text.arab}\n\n${verse.translation.id}\n\n(QS ${surahNumber}:${n})`;
+    const translation = verse.translations.map((t) => t.text).join("\n\n");
+    const text = `${verse.arabic}\n\n${translation}\n\n(QS ${surahNumber}:${n})`;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -118,21 +119,26 @@ export default function VerseCard({
         <>
           {prefs.arab && (
             <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[2.25rem] leading-[2.4] sm:text-[2.6rem]">
-              {verse.text.arab}
+              {verse.arabic}
             </p>
           )}
-          {prefs.latin && (
-            <p className="mb-3 text-[15px] italic leading-relaxed text-primary">{verse.text.transliteration.en}</p>
+          {prefs.latin && verse.transliteration && (
+            <p className="mb-3 text-[15px] italic leading-relaxed text-primary">{verse.transliteration}</p>
           )}
-          {prefs.terjemahan && <p className="leading-relaxed">{verse.translation.id}</p>}
+          {prefs.terjemahan &&
+            verse.translations.map((t) => (
+              <p key={t.edition} className="leading-relaxed">
+                {t.text}
+              </p>
+            ))}
         </>
       ) : (
         <>
           <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-2xl leading-loose text-muted-foreground">
-            {verse.text.arab}
+            {verse.arabic}
           </p>
           <p className="whitespace-pre-line leading-relaxed">
-            {verse.tafsir.id.short || "Tafsir untuk ayat ini belum tersedia."}
+            {verse.tafsir || "Tafsir untuk ayat ini belum tersedia."}
           </p>
         </>
       )}

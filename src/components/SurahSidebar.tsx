@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { SurahSummary } from "@/lib/quran";
+import type { SurahMeta } from "@/lib/quran";
+import { meaningOf } from "@/lib/quran/labels";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 
 const PREF_LABELS: { key: keyof Prefs; label: string }[] = [
@@ -16,7 +17,7 @@ export default function SurahSidebar({
   current,
   showPrefs = true,
 }: {
-  surahs: SurahSummary[];
+  surahs: SurahMeta[];
   current?: number;
   showPrefs?: boolean;
 }) {
@@ -37,8 +38,8 @@ export default function SurahSidebar({
     return surahs.filter(
       (s) =>
         String(s.number) === term ||
-        s.name.transliteration.id.toLowerCase().includes(term) ||
-        s.name.translation.id.toLowerCase().includes(term),
+        s.name.latin.toLowerCase().includes(term) ||
+        meaningOf(s).toLowerCase().includes(term),
     );
   }, [q, surahs]);
 
@@ -71,9 +72,9 @@ export default function SurahSidebar({
                   <span className="w-8 font-mono text-xs text-muted-foreground">
                     {String(s.number).padStart(3, "0")}
                   </span>
-                  <span className="flex-1 font-medium">{s.name.transliteration.id}</span>
+                  <span className="flex-1 font-medium">{s.name.latin}</span>
                   <span className="font-arabic text-lg text-muted-foreground" dir="rtl">
-                    {s.name.short}
+                    {s.name.arabic}
                   </span>
                 </Link>
               </li>

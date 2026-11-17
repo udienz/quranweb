@@ -2,41 +2,49 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import type { SurahDetail } from "@/lib/quran";
+import type { SurahView } from "@/lib/quran";
+import { meaningOf, revelationLabel } from "@/lib/quran/labels";
 import VerseCard from "./VerseCard";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
 export default function SurahReader({
-  surah,
+  view,
   prev,
   next,
 }: {
-  surah: SurahDetail;
+  view: SurahView;
   prev: number | null;
   next: number | null;
 }) {
   const [mode, setMode] = useState<"bacaan" | "tafsir">("bacaan");
   const [playingN, setPlayingN] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const fallbackTried = useRef(false);
+  // Indeks URL audio yang sedang dicoba untuk ayat yang diputar (0 = utama).
+  const audioIndex = useRef(0);
+  const { meta, verses } = view;
+  // Kelompokkan nama edisi per atribusi: "Teks Arab, Terjemahan: Kemenag RI, melalui EQuran.id".
+  const groups = new Map<string, string[]>();
+  for (const e of view.editions) groups.set(e.source.attribution, [...(groups.get(e.source.attribution) ?? []), e.name]);
+  groups.set(view.qari.source.attribution, [...(groups.get(view.qari.source.attribution) ?? []), `Audio ${view.qari.name}`]);
+  const attributions = [...groups].map(([attribution, names]) => `${names.join(", ")}: ${attribution}`);
 
   function startVerse(index: number) {
     const audio = audioRef.current;
-    const verse = surah.verses[index];
-    if (!audio || !verse) return;
-    fallbackTried.current = false;
-    audio.src = verse.audio.primary;
-    setPlayingN(verse.number.inSurah);
+    const verse = verses[index];
+    if (!audio || !verse?.audio[0]) return;
+    audioIndex.current = 0;
+    audio.src = verse.audio[0];
+    setPlayingN(verse.number);
     audio.play().catch(() => setPlayingN(null));
-    document.getElementById(`ayat-${verse.number.inSurah}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById(`ayat-${verse.number}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   function togglePlay(index: number) {
     const audio = audioRef.current;
-    const verse = surah.verses[index];
+    const verse = verses[index];
     if (!audio || !verse) return;
-    if (playingN === verse.number.inSurah) {
+    if (playingN === verse.number) {
       audio.pause();
       setPlayingN(null);
     } else {
@@ -45,18 +53,18 @@ export default function SurahReader({
   }
 
   function onEnded() {
-    const idx = surah.verses.findIndex((v) => v.number.inSurah === playingN);
-    if (idx >= 0 && idx < surah.verses.length - 1) startVerse(idx + 1);
+    const idx = verses.findIndex((v) => v.number === playingN);
+    if (idx >= 0 && idx < verses.length - 1) startVerse(idx + 1);
     else setPlayingN(null);
   }
 
   function onError() {
     const audio = audioRef.current;
-    const verse = surah.verses.find((v) => v.number.inSurah === playingN);
-    const fallback = verse?.audio.secondary[0];
-    if (audio && fallback && !fallbackTried.current) {
-      fallbackTried.current = true;
-      audio.src = fallback;
+    const verse = verses.find((v) => v.number === playingN);
+    const next = verse?.audio[audioIndex.current + 1];
+    if (audio && next) {
+      audioIndex.current += 1;
+      audio.src = next;
       audio.play().catch(() => setPlayingN(null));
     } else {
       setPlayingN(null);
@@ -83,20 +91,20 @@ export default function SurahReader({
         <div className="flex items-center justify-between gap-4 border-b border-white/15 pb-4">
           <div className="flex items-center gap-4">
             <span className="flex h-11 w-11 shrink-0 rotate-45 items-center justify-center rounded-lg bg-white/10 ring-1 ring-gold/60">
-              <span className="-rotate-45 font-display text-sm font-bold text-gold">{surah.number}</span>
+              <span className="-rotate-45 font-display text-sm font-bold text-gold">{meta.number}</span>
             </span>
             <div>
-              <h1 className="font-display text-xl font-bold">{surah.name.transliteration.id}</h1>
+              <h1 className="font-display text-xl font-bold">{meta.name.latin}</h1>
               <p className="font-mono text-xs text-white/70">
-                {surah.numberOfVerses} ayat · {surah.revelation.id}
+                {meta.ayatCount} ayat · {revelationLabel(meta.revelation)}
               </p>
             </div>
           </div>
           <p className="font-arabic text-3xl text-gold" dir="rtl" lang="ar">
-            {surah.name.long}
+            {meta.name.arabic}
           </p>
         </div>
-        <p className="mt-3 text-sm text-white/75">{surah.name.translation.id}</p>
+        <p className="mt-3 text-sm text-white/75">{meaningOf(meta)}</p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex gap-2">
             <button type="button" className={tabClass(mode === "bacaan")} onClick={() => setMode("bacaan")}>
@@ -116,9 +124,9 @@ export default function SurahReader({
               <option value="" disabled>
                 Ayat…
               </option>
-              {surah.verses.map((v) => (
-                <option key={v.number.inSurah} value={v.number.inSurah}>
-                  Ayat {v.number.inSurah}
+              {verses.map((v) => (
+                <option key={v.number} value={v.number}>
+                  Ayat {v.number}
                 </option>
               ))}
             </select>
@@ -127,21 +135,24 @@ export default function SurahReader({
       </header>
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
-        {mode === "bacaan" && surah.number !== 1 && surah.number !== 9 && (
+        {mode === "bacaan" && meta.number !== 1 && meta.number !== 9 && (
           <p dir="rtl" lang="ar" className="font-arabic border-b border-border py-8 text-center text-4xl text-primary">
             {BISMILLAH}
           </p>
         )}
-        {surah.verses.map((verse, i) => (
+        {verses.map((verse, i) => (
           <VerseCard
-            key={verse.number.inSurah}
+            key={verse.number}
             verse={verse}
-            surahNumber={surah.number}
+            surahNumber={meta.number}
             mode={mode}
-            playing={playingN === verse.number.inSurah}
+            playing={playingN === verse.number}
             onPlay={() => togglePlay(i)}
           />
         ))}
+        <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
+          Sumber: {attributions.join("; ")}.
+        </p>
       </div>
 
       <nav className="mt-6 flex justify-between text-sm font-medium">

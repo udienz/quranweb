@@ -25,6 +25,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Test
+        run: npm test
+
       # Tidak ada step `tsc --noEmit` terpisah: tipe seperti `LayoutProps`
       # di-generate oleh Next.js sendiri saat build (`.next/types/`), jadi
       # tsc yang dijalankan sebelum build akan gagal dengan "Cannot find
