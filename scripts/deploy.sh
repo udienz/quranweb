@@ -10,10 +10,10 @@ ENVIRONMENT="${1:?usage: deploy.sh <qa|prod> <git-ref>}"
 REF="${2:?usage: deploy.sh <qa|prod> <git-ref>}"
 
 case "$ENVIRONMENT" in
-  # API_URL: sumber data aplikasi, mirror lokal di domain masing-masing
-  # (scripts/sync-mirror.mjs, disajikan nginx di /api/v2).
-  qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2" ;;
-  prod) PORT=3002; API_URL="https://quranweb.udienz.web.id/api/v2" ;;
+  # API_URL dan FAWAZ_URL: sumber data aplikasi, mirror lokal di domain masing-masing
+  # (repo quranweb-data; disajikan nginx di /api/v2 dan /quran-api).
+  qa)   PORT=3000; API_URL="https://quranweb-qa.udienz.web.id/api/v2";  FAWAZ_URL="https://quranweb-qa.udienz.web.id/quran-api" ;;
+  prod) PORT=3002; API_URL="https://quranweb.udienz.web.id/api/v2";    FAWAZ_URL="https://quranweb.udienz.web.id/quran-api" ;;
   *) echo "environment harus qa atau prod" >&2; exit 2 ;;
 esac
 
@@ -36,7 +36,7 @@ PREVIOUS="$(sudo docker image inspect -f '{{.Id}}' "$IMAGE" 2>/dev/null || true)
 sudo docker build -t "$IMAGE" .
 sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
 sudo docker run -d --name "$NAME" --restart unless-stopped \
-  -e QURAN_API_URL="$API_URL" \
+  -e QURAN_API_URL="$API_URL" -e QURAN_FAWAZ_URL="$FAWAZ_URL" \
   -p "127.0.0.1:$PORT:3000" "$IMAGE" >/dev/null
 
 for i in $(seq 1 20); do
@@ -54,7 +54,7 @@ if [ -n "$PREVIOUS" ]; then
   echo "rollback ke image sebelumnya" >&2
   sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
   sudo docker run -d --name "$NAME" --restart unless-stopped \
-    -e QURAN_API_URL="$API_URL" \
+    -e QURAN_API_URL="$API_URL" -e QURAN_FAWAZ_URL="$FAWAZ_URL" \
     -p "127.0.0.1:$PORT:3000" "$PREVIOUS" >/dev/null
 fi
 exit 1

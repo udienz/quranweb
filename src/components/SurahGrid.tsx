@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { SurahSummary } from "@/lib/quran";
+import type { SurahMeta } from "@/lib/quran";
+import { meaningOf, revelationLabel } from "@/lib/quran/labels";
 
-export default function SurahGrid({ surahs }: { surahs: SurahSummary[] }) {
+export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -13,8 +14,8 @@ export default function SurahGrid({ surahs }: { surahs: SurahSummary[] }) {
     return surahs.filter(
       (s) =>
         String(s.number) === term ||
-        s.name.transliteration.id.toLowerCase().includes(term) ||
-        s.name.translation.id.toLowerCase().includes(term),
+        s.name.latin.toLowerCase().includes(term) ||
+        meaningOf(s).toLowerCase().includes(term),
     );
   }, [q, surahs]);
 
@@ -42,13 +43,13 @@ export default function SurahGrid({ surahs }: { surahs: SurahSummary[] }) {
                 <span className="-rotate-45 font-display text-xs font-bold">{s.number}</span>
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate font-semibold">{s.name.transliteration.id}</span>
+                <span className="block truncate font-semibold">{s.name.latin}</span>
                 <span className="block truncate text-xs text-muted-foreground">
-                  {s.name.translation.id} · {s.numberOfVerses} ayat · {s.revelation.id}
+                  {meaningOf(s)} · {s.ayatCount} ayat · {revelationLabel(s.revelation)}
                 </span>
               </span>
               <span className="font-arabic text-2xl text-primary" dir="rtl">
-                {s.name.short}
+                {s.name.arabic}
               </span>
             </Link>
           </li>
