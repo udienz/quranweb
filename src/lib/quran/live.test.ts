@@ -7,8 +7,12 @@ import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0
 import { createQuranService } from "./service";
 
 describe.skipIf(!process.env.LIVE)("sumber nyata", () => {
-  // LIVE_QURAN_API_URL: arahkan ke mirror sendiri supaya EQuran.id tidak dibebani.
-  const svc = createQuranService(defaultConfig({ QURAN_API_URL: process.env.LIVE_QURAN_API_URL }));
+  // LIVE_QURAN_API_URL dan LIVE_QURAN_FAWAZ_URL: arahkan ke mirror sendiri supaya sumber
+  // luar (EQuran.id, jsDelivr) tidak dibebani.
+  const fawazUrl = process.env.LIVE_QURAN_FAWAZ_URL;
+  const svc = createQuranService(
+    defaultConfig({ QURAN_API_URL: process.env.LIVE_QURAN_API_URL, QURAN_FAWAZ_URL: fawazUrl }),
+  );
   const mixed = {
     arabic: "ara-quranuthmanihaf",
     translations: ["ind-kemenag", "ind-indonesianislam", "eng-abdullahyusufal", "eng-mohammedmarmadu"],
@@ -30,7 +34,7 @@ describe.skipIf(!process.env.LIVE)("sumber nyata", () => {
     // Daftar surat diambil sekali; tiap edisi diuji langsung lewat providernya
     // (684 permintaan ke jsDelivr, berurutan per edisi).
     const list = await svc.getSurahList();
-    const provider = createFawazTextProvider();
+    const provider = createFawazTextProvider({ baseUrl: fawazUrl });
     let verses = 0;
     for (const e of FAWAZ_EDITIONS) {
       for (const s of list) {

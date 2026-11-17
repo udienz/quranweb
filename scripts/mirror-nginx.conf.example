@@ -14,3 +14,19 @@ location /api/v2/ {
     add_header Cache-Control "public, max-age=86400";
     add_header Access-Control-Allow-Origin "*";
 }
+
+# API statis berformat fawazahmed0/quran-api (hasil scripts/sync-fawaz.mjs di repo
+# quranweb-data, disalin ke <root>/quran-api). `.json` dan `.min.json` sama-sama
+# dilayani dari berkas `.min.json`. Set QURAN_FAWAZ_URL=https://<domain>/quran-api.
+#
+# /quran-api/editions.json                  -> katalog edisi
+# /quran-api/info.json                      -> metadata Al-Qur'an
+# /quran-api/editions/<edisi>/<surat>.json  -> satu surat
+location ~ ^/quran-api/(.+?)(\.min)?\.json$ {
+    root /srv/quranweb-mirror;
+    default_type application/json;
+    try_files /quran-api/$1.min.json =404;
+
+    add_header Cache-Control "public, max-age=86400";
+    add_header Access-Control-Allow-Origin "*";
+}
