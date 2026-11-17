@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getSurah } from "@/lib/quran";
-import VerseCard from "@/components/VerseCard";
+import { getAllSurah, getSurah } from "@/lib/quran";
+import SurahReader from "@/components/SurahReader";
+import SurahSidebar from "@/components/SurahSidebar";
 
 // Render per-request — lihat catatan di app/page.tsx.
 export const instant = false;
@@ -18,58 +18,20 @@ export default async function SurahPage({
     notFound();
   }
 
-  const surah = await getSurah(surahNumber);
-
-  const prev = surahNumber > 1 ? surahNumber - 1 : null;
-  const next = surahNumber < 114 ? surahNumber + 1 : null;
+  const [surah, surahs] = await Promise.all([getSurah(surahNumber), getAllSurah()]);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <Link href="/" className="mb-4 inline-block text-sm text-emerald-700 hover:underline dark:text-emerald-400">
-        &larr; Daftar surah
-      </Link>
-
-      <div className="mb-6 rounded-lg border border-zinc-200 bg-white p-5 text-center dark:border-zinc-800 dark:bg-zinc-900">
-        <p dir="rtl" className="text-2xl">
-          {surah.name.long}
-        </p>
-        <h1 className="mt-1 text-xl font-semibold">
-          {surah.name.transliteration.id} &middot; {surah.name.translation.id}
-        </h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          {surah.revelation.id} &middot; {surah.numberOfVerses} ayat
-        </p>
-        <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">{surah.tafsir.id}</p>
-      </div>
-
-      {surah.preBismillah && (
-        <div className="mb-4">
-          <VerseCard verse={surah.preBismillah} />
+    <div className="mx-auto grid max-w-[1200px] gap-6 px-4 py-6 lg:grid-cols-[320px_1fr]">
+      <aside className="hidden lg:block">
+        <div className="sticky top-24">
+          <SurahSidebar surahs={surahs} current={surahNumber} />
         </div>
-      )}
-
-      <div className="flex flex-col gap-4">
-        {surah.verses.map((verse) => (
-          <VerseCard key={verse.number.inSurah} verse={verse} />
-        ))}
-      </div>
-
-      <div className="mt-8 flex justify-between text-sm">
-        {prev ? (
-          <Link href={`/surah/${prev}`} className="text-emerald-700 hover:underline dark:text-emerald-400">
-            &larr; Surah sebelumnya
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link href={`/surah/${next}`} className="text-emerald-700 hover:underline dark:text-emerald-400">
-            Surah berikutnya &rarr;
-          </Link>
-        ) : (
-          <span />
-        )}
-      </div>
+      </aside>
+      <SurahReader
+        surah={surah}
+        prev={surahNumber > 1 ? surahNumber - 1 : null}
+        next={surahNumber < 114 ? surahNumber + 1 : null}
+      />
     </div>
   );
 }

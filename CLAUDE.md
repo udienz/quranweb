@@ -44,14 +44,19 @@ arsip/referensi — jangan dikembangkan lagi, jangan di-merge ke `master`.
 ```
 src/
   app/
-    layout.tsx                 # shell halaman
-    page.tsx                   # daftar 114 surah
-    surah/[number]/page.tsx    # detail surah + daftar ayat
+    layout.tsx                 # shell: header, tema, font (@fontsource), footer
+    globals.css                # token warna (terang/gelap), font Amiri untuk Arab
+    page.tsx                   # beranda: hero + grid 114 surah
+    surah/[number]/page.tsx    # sidebar daftar surat + pembaca
   components/
-    VerseCard.tsx               # 1 ayat: Arab, transliterasi, terjemahan,
-                                 # audio player, toggle tafsir
+    SurahReader.tsx             # hero surat, tab Bacaan/Tafsir, lompat ayat, audio
+                                 # (satu <audio>, otomatis lanjut ke ayat berikutnya)
+    VerseCard.tsx               # 1 ayat: Arab, transliterasi, terjemahan / tafsir
+    SurahSidebar.tsx, SurahGrid.tsx  # daftar + pencarian surat
+    PrefsProvider.tsx           # preferensi bacaan (localStorage)
+    ThemeToggle.tsx, Logo.tsx
   lib/
-    quran.ts                    # client API + tipe data (getAllSurah, getSurah)
+    quran.ts                    # client API eQuran + tipe data (getAllSurah, getSurah)
 ```
 
 ## Build, lint, test lokal
