@@ -56,7 +56,7 @@ export const id: Messages = {
       },
       recipients: {
         title: "Siapa yang menerima data",
-        body: "Layanan masuk milik kami dan Google (cara Anda masuk), Cloudflare (DNS dan proksi situs), dan penyedia hosting server. Google Drive juga menyimpan salinan terenkripsi dari cadangan basis data: salinan itu dienkripsi di server kami sebelum dikirim dan kuncinya tidak ada di Google, sehingga Google tidak bisa membacanya. Kami tidak menjual data Anda dan tidak membagikannya untuk tujuan lain.",
+        body: "Layanan masuk milik kami dan Google (cara Anda masuk), Cloudflare (DNS dan proksi situs), dan penyedia hosting server. GitHub juga menyimpan salinan terenkripsi dari cadangan basis data, di repositori privat: salinan itu dienkripsi di server kami sebelum dikirim dan kuncinya tidak ada di GitHub, sehingga GitHub tidak bisa membacanya. Salinan yang lebih tua dari 30 hari dihapus, meski GitHub bisa menyimpan data yang dihapus sedikit lebih lama. Kami tidak menjual data Anda dan tidak membagikannya untuk tujuan lain.",
       },
       retention: {
         title: "Berapa lama data disimpan",

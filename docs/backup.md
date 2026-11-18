@@ -41,7 +41,36 @@ sudo systemctl start quranweb-backup@qa.service          # first run now; check 
 Keep `backup-key.txt` (the private key) somewhere safe and **not on the server**: without it the
 backups cannot be restored. Optional settings go in `/etc/quranweb/backup.env`.
 
-## Off-server copy: Google Drive with rclone
+## Off-server copy: a private GitHub repository (in use)
+
+`scripts/upload-git.sh` pushes the whole local backup folder (`/srv/quranweb-backups/<env>/`, the last 30 days, all
+age-encrypted) to the private repository `udienz/quranweb-backups` after every backup. Each run is one commit with no
+parent that replaces the branch, so files the server dropped also leave the repository's history (GitHub may keep
+unreachable data for a while before it collects it). Only new files are uploaded, because the clone in
+`/var/lib/quranweb/backup-git` remembers what the remote has. It refuses to push an empty folder, or fewer than 3 files
+while the remote has more, so a mistake on the server cannot wipe the off-server copy. A failed push fails the run (the
+local copy stays).
+
+The server writes with a **deploy key** (`/root/.ssh/quranweb-backup`) that can only write to that one repository, not to
+any other repository or the account. Settings in `/etc/quranweb/backup.env`:
+
+```
+UPLOAD_CMD=/usr/local/lib/quranweb/upload-git.sh
+BACKUP_GIT_REMOTE=git@github.com:udienz/quranweb-backups.git
+BACKUP_GIT_KEY=/root/.ssh/quranweb-backup
+```
+
+**Restore from GitHub** (on any machine with access to the repository and the age private key):
+
+```bash
+git clone git@github.com:udienz/quranweb-backups.git && cd quranweb-backups
+scripts/restore-db.sh qa/<file>.db.age <age-private-key-file> /path/to/restored.db   # from the quranweb repository
+```
+
+**New server:** create a new deploy key (`ssh-keygen -t ed25519 -f /root/.ssh/quranweb-backup -N ""`), add its public key
+to the repository with write access (Settings > Deploy keys), and remove the old one.
+
+## Alternative: Google Drive with rclone (not in use)
 
 The backups are encrypted before they leave the server, so the remote only ever holds files nobody can read without the
 age private key. `scripts/upload-rclone.sh` copies each new backup to `<remote>/<qa|prod>/`, checks that the size arrived
