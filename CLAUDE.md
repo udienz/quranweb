@@ -163,6 +163,23 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Choices:** an explicit change records `choices.theme` / `choices.fontSize` (newest wins, validated against the
   known values), so they follow a signed-in reader like the layout.
 
+### Playback at the end of a surah
+
+- **Playback mode** (`src/lib/playback.ts`): what the audio does after the last verse of a surah: `stop` (the default and the
+  old behaviour), `repeat` (the same surah from verse 1) or `next` (verse 1 of the next surah; after surah 114 it stops,
+  it does not wrap). `afterSurah` is the pure rule. A selector in the surah header chooses it; it is stored in local storage
+  (`quranweb:playback-mode`) and recorded as `choices.playbackMode`, so it follows the account like the theme (applied after a
+  sync by `playbackUpdate`, no refresh). A mode that is not one of the three is refused on import and on sync.
+- **One shared `<audio>` element** (`src/lib/audio.ts`), not one per page: moving on to the next surah replaces the page
+  component, and on iPhones and in Safari a new element may not start by itself while an element that a tap started may. The
+  reader attaches its `ended` and `error` listeners in an effect (to the latest handlers) and pauses the element when it is left.
+- **Hand-over between pages** is `setPendingStart` / `takePendingStart` (the verse playback is heading for, kept in module
+  state, which survives a client-side navigation): used for the next page of a surah, the first page again, and the next
+  surah. A repeat of a one-page surah just restarts verse 1.
+- **Testing audio in a browser:** route `**/*.mp3` to a short generated WAV so `ended` fires at once, and read the requested
+  URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
+  the error is easy to swallow): poll with `page.evaluate` in a loop instead.
+
 ### Paging of long surahs
 
 A surah is shown 10 verses at a time (`PAGE_SIZE` in `src/lib/pagination.ts`), so Al-Baqarah
@@ -415,6 +432,7 @@ src/
     selection.ts               parse/serialize the selection cookie
     layout.ts                  the layout choice (mushaf or cards, cookie qw-layout)
     display.ts                 theme and text size: steps, storage, the no-flash head script, account updates
+    playback.ts, audio.ts      audio at the end of a surah (stop, repeat, next); the one shared <audio> element
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper

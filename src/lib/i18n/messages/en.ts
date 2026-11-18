@@ -51,7 +51,7 @@ export const en = {
       },
       account: {
         title: "If you sign in",
-        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed, and the editions, reciter, layout, theme, text size and interface language you choose, so they follow you to your other devices, your bookmark collections, your daily goal and how many verses you marked as read on each of the last 120 days.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them. The person who runs the site can see the list of accounts (name, email address, when each was created and last signed in) and can disable or delete an account; they cannot see your reading data from that list, and each such action is recorded.",
+        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed, and the editions, reciter, layout, theme, text size, what audio does at the end of a surah and interface language you choose, so they follow you to your other devices, your bookmark collections, your daily goal and how many verses you marked as read on each of the last 120 days.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them. The person who runs the site can see the list of accounts (name, email address, when each was created and last signed in) and can disable or delete an account; they cannot see your reading data from that list, and each such action is recorded.",
       },
       cookies: {
         title: "Cookies",
@@ -148,6 +148,8 @@ export const en = {
     panel: "Surah list and settings",
     hidePanel: "Hide surah list and settings",
     showPanel: "Show surah list and settings",
+    whenEnds: "When the surah ends",
+    mode: { stop: "Stop at the end", repeat: "Repeat the surah", next: "Play the next surah" },
     jumpToVerse: "Jump to verse",
     jumpPlaceholder: "Verse…",
     verseOption: "Verse {number}",
