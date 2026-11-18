@@ -51,7 +51,7 @@ export const tr: Messages = {
       },
       account: {
         title: "Giriş yaparsanız",
-        body: "Giriş yapmak isteğe bağlıdır ve yalnızca okumanızı birden fazla cihazda saklamak için gereklidir. Google hesabınızla, kendi giriş hizmetimiz üzerinden giriş yaparsınız. Google bu hizmete adınızı ve e-posta adresinizi bildirir; bu site ise giriş hizmetinden bir tanımlayıcı, e-posta adresinizi ve adınızı alır.\n\nŞunları saklarız: bu tanımlayıcıyı, e-posta adresinizi, adınızı, hesabın oluşturulma zamanını ve son giriş zamanını, bir oturum kaydını (rastgele bir anahtar ve son kullanma tarihi) ve okuma verilerinizi: son okuduğunuz yer, sure başına ilerleme ve notlarınızla birlikte yer imleri (her biri en son değiştiği zamanla birlikte); diğer cihazlarınızda da geçerli olsun diye seçtiğiniz mealler, okuyucu, düzen, tema, yazı boyutu ve arayüz dili; yer imi koleksiyonlarınız, günlük hedefiniz ve son 120 günün her birinde kaç ayeti okundu olarak işaretlediğiniz.\n\nŞunları saklamayız: parolaları (hiçbirini görmeyiz), hesabınızla birlikte IP adresinizi veya tarayıcı türünüzü, ya da reklam veya analiz amaçlı hiçbir şeyi. Web sunucumuz ve Cloudflare, her web sitesi gibi, siteyi ulaştırmak için IP adreslerini işler. Notlar sunucumuzda düz metin olarak saklanır; bu yüzden notlara sır yazmayın. Siteyi işleten kişi hesap listesini (ad, e-posta adresi, her hesabın oluşturulma ve son giriş zamanı) görebilir ve bir hesabı devre dışı bırakabilir veya silebilir; bu listeden okuma verilerinizi göremez ve her işlem kaydedilir.",
+        body: "Giriş yapmak isteğe bağlıdır ve yalnızca okumanızı birden fazla cihazda saklamak için gereklidir. Google hesabınızla, kendi giriş hizmetimiz üzerinden giriş yaparsınız. Google bu hizmete adınızı ve e-posta adresinizi bildirir; bu site ise giriş hizmetinden bir tanımlayıcı, e-posta adresinizi ve adınızı alır.\n\nŞunları saklarız: bu tanımlayıcıyı, e-posta adresinizi, adınızı, hesabın oluşturulma zamanını ve son giriş zamanını, bir oturum kaydını (rastgele bir anahtar ve son kullanma tarihi) ve okuma verilerinizi: son okuduğunuz yer, sure başına ilerleme ve notlarınızla birlikte yer imleri (her biri en son değiştiği zamanla birlikte); diğer cihazlarınızda da geçerli olsun diye seçtiğiniz mealler, okuyucu, düzen, tema, yazı boyutu, bir surenin sonunda sesin ne yapacağı ve arayüz dili; yer imi koleksiyonlarınız, günlük hedefiniz ve son 120 günün her birinde kaç ayeti okundu olarak işaretlediğiniz.\n\nŞunları saklamayız: parolaları (hiçbirini görmeyiz), hesabınızla birlikte IP adresinizi veya tarayıcı türünüzü, ya da reklam veya analiz amaçlı hiçbir şeyi. Web sunucumuz ve Cloudflare, her web sitesi gibi, siteyi ulaştırmak için IP adreslerini işler. Notlar sunucumuzda düz metin olarak saklanır; bu yüzden notlara sır yazmayın. Siteyi işleten kişi hesap listesini (ad, e-posta adresi, her hesabın oluşturulma ve son giriş zamanı) görebilir ve bir hesabı devre dışı bırakabilir veya silebilir; bu listeden okuma verilerinizi göremez ve her işlem kaydedilir.",
       },
       cookies: {
         title: "Çerezler",
@@ -115,7 +115,7 @@ export const tr: Messages = {
     unknownLicence: "Kaynağa bakın",
     providersTitle: "Verilerin alındığı yerler",
     providers:
-      "Metinlerin çoğu ve tüm sesli okuyuşlar EQuran.id API'si üzerinden gelir; diğer yayımlar fawazahmed0/quran-api koleksiyonundan gelir. Bu site metnin kendi kopyasını tutar ve onu herkese açık bir yansı olarak sunar.",
+      "Metinlerin çoğu ve tüm sesli okuyuşlar EQuran.id API'si üzerinden gelir; diğer yayımlar fawazahmed0/quran-api koleksiyonundan gelir. Bu site metnin kendi kopyasını tutar ve onu herkese açık bir ayna olarak sunar.",
     codeTitle: "Kaynak kodu",
     code: "Bu sitenin kodu açıktır:",
     privacyLink: "Verilerinize nasıl davranıldığı: gizlilik politikası.",
@@ -148,6 +148,8 @@ export const tr: Messages = {
     panel: "Sure listesi ve ayarlar",
     hidePanel: "Sure listesini ve ayarları gizle",
     showPanel: "Sure listesini ve ayarları göster",
+    whenEnds: "Sure bittiğinde",
+    mode: { stop: "Sonunda dur", repeat: "Sureyi tekrarla", next: "Sonraki sureyi çal" },
     jumpToVerse: "Ayete git",
     jumpPlaceholder: "Ayet…",
     verseOption: "{number}. ayet",
@@ -196,16 +198,18 @@ export const tr: Messages = {
     savedInBrowser: "Seçimleriniz bu tarayıcıda saklanır.",
     allSettings: "Tüm ayarlar",
     show: { arabic: "Arapça metin", transliteration: "Okunuş", translation: "Meal" },
-    languages: { ar: "Arapça", id: "Endonezce", en: "İngilizce" },
+    languages: { ar: "Arapça", id: "Endonezce", en: "İngilizce", tr: "Türkçe" },
   },
   settingsPage: {
     title: "Ayarlar",
     subtitle: "Bu tarayıcıda saklanır, hesap gerekmez.",
     subtitleAccount: "Bu tarayıcıda saklanır; giriş yaptığınızda hesabınızla birlikte diğer cihazlarınıza da gelir.",
     sections: "Bölümler",
-    display: "Tema ve yazı boyutu",
+    display: "Dil, tema ve yazı boyutu",
   },
   display: {
+    language: "Arayüz dili",
+    languageHint: "Siz seçene kadar dil, tarayıcınızın diline göre belirlenir. Giriş yaptığınızda seçiminiz hesabınıza bağlı olur.",
     theme: "Tema",
     themeLight: "Açık",
     themeDark: "Koyu",

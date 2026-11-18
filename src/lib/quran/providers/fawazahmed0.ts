@@ -115,7 +115,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     author: "Diyanet İşleri Başkanlığı",
     source: source(
       "https://tanzil.net/trans/",
-      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil"),
+      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil", "Diyanet İşleri Başkanlığı, Tanzil"),
     ),
   },
 ];
