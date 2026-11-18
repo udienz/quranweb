@@ -30,6 +30,6 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-# Optionally point the data sources to your own mirrors (see the README), for example:
+# Optionally point the data sources to your own mirrors (see docs/development.md), for example:
 #   docker run -e QURAN_API_URL=https://your-host/api/v2 -e QURAN_FAWAZ_URL=https://your-host/quran-api ...
 CMD ["node", "server.js"]

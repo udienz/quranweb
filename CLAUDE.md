@@ -406,6 +406,7 @@ scripts/
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
+docs/development.md            running, Docker, data sources, environments, deployment
 ```
 
 ## Commands
@@ -528,6 +529,9 @@ Keep that footer link: the credit must stay one click away from every reading pa
   to one MUST be made in the other in the same commit (sections, tables and commands
   stay aligned). Before committing a change that touches a README, check that both
   files are updated, and keep the language links on the second line of each file.
+- **The READMEs are for readers**, not developers: what the site does, privacy, sources, how to
+  give feedback. Technical material (setup, Docker, data sources, deployment) goes in
+  `docs/development.md` (English only).
 - Screenshots in `docs/screenshots/en/` and `docs/screenshots/id/` show the real UI in each
   language (English README and Indonesian README respectively); retake both sets when the
   UI changes noticeably.
