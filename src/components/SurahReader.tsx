@@ -2,13 +2,23 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { normalizeHash, pageHref, verseFromHash, verseFromId, verseHref, verseId } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import { localized } from "@/lib/i18n/translate";
 import type { SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
+import { getAudio, setPendingStart, takePendingStart } from "@/lib/audio";
+import {
+  afterSurah,
+  applyPlaybackMode,
+  DEFAULT_PLAYBACK_MODE,
+  PLAYBACK_MODES,
+  readPlaybackMode,
+  subscribePlayback,
+  type PlaybackMode,
+} from "@/lib/playback";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
 import MushafView from "./MushafView";
@@ -38,11 +48,9 @@ export default function SurahReader({
   const router = useRouter();
   const [mode, setMode] = useState<"reading" | "tafsir">("reading");
   const [playingN, setPlayingN] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
   // Index of the audio URL being tried for the verse that is playing (0 = preferred).
   const audioIndex = useRef(0);
-  // The verse to start playing when the next page has arrived (auto-advance across pages).
-  const playOnArrival = useRef<number | null>(null);
+  const playbackMode = useSyncExternalStore(subscribePlayback, readPlaybackMode, () => DEFAULT_PLAYBACK_MODE);
   const { meta, verses } = view;
   const { from, to } = view.range;
   const editionInfo = Object.fromEntries(
@@ -89,9 +97,9 @@ export default function SurahReader({
   }, [meta.number, meta.verseCount, from, to, router]);
 
   function startVerse(index: number) {
-    const audio = audioRef.current;
+    const audio = getAudio();
     const verse = verses[index];
-    if (!audio || !verse?.audio[0]) return;
+    if (!verse?.audio[0]) return;
     audioIndex.current = 0;
     audio.src = verse.audio[0];
     setPlayingN(verse.number);
@@ -100,11 +108,10 @@ export default function SurahReader({
   }
 
   function togglePlay(index: number) {
-    const audio = audioRef.current;
     const verse = verses[index];
-    if (!audio || !verse) return;
+    if (!verse) return;
     if (playingN === verse.number) {
-      audio.pause();
+      getAudio().pause();
       setPlayingN(null);
     } else {
       startVerse(index);
@@ -116,30 +123,41 @@ export default function SurahReader({
     if (idx >= 0 && idx < verses.length - 1) {
       startVerse(idx + 1);
     } else if (idx >= 0 && to < meta.verseCount) {
-      // The last verse of the page: continue on the next page. The audio element stays
-      // mounted, so playback is still allowed when the new verses arrive.
-      playOnArrival.current = to + 1;
+      // The last verse of the page: continue on the next page. The audio element is shared by
+      // every page, so playback is still allowed when the new verses arrive.
+      setPendingStart({ surah: meta.number, verse: to + 1 });
       router.push(pageHref(meta.number, pageOf(to + 1)), { scroll: false });
+    } else if (idx >= 0) {
+      // The end of the surah: what happens is the reader's choice.
+      const after = afterSurah(readPlaybackMode(), meta.number);
+      if (after.kind === "stop") {
+        setPlayingN(null);
+      } else if (after.surah === meta.number && from === after.verse) {
+        startVerse(0); // repeating a surah that is a single page
+      } else {
+        setPendingStart(after);
+        router.push(after.surah === meta.number ? pageHref(meta.number, 1) : `/surah/${after.surah}`, { scroll: false });
+      }
     } else {
       setPlayingN(null);
     }
   }
 
-  // The next page has arrived: carry on with the verse the audio was heading for.
+  // The page the audio was heading for has arrived (the next page, the first page again, or the next surah):
+  // carry on with its first verse.
   useEffect(() => {
-    if (playOnArrival.current !== null && playOnArrival.current === verses[0]?.number) {
-      playOnArrival.current = null;
-      startVerse(0);
-    }
-    // startVerse only reads refs and the current verses, which change with `from`.
+    // Starting the verse sets the playing verse: that is the point of reacting to the page that has arrived.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (takePendingStart(meta.number, verses[0]?.number)) startVerse(0);
+    // startVerse only reads the audio element and the current verses, which change with the page.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [from]);
+  }, [meta.number, from]);
 
   function onError() {
-    const audio = audioRef.current;
+    const audio = getAudio();
     const verse = verses.find((v) => v.number === playingN);
     const next = verse?.audio[audioIndex.current + 1];
-    if (audio && next) {
+    if (next) {
       audioIndex.current += 1;
       audio.src = next;
       audio.play().catch(() => setPlayingN(null));
@@ -153,6 +171,26 @@ export default function SurahReader({
     else router.push(verseHref(meta.number, n));
   }
 
+  // The one audio element reports to whichever page is showing; the handlers are the latest of this render.
+  const handlers = useRef({ onEnded, onError });
+  useEffect(() => {
+    handlers.current = { onEnded, onError };
+  });
+  useEffect(() => {
+    const audio = getAudio();
+    const ended = () => handlers.current.onEnded();
+    const failed = () => handlers.current.onError();
+    audio.addEventListener("ended", ended);
+    audio.addEventListener("error", failed);
+    return () => {
+      audio.removeEventListener("ended", ended);
+      audio.removeEventListener("error", failed);
+      // Leaving the page stops the audio, as when the element belonged to the page. When the page is replaced
+      // on purpose (next surah), the audio has just ended and the next page starts it again.
+      audio.pause();
+    };
+  }, []);
+
   const tabClass = (active: boolean) =>
     `rounded-full px-5 py-2 text-sm font-semibold transition ${
       active ? "bg-gold text-[hsl(190_70%_12%)]" : "border border-white/15 text-white/85 hover:bg-white/10"
@@ -160,8 +198,6 @@ export default function SurahReader({
 
   return (
     <div>
-      <audio ref={audioRef} onEnded={onEnded} onError={onError} preload="none" />
-
       <header
         className="rounded-2xl p-5 text-white shadow-sm sm:px-6"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
@@ -192,23 +228,44 @@ export default function SurahReader({
               {t("common.tafsir")}
             </button>
           </div>
-          <label className="flex items-center gap-2 text-sm text-white/85">
-            <span className="sr-only">{t("reader.jumpToVerse")}</span>
-            <select
-              defaultValue=""
-              onChange={(e) => e.target.value && jump(Number(e.target.value))}
-              className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
-            >
-              <option value="" disabled>
-                {t("reader.jumpPlaceholder")}
-              </option>
-              {Array.from({ length: meta.verseCount }, (_, i) => i + 1).map((n) => (
-                <option key={n} value={n}>
-                  {t("reader.verseOption", { number: n })}
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="flex items-center gap-2 text-sm text-white/85">
+              <span className="sr-only">{t("reader.jumpToVerse")}</span>
+              <select
+                defaultValue=""
+                onChange={(e) => e.target.value && jump(Number(e.target.value))}
+                className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
+              >
+                <option value="" disabled>
+                  {t("reader.jumpPlaceholder")}
                 </option>
-              ))}
-            </select>
-          </label>
+                {Array.from({ length: meta.verseCount }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>
+                    {t("reader.verseOption", { number: n })}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex items-center gap-2 text-sm text-white/85">
+              <span className="sr-only">{t("reader.whenEnds")}</span>
+              <select
+                value={playbackMode}
+                onChange={(e) => {
+                  const mode = e.target.value as PlaybackMode;
+                  applyPlaybackMode(mode);
+                  userDataActions.choosePlaybackMode(mode);
+                }}
+                title={t("reader.whenEnds")}
+                className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
+              >
+                {PLAYBACK_MODES.map((mode) => (
+                  <option key={mode} value={mode}>
+                    {t(`reader.mode.${mode}`)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </header>
 

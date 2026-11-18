@@ -9,6 +9,7 @@ import { useMemo, useSyncExternalStore } from "react";
 import type { Locale } from "../i18n/config";
 import type { FontSize, Theme } from "../display";
 import type { Layout } from "../layout";
+import type { PlaybackMode } from "../playback";
 import type { Selection } from "../quran/types";
 import {
   emptyUserData,
@@ -26,6 +27,7 @@ import {
   setLayoutChoice,
   setThemeChoice,
   setFontSizeChoice,
+  setPlaybackModeChoice,
   setSelectionChoice,
   createCollection,
   renameCollection,
@@ -142,6 +144,7 @@ export const userDataActions = {
   chooseLayout: (layout: Layout) => update((d) => setLayoutChoice(d, layout, now())),
   chooseTheme: (theme: Theme) => update((d) => setThemeChoice(d, theme, now())),
   chooseFontSize: (size: FontSize) => update((d) => setFontSizeChoice(d, size, now())),
+  choosePlaybackMode: (mode: PlaybackMode) => update((d) => setPlaybackModeChoice(d, mode, now())),
   /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),
 };
