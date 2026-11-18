@@ -47,8 +47,11 @@ own format.
     Indonesian translation (Kemenag), Indonesian tafsir (Kemenag) and six reciters
     (default `misyari-rasyid-al-afasi`). These editions are the defaults.
   - `providers/fawazahmed0.ts`: [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api),
-    text only. Six editions: Arabic Uthmani Hafs, Kemenag (QuranEnc), Quraish Shihab
-    (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall. They only extend the catalog.
+    text only. Seven editions: Arabic Uthmani Hafs, Kemenag (QuranEnc), Quraish Shihab
+    (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall, and the Turkish Diyanet İşleri meal
+    (`tur-diyanetisleri`, the default translation with the Turkish interface). They only extend the catalog.
+    Tanzil's terms (four of these editions, and the Turkish one, come through Tanzil): non-commercial use, and a link back
+    to https://tanzil.net/trans/ when more than three of its translations are used on a site; the About page links there.
     All have 6,236 verses and verse counts per surah identical to the EQuran.id
     metadata (verified for every surah).
 - **Adding a source** = write a provider, add its type to `sources.ts` (parser and
@@ -114,8 +117,13 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   Contributed translations (interface only) follow `CONTRIBUTING.md`, "Translating the
   interface": pull requests only, reviewed by the language maintainer in `.github/CODEOWNERS`.
 - **Language of the content** is separate: editions have their own language and the reader
-  chooses them (cookie `qw-sel`). With the English interface and no saved choice, the
-  default translation is English (`localeDefaults` in the source registry).
+  chooses them (cookie `qw-sel`). With the English or the Turkish interface and no saved choice, the
+  default translation is Yusuf Ali or the Diyanet meal (`localeDefaults` in the source registry).
+- **No machine translation of the Qur'an text.** Chrome and other browsers offer to translate a page, and on an Indonesian
+  page they replaced the Arabic of Al-Fatihah with Indonesian words, the verse markers with `)1 (`, and the language code
+  "ID" with "Pengenal" (seen on QA, 2026-11-18). Everything Arabic (`lang="ar"`), the transliteration, translations and tafsir of a
+  verse, and the language names and codes carry `translate="no"`; the interface text stays translatable for a reader whose
+  language we do not have. `no-machine-translation.test.ts` fails when an element with `lang="ar"` lacks it.
 - **URLs, anchors and storage keys are English** (`/my-reading`, `#verse-12`, the field
   `verse` in `quranweb:user`). Older links keep working: `/saya` redirects to
   `/my-reading` and `#ayat-N` is rewritten to `#verse-N` in the browser.

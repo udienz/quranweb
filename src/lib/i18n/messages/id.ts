@@ -198,7 +198,7 @@ export const id: Messages = {
     savedInBrowser: "Pilihan disimpan di browser ini.",
     allSettings: "Semua pengaturan",
     show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan" },
-    languages: { ar: "Arab", id: "Indonesia", en: "Inggris" },
+    languages: { ar: "Arab", id: "Indonesia", en: "Inggris", tr: "Turki" },
   },
   settingsPage: {
     title: "Pengaturan",

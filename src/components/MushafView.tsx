@@ -72,7 +72,7 @@ export default function MushafView({
 
       <div className={side && prefs.arabic ? "grid gap-6 lg:grid-cols-[2fr_3fr]" : ""}>
         {prefs.arabic && (
-          <p dir="rtl" lang="ar" className="font-arabic text-justify text-[length:calc(2rem*var(--arabic-scale,1))] leading-[2.4] lg:order-2 sm:text-[length:calc(2.25rem*var(--arabic-scale,1))]">
+          <p dir="rtl" lang="ar" translate="no" className="font-arabic text-justify text-[length:calc(2rem*var(--arabic-scale,1))] leading-[2.4] lg:order-2 sm:text-[length:calc(2.25rem*var(--arabic-scale,1))]">
             {verses.map((v) => (
               <Fragment key={v.number}>
                 <span
@@ -104,6 +104,7 @@ export default function MushafView({
                 <li
                   key={v.number}
                   id={verseId(v.number)}
+                  translate="no"
                   className={`scroll-mt-24 rounded-xl border-l-4 px-3 py-1 text-[length:calc(15px*var(--latin-scale,1))] leading-relaxed ${
                     playingN === v.number ? "bg-primary-soft" : ""
                   } ${isRead ? "border-l-primary/50" : "border-l-transparent"}`}

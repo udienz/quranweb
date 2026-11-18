@@ -27,7 +27,7 @@ export default function ContinueReading({ surahs }: { surahs: SurahMeta[] }) {
           {t("continueReading.position", { surah: surah.name.latin, verse: lastRead.verse })}
         </span>
       </span>
-      <span className="font-arabic text-2xl text-primary" dir="rtl">
+      <span className="font-arabic text-2xl text-primary" dir="rtl" lang="ar" translate="no">
         {surah.name.arabic}
       </span>
     </Link>

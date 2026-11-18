@@ -30,6 +30,7 @@ describe("parseSourceConfig", () => {
     expect(parseSourceConfig(valid())).toMatchObject({ textProviders: [{ type: "equran" }, { type: "fawazahmed0" }] });
     const example = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
     expect(parseSourceConfig(example).textProviders).toHaveLength(3);
+    expect(parseSourceConfig(example).localeDefaults?.tr?.translations).toEqual(["tur-diyanetisleri"]); // Turkish by default, like the built-in registry
     // and the example describes a working service
     expect(() => createQuranService(toQuranConfig(parseSourceConfig(example)))).not.toThrow();
   });

@@ -214,7 +214,7 @@ export default function SurahReader({
               </p>
             </div>
           </div>
-          <p className="font-arabic text-3xl text-gold" dir="rtl" lang="ar">
+          <p className="font-arabic text-3xl text-gold" dir="rtl" lang="ar" translate="no">
             {meta.name.arabic}
           </p>
         </div>
@@ -273,7 +273,7 @@ export default function SurahReader({
 
       <div className="overflow-hidden rounded-2xl border border-border bg-card">
         {mode === "reading" && from === 1 && meta.number !== 1 && meta.number !== 9 && (
-          <p dir="rtl" lang="ar" className="font-arabic border-b border-border py-8 text-center text-[length:calc(2.25rem*var(--arabic-scale,1))] text-primary">
+          <p dir="rtl" lang="ar" translate="no" className="font-arabic border-b border-border py-8 text-center text-[length:calc(2.25rem*var(--arabic-scale,1))] text-primary">
             {BISMILLAH}
           </p>
         )}
