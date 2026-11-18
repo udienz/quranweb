@@ -62,7 +62,7 @@ export default function LanguageMenu() {
         className="flex h-10 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-semibold uppercase text-foreground transition hover:bg-muted"
       >
         <GlobeIcon />
-        <span>{current}</span>
+        <span translate="no">{current}</span>
       </button>
 
       {open && (
@@ -74,6 +74,7 @@ export default function LanguageMenu() {
               role="menuitemradio"
               aria-checked={code === current}
               lang={code}
+              translate="no"
               onClick={() => {
                 close();
                 choose(code);
@@ -107,7 +108,7 @@ export function LanguageSelect() {
         className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
       >
         {languageOptions.map(({ code, name }) => (
-          <option key={code} value={code} lang={code}>
+          <option key={code} value={code} lang={code} translate="no">
             {name}
           </option>
         ))}

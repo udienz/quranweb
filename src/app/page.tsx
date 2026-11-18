@@ -17,7 +17,7 @@ export default async function Home() {
         className="mb-8 rounded-2xl px-6 py-10 text-white sm:px-10"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
       >
-        <p className="font-arabic text-center text-4xl text-gold sm:text-5xl" dir="rtl" lang="ar">
+        <p className="font-arabic text-center text-4xl text-gold sm:text-5xl" dir="rtl" lang="ar" translate="no">
           بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
         </p>
         <h1 className="mt-6 text-center font-display text-3xl font-bold">{t("home.title")}</h1>

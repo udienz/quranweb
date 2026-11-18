@@ -50,7 +50,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
                   {meaningOf(s, locale)} · {tn("common.verses", s.verseCount)} · {t(`revelation.${s.revelation}`)}
                 </span>
               </span>
-              <span className="font-arabic text-2xl text-primary" dir="rtl">
+              <span className="font-arabic text-2xl text-primary" dir="rtl" lang="ar" translate="no">
                 {s.name.arabic}
               </span>
             </Link>
