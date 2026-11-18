@@ -178,7 +178,7 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Choices:** an explicit change records `choices.theme` / `choices.fontSize` (newest wins, validated against the
   known values), so they follow a signed-in reader like the layout.
 
-### Playback at the end of a surah
+### Playback at the end of a surah, and a whole juz
 
 - **Playback mode** (`src/lib/playback.ts`): what the audio does after the last verse of a surah: `stop` (the default and the
   old behaviour), `repeat` (the same surah from verse 1) or `next` (verse 1 of the next surah; after surah 114 it stops,
@@ -191,6 +191,19 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Hand-over between pages** is `setPendingStart` / `takePendingStart` (the verse playback is heading for, kept in module
   state, which survives a client-side navigation): used for the next page of a surah, the first page again, and the next
   surah. A repeat of a one-page surah just restarts verse 1.
+- **Play a whole juz** (the "Play a juz" list in the surah header): start at the first verse of a juz and go on across pages and
+  surahs to its last verse. The boundaries are not a table of ours: `info.json` of fawazahmed0 has them (`juzs.references`),
+  the provider gives them as `juzs()`, and `getJuzList` in the service checks them (`quran/juz.ts`: 30 juz in order, the first at
+  1:1, each starting right after the previous one ends, every verse real, the last ending at the end of surah 114) before they
+  are used, because a wrong table would make audio skip or repeat verses. The page passes the list to `SurahReader`; without it
+  the list is left out and the rest works. The juz being played is module state (`getJuzScope`, `setJuzScope` in `audio.ts`,
+  also a store, so the page shows "Playing juz N"). Inside a juz the end of a surah does not stop playback (it goes on in the
+  next surah); at the last verse of the juz the **playback mode** decides (`afterJuz`): stop, the same juz again, or the next
+  juz (after juz 30 it stops). Playing a verse by hand leaves the juz. A pending start may be any verse of the arriving page
+  (`takePendingStart(surah, from, to)`), not only its first, because a juz can start in the middle of a page.
+- **Next keeps a page that was left**, hidden and with its state, so a hidden `SurahReader` is still in the DOM (a second
+  "Playing juz" in a text search; use `:visible`). Its effects are cleaned up, which pauses the audio and clears the
+  "playing" mark, so returning to it does not show a verse as playing that is not.
 - **Testing audio in a browser:** route `**/*.mp3` to a short generated WAV so `ended` fires at once, and read the requested
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
@@ -447,7 +460,8 @@ src/
     selection.ts               parse/serialize the selection cookie
     layout.ts                  the layout choice (mushaf or cards, cookie qw-layout)
     display.ts                 theme and text size: steps, storage, the no-flash head script, account updates
-    playback.ts, audio.ts      audio at the end of a surah (stop, repeat, next); the one shared <audio> element
+    playback.ts, audio.ts      audio at the end of a surah or a juz (stop, repeat, next); the one shared <audio> element
+    quran/juz.ts               checks the table of the 30 juz that a source gives
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper

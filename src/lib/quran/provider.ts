@@ -1,4 +1,4 @@
-import type { Edition, EditionText, Qari, SurahMeta } from "./types";
+import type { Edition, EditionText, JuzRef, Qari, SurahMeta } from "./types";
 
 /**
  * A text source. A provider serves one or more editions and maps its source's
@@ -16,6 +16,8 @@ export interface TextProvider {
    * metadata (for example English meanings). Optional; failures are ignored.
    */
   surahMeanings?(): Promise<Record<number, Record<string, string>>>;
+  /** Where each of the 30 juz starts and ends. Optional; the service checks it against the surah list. */
+  juzs?(): Promise<JuzRef[]>;
   /** The content of one edition for one surah. Throws on failure. */
   text(edition: string, surah: number): Promise<EditionText>;
 }

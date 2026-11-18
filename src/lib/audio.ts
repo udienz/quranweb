@@ -24,11 +24,35 @@ export const setPendingStart = (start: PendingStart | null): void => {
   pending = start;
 };
 
-/** Take the pending start if it is for this verse of this surah (it is then cleared), else leave it. */
-export function takePendingStart(surah: number, verse: number | undefined): boolean {
-  if (pending && pending.surah === surah && pending.verse === verse) {
+/**
+ * Take the pending start if its verse is on the page that has arrived (verses `from` to `to` of this surah): the verse is
+ * returned and the start cleared. Otherwise null, and the start stays for the page it is heading for. The verse is not
+ * always the first of the page: a juz can start in the middle of one.
+ */
+export function takePendingStart(surah: number, from: number, to: number): number | null {
+  if (pending && pending.surah === surah && pending.verse >= from && pending.verse <= to) {
+    const verse = pending.verse;
     pending = null;
-    return true;
+    return verse;
   }
-  return false;
+  return null;
+}
+
+// The juz being played, if the reader asked for one: playback then continues across surahs up to the last verse of that
+// juz instead of stopping at the end of a surah. Module state, like the pending start, so it survives a client-side
+// navigation; a store, so the page can show it.
+let juzScope: number | null = null;
+const juzListeners = new Set<() => void>();
+
+export const getJuzScope = (): number | null => juzScope;
+
+export function setJuzScope(juz: number | null): void {
+  if (juz === juzScope) return;
+  juzScope = juz;
+  juzListeners.forEach((listener) => listener());
+}
+
+export function subscribeJuzScope(listener: () => void): () => void {
+  juzListeners.add(listener);
+  return () => juzListeners.delete(listener);
 }

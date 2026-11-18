@@ -1,12 +1,14 @@
 // Builds the surah view from the configured providers: edition registry, fallback
 // between providers, and data checks.
 
+import { checkJuzList } from "./juz";
 import type { AudioProvider, TextProvider } from "./provider";
 import type {
   Catalog,
   Edition,
   EditionKind,
   EditionText,
+  JuzRef,
   Qari,
   Selection,
   SurahMeta,
@@ -120,6 +122,28 @@ export function createQuranService(config: QuranConfig) {
     });
   }
 
+  /**
+   * Where the 30 juz start and end, from the first provider that has them. A wrong table would make audio skip or repeat
+   * verses, so it is checked against the surah list: 30 juz in order, the first at 1:1, the last at the end of surah 114,
+   * every juz starting right after the previous one ends, and every verse number real.
+   */
+  async function getJuzList(): Promise<JuzRef[]> {
+    const errors: unknown[] = [];
+    let list: JuzRef[] | undefined;
+    for (const provider of config.textProviders) {
+      if (!provider.juzs) continue;
+      try {
+        list = await provider.juzs();
+        break;
+      } catch (err) {
+        errors.push(err);
+      }
+    }
+    if (!list) throw new Error(`The juz boundaries could not be loaded: ${describeErrors(errors) || "no provider has them"}`);
+    checkJuzList(list, await getSurahList());
+    return list;
+  }
+
   async function getEditionText(edition: string, surah: number): Promise<EditionText> {
     const entry = editions.get(edition);
     if (!entry) throw new Error(`Edition "${edition}" is not in the catalog`);
@@ -213,7 +237,7 @@ export function createQuranService(config: QuranConfig) {
     };
   }
 
-  return { getSurahList, getCatalog, getSurahView, resolveSelection };
+  return { getSurahList, getJuzList, getCatalog, getSurahView, resolveSelection };
 }
 
 export type QuranService = ReturnType<typeof createQuranService>;
