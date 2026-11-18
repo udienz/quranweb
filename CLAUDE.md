@@ -220,7 +220,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`AccountSection`: download, delete with a confirmation step, link to the policy). After deletion the copy in the
   browser stays and `clearOwner()` makes it count as data from before any sign-in, so signing up again merges it.
 - **Who to contact** comes from `PRIVACY_CONTACT_NAME` and `PRIVACY_CONTACT_EMAIL`, never from git (this repository is
-  public). They are GitHub variables (`vars.`, not secrets: the page shows them): the deploy workflows pass each one
+  public). They are GitHub variables or secrets (the workflows read `vars.X || secrets.X`; the page shows them, so they are not sensitive, but a secret works too): the deploy workflows pass each one
   base64-encoded to `scripts/deploy.sh` (`PRIVACY_CONTACT_*_B64`), which decodes it and gives it to `docker run -e`, so no
   character in a name can change the ssh command line (`scripts/deploy-contact.test.sh` checks that, CI runs it). A value
   in `/etc/quranweb/<env>.env` is overridden by them. Without them the page says the contact is not set up yet.

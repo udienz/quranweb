@@ -36,9 +36,10 @@ jobs:
 
       - name: Deploy
         env:
-          # Repository (or environment) variables, not secrets: the contact is shown on the privacy page.
-          PRIVACY_CONTACT_NAME: ${{ vars.PRIVACY_CONTACT_NAME }}
-          PRIVACY_CONTACT_EMAIL: ${{ vars.PRIVACY_CONTACT_EMAIL }}
+          # The contact is shown on the privacy page. It may be kept as a variable or as a secret: a variable
+          # wins, a secret is the fallback (an empty variable is falsy, so `||` moves on to the secret).
+          PRIVACY_CONTACT_NAME: ${{ vars.PRIVACY_CONTACT_NAME || secrets.PRIVACY_CONTACT_NAME }}
+          PRIVACY_CONTACT_EMAIL: ${{ vars.PRIVACY_CONTACT_EMAIL || secrets.PRIVACY_CONTACT_EMAIL }}
         run: |
           # Sent base64-encoded so no character in a name can change the ssh command line (see scripts/deploy.sh).
           name_b64="$(printf '%s' "$PRIVACY_CONTACT_NAME" | base64 -w0)"
