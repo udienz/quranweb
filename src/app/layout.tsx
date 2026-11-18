@@ -70,15 +70,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <main className="flex-1">{children}</main>
           </PrefsProvider>
           <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
-            {t("footer.intro")}{" "}
-            <a href="https://equran.id" className="text-primary hover:underline" rel="noopener">
-              EQuran.id
-            </a>{" "}
-            {t("footer.and")}{" "}
-            <a href="https://github.com/fawazahmed0/quran-api" className="text-primary hover:underline" rel="noopener">
-              fawazahmed0/quran-api
-            </a>
-            .{" "}
+            {/* The sources and credits of all content are on the About page. */}
+            <Link href="/about" className="text-primary hover:underline">
+              {t("footer.about")}
+            </Link>
+            {" · "}
             <Link href="/privacy" className="text-primary hover:underline">
               {t("footer.privacy")}
             </Link>

@@ -88,13 +88,6 @@ export default function SurahReader({
     }
   }, [meta.number, meta.verseCount, from, to, router]);
 
-  // Group the names by credit: "Arabic text, Translation: Ministry of Religious Affairs, via EQuran.id".
-  const groups = new Map<string, string[]>();
-  const addCredit = (credit: string, name: string) => groups.set(credit, [...(groups.get(credit) ?? []), name]);
-  for (const e of view.editions) addCredit(localized(e.source.attribution, locale), localized(e.name, locale));
-  addCredit(localized(view.qari.source.attribution, locale), t("reader.audioBy", { qari: view.qari.name }));
-  const credits = [...groups].map(([credit, names]) => `${names.join(", ")}: ${credit}`);
-
   function startVerse(index: number) {
     const audio = audioRef.current;
     const verse = verses[index];
@@ -249,7 +242,10 @@ export default function SurahReader({
           ))
         )}
         <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
-          {t("reader.sources", { list: credits.join("; ") })}.
+          {/* Every edition's and reciter's source and credit is on the About page. */}
+          <Link href="/about#sources" className="text-primary hover:underline">
+            {t("reader.sources")}
+          </Link>
         </p>
       </div>
 
