@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import AccountSection from "@/components/AccountSection";
 import { verseHref } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import type { StringKey } from "@/lib/i18n/messages";
@@ -29,7 +30,7 @@ const Empty = ({ children }: { children: React.ReactNode }) => (
   <p className="px-5 py-6 text-sm text-muted-foreground">{children}</p>
 );
 
-export default function MyReading({ surahs }: { surahs: SurahMeta[] }) {
+export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; accounts: boolean }) {
   const { t, date } = useI18n();
   const data = useUserData();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -179,6 +180,7 @@ export default function MyReading({ surahs }: { surahs: SurahMeta[] }) {
           )}
         </div>
       </Section>
+      {accounts && <AccountSection />}
     </div>
   );
 }

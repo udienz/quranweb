@@ -12,7 +12,7 @@ into `master`.
 
 There is **no panel for editing Qur'an content**. Reading progress and bookmarks live in the browser. Optional
 sign-in (OIDC through our own identity provider) and a SQLite database for accounts are being added (roadmap
-phase 3); reading data syncs with the account when signed in; user management comes later; the long-term plan is in
+phase 3); reading data syncs with the account when signed in, and readers can download or delete it; user management comes later; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
 
@@ -197,11 +197,33 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
   the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
   changes the previous reader made offline and never synced are lost when another reader signs in.
-- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser), and the
-  "Saved in this browser, no account needed" line on `/my-reading` still says so. Export and delete come in step 6.
+- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser).
 - **Tests:** API and merge behaviour against a temp database with the fake provider (`sync.test.ts`); the browser
   side with fakes (`runSync`). For two real devices, run the built image with the fake provider (its `/__user?seed=`
   endpoint switches the reader) and drive two browser contexts.
+
+### Account, export, deletion and privacy
+
+- **`GET /api/me/export`** downloads one JSON file: the account details (email, name, creation date) and the reading
+  data in the same envelope as the backup on `/my-reading`, so the file can be imported there. **`DELETE /api/me`**
+  (body `{"confirm":"delete"}`, from this site, JSON) signs the reader out and deletes the account **at once and for
+  good**: the `user` row goes and, by foreign-key cascade, so do the sessions, the sign-in link and `account_data`.
+  New tables that hold a reader's data must reference `"user"(id)` with `ON DELETE CASCADE`, or deletion misses them.
+  Backups age out within 30 days; the privacy page says so.
+- A **`GET` route handler is prerendered at build time under Cache Components** unless it reads runtime data: a handler
+  that only passes `request` on can get the 404 of a build without sign-in baked in. `export/route.ts` calls
+  `connection()` for that reason; do the same in any new `GET` handler that depends on the session.
+- **The session stores no IP address or browser type.** Rate limiting still sees the IP while the request runs, but the
+  `session.create.before` hook nulls `ipAddress` and `userAgent` before the row is written (turning off IP tracking in
+  the library would also turn off its rate limiting). The privacy page promises this, so keep a test on it.
+- **Privacy page** (`/privacy`, text in the `privacy.*` messages, both languages) and the **Account section** of `/my-reading`
+  (`AccountSection`: download, delete with a confirmation step, link to the policy). After deletion the copy in the
+  browser stays and `clearOwner()` makes it count as data from before any sign-in, so signing up again merges it.
+- **Who to contact** comes from `PRIVACY_CONTACT_NAME` and `PRIVACY_CONTACT_EMAIL` in the server environment, never
+  from git (this repository is public). Without them the page says the contact is not set up yet. Set both before
+  sign-in is switched on for readers.
+- When the policy text changes, change both languages in the same commit and check it still matches what the code does
+  (what is stored, cookies, recipients, retention).
 
 ### Rendering and configuration
 
@@ -233,6 +255,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
+| `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
@@ -244,7 +267,8 @@ src/
     layout.tsx                 shell: header, theme, fonts (@fontsource), footer
     globals.css                colour tokens (light/dark), Amiri font for Arabic
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
-    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
+    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup, account
+    privacy/page.tsx           privacy policy (English and Indonesian)
     not-found.tsx              404 page (translated)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
@@ -258,6 +282,7 @@ src/
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     AccountMenu.tsx            sign-in / sign-out in the header (only when sign-in is on)
+    AccountSection.tsx         download and delete account, on My reading (signed in only)
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
@@ -267,6 +292,8 @@ src/
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files
     auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
     sync/                      account sync: server (merge, store), API handler, engine, browser hook
+    account/                   export and deletion of an account (API handler, tests)
+    privacy.ts                 privacy contact from the environment
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts

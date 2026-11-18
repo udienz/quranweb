@@ -38,12 +38,15 @@ export function authOptions(db: DatabaseSync, settings: AuthSettings) {
       session: {
         create: {
           // A disabled account (set by the admin, step 7) cannot get a session, so cannot sign in.
+          // The IP address and browser of the request are used for rate limiting while it runs but are
+          // never stored with the session (the privacy page says so).
           before: async (session: { userId: string }) => {
             const row = db.prepare('SELECT "disabledAt" AS d FROM "user" WHERE id = ?').get(session.userId) as
               | { d: number | null }
               | undefined;
             if (row?.d) return false;
             db.prepare('UPDATE "user" SET "lastSeenAt" = ? WHERE id = ?').run(Date.now(), session.userId);
+            return { data: { ...session, ipAddress: null, userAgent: null } };
           },
         },
       },

@@ -124,6 +124,7 @@ export async function browserSignIn(
   call: (path: string, init?: RequestInit) => Promise<Response>,
   base: string,
   callbackURL = "/",
+  extraHeaders: Record<string, string> = {},
 ): Promise<Response> {
   const start = await call("/api/auth/sign-in/social", {
     method: "POST",
@@ -135,7 +136,7 @@ export async function browserSignIn(
   const { url } = (await start.json()) as { url: string };
   const authorize = await fetch(url, { redirect: "manual" });
   const back = new URL(authorize.headers.get("location")!);
-  return call(back.pathname + back.search, { headers: { cookie: cookies } });
+  return call(back.pathname + back.search, { headers: { cookie: cookies, ...extraHeaders } });
 }
 
 /** The session cookie of a sign-in callback response, ready for a `cookie` request header. */

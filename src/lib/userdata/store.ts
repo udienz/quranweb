@@ -107,6 +107,15 @@ export const userDataSync = {
       return memoryOwner;
     }
   },
+  /** Forget which account this browser's data belongs to (after the account was deleted), so it counts as data from before any sign-in. */
+  clearOwner: (): void => {
+    memoryOwner = null;
+    try {
+      localStorage.removeItem(OWNER_KEY);
+    } catch {
+      /* memory only */
+    }
+  },
   setOwner: (userId: string): void => {
     memoryOwner = userId;
     try {

@@ -22,10 +22,64 @@ export const en = {
     signedInAs: "Signed in as {name}",
     syncFailed: "Could not sync with your account. Your reading is safe on this device and will sync later.",
     error: "Sign-in is not available right now. Try again later.",
+    section: {
+      title: "Your account",
+      details: "Signed in as {name} ({email}).",
+      keeps: "Your reading is kept on your account and follows you to your other devices.",
+      download: "Download my data",
+      downloadHint: "Your account details and reading data as a JSON file. You can import it again on this page.",
+      delete: "Delete my account",
+      deleteWarning:
+        "This deletes your account and the reading data stored on it, right away and for good. It cannot be undone. A copy of your reading stays in this browser. Encrypted backups of the server database are removed when they expire, within 30 days.",
+      deleteConfirm: "Yes, delete my account permanently",
+      cancel: "Cancel",
+      deleting: "Deleting…",
+      deleteFailed: "The account could not be deleted. Try again later.",
+      privacy: "Privacy policy",
+    },
+  },
+  privacy: {
+    title: "Privacy policy",
+    intro: "QuranWeb is a free Qur'an reading site. You can read everything without an account. This page says what is stored if you sign in, and what is not.",
+    sections: {
+      reading: {
+        title: "Reading without an account",
+        body: "Your last read position, progress, bookmarks, notes and display choices are kept in your own browser (local storage) and do not leave it. Your choice of editions and reciter, and the interface language, are kept in two small cookies (qw-sel and qw-lang) that the site needs to show the page the way you chose.\n\nRecitation audio is loaded from EQuran.id (cdn.equran.id) by default, so that service sees your IP address when you play audio.",
+      },
+      account: {
+        title: "If you sign in",
+        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them.",
+      },
+      cookies: {
+        title: "Cookies",
+        body: "qw-lang (interface language) and qw-sel (chosen editions and reciter) are functional. When you are signed in there is also a session cookie, which is strictly needed to keep you signed in and is deleted when you sign out. There are no tracking or advertising cookies.",
+      },
+      recipients: {
+        title: "Who receives data",
+        body: "Our own sign-in service and Google (the way you sign in), Cloudflare (DNS and proxying of the site) and the hosting provider of the server. We do not sell your data or share it for any other purpose.",
+      },
+      retention: {
+        title: "How long data is kept",
+        body: "Until you delete your account. Sessions expire after 30 days. Items you remove (a bookmark, a progress mark) are kept as a small marker for up to 90 days so your other devices learn of the removal. Encrypted backups of the database are kept for up to 30 days, so a deleted account can still be in a backup until that backup expires.",
+      },
+      rights: {
+        title: "Your rights",
+        body: "You can download everything we hold about you and delete your account at any time, from the Account section of the My reading page. Deleting is immediate and permanent. You can also ask us to correct or explain your data using the contact below.",
+      },
+      law: {
+        title: "Applicable law",
+        body: "This policy follows Indonesian personal data protection law (Law No. 27 of 2022 on Personal Data Protection, UU PDP).",
+      },
+    },
+    contactTitle: "Contact",
+    contactBy: "This site is run by {name}.",
+    contactEmail: "Questions and requests about your data: {email}",
+    contactMissing: "The contact for questions about your data has not been set up yet.",
   },
   footer: {
     intro: "The sources of every text, translation, tafsir and recitation are listed under each surah. Main data from",
     and: "and",
+    privacy: "Privacy",
   },
   notFound: {
     title: "Page not found",
@@ -98,6 +152,7 @@ export const en = {
   myReading: {
     title: "My reading",
     subtitle: "Last read, progress and bookmarks. Saved in this browser, no account needed.",
+    subtitleAccount: "Last read, progress and bookmarks. Saved in this browser; sign in to keep them on all your devices.",
     lastRead: {
       title: "Last read",
       empty: "Nothing saved yet. Open a surah and your reading position is recorded automatically.",
