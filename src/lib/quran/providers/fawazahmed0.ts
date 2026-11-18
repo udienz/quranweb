@@ -12,7 +12,7 @@
 import { cache } from "react";
 import type { TextProvider } from "../provider";
 import { loadJson } from "../transport";
-import type { Edition, EditionText, SourceInfo } from "../types";
+import type { Edition, EditionText, JuzRef, SourceInfo } from "../types";
 
 export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1";
 // Fallback: that repository is about 4.2 GB, so jsDelivr sometimes refuses specific
@@ -126,6 +126,7 @@ interface RawChapter {
 
 interface RawInfo {
   chapters: { chapter: number; englishname: string }[];
+  juzs?: { references: { juz: number; start: { chapter: number; verse: number }; end: { chapter: number; verse: number } }[] };
 }
 
 export interface FawazOptions {
@@ -177,6 +178,17 @@ export function createFawazTextProvider(options: FawazOptions = {}): TextProvide
     async surahMeanings() {
       const info = await fetchInfo(bases.join("|"));
       return Object.fromEntries(info.chapters.map((c) => [c.chapter, { en: c.englishname }]));
+    },
+
+    async juzs(): Promise<JuzRef[]> {
+      const info = await fetchInfo(bases.join("|"));
+      const references = info.juzs?.references;
+      if (!Array.isArray(references)) throw new Error("info.json has no juz boundaries");
+      return references.map((r) => ({
+        juz: r.juz,
+        start: { surah: r.start.chapter, verse: r.start.verse },
+        end: { surah: r.end.chapter, verse: r.end.verse },
+      }));
     },
 
     async text(edition, surah): Promise<EditionText> {

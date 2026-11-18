@@ -284,3 +284,29 @@ describe("audio", () => {
     expect(view.verses[0].audio).toEqual(["https://a1/1/1.mp3", "https://a2/1/1.mp3"]);
   });
 });
+
+describe("the juz boundaries", () => {
+  const SURAHS114: SurahMeta[] = Array.from({ length: 114 }, (_, i) => ({ ...META, number: i + 1, verseCount: 10 }));
+  const flat = SURAHS114.flatMap((s) => Array.from({ length: 10 }, (_, v) => ({ surah: s.number, verse: v + 1 })));
+  const JUZS = Array.from({ length: 30 }, (_, j) => ({ juz: j + 1, start: flat[j * 38], end: flat[j * 38 + 37] }));
+
+  const withJuzs = (juzs: TextProvider["juzs"], surahs: SurahMeta[] = SURAHS114): QuranConfig =>
+    config({ textProviders: [{ ...textProvider("p1", EDITIONS), surahs: async () => surahs, ...(juzs ? { juzs } : {}) }] });
+
+  it("returns the table of the first provider that has one, once it checks out", async () => {
+    expect(await createQuranService(withJuzs(async () => JUZS)).getJuzList()).toEqual(JUZS);
+  });
+
+  it("refuses a table that does not fit the surah list", async () => {
+    const gap = JUZS.map((j) => (j.juz === 7 ? { ...j, start: { ...j.start, verse: j.start.verse + 1 } } : j));
+    await expect(createQuranService(withJuzs(async () => gap)).getJuzList()).rejects.toThrow(/Juz 7 starts at/);
+  });
+
+  it("falls back to the next provider when the first one fails, and says so when none has the table", async () => {
+    const failing: TextProvider = { ...textProvider("p1", EDITIONS), juzs: async () => { throw new Error("down"); } };
+    const good: TextProvider = { ...textProvider("p2", [], { surahs: false }), juzs: async () => JUZS };
+    const svc = createQuranService(config({ textProviders: [{ ...failing, surahs: async () => SURAHS114 }, good] }));
+    expect(await svc.getJuzList()).toEqual(JUZS);
+    await expect(createQuranService(withJuzs(undefined)).getJuzList()).rejects.toThrow(/juz boundaries could not be loaded: no provider has them/);
+  });
+});

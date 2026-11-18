@@ -99,6 +99,30 @@ describe("fawazahmed0 provider", () => {
     });
   });
 
+  it("reads where each juz starts and ends from info.json", async () => {
+    mockFetch({
+      [`${BASE}/info.min.json`]: {
+        chapters: [],
+        juzs: {
+          count: 2,
+          references: [
+            { juz: 1, start: { chapter: 1, verse: 1 }, end: { chapter: 2, verse: 141 } },
+            { juz: 2, start: { chapter: 2, verse: 142 }, end: { chapter: 2, verse: 252 } },
+          ],
+        },
+      },
+    });
+    expect(await createFawazTextProvider({ baseUrl: BASE }).juzs!()).toEqual([
+      { juz: 1, start: { surah: 1, verse: 1 }, end: { surah: 2, verse: 141 } },
+      { juz: 2, start: { surah: 2, verse: 142 }, end: { surah: 2, verse: 252 } },
+    ]);
+  });
+
+  it("says so when info.json has no juz boundaries", async () => {
+    mockFetch({ [`${BASE}/info.min.json`]: { chapters: [] } });
+    await expect(createFawazTextProvider({ baseUrl: BASE }).juzs!()).rejects.toThrow(/no juz boundaries/);
+  });
+
   it("catalog: unique IDs, correct kinds, credits in both languages", () => {
     const ids = FAWAZ_EDITIONS.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);

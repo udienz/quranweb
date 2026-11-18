@@ -55,6 +55,19 @@ export interface SurahMeta {
   description: Record<string, string>;
 }
 
+/** A verse by surah and verse number. */
+export interface VerseRef {
+  surah: number;
+  verse: number;
+}
+
+/** One of the 30 juz: the first and the last verse (a juz usually starts and ends inside a surah). */
+export interface JuzRef {
+  juz: number;
+  start: VerseRef;
+  end: VerseRef;
+}
+
 export interface VerseText {
   /** Verse number within the surah, starting at 1. */
   number: number;

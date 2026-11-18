@@ -6,11 +6,12 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { normalizeHash, pageHref, verseFromHash, verseFromId, verseHref, verseId } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import { localized } from "@/lib/i18n/translate";
-import type { SurahView } from "@/lib/quran";
+import type { JuzRef, SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
-import { getAudio, setPendingStart, takePendingStart } from "@/lib/audio";
+import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
 import {
+  afterJuz,
   afterSurah,
   applyPlaybackMode,
   DEFAULT_PLAYBACK_MODE,
@@ -34,6 +35,7 @@ export default function SurahReader({
   prev,
   next,
   layout,
+  juzs,
 }: {
   view: SurahView;
   /** Mushaf (running Arabic block with the translation beside it) or one card per verse. */
@@ -43,6 +45,8 @@ export default function SurahReader({
   pageCount: number;
   prev: number | null;
   next: number | null;
+  /** Where the 30 juz start and end (empty when the source could not give them: the juz control is then left out). */
+  juzs: JuzRef[];
 }) {
   const { t, tn, locale } = useI18n();
   const router = useRouter();
@@ -51,6 +55,7 @@ export default function SurahReader({
   // Index of the audio URL being tried for the verse that is playing (0 = preferred).
   const audioIndex = useRef(0);
   const playbackMode = useSyncExternalStore(subscribePlayback, readPlaybackMode, () => DEFAULT_PLAYBACK_MODE);
+  const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
   const { meta, verses } = view;
   const { from, to } = view.range;
   const editionInfo = Object.fromEntries(
@@ -114,19 +119,54 @@ export default function SurahReader({
       getAudio().pause();
       setPlayingN(null);
     } else {
+      setJuzScope(null); // playing from a verse by hand leaves the juz that was being played
       startVerse(index);
     }
   }
 
+  /** Play from a verse of any surah: here when it is on this page, otherwise on the page that has it. */
+  function goTo(surah: number, verse: number) {
+    if (surah === meta.number && verse >= from && verse <= to) {
+      startVerse(verse - from);
+      return;
+    }
+    setPendingStart({ surah, verse });
+    router.push(verseHref(surah, verse), { scroll: false });
+  }
+
+  /** Play a whole juz: from its first verse, across pages and surahs, to its last. */
+  function playJuz(n: number) {
+    const ref = juzs.find((j) => j.juz === n);
+    if (!ref) return;
+    setJuzScope(n);
+    goTo(ref.start.surah, ref.start.verse);
+  }
+
   function onEnded() {
     const idx = verses.findIndex((v) => v.number === playingN);
-    if (idx >= 0 && idx < verses.length - 1) {
+    const scope = getJuzScope();
+    const juz = scope === null ? undefined : juzs.find((j) => j.juz === scope);
+    if (idx >= 0 && juz && meta.number === juz.end.surah && verses[idx].number === juz.end.verse) {
+      // The last verse of the juz that is being played: what happens is the reader's choice, as at the end of a surah.
+      const after = afterJuz(readPlaybackMode(), juz.juz, juzs.length);
+      const target = after.kind === "start" ? juzs.find((j) => j.juz === after.juz) : undefined;
+      if (!target) {
+        setJuzScope(null);
+        setPlayingN(null);
+      } else {
+        setJuzScope(target.juz);
+        goTo(target.start.surah, target.start.verse);
+      }
+    } else if (idx >= 0 && idx < verses.length - 1) {
       startVerse(idx + 1);
     } else if (idx >= 0 && to < meta.verseCount) {
       // The last verse of the page: continue on the next page. The audio element is shared by
       // every page, so playback is still allowed when the new verses arrive.
       setPendingStart({ surah: meta.number, verse: to + 1 });
       router.push(pageHref(meta.number, pageOf(to + 1)), { scroll: false });
+    } else if (idx >= 0 && juz) {
+      // The end of a surah in the middle of a juz: the juz goes on in the next surah, whatever the playback mode says.
+      goTo(meta.number + 1, 1);
     } else if (idx >= 0) {
       // The end of the surah: what happens is the reader's choice.
       const after = afterSurah(readPlaybackMode(), meta.number);
@@ -143,12 +183,13 @@ export default function SurahReader({
     }
   }
 
-  // The page the audio was heading for has arrived (the next page, the first page again, or the next surah):
-  // carry on with its first verse.
+  // The page the audio was heading for has arrived (the next page, the first page again, the next surah, or where a juz
+  // starts): carry on with the verse it was heading for.
   useEffect(() => {
+    const start = takePendingStart(meta.number, from, to);
     // Starting the verse sets the playing verse: that is the point of reacting to the page that has arrived.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (takePendingStart(meta.number, verses[0]?.number)) startVerse(0);
+    if (start !== null) startVerse(start - from);
     // startVerse only reads the audio element and the current verses, which change with the page.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meta.number, from]);
@@ -186,8 +227,10 @@ export default function SurahReader({
       audio.removeEventListener("ended", ended);
       audio.removeEventListener("error", failed);
       // Leaving the page stops the audio, as when the element belonged to the page. When the page is replaced
-      // on purpose (next surah), the audio has just ended and the next page starts it again.
+      // on purpose (next surah), the audio has just ended and the next page starts it again. Next keeps a page
+      // that was left (hidden, with its state), so the "playing" mark is cleared too: it would be wrong on return.
       audio.pause();
+      setPlayingN(null);
     };
   }, []);
 
@@ -246,6 +289,30 @@ export default function SurahReader({
                 ))}
               </select>
             </label>
+            {juzs.length > 0 && (
+              <label className="flex items-center gap-2 text-sm text-white/85">
+                <span className="sr-only">{t("reader.playJuz")}</span>
+                <select
+                  defaultValue=""
+                  onChange={(e) => {
+                    const n = Number(e.target.value);
+                    e.target.value = ""; // back to the prompt, so the same juz can be chosen again
+                    if (n) playJuz(n);
+                  }}
+                  title={t("reader.playJuz")}
+                  className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
+                >
+                  <option value="" disabled>
+                    {t("reader.juzPlaceholder")}
+                  </option>
+                  {juzs.map((j) => (
+                    <option key={j.juz} value={j.juz}>
+                      {t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse })}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             <label className="flex items-center gap-2 text-sm text-white/85">
               <span className="sr-only">{t("reader.whenEnds")}</span>
               <select
@@ -267,6 +334,11 @@ export default function SurahReader({
             </label>
           </div>
         </div>
+        {playingJuz !== null && playingN !== null && (
+          <p role="status" className="mt-3 text-sm text-gold">
+            {t("reader.playingJuz", { juz: playingJuz })}
+          </p>
+        )}
       </header>
 
       <Pagination surah={meta.number} page={page} count={pageCount} from={from} to={to} total={meta.verseCount} />

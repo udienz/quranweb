@@ -32,3 +32,4 @@ export function getQuran(): QuranService {
 }
 
 export const getAllSurah = () => getQuran().getSurahList();
+export const getJuzList = () => getQuran().getJuzList();

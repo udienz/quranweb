@@ -24,6 +24,18 @@ export function afterSurah(mode: PlaybackMode, surah: number): AfterSurah {
   return { kind: "stop" };
 }
 
+/**
+ * What follows the last verse of a juz that is being played: nothing (stop), the same juz again (repeat), or the next juz
+ * (next; after juz 30 it stops, like the surahs do not wrap round).
+ */
+export type AfterJuz = { kind: "stop" } | { kind: "start"; juz: number };
+
+export function afterJuz(mode: PlaybackMode, juz: number, juzCount = 30): AfterJuz {
+  if (mode === "repeat") return { kind: "start", juz };
+  if (mode === "next" && juz < juzCount) return { kind: "start", juz: juz + 1 };
+  return { kind: "stop" };
+}
+
 /** The mode from the account when it differs from this browser's, or null. */
 export function playbackUpdate(choices: Choices, local: PlaybackMode): PlaybackMode | null {
   const chosen = choices.playbackMode?.value;

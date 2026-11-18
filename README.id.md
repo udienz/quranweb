@@ -16,7 +16,8 @@ Anda tidak perlu akun, dan tidak ada iklan maupun analitik.
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan.
 - **Mendengarkan** murottal per ayat dari enam qari; otomatis lanjut ke ayat berikutnya. Di akhir surat, audio bisa
-  berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun.
+  berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
+  **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, atau Jalalayn).
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.

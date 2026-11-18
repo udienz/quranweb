@@ -16,7 +16,8 @@ tafsir. You do not need an account, and there are no ads and no analytics.
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings.
 - **Listen** to the recitation verse by verse from six reciters; it moves on to the next verse by itself. At the end of a
-  surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account.
+  surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
+  **play a whole juz**, from its first verse to its last, across surahs.
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab or Jalalayn).
 - **Pick up where you stopped** with "continue reading", and mark how far you have read.
 - **Bookmark verses**, add your own notes, and group them into collections.

@@ -49,6 +49,11 @@ export default async function SurahPage({
   const page = clampPage((await searchParams).page, meta.verseCount);
   const view = await quran.getSurahView(surahNumber, selection, locale, pageRange(page, meta.verseCount));
   const catalog = quran.getCatalog();
+  // Where the juz start and end, for "Play a juz". Without them the rest of the page still works.
+  const juzs = await quran.getJuzList().catch((error) => {
+    console.error("The juz boundaries are not available:", error);
+    return [];
+  });
   const { t } = await getI18n();
 
   return (
@@ -77,6 +82,7 @@ export default async function SurahPage({
           prev={surahNumber > 1 ? surahNumber - 1 : null}
           next={surahNumber < 114 ? surahNumber + 1 : null}
           layout={layout}
+          juzs={juzs}
         />
     </SurahLayout>
   );
