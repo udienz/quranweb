@@ -107,6 +107,12 @@ Workflows in `.github/workflows/`:
 - **`ci.yml`**: runs on every push to `master` and every PR: `npm run lint`, `npm test` and `npm run build` (which already includes the type check).
 - **`deploy-qa.yml`** and **`deploy-prod.yml`**: deploy to the server over SSH (see `CLAUDE.md`). The `Dockerfile` is validated at deploy time: the image is built on the server and rolled back to the previous version if the new app does not respond, so there is no separate Docker build in CI.
 
+## Contributing
+
+Contributions come as pull requests; see [CONTRIBUTING.md](CONTRIBUTING.md). You can also translate the interface into
+your language (the interface only, never the Qur'an itself): the steps and how translations are reviewed are in the
+section "Translating the interface".
+
 ## Documentation language
 
 This README is in English and [README.id.md](README.id.md) is the Indonesian version. Keep both in sync: any change to one must be made in the other in the same commit.

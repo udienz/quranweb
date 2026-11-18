@@ -1,0 +1,3 @@
+# Language maintainers: GitHub asks them to review every change to their interface catalog.
+# See CONTRIBUTING.md, "Translating the interface". Add a line per language as maintainers join.
+/src/lib/i18n/messages/id.ts @udienz
