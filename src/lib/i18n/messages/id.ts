@@ -51,7 +51,7 @@ export const id: Messages = {
       },
       account: {
         title: "Jika Anda masuk",
-        body: "Masuk bersifat opsional dan hanya perlu bila Anda ingin menyimpan bacaan di lebih dari satu perangkat. Anda masuk dengan akun Google melalui layanan masuk milik kami sendiri. Google memberi tahu layanan itu nama dan alamat email Anda; situs ini menerima pengenal dari layanan masuk, alamat email, dan nama Anda.\n\nYang kami simpan: pengenal itu, alamat email, nama, kapan akun dibuat dan kapan Anda terakhir masuk, catatan sesi (token acak dan tanggal kedaluwarsanya), serta data bacaan Anda: posisi terakhir dibaca, kemajuan per surat, dan penanda beserta catatan Anda, masing-masing dengan waktu perubahan terakhirnya, juga edisi, qari, tampilan, tema, ukuran huruf, dan bahasa antarmuka yang Anda pilih agar ikut ke perangkat Anda yang lain, koleksi penanda, target harian, dan jumlah ayat yang Anda tandai sudah dibaca pada tiap hari dalam 120 hari terakhir.\n\nYang tidak kami simpan: kata sandi (kami tidak pernah melihatnya), alamat IP atau jenis peramban bersama akun Anda, atau apa pun untuk iklan atau analitik. Server web dan Cloudflare memproses alamat IP agar situs bisa dikirim, seperti semua situs web. Catatan disimpan sebagai teks biasa di server kami, jadi jangan menulis rahasia di dalamnya. Pengelola situs bisa melihat daftar akun (nama, alamat email, kapan masing-masing dibuat dan terakhir masuk) dan bisa menonaktifkan atau menghapus akun; data bacaan Anda tidak terlihat dari daftar itu, dan setiap tindakan semacam itu dicatat.",
+        body: "Masuk bersifat opsional dan hanya perlu bila Anda ingin menyimpan bacaan di lebih dari satu perangkat. Anda masuk dengan akun Google melalui layanan masuk milik kami sendiri. Google memberi tahu layanan itu nama dan alamat email Anda; situs ini menerima pengenal dari layanan masuk, alamat email, dan nama Anda.\n\nYang kami simpan: pengenal itu, alamat email, nama, kapan akun dibuat dan kapan Anda terakhir masuk, catatan sesi (token acak dan tanggal kedaluwarsanya), serta data bacaan Anda: posisi terakhir dibaca, kemajuan per surat, dan penanda beserta catatan Anda, masing-masing dengan waktu perubahan terakhirnya, juga edisi, qari, tampilan, tema, ukuran huruf, apa yang dilakukan audio di akhir surat, dan bahasa antarmuka yang Anda pilih agar ikut ke perangkat Anda yang lain, koleksi penanda, target harian, dan jumlah ayat yang Anda tandai sudah dibaca pada tiap hari dalam 120 hari terakhir.\n\nYang tidak kami simpan: kata sandi (kami tidak pernah melihatnya), alamat IP atau jenis peramban bersama akun Anda, atau apa pun untuk iklan atau analitik. Server web dan Cloudflare memproses alamat IP agar situs bisa dikirim, seperti semua situs web. Catatan disimpan sebagai teks biasa di server kami, jadi jangan menulis rahasia di dalamnya. Pengelola situs bisa melihat daftar akun (nama, alamat email, kapan masing-masing dibuat dan terakhir masuk) dan bisa menonaktifkan atau menghapus akun; data bacaan Anda tidak terlihat dari daftar itu, dan setiap tindakan semacam itu dicatat.",
       },
       cookies: {
         title: "Kuki",
@@ -148,6 +148,8 @@ export const id: Messages = {
     panel: "Daftar surat dan pengaturan",
     hidePanel: "Sembunyikan daftar surat dan pengaturan",
     showPanel: "Tampilkan daftar surat dan pengaturan",
+    whenEnds: "Saat surat selesai",
+    mode: { stop: "Berhenti di akhir", repeat: "Ulangi surat", next: "Putar surat berikutnya" },
     jumpToVerse: "Lompat ke ayat",
     jumpPlaceholder: "Ayat…",
     verseOption: "Ayat {number}",

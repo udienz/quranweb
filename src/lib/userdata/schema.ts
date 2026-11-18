@@ -13,6 +13,7 @@ import type { Selection } from "../quran/types";
 import { parseSelectionObject } from "../selection";
 import { isLayout, type Layout } from "../layout";
 import { isTheme, parseFontSize, type FontSize, type Theme } from "../display";
+import { isPlaybackMode, type PlaybackMode } from "../playback";
 
 export const USER_DATA_VERSION = 2;
 
@@ -78,6 +79,8 @@ export interface Choices {
   theme?: { value: Theme; at: string };
   /** Arabic and Latin text size (local storage `quranweb:font-size`). */
   fontSize?: { value: FontSize; at: string };
+  /** What audio does at the end of a surah: stop, repeat or continue (local storage `quranweb:playback-mode`). */
+  playbackMode?: { value: PlaybackMode; at: string };
 }
 
 /** The daily reading goal in verses (0 = off), with the time it was set; the newest setting wins. */
@@ -341,6 +344,12 @@ export function setThemeChoice(data: UserData, value: Theme, at: string): UserDa
   return { ...data, choices: { ...data.choices, theme: { value, at } } };
 }
 
+/** Record an explicit choice of what audio does at the end of a surah. */
+export function setPlaybackModeChoice(data: UserData, value: PlaybackMode, at: string): UserData {
+  if (!isPlaybackMode(value)) throw new Error(`Invalid playback mode: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, playbackMode: { value, at } } };
+}
+
 /** Record an explicit choice of text size. */
 export function setFontSizeChoice(data: UserData, value: FontSize, at: string): UserData {
   const size = parseFontSize(value);
@@ -413,7 +422,7 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
   const choices: Choices = {};
-  for (const key of ["selection", "locale", "layout", "theme", "fontSize"] as const) {
+  for (const key of ["selection", "locale", "layout", "theme", "fontSize", "playbackMode"] as const) {
     const x = a.choices?.[key];
     const y = b.choices?.[key];
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
@@ -543,6 +552,11 @@ export function parseUserData(raw: unknown): UserData {
     const size = parseFontSize(fs.value);
     if (!isDate(fs.at) || !size) throw invalid("Invalid font size choice");
     choices.fontSize = { value: size, at: fs.at };
+  }
+  if (c.playbackMode != null) {
+    const pm = c.playbackMode as Record<string, unknown>;
+    if (!isDate(pm.at) || !isPlaybackMode(pm.value)) throw invalid("Invalid playback mode choice");
+    choices.playbackMode = { value: pm.value, at: pm.at };
   }
 
   if (!Array.isArray(r.collections ?? [])) throw invalid("Collections are not a list");

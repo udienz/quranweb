@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -358,6 +358,7 @@ function randomData(next: () => number): UserData {
   if (next() < 0.5) choices.layout = { value: pick(["mushaf", "cards"] as const), at: pick(times) };
   if (next() < 0.5) choices.theme = { value: pick(["light", "dark", "auto"] as const), at: pick(times) };
   if (next() < 0.5) choices.fontSize = { value: { arabic: pick([1, 1.3]), latin: pick([0.85, 1]) }, at: pick(times) };
+  if (next() < 0.5) choices.playbackMode = { value: pick(["stop", "repeat", "next"] as const), at: pick(times) };
   const collections: UserData["collections"] = [];
   for (const id of ["coll0001", "coll0002"]) {
     const roll = next();
@@ -619,5 +620,28 @@ describe("theme and text size choices", () => {
     const d = setThemeChoice(setLayoutChoice(emptyUserData(), "cards", T1), "light", T2);
     expect(d.choices.layout?.value).toBe("cards");
     expect(d.choices.theme).toEqual({ value: "light", at: T2 });
+  });
+});
+
+describe("playback mode choice", () => {
+  it("records, merges newest-first and survives a round trip", () => {
+    const a = setPlaybackModeChoice(emptyUserData(), "repeat", T1);
+    const b = setPlaybackModeChoice(emptyUserData(), "next", T2);
+    expect(mergeUserData(a, b).choices.playbackMode?.value).toBe("next");
+    expect(mergeUserData(b, a)).toEqual(mergeUserData(a, b));
+    expect(parseUserData(JSON.parse(JSON.stringify(a)))).toEqual(a);
+  });
+
+  it("refuses a mode that does not exist", () => {
+    expect(() => setPlaybackModeChoice(emptyUserData(), "loop" as never, T1)).toThrow();
+    const raw = JSON.parse(JSON.stringify(emptyUserData()));
+    expect(() => parseUserData({ ...raw, choices: { playbackMode: { value: "loop", at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { playbackMode: { value: "next", at: "yesterday" } } })).toThrow();
+  });
+
+  it("keeps the other choices when only the mode changes", () => {
+    const d = setPlaybackModeChoice(setThemeChoice(emptyUserData(), "dark", T1), "next", T2);
+    expect(d.choices.theme).toEqual({ value: "dark", at: T1 });
+    expect(d.choices.playbackMode).toEqual({ value: "next", at: T2 });
   });
 });
