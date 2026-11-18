@@ -65,7 +65,7 @@ export default function SurahSidebar({
                     {String(s.number).padStart(3, "0")}
                   </span>
                   <span className="flex-1 font-medium">{s.name.latin}</span>
-                  <span className="font-arabic text-lg text-muted-foreground" dir="rtl">
+                  <span className="font-arabic text-lg text-muted-foreground" dir="rtl" lang="ar" translate="no">
                     {s.name.arabic}
                   </span>
                 </Link>
