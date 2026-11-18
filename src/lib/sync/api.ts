@@ -1,5 +1,6 @@
 import type { Auth } from "../auth/create";
 import type { Database } from "../db";
+import { guardIp, guardUser } from "../ratelimit";
 import { parseUserData, UserDataError } from "../userdata/schema";
 import { exchangeAccountData, MAX_BODY_BYTES, readAccountData } from "./server";
 
@@ -12,10 +13,14 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
  * JSON sent from this site.
  */
 export async function handleState(request: Request, deps: { auth: Auth; db: Database; baseUrl: string }): Promise<Response> {
+  const blockedIp = guardIp(request);
+  if (blockedIp) return blockedIp;
   const session = await deps.auth.api.getSession({ headers: request.headers });
   if (!session) return json({ error: "unauthenticated" }, 401);
   if ((session.user as { disabledAt?: number | null }).disabledAt) return json({ error: "disabled" }, 403);
   const userId = session.user.id;
+  const blocked = guardUser("state", userId);
+  if (blocked) return blocked;
 
   if (request.method === "GET") return json({ data: readAccountData(deps.db, userId) });
   if (request.method !== "PUT") return json({ error: "method" }, 405);

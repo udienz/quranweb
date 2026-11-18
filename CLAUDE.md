@@ -219,9 +219,11 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 - **Privacy page** (`/privacy`, text in the `privacy.*` messages, both languages) and the **Account section** of `/my-reading`
   (`AccountSection`: download, delete with a confirmation step, link to the policy). After deletion the copy in the
   browser stays and `clearOwner()` makes it count as data from before any sign-in, so signing up again merges it.
-- **Who to contact** comes from `PRIVACY_CONTACT_NAME` and `PRIVACY_CONTACT_EMAIL` in the server environment, never
-  from git (this repository is public). Without them the page says the contact is not set up yet. Set both before
-  sign-in is switched on for readers.
+- **Who to contact** comes from `PRIVACY_CONTACT_NAME` and `PRIVACY_CONTACT_EMAIL`, never from git (this repository is
+  public). They are GitHub variables (`vars.`, not secrets: the page shows them): the deploy workflows pass each one
+  base64-encoded to `scripts/deploy.sh` (`PRIVACY_CONTACT_*_B64`), which decodes it and gives it to `docker run -e`, so no
+  character in a name can change the ssh command line (`scripts/deploy-contact.test.sh` checks that, CI runs it). A value
+  in `/etc/quranweb/<env>.env` is overridden by them. Without them the page says the contact is not set up yet.
 - When the policy text changes, change both languages in the same commit and check it still matches what the code does
   (what is stored, cookies, recipients, retention).
 
@@ -242,6 +244,30 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 - **Rows from `node:sqlite` have a null prototype**, which React refuses to pass from a server to a client component
   (`Only plain objects ... can be passed`); copy them into plain objects first (`plain()` in `admin/server.ts`). A unit
   test checks it, and this was only caught by a browser run, so keep running one for pages that pass database rows down.
+
+### Hardening (rate limits, headers, load)
+
+- **Two limiters.** The auth library limits the sign-in paths per address and path (`rateLimit` in `create.ts`: 10 sign-in
+  starts, 20 callbacks and 300 session checks a minute, 100 for anything else). Our own routes use `src/lib/ratelimit.ts`
+  (in memory, one process): 240 requests a minute per address for `/api/me` and `/api/admin`, and per account 60 syncs,
+  6 exports, 5 deletes and 60 admin actions. Over the limit the answer is 429 with `Retry-After`. The library only rate
+  limits in production by default; it is switched on explicitly, and tests that sign in many times pass
+  `{ rateLimit: false }` to `createAuth` (`ratelimit.test.ts` runs it on).
+- **The client address** is `cf-connecting-ip` (Cloudflare proxies both domains, and nginx passes the header on), else an
+  `x-forwarded-for` with a single address. A header with a chain of addresses is not trusted, because a client can write
+  the first one; with no trusted address the library falls back to one shared bucket per path, which is safe but shared by
+  everyone, so **check that Cloudflare's header reaches the app** if sign-ins start answering 429 for everybody.
+  The origin is reachable without Cloudflare, so the header can be forged there; that only lets a caller choose their own
+  bucket, and the per-account limits still hold.
+- **Headers** added here: `Strict-Transport-Security` (one year, without `includeSubDomains` or preload, which are the
+  owner's decision) and `Cross-Origin-Opener-Policy`, next to the earlier CSP, `nosniff`, `Referrer-Policy`,
+  `X-Frame-Options` and `Permissions-Policy`.
+- **Load check:** `scripts/load-test.mjs` signs in 100 fake readers and syncs 200 bookmarks each against a running app that
+  uses the fake provider (see the header of the script; never against a real provider or production). On 2026-11-18, Node 26
+  in Docker, one process: with a realistic pace (a sync every 5 to 10 s per reader, 10 a second in all) p50 25 ms, p95 53 ms,
+  no errors; as a stress run (a sync every 0.5 to 1 s per reader, 81 a second) p50 402 ms, p95 831 ms, no errors, 195 MB.
+  The first run of the realistic pace showed a p95 of 1.3 s only because all readers started in the same second; the
+  script now staggers the start.
 
 ### Rendering and configuration
 
@@ -316,6 +342,7 @@ src/
     account/                   export and deletion of an account (API handler, tests)
     admin/                     admin allowlist, account list, actions and audit log (API handler, tests)
     privacy.ts                 privacy contact from the environment
+    ratelimit.ts               in-memory rate limiter and client address for our own API routes
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
@@ -327,6 +354,7 @@ scripts/
   mirror-nginx.conf.example    nginx locations for the data mirrors
   sync-mirror.mjs              copy the EQuran.id text to static JSON
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
+  deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
@@ -343,6 +371,7 @@ npm run test:live         # optional: real sources (about 8 minutes from the CDN
                           # 30 s against our mirrors). Set LIVE_QURAN_API_URL and
                           # LIVE_QURAN_FAWAZ_URL to our mirrors to spare the upstreams.
 bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs it)
+bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (CI runs it)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
 ```

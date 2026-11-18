@@ -1,6 +1,7 @@
 import type { Auth } from "../auth/create";
 import { sessionUser } from "../auth/session";
 import type { Database } from "../db";
+import { guardIp, guardUser } from "../ratelimit";
 import { isAdminEmail } from "./config";
 import { ADMIN_ACTIONS, applyAdminAction, type AdminAction } from "./server";
 
@@ -24,8 +25,12 @@ export async function handleAdminAction(
   targetUserId: string,
   deps: { auth: Auth; db: Database; baseUrl: string; admins?: Set<string> },
 ): Promise<Response> {
+  const blockedIp = guardIp(request);
+  if (blockedIp) return blockedIp;
   const admin = await requireAdmin(request, deps.auth, deps.admins);
   if (admin instanceof Response) return admin;
+  const blocked = guardUser("admin", admin.id);
+  if (blocked) return blocked;
   if (request.method !== "POST") return json({ error: "method" }, 405);
   if (request.headers.get("origin") !== new URL(deps.baseUrl).origin) return json({ error: "origin" }, 403);
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) return json({ error: "content-type" }, 415);

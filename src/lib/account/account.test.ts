@@ -26,7 +26,7 @@ beforeAll(async () => {
     clientId: idp.clientId,
     clientSecret: idp.clientSecret,
     secret: randomBytes(32).toString("hex"),
-  });
+  }, { rateLimit: false });
 });
 afterAll(async () => {
   await idp.close();
