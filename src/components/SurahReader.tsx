@@ -10,18 +10,10 @@ import type { JuzRef, SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
 import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
-import {
-  afterJuz,
-  afterSurah,
-  applyPlaybackMode,
-  DEFAULT_PLAYBACK_MODE,
-  PLAYBACK_MODES,
-  readPlaybackMode,
-  subscribePlayback,
-  type PlaybackMode,
-} from "@/lib/playback";
+import { afterJuz, afterSurah, readPlaybackMode } from "@/lib/playback";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
+import PlaybackModeSelect from "./PlaybackModeSelect";
 import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
 import type { Layout } from "@/lib/layout";
@@ -54,7 +46,6 @@ export default function SurahReader({
   const [playingN, setPlayingN] = useState<number | null>(null);
   // Index of the audio URL being tried for the verse that is playing (0 = preferred).
   const audioIndex = useRef(0);
-  const playbackMode = useSyncExternalStore(subscribePlayback, readPlaybackMode, () => DEFAULT_PLAYBACK_MODE);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
   const { meta, verses } = view;
   const { from, to } = view.range;
@@ -313,25 +304,7 @@ export default function SurahReader({
                 </select>
               </label>
             )}
-            <label className="flex items-center gap-2 text-sm text-white/85">
-              <span className="sr-only">{t("reader.whenEnds")}</span>
-              <select
-                value={playbackMode}
-                onChange={(e) => {
-                  const mode = e.target.value as PlaybackMode;
-                  applyPlaybackMode(mode);
-                  userDataActions.choosePlaybackMode(mode);
-                }}
-                title={t("reader.whenEnds")}
-                className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
-              >
-                {PLAYBACK_MODES.map((mode) => (
-                  <option key={mode} value={mode}>
-                    {t(`reader.mode.${mode}`)}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <PlaybackModeSelect onDark />
           </div>
         </div>
         {playingJuz !== null && playingN !== null && (

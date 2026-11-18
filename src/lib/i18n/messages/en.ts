@@ -213,6 +213,10 @@ export const en = {
     subtitleAccount: "Saved in this browser; when you are signed in, they follow your account to your other devices.",
     sections: "Sections",
     display: "Language, theme and text size",
+    audio: "Audio",
+  },
+  audio: {
+    hint: "The reciter is also in the settings beside a surah. Playing a juz starts at its first verse and goes on across surahs; the setting above says what happens when it ends.",
   },
   display: {
     language: "Interface language",

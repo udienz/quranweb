@@ -213,6 +213,10 @@ export const id: Messages = {
     subtitleAccount: "Tersimpan di browser ini; saat Anda masuk, pengaturan ikut akun Anda ke perangkat lain.",
     sections: "Bagian",
     display: "Bahasa, tema, dan ukuran huruf",
+    audio: "Audio",
+  },
+  audio: {
+    hint: "Qari juga ada di pengaturan di samping surat. Memutar satu juz dimulai dari ayat pertamanya dan berlanjut menyeberangi surat; pengaturan di atas menentukan apa yang terjadi saat juz selesai.",
   },
   display: {
     language: "Bahasa antarmuka",
