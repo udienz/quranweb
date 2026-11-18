@@ -74,7 +74,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <a href="https://github.com/fawazahmed0/quran-api" className="text-primary hover:underline" rel="noopener">
               fawazahmed0/quran-api
             </a>
-            .
+            .{" "}
+            <Link href="/privacy" className="text-primary hover:underline">
+              {t("footer.privacy")}
+            </Link>
           </footer>
         </I18nProvider>
       </body>

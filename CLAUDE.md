@@ -12,7 +12,7 @@ into `master`.
 
 There is **no panel for editing Qur'an content**. Reading progress and bookmarks live in the browser. Optional
 sign-in (OIDC through our own identity provider) and a SQLite database for accounts are being added (roadmap
-phase 3); reading data syncs with the account when signed in; user management comes later; the long-term plan is in
+phase 3); reading data syncs with the account when signed in, readers can download or delete it, and the admin can manage accounts; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
 
@@ -197,11 +197,77 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
   the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
   changes the previous reader made offline and never synced are lost when another reader signs in.
-- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser), and the
-  "Saved in this browser, no account needed" line on `/my-reading` still says so. Export and delete come in step 6.
+- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser).
 - **Tests:** API and merge behaviour against a temp database with the fake provider (`sync.test.ts`); the browser
   side with fakes (`runSync`). For two real devices, run the built image with the fake provider (its `/__user?seed=`
   endpoint switches the reader) and drive two browser contexts.
+
+### Account, export, deletion and privacy
+
+- **`GET /api/me/export`** downloads one JSON file: the account details (email, name, creation date) and the reading
+  data in the same envelope as the backup on `/my-reading`, so the file can be imported there. **`DELETE /api/me`**
+  (body `{"confirm":"delete"}`, from this site, JSON) signs the reader out and deletes the account **at once and for
+  good**: the `user` row goes and, by foreign-key cascade, so do the sessions, the sign-in link and `account_data`.
+  New tables that hold a reader's data must reference `"user"(id)` with `ON DELETE CASCADE`, or deletion misses them.
+  Backups age out within 30 days; the privacy page says so.
+- A **`GET` route handler is prerendered at build time under Cache Components** unless it reads runtime data: a handler
+  that only passes `request` on can get the 404 of a build without sign-in baked in. `export/route.ts` calls
+  `connection()` for that reason; do the same in any new `GET` handler that depends on the session.
+- **The session stores no IP address or browser type.** Rate limiting still sees the IP while the request runs, but the
+  `session.create.before` hook nulls `ipAddress` and `userAgent` before the row is written (turning off IP tracking in
+  the library would also turn off its rate limiting). The privacy page promises this, so keep a test on it.
+- **Privacy page** (`/privacy`, text in the `privacy.*` messages, both languages) and the **Account section** of `/my-reading`
+  (`AccountSection`: download, delete with a confirmation step, link to the policy). After deletion the copy in the
+  browser stays and `clearOwner()` makes it count as data from before any sign-in, so signing up again merges it.
+- **Who to contact** comes from `PRIVACY_CONTACT_NAME` and `PRIVACY_CONTACT_EMAIL`, never from git (this repository is
+  public). They are GitHub variables (`vars.`, not secrets: the page shows them): the deploy workflows pass each one
+  base64-encoded to `scripts/deploy.sh` (`PRIVACY_CONTACT_*_B64`), which decodes it and gives it to `docker run -e`, so no
+  character in a name can change the ssh command line (`scripts/deploy-contact.test.sh` checks that, CI runs it). A value
+  in `/etc/quranweb/<env>.env` is overridden by them. Without them the page says the contact is not set up yet.
+- When the policy text changes, change both languages in the same commit and check it still matches what the code does
+  (what is stored, cookies, recipients, retention).
+
+### Admin (accounts only)
+
+- **Who:** the signed-in readers whose **verified** email is in `ADMIN_EMAILS` (comma-separated, case-insensitive) in the
+  server environment. It is never written in git or in tests (tests use `boss@example.test`). Unset means no admin.
+  The check is on the server for every request (`requireAdmin`, and the page itself), by the email of the session.
+- **What:** `/admin` lists accounts (name, email, created, last sign-in, status) and the recent actions, and can disable,
+  enable or delete an account (`POST /api/admin/users/<id>` with `{"action":"disable"|"enable"|"delete"}`). It never
+  selects or shows reading data and has no way to touch Qur'an content. Disabling deletes the account's sessions at
+  once; deleting is the same permanent deletion as a reader's own (`deleteAccount`). An admin cannot act on their own
+  account (409), so a slip cannot lock everyone out.
+- **Anyone else sees a 404:** a visitor or a reader who is not an admin gets the not-found page from `/admin` and a 404
+  from the API, so the page is not advertised. There is no menu link; the admin opens `/admin` directly.
+- **Audit log:** every action is a row in `admin_audit` (migration 4: time, admin email, action, target account id). It has no
+  foreign key, so it outlives a deleted account. The privacy page tells readers that the operator sees this list.
+- **Rows from `node:sqlite` have a null prototype**, which React refuses to pass from a server to a client component
+  (`Only plain objects ... can be passed`); copy them into plain objects first (`plain()` in `admin/server.ts`). A unit
+  test checks it, and this was only caught by a browser run, so keep running one for pages that pass database rows down.
+
+### Hardening (rate limits, headers, load)
+
+- **Two limiters.** The auth library limits the sign-in paths per address and path (`rateLimit` in `create.ts`: 10 sign-in
+  starts, 20 callbacks and 300 session checks a minute, 100 for anything else). Our own routes use `src/lib/ratelimit.ts`
+  (in memory, one process): 240 requests a minute per address for `/api/me` and `/api/admin`, and per account 60 syncs,
+  6 exports, 5 deletes and 60 admin actions. Over the limit the answer is 429 with `Retry-After`. The library only rate
+  limits in production by default; it is switched on explicitly, and tests that sign in many times pass
+  `{ rateLimit: false }` to `createAuth` (`ratelimit.test.ts` runs it on).
+- **The client address** is `cf-connecting-ip` (Cloudflare proxies both domains, and nginx passes the header on), else an
+  `x-forwarded-for` with a single address. A header with a chain of addresses is not trusted, because a client can write
+  the first one; with no trusted address the library falls back to one shared bucket per path, which is safe but shared by
+  everyone, so **check that Cloudflare's header reaches the app** if sign-ins start answering 429 for everybody.
+  The origin is reachable without Cloudflare, so the header can be forged there; that only lets a caller choose their own
+  bucket, and the per-account limits still hold.
+- **Headers** added here: `Strict-Transport-Security` (one year, without `includeSubDomains` or preload, which are the
+  owner's decision) and `Cross-Origin-Opener-Policy`, next to the earlier CSP, `nosniff`, `Referrer-Policy`,
+  `X-Frame-Options` and `Permissions-Policy`.
+- **Load check:** `scripts/load-test.mjs` signs in 100 fake readers and syncs 200 bookmarks each against a running app that
+  uses the fake provider (see the header of the script; never against a real provider or production). On 2026-11-18, Node 26
+  in Docker, one process: with a realistic pace (a sync every 5 to 10 s per reader, 10 a second in all) p50 25 ms, p95 53 ms,
+  no errors; as a stress run (a sync every 0.5 to 1 s per reader, 81 a second) p50 402 ms, p95 831 ms, no errors, 195 MB.
+  The first run of the realistic pace showed a p95 of 1.3 s only because all readers started in the same second; the
+  script now staggers the start.
 
 ### Rendering and configuration
 
@@ -233,6 +299,8 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
+| `ADMIN_EMAILS` | none | Comma-separated emails of the admins (verified sign-in emails); unset = no admin page |
+| `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
@@ -244,7 +312,9 @@ src/
     layout.tsx                 shell: header, theme, fonts (@fontsource), footer
     globals.css                colour tokens (light/dark), Amiri font for Arabic
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
-    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
+    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup, account
+    privacy/page.tsx           privacy policy (English and Indonesian)
+    admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
@@ -258,6 +328,8 @@ src/
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     AccountMenu.tsx            sign-in / sign-out in the header (only when sign-in is on)
+    AccountSection.tsx         download and delete account, on My reading (signed in only)
+    AdminUsers.tsx             accounts and audit log for the admin
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
@@ -267,6 +339,10 @@ src/
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files
     auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
     sync/                      account sync: server (merge, store), API handler, engine, browser hook
+    account/                   export and deletion of an account (API handler, tests)
+    admin/                     admin allowlist, account list, actions and audit log (API handler, tests)
+    privacy.ts                 privacy contact from the environment
+    ratelimit.ts               in-memory rate limiter and client address for our own API routes
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
@@ -278,6 +354,7 @@ scripts/
   mirror-nginx.conf.example    nginx locations for the data mirrors
   sync-mirror.mjs              copy the EQuran.id text to static JSON
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
+  deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
@@ -294,6 +371,7 @@ npm run test:live         # optional: real sources (about 8 minutes from the CDN
                           # 30 s against our mirrors). Set LIVE_QURAN_API_URL and
                           # LIVE_QURAN_FAWAZ_URL to our mirrors to spare the upstreams.
 bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs it)
+bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (CI runs it)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
 ```

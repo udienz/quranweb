@@ -15,7 +15,7 @@ Situs: **https://quranweb.udienz.web.id** (produksi) dan https://quranweb-qa.udi
 - **Bacaan berhalaman**: surat yang panjang dibagi menjadi halaman berisi 10 ayat (`?page=3`), sehingga satu halaman tetap pendek dan cepat dimuat (Al-Baqarah turun dari sekitar 2 MB menjadi sekitar 230 KB). Tautan ke ayat, menu lompat, "lanjutkan membaca", dan audio yang lanjut otomatis semuanya bekerja lintas halaman.
 - Tab **Tafsir** dengan tafsir pilihan Anda (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per ayat dari enam qari, otomatis lanjut ke ayat berikutnya.
-- **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan, dan mencadangkan semuanya sebagai berkas JSON. Hanya tersimpan di browser Anda.
+- **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan, dan mencadangkan semuanya sebagai berkas JSON. Tersimpan di browser Anda. Di situs yang mengaktifkan fitur masuk, Anda bisa masuk (opsional) agar bacaan tersimpan di semua perangkat, serta mengunduh atau menghapusnya kapan saja (lihat `/privacy`).
 - **Pilihan** teks Arab, terjemahan, tafsir, dan qari, tersimpan di browser.
 - Tema terang dan gelap, nyaman di ponsel, salin ayat atau tautannya.
 - Setiap halaman mencantumkan sumber dari apa yang ditampilkan.

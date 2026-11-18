@@ -22,10 +22,84 @@ export const id: Messages = {
     signedInAs: "Masuk sebagai {name}",
     syncFailed: "Belum bisa disinkronkan dengan akun Anda. Bacaan Anda aman di perangkat ini dan akan disinkronkan nanti.",
     error: "Masuk belum bisa dipakai sekarang. Coba lagi nanti.",
+    section: {
+      title: "Akun Anda",
+      details: "Masuk sebagai {name} ({email}).",
+      keeps: "Bacaan Anda disimpan di akun dan ikut ke perangkat Anda yang lain.",
+      download: "Unduh data saya",
+      downloadHint: "Data akun dan bacaan Anda sebagai berkas JSON. Berkas ini bisa diimpor lagi di halaman ini.",
+      delete: "Hapus akun saya",
+      deleteWarning:
+        "Ini menghapus akun Anda beserta data bacaan di dalamnya, langsung dan permanen. Tindakan ini tidak bisa dibatalkan. Salinan bacaan Anda tetap ada di peramban ini. Cadangan terenkripsi basis data server dihapus saat kedaluwarsa, paling lama 30 hari.",
+      deleteConfirm: "Ya, hapus akun saya secara permanen",
+      cancel: "Batal",
+      deleting: "Menghapus…",
+      deleteFailed: "Akun belum bisa dihapus. Coba lagi nanti.",
+      privacy: "Kebijakan privasi",
+    },
+  },
+  privacy: {
+    title: "Kebijakan privasi",
+    intro: "QuranWeb adalah situs baca Al-Qur'an gratis. Semuanya bisa dibaca tanpa akun. Halaman ini menjelaskan apa yang disimpan bila Anda masuk, dan apa yang tidak.",
+    sections: {
+      reading: {
+        title: "Membaca tanpa akun",
+        body: "Posisi terakhir dibaca, kemajuan, penanda, catatan, dan pilihan tampilan Anda disimpan di peramban Anda sendiri (penyimpanan lokal) dan tidak keluar dari sana. Pilihan edisi dan qari, serta bahasa antarmuka, disimpan di dua kuki kecil (qw-sel dan qw-lang) yang dibutuhkan situs agar halaman tampil sesuai pilihan Anda.\n\nAudio bacaan dimuat dari EQuran.id (cdn.equran.id) secara bawaan, sehingga layanan itu melihat alamat IP Anda saat Anda memutar audio.",
+      },
+      account: {
+        title: "Jika Anda masuk",
+        body: "Masuk bersifat opsional dan hanya perlu bila Anda ingin menyimpan bacaan di lebih dari satu perangkat. Anda masuk dengan akun Google melalui layanan masuk milik kami sendiri. Google memberi tahu layanan itu nama dan alamat email Anda; situs ini menerima pengenal dari layanan masuk, alamat email, dan nama Anda.\n\nYang kami simpan: pengenal itu, alamat email, nama, kapan akun dibuat dan kapan Anda terakhir masuk, catatan sesi (token acak dan tanggal kedaluwarsanya), serta data bacaan Anda: posisi terakhir dibaca, kemajuan per surat, dan penanda beserta catatan Anda, masing-masing dengan waktu perubahan terakhirnya.\n\nYang tidak kami simpan: kata sandi (kami tidak pernah melihatnya), alamat IP atau jenis peramban bersama akun Anda, atau apa pun untuk iklan atau analitik. Server web dan Cloudflare memproses alamat IP agar situs bisa dikirim, seperti semua situs web. Catatan disimpan sebagai teks biasa di server kami, jadi jangan menulis rahasia di dalamnya. Pengelola situs bisa melihat daftar akun (nama, alamat email, kapan masing-masing dibuat dan terakhir masuk) dan bisa menonaktifkan atau menghapus akun; data bacaan Anda tidak terlihat dari daftar itu, dan setiap tindakan semacam itu dicatat.",
+      },
+      cookies: {
+        title: "Kuki",
+        body: "qw-lang (bahasa antarmuka) dan qw-sel (edisi dan qari pilihan) bersifat fungsional. Saat Anda masuk ada juga kuki sesi, yang mutlak diperlukan agar Anda tetap masuk dan dihapus saat Anda keluar. Tidak ada kuki pelacakan atau iklan.",
+      },
+      recipients: {
+        title: "Siapa yang menerima data",
+        body: "Layanan masuk milik kami dan Google (cara Anda masuk), Cloudflare (DNS dan proksi situs), dan penyedia hosting server. Kami tidak menjual data Anda dan tidak membagikannya untuk tujuan lain.",
+      },
+      retention: {
+        title: "Berapa lama data disimpan",
+        body: "Sampai Anda menghapus akun. Sesi berakhir setelah 30 hari. Item yang Anda hapus (penanda, tanda kemajuan) disimpan sebagai tanda kecil hingga 90 hari agar perangkat Anda yang lain tahu penghapusannya. Cadangan terenkripsi basis data disimpan paling lama 30 hari, jadi akun yang sudah dihapus masih bisa ada di cadangan sampai cadangan itu kedaluwarsa.",
+      },
+      rights: {
+        title: "Hak Anda",
+        body: "Anda bisa mengunduh semua yang kami simpan tentang Anda dan menghapus akun kapan saja, dari bagian Akun di halaman Bacaan saya. Penghapusan berlaku langsung dan permanen. Anda juga bisa meminta kami memperbaiki atau menjelaskan data Anda lewat kontak di bawah.",
+      },
+      law: {
+        title: "Hukum yang berlaku",
+        body: "Kebijakan ini mengikuti hukum pelindungan data pribadi Indonesia (Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi, UU PDP).",
+      },
+    },
+    contactTitle: "Kontak",
+    contactBy: "Situs ini dikelola oleh {name}.",
+    contactEmail: "Pertanyaan dan permintaan tentang data Anda: {email}",
+    contactMissing: "Kontak untuk pertanyaan tentang data Anda belum disiapkan.",
+  },
+  admin: {
+    title: "Akun",
+    subtitle: "Hanya data akun. Data bacaan dan isi Al-Qur'an tidak ditampilkan atau bisa diubah di sini.",
+    users: "{count} akun",
+    empty: "Belum ada akun.",
+    columns: { account: "Akun", created: "Dibuat", lastSeen: "Masuk terakhir", status: "Status" },
+    status: { active: "Aktif", disabled: "Dinonaktifkan" },
+    you: "Anda",
+    disable: "Nonaktifkan",
+    enable: "Aktifkan",
+    delete: "Hapus",
+    deleteWarning: "Hapus akun ini beserta datanya secara permanen?",
+    confirmDelete: "Ya, hapus",
+    failed: "Belum berhasil. Coba lagi.",
+    audit: {
+      title: "Tindakan terakhir",
+      empty: "Belum ada.",
+      actions: { disable: "menonaktifkan", enable: "mengaktifkan", delete: "menghapus" },
+    },
   },
   footer: {
     intro: "Sumber tiap teks, terjemahan, tafsir, dan audio tercantum di bawah setiap surat. Data utama dari",
     and: "dan",
+    privacy: "Privasi",
   },
   notFound: {
     title: "Halaman tidak ditemukan",
@@ -98,6 +172,7 @@ export const id: Messages = {
   myReading: {
     title: "Bacaan saya",
     subtitle: "Terakhir dibaca, progres, dan penanda ayat. Tersimpan di browser ini, tanpa akun.",
+    subtitleAccount: "Terakhir dibaca, progres, dan penanda ayat. Tersimpan di browser ini; masuk untuk menyimpannya di semua perangkat Anda.",
     lastRead: {
       title: "Terakhir dibaca",
       empty: "Belum ada bacaan tersimpan. Buka sebuah surat dan posisi bacaan Anda akan dicatat otomatis.",

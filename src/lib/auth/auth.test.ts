@@ -25,7 +25,7 @@ beforeAll(async () => {
     clientId: idp.clientId,
     clientSecret: idp.clientSecret,
     secret: randomBytes(32).toString("hex"),
-  });
+  }, { rateLimit: false });
 });
 afterAll(async () => {
   await idp.close();
@@ -97,6 +97,13 @@ describe("OIDC sign-in against a fake provider", () => {
     expect(body.user.email).toBe("reader@example.test");
     expect(body.user.name).toBe("Test Reader");
     expect((db.prepare('SELECT "lastSeenAt" AS t FROM "user"').get() as { t: number }).t).toBeGreaterThan(0);
+  });
+
+  it("does not store the IP address or the browser with the session", async () => {
+    await browserSignIn(call, BASE, "/", { "x-forwarded-for": "203.0.113.9", "user-agent": "TestBrowser/1.0" });
+    const rows = db.prepare('SELECT "ipAddress" AS ip, "userAgent" AS ua FROM session').all() as { ip: string | null; ua: string | null }[];
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.every((r) => r.ip === null && r.ua === null)).toBe(true);
   });
 
   it("is the same account on the next sign-in (the sub is stable)", async () => {
