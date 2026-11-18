@@ -97,7 +97,8 @@ own format.
 
 The interface is available in English and Indonesian (`src/lib/i18n/`).
 
-- **Which language:** the cookie `qw-lang` (set by the EN/ID button) wins, then the first
+- **Which language:** the cookie `qw-lang` (set by the language menu in the header, or the "Interface language" list on
+  `/settings`; both use `useLocaleChoice` in `LanguageMenu.tsx`) wins, then the first
   supported language in the browser's `Accept-Language`, then Indonesian
   (`negotiateLocale`). The root layout reads it per request, sets `<html lang>`, and gives
   the messages to client components through `I18nProvider` / `useI18n()`; server
@@ -273,7 +274,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   progress marks out of 6,236 verses.
 - **Choices follow the account** (editions and reciter, interface language, layout): the cookies `qw-sel` and `qw-lang` stay the
   source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
-  EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
+  language menu) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
   per kind like any item. After each sync `cookieUpdates` (`sync/choices.ts`) writes the account's choices to this browser's
   cookies when they differ, then refreshes the page. A cookie that was never chosen on this device has no time and is not
   synced, so a new device cannot overwrite the account's choices with its defaults. The theme and text size are
@@ -411,7 +412,7 @@ src/
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
-    LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
+    LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)
     AccountSection.tsx         download and delete account, or sign in, on the settings page
     DisplayControls.tsx, DisplaySection.tsx   theme choice and text size controls (hooks on display.ts)
@@ -445,6 +446,7 @@ scripts/
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
   deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
   upload-git.sh, upload-git.test.sh   off-server copy of the backups to a private GitHub repository (in use, docs/backup.md)
+  update-contributors.mjs, contributors-lib.mjs   write CONTRIBUTORS.md from the GitHub API (the logic is tested in contributors.test.mjs)
   upload-rclone.sh, rclone-conf-from-blob.py, upload-rclone.test.sh   alternative copy to Google Drive (not in use)
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
@@ -466,6 +468,7 @@ bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs
 bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (CI runs it)
 bash scripts/upload-rclone.test.sh    # Google Drive upload and retention (needs rclone; CI runs it; not in use)
 bash scripts/upload-git.test.sh       # off-server copy to the private GitHub repository (CI runs it; in use)
+node scripts/update-contributors.mjs  # regenerate CONTRIBUTORS.md from the GitHub history (--check: only say if it is stale)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
 ```
@@ -563,6 +566,10 @@ Keep that footer link: the credit must stay one click away from every reading pa
   User management (view, disable, delete accounts) may be added together with the
   account feature.
 - Non-trivial changes go through a PR, not a direct push to `master`.
+- **`CONTRIBUTORS.md` is generated**, never edited by hand: after merging a contribution from someone else (code or a
+  translation), run `node scripts/update-contributors.mjs` and commit the result. The script lists the owner as
+  maintainer, the people who changed each language catalog, and everyone with commits; it leaves out bots and the
+  account GitHub wrongly attributes the early `Claude <noreply@anthropic.com>` commits to (`EXCLUDED_LOGINS`).
 - **One branch per task.** Start every task on a new branch named after the work (for
   example `source-registry`), from the latest `master`, or from the branch it depends on
   when the work is stacked on an open PR. Never reuse a merged branch or its name: once its

@@ -205,9 +205,11 @@ export const en = {
     subtitle: "Saved in this browser, no account needed.",
     subtitleAccount: "Saved in this browser; when you are signed in, they follow your account to your other devices.",
     sections: "Sections",
-    display: "Theme and text size",
+    display: "Language, theme and text size",
   },
   display: {
+    language: "Interface language",
+    languageHint: "Until you choose, the language follows your browser. When you are signed in, your choice follows your account.",
     theme: "Theme",
     themeLight: "Light",
     themeDark: "Dark",

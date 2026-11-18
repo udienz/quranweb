@@ -21,7 +21,8 @@ Anda tidak perlu akun, dan tidak ada iklan maupun analitik.
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam.
-- **Memakai bahasa Indonesia atau Inggris**: mengikuti bahasa browser Anda, dan bisa diganti dengan tombol EN/ID.
+- **Memakai bahasa Anda**: antarmuka mengikuti bahasa browser Anda (untuk saat ini bahasa Indonesia atau Inggris), dan
+  bisa diganti lewat menu bahasa di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun.
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain.
 - Nyaman di ponsel, dan Anda bisa menyalin ayat atau tautannya.
@@ -65,7 +66,8 @@ Di layar lebar, daftar surat dan pengaturan bisa disembunyikan agar mushaf memak
 
 ## Masukan dan bantuan
 
-Menemukan kesalahan, atau punya ide? [Buka issue](https://github.com/udienz/quranweb/issues).
+Menemukan kesalahan, atau punya ide? [Buka issue](https://github.com/udienz/quranweb/issues). Terima kasih kepada semua
+yang telah membantu: lihat [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 Anda juga bisa membantu dengan menerjemahkan antarmuka (menu, tombol, halaman) ke bahasa Anda. Al-Qur'an sendiri tidak
 pernah diterjemahkan dengan cara ini. Caranya: [CONTRIBUTING.md](CONTRIBUTING.md) (dalam bahasa Inggris), bagian
