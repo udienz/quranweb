@@ -19,7 +19,7 @@ export default async function MyReadingPage() {
     <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-1 font-display text-2xl font-semibold">{t("myReading.title")}</h1>
       <p className="mb-6 text-sm text-muted-foreground">{t(accounts ? "myReading.subtitleAccount" : "myReading.subtitle")}</p>
-      <MyReading surahs={surahs} accounts={accounts} />
+      <MyReading surahs={surahs} />
     </div>
   );
 }

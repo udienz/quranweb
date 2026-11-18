@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -356,6 +356,8 @@ function randomData(next: () => number): UserData {
   if (next() < 0.6) choices.selection = { value: { qari: pick(["a", "b"]), translations: [pick(["ind-x", "eng-y"])] }, at: pick(times) };
   if (next() < 0.6) choices.locale = { value: pick(["en", "id"] as const), at: pick(times) };
   if (next() < 0.5) choices.layout = { value: pick(["mushaf", "cards"] as const), at: pick(times) };
+  if (next() < 0.5) choices.theme = { value: pick(["light", "dark", "auto"] as const), at: pick(times) };
+  if (next() < 0.5) choices.fontSize = { value: { arabic: pick([1, 1.3]), latin: pick([0.85, 1]) }, at: pick(times) };
   const collections: UserData["collections"] = [];
   for (const id of ["coll0001", "coll0002"]) {
     const roll = next();
@@ -590,5 +592,32 @@ describe("layout choice", () => {
     const raw = JSON.parse(JSON.stringify(a));
     expect(parseUserData(raw)).toEqual(a);
     expect(() => parseUserData({ ...raw, choices: { layout: { value: "grid", at: T1 } } })).toThrow();
+  });
+});
+
+describe("theme and text size choices", () => {
+  it("record, merge newest-first and survive a round trip", () => {
+    const a = setFontSizeChoice(setThemeChoice(emptyUserData(), "dark", T1), { arabic: 1.3, latin: 1 }, T1);
+    const b = setFontSizeChoice(setThemeChoice(emptyUserData(), "auto", T2), { arabic: 0.85, latin: 1.5 }, T2);
+    const merged = mergeUserData(a, b);
+    expect(merged.choices.theme?.value).toBe("auto");
+    expect(merged.choices.fontSize?.value).toEqual({ arabic: 0.85, latin: 1.5 });
+    expect(mergeUserData(b, a)).toEqual(merged);
+    expect(parseUserData(JSON.parse(JSON.stringify(a)))).toEqual(a);
+  });
+
+  it("refuse a theme or size that is not one of the steps", () => {
+    expect(() => setThemeChoice(emptyUserData(), "sepia" as never, T1)).toThrow();
+    expect(() => setFontSizeChoice(emptyUserData(), { arabic: 7, latin: 1 }, T1)).toThrow();
+    const raw = JSON.parse(JSON.stringify(emptyUserData()));
+    expect(() => parseUserData({ ...raw, choices: { theme: { value: "sepia", at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { fontSize: { value: { arabic: 1 }, at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { fontSize: { value: { arabic: 1, latin: 1 }, at: "yesterday" } } })).toThrow();
+  });
+
+  it("keep the other choices when only one changes", () => {
+    const d = setThemeChoice(setLayoutChoice(emptyUserData(), "cards", T1), "light", T2);
+    expect(d.choices.layout?.value).toBe("cards");
+    expect(d.choices.theme).toEqual({ value: "light", at: T2 });
   });
 });

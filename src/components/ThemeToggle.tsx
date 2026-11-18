@@ -1,7 +1,9 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { isDark, readTheme } from "@/lib/display";
 import { useI18n } from "@/lib/i18n/client";
+import { chooseTheme } from "./DisplayControls";
 
 function subscribe(cb: () => void) {
   const obs = new MutationObserver(cb);
@@ -9,6 +11,7 @@ function subscribe(cb: () => void) {
   return () => obs.disconnect();
 }
 
+/** Quick switch in the header between light and dark. "Auto" is chosen on the settings page. */
 export default function ThemeToggle() {
   const { t } = useI18n();
   const dark = useSyncExternalStore(
@@ -17,18 +20,20 @@ export default function ThemeToggle() {
     () => false,
   );
 
-  function toggle() {
-    const next = !dark;
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {}
-  }
+  // With "auto", follow the device when it switches between light and dark while the page is open.
+  useEffect(() => {
+    const media = matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      if (readTheme() === "auto") document.documentElement.classList.toggle("dark", isDark("auto"));
+    };
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={() => chooseTheme(dark ? "light" : "dark")}
       aria-label={dark ? t("nav.switchToLight") : t("nav.switchToDark")}
       className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-muted"
     >

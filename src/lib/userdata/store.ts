@@ -7,6 +7,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import type { Locale } from "../i18n/config";
+import type { FontSize, Theme } from "../display";
 import type { Layout } from "../layout";
 import type { Selection } from "../quran/types";
 import {
@@ -23,6 +24,8 @@ import {
   pruneTombstones,
   setLocaleChoice,
   setLayoutChoice,
+  setThemeChoice,
+  setFontSizeChoice,
   setSelectionChoice,
   createCollection,
   renameCollection,
@@ -137,6 +140,8 @@ export const userDataActions = {
   chooseSelection: (selection: Partial<Selection>) => update((d) => setSelectionChoice(d, selection, now())),
   chooseLocale: (locale: Locale) => update((d) => setLocaleChoice(d, locale, now())),
   chooseLayout: (layout: Layout) => update((d) => setLayoutChoice(d, layout, now())),
+  chooseTheme: (theme: Theme) => update((d) => setThemeChoice(d, theme, now())),
+  chooseFontSize: (size: FontSize) => update((d) => setFontSizeChoice(d, size, now())),
   /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),
 };

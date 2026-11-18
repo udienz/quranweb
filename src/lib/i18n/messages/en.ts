@@ -12,6 +12,7 @@ export const en = {
   nav: {
     quran: "Al-Quran",
     myReading: "My reading",
+    settings: "Settings",
     language: "Language",
     switchToLight: "Switch to light mode",
     switchToDark: "Switch to dark mode",
@@ -36,6 +37,7 @@ export const en = {
       cancel: "Cancel",
       deleting: "Deleting…",
       deleteFailed: "The account could not be deleted. Try again later.",
+      signedOut: "You are not signed in. Sign in to keep your reading and settings on all your devices; it is optional.",
       privacy: "Privacy policy",
     },
   },
@@ -49,7 +51,7 @@ export const en = {
       },
       account: {
         title: "If you sign in",
-        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed, and the editions, reciter, layout and interface language you choose, so they follow you to your other devices, your bookmark collections, your daily goal and how many verses you marked as read on each of the last 120 days.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them. The person who runs the site can see the list of accounts (name, email address, when each was created and last signed in) and can disable or delete an account; they cannot see your reading data from that list, and each such action is recorded.",
+        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed, and the editions, reciter, layout, theme, text size and interface language you choose, so they follow you to your other devices, your bookmark collections, your daily goal and how many verses you marked as read on each of the last 120 days.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them. The person who runs the site can see the list of accounts (name, email address, when each was created and last signed in) and can disable or delete an account; they cannot see your reading data from that list, and each such action is recorded.",
       },
       cookies: {
         title: "Cookies",
@@ -65,7 +67,7 @@ export const en = {
       },
       rights: {
         title: "Your rights",
-        body: "You can download everything we hold about you and delete your account at any time, from the Account section of the My reading page. Deleting is immediate and permanent. You can also ask us to correct or explain your data using the contact below.",
+        body: "You can download everything we hold about you and delete your account at any time, from the Account section of the Settings page. Deleting is immediate and permanent. You can also ask us to correct or explain your data using the contact below.",
       },
       law: {
         title: "Applicable law",
@@ -192,8 +194,28 @@ export const en = {
     layoutCards: "Verse by verse",
     noTafsir: "No tafsir",
     savedInBrowser: "Your choices are saved in this browser.",
+    allSettings: "All settings",
     show: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translation" },
     languages: { ar: "Arabic", id: "Indonesian", en: "English" },
+  },
+  settingsPage: {
+    title: "Settings",
+    subtitle: "Saved in this browser, no account needed.",
+    subtitleAccount: "Saved in this browser; when you are signed in, they follow your account to your other devices.",
+    sections: "Sections",
+    display: "Theme and text size",
+  },
+  display: {
+    theme: "Theme",
+    themeLight: "Light",
+    themeDark: "Dark",
+    themeAuto: "Auto",
+    arabicSize: "Arabic text size",
+    latinSize: "Latin text size",
+    smaller: "Smaller: {name}",
+    larger: "Larger: {name}",
+    preview:
+      "Auto follows your device. The text size applies to the verses, transliteration, translations and tafsir on every reading page.",
   },
   myReading: {
     title: "My reading",
