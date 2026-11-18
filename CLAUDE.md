@@ -97,7 +97,8 @@ own format.
 
 The interface is available in English and Indonesian (`src/lib/i18n/`).
 
-- **Which language:** the cookie `qw-lang` (set by the EN/ID button) wins, then the first
+- **Which language:** the cookie `qw-lang` (set by the language menu in the header, or the "Interface language" list on
+  `/settings`; both use `useLocaleChoice` in `LanguageMenu.tsx`) wins, then the first
   supported language in the browser's `Accept-Language`, then Indonesian
   (`negotiateLocale`). The root layout reads it per request, sets `<html lang>`, and gives
   the messages to client components through `I18nProvider` / `useI18n()`; server
@@ -273,7 +274,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   progress marks out of 6,236 verses.
 - **Choices follow the account** (editions and reciter, interface language, layout): the cookies `qw-sel` and `qw-lang` stay the
   source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
-  EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
+  language menu) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
   per kind like any item. After each sync `cookieUpdates` (`sync/choices.ts`) writes the account's choices to this browser's
   cookies when they differ, then refreshes the page. A cookie that was never chosen on this device has no time and is not
   synced, so a new device cannot overwrite the account's choices with its defaults. The theme and text size are
@@ -411,7 +412,7 @@ src/
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
-    LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
+    LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)
     AccountSection.tsx         download and delete account, or sign in, on the settings page
     DisplayControls.tsx, DisplaySection.tsx   theme choice and text size controls (hooks on display.ts)

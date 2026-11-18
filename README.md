@@ -21,7 +21,8 @@ tafsir. You do not need an account, and there are no ads and no analytics.
 - **Pick up where you stopped** with "continue reading", and mark how far you have read.
 - **Bookmark verses**, add your own notes, and group them into collections.
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam.
-- **Use it in English or Indonesian**: it follows your browser's language, and the EN/ID button switches it.
+- **Use it in your language**: the interface follows your browser's language (English or Indonesian for now), and the
+  language menu in the header, or the Settings page, changes it. When you are signed in, your choice follows you.
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices.
 - Works well on phones, and you can copy a verse or a link to it.

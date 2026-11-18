@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { authClient, signIn } from "@/lib/auth/client";
 import { useAccountSync } from "@/lib/sync/client";
 import { useI18n } from "@/lib/i18n/client";
+import { useDismiss } from "@/lib/useDismiss";
 
 /** Names up to this length are shown as text on wide screens; longer ones (and every name on phones) become an icon. */
 const SHORT_NAME = 18;
@@ -34,21 +35,8 @@ export default function AccountMenu() {
   const box = useRef<HTMLDivElement>(null);
 
   // Close on a click outside or on Escape.
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (box.current && !box.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  const close = useCallback(() => setOpen(false), []);
+  useDismiss(open, close, box);
 
   async function start() {
     setFailed(false);

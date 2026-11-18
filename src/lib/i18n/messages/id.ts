@@ -205,9 +205,11 @@ export const id: Messages = {
     subtitle: "Tersimpan di browser ini, tanpa akun.",
     subtitleAccount: "Tersimpan di browser ini; saat Anda masuk, pengaturan ikut akun Anda ke perangkat lain.",
     sections: "Bagian",
-    display: "Tema dan ukuran huruf",
+    display: "Bahasa, tema, dan ukuran huruf",
   },
   display: {
+    language: "Bahasa antarmuka",
+    languageHint: "Sebelum Anda memilih, bahasa mengikuti bahasa browser Anda. Saat Anda masuk, pilihan Anda ikut akun.",
     theme: "Tema",
     themeLight: "Terang",
     themeDark: "Gelap",
