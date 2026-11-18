@@ -216,3 +216,20 @@ describe("runSync (the browser side)", () => {
     expect(b.state.local).toBe(local);
   });
 });
+
+describe("choices to cookies", () => {
+  const sel = (qari: string) => ({ value: { qari, translations: ["ind-kemenag"] }, at: T(1) });
+  it("writes nothing when the browser already shows the account's choices", async () => {
+    const { cookieUpdates } = await import("./choices");
+    const { serializeSelection } = await import("../selection");
+    const cookies = `qw-lang=en; qw-sel=${serializeSelection({ translations: ["ind-kemenag"], qari: "05" })}`;
+    expect(cookieUpdates({ selection: sel("05"), locale: { value: "en", at: T(1) } }, cookies)).toEqual([]);
+  });
+  it("writes the choices that differ, and nothing without choices", async () => {
+    const { cookieUpdates } = await import("./choices");
+    const updates = cookieUpdates({ selection: sel("07"), locale: { value: "id", at: T(1) } }, "qw-lang=en; other=1");
+    expect(updates.map(([n]) => n).sort()).toEqual(["qw-lang", "qw-sel"]);
+    expect(updates.find(([n]) => n === "qw-lang")?.[1]).toBe("id");
+    expect(cookieUpdates({}, "qw-lang=en")).toEqual([]);
+  });
+});

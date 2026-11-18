@@ -18,8 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData,
-} from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -164,6 +163,7 @@ describe("parseUserData", () => {
       lastRead: { surah: 2, verse: 5, at: T1 },
       progress: { "2": { readUpTo: 5, at: T1 } },
       bookmarks: [{ surah: 1, verse: 1, note: "hello", createdAt: T1, updatedAt: T1 }],
+      choices: {},
     });
   });
 
@@ -348,7 +348,10 @@ function randomData(next: () => number): UserData {
       ...(roll > 0.7 ? { deletedAt: updatedAt } : {}),
     });
   }
-  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse) };
+  const choices: UserData["choices"] = {};
+  if (next() < 0.6) choices.selection = { value: { qari: pick(["a", "b"]), translations: [pick(["ind-x", "eng-y"])] }, at: pick(times) };
+  if (next() < 0.6) choices.locale = { value: pick(["en", "id"] as const), at: pick(times) };
+  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse), choices };
 }
 
 describe("merge laws (random data)", () => {
@@ -385,5 +388,40 @@ describe("merge laws (random data)", () => {
       expect(() => parseUserData(m), `case ${i}`).not.toThrow();
       expect(parseUserData(JSON.parse(JSON.stringify(m)))).toEqual(m);
     });
+  });
+});
+
+describe("choices (editions, reciter, language)", () => {
+  it("records an explicit choice and keeps only valid selection fields", () => {
+    let d = setSelectionChoice(emptyUserData(), { qari: "05", translations: ["ind-kemenag"], bogus: 1 } as never, T1);
+    d = setLocaleChoice(d, "en", T2);
+    expect(d.choices).toEqual({ selection: { value: { qari: "05", translations: ["ind-kemenag"] }, at: T1 }, locale: { value: "en", at: T2 } });
+    expect(() => setLocaleChoice(d, "fr" as never, T3)).toThrow();
+  });
+
+  it("takes the newest choice for each kind on its own", () => {
+    const a = setLocaleChoice(setSelectionChoice(emptyUserData(), { qari: "01" }, T3), "en", T1);
+    const b = setLocaleChoice(setSelectionChoice(emptyUserData(), { qari: "02" }, T1), "id", T3);
+    const m = mergeUserData(a, b);
+    expect(m.choices.selection?.value).toEqual({ qari: "01" });
+    expect(m.choices.locale?.value).toBe("id");
+  });
+
+  it("keeps the account's choices when a copy has none (an older browser or a device that never chose)", () => {
+    const account = setLocaleChoice(emptyUserData(), "en", T1);
+    expect(mergeUserData(account, emptyUserData()).choices).toEqual(account.choices);
+  });
+
+  it("round-trips through JSON and rejects broken choices", () => {
+    const d = setLocaleChoice(setSelectionChoice(emptyUserData(), { arabic: "ara-x", tafsir: null }, T1), "id", T2);
+    expect(parseUserData(JSON.parse(JSON.stringify(d)))).toEqual(d);
+    const raw = JSON.parse(JSON.stringify(d));
+    expect(() => parseUserData({ ...raw, choices: { locale: { value: "fr", at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { selection: { value: {}, at: "not a date" } } })).toThrow();
+  });
+
+  it("reads data without choices (saved before this feature) as having none", () => {
+    const old = { version: 2, lastRead: null, progress: {}, bookmarks: [] };
+    expect(parseUserData(old).choices).toEqual({});
   });
 });

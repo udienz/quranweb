@@ -8,6 +8,7 @@ import type { StringKey } from "@/lib/i18n/messages";
 import { localized } from "@/lib/i18n/translate";
 import type { Catalog, Edition, Selection } from "@/lib/quran";
 import { SELECTION_COOKIE, serializeSelection } from "@/lib/selection";
+import { userDataActions } from "@/lib/userdata/store";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 
 const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
@@ -58,6 +59,7 @@ export default function SettingsPanel({
 
   function save(next: Selection) {
     writeCookie(SELECTION_COOKIE, serializeSelection(next));
+    userDataActions.chooseSelection(next);
     startTransition(() => {
       setOptimistic(next);
       router.refresh();
