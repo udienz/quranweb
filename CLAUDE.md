@@ -186,7 +186,7 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
   it on each Node upgrade). `openDatabase` sets WAL and foreign keys and applies the numbered
   migrations in `migrations.ts`, each in a transaction. A migration is never edited after it ships
   and is additive only (rollback runs the previous image against a migrated database; a destructive
-  change takes two releases); an older build refuses a newer schema. `src/instrumentation.ts`
+  change takes two releases); an older build started on a newer database logs a warning and carries on (that is the rollback). `src/instrumentation.ts`
   opens the database at server start when `QURAN_DB_PATH` is set, so a deploy that cannot use it
   fails and rolls back; with the variable unset the app runs as before. `deploy.sh` mounts
   `/srv/quranweb-db/<env>` (mode 700, uid 1001) at `/db` and never replaces it. Backups, restore and

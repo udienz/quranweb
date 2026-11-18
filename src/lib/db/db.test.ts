@@ -1,7 +1,7 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DatabaseSync } from "node:sqlite";
 import { migrate, openDatabase } from "./index";
 import { MIGRATIONS } from "./migrations";
@@ -60,13 +60,17 @@ describe("database", () => {
     db.close();
   });
 
-  it("refuses a database that is newer than the build", () => {
+  it("runs an older build against a newer database (rollback) and leaves it untouched", () => {
     const db = new DatabaseSync(join(dir, "d.db"));
     migrate(db, [
       { version: 1, name: "one", sql: "CREATE TABLE a (x)" },
       { version: 2, name: "two", sql: "CREATE TABLE b (x)" },
     ]);
-    expect(() => migrate(db, [{ version: 1, name: "one", sql: "CREATE TABLE a (x)" }])).toThrow(/newer schema/);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(() => migrate(db, [{ version: 1, name: "one", sql: "CREATE TABLE a (x)" }])).not.toThrow();
+    expect(warn).toHaveBeenCalledWith(expect.stringMatching(/continuing/));
+    warn.mockRestore();
+    expect(db.prepare("SELECT MAX(version) AS v FROM schema_version").get()).toEqual({ v: 2 });
     db.close();
   });
 

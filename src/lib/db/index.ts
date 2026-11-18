@@ -23,9 +23,12 @@ export function migrate(
     }
   });
   if (current > sorted.length) {
-    throw new Error(
-      `The database is at version ${current} but this build only knows ${sorted.length}: refusing to run an older build against a newer schema`,
+    // A rollback runs the previous image against a database a newer build has migrated. That is
+    // safe because migrations only add (see migrations.ts), so the older code still works with it.
+    console.warn(
+      `The database is at version ${current} but this build only knows ${sorted.length}: continuing, assuming only additive changes`,
     );
+    return sorted.length;
   }
 
   for (const m of sorted.filter((x) => x.version > current)) {
