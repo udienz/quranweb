@@ -44,7 +44,7 @@ Di layar lebar, daftar surat dan pengaturan bisa disembunyikan agar mushaf memak
 | Lingkungan | URL | Untuk apa | Cara deploy | Sumber data |
 |---|---|---|---|---|
 | **Produksi** | https://quranweb.udienz.web.id | situs publik | otomatis saat tag rilis `v*` di-push (`deploy-prod.yml`), hanya untuk commit yang sudah ada di `master` | mirror sendiri di `/api/v2` dan `/quran-api` pada domain yang sama |
-| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | otomatis di setiap push ke `master` (`deploy-qa.yml`) | mirror sendiri di domainnya |
+| **QA** | https://quranweb-qa.udienz.web.id | uji sebelum rilis | manual dari `master` (`deploy-qa.yml`, Run workflow) | mirror sendiri di domainnya |
 | Lokal | http://localhost:3000 | pengembangan | `npm run dev` | EQuran.id dan fawazahmed0 langsung (bawaan) |
 
 Keduanya berjalan di satu VM yang sama: container Docker (`quranweb-prod` dan `quranweb-qa`) di belakang nginx dengan sertifikat Let's Encrypt (certbot), dan DNS lewat Cloudflare. Deploy memakai SSH dan `scripts/deploy.sh`, yang membangun image di server dan kembali ke image sebelumnya kalau aplikasi baru tidak merespons. Rilis pertama: `v2.0.0` (2026-11-17).
