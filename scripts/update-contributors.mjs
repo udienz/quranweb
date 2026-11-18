@@ -12,7 +12,7 @@
 
 import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { buildModel, parseLocaleNames, render, translationLocales } from "./contributors-lib.mjs";
+import { buildModel, parseCodeowners, parseLocaleNames, render, translationLocales } from "./contributors-lib.mjs";
 
 const OUTPUT = "CONTRIBUTORS.md";
 const MESSAGES_DIR = "src/lib/i18n/messages";
@@ -76,13 +76,32 @@ const names = parseLocaleNames(readFileSync("src/lib/i18n/config.ts", "utf8"));
 const locales = translationLocales(readdirSync(MESSAGES_DIR));
 
 const contributors = await list(`/repos/${repo}/contributors`);
+
+// A commit whose email is not linked to a GitHub account has no author here (a first-time contributor often commits
+// that way), so such a person is found through their merged pull requests instead.
+const pullRequestAuthors = (await list(`/repos/${repo}/pulls?state=closed`)).filter((pr) => pr.merged_at && pr.user).map((pr) => pr.user);
+const authorOfPullRequest = new Map();
+async function pullRequestAuthorOf(sha) {
+  if (!authorOfPullRequest.has(sha)) {
+    const prs = await github(`/repos/${repo}/commits/${sha}/pulls`);
+    authorOfPullRequest.set(sha, prs.find((pr) => pr.merged_at)?.user ?? null);
+  }
+  return authorOfPullRequest.get(sha);
+}
+
 const translators = {};
 for (const code of locales) {
   const commits = await list(`/repos/${repo}/commits?path=${encodeURIComponent(`${MESSAGES_DIR}/${code}.ts`)}`);
-  translators[code] = commits.map((c) => c.author).filter(Boolean);
+  const authors = [];
+  for (const c of commits) {
+    const author = c.author ?? (await pullRequestAuthorOf(c.sha));
+    if (author) authors.push(author);
+  }
+  translators[code] = authors;
 }
 
-const text = render(buildModel({ owner, contributors, translators, names }));
+const codeowners = existsSync(".github/CODEOWNERS") ? parseCodeowners(readFileSync(".github/CODEOWNERS", "utf8")) : {};
+const text = render(buildModel({ owner, contributors, translators, names, pullRequestAuthors, codeowners }));
 const current = existsSync(OUTPUT) ? readFileSync(OUTPUT, "utf8") : "";
 
 if (check) {

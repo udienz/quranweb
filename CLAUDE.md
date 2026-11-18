@@ -582,7 +582,9 @@ Keep that footer link: the credit must stay one click away from every reading pa
 - **`CONTRIBUTORS.md` is generated**, never edited by hand: after merging a contribution from someone else (code or a
   translation), run `node scripts/update-contributors.mjs` and commit the result. The script lists the owner as
   maintainer, the people who changed each language catalog, and everyone with commits; it leaves out bots and the
-  account GitHub wrongly attributes the early `Claude <noreply@anthropic.com>` commits to (`EXCLUDED_LOGINS`).
+  account GitHub wrongly attributes the early `Claude <noreply@anthropic.com>` commits to (`EXCLUDED_LOGINS`). A commit
+  whose email GitHub cannot link to an account (the first Turkish translator's) is credited to the author of its merged pull
+  request, and the owner counts as a language's translator only when `CODEOWNERS` names them for it.
 - **One branch per task.** Start every task on a new branch named after the work (for
   example `source-registry`), from the latest `master`, or from the branch it depends on
   when the work is stacked on an open PR. Never reuse a merged branch or its name: once its

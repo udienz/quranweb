@@ -35,6 +35,19 @@ export function translationLocales(fileNames) {
     .sort();
 }
 
+/**
+ * Who is listed for each language catalog in CODEOWNERS: `{ id: ["udienz"] }` from a line such as
+ * `/src/lib/i18n/messages/id.ts @udienz`. Those are the language's maintainers.
+ */
+export function parseCodeowners(text) {
+  const owners = {};
+  for (const line of text.split("\n")) {
+    const match = /^\s*\/?src\/lib\/i18n\/messages\/([a-z]{2,3})\.ts\s+(.+)$/.exec(line.replace(/#.*/, ""));
+    if (match) owners[match[1]] = match[2].split(/\s+/).filter((w) => w.startsWith("@")).map((w) => w.slice(1));
+  }
+  return owners;
+}
+
 const byLoginCaseInsensitive = (a, b) => a.login.toLowerCase().localeCompare(b.login.toLowerCase());
 
 /**
@@ -43,16 +56,25 @@ const byLoginCaseInsensitive = (a, b) => a.login.toLowerCase().localeCompare(b.l
  * - `contributors`: GitHub's contributor list (login, type, contributions).
  * - `translators`: for each locale, the accounts that changed its catalog on the default branch.
  * - `names`: language names by locale code.
+ * - `pullRequestAuthors`: the people whose pull requests were merged. Commits whose email GitHub cannot link to an
+ *   account are missing from `contributors`, so this is how such a person is found.
+ * - `codeowners`: the maintainers of each language (see parseCodeowners). The owner is credited as a translator of a
+ *   language only when CODEOWNERS names them for it; a fix to someone else's catalog does not make them its translator.
  */
-export function buildModel({ owner, contributors, translators, names }) {
+export function buildModel({ owner, contributors, translators, names, pullRequestAuthors = [], codeowners = {} }) {
   const people = new Map(); // lower-case login -> account (first spelling wins)
   const add = (account) => {
     if (isPerson(account) && !people.has(account.login.toLowerCase())) people.set(account.login.toLowerCase(), account);
   };
   contributors.forEach(add);
+  pullRequestAuthors.forEach(add);
   Object.values(translators).flat().forEach(add);
 
   const counts = new Map(contributors.map((c) => [c.login.toLowerCase(), c.contributions ?? 0]));
+  for (const a of pullRequestAuthors) {
+    const key = a.login.toLowerCase();
+    if (!counts.has(key)) counts.set(key, 0);
+  }
   const maintainer = people.get(owner.toLowerCase()) ?? { login: owner };
   const others = [...people.values()]
     .filter((p) => p.login.toLowerCase() !== owner.toLowerCase())
@@ -65,9 +87,11 @@ export function buildModel({ owner, contributors, translators, names }) {
     .sort()
     .map((code) => {
       const seen = new Set();
+      const maintainers = (codeowners[code] ?? []).map((l) => l.toLowerCase());
       const logins = translators[code].filter((a) => {
         const key = a.login?.toLowerCase();
         if (!isPerson(a) || seen.has(key)) return false;
+        if (key === owner.toLowerCase() && !maintainers.includes(key)) return false;
         seen.add(key);
         return true;
       });

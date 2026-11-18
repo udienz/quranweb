@@ -20,7 +20,9 @@ CI runs the same commands on every pull request.
 [CONTRIBUTORS.md](CONTRIBUTORS.md) thanks everyone who has contributed: the maintainer, the translators of each interface
 language, and everyone else with a merged commit. It is generated from the GitHub history, so it is never edited by hand:
 the maintainer runs `node scripts/update-contributors.mjs` after merging a contribution and commits the result
-(`--check` says whether it is out of date). Bots are left out.
+(`--check` says whether it is out of date). Bots are left out. A first-time contributor's commits are often not linked to
+their GitHub account; the script then finds them through their merged pull request. The maintainer is credited as the
+translator of a language only if `.github/CODEOWNERS` names them for it, not for a fix to someone else's catalog.
 
 ## Translating the interface
 
