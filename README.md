@@ -64,7 +64,8 @@ On wide screens the surah list and settings can be hidden so the mushaf uses the
 
 ## Feedback and help
 
-Found a mistake, or have an idea? [Open an issue](https://github.com/udienz/quranweb/issues).
+Found a mistake, or have an idea? [Open an issue](https://github.com/udienz/quranweb/issues). Thanks to everyone who has
+helped: see [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 You can also help by translating the interface (menus, buttons, pages) into your language. The Qur'an itself is never
 translated this way. How it works: [CONTRIBUTING.md](CONTRIBUTING.md), section "Translating the interface".

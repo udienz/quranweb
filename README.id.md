@@ -65,7 +65,8 @@ Di layar lebar, daftar surat dan pengaturan bisa disembunyikan agar mushaf memak
 
 ## Masukan dan bantuan
 
-Menemukan kesalahan, atau punya ide? [Buka issue](https://github.com/udienz/quranweb/issues).
+Menemukan kesalahan, atau punya ide? [Buka issue](https://github.com/udienz/quranweb/issues). Terima kasih kepada semua
+yang telah membantu: lihat [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 Anda juga bisa membantu dengan menerjemahkan antarmuka (menu, tombol, halaman) ke bahasa Anda. Al-Qur'an sendiri tidak
 pernah diterjemahkan dengan cara ini. Caranya: [CONTRIBUTING.md](CONTRIBUTING.md) (dalam bahasa Inggris), bagian
