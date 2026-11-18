@@ -87,6 +87,36 @@ export const userDataActions = {
   current: (): UserData => parseOrEmpty(readRaw()),
 };
 
+const OWNER_KEY = "quranweb:sync-owner";
+let memoryOwner: string | null = null;
+
+/** What the sync engine needs: this browser's copy, and which account it was last synchronised with. */
+export const userDataSync = {
+  load: (): UserData => parseOrEmpty(readRaw()),
+  /** Replace the stored copy (no-op when equal) and tell every component and tab. */
+  save: (data: UserData): void => {
+    const raw = JSON.stringify(data);
+    if (raw !== readRaw()) writeRaw(raw);
+  },
+  raw: readRaw,
+  subscribe,
+  getOwner: (): string | null => {
+    try {
+      return localStorage.getItem(OWNER_KEY) ?? memoryOwner;
+    } catch {
+      return memoryOwner;
+    }
+  },
+  setOwner: (userId: string): void => {
+    memoryOwner = userId;
+    try {
+      localStorage.setItem(OWNER_KEY, userId);
+    } catch {
+      /* keep it in memory */
+    }
+  },
+};
+
 /** The current user data; empty on the server and before hydration is done. */
 export function useUserData(): UserData {
   const raw = useSyncExternalStore(subscribe, readRaw, () => "");

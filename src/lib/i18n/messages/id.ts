@@ -20,6 +20,7 @@ export const id: Messages = {
     signIn: "Masuk",
     signOut: "Keluar",
     signedInAs: "Masuk sebagai {name}",
+    syncFailed: "Belum bisa disinkronkan dengan akun Anda. Bacaan Anda aman di perangkat ini dan akan disinkronkan nanti.",
     error: "Masuk belum bisa dipakai sekarang. Coba lagi nanti.",
   },
   footer: {

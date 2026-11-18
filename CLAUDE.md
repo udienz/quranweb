@@ -12,7 +12,7 @@ into `master`.
 
 There is **no panel for editing Qur'an content**. Reading progress and bookmarks live in the browser. Optional
 sign-in (OIDC through our own identity provider) and a SQLite database for accounts are being added (roadmap
-phase 3); syncing reading data and user management come later; the long-term plan is in
+phase 3); reading data syncs with the account when signed in; user management comes later; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
 
@@ -160,8 +160,7 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
 - **Tables** are migration 2 (the library's `user`, `session`, `account`, `verification` with their own column
   names and types, plus `disabledAt` and `lastSeenAt` on `user`); a test asks the library whether anything is
   missing, so a library upgrade that needs a new column fails the tests. The tables of migration 1 (`users` with
-  `google_sub` and the data tables that point to it) are unused and stay until a later cleanup; step 5 creates the
-  data tables that point to `"user"(id)`.
+  `google_sub` and the data tables that point to it) are unused and stay until a later cleanup (two releases on).
 - **The account menu** (`AccountMenu`) is a client component that reads the session through
   `authClient.useSession()` in a `<Suspense>` in the header, so pages stay cache-friendly and the layout never reads
   the session cookie. It is rendered only when sign-in is configured. After sign-in the reader returns to the page they came from
@@ -177,10 +176,37 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
   every response in `next.config.ts`. The CSP allows inline scripts and styles (Next.js and the theme script need
   them) and https audio; a nonce-based policy would make every page fully dynamic.
 
+### Syncing reading data (signed in)
+
+Local first: the browser copy is always usable, and signing in only adds a copy on the server.
+
+- **One document per account** (`account_data`, migration 3): the same version-2 JSON the browser keeps,
+  validated by `parseUserData` and merged by `mergeUserData`, so server and browser cannot disagree about the
+  format or the merge rule. Chosen over separate tables because the whole state is small (about 3 MB at the
+  schema limits) and is exchanged in one request; it replaces the four-table plan in `PHASE3.md`.
+- **API** (`src/lib/sync/api.ts`, route `/api/me/state`): `GET` returns the account's data, `PUT` merges the
+  device's data into it in one `BEGIN IMMEDIATE` transaction and returns the merged result, so one request both
+  pushes and pulls. Needs a session; a disabled account gets 403 even with a session that already exists. A `PUT`
+  must come from this site (`Origin`), be JSON and be at most 4 MB (a reverse proxy in front must allow a body that
+  size on this path, for example nginx `client_max_body_size 4m`). Bad data is a 400 and nothing is stored. Tombstones
+  older than 90 days are dropped on each exchange.
+- **Browser** (`src/lib/sync/engine.ts`, `client.ts`, used by `AccountMenu`): sync once when the reader is known, about
+  2 s after a local change, when the tab is hidden or shown, and when the connection returns. A failure never changes
+  the local data (a "!" shows in the menu) and the next trigger retries.
+- **Shared computers:** the browser remembers which account its data was last synchronised with
+  (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
+  the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
+  changes the previous reader made offline and never synced are lost when another reader signs in.
+- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser), and the
+  "Saved in this browser, no account needed" line on `/my-reading` still says so. Export and delete come in step 6.
+- **Tests:** API and merge behaviour against a temp database with the fake provider (`sync.test.ts`); the browser
+  side with fakes (`runSync`). For two real devices, run the built image with the fake provider (its `/__user?seed=`
+  endpoint switches the reader) and drive two browser contexts.
+
 ### Rendering and configuration
 
-- **A database exists, and only sign-in uses it so far** (phase 3, `PHASE3.md`). Reading data
-  still never leaves the browser. The account database is SQLite through the built-in
+- **A database exists for accounts** (phase 3, `PHASE3.md`; sign-in sessions and, for signed-in readers,
+  their synced reading data). Without an account, reading data never leaves the browser. The account database is SQLite through the built-in
   `node:sqlite` (`src/lib/db/`, chosen over `better-sqlite3` in a spike: no dependency and no
   native module in the standalone build; Node documents it as a release candidate, so re-check
   it on each Node upgrade). `openDatabase` sets WAL and foreign keys and applies the numbered
@@ -240,6 +266,7 @@ src/
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files
     auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
+    sync/                      account sync: server (merge, store), API handler, engine, browser hook
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
