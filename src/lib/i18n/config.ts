@@ -1,7 +1,7 @@
 // Supported UI languages. Quran content (editions) has its own languages and is
 // chosen separately; this only controls the interface.
 
-export const LOCALES = ["en", "id"] as const;
+export const LOCALES = ["en", "id", "tr"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /** Used when neither the cookie nor the browser says anything usable. */
@@ -9,7 +9,7 @@ export const DEFAULT_LOCALE: Locale = "id";
 
 export const LOCALE_COOKIE = "qw-lang";
 
-export const LOCALE_NAMES: Record<Locale, string> = { en: "English", id: "Bahasa Indonesia" };
+export const LOCALE_NAMES: Record<Locale, string> = { en: "English", id: "Bahasa Indonesia", tr: "Türkçe" };
 
 export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (LOCALES as readonly string[]).includes(value);
