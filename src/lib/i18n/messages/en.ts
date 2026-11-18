@@ -48,7 +48,7 @@ export const en = {
       },
       account: {
         title: "If you sign in",
-        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them.",
+        body: "Signing in is optional and only needed to keep your reading on more than one device. You sign in with your Google account through our own sign-in service. Google tells that service your name and email address; this site receives an identifier from the sign-in service, your email address and your name.\n\nWe store: that identifier, your email address, your name, when the account was created and when you last signed in, a session record (a random token and its expiry date), and your reading data: last read position, progress per surah and bookmarks with your notes, each with the time it last changed.\n\nWe do not store: passwords (we never see one), your IP address or browser type with your account, or anything for advertising or analytics. Our web server and Cloudflare handle IP addresses to deliver the site, as every website does. Notes are stored as plain text on our server, so do not write secrets in them. The person who runs the site can see the list of accounts (name, email address, when each was created and last signed in) and can disable or delete an account; they cannot see your reading data from that list, and each such action is recorded.",
       },
       cookies: {
         title: "Cookies",
@@ -75,6 +75,26 @@ export const en = {
     contactBy: "This site is run by {name}.",
     contactEmail: "Questions and requests about your data: {email}",
     contactMissing: "The contact for questions about your data has not been set up yet.",
+  },
+  admin: {
+    title: "Accounts",
+    subtitle: "Account details only. Reading data and Qur'an content are not shown or editable here.",
+    users: "{count} accounts",
+    empty: "No accounts yet.",
+    columns: { account: "Account", created: "Created", lastSeen: "Last sign-in", status: "Status" },
+    status: { active: "Active", disabled: "Disabled" },
+    you: "You",
+    disable: "Disable",
+    enable: "Enable",
+    delete: "Delete",
+    deleteWarning: "Delete this account and its data for good?",
+    confirmDelete: "Yes, delete",
+    failed: "That did not work. Try again.",
+    audit: {
+      title: "Recent actions",
+      empty: "Nothing yet.",
+      actions: { disable: "disabled", enable: "enabled", delete: "deleted" },
+    },
   },
   footer: {
     intro: "The sources of every text, translation, tafsir and recitation are listed under each surah. Main data from",

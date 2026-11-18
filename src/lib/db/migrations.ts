@@ -147,4 +147,19 @@ CREATE TABLE account_data (
 );
 `,
   },
+  {
+    // What the admin did, kept after the account it was done to is gone (so no foreign key).
+    // The unused audit_log table of migration 1 stays until the later cleanup.
+    version: 4,
+    name: "admin-audit",
+    sql: `
+CREATE TABLE admin_audit (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  at             INTEGER NOT NULL,
+  actor_email    TEXT NOT NULL,
+  action         TEXT NOT NULL,
+  target_user_id TEXT NOT NULL
+);
+`,
+  },
 ];

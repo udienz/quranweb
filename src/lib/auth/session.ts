@@ -5,6 +5,7 @@ export interface SessionUser {
   email: string;
   name: string;
   createdAt: Date;
+  emailVerified: boolean;
 }
 
 const json = (body: unknown, status: number) =>

@@ -12,7 +12,7 @@ into `master`.
 
 There is **no panel for editing Qur'an content**. Reading progress and bookmarks live in the browser. Optional
 sign-in (OIDC through our own identity provider) and a SQLite database for accounts are being added (roadmap
-phase 3); reading data syncs with the account when signed in, and readers can download or delete it; user management comes later; the long-term plan is in
+phase 3); reading data syncs with the account when signed in, readers can download or delete it, and the admin can manage accounts; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
 
@@ -225,6 +225,24 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 - When the policy text changes, change both languages in the same commit and check it still matches what the code does
   (what is stored, cookies, recipients, retention).
 
+### Admin (accounts only)
+
+- **Who:** the signed-in readers whose **verified** email is in `ADMIN_EMAILS` (comma-separated, case-insensitive) in the
+  server environment. It is never written in git or in tests (tests use `boss@example.test`). Unset means no admin.
+  The check is on the server for every request (`requireAdmin`, and the page itself), by the email of the session.
+- **What:** `/admin` lists accounts (name, email, created, last sign-in, status) and the recent actions, and can disable,
+  enable or delete an account (`POST /api/admin/users/<id>` with `{"action":"disable"|"enable"|"delete"}`). It never
+  selects or shows reading data and has no way to touch Qur'an content. Disabling deletes the account's sessions at
+  once; deleting is the same permanent deletion as a reader's own (`deleteAccount`). An admin cannot act on their own
+  account (409), so a slip cannot lock everyone out.
+- **Anyone else sees a 404:** a visitor or a reader who is not an admin gets the not-found page from `/admin` and a 404
+  from the API, so the page is not advertised. There is no menu link; the admin opens `/admin` directly.
+- **Audit log:** every action is a row in `admin_audit` (migration 4: time, admin email, action, target account id). It has no
+  foreign key, so it outlives a deleted account. The privacy page tells readers that the operator sees this list.
+- **Rows from `node:sqlite` have a null prototype**, which React refuses to pass from a server to a client component
+  (`Only plain objects ... can be passed`); copy them into plain objects first (`plain()` in `admin/server.ts`). A unit
+  test checks it, and this was only caught by a browser run, so keep running one for pages that pass database rows down.
+
 ### Rendering and configuration
 
 - **A database exists for accounts** (phase 3, `PHASE3.md`; sign-in sessions and, for signed-in readers,
@@ -255,6 +273,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
+| `ADMIN_EMAILS` | none | Comma-separated emails of the admins (verified sign-in emails); unset = no admin page |
 | `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
@@ -269,6 +288,7 @@ src/
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup, account
     privacy/page.tsx           privacy policy (English and Indonesian)
+    admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
@@ -283,6 +303,7 @@ src/
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     AccountMenu.tsx            sign-in / sign-out in the header (only when sign-in is on)
     AccountSection.tsx         download and delete account, on My reading (signed in only)
+    AdminUsers.tsx             accounts and audit log for the admin
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
@@ -293,6 +314,7 @@ src/
     auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
     sync/                      account sync: server (merge, store), API handler, engine, browser hook
     account/                   export and deletion of an account (API handler, tests)
+    admin/                     admin allowlist, account list, actions and audit log (API handler, tests)
     privacy.ts                 privacy contact from the environment
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
