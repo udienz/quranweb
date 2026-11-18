@@ -132,6 +132,12 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   "My reading" and Sign in, or the name and email, "My reading" and Sign out. With sign-in on, "My reading" is only in
   this menu; with sign-in off the menu is not rendered and "My reading" stays in the main navigation. It closes on a
   click outside and on Escape.
+- **The side panel of the surah page** (surah list and reading settings) can be collapsed on wide screens
+  (`SurahLayout`, button above the reader), so the reader and the mushaf text use the whole width. The state is the
+  cookie `qw-sidebar` (`SIDEBAR_COOKIE` in `layout.ts`; a constant shared with a server component must not live in a
+  `"use client"` module, where it becomes a client reference), read by the server so the page renders collapsed without a
+  flash. It is per browser and does not follow the account. Below `lg` the same surah list and settings are in the folded
+  "Surah list and settings" panel above the surah, so phones have everything the side panel has.
 - **No page wider than the screen on phones:** the header puts the navigation on a second row below `sm`, and grids that
   hold `truncate`d text need `grid-cols-1` (an implicit grid column grows to the text). Check new pages at 320 px.
 

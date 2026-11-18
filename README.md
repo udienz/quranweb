@@ -32,11 +32,11 @@ The pictures show the English interface; the Indonesian README shows the Indones
 | ![Home page with continue reading](docs/screenshots/en/home.png) | ![My reading: last read, daily goal, progress, bookmarks](docs/screenshots/en/my-reading.png) |
 | Home page with "continue reading" | "My reading": last read, daily goal, progress, bookmarks |
 
-On phones the settings sit in a collapsible panel above the surah:
+On wide screens the surah list and settings can be hidden so the mushaf uses the whole width; on phones they sit in a collapsible panel above the surah:
 
 <p>
   <img src="docs/screenshots/en/mobile.png" alt="Reading page on a phone, mushaf layout" width="260">
-  <img src="docs/screenshots/en/mobile-settings.png" alt="Settings panel on a phone" width="260">
+  <img src="docs/screenshots/en/mobile-settings.png" alt="Surah list and settings on a phone" width="260">
 </p>
 
 ## Environments and URLs

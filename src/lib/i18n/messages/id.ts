@@ -143,6 +143,9 @@ export const id: Messages = {
     position: "{surah}, ayat {verse}",
   },
   reader: {
+    panel: "Daftar surat dan pengaturan",
+    hidePanel: "Sembunyikan daftar surat dan pengaturan",
+    showPanel: "Tampilkan daftar surat dan pengaturan",
     jumpToVerse: "Lompat ke ayat",
     jumpPlaceholder: "Ayat…",
     verseOption: "Ayat {number}",

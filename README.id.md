@@ -32,11 +32,11 @@ Gambar menampilkan antarmuka bahasa Indonesia; README bahasa Inggris menampilkan
 | ![Beranda dengan lanjutkan membaca](docs/screenshots/id/home.png) | ![Bacaan saya: terakhir dibaca, target harian, progres, penanda](docs/screenshots/id/my-reading.png) |
 | Beranda dengan "lanjutkan membaca" | "Bacaan saya": terakhir dibaca, target harian, progres, penanda |
 
-Di ponsel, pengaturan ada di panel lipat di atas surat:
+Di layar lebar, daftar surat dan pengaturan bisa disembunyikan agar mushaf memakai seluruh lebar; di ponsel keduanya ada di panel lipat di atas surat:
 
 <p>
   <img src="docs/screenshots/id/mobile.png" alt="Halaman bacaan di ponsel, tampilan mushaf" width="260">
-  <img src="docs/screenshots/id/mobile-settings.png" alt="Panel pengaturan di ponsel" width="260">
+  <img src="docs/screenshots/id/mobile-settings.png" alt="Daftar surat dan pengaturan di ponsel" width="260">
 </p>
 
 ## Lingkungan dan URL

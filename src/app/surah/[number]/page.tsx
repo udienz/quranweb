@@ -1,4 +1,4 @@
-import { LAYOUT_COOKIE, parseLayout } from "@/lib/layout";
+import { LAYOUT_COOKIE, parseLayout, SIDEBAR_COOKIE } from "@/lib/layout";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getI18n, getLocale } from "@/lib/i18n/server";
@@ -6,6 +6,7 @@ import { clampPage, pageCount, pageRange } from "@/lib/pagination";
 import { getQuran } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import SettingsPanel from "@/components/SettingsPanel";
+import SurahLayout from "@/components/SurahLayout";
 import SurahReader from "@/components/SurahReader";
 import SurahSidebar from "@/components/SurahSidebar";
 
@@ -51,19 +52,22 @@ export default async function SurahPage({
   const { t } = await getI18n();
 
   return (
-    <div className="mx-auto grid max-w-[1200px] gap-6 px-4 py-6 lg:grid-cols-[320px_1fr]">
-      <aside className="hidden lg:block">
-        {/* The column can be taller than the screen; it scrolls on its own so every setting stays reachable. */}
+    <SurahLayout
+      initiallyCollapsed={jar.get(SIDEBAR_COOKIE)?.value === "collapsed"}
+      side={
+        // The column can be taller than the screen; it scrolls on its own so every setting stays reachable.
         <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pr-1">
           <SurahSidebar surahs={surahs} current={surahNumber} />
           <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
         </div>
-      </aside>
-      <div className="min-w-0">
+      }
+    >
+        {/* Phones and tablets: the same surah list and settings as the side panel, folded above the surah. */}
         <details className="mb-4 rounded-2xl border border-border bg-card lg:hidden">
-          <summary className="cursor-pointer px-4 py-3 font-display text-sm font-semibold">{t("settings.title")}</summary>
-          <div className="px-2 pb-2">
-            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} hideTitle />
+          <summary className="cursor-pointer px-4 py-3 font-display text-sm font-semibold">{t("reader.panel")}</summary>
+          <div className="flex flex-col gap-4 px-2 pb-2">
+            <SurahSidebar surahs={surahs} current={surahNumber} />
+            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
           </div>
         </details>
         <SurahReader
@@ -74,7 +78,6 @@ export default async function SurahPage({
           next={surahNumber < 114 ? surahNumber + 1 : null}
           layout={layout}
         />
-      </div>
-    </div>
+    </SurahLayout>
   );
 }
