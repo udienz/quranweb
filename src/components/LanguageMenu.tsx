@@ -73,7 +73,6 @@ export default function LanguageMenu() {
               type="button"
               role="menuitemradio"
               aria-checked={code === current}
-              lang={code}
               onClick={() => {
                 close();
                 choose(code);
@@ -81,7 +80,11 @@ export default function LanguageMenu() {
               className="flex w-full items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background"
             >
               <span className="flex items-center gap-2">
-                <span translate="no">{name}</span>
+                {/* Only the name is in its own language: the badge is interface text (and `uppercase` follows the lang, so
+                    a Turkish lang on the whole item would write "COMMUNİTY"). */}
+                <span lang={code} translate="no">
+                  {name}
+                </span>
                 {community && (
                   <span
                     title={t("nav.communityTranslation")}
