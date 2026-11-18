@@ -41,6 +41,55 @@ sudo systemctl start quranweb-backup@qa.service          # first run now; check 
 Keep `backup-key.txt` (the private key) somewhere safe and **not on the server**: without it the
 backups cannot be restored. Optional settings go in `/etc/quranweb/backup.env`.
 
+## Off-server copy: Google Drive with rclone
+
+The backups are encrypted before they leave the server, so the remote only ever holds files nobody can read without the
+age private key. `scripts/upload-rclone.sh` copies each new backup to `<remote>/<qa|prod>/`, checks that the size arrived
+intact, and deletes copies older than `RETENTION_DAYS` (30). It never deletes when fewer than 3 files would remain, so a
+wrong clock or a long outage cannot wipe every copy. A failed upload fails the run (the local copy stays).
+
+**One-time setup**
+
+1. Use a Google account made for backups, if you can, not your main one: the token on the server can then only reach this
+   account. The `drive.file` scope below limits it to files rclone created itself.
+2. On a machine with a browser (a recent rclone prints a base64 blob; the second argument of `authorize` is the JSON
+   `{"scope":"drive.file"}` in base64 **without** `=` padding):
+
+   ```bash
+   rclone authorize "drive" "eyJzY29wZSI6ImRyaXZlLmZpbGUifQ" --auth-no-open-browser
+   ```
+
+   Log in and approve. Copy what rclone prints between `--->` and `<---End paste` (never paste it into a chat or git).
+3. On the server, turn it into a config file (works for the blob of a new rclone and for the token JSON of an old one):
+
+   ```bash
+   python3 scripts/rclone-conf-from-blob.py gdrive | sudo tee /etc/quranweb/rclone.conf >/dev/null   # paste, then Ctrl-D
+   sudo chown root:root /etc/quranweb/rclone.conf && sudo chmod 600 /etc/quranweb/rclone.conf
+   sudo apt install rclone
+   ```
+4. Tell the timer to use it, in `/etc/quranweb/backup.env` (one `NAME=value` per line):
+
+   ```
+   UPLOAD_CMD=/usr/local/lib/quranweb/upload-rclone.sh
+   RCLONE_CONFIG=/etc/quranweb/rclone.conf
+   RCLONE_REMOTE=gdrive:quranweb-backups
+   ```
+
+   and install the script: `sudo install -m 755 scripts/upload-rclone.sh /usr/local/lib/quranweb/`.
+5. Try it: `sudo systemctl start quranweb-backup@qa.service`, then `sudo rclone --config /etc/quranweb/rclone.conf lsl gdrive:quranweb-backups/qa`.
+
+The refresh token does not expire while it is used every night. If it is revoked (a password change with "sign out of
+all devices", or an app removed in the Google account), uploads fail with an error in `journalctl -u quranweb-backup@qa`:
+repeat step 2 and 3. Do not use your own OAuth client in "Testing" mode: its tokens expire after 7 days; rclone's built-in
+client does not have that limit.
+
+**Restore from the remote**
+
+```bash
+sudo rclone --config /etc/quranweb/rclone.conf copy gdrive:quranweb-backups/qa/<file>.db.age .
+scripts/restore-db.sh <file>.db.age <age-private-key-file> /path/to/restored.db
+```
+
 ## Restore (and the rehearsal)
 
 ```bash
