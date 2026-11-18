@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -355,6 +355,7 @@ function randomData(next: () => number): UserData {
   const choices: UserData["choices"] = {};
   if (next() < 0.6) choices.selection = { value: { qari: pick(["a", "b"]), translations: [pick(["ind-x", "eng-y"])] }, at: pick(times) };
   if (next() < 0.6) choices.locale = { value: pick(["en", "id"] as const), at: pick(times) };
+  if (next() < 0.5) choices.layout = { value: pick(["mushaf", "cards"] as const), at: pick(times) };
   const collections: UserData["collections"] = [];
   for (const id of ["coll0001", "coll0002"]) {
     const roll = next();
@@ -577,5 +578,17 @@ describe("daily goal and khatam progress", () => {
     let d = recordVersesRead(emptyUserData(), dev, "2026-01-01", 3);
     d = recordVersesRead(d, dev, "2026-11-18", 3);
     expect(Object.keys(pruneTombstones(d, "2026-11-18T12:00:00.000Z").activity)).toEqual(["2026-11-18"]);
+  });
+});
+
+describe("layout choice", () => {
+  it("records, merges newest-first and validates", () => {
+    const a = setLayoutChoice(emptyUserData(), "cards", T1);
+    const b = setLayoutChoice(emptyUserData(), "mushaf", T2);
+    expect(mergeUserData(a, b).choices.layout?.value).toBe("mushaf");
+    expect(() => setLayoutChoice(emptyUserData(), "grid" as never, T1)).toThrow();
+    const raw = JSON.parse(JSON.stringify(a));
+    expect(parseUserData(raw)).toEqual(a);
+    expect(() => parseUserData({ ...raw, choices: { layout: { value: "grid", at: T1 } } })).toThrow();
   });
 });

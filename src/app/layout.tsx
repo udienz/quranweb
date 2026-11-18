@@ -48,9 +48,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                   <span className="hidden h-2 w-2 rounded-full bg-gold sm:block" />
                   {t("nav.quran")}
                 </Link>
-                <Link href="/my-reading" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                  {t("nav.myReading")}
-                </Link>
+                {/* With sign-in on, "My reading" lives in the account menu; without it, it stays here. */}
+                {!accounts && (
+                  <Link href="/my-reading" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
+                    {t("nav.myReading")}
+                  </Link>
+                )}
               </nav>
               <div className="flex items-center gap-2">
                 <LanguageSwitch />

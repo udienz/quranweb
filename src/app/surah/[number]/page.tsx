@@ -1,3 +1,4 @@
+import { LAYOUT_COOKIE, parseLayout } from "@/lib/layout";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getI18n, getLocale } from "@/lib/i18n/server";
@@ -29,7 +30,9 @@ export default async function SurahPage({
   // against the catalog is ignored and the defaults are used.
   const quran = getQuran();
   const locale = await getLocale();
-  const saved = parseSelectionCookie((await cookies()).get(SELECTION_COOKIE)?.value);
+  const jar = await cookies();
+  const saved = parseSelectionCookie(jar.get(SELECTION_COOKIE)?.value);
+  const layout = parseLayout(jar.get(LAYOUT_COOKIE)?.value);
   let selection;
   try {
     selection = quran.resolveSelection(saved, locale);
@@ -53,14 +56,14 @@ export default async function SurahPage({
         {/* The column can be taller than the screen; it scrolls on its own so every setting stays reachable. */}
         <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pr-1">
           <SurahSidebar surahs={surahs} current={surahNumber} />
-          <SettingsPanel catalog={catalog} selection={view.selection} />
+          <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
         </div>
       </aside>
       <div className="min-w-0">
         <details className="mb-4 rounded-2xl border border-border bg-card lg:hidden">
           <summary className="cursor-pointer px-4 py-3 font-display text-sm font-semibold">{t("settings.title")}</summary>
           <div className="px-2 pb-2">
-            <SettingsPanel catalog={catalog} selection={view.selection} hideTitle />
+            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} hideTitle />
           </div>
         </details>
         <SurahReader
@@ -69,6 +72,7 @@ export default async function SurahPage({
           pageCount={count}
           prev={surahNumber > 1 ? surahNumber - 1 : null}
           next={surahNumber < 114 ? surahNumber + 1 : null}
+          layout={layout}
         />
       </div>
     </div>

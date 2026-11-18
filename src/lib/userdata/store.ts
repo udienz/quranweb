@@ -7,6 +7,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import type { Locale } from "../i18n/config";
+import type { Layout } from "../layout";
 import type { Selection } from "../quran/types";
 import {
   emptyUserData,
@@ -21,6 +22,7 @@ import {
   clearProgress,
   pruneTombstones,
   setLocaleChoice,
+  setLayoutChoice,
   setSelectionChoice,
   createCollection,
   renameCollection,
@@ -134,6 +136,7 @@ export const userDataActions = {
   /** Record an explicit choice so it follows the account (the cookie is written by the caller). */
   chooseSelection: (selection: Partial<Selection>) => update((d) => setSelectionChoice(d, selection, now())),
   chooseLocale: (locale: Locale) => update((d) => setLocaleChoice(d, locale, now())),
+  chooseLayout: (layout: Layout) => update((d) => setLayoutChoice(d, layout, now())),
   /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),
 };

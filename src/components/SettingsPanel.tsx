@@ -8,6 +8,7 @@ import type { StringKey } from "@/lib/i18n/messages";
 import { localized } from "@/lib/i18n/translate";
 import type { Catalog, Edition, Selection } from "@/lib/quran";
 import { SELECTION_COOKIE, serializeSelection } from "@/lib/selection";
+import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { userDataActions } from "@/lib/userdata/store";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 
@@ -39,10 +40,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export default function SettingsPanel({
   catalog,
   selection: saved,
+  layout: savedLayout,
   hideTitle = false,
 }: {
   catalog: Catalog;
   selection: Selection;
+  /** Mushaf or verse by verse (cookie qw-layout, read by the server). */
+  layout: Layout;
   /** Hide the title when the panel already sits under another heading (e.g. a <details>). */
   hideTitle?: boolean;
 }) {
@@ -52,6 +56,7 @@ export default function SettingsPanel({
   const [pending, startTransition] = useTransition();
   // Show the new choice at once; the server catches up when the refresh finishes.
   const [selection, setOptimistic] = useOptimistic(saved);
+  const [layout, setOptimisticLayout] = useOptimistic(savedLayout);
 
   const ofKind = (kind: Edition["kind"]) => catalog.editions.filter((e) => e.kind === kind);
   const nameOf = (e: Edition) => localized(e.name, locale);
@@ -66,12 +71,41 @@ export default function SettingsPanel({
     });
   }
 
+  function saveLayout(next: Layout) {
+    if (next === layout) return;
+    writeCookie(LAYOUT_COOKIE, next);
+    userDataActions.chooseLayout(next);
+    startTransition(() => {
+      setOptimisticLayout(next);
+      router.refresh();
+    });
+  }
+
   const translationGroups = new Map<string, Edition[]>();
   for (const e of ofKind("translation")) translationGroups.set(e.language, [...(translationGroups.get(e.language) ?? []), e]);
 
   return (
     <section className="rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
       {!hideTitle && <h2 className="mb-3 font-display font-semibold">{t("settings.title")}</h2>}
+
+      <div role="group" aria-label={t("settings.layout")} className="mb-4 flex flex-col gap-1 border-b border-border pb-4 text-sm">
+        <span className="font-medium">{t("settings.layout")}</span>
+        <div className="flex rounded-full border border-border bg-background p-0.5 text-xs font-semibold">
+          {(["mushaf", "cards"] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={layout === value}
+              onClick={() => saveLayout(value)}
+              className={`flex-1 rounded-full px-3 py-1.5 transition ${
+                layout === value ? "bg-primary text-white dark:text-[hsl(192_64%_8%)]" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {value === "mushaf" ? t("settings.layoutMushaf") : t("settings.layoutCards")}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <ul className="mb-4 flex flex-col gap-3 border-b border-border pb-4">
         {DISPLAY_TOGGLES.map(({ key, label }) => (

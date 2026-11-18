@@ -11,6 +11,7 @@
 import { isLocale, type Locale } from "../i18n/config";
 import type { Selection } from "../quran/types";
 import { parseSelectionObject } from "../selection";
+import { isLayout, type Layout } from "../layout";
 
 export const USER_DATA_VERSION = 2;
 
@@ -70,6 +71,8 @@ export interface ProgressEntry {
 export interface Choices {
   selection?: { value: Partial<Selection>; at: string };
   locale?: { value: Locale; at: string };
+  /** Mushaf or verse-by-verse cards (the `qw-layout` cookie). */
+  layout?: { value: Layout; at: string };
 }
 
 /** The daily reading goal in verses (0 = off), with the time it was set; the newest setting wins. */
@@ -321,6 +324,12 @@ export function setSelectionChoice(data: UserData, value: Partial<Selection>, at
   return { ...data, choices: { ...data.choices, selection: { value: parseSelectionObject(value), at } } };
 }
 
+/** Record an explicit choice of layout. */
+export function setLayoutChoice(data: UserData, value: Layout, at: string): UserData {
+  if (!isLayout(value)) throw new Error(`Invalid layout: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, layout: { value, at } } };
+}
+
 /** Record an explicit choice of interface language. */
 export function setLocaleChoice(data: UserData, value: Locale, at: string): UserData {
   if (!isLocale(value)) throw new Error(`Invalid locale: ${String(value)}`);
@@ -386,7 +395,7 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
   const choices: Choices = {};
-  for (const key of ["selection", "locale"] as const) {
+  for (const key of ["selection", "locale", "layout"] as const) {
     const x = a.choices?.[key];
     const y = b.choices?.[key];
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
@@ -500,6 +509,11 @@ export function parseUserData(raw: unknown): UserData {
     const loc = c.locale as Record<string, unknown>;
     if (!isDate(loc.at) || !isLocale(loc.value)) throw invalid("Invalid language choice");
     choices.locale = { value: loc.value, at: loc.at };
+  }
+  if (c.layout != null) {
+    const lay = c.layout as Record<string, unknown>;
+    if (!isDate(lay.at) || !isLayout(lay.value)) throw invalid("Invalid layout choice");
+    choices.layout = { value: lay.value, at: lay.at };
   }
 
   if (!Array.isArray(r.collections ?? [])) throw invalid("Collections are not a list");

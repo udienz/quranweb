@@ -6,17 +6,18 @@ Website bacaan Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia dan Inggris, au
 
 Situs: **https://quranweb.udienz.web.id** (produksi) dan https://quranweb-qa.udienz.web.id (QA).
 
-![Halaman bacaan: daftar surat di kiri, ayat dengan dua terjemahan di kanan](docs/screenshots/id/reading.png)
+![Halaman bacaan dalam tampilan mushaf: daftar surat di kiri, teks Arab menyatu dengan terjemahan bernomor di sampingnya](docs/screenshots/id/reading.png)
 
 ## Fitur
 
 - **Antarmuka bahasa Inggris dan Indonesia**, dipilih dari bahasa browser Anda dan bisa diganti dengan tombol EN/ID. Arti nama surat, terjemahan, dan kredit ikut berganti bahasa.
 - **Membaca** 114 surat: teks Arab (Uthmani Hafs atau teks EQuran.id), transliterasi Latin, dan satu atau beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, ...).
+- **Tampilan mushaf** (bawaan): teks Arab satu halaman menyatu dalam satu blok dengan penanda di akhir tiap ayat, seperti mushaf cetak, dan terjemahan ada di sampingnya (di bawahnya di ponsel). Pilih sebuah ayat untuk memutar, memberi penanda, atau menandai sudah dibaca. Tampilan kartu per ayat bisa dipilih di pengaturan.
 - **Bacaan berhalaman**: surat yang panjang dibagi menjadi halaman berisi 10 ayat (`?page=3`), sehingga satu halaman tetap pendek dan cepat dimuat (Al-Baqarah turun dari sekitar 2 MB menjadi sekitar 230 KB). Tautan ke ayat, menu lompat, "lanjutkan membaca", dan audio yang lanjut otomatis semuanya bekerja lintas halaman.
 - Tab **Tafsir** dengan tafsir pilihan Anda (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per ayat dari enam qari, otomatis lanjut ke ayat berikutnya.
-- **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan, dan mencadangkan semuanya sebagai berkas JSON. Tersimpan di browser Anda. Di situs yang mengaktifkan fitur masuk, Anda bisa masuk (opsional) agar bacaan tersimpan di semua perangkat, serta mengunduh atau menghapusnya kapan saja (lihat `/privacy`).
-- **Pilihan** teks Arab, terjemahan, tafsir, dan qari, tersimpan di browser.
+- **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan dan mengelompokkannya ke dalam koleksi, memasang target harian (ayat per hari, dengan runtutan dan progres menuju khatam), dan mencadangkan semuanya sebagai berkas JSON. Tersimpan di browser Anda. Di situs yang mengaktifkan fitur masuk, Anda bisa masuk (opsional) agar bacaan tersimpan di semua perangkat, serta mengunduh atau menghapusnya kapan saja (lihat `/privacy`).
+- **Pilihan** teks Arab, terjemahan, tafsir, qari, dan tampilan, tersimpan di browser dan, bila Anda masuk, ikut akun Anda. "Bacaan saya" dan tombol masuk ada di menu akun di kanan atas.
 - Tema terang dan gelap, nyaman di ponsel, salin ayat atau tautannya.
 - Setiap halaman mencantumkan sumber dari apa yang ditampilkan.
 
@@ -28,13 +29,13 @@ Gambar menampilkan antarmuka bahasa Indonesia; README bahasa Inggris menampilkan
 |---|---|
 | ![Tab Tafsir dengan Tafsir Jalalayn](docs/screenshots/id/tafsir.png) | ![Tema gelap](docs/screenshots/id/reading-dark.png) |
 | Tab Tafsir, di sini dengan Tafsir Jalalayn | Tema gelap |
-| ![Beranda dengan lanjutkan membaca](docs/screenshots/id/home.png) | ![Bacaan saya: terakhir dibaca, progres, penanda, cadangan](docs/screenshots/id/my-reading.png) |
-| Beranda dengan "lanjutkan membaca" | "Bacaan saya": terakhir dibaca, progres, penanda, cadangan |
+| ![Beranda dengan lanjutkan membaca](docs/screenshots/id/home.png) | ![Bacaan saya: terakhir dibaca, target harian, progres, penanda](docs/screenshots/id/my-reading.png) |
+| Beranda dengan "lanjutkan membaca" | "Bacaan saya": terakhir dibaca, target harian, progres, penanda |
 
 Di ponsel, pengaturan ada di panel lipat di atas surat:
 
 <p>
-  <img src="docs/screenshots/id/mobile.png" alt="Halaman bacaan di ponsel" width="260">
+  <img src="docs/screenshots/id/mobile.png" alt="Halaman bacaan di ponsel, tampilan mushaf" width="260">
   <img src="docs/screenshots/id/mobile-settings.png" alt="Panel pengaturan di ponsel" width="260">
 </p>
 

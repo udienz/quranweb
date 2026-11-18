@@ -1,4 +1,5 @@
 import { isLocale, LOCALE_COOKIE } from "../i18n/config";
+import { isLayout, LAYOUT_COOKIE } from "../layout";
 import { parseSelectionCookie, parseSelectionObject, SELECTION_COOKIE, serializeSelection } from "../selection";
 import type { Choices } from "../userdata/schema";
 
@@ -24,6 +25,9 @@ export function cookieUpdates(choices: Choices, cookies: string): [name: string,
   }
   if (choices.locale && isLocale(choices.locale.value) && readCookie(cookies, LOCALE_COOKIE) !== choices.locale.value) {
     updates.push([LOCALE_COOKIE, choices.locale.value]);
+  }
+  if (choices.layout && isLayout(choices.layout.value) && readCookie(cookies, LAYOUT_COOKIE) !== choices.layout.value) {
+    updates.push([LAYOUT_COOKIE, choices.layout.value]);
   }
   return updates;
 }
