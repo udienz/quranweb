@@ -282,7 +282,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   opens the database at server start when `QURAN_DB_PATH` is set, so a deploy that cannot use it
   fails and rolls back; with the variable unset the app runs as before. `deploy.sh` mounts
   `/srv/quranweb-db/<env>` (mode 700, uid 1001) at `/db` and never replaces it. Backups, restore and
-  the systemd timer, and the encrypted copy kept on Google Drive through rclone, are in `docs/backup.md`.
+  the systemd timer, and the encrypted off-server copy (a private GitHub repository written with a deploy key) are in `docs/backup.md`.
 - **Pages `/`, `/my-reading`, `/surah/[number]` and `not-found` use `export const instant = false`.**
   This is intentional. Without it, Next.js 16 (Cache Components) tries to prerender
   them at `next build`, which would make `docker build` and CI depend on external
@@ -355,7 +355,8 @@ scripts/
   sync-mirror.mjs              copy the EQuran.id text to static JSON
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
   deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
-  upload-rclone.sh, rclone-conf-from-blob.py, upload-rclone.test.sh   copy of each backup to Google Drive (docs/backup.md)
+  upload-git.sh, upload-git.test.sh   off-server copy of the backups to a private GitHub repository (in use, docs/backup.md)
+  upload-rclone.sh, rclone-conf-from-blob.py, upload-rclone.test.sh   alternative copy to Google Drive (not in use)
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
@@ -373,7 +374,8 @@ npm run test:live         # optional: real sources (about 8 minutes from the CDN
                           # LIVE_QURAN_FAWAZ_URL to our mirrors to spare the upstreams.
 bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs it)
 bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (CI runs it)
-bash scripts/upload-rclone.test.sh    # off-server upload and retention (needs rclone; CI runs it)
+bash scripts/upload-rclone.test.sh    # Google Drive upload and retention (needs rclone; CI runs it; not in use)
+bash scripts/upload-git.test.sh       # off-server copy to the private GitHub repository (CI runs it; in use)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
 ```

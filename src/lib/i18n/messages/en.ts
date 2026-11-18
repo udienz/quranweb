@@ -56,7 +56,7 @@ export const en = {
       },
       recipients: {
         title: "Who receives data",
-        body: "Our own sign-in service and Google (the way you sign in), Cloudflare (DNS and proxying of the site) and the hosting provider of the server. Google Drive also holds an encrypted copy of the database backup: it is encrypted on our server before it is sent and the key is not at Google, so Google cannot read it. We do not sell your data or share it for any other purpose.",
+        body: "Our own sign-in service and Google (the way you sign in), Cloudflare (DNS and proxying of the site) and the hosting provider of the server. GitHub also holds an encrypted copy of the database backups, in a private repository: they are encrypted on our server before they are sent and the key is not at GitHub, so GitHub cannot read them. Copies older than 30 days are removed, though GitHub may keep deleted data for a short time longer. We do not sell your data or share it for any other purpose.",
       },
       retention: {
         title: "How long data is kept",
