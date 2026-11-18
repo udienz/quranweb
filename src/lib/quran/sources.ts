@@ -58,8 +58,8 @@ export const DEFAULT_SOURCES: SourceConfig = {
     tafsir: "ind-kemenag-tafsir",
     qari: "misyari-rasyid-al-afasi",
   },
-  // With the English interface, read an English translation unless the reader chose otherwise.
-  localeDefaults: { en: { translations: ["eng-abdullahyusufal"] } },
+  // With the English or the Turkish interface, read a translation in that language unless the reader chose otherwise.
+  localeDefaults: { en: { translations: ["eng-abdullahyusufal"] }, tr: { translations: ["tur-diyanetisleri"] } },
 };
 
 export class SourceConfigError extends Error {

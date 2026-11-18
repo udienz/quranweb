@@ -102,6 +102,21 @@ export const FAWAZ_EDITIONS: Edition[] = [
       via("Mohammed Marmaduke William Pickthall through Tanzil", "Mohammed Marmaduke William Pickthall melalui Tanzil"),
     ),
   },
+  {
+    // The default translation with the Turkish interface (chosen by the owner, 2026-11-18). Tanzil's terms: non-commercial
+    // use, and a link back to https://tanzil.net/trans/ when more than three of its translations are used on a site, so
+    // the About page links there rather than to the front page of Tanzil.
+    id: "tur-diyanetisleri",
+    kind: "translation",
+    language: "tr",
+    direction: "ltr",
+    name: { en: "Turkish translation by Diyanet İşleri", id: "Terjemahan Turki oleh Diyanet İşleri" },
+    author: "Diyanet İşleri Başkanlığı",
+    source: source(
+      "https://tanzil.net/trans/",
+      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil"),
+    ),
+  },
 ];
 
 interface RawChapter {

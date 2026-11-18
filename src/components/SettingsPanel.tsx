@@ -24,6 +24,7 @@ const LANGUAGE_LABELS: Record<string, StringKey> = {
   ar: "settings.languages.ar",
   id: "settings.languages.id",
   en: "settings.languages.en",
+  tr: "settings.languages.tr",
 };
 
 const selectClass =
