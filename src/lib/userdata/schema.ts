@@ -12,6 +12,7 @@ import { isLocale, type Locale } from "../i18n/config";
 import type { Selection } from "../quran/types";
 import { parseSelectionObject } from "../selection";
 import { isLayout, type Layout } from "../layout";
+import { isTheme, parseFontSize, type FontSize, type Theme } from "../display";
 
 export const USER_DATA_VERSION = 2;
 
@@ -64,8 +65,8 @@ export interface ProgressEntry {
 }
 
 /**
- * The reader's choices that follow the account: editions and reciter (the `qw-sel` cookie) and the interface
- * language (`qw-lang`). Each has the time it was last chosen, so the newest choice wins on every device. Only an
+ * The reader's choices that follow the account: editions and reciter (the `qw-sel` cookie), the interface
+ * language (`qw-lang`), the layout, and the theme and text size (local storage). Each has the time it was last chosen, so the newest choice wins on every device. Only an
  * explicit choice is recorded; a cookie that was never changed here has no time and is not synced.
  */
 export interface Choices {
@@ -73,6 +74,10 @@ export interface Choices {
   locale?: { value: Locale; at: string };
   /** Mushaf or verse-by-verse cards (the `qw-layout` cookie). */
   layout?: { value: Layout; at: string };
+  /** Light, dark or auto (local storage `theme`). */
+  theme?: { value: Theme; at: string };
+  /** Arabic and Latin text size (local storage `quranweb:font-size`). */
+  fontSize?: { value: FontSize; at: string };
 }
 
 /** The daily reading goal in verses (0 = off), with the time it was set; the newest setting wins. */
@@ -330,6 +335,19 @@ export function setLayoutChoice(data: UserData, value: Layout, at: string): User
   return { ...data, choices: { ...data.choices, layout: { value, at } } };
 }
 
+/** Record an explicit choice of theme. */
+export function setThemeChoice(data: UserData, value: Theme, at: string): UserData {
+  if (!isTheme(value)) throw new Error(`Invalid theme: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, theme: { value, at } } };
+}
+
+/** Record an explicit choice of text size. */
+export function setFontSizeChoice(data: UserData, value: FontSize, at: string): UserData {
+  const size = parseFontSize(value);
+  if (!size) throw new Error(`Invalid font size: ${JSON.stringify(value)}`);
+  return { ...data, choices: { ...data.choices, fontSize: { value: size, at } } };
+}
+
 /** Record an explicit choice of interface language. */
 export function setLocaleChoice(data: UserData, value: Locale, at: string): UserData {
   if (!isLocale(value)) throw new Error(`Invalid locale: ${String(value)}`);
@@ -395,7 +413,7 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
   const choices: Choices = {};
-  for (const key of ["selection", "locale", "layout"] as const) {
+  for (const key of ["selection", "locale", "layout", "theme", "fontSize"] as const) {
     const x = a.choices?.[key];
     const y = b.choices?.[key];
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
@@ -514,6 +532,17 @@ export function parseUserData(raw: unknown): UserData {
     const lay = c.layout as Record<string, unknown>;
     if (!isDate(lay.at) || !isLayout(lay.value)) throw invalid("Invalid layout choice");
     choices.layout = { value: lay.value, at: lay.at };
+  }
+  if (c.theme != null) {
+    const th = c.theme as Record<string, unknown>;
+    if (!isDate(th.at) || !isTheme(th.value)) throw invalid("Invalid theme choice");
+    choices.theme = { value: th.value, at: th.at };
+  }
+  if (c.fontSize != null) {
+    const fs = c.fontSize as Record<string, unknown>;
+    const size = parseFontSize(fs.value);
+    if (!isDate(fs.at) || !size) throw invalid("Invalid font size choice");
+    choices.fontSize = { value: size, at: fs.at };
   }
 
   if (!Array.isArray(r.collections ?? [])) throw invalid("Collections are not a list");

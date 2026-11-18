@@ -21,7 +21,9 @@ Anda tidak perlu akun, dan tidak ada iklan maupun analitik.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam.
 - **Memakai bahasa Indonesia atau Inggris**: mengikuti bahasa browser Anda, dan bisa diganti dengan tombol EN/ID.
-- Tema terang dan gelap, nyaman di ponsel, dan Anda bisa menyalin ayat atau tautannya.
+- **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
+  diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain.
+- Nyaman di ponsel, dan Anda bisa menyalin ayat atau tautannya.
 
 Surat yang panjang dibagi menjadi halaman berisi 10 ayat, sehingga setiap halaman cepat terbuka, bahkan di koneksi yang
 lambat.

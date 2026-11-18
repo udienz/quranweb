@@ -2,17 +2,47 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { authClient } from "@/lib/auth/client";
+import { authClient, signIn } from "@/lib/auth/client";
 import { useI18n } from "@/lib/i18n/client";
 import { userDataSync } from "@/lib/userdata/store";
 
-/** Download and delete for a signed-in reader. Rendered only when sign-in is on. */
+/**
+ * The Account section of the settings page: download and delete for a signed-in reader, or a way to sign in.
+ * Rendered only when sign-in is on.
+ */
 export default function AccountSection() {
   const { t } = useI18n();
-  const { data } = authClient.useSession();
+  const { data, isPending } = authClient.useSession();
   const [step, setStep] = useState<"idle" | "confirm" | "deleting" | "failed">("idle");
+  const [signInFailed, setSignInFailed] = useState(false);
 
-  if (!data) return null;
+  if (isPending) return null;
+  if (!data) {
+    return (
+      <section className="rounded-2xl border border-border bg-card">
+        <h2 className="border-b border-border px-5 py-3 font-display font-semibold">{t("account.section.title")}</h2>
+        <div className="space-y-3 px-5 py-4 text-sm">
+          <p className="text-muted-foreground">{t("account.section.signedOut")}</p>
+          <button
+            type="button"
+            onClick={async () => {
+              setSignInFailed(false);
+              const result = await signIn("/settings");
+              if (result.error) setSignInFailed(true);
+            }}
+            className="rounded-full bg-primary px-4 py-2 font-semibold text-white dark:text-[hsl(192_64%_8%)]"
+          >
+            {t("account.signIn")}
+          </button>
+          {signInFailed && (
+            <p role="alert" className="text-red-600">
+              {t("account.error")}
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
 
   async function remove() {
     setStep("deleting");

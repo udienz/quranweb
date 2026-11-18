@@ -21,7 +21,9 @@ tafsir. You do not need an account, and there are no ads and no analytics.
 - **Bookmark verses**, add your own notes, and group them into collections.
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam.
 - **Use it in English or Indonesian**: it follows your browser's language, and the EN/ID button switches it.
-- Light and dark theme, works well on phones, and you can copy a verse or a link to it.
+- **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
+  own, on the Settings page. When you are signed in, your settings follow you to your other devices.
+- Works well on phones, and you can copy a verse or a link to it.
 
 Long surahs are split into pages of 10 verses, so every page opens quickly, even on a slow connection.
 

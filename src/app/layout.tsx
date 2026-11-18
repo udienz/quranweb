@@ -15,6 +15,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { I18nProvider } from "@/lib/i18n/client";
 import { MESSAGES } from "@/lib/i18n/messages";
 import { signInEnabled } from "@/lib/auth";
+import { displayScript } from "@/lib/display";
 import { getI18n } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,8 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("meta.title"), description: t("meta.description") };
 }
 
-// Apply the theme before the first paint so the page does not flash.
-const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const { locale, t } = await getI18n();
@@ -32,7 +31,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Apply the theme and text size before the first paint so the page does not flash. */}
+        <script dangerouslySetInnerHTML={{ __html: displayScript }} />
       </head>
       <body className="flex min-h-full flex-col">
         <I18nProvider locale={locale} messages={MESSAGES[locale]}>
@@ -48,11 +48,16 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                   <span className="hidden h-2 w-2 rounded-full bg-gold sm:block" />
                   {t("nav.quran")}
                 </Link>
-                {/* With sign-in on, "My reading" lives in the account menu; without it, it stays here. */}
+                {/* With sign-in on, "My reading" and "Settings" live in the account menu; without it, they stay here. */}
                 {!accounts && (
-                  <Link href="/my-reading" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                    {t("nav.myReading")}
-                  </Link>
+                  <>
+                    <Link href="/my-reading" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
+                      {t("nav.myReading")}
+                    </Link>
+                    <Link href="/settings" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
+                      {t("nav.settings")}
+                    </Link>
+                  </>
                 )}
               </nav>
               <div className="flex items-center gap-2">

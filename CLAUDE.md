@@ -89,8 +89,8 @@ own format.
   Show data with `liveBookmarks` and `liveProgress`, never by reading `bookmarks` or
   `progress` directly. Version 1 data (and backup files) is migrated when read; the stored
   copy becomes version 2 at the next change. The backup envelope stays `format: 1`.
-- **Display toggles** (Arabic, transliteration, translation) and the theme are also
-  browser-only (`PrefsProvider`, `ThemeToggle`).
+- **Display toggles** (Arabic, transliteration, translation) are browser-only (`PrefsProvider`). The theme and text
+  size are kept in the browser too and also follow the account (see "Settings page, theme and text size").
 - This schema is designed to move to accounts later (roadmap phase 3).
 
 ### Interface language (i18n)
@@ -142,6 +142,26 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   "Surah list and settings" panel above the surah, so phones have everything the side panel has.
 - **No page wider than the screen on phones:** the header puts the navigation on a second row below `sm`, and grids that
   hold `truncate`d text need `grid-cols-1` (an implicit grid column grows to the text). Check new pages at 320 px.
+
+### Settings page, theme and text size
+
+- **`/settings`** holds every setting of the reader, in sections linked at the top: theme and text size
+  (`DisplaySection`), the reading settings (the same `SettingsPanel` as beside a surah: layout, what is shown, editions,
+  reciter) and, when sign-in is on, the account (`AccountSection`: download and delete, or sign in; it moved here from
+  `/my-reading`, and the privacy page says so). It is opened from the account menu, or from the main navigation when
+  sign-in is off, and from the "All settings" link in the side panel. The side panel keeps its settings as a shortcut
+  and adds the text size.
+- **Theme:** light, dark or auto (follows `prefers-color-scheme`, also while the page is open). Local storage `theme`
+  (the old key; no value means auto). The header button switches between light and dark and records that choice.
+- **Text size:** Arabic and Latin on their own scale, five steps (`FONT_SCALES`: 85 % to 150 %), local storage
+  `quranweb:font-size`. The reading text multiplies its size by the CSS variables `--arabic-scale` and `--latin-scale`
+  on `<html>` (`text-[length:calc(2rem*var(--arabic-scale,1))]`): mushaf and verse-by-verse Arabic, transliteration,
+  translations, tafsir and the Bismillah. Labels and buttons keep their size.
+- **No flash:** `displayScript` (`src/lib/display.ts`), inline in the root layout's `<head>`, applies both before the
+  first paint. `display.ts` has no `"use client"` so the server layout can import the script and constants; the hooks
+  are in `DisplayControls.tsx`. Every storage access is guarded (storage can be blocked).
+- **Choices:** an explicit change records `choices.theme` / `choices.fontSize` (newest wins, validated against the
+  known values), so they follow a signed-in reader like the layout.
 
 ### Paging of long surahs
 
@@ -239,7 +259,9 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
   per kind like any item. After each sync `cookieUpdates` (`sync/choices.ts`) writes the account's choices to this browser's
   cookies when they differ, then refreshes the page. A cookie that was never chosen on this device has no time and is not
-  synced, so a new device cannot overwrite the account's choices with its defaults. Display toggles and the theme stay per browser.
+  synced, so a new device cannot overwrite the account's choices with its defaults. The theme and text size are
+  recorded as `choices.theme` and `choices.fontSize` the same way, but live in local storage: after a sync
+  `displayUpdates` (`display.ts`) applies the account's values in place, with no page refresh. Display toggles stay per browser.
 - **Tests:** API and merge behaviour against a temp database with the fake provider (`sync.test.ts`); the browser
   side with fakes (`runSync`). For two real devices, run the built image with the fake provider (its `/__user?seed=`
   endpoint switches the reader) and drive two browser contexts.
@@ -354,7 +376,8 @@ src/
     layout.tsx                 shell: header, theme, fonts (@fontsource), footer
     globals.css                colour tokens (light/dark), Amiri font for Arabic
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
-    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup, account
+    my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
+    settings/page.tsx          settings: theme and text size, reading settings, account
     privacy/page.tsx           privacy policy (English and Indonesian)
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
@@ -373,7 +396,8 @@ src/
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)
-    AccountSection.tsx         download and delete account, on My reading (signed in only)
+    AccountSection.tsx         download and delete account, or sign in, on the settings page
+    DisplayControls.tsx, DisplaySection.tsx   theme choice and text size controls (hooks on display.ts)
     AdminUsers.tsx             accounts and audit log for the admin
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
@@ -390,6 +414,7 @@ src/
     ratelimit.ts               in-memory rate limiter and client address for our own API routes
     selection.ts               parse/serialize the selection cookie
     layout.ts                  the layout choice (mushaf or cards, cookie qw-layout)
+    display.ts                 theme and text size: steps, storage, the no-flash head script, account updates
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper

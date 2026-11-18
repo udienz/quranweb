@@ -204,12 +204,12 @@ export default function VerseCard({
       {mode === "reading" ? (
         <>
           {prefs.arabic && (
-            <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[2.25rem] leading-[2.4] sm:text-[2.6rem]">
+            <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[length:calc(2.25rem*var(--arabic-scale,1))] leading-[2.4] sm:text-[length:calc(2.6rem*var(--arabic-scale,1))]">
               {verse.arabic}
             </p>
           )}
           {prefs.transliteration && verse.transliteration && (
-            <p className="mb-3 text-[15px] italic leading-relaxed text-primary">{verse.transliteration}</p>
+            <p className="mb-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">{verse.transliteration}</p>
           )}
           {prefs.translation &&
             verse.translations.map((tr) => (
@@ -217,7 +217,7 @@ export default function VerseCard({
                 {verse.translations.length > 1 && (
                   <p className="text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}</p>
                 )}
-                <p lang={editions[tr.edition]?.language} className="leading-relaxed">
+                <p lang={editions[tr.edition]?.language} className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
                   {tr.text}
                 </p>
               </div>
@@ -225,10 +225,10 @@ export default function VerseCard({
         </>
       ) : (
         <>
-          <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-2xl leading-loose text-muted-foreground">
+          <p dir="rtl" lang="ar" className="font-arabic mb-4 text-right text-[length:calc(1.5rem*var(--arabic-scale,1))] leading-loose text-muted-foreground">
             {verse.arabic}
           </p>
-          <p className="whitespace-pre-line leading-relaxed">
+          <p className="whitespace-pre-line text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
             {verse.tafsir ?? t("verse.tafsirNotSelected")}
           </p>
         </>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useOptimistic, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
@@ -10,6 +11,7 @@ import type { Catalog, Edition, Selection } from "@/lib/quran";
 import { SELECTION_COOKIE, serializeSelection } from "@/lib/selection";
 import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { userDataActions } from "@/lib/userdata/store";
+import { FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 
 const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
@@ -42,6 +44,8 @@ export default function SettingsPanel({
   selection: saved,
   layout: savedLayout,
   hideTitle = false,
+  id,
+  showLink = true,
 }: {
   catalog: Catalog;
   selection: Selection;
@@ -49,6 +53,10 @@ export default function SettingsPanel({
   layout: Layout;
   /** Hide the title when the panel already sits under another heading (e.g. a <details>). */
   hideTitle?: boolean;
+  /** Anchor for links to this panel (the settings page). */
+  id?: string;
+  /** Text size controls and the link to the settings page; off on the settings page, which has them elsewhere. */
+  showLink?: boolean;
 }) {
   const { t, locale } = useI18n();
   const router = useRouter();
@@ -85,7 +93,7 @@ export default function SettingsPanel({
   for (const e of ofKind("translation")) translationGroups.set(e.language, [...(translationGroups.get(e.language) ?? []), e]);
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
+    <section id={id} className="scroll-mt-24 rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
       {!hideTitle && <h2 className="mb-3 font-display font-semibold">{t("settings.title")}</h2>}
 
       <div role="group" aria-label={t("settings.layout")} className="mb-4 flex flex-col gap-1 border-b border-border pb-4 text-sm">
@@ -106,6 +114,12 @@ export default function SettingsPanel({
           ))}
         </div>
       </div>
+
+      {showLink && (
+        <div className="mb-4 border-b border-border pb-4">
+          <FontSizeControls />
+        </div>
+      )}
 
       <ul className="mb-4 flex flex-col gap-3 border-b border-border pb-4">
         {DISPLAY_TOGGLES.map(({ key, label }) => (
@@ -204,6 +218,11 @@ export default function SettingsPanel({
         </Field>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">{t("settings.savedInBrowser")}</p>
+      {showLink && (
+        <Link href="/settings" className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
+          {t("settings.allSettings")}
+        </Link>
+      )}
     </section>
   );
 }

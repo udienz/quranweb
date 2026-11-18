@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { writeCookie } from "../cookies";
+import { applyFontSize, applyTheme, displayUpdates, readFontSize, readTheme } from "../display";
 import { userDataSync } from "../userdata/store";
 import { parseUserData, type UserData } from "../userdata/schema";
 import { cookieUpdates } from "./choices";
@@ -58,6 +59,10 @@ export function useAccountSync(userId: string | null): SyncStatus {
           for (const [name, value] of updates) writeCookie(name, value);
           router.refresh();
         }
+        // Theme and text size live in local storage: apply them here, no page refresh needed.
+        const display = displayUpdates(merged.choices, { theme: readTheme(), fontSize: readFontSize() });
+        if (display.theme && !stopped) applyTheme(display.theme);
+        if (display.fontSize && !stopped) applyFontSize(display.fontSize);
         if (!stopped) setStatus("idle");
       } catch {
         if (!stopped) setStatus("error");

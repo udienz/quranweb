@@ -101,6 +101,9 @@ export default function AccountMenu() {
           <Link href="/my-reading" className={item} onClick={() => setOpen(false)}>
             {t("nav.myReading")}
           </Link>
+          <Link href="/settings" className={item} onClick={() => setOpen(false)}>
+            {t("nav.settings")}
+          </Link>
           {user ? (
             <button
               type="button"

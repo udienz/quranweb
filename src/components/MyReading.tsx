@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import AccountSection from "@/components/AccountSection";
 import BookmarkList from "@/components/BookmarkList";
 import DailyGoal from "@/components/DailyGoal";
 import { verseHref } from "@/lib/anchors";
@@ -32,7 +31,7 @@ const Empty = ({ children }: { children: React.ReactNode }) => (
   <p className="px-5 py-6 text-sm text-muted-foreground">{children}</p>
 );
 
-export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; accounts: boolean }) {
+export default function MyReading({ surahs }: { surahs: SurahMeta[] }) {
   const { t, date } = useI18n();
   const data = useUserData();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -160,7 +159,6 @@ export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; a
           )}
         </div>
       </Section>
-      {accounts && <AccountSection />}
     </div>
   );
 }
