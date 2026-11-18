@@ -35,7 +35,14 @@ jobs:
           echo "${{ secrets.QA_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - name: Deploy
+        env:
+          # Repository (or environment) variables, not secrets: the contact is shown on the privacy page.
+          PRIVACY_CONTACT_NAME: ${{ vars.PRIVACY_CONTACT_NAME }}
+          PRIVACY_CONTACT_EMAIL: ${{ vars.PRIVACY_CONTACT_EMAIL }}
         run: |
+          # Sent base64-encoded so no character in a name can change the ssh command line (see scripts/deploy.sh).
+          name_b64="$(printf '%s' "$PRIVACY_CONTACT_NAME" | base64 -w0)"
+          email_b64="$(printf '%s' "$PRIVACY_CONTACT_EMAIL" | base64 -w0)"
           ssh -i ~/.ssh/id_deploy -p "${{ secrets.QA_SSH_PORT }}" \
             "${{ secrets.QA_SSH_USER }}@${{ secrets.QA_SSH_HOST }}" \
-            'bash -s' -- qa "${{ github.sha }}" < scripts/deploy.sh
+            "PRIVACY_CONTACT_NAME_B64=$name_b64 PRIVACY_CONTACT_EMAIL_B64=$email_b64 bash -s -- qa ${{ github.sha }}" < scripts/deploy.sh

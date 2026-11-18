@@ -33,6 +33,20 @@ DB_DIR="${DB_DIR:-/srv/quranweb-db/$ENVIRONMENT}"
 sudo install -d -m 700 -o 1001 -g 1001 "$DB_DIR"
 DATA_ARGS+=(-v "$DB_DIR:/db" -e QURAN_DB_PATH=/db/quranweb.db)
 
+# BEGIN contact
+# The privacy contact (not secret, shown on the privacy page) comes from the GitHub variables
+# PRIVACY_CONTACT_NAME and PRIVACY_CONTACT_EMAIL. The workflows send each one base64-encoded in
+# PRIVACY_CONTACT_NAME_B64 and PRIVACY_CONTACT_EMAIL_B64, so spaces, quotes or accents in a name cannot
+# break the ssh command line. Unset or empty means the variable is not passed (the page then says the
+# contact is not set up). A value in the env file below is overridden by these.
+decode_b64() { [ -n "${1:-}" ] && printf '%s' "$1" | base64 -d 2>/dev/null | tr -d '\r\n' || true; }
+for var in PRIVACY_CONTACT_NAME PRIVACY_CONTACT_EMAIL; do
+  encoded="${var}_B64"
+  value="$(decode_b64 "${!encoded:-}")"
+  if [ -n "$value" ]; then DATA_ARGS+=(-e "$var=$value"); fi
+done
+# END contact
+
 # Sign-in settings and secrets (BETTER_AUTH_URL, BETTER_AUTH_SECRET, AUTH_ISSUER_URL, AUTH_CLIENT_ID,
 # AUTH_CLIENT_SECRET) live only on the server, in /etc/quranweb/<env>.env (mode 600, root), never in
 # git. Without the file, or without these variables, sign-in is simply off.
