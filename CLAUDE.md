@@ -494,8 +494,8 @@ audio still comes from `cdn.equran.id`.
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
 sources of each edition are credited in the UI: the About page (`/about`) lists the source, credit and licence of every
-edition and reciter in the catalog, and each surah ends with a link to it ("Sources and credits ...") and the footer (About · Privacy) links to it.
-Keep those links when changing the reader or the footer: the credit must stay one click away from every reading page.
+edition and reciter in the catalog, and the footer of every page (About · Privacy) links to it.
+Keep that footer link: the credit must stay one click away from every reading page.
 
 ### Known limits
 

@@ -241,12 +241,6 @@ export default function SurahReader({
           />
           ))
         )}
-        <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
-          {/* Every edition's and reciter's source and credit is on the About page. */}
-          <Link href="/about#sources" className="text-primary hover:underline">
-            {t("reader.sources")}
-          </Link>
-        </p>
       </div>
 
       <Pagination surah={meta.number} page={page} count={pageCount} from={from} to={to} total={meta.verseCount} />
