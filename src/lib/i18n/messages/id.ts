@@ -19,6 +19,7 @@ export const id: Messages = {
   account: {
     signIn: "Masuk",
     signOut: "Keluar",
+    menu: "Menu akun",
     signedInAs: "Masuk sebagai {name}",
     syncFailed: "Belum bisa disinkronkan dengan akun Anda. Bacaan Anda aman di perangkat ini dan akan disinkronkan nanti.",
     error: "Masuk belum bisa dipakai sekarang. Coba lagi nanti.",
@@ -48,7 +49,7 @@ export const id: Messages = {
       },
       account: {
         title: "Jika Anda masuk",
-        body: "Masuk bersifat opsional dan hanya perlu bila Anda ingin menyimpan bacaan di lebih dari satu perangkat. Anda masuk dengan akun Google melalui layanan masuk milik kami sendiri. Google memberi tahu layanan itu nama dan alamat email Anda; situs ini menerima pengenal dari layanan masuk, alamat email, dan nama Anda.\n\nYang kami simpan: pengenal itu, alamat email, nama, kapan akun dibuat dan kapan Anda terakhir masuk, catatan sesi (token acak dan tanggal kedaluwarsanya), serta data bacaan Anda: posisi terakhir dibaca, kemajuan per surat, dan penanda beserta catatan Anda, masing-masing dengan waktu perubahan terakhirnya, juga edisi, qari, dan bahasa antarmuka yang Anda pilih agar ikut ke perangkat Anda yang lain, koleksi penanda, target harian, dan jumlah ayat yang Anda tandai sudah dibaca pada tiap hari dalam 120 hari terakhir.\n\nYang tidak kami simpan: kata sandi (kami tidak pernah melihatnya), alamat IP atau jenis peramban bersama akun Anda, atau apa pun untuk iklan atau analitik. Server web dan Cloudflare memproses alamat IP agar situs bisa dikirim, seperti semua situs web. Catatan disimpan sebagai teks biasa di server kami, jadi jangan menulis rahasia di dalamnya. Pengelola situs bisa melihat daftar akun (nama, alamat email, kapan masing-masing dibuat dan terakhir masuk) dan bisa menonaktifkan atau menghapus akun; data bacaan Anda tidak terlihat dari daftar itu, dan setiap tindakan semacam itu dicatat.",
+        body: "Masuk bersifat opsional dan hanya perlu bila Anda ingin menyimpan bacaan di lebih dari satu perangkat. Anda masuk dengan akun Google melalui layanan masuk milik kami sendiri. Google memberi tahu layanan itu nama dan alamat email Anda; situs ini menerima pengenal dari layanan masuk, alamat email, dan nama Anda.\n\nYang kami simpan: pengenal itu, alamat email, nama, kapan akun dibuat dan kapan Anda terakhir masuk, catatan sesi (token acak dan tanggal kedaluwarsanya), serta data bacaan Anda: posisi terakhir dibaca, kemajuan per surat, dan penanda beserta catatan Anda, masing-masing dengan waktu perubahan terakhirnya, juga edisi, qari, tampilan, dan bahasa antarmuka yang Anda pilih agar ikut ke perangkat Anda yang lain, koleksi penanda, target harian, dan jumlah ayat yang Anda tandai sudah dibaca pada tiap hari dalam 120 hari terakhir.\n\nYang tidak kami simpan: kata sandi (kami tidak pernah melihatnya), alamat IP atau jenis peramban bersama akun Anda, atau apa pun untuk iklan atau analitik. Server web dan Cloudflare memproses alamat IP agar situs bisa dikirim, seperti semua situs web. Catatan disimpan sebagai teks biasa di server kami, jadi jangan menulis rahasia di dalamnya. Pengelola situs bisa melihat daftar akun (nama, alamat email, kapan masing-masing dibuat dan terakhir masuk) dan bisa menonaktifkan atau menghapus akun; data bacaan Anda tidak terlihat dari daftar itu, dan setiap tindakan semacam itu dicatat.",
       },
       cookies: {
         title: "Kuki",
@@ -141,6 +142,11 @@ export const id: Messages = {
     page: "Halaman {number}",
     range: "Ayat {from}–{to} dari {total}",
   },
+  mushaf: {
+    verseActions: "Ayat {n}: putar, penanda, tandai dibaca, salin",
+    selected: "Ayat {n}",
+    close: "Tutup",
+  },
   verse: {
     play: "Putar audio",
     pause: "Jeda audio",
@@ -164,6 +170,9 @@ export const id: Messages = {
     translation: "Terjemahan",
     tafsir: "Tafsir",
     qari: "Qari",
+    layout: "Tampilan",
+    layoutMushaf: "Mushaf",
+    layoutCards: "Per ayat",
     noTafsir: "Tanpa tafsir",
     savedInBrowser: "Pilihan disimpan di browser ini.",
     show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan" },

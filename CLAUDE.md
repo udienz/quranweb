@@ -117,6 +117,24 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   `verse` in `quranweb:user`). Older links keep working: `/saya` redirects to
   `/my-reading` and `#ayat-N` is rewritten to `#verse-N` in the browser.
 
+### Mushaf layout and account menu
+
+- **Two layouts for the Reading tab** (`src/lib/layout.ts`, cookie `qw-layout`, read by the surah page on the server):
+  `mushaf` (the default) and `cards`. `MushafView` puts the Arabic text of the page in one justified block with a marker
+  ﴿N﴾ (Arabic-Indic digits) after each verse, and the transliteration and translations in a numbered column beside it
+  (`lg`; below it on smaller screens). Selecting a marker or a number opens that verse's actions (`VerseActions`, shared
+  with `VerseCard`) in a bar fixed at the bottom of the screen (a sticky bar would not stick inside the reader's
+  `overflow-hidden` box). The translation items carry the `verse-N` ids, so verse links, the jump menu, last-read
+  tracking (`[id^='verse-']`) and audio scrolling work in both layouts. The Tafsir tab always uses cards. Pages are still
+  our 10-verse pages (the data has no printed-mushaf page numbers). The layout is a choice like the editions: switching it
+  in the settings writes the cookie and records `choices.layout`, which follows the account.
+- **Account menu** (`AccountMenu`): a button with the person icon (and the name on wide screens) opens a dropdown with
+  "My reading" and Sign in, or the name and email, "My reading" and Sign out. With sign-in on, "My reading" is only in
+  this menu; with sign-in off the menu is not rendered and "My reading" stays in the main navigation. It closes on a
+  click outside and on Escape.
+- **No page wider than the screen on phones:** the header puts the navigation on a second row below `sm`, and grids that
+  hold `truncate`d text need `grid-cols-1` (an implicit grid column grows to the text). Check new pages at 320 px.
+
 ### Paging of long surahs
 
 A surah is shown 10 verses at a time (`PAGE_SIZE` in `src/lib/pagination.ts`), so Al-Baqarah
@@ -208,7 +226,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   `userDataActions.toggleReadUpTo` (newly marked verses only; unmarking never subtracts). 120 days are kept. The streak is the
   run of days that reached the goal, ending today or, while today is open, yesterday. Khatam progress is the sum of the
   progress marks out of 6,236 verses.
-- **Choices follow the account** (editions and reciter, interface language): the cookies `qw-sel` and `qw-lang` stay the
+- **Choices follow the account** (editions and reciter, interface language, layout): the cookies `qw-sel` and `qw-lang` stay the
   source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
   EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
   per kind like any item. After each sync `cookieUpdates` (`sync/choices.ts`) writes the account's choices to this browser's
@@ -337,13 +355,15 @@ src/
     SurahReader.tsx            surah header, Reading/Tafsir tabs, jump to verse, audio
                                (one <audio>, auto-advance, falls back through URLs),
                                last-read tracking, list of sources
-    VerseCard.tsx              one verse: text, bookmark, mark as read, note, copy
+    VerseCard.tsx              one verse: text, bookmark, mark as read, note, copy (VerseActions, NoteEditor)
+    MushafView.tsx             mushaf layout: running Arabic block, numbered translation column, verse action bar
+    BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
-    AccountMenu.tsx            sign-in / sign-out in the header (only when sign-in is on)
+    AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)
     AccountSection.tsx         download and delete account, on My reading (signed in only)
     AdminUsers.tsx             accounts and audit log for the admin
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
@@ -360,6 +380,7 @@ src/
     privacy.ts                 privacy contact from the environment
     ratelimit.ts               in-memory rate limiter and client address for our own API routes
     selection.ts               parse/serialize the selection cookie
+    layout.ts                  the layout choice (mushaf or cards, cookie qw-layout)
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper

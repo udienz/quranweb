@@ -11,7 +11,9 @@ import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
+import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
+import type { Layout } from "@/lib/layout";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
@@ -21,8 +23,11 @@ export default function SurahReader({
   pageCount,
   prev,
   next,
+  layout,
 }: {
   view: SurahView;
+  /** Mushaf (running Arabic block with the translation beside it) or one card per verse. */
+  layout: Layout;
   /** The page shown and how many pages the surah has. */
   page: number;
   pageCount: number;
@@ -60,7 +65,7 @@ export default function SurahReader({
       },
       { rootMargin: "-30% 0px -65% 0px" },
     );
-    document.querySelectorAll("article[id^='verse-']").forEach((el) => observer.observe(el));
+    document.querySelectorAll("[id^='verse-']").forEach((el) => observer.observe(el));
     return () => {
       clearTimeout(timer);
       observer.disconnect();
@@ -222,7 +227,16 @@ export default function SurahReader({
             {BISMILLAH}
           </p>
         )}
-        {verses.map((verse, i) => (
+        {mode === "reading" && layout === "mushaf" ? (
+          <MushafView
+            verses={verses}
+            surahNumber={meta.number}
+            playingN={playingN}
+            onPlay={(verse) => togglePlay(verses.indexOf(verse))}
+            editions={editionInfo}
+          />
+        ) : (
+          verses.map((verse, i) => (
           <VerseCard
             key={verse.number}
             verse={verse}
@@ -232,7 +246,8 @@ export default function SurahReader({
             onPlay={() => togglePlay(i)}
             editions={editionInfo}
           />
-        ))}
+          ))
+        )}
         <p className="border-t border-border px-5 py-4 text-xs leading-relaxed text-muted-foreground sm:px-8">
           {t("reader.sources", { list: credits.join("; ") })}.
         </p>

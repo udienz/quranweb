@@ -6,17 +6,18 @@ A website for reading the Qur'an: Arabic text, translations in Indonesian and En
 
 Live: **https://quranweb.udienz.web.id** (production) and https://quranweb-qa.udienz.web.id (QA).
 
-![Reading page: surah list on the left, verses with two translations on the right](docs/screenshots/en/reading.png)
+![Reading page in the mushaf layout: surah list on the left, the Arabic text as one block with the numbered translation beside it](docs/screenshots/en/reading.png)
 
 ## Features
 
 - **English and Indonesian interface**, chosen from your browser language and switchable with the EN/ID button. Surah names, translations and credits follow the language too.
 - **Read** all 114 surahs: Arabic text (Uthmani Hafs or the EQuran.id text), Latin transliteration, and one or more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall, ...).
+- **Mushaf layout** (the default): the Arabic text of a page runs as one block with a marker after each verse, like a printed mushaf, and the translation sits beside it (below it on phones). Select a verse to play, bookmark or mark it as read. The verse-by-verse cards are one click away in the settings.
 - **Paged reading**: a long surah is split into pages of 10 verses (`?page=3`), so a page stays short and fast to load (Al-Baqarah went from about 2 MB to about 230 KB). Links to a verse, the jump menu, "continue reading" and the audio auto-advance all work across pages.
 - **Tafsir** tab with a tafsir of your choice (Kemenag, Quraish Shihab, Jalalayn).
 - **Audio** per verse from six reciters, with automatic advance to the next verse.
-- **Your reading, without an account**: it remembers where you stopped ("continue reading"), lets you mark verses as read up to a point, bookmark verses with notes, and back everything up as a JSON file. It is stored in your browser. Where the site has sign-in switched on, you can optionally sign in to keep it on all your devices, and download or delete it at any time (see `/privacy`).
-- **Choices** for Arabic text, translations, tafsir and reciter, saved in the browser.
+- **Your reading, without an account**: it remembers where you stopped ("continue reading"), lets you mark verses as read up to a point, bookmark verses with notes and group them into collections, set a daily goal (verses a day, with a streak and progress towards a khatam), and back everything up as a JSON file. It is stored in your browser. Where the site has sign-in switched on, you can optionally sign in to keep it on all your devices, and download or delete it at any time (see `/privacy`).
+- **Choices** for Arabic text, translations, tafsir, reciter and layout, saved in the browser and, when you sign in, kept with your account. "My reading" and sign-in are in the account menu at the top right.
 - Light and dark theme, works on phones, copy a verse or a link to it.
 - Every page lists the sources of what it shows.
 
@@ -28,13 +29,13 @@ The pictures show the English interface; the Indonesian README shows the Indones
 |---|---|
 | ![Tafsir tab with Tafsir Jalalayn](docs/screenshots/en/tafsir.png) | ![Dark theme](docs/screenshots/en/reading-dark.png) |
 | Tafsir tab, here with Tafsir Jalalayn | Dark theme |
-| ![Home page with continue reading](docs/screenshots/en/home.png) | ![My reading: last read, progress, bookmarks, backup](docs/screenshots/en/my-reading.png) |
-| Home page with "continue reading" | "My reading": last read, progress, bookmarks, backup |
+| ![Home page with continue reading](docs/screenshots/en/home.png) | ![My reading: last read, daily goal, progress, bookmarks](docs/screenshots/en/my-reading.png) |
+| Home page with "continue reading" | "My reading": last read, daily goal, progress, bookmarks |
 
 On phones the settings sit in a collapsible panel above the surah:
 
 <p>
-  <img src="docs/screenshots/en/mobile.png" alt="Reading page on a phone" width="260">
+  <img src="docs/screenshots/en/mobile.png" alt="Reading page on a phone, mushaf layout" width="260">
   <img src="docs/screenshots/en/mobile-settings.png" alt="Settings panel on a phone" width="260">
 </p>
 

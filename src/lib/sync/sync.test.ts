@@ -231,5 +231,7 @@ describe("choices to cookies", () => {
     expect(updates.map(([n]) => n).sort()).toEqual(["qw-lang", "qw-sel"]);
     expect(updates.find(([n]) => n === "qw-lang")?.[1]).toBe("id");
     expect(cookieUpdates({}, "qw-lang=en")).toEqual([]);
+    expect(cookieUpdates({ layout: { value: "cards", at: T(1) } }, "qw-layout=mushaf")).toEqual([["qw-layout", "cards"]]);
+    expect(cookieUpdates({ layout: { value: "cards", at: T(1) } }, "qw-layout=cards")).toEqual([]);
   });
 });

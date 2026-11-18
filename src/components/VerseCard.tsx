@@ -47,7 +47,7 @@ function IconButton({
   );
 }
 
-function NoteEditor({ surah, verse, note }: { surah: number; verse: number; note: string }) {
+export function NoteEditor({ surah, verse, note }: { surah: number; verse: number; note: string }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   if (!open) {
@@ -78,6 +78,84 @@ function NoteEditor({ surah, verse, note }: { surah: number; verse: number; note
   );
 }
 
+/** The buttons of one verse: play, bookmark, mark as read, copy text, copy link. Shared by the card and the mushaf view. */
+export function VerseActions({
+  verse,
+  surahNumber,
+  playing,
+  onPlay,
+}: {
+  verse: VerseView;
+  surahNumber: number;
+  playing: boolean;
+  onPlay: () => void;
+}) {
+  const { t } = useI18n();
+  const data = useUserData();
+  const [copied, setCopied] = useState(false);
+  const n = verse.number;
+  const bookmark = findBookmark(data, surahNumber, n);
+  const readUpTo = progressOf(data, surahNumber);
+
+  async function copy(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {}
+  }
+  const copyText = () =>
+    copy(`${verse.arabic}\n\n${verse.translations.map((tr) => tr.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
+  const copyLink = () => copy(`${location.origin}${verseHref(surahNumber, n)}`);
+
+  return (
+    <div className="flex items-center">
+      {copied && <span className="mr-1 text-xs text-primary">{t("verse.copied")}</span>}
+      <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
+        {playing ? (
+          <svg {...iconProps}>
+            <path d="M8 5v14M16 5v14" />
+          </svg>
+        ) : (
+          <svg {...iconProps}>
+            <path d="M7 4.5v15l12-7.5z" />
+          </svg>
+        )}
+      </IconButton>
+      <IconButton
+        label={bookmark ? t("verse.removeBookmark") : t("verse.bookmark")}
+        onClick={() => userDataActions.toggleBookmark(surahNumber, n)}
+        active={!!bookmark}
+      >
+        <svg {...iconProps} fill={bookmark ? "currentColor" : "none"}>
+          <path d="M6 4h12v17l-6-4-6 4z" />
+        </svg>
+      </IconButton>
+      <IconButton
+        label={readUpTo === n ? t("verse.unmarkRead") : t("verse.markRead")}
+        onClick={() => userDataActions.toggleReadUpTo(surahNumber, n)}
+        active={readUpTo === n}
+      >
+        <svg {...iconProps}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M8 12.5l3 3 5-6" />
+        </svg>
+      </IconButton>
+      <IconButton label={t("verse.copy")} onClick={copyText}>
+        <svg {...iconProps}>
+          <rect x="9" y="9" width="11" height="11" rx="2" />
+          <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+        </svg>
+      </IconButton>
+      <IconButton label={t("verse.copyLink")} onClick={copyLink}>
+        <svg {...iconProps}>
+          <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
+        </svg>
+      </IconButton>
+    </div>
+  );
+}
+
 export default function VerseCard({
   verse,
   surahNumber,
@@ -97,24 +175,11 @@ export default function VerseCard({
   const { t } = useI18n();
   const { prefs } = usePrefs();
   const data = useUserData();
-  const [copied, setCopied] = useState(false);
   const n = verse.number;
 
   const bookmark = findBookmark(data, surahNumber, n);
   const readUpTo = progressOf(data, surahNumber);
   const isRead = n <= readUpTo;
-
-  async function copy(text: string) {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {}
-  }
-
-  const copyText = () =>
-    copy(`${verse.arabic}\n\n${verse.translations.map((tr) => tr.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
-  const copyLink = () => copy(`${location.origin}${verseHref(surahNumber, n)}`);
 
   return (
     <article
@@ -131,52 +196,9 @@ export default function VerseCard({
           <span className="font-mono text-xs text-muted-foreground">
             {surahNumber}:{n}
           </span>
-          {copied && <span className="text-xs text-primary">{t("verse.copied")}</span>}
           {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">{t("verse.read")}</span>}
         </div>
-        <div className="flex items-center">
-          <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
-            {playing ? (
-              <svg {...iconProps}>
-                <path d="M8 5v14M16 5v14" />
-              </svg>
-            ) : (
-              <svg {...iconProps}>
-                <path d="M7 4.5v15l12-7.5z" />
-              </svg>
-            )}
-          </IconButton>
-          <IconButton
-            label={bookmark ? t("verse.removeBookmark") : t("verse.bookmark")}
-            onClick={() => userDataActions.toggleBookmark(surahNumber, n)}
-            active={!!bookmark}
-          >
-            <svg {...iconProps} fill={bookmark ? "currentColor" : "none"}>
-              <path d="M6 4h12v17l-6-4-6 4z" />
-            </svg>
-          </IconButton>
-          <IconButton
-            label={readUpTo === n ? t("verse.unmarkRead") : t("verse.markRead")}
-            onClick={() => userDataActions.toggleReadUpTo(surahNumber, n)}
-            active={readUpTo === n}
-          >
-            <svg {...iconProps}>
-              <circle cx="12" cy="12" r="9" />
-              <path d="M8 12.5l3 3 5-6" />
-            </svg>
-          </IconButton>
-          <IconButton label={t("verse.copy")} onClick={copyText}>
-            <svg {...iconProps}>
-              <rect x="9" y="9" width="11" height="11" rx="2" />
-              <path d="M5 15V6a2 2 0 0 1 2-2h9" />
-            </svg>
-          </IconButton>
-          <IconButton label={t("verse.copyLink")} onClick={copyLink}>
-            <svg {...iconProps}>
-              <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
-            </svg>
-          </IconButton>
-        </div>
+        <VerseActions verse={verse} surahNumber={surahNumber} playing={playing} onPlay={onPlay} />
       </div>
 
       {mode === "reading" ? (
