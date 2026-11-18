@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -164,6 +164,7 @@ describe("parseUserData", () => {
       progress: { "2": { readUpTo: 5, at: T1 } },
       bookmarks: [{ surah: 1, verse: 1, note: "hello", createdAt: T1, updatedAt: T1 }],
       choices: {},
+      collections: [],
     });
   });
 
@@ -346,12 +347,20 @@ function randomData(next: () => number): UserData {
       createdAt: T1,
       updatedAt,
       ...(roll > 0.7 ? { deletedAt: updatedAt } : {}),
+      ...(next() < 0.5 ? { collectionId: pick(["coll0001", "coll0002"]) } : {}),
     });
   }
   const choices: UserData["choices"] = {};
   if (next() < 0.6) choices.selection = { value: { qari: pick(["a", "b"]), translations: [pick(["ind-x", "eng-y"])] }, at: pick(times) };
   if (next() < 0.6) choices.locale = { value: pick(["en", "id"] as const), at: pick(times) };
-  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse), choices };
+  const collections: UserData["collections"] = [];
+  for (const id of ["coll0001", "coll0002"]) {
+    const roll = next();
+    if (roll < 0.3) continue;
+    const updatedAt = pick(times);
+    collections.push({ id, name: pick(["Doa", "Hafalan"]), createdAt: T1, updatedAt, ...(roll > 0.75 ? { deletedAt: updatedAt } : {}) });
+  }
+  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse), choices, collections };
 }
 
 describe("merge laws (random data)", () => {
@@ -423,5 +432,66 @@ describe("choices (editions, reciter, language)", () => {
   it("reads data without choices (saved before this feature) as having none", () => {
     const old = { version: 2, lastRead: null, progress: {}, bookmarks: [] };
     expect(parseUserData(old).choices).toEqual({});
+  });
+});
+
+describe("bookmark collections", () => {
+  const base = () => toggleBookmark(toggleBookmark(emptyUserData(), 2, 255, T1), 36, 1, T1);
+
+  it("creates, renames and lists collections in creation order, with clean names", () => {
+    let d = createCollection(base(), "coll0002", "  Hafalan   juz 30 ", T2);
+    d = createCollection(d, "coll0001", "Doa", T3);
+    expect(liveCollections(d).map((c) => c.name)).toEqual(["Hafalan juz 30", "Doa"]);
+    d = renameCollection(d, "coll0001", "Doa harian", T3);
+    expect(liveCollections(d)[1].name).toBe("Doa harian");
+    expect(() => createCollection(d, "coll0003", "   ", T3)).toThrow(/name/);
+    expect(() => createCollection(d, "coll0001", "Dup", T3)).toThrow(/already used/);
+    expect(() => createCollection(d, "BAD ID", "x", T3)).toThrow(/Invalid collection id/);
+  });
+
+  it("puts a bookmark in a collection and takes it out, as a change of that bookmark", () => {
+    let d = createCollection(base(), "coll0001", "Doa", T1);
+    d = setBookmarkCollection(d, 2, 255, "coll0001", T2);
+    const b = findBookmark(d, 2, 255)!;
+    expect(collectionOf(d, b)).toBe("coll0001");
+    expect(b.updatedAt).toBe(T2);
+    d = setBookmarkCollection(d, 2, 255, null, T3);
+    expect(findBookmark(d, 2, 255)!.collectionId).toBeUndefined();
+    expect(() => setBookmarkCollection(d, 2, 255, "nosuch01", T3)).toThrow(/Unknown collection/);
+  });
+
+  it("keeps the bookmarks of a removed collection, without the collection", () => {
+    let d = createCollection(base(), "coll0001", "Doa", T1);
+    d = setBookmarkCollection(d, 2, 255, "coll0001", T1);
+    d = removeCollection(d, "coll0001", T2);
+    expect(liveCollections(d)).toEqual([]);
+    expect(liveBookmarks(d).length).toBe(2);
+    expect(collectionOf(d, findBookmark(d, 2, 255)!)).toBeNull();
+  });
+
+  it("a removal on one device reaches the other, and a rename on another device is kept", () => {
+    const start = createCollection(base(), "coll0001", "Doa", T1);
+    const a = removeCollection(start, "coll0001", T3);
+    const b = renameCollection(start, "coll0001", "Doa pagi", T2);
+    expect(liveCollections(mergeUserData(a, b))).toEqual([]);
+    const c = renameCollection(start, "coll0001", "Doa petang", T3);
+    expect(liveCollections(mergeUserData(b, c))[0].name).toBe("Doa petang");
+  });
+
+  it("round-trips through JSON, reads data without collections, and rejects broken ones", () => {
+    let d = createCollection(base(), "coll0001", "Doa", T1);
+    d = setBookmarkCollection(d, 2, 255, "coll0001", T2);
+    expect(parseUserData(JSON.parse(JSON.stringify(d)))).toEqual(d);
+    expect(parseUserData({ version: 2, lastRead: null, progress: {}, bookmarks: [] }).collections).toEqual([]);
+    const raw = JSON.parse(JSON.stringify(d));
+    expect(() => parseUserData({ ...raw, collections: [{ id: "x", name: "a", createdAt: T1, updatedAt: T1 }] })).toThrow();
+    expect(() => parseUserData({ ...raw, collections: [{ id: "coll0009", name: "  ", createdAt: T1, updatedAt: T1 }] })).toThrow();
+    const badBookmark = { ...raw, bookmarks: [{ ...raw.bookmarks[0], collectionId: "NOT VALID" }] };
+    expect(() => parseUserData(badBookmark)).toThrow(/invalid collection/);
+  });
+
+  it("drops collection tombstones after 90 days", () => {
+    const d = removeCollection(createCollection(emptyUserData(), "coll0001", "Doa", T1), "coll0001", T1);
+    expect(pruneTombstones(d, new Date(Date.parse(T1) + 91 * 86400000).toISOString()).collections).toEqual([]);
   });
 });

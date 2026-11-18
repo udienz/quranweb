@@ -197,6 +197,10 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
   the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
   changes the previous reader made offline and never synced are lost when another reader signs in.
+- **Bookmark collections** (`collections` in the user data, `BookmarkList` on `/my-reading`): named groups, at most 50, names up
+  to 40 characters; a bookmark is in at most one (`collectionId`). Collections merge by id, newest change wins, removal is a
+  tombstone; moving a bookmark is a change of that bookmark. Removing a collection keeps its bookmarks, which then show as having no
+  collection (`collectionOf` ignores a removed collection), so the merge never has to touch bookmarks. Works without an account too.
 - **Choices follow the account** (editions and reciter, interface language): the cookies `qw-sel` and `qw-lang` stay the
   source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
   EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
