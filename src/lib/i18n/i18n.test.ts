@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_LOCALE, isLocale, LOCALES, negotiateLocale } from "./config";
+import { COMMUNITY_LOCALES, DEFAULT_LOCALE, isCommunityLocale, isLocale, LOCALES, negotiateLocale, reportTranslationUrl } from "./config";
 import { MESSAGES } from "./messages";
 import { createTranslator, format, localized, type Plural } from "./translate";
 
@@ -107,5 +107,28 @@ describe("message catalogs", () => {
         expect(strip(read(MESSAGES[locale], path).at(-1)!), `${locale}:${path}`).toBe(reference);
       }
     }
+  });
+});
+
+describe("community translations", () => {
+  it("names the languages not yet reviewed by a second speaker", () => {
+    expect(COMMUNITY_LOCALES).toContain("tr");
+    expect(isCommunityLocale("tr")).toBe(true);
+    expect(isCommunityLocale("id")).toBe(false);
+    expect(isCommunityLocale("en")).toBe(false); // the source language, and Indonesian, are maintained by the owner
+  });
+
+  it("does not mark a language that is not in the list, whatever the browser asks for", () => {
+    for (const code of LOCALES) expect(isCommunityLocale(code)).toBe(COMMUNITY_LOCALES.includes(code));
+  });
+
+  it("builds a link that opens a new issue with the language in the title, and escapes it", () => {
+    const url = new URL(reportTranslationUrl("tr"));
+    expect(url.origin + url.pathname).toBe("https://github.com/udienz/quranweb/issues/new");
+    expect(url.searchParams.get("title")).toBe("Translation mistake (tr): ");
+    expect(url.searchParams.get("body")).toContain("Language: tr");
+    const hostile = new URL(reportTranslationUrl("x&labels=bug#"));
+    expect(hostile.searchParams.get("labels")).toBeNull();
+    expect(hostile.hash).toBe("");
   });
 });

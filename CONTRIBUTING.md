@@ -68,7 +68,8 @@ A translation is published only after another speaker of the language has review
    maintainers, listed in [.github/CODEOWNERS](.github/CODEOWNERS); GitHub asks them to review every change to their
    catalog. The project owner merges after their approval.
 3. **A new language with no maintainer yet** stays open until someone else who speaks it has reviewed it, or the owner
-   may decide to publish it as a community translation, marked as such. The first contributor of a language becomes its
-   maintainer once their work has been reviewed by someone else.
+   may decide to publish it as a **community translation**: the language menu marks it ("Community") and offers a link to
+   report a mistake (`COMMUNITY_LOCALES` in `src/lib/i18n/config.ts`). The label is removed once a second speaker has
+   reviewed it. The first contributor of a language becomes its maintainer once their work has been reviewed by someone else.
 
 The Indonesian catalog (`messages/id.ts`) is maintained by @udienz.

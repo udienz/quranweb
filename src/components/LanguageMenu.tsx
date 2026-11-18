@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useOptimistic, useRef, useState, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
-import { LOCALE_COOKIE, LOCALE_NAMES, LOCALES, type Locale } from "@/lib/i18n/config";
+import { isCommunityLocale, LOCALE_COOKIE, LOCALE_NAMES, LOCALES, reportTranslationUrl, type Locale } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/client";
 import { useDismiss } from "@/lib/useDismiss";
 import { userDataActions } from "@/lib/userdata/store";
@@ -32,7 +32,7 @@ export function useLocaleChoice(): { current: Locale; choose: (next: Locale) => 
 }
 
 /** A list of languages by their own names, in the order of LOCALES. */
-const languageOptions = LOCALES.map((code) => ({ code, name: LOCALE_NAMES[code] }));
+const languageOptions = LOCALES.map((code) => ({ code, name: LOCALE_NAMES[code], community: isCommunityLocale(code) }));
 
 const GlobeIcon = () => (
   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -67,21 +67,33 @@ export default function LanguageMenu() {
 
       {open && (
         <div role="menu" aria-label={t("nav.language")} className="absolute right-0 top-full z-50 mt-2 w-52 rounded-2xl border border-border bg-card p-2 shadow-lg">
-          {languageOptions.map(({ code, name }) => (
+          {languageOptions.map(({ code, name, community }) => (
             <button
               key={code}
               type="button"
               role="menuitemradio"
               aria-checked={code === current}
-              lang={code}
-              translate="no"
               onClick={() => {
                 close();
                 choose(code);
               }}
               className="flex w-full items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background"
             >
-              <span>{name}</span>
+              <span className="flex items-center gap-2">
+                {/* Only the name is in its own language: the badge is interface text (and `uppercase` follows the lang, so
+                    a Turkish lang on the whole item would write "COMMUNİTY"). */}
+                <span lang={code} translate="no">
+                  {name}
+                </span>
+                {community && (
+                  <span
+                    title={t("nav.communityTranslation")}
+                    className="rounded-full border border-gold/60 px-1.5 text-[10px] font-semibold uppercase leading-4 text-gold"
+                  >
+                    {t("nav.communityBadge")}
+                  </span>
+                )}
+              </span>
               {code === current && (
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-primary">
                   <path d="M5 12l5 5L20 7" />
@@ -89,6 +101,17 @@ export default function LanguageMenu() {
               )}
             </button>
           ))}
+          {isCommunityLocale(current) && (
+            <a
+              href={reportTranslationUrl(current)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+              className="mt-1 block rounded-xl border-t border-border px-3 pb-2 pt-3 text-xs font-medium text-primary hover:underline"
+            >
+              {t("nav.reportTranslation")}
+            </a>
+          )}
         </div>
       )}
     </div>
@@ -107,9 +130,9 @@ export function LanguageSelect() {
         onChange={(e) => choose(e.target.value as Locale)}
         className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
       >
-        {languageOptions.map(({ code, name }) => (
+        {languageOptions.map(({ code, name, community }) => (
           <option key={code} value={code} lang={code} translate="no">
-            {name}
+            {community ? `${name} (${t("nav.communityBadge")})` : name}
           </option>
         ))}
       </select>
