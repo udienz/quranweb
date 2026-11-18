@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { writeCookie } from "../cookies";
 import { userDataSync } from "../userdata/store";
 import { parseUserData, type UserData } from "../userdata/schema";
+import { cookieUpdates } from "./choices";
 import { runSync } from "./engine";
 
 export type SyncStatus = "idle" | "syncing" | "error";
@@ -27,6 +30,7 @@ async function exchange(data: UserData): Promise<UserData> {
  */
 export function useAccountSync(userId: string | null): SyncStatus {
   const [status, setStatus] = useState<SyncStatus>("idle");
+  const router = useRouter();
 
   useEffect(() => {
     if (!userId) return;
@@ -46,8 +50,14 @@ export function useAccountSync(userId: string | null): SyncStatus {
       running = true;
       setStatus("syncing");
       try {
-        await runSync({ userId: id, ...userDataSync, exchange });
+        const merged = await runSync({ userId: id, ...userDataSync, exchange });
         syncedRaw = userDataSync.raw();
+        // Choices made on another device: write them to this browser's cookies and render again.
+        const updates = cookieUpdates(merged.choices, document.cookie);
+        if (updates.length > 0 && !stopped) {
+          for (const [name, value] of updates) writeCookie(name, value);
+          router.refresh();
+        }
         if (!stopped) setStatus("idle");
       } catch {
         if (!stopped) setStatus("error");
@@ -81,7 +91,7 @@ export function useAccountSync(userId: string | null): SyncStatus {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("online", onOnline);
     };
-  }, [userId]);
+  }, [userId, router]);
 
   return status;
 }

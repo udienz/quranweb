@@ -197,7 +197,12 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
   the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
   changes the previous reader made offline and never synced are lost when another reader signs in.
-- **Not synced yet:** edition and reciter choices, display toggles and the theme (they stay per browser).
+- **Choices follow the account** (editions and reciter, interface language): the cookies `qw-sel` and `qw-lang` stay the
+  source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
+  EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first
+  per kind like any item. After each sync `cookieUpdates` (`sync/choices.ts`) writes the account's choices to this browser's
+  cookies when they differ, then refreshes the page. A cookie that was never chosen on this device has no time and is not
+  synced, so a new device cannot overwrite the account's choices with its defaults. Display toggles and the theme stay per browser.
 - **Tests:** API and merge behaviour against a temp database with the fake provider (`sync.test.ts`); the browser
   side with fakes (`runSync`). For two real devices, run the built image with the fake provider (its `/__user?seed=`
   endpoint switches the reader) and drive two browser contexts.

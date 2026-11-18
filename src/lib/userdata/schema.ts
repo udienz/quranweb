@@ -8,6 +8,10 @@
 // per item, newest change wins, and it is commutative, associative and idempotent: merging
 // any copies in any order gives the same result.
 
+import { isLocale, type Locale } from "../i18n/config";
+import type { Selection } from "../quran/types";
+import { parseSelectionObject } from "../selection";
+
 export const USER_DATA_VERSION = 2;
 
 const MAX_SURAH = 114;
@@ -37,6 +41,16 @@ export interface ProgressEntry {
   deletedAt?: string;
 }
 
+/**
+ * The reader's choices that follow the account: editions and reciter (the `qw-sel` cookie) and the interface
+ * language (`qw-lang`). Each has the time it was last chosen, so the newest choice wins on every device. Only an
+ * explicit choice is recorded; a cookie that was never changed here has no time and is not synced.
+ */
+export interface Choices {
+  selection?: { value: Partial<Selection>; at: string };
+  locale?: { value: Locale; at: string };
+}
+
 export interface UserData {
   version: typeof USER_DATA_VERSION;
   /** `at` is when the reading position last changed. */
@@ -45,6 +59,8 @@ export interface UserData {
   progress: Record<string, ProgressEntry>;
   /** Includes tombstones; use liveBookmarks() to show them. */
   bookmarks: Bookmark[];
+  /** Choices that follow the account (added in 2026-11; older copies have none). */
+  choices: Choices;
 }
 
 /** Why user data was rejected; the UI turns the code into a message in the reader's language. */
@@ -61,7 +77,7 @@ export class UserDataError extends Error {
 }
 
 export function emptyUserData(): UserData {
-  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [] };
+  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [], choices: {} };
 }
 
 const isInt = (v: unknown, min: number, max: number): v is number =>
@@ -151,6 +167,17 @@ export function setBookmarkNote(data: UserData, surah: number, verse: number, no
   };
 }
 
+/** Record an explicit choice of editions and reciter. */
+export function setSelectionChoice(data: UserData, value: Partial<Selection>, at: string): UserData {
+  return { ...data, choices: { ...data.choices, selection: { value: parseSelectionObject(value), at } } };
+}
+
+/** Record an explicit choice of interface language. */
+export function setLocaleChoice(data: UserData, value: Locale, at: string): UserData {
+  if (!isLocale(value)) throw new Error(`Invalid locale: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, locale: { value, at } } };
+}
+
 /** Drop the tombstones older than 90 days; they have been around long enough for every device to see them. */
 export function pruneTombstones(data: UserData, now: string): UserData {
   const limit = Date.parse(now) - TOMBSTONE_DAYS * 24 * 60 * 60 * 1000;
@@ -193,7 +220,14 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     const known = byKey.get(key);
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
-  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks: sortBookmarks([...byKey.values()]) };
+  const choices: Choices = {};
+  for (const key of ["selection", "locale"] as const) {
+    const x = a.choices?.[key];
+    const y = b.choices?.[key];
+    const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
+    if (pick) (choices as Record<string, unknown>)[key] = pick;
+  }
+  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks: sortBookmarks([...byKey.values()]), choices };
 }
 
 // ------------------------------------------------------------------ parsing
@@ -263,7 +297,21 @@ export function parseUserData(raw: unknown): UserData {
   if (bookmarks.filter((b) => !b.deletedAt).length > MAX_LIVE_BOOKMARKS) throw invalid(`At most ${MAX_LIVE_BOOKMARKS} bookmarks are allowed`);
   if (bookmarks.length + Object.keys(progress).length > MAX_ENTRIES) throw invalid("Too many entries");
 
-  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks };
+  const choices: Choices = {};
+  const c = (r.choices ?? {}) as Record<string, unknown>;
+  if (typeof c !== "object" || c === null) throw invalid("Choices are not an object");
+  if (c.selection != null) {
+    const sel = c.selection as Record<string, unknown>;
+    if (!isDate(sel.at) || typeof sel.value !== "object" || sel.value === null) throw invalid("Invalid edition choice");
+    choices.selection = { value: parseSelectionObject(sel.value), at: sel.at };
+  }
+  if (c.locale != null) {
+    const loc = c.locale as Record<string, unknown>;
+    if (!isDate(loc.at) || !isLocale(loc.value)) throw invalid("Invalid language choice");
+    choices.locale = { value: loc.value, at: loc.at };
+  }
+
+  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks, choices };
 }
 
 // ------------------------------------------------------------ export, import

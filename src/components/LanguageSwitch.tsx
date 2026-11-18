@@ -5,6 +5,7 @@ import { useOptimistic, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
 import { LOCALE_COOKIE, LOCALE_NAMES, LOCALES, type Locale } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/client";
+import { userDataActions } from "@/lib/userdata/store";
 
 /** Switches the interface language. The choice is a cookie that the server reads on every request. */
 export default function LanguageSwitch() {
@@ -16,6 +17,7 @@ export default function LanguageSwitch() {
   function choose(next: Locale) {
     if (next === current) return;
     writeCookie(LOCALE_COOKIE, next);
+    userDataActions.chooseLocale(next);
     startTransition(() => {
       setCurrent(next);
       router.refresh();

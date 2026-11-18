@@ -6,6 +6,8 @@
 // the data keeps working in memory while the page is open.
 
 import { useMemo, useSyncExternalStore } from "react";
+import type { Locale } from "../i18n/config";
+import type { Selection } from "../quran/types";
 import {
   emptyUserData,
   importUserData,
@@ -18,6 +20,8 @@ import {
   removeBookmark,
   clearProgress,
   pruneTombstones,
+  setLocaleChoice,
+  setSelectionChoice,
   type UserData,
 } from "./schema";
 
@@ -83,6 +87,9 @@ export const userDataActions = {
   setBookmarkNote: (surah: number, verse: number, note: string) => update((d) => setBookmarkNote(d, surah, verse, note, now())),
   /** Merge a backup into the current data. Throws a UserDataError if the file is not valid. */
   importMerge: (text: string) => update((d) => mergeUserData(d, importUserData(text))),
+  /** Record an explicit choice so it follows the account (the cookie is written by the caller). */
+  chooseSelection: (selection: Partial<Selection>) => update((d) => setSelectionChoice(d, selection, now())),
+  chooseLocale: (locale: Locale) => update((d) => setLocaleChoice(d, locale, now())),
   /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),
 };

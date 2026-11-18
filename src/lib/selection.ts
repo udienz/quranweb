@@ -17,6 +17,11 @@ export function parseSelectionCookie(raw: string | undefined): Partial<Selection
   } catch {
     return {};
   }
+  return parseSelectionObject(value);
+}
+
+/** The valid fields of a selection object (from the cookie or from synced account data), in a fixed key order. */
+export function parseSelectionObject(value: unknown): Partial<Selection> {
   if (typeof value !== "object" || value === null) return {};
   const v = value as Record<string, unknown>;
 
