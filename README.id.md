@@ -19,7 +19,7 @@ Situs: **https://quranweb.udienz.web.id** (produksi) dan https://quranweb-qa.udi
 - **Bacaan Anda, tanpa akun**: mengingat posisi terakhir ("lanjutkan membaca"), menandai ayat sudah dibaca sampai titik tertentu, memberi penanda ayat dengan catatan dan mengelompokkannya ke dalam koleksi, memasang target harian (ayat per hari, dengan runtutan dan progres menuju khatam), dan mencadangkan semuanya sebagai berkas JSON. Tersimpan di browser Anda. Di situs yang mengaktifkan fitur masuk, Anda bisa masuk (opsional) agar bacaan tersimpan di semua perangkat, serta mengunduh atau menghapusnya kapan saja (lihat `/privacy`).
 - **Pilihan** teks Arab, terjemahan, tafsir, qari, dan tampilan, tersimpan di browser dan, bila Anda masuk, ikut akun Anda. "Bacaan saya" dan tombol masuk ada di menu akun di kanan atas.
 - Tema terang dan gelap, nyaman di ponsel, salin ayat atau tautannya.
-- Setiap halaman mencantumkan sumber dari apa yang ditampilkan.
+- Halaman **Tentang** mencantumkan sumber, kredit, dan lisensi setiap teks, terjemahan, tafsir, dan murotal; setiap surat dan footer menautkannya.
 
 ### Tangkapan layar
 

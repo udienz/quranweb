@@ -98,9 +98,25 @@ export const en = {
     },
   },
   footer: {
-    intro: "The sources of every text, translation, tafsir and recitation are listed under each surah. Main data from",
-    and: "and",
     privacy: "Privacy",
+    about: "About",
+  },
+  about: {
+    title: "About QuranWeb",
+    intro:
+      "QuranWeb is a free, non-commercial website for reading the Qur'an: the Arabic text, translations, tafsir and recitations. The Qur'an text and its translations come only from the published sources below and are never edited here; there is no way to change them on this site. Reading needs no account.",
+    sourcesTitle: "Sources and credits",
+    sourcesIntro: "Every text, translation, tafsir and recitation on this site, where it comes from, and who to credit.",
+    kinds: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translations", tafsir: "Tafsir" },
+    reciters: "Recitations (audio)",
+    columns: { name: "Name", language: "Language", credit: "Source and credit", licence: "Licence" },
+    unknownLicence: "See the source",
+    providersTitle: "Where the data is fetched from",
+    providers:
+      "Most text and all recitations come through the EQuran.id API; further editions come from the fawazahmed0/quran-api collection. This site keeps its own copy of the text and serves it as a public mirror.",
+    codeTitle: "Source code",
+    code: "The code of this site is open:",
+    privacyLink: "How your data is handled: the privacy policy.",
   },
   notFound: {
     title: "Page not found",
@@ -132,8 +148,7 @@ export const en = {
     verseOption: "Verse {number}",
     previousSurah: "Previous surah",
     nextSurah: "Next surah",
-    sources: "Sources: {list}",
-    audioBy: "Audio {qari}",
+    sources: "Sources and credits for the text, translations, tafsir and recitations",
   },
   pagination: {
     label: "Pages",

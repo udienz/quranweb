@@ -348,6 +348,7 @@ src/
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup, account
     privacy/page.tsx           privacy policy (English and Indonesian)
+    about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
@@ -492,7 +493,9 @@ repository, review the diff and copy the result to the server. Only text is mirr
 audio still comes from `cdn.equran.id`.
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
-sources of each edition are credited in the UI (the "Sources" line under each surah).
+sources of each edition are credited in the UI: the About page (`/about`) lists the source, credit and licence of every
+edition and reciter in the catalog, and each surah ends with a link to it ("Sources and credits ...") and the footer (About · Privacy) links to it.
+Keep those links when changing the reader or the footer: the credit must stay one click away from every reading page.
 
 ### Known limits
 

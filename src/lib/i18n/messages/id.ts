@@ -97,10 +97,26 @@ export const id: Messages = {
       actions: { disable: "menonaktifkan", enable: "mengaktifkan", delete: "menghapus" },
     },
   },
+  about: {
+    title: "Tentang QuranWeb",
+    intro:
+      "QuranWeb adalah situs gratis dan nonkomersial untuk membaca Al-Qur'an: teks Arab, terjemahan, tafsir, dan murotal. Teks Al-Qur'an dan terjemahannya hanya berasal dari sumber terbitan di bawah ini dan tidak pernah disunting di sini; situs ini tidak punya cara untuk mengubahnya. Membaca tidak memerlukan akun.",
+    sourcesTitle: "Sumber dan kredit",
+    sourcesIntro: "Setiap teks, terjemahan, tafsir, dan murotal di situs ini, asalnya, dan siapa yang dikreditkan.",
+    kinds: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan", tafsir: "Tafsir" },
+    reciters: "Murotal (audio)",
+    columns: { name: "Nama", language: "Bahasa", credit: "Sumber dan kredit", licence: "Lisensi" },
+    unknownLicence: "Lihat sumbernya",
+    providersTitle: "Dari mana data diambil",
+    providers:
+      "Sebagian besar teks dan semua murotal datang melalui API EQuran.id; edisi tambahan berasal dari koleksi fawazahmed0/quran-api. Situs ini menyimpan salinan teksnya sendiri dan menyajikannya sebagai mirror publik.",
+    codeTitle: "Kode sumber",
+    code: "Kode situs ini terbuka:",
+    privacyLink: "Cara data Anda diperlakukan: kebijakan privasi.",
+  },
   footer: {
-    intro: "Sumber tiap teks, terjemahan, tafsir, dan audio tercantum di bawah setiap surat. Data utama dari",
-    and: "dan",
     privacy: "Privasi",
+    about: "Tentang",
   },
   notFound: {
     title: "Halaman tidak ditemukan",
@@ -132,8 +148,7 @@ export const id: Messages = {
     verseOption: "Ayat {number}",
     previousSurah: "Surat sebelumnya",
     nextSurah: "Surat berikutnya",
-    sources: "Sumber: {list}",
-    audioBy: "Audio {qari}",
+    sources: "Sumber dan kredit untuk teks, terjemahan, tafsir, dan murotal",
   },
   pagination: {
     label: "Halaman",
