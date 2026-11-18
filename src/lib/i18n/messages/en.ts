@@ -148,7 +148,6 @@ export const en = {
     verseOption: "Verse {number}",
     previousSurah: "Previous surah",
     nextSurah: "Next surah",
-    sources: "Sources and credits for the text, translations, tafsir and recitations",
   },
   pagination: {
     label: "Pages",

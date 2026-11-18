@@ -148,7 +148,6 @@ export const id: Messages = {
     verseOption: "Ayat {number}",
     previousSurah: "Surat sebelumnya",
     nextSurah: "Surat berikutnya",
-    sources: "Sumber dan kredit untuk teks, terjemahan, tafsir, dan murotal",
   },
   pagination: {
     label: "Halaman",

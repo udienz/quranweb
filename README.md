@@ -19,7 +19,7 @@ Live: **https://quranweb.udienz.web.id** (production) and https://quranweb-qa.ud
 - **Your reading, without an account**: it remembers where you stopped ("continue reading"), lets you mark verses as read up to a point, bookmark verses with notes and group them into collections, set a daily goal (verses a day, with a streak and progress towards a khatam), and back everything up as a JSON file. It is stored in your browser. Where the site has sign-in switched on, you can optionally sign in to keep it on all your devices, and download or delete it at any time (see `/privacy`).
 - **Choices** for Arabic text, translations, tafsir, reciter and layout, saved in the browser and, when you sign in, kept with your account. "My reading" and sign-in are in the account menu at the top right.
 - Light and dark theme, works on phones, copy a verse or a link to it.
-- An **About** page lists the source, credit and licence of every text, translation, tafsir and recitation; each surah and the footer link to it.
+- An **About** page lists the source, credit and licence of every text, translation, tafsir and recitation; the footer of every page links to it.
 
 ### Screenshots
 
