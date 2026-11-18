@@ -160,12 +160,16 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 
 ### Settings page, theme and text size
 
-- **`/settings`** holds every setting of the reader, in sections linked at the top: theme and text size
-  (`DisplaySection`), the reading settings (the same `SettingsPanel` as beside a surah: layout, what is shown, editions,
-  reciter) and, when sign-in is on, the account (`AccountSection`: download and delete, or sign in; it moved here from
+- **`/settings`** holds every setting of the reader, in sections linked at the top: language, theme and text size
+  (`DisplaySection`), **audio** (`AudioSection`: the reciter, what the audio does at the end of a surah or a juz, and a list that
+  starts a whole juz from here), the reading settings (the same `SettingsPanel` as beside a surah: layout, what is shown,
+  editions; the reciter is left out on this page with `showQari={false}`, because the Audio section has it) and, when sign-in is
+  on, the account (`AccountSection`: download and delete, or sign in; it moved here from
   `/my-reading`, and the privacy page says so). It is opened from the account menu, or from the main navigation when
-  sign-in is off, and from the "All settings" link in the side panel. The side panel keeps its settings as a shortcut
-  and adds the text size.
+  sign-in is off, and from the "All settings" link in the side panel. The side panel keeps its settings, the reciter included,
+  as a shortcut (the owner's decision) and adds the text size; the surah header keeps the playback mode. The shared pieces:
+  `useSelectionChoice` (editions and reciter: cookie, recorded choice, refresh) and `PlaybackModeSelect` (header and settings).
+  A juz started from the settings page goes through `beginJuz` (`audio.ts`): the reader that opens at its first verse plays it.
 - **Theme:** light, dark or auto (follows `prefers-color-scheme`, also while the page is open). Local storage `theme`
   (the old key; no value means auto). The header button switches between light and dark and records that choice.
 - **Text size:** Arabic and Latin on their own scale, five steps (`FONT_SCALES`: 85 % to 150 %), local storage
@@ -436,6 +440,7 @@ src/
     MushafView.tsx             mushaf layout: running Arabic block, numbered translation column, verse action bar
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
+    AudioSection.tsx, PlaybackModeSelect.tsx   the Audio section of the settings page; the end-of-surah mode select (also in the surah header)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx

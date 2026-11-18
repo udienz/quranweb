@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import AccountSection from "@/components/AccountSection";
+import AudioSection from "@/components/AudioSection";
 import DisplaySection from "@/components/DisplaySection";
 import SettingsPanel from "@/components/SettingsPanel";
 import { signInEnabled } from "@/lib/auth";
@@ -33,9 +34,14 @@ export default async function SettingsPage() {
   } catch {
     selection = quran.resolveSelection({}, locale);
   }
+  const juzs = await quran.getJuzList().catch((error) => {
+    console.error("The juz boundaries are not available:", error);
+    return [];
+  });
   const accounts = signInEnabled();
   const sections = [
     ["#display", t("settingsPage.display")],
+    ["#audio", t("settingsPage.audio")],
     ["#reading", t("settings.title")],
     ...(accounts ? [["#account", t("account.section.title")]] : []),
   ];
@@ -53,7 +59,8 @@ export default async function SettingsPage() {
       </nav>
       <div className="flex flex-col gap-6">
         <DisplaySection />
-        <SettingsPanel id="reading" catalog={quran.getCatalog()} selection={selection} layout={layout} showLink={false} />
+        <AudioSection catalog={quran.getCatalog()} selection={selection} juzs={juzs} />
+        <SettingsPanel id="reading" catalog={quran.getCatalog()} selection={selection} layout={layout} showLink={false} showQari={false} />
         {accounts && (
           <div id="account" className="scroll-mt-24">
             <AccountSection />

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useOptimistic, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
+import { useSelectionChoice } from "@/lib/useSelectionChoice";
 import { useI18n } from "@/lib/i18n/client";
 import type { StringKey } from "@/lib/i18n/messages";
 import { localized } from "@/lib/i18n/translate";
 import type { Catalog, Edition, Selection } from "@/lib/quran";
-import { SELECTION_COOKIE, serializeSelection } from "@/lib/selection";
 import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { userDataActions } from "@/lib/userdata/store";
 import { FontSizeControls } from "./DisplayControls";
@@ -47,6 +47,7 @@ export default function SettingsPanel({
   hideTitle = false,
   id,
   showLink = true,
+  showQari = true,
 }: {
   catalog: Catalog;
   selection: Selection;
@@ -58,27 +59,21 @@ export default function SettingsPanel({
   id?: string;
   /** Text size controls and the link to the settings page; off on the settings page, which has them elsewhere. */
   showLink?: boolean;
+  /** The reciter list; the settings page leaves it out because its Audio section has it. */
+  showQari?: boolean;
 }) {
   const { t, locale } = useI18n();
   const router = useRouter();
   const { prefs, toggle } = usePrefs();
-  const [pending, startTransition] = useTransition();
+  const [layoutPending, startTransition] = useTransition();
   // Show the new choice at once; the server catches up when the refresh finishes.
-  const [selection, setOptimistic] = useOptimistic(saved);
+  const { selection, save, pending: selectionPending } = useSelectionChoice(saved);
+  const pending = layoutPending || selectionPending;
   const [layout, setOptimisticLayout] = useOptimistic(savedLayout);
 
   const ofKind = (kind: Edition["kind"]) => catalog.editions.filter((e) => e.kind === kind);
   const nameOf = (e: Edition) => localized(e.name, locale);
   const languageLabel = (code: string) => (LANGUAGE_LABELS[code] ? t(LANGUAGE_LABELS[code]) : code.toUpperCase());
-
-  function save(next: Selection) {
-    writeCookie(SELECTION_COOKIE, serializeSelection(next));
-    userDataActions.chooseSelection(next);
-    startTransition(() => {
-      setOptimistic(next);
-      router.refresh();
-    });
-  }
 
   function saveLayout(next: Layout) {
     if (next === layout) return;
@@ -204,19 +199,21 @@ export default function SettingsPanel({
           </select>
         </Field>
 
-        <Field label={t("settings.qari")}>
-          <select
-            className={selectClass}
-            value={selection.qari}
-            onChange={(e) => save({ ...selection, qari: e.target.value })}
-          >
-            {catalog.qaris.map((q) => (
-              <option key={q.id} value={q.id}>
-                {q.name}
-              </option>
-            ))}
-          </select>
-        </Field>
+        {showQari && (
+          <Field label={t("settings.qari")}>
+            <select
+              className={selectClass}
+              value={selection.qari}
+              onChange={(e) => save({ ...selection, qari: e.target.value })}
+            >
+              {catalog.qaris.map((q) => (
+                <option key={q.id} value={q.id}>
+                  {q.name}
+                </option>
+              ))}
+            </select>
+          </Field>
+        )}
       </div>
       <p className="mt-3 text-xs text-muted-foreground">{t("settings.savedInBrowser")}</p>
       {showLink && (

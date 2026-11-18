@@ -3,6 +3,8 @@
 // when playback carries on in the next surah: the page component is replaced, the element is not. Browser only: call
 // it from effects and event handlers.
 
+import { verseHref } from "./anchors";
+
 let shared: HTMLAudioElement | null = null;
 
 export function getAudio(): HTMLAudioElement {
@@ -36,6 +38,16 @@ export function takePendingStart(surah: number, from: number, to: number): numbe
     return verse;
   }
   return null;
+}
+
+/**
+ * Start playing a juz from a page that has no reader (the settings page): remember the juz and the verse to begin with, and
+ * return the address of that verse; the reader that opens there starts it, like when it carries on to a next surah.
+ */
+export function beginJuz(juz: number, start: PendingStart): string {
+  setJuzScope(juz);
+  setPendingStart(start);
+  return verseHref(start.surah, start.verse);
 }
 
 // The juz being played, if the reader asked for one: playback then continues across surahs up to the last verse of that

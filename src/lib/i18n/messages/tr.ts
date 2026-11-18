@@ -213,6 +213,10 @@ export const tr: Messages = {
     subtitleAccount: "Bu tarayıcıda saklanır; giriş yaptığınızda hesabınızla birlikte diğer cihazlarınıza da gelir.",
     sections: "Bölümler",
     display: "Dil, tema ve yazı boyutu",
+    audio: "Ses",
+  },
+  audio: {
+    hint: "Okuyucu, bir surenin yanındaki ayarlarda da bulunur. Bir cüz çalmak ilk ayetinden başlar ve surelere yayılarak devam eder; yukarıdaki ayar, cüz bittiğinde ne olacağını belirler.",
   },
   display: {
     language: "Arayüz dili",
