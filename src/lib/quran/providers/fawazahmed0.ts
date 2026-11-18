@@ -68,7 +68,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     direction: "ltr",
     name: { en: "Tafsir by Quraish Shihab and others (Indonesian)", id: "Tafsir Quraish Shihab dkk.", tr: "Quraish Shihab ve diğerlerinin tefsiri (Endonezce)" },
     author: "Muhammad Quraish Shihab et al.",
-    source: source("http://tanzil.net", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil", "Muhammad Quraish Shihab ve diğerleri, Tanzil")),
+    source: source("https://tanzil.net/trans/", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil", "Muhammad Quraish Shihab ve diğerleri, Tanzil")),
   },
   {
     id: "ind-jalaladdinalmah",
@@ -78,7 +78,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     name: { en: "Tafsir Jalalayn (Indonesian)", id: "Tafsir Jalalayn", tr: "Tafsir Jalalayn (Endonezce)" },
     author: "Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi",
     source: source(
-      "http://tanzil.net",
+      "https://tanzil.net/trans/",
       via("Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi through Tanzil", "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi melalui Tanzil", "Jalaluddin al-Mahalli ve Jalaluddin as-Suyuthi, Tanzil"),
     ),
   },
@@ -89,7 +89,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     direction: "ltr",
     name: { en: "English translation by Yusuf Ali", id: "Terjemahan Inggris oleh Yusuf Ali", tr: "Yusuf Ali'nin İngilizce meali" },
     author: "Abdullah Yusuf Ali",
-    source: source("http://tanzil.net", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil", "Abdullah Yusuf Ali, Tanzil")),
+    source: source("https://tanzil.net/trans/", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil", "Abdullah Yusuf Ali, Tanzil")),
   },
   {
     id: "eng-mohammedmarmadu",
@@ -99,7 +99,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     name: { en: "English translation by Pickthall", id: "Terjemahan Inggris oleh Pickthall", tr: "Pickthall'ın İngilizce meali" },
     author: "Mohammed Marmaduke William Pickthall",
     source: source(
-      "http://tanzil.net",
+      "https://tanzil.net/trans/",
       via("Mohammed Marmaduke William Pickthall through Tanzil", "Mohammed Marmaduke William Pickthall melalui Tanzil", "Mohammed Marmaduke William Pickthall, Tanzil"),
     ),
   },
