@@ -44,7 +44,7 @@ On wide screens the surah list and settings can be hidden so the mushaf uses the
 | Environment | URL | Purpose | How it is deployed | Data source |
 |---|---|---|---|---|
 | **Production** | https://quranweb.udienz.web.id | public site | automatically when a `v*` release tag is pushed (`deploy-prod.yml`), only for commits already on `master` | own mirrors at `/api/v2` and `/quran-api` on the same domain |
-| **QA** | https://quranweb-qa.udienz.web.id | testing before release | automatically on every push to `master` (`deploy-qa.yml`) | own mirrors on its own domain |
+| **QA** | https://quranweb-qa.udienz.web.id | testing before release | by hand from `master` (`deploy-qa.yml`, Run workflow) | own mirrors on its own domain |
 | Local | http://localhost:3000 | development | `npm run dev` | EQuran.id and fawazahmed0 directly (default) |
 
 Both run on the same VM: Docker containers (`quranweb-prod` and `quranweb-qa`) behind nginx with Let's Encrypt certificates (certbot), with DNS through Cloudflare. Deployment uses SSH and `scripts/deploy.sh`, which builds the image on the server and rolls back to the previous image if the new app does not respond. First release: `v2.0.0` (2026-11-17).

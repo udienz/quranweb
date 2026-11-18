@@ -1,6 +1,8 @@
 name: Deploy QA
 
-# Deploys to https://quranweb-qa.udienz.web.id automatically after a push to master.
+# Deploys to https://quranweb-qa.udienz.web.id when run by hand (Actions > Deploy QA > Run workflow, or
+# `gh workflow run "Deploy QA" -R udienz/quranweb --ref master`). A push to master does not deploy: the owner chooses
+# when QA changes.
 # Inactive until the repository variable QA_DEPLOY is set to "true" and the secrets
 # below are filled in (Settings > Secrets and variables > Actions):
 #   QA_SSH_HOST         server host or IP
@@ -10,8 +12,6 @@ name: Deploy QA
 #   QA_SSH_KNOWN_HOSTS  output of `ssh-keyscan -p <port> <host>`
 
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
 
 concurrency:

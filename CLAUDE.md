@@ -454,7 +454,7 @@ October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (b
   runs, repeated `npm run build`, and the Dockerfile changed once). The Dockerfile is
   validated by the QA deploy, which builds the same image and rolls back on failure.
   If you change the Dockerfile, run `docker build` locally before merging.
-- `.github/workflows/deploy-qa.yml`: push to `master` deploys to QA over SSH with
+- `.github/workflows/deploy-qa.yml`: run by hand (`workflow_dispatch`, not on push) deploys to QA over SSH with
   `scripts/deploy.sh qa <sha>`. It needs the repository variable `QA_DEPLOY=true`
   and the `QA_SSH_*` secrets (listed in the workflow).
 - `.github/workflows/deploy-prod.yml`: pushing a `v*` tag deploys to production,
@@ -470,7 +470,7 @@ October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (b
 
 | | URL | Container | Deployed |
 |---|---|---|---|
-| QA | https://quranweb-qa.udienz.web.id | `quranweb-qa`, `127.0.0.1:3000` | automatically from `master` |
+| QA | https://quranweb-qa.udienz.web.id | `quranweb-qa`, `127.0.0.1:3000` | by hand from `master` (Run workflow) |
 | Production | https://quranweb.udienz.web.id | `quranweb-prod`, `127.0.0.1:3002` | from release tags |
 
 Both run on one VM behind nginx with Let's Encrypt (certbot); DNS goes through
