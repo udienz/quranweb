@@ -20,9 +20,10 @@ export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@
 // editions/ind-indonesianislam/45.min.json). See createFawazTextProvider.
 export const FAWAZ_RAW_URL = "https://raw.githubusercontent.com/fawazahmed0/quran-api/1";
 
-const via = (en: string, id: string): SourceInfo["attribution"] => ({
+const via = (en: string, id: string, tr: string): SourceInfo["attribution"] => ({
   en: `${en}, via fawazahmed0/quran-api`,
   id: `${id}, melalui fawazahmed0/quran-api`,
+  tr: `${tr}, fawazahmed0/quran-api üzerinden`,
 });
 
 const source = (url: string, attribution: SourceInfo["attribution"]): SourceInfo => ({
@@ -42,20 +43,20 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "arabic",
     language: "ar",
     direction: "rtl",
-    name: { en: "Arabic, Uthmani Hafs", id: "Arab Uthmani Hafs" },
+    name: { en: "Arabic, Uthmani Hafs", id: "Arab Uthmani Hafs", tr: "Arapça, Osmani Hafs" },
     author: "King Fahd Quran Complex",
-    source: source("https://qurancomplex.gov.sa/", via("King Fahd Quran Complex", "King Fahd Quran Complex")),
+    source: source("https://qurancomplex.gov.sa/", via("King Fahd Quran Complex", "King Fahd Quran Complex", "King Fahd Quran Complex")),
   },
   {
     id: "ind-indonesianislam",
     kind: "translation",
     language: "id",
     direction: "ltr",
-    name: { en: "Indonesian translation (Kemenag, QuranEnc)", id: "Terjemahan Kemenag RI (QuranEnc)" },
+    name: { en: "Indonesian translation (Kemenag, QuranEnc)", id: "Terjemahan Kemenag RI (QuranEnc)", tr: "Endonezce meal (Kemenag, QuranEnc)" },
     author: "Kementerian Agama RI",
     source: source(
       "https://quranenc.com/check/indonesian_affairs/v1",
-      via("Indonesian Ministry of Religious Affairs (Kemenag) through QuranEnc", "Kementerian Agama RI melalui QuranEnc"),
+      via("Indonesian Ministry of Religious Affairs (Kemenag) through QuranEnc", "Kementerian Agama RI melalui QuranEnc", "Endonezya Din İşleri Bakanlığı (Kemenag), QuranEnc"),
     ),
   },
   {
@@ -65,20 +66,20 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: { en: "Tafsir by Quraish Shihab and others (Indonesian)", id: "Tafsir Quraish Shihab dkk." },
+    name: { en: "Tafsir by Quraish Shihab and others (Indonesian)", id: "Tafsir Quraish Shihab dkk.", tr: "Quraish Shihab ve diğerlerinin tefsiri (Endonezce)" },
     author: "Muhammad Quraish Shihab et al.",
-    source: source("http://tanzil.net", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil")),
+    source: source("http://tanzil.net", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil", "Muhammad Quraish Shihab ve diğerleri, Tanzil")),
   },
   {
     id: "ind-jalaladdinalmah",
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: { en: "Tafsir Jalalayn (Indonesian)", id: "Tafsir Jalalayn" },
+    name: { en: "Tafsir Jalalayn (Indonesian)", id: "Tafsir Jalalayn", tr: "Tafsir Jalalayn (Endonezce)" },
     author: "Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi",
     source: source(
       "http://tanzil.net",
-      via("Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi through Tanzil", "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi melalui Tanzil"),
+      via("Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi through Tanzil", "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi melalui Tanzil", "Jalaluddin al-Mahalli ve Jalaluddin as-Suyuthi, Tanzil"),
     ),
   },
   {
@@ -86,20 +87,20 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: { en: "English translation by Yusuf Ali", id: "Terjemahan Inggris oleh Yusuf Ali" },
+    name: { en: "English translation by Yusuf Ali", id: "Terjemahan Inggris oleh Yusuf Ali", tr: "Yusuf Ali'nin İngilizce meali" },
     author: "Abdullah Yusuf Ali",
-    source: source("http://tanzil.net", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil")),
+    source: source("http://tanzil.net", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil", "Abdullah Yusuf Ali, Tanzil")),
   },
   {
     id: "eng-mohammedmarmadu",
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: { en: "English translation by Pickthall", id: "Terjemahan Inggris oleh Pickthall" },
+    name: { en: "English translation by Pickthall", id: "Terjemahan Inggris oleh Pickthall", tr: "Pickthall'ın İngilizce meali" },
     author: "Mohammed Marmaduke William Pickthall",
     source: source(
       "http://tanzil.net",
-      via("Mohammed Marmaduke William Pickthall through Tanzil", "Mohammed Marmaduke William Pickthall melalui Tanzil"),
+      via("Mohammed Marmaduke William Pickthall through Tanzil", "Mohammed Marmaduke William Pickthall melalui Tanzil", "Mohammed Marmaduke William Pickthall, Tanzil"),
     ),
   },
   {
@@ -114,7 +115,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     author: "Diyanet İşleri Başkanlığı",
     source: source(
       "https://tanzil.net/trans/",
-      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil"),
+      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil", "Diyanet İşleri Başkanlığı, Tanzil"),
     ),
   },
 ];

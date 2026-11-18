@@ -19,6 +19,7 @@ const SOURCE: SourceInfo = {
   attribution: {
     en: "Indonesian Ministry of Religious Affairs (Kemenag), via EQuran.id",
     id: "Kementerian Agama RI, melalui EQuran.id",
+    tr: "Endonezya Din İşleri Bakanlığı (Kemenag), EQuran.id üzerinden",
   },
 };
 
@@ -28,7 +29,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "arabic",
     language: "ar",
     direction: "rtl",
-    name: { en: "Arabic text (EQuran.id)", id: "Teks Arab (EQuran.id)" },
+    name: { en: "Arabic text (EQuran.id)", id: "Teks Arab (EQuran.id)", tr: "Arapça metin (EQuran.id)" },
     source: SOURCE,
   },
   {
@@ -36,7 +37,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "transliteration",
     language: "ar",
     direction: "ltr",
-    name: { en: "Latin transliteration", id: "Transliterasi Latin" },
+    name: { en: "Latin transliteration", id: "Transliterasi Latin", tr: "Latin harfleriyle okunuş" },
     source: SOURCE,
   },
   {
@@ -44,7 +45,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "translation",
     language: "id",
     direction: "ltr",
-    name: { en: "Indonesian translation (Kemenag)", id: "Terjemahan Kemenag RI" },
+    name: { en: "Indonesian translation (Kemenag)", id: "Terjemahan Kemenag RI", tr: "Endonezce meal (Kemenag)" },
     author: "Kementerian Agama RI",
     source: SOURCE,
   },
@@ -53,7 +54,7 @@ export const EQURAN_EDITIONS: Edition[] = [
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: { en: "Tafsir (Kemenag, Indonesian)", id: "Tafsir Kemenag RI" },
+    name: { en: "Tafsir (Kemenag, Indonesian)", id: "Tafsir Kemenag RI", tr: "Tefsir (Kemenag, Endonezce)" },
     author: "Kementerian Agama RI",
     source: SOURCE,
   },
@@ -75,6 +76,7 @@ const AUDIO_SOURCE: SourceInfo = {
   attribution: {
     en: "Verse By Verse Quran, via EQuran.id",
     id: "Verse By Verse Quran, melalui EQuran.id",
+    tr: "Verse By Verse Quran, EQuran.id üzerinden",
   },
 };
 

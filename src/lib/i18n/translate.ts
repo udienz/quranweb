@@ -36,7 +36,7 @@ export interface Translator {
   date(value: string | number | Date, options?: Intl.DateTimeFormatOptions): string;
 }
 
-const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID" };
+const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR" };
 
 export function createTranslator(locale: Locale, messages: Messages): Translator {
   const rules = new Intl.PluralRules(INTL_LOCALE[locale]);
