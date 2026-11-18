@@ -201,6 +201,13 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   to 40 characters; a bookmark is in at most one (`collectionId`). Collections merge by id, newest change wins, removal is a
   tombstone; moving a bookmark is a change of that bookmark. Removing a collection keeps its bookmarks, which then show as having no
   collection (`collectionOf` ignores a removed collection), so the merge never has to touch bookmarks. Works without an account too.
+- **Daily goal and khatam progress** (`goal`, `activity`, `DailyGoal` on `/my-reading`): the goal is verses per day (0 = off,
+  newest setting wins). `activity` counts verses marked as read per local day **per device** (`quranweb:device`, a random id);
+  each device only raises its own count, so copies merge by the larger count per device and a day's total is the sum over
+  devices (a G-counter: reading on two devices adds up, syncing twice never counts twice). Counting happens in
+  `userDataActions.toggleReadUpTo` (newly marked verses only; unmarking never subtracts). 120 days are kept. The streak is the
+  run of days that reached the goal, ending today or, while today is open, yesterday. Khatam progress is the sum of the
+  progress marks out of 6,236 verses.
 - **Choices follow the account** (editions and reciter, interface language): the cookies `qw-sel` and `qw-lang` stay the
   source the server renders from, so readers without an account work as before. An explicit choice (the settings panel, the
   EN/ID button) is also recorded in the user data as `choices.selection` / `choices.locale` with its time, merged newest-first

@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -165,6 +165,8 @@ describe("parseUserData", () => {
       bookmarks: [{ surah: 1, verse: 1, note: "hello", createdAt: T1, updatedAt: T1 }],
       choices: {},
       collections: [],
+      goal: null,
+      activity: {},
     });
   });
 
@@ -360,7 +362,15 @@ function randomData(next: () => number): UserData {
     const updatedAt = pick(times);
     collections.push({ id, name: pick(["Doa", "Hafalan"]), createdAt: T1, updatedAt, ...(roll > 0.75 ? { deletedAt: updatedAt } : {}) });
   }
-  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse), choices, collections };
+  const goal = next() < 0.6 ? { versesPerDay: pick([5, 10, 20]), at: pick(times) } : null;
+  const activity: UserData["activity"] = {};
+  for (const day of ["2026-11-01", "2026-11-02"]) {
+    for (const device of ["dev00001", "dev00002"]) {
+      if (next() < 0.5) (activity[day] ??= {})[device] = pick([1, 4, 9]);
+    }
+  }
+  const sortedActivity = Object.fromEntries(Object.keys(activity).sort().map((d) => [d, Object.fromEntries(Object.keys(activity[d]).sort().map((k) => [k, activity[d][k]]))]));
+  return { ...d, bookmarks: bookmarks.sort((x, y) => x.surah - y.surah || x.verse - y.verse), choices, collections, goal, activity: sortedActivity };
 }
 
 describe("merge laws (random data)", () => {
@@ -493,5 +503,79 @@ describe("bookmark collections", () => {
   it("drops collection tombstones after 90 days", () => {
     const d = removeCollection(createCollection(emptyUserData(), "coll0001", "Doa", T1), "coll0001", T1);
     expect(pruneTombstones(d, new Date(Date.parse(T1) + 91 * 86400000).toISOString()).collections).toEqual([]);
+  });
+});
+
+describe("daily goal and khatam progress", () => {
+  const dev = "devaaaa1";
+  it("sets and validates the goal", () => {
+    expect(setDailyGoal(emptyUserData(), 20, T1).goal).toEqual({ versesPerDay: 20, at: T1 });
+    expect(setDailyGoal(emptyUserData(), 0, T1).goal?.versesPerDay).toBe(0);
+    expect(() => setDailyGoal(emptyUserData(), 1001, T1)).toThrow();
+    expect(() => setDailyGoal(emptyUserData(), 2.5, T1)).toThrow();
+  });
+
+  it("adds a device's reading for a day, and sums devices", () => {
+    let d = recordVersesRead(emptyUserData(), dev, "2026-11-18", 5);
+    d = recordVersesRead(d, dev, "2026-11-18", 3);
+    d = recordVersesRead(d, "devbbbb2", "2026-11-18", 4);
+    expect(versesReadOn(d, "2026-11-18")).toBe(12);
+    expect(versesReadOn(d, "2026-11-17")).toBe(0);
+    expect(recordVersesRead(d, "BAD", "2026-11-18", 1)).toBe(d);
+    expect(recordVersesRead(d, dev, "18-11-2026", 1)).toBe(d);
+  });
+
+  it("merges two devices without counting twice, however often they sync", () => {
+    const start = emptyUserData();
+    const a = recordVersesRead(start, "devaaaa1", "2026-11-18", 10);
+    const b = recordVersesRead(start, "devbbbb2", "2026-11-18", 7);
+    const m = mergeUserData(a, b);
+    expect(versesReadOn(m, "2026-11-18")).toBe(17);
+    expect(versesReadOn(mergeUserData(m, mergeUserData(a, m)), "2026-11-18")).toBe(17);
+    // a reads more after syncing; the merge keeps the larger count of that device
+    const a2 = recordVersesRead(m, "devaaaa1", "2026-11-18", 5);
+    expect(versesReadOn(mergeUserData(a2, m), "2026-11-18")).toBe(22);
+  });
+
+  it("counts a streak ending today, or yesterday while today is still open", () => {
+    let d = setDailyGoal(emptyUserData(), 10, T1);
+    for (const day of ["2026-11-15", "2026-11-16", "2026-11-17"]) d = recordVersesRead(d, dev, day, 10);
+    expect(goalStreak(d, "2026-11-18")).toBe(3);
+    d = recordVersesRead(d, dev, "2026-11-18", 9);
+    expect(goalStreak(d, "2026-11-18")).toBe(3);
+    d = recordVersesRead(d, dev, "2026-11-18", 1);
+    expect(goalStreak(d, "2026-11-18")).toBe(4);
+    expect(goalStreak(d, "2026-11-20")).toBe(0);
+    expect(goalStreak(setDailyGoal(d, 0, T2), "2026-11-18")).toBe(0);
+  });
+
+  it("crosses month and year boundaries in a streak", () => {
+    let d = setDailyGoal(emptyUserData(), 1, T1);
+    for (const day of ["2025-12-31", "2026-01-01"]) d = recordVersesRead(d, dev, day, 1);
+    expect(goalStreak(d, "2026-01-01")).toBe(2);
+  });
+
+  it("adds up khatam progress from the progress marks", () => {
+    let d = toggleReadUpTo(emptyUserData(), 1, 7, T1);
+    d = toggleReadUpTo(d, 2, 100, T1);
+    expect(versesReadInTotal(d)).toBe(107);
+    expect(TOTAL_VERSES).toBe(6236);
+  });
+
+  it("round-trips, reads data without them, and rejects broken ones", () => {
+    const d = recordVersesRead(setDailyGoal(emptyUserData(), 20, T1), dev, "2026-11-18", 4);
+    expect(parseUserData(JSON.parse(JSON.stringify(d)))).toEqual(d);
+    const old = parseUserData({ version: 2, lastRead: null, progress: {}, bookmarks: [] });
+    expect([old.goal, old.activity]).toEqual([null, {}]);
+    const raw = JSON.parse(JSON.stringify(d));
+    expect(() => parseUserData({ ...raw, goal: { versesPerDay: -1, at: T1 } })).toThrow();
+    expect(() => parseUserData({ ...raw, activity: { "2026-13": { [dev]: 1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, activity: { "2026-11-18": { [dev]: 99999 } } })).toThrow();
+  });
+
+  it("keeps about four months of daily counts", () => {
+    let d = recordVersesRead(emptyUserData(), dev, "2026-01-01", 3);
+    d = recordVersesRead(d, dev, "2026-11-18", 3);
+    expect(Object.keys(pruneTombstones(d, "2026-11-18T12:00:00.000Z").activity)).toEqual(["2026-11-18"]);
   });
 });

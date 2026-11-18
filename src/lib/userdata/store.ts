@@ -26,6 +26,10 @@ import {
   renameCollection,
   removeCollection,
   setBookmarkCollection,
+  setDailyGoal,
+  recordVersesRead,
+  progressOf,
+  localDay,
   type UserData,
 } from "./schema";
 
@@ -75,6 +79,24 @@ function parseOrEmpty(raw: string): UserData {
 
 const now = () => new Date().toISOString();
 
+const DEVICE_KEY = "quranweb:device";
+let memoryDevice = "";
+
+/** A random id for this browser, so its daily reading counts can be added to other devices' counts. */
+function deviceId(): string {
+  try {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  } catch {
+    memoryDevice ||= crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    return memoryDevice;
+  }
+}
+
 function update(fn: (data: UserData) => UserData): void {
   // Tombstones that every device has had time to see are dropped on each write.
   const next = pruneTombstones(fn(parseOrEmpty(readRaw())), now());
@@ -84,7 +106,15 @@ function update(fn: (data: UserData) => UserData): void {
 /** The actions are stable and always work on the latest data. */
 export const userDataActions = {
   setLastRead: (surah: number, verse: number) => update((d) => setLastRead(d, surah, verse, now())),
-  toggleReadUpTo: (surah: number, verse: number) => update((d) => toggleReadUpTo(d, surah, verse, now())),
+  /** Marking verses as read also counts the newly read ones towards today's goal (unmarking never subtracts). */
+  toggleReadUpTo: (surah: number, verse: number) =>
+    update((d) => {
+      const before = progressOf(d, surah);
+      const next = toggleReadUpTo(d, surah, verse, now());
+      const gained = progressOf(next, surah) - before;
+      return gained > 0 ? recordVersesRead(next, deviceId(), localDay(new Date()), gained) : next;
+    }),
+  setDailyGoal: (versesPerDay: number) => update((d) => setDailyGoal(d, versesPerDay, now())),
   clearProgress: (surah: number) => update((d) => clearProgress(d, surah, now())),
   toggleBookmark: (surah: number, verse: number) => update((d) => toggleBookmark(d, surah, verse, now())),
   removeBookmark: (surah: number, verse: number) => update((d) => removeBookmark(d, surah, verse, now())),

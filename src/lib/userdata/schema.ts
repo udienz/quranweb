@@ -23,6 +23,11 @@ const TOMBSTONE_DAYS = 90;
 const MAX_COLLECTIONS = 50;
 const MAX_COLLECTION_NAME = 40;
 const COLLECTION_ID = /^[a-z0-9]{8,32}$/;
+export const TOTAL_VERSES = 6236;
+export const MAX_DAILY_GOAL = 1000;
+const ACTIVITY_DAYS = 120; // days of daily counts kept (enough for streaks and a monthly view)
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+const DEVICE_ID = /^[a-z0-9]{8,32}$/;
 
 export interface Bookmark {
   surah: number;
@@ -67,6 +72,19 @@ export interface Choices {
   locale?: { value: Locale; at: string };
 }
 
+/** The daily reading goal in verses (0 = off), with the time it was set; the newest setting wins. */
+export interface Goal {
+  versesPerDay: number;
+  at: string;
+}
+
+/**
+ * Verses marked as read per local day and per device: `{ "2026-11-18": { "<device id>": 12 } }`. Each device only
+ * ever raises its own count, so copies merge by taking the larger count per device and day, and a day's total is the
+ * sum over devices: reading on two devices adds up, and syncing twice never counts twice.
+ */
+export type Activity = Record<string, Record<string, number>>;
+
 export interface UserData {
   version: typeof USER_DATA_VERSION;
   /** `at` is when the reading position last changed. */
@@ -79,6 +97,8 @@ export interface UserData {
   choices: Choices;
   /** Bookmark collections, including tombstones; use liveCollections() to show them. */
   collections: Collection[];
+  goal: Goal | null;
+  activity: Activity;
 }
 
 /** Why user data was rejected; the UI turns the code into a message in the reader's language. */
@@ -95,7 +115,7 @@ export class UserDataError extends Error {
 }
 
 export function emptyUserData(): UserData {
-  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [], choices: {}, collections: [] };
+  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [], choices: {}, collections: [], goal: null, activity: {} };
 }
 
 const isInt = (v: unknown, min: number, max: number): v is number =>
@@ -122,6 +142,14 @@ export const liveBookmarks = (data: UserData): Bookmark[] => data.bookmarks.filt
 export const findBookmark = (data: UserData, surah: number, verse: number): Bookmark | undefined =>
   data.bookmarks.find((b) => b.surah === surah && b.verse === verse && !b.deletedAt);
 
+/** Days and devices in a fixed order, so equal data is always equal as a value. */
+const sortActivity = (activity: Activity): Activity =>
+  Object.fromEntries(
+    Object.keys(activity)
+      .sort()
+      .map((day) => [day, Object.fromEntries(Object.keys(activity[day]).sort().map((dev) => [dev, activity[day][dev]]))]),
+  );
+
 const sortCollections = (list: Collection[]): Collection[] => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
 /** Collections that are not removed, in the order they were created. */
@@ -135,6 +163,41 @@ export function collectionOf(data: UserData, bookmark: Bookmark): string | null 
 }
 
 const cleanName = (name: string) => name.replace(/\s+/g, " ").trim().slice(0, MAX_COLLECTION_NAME);
+
+/** Verses marked as read on a day (all devices together). */
+export const versesReadOn = (data: UserData, day: string): number =>
+  Object.values(data.activity[day] ?? {}).reduce((sum, n) => sum + n, 0);
+
+/** The local calendar day of a date, as YYYY-MM-DD. */
+export function localDay(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+const previousDay = (day: string): string => {
+  const [y, m, d] = day.split("-").map(Number);
+  return localDay(new Date(y, m - 1, d - 1));
+};
+
+/**
+ * Days in a row on which the goal was reached, ending today, or yesterday when today is not reached yet (the streak
+ * is still alive until the day is over).
+ */
+export function goalStreak(data: UserData, today: string): number {
+  const goal = data.goal?.versesPerDay ?? 0;
+  if (goal <= 0) return 0;
+  let day = versesReadOn(data, today) >= goal ? today : previousDay(today);
+  let streak = 0;
+  while (versesReadOn(data, day) >= goal && streak < ACTIVITY_DAYS) {
+    streak += 1;
+    day = previousDay(day);
+  }
+  return streak;
+}
+
+/** Verses marked as read across the whole Quran, towards a khatam. */
+export const versesReadInTotal = (data: UserData): number =>
+  Math.min(TOTAL_VERSES, liveProgress(data).reduce((sum, p) => sum + p.readUpTo, 0));
 
 /** The progress that is not cleared, by surah number. */
 export function liveProgress(data: UserData): { surah: number; readUpTo: number; at: string }[] {
@@ -239,6 +302,20 @@ export function removeCollection(data: UserData, id: string, at: string): UserDa
   return { ...data, collections: data.collections.map((c) => (c === current ? { ...c, updatedAt: at, deletedAt: at } : c)) };
 }
 
+/** Set the daily goal in verses (0 turns it off). */
+export function setDailyGoal(data: UserData, versesPerDay: number, at: string): UserData {
+  if (!isInt(versesPerDay, 0, MAX_DAILY_GOAL)) throw new Error(`The goal must be 0 to ${MAX_DAILY_GOAL} verses`);
+  return { ...data, goal: { versesPerDay, at } };
+}
+
+/** Count verses this device marked as read on a day (only ever adds). */
+export function recordVersesRead(data: UserData, deviceId: string, day: string, verses: number): UserData {
+  if (!DEVICE_ID.test(deviceId) || !DAY.test(day) || !isInt(verses, 0, TOTAL_VERSES) || verses === 0) return data;
+  const forDay = data.activity[day] ?? {};
+  const count = Math.min(TOTAL_VERSES, (forDay[deviceId] ?? 0) + verses);
+  return { ...data, activity: { ...data.activity, [day]: { ...forDay, [deviceId]: count } } };
+}
+
 /** Record an explicit choice of editions and reciter. */
 export function setSelectionChoice(data: UserData, value: Partial<Selection>, at: string): UserData {
   return { ...data, choices: { ...data.choices, selection: { value: parseSelectionObject(value), at } } };
@@ -257,14 +334,23 @@ export function pruneTombstones(data: UserData, now: string): UserData {
   const bookmarks = data.bookmarks.filter((b) => !old(b.deletedAt));
   const keys = Object.keys(data.progress).filter((k) => !old(data.progress[k].deletedAt));
   const collections = data.collections.filter((c) => !old(c.deletedAt));
+  const firstDay = localDay(new Date(Date.parse(now) - ACTIVITY_DAYS * 24 * 60 * 60 * 1000));
+  const days = Object.keys(data.activity).filter((d) => d >= firstDay);
   if (
     bookmarks.length === data.bookmarks.length &&
     keys.length === Object.keys(data.progress).length &&
-    collections.length === data.collections.length
+    collections.length === data.collections.length &&
+    days.length === Object.keys(data.activity).length
   ) {
     return data;
   }
-  return { ...data, bookmarks, collections, progress: Object.fromEntries(keys.map((k) => [k, data.progress[k]])) };
+  return {
+    ...data,
+    bookmarks,
+    collections,
+    progress: Object.fromEntries(keys.map((k) => [k, data.progress[k]])),
+    activity: Object.fromEntries(days.map((d) => [d, data.activity[d]])),
+  };
 }
 
 // ------------------------------------------------------------------ merging
@@ -311,6 +397,14 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     const known = byId.get(collection.id);
     byId.set(collection.id, known ? newer(known, collection, (x) => x.updatedAt) : collection);
   }
+  const goal = a.goal && b.goal ? newer(a.goal, b.goal, (g) => g.at) : (a.goal ?? b.goal ?? null);
+  const activity: Activity = {};
+  for (const source of [a.activity ?? {}, b.activity ?? {}]) {
+    for (const [day, devices] of Object.entries(source)) {
+      const target = (activity[day] ??= {});
+      for (const [device, count] of Object.entries(devices)) target[device] = Math.max(target[device] ?? 0, count);
+    }
+  }
   return {
     version: USER_DATA_VERSION,
     lastRead,
@@ -318,6 +412,8 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     bookmarks: sortBookmarks([...byKey.values()]),
     choices,
     collections: sortCollections([...byId.values()]),
+    goal,
+    activity: sortActivity(activity),
   };
 }
 
@@ -423,7 +519,30 @@ export function parseUserData(raw: unknown): UserData {
   const collections = sortCollections([...collById.values()]);
   if (collections.filter((c) => !c.deletedAt).length > MAX_COLLECTIONS) throw invalid(`At most ${MAX_COLLECTIONS} collections are allowed`);
 
-  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks, choices, collections };
+  let goal: Goal | null = null;
+  if (r.goal != null) {
+    const g = r.goal as Record<string, unknown>;
+    if (!isInt(g.versesPerDay, 0, MAX_DAILY_GOAL) || !isDate(g.at)) throw invalid("Invalid daily goal");
+    goal = { versesPerDay: g.versesPerDay, at: g.at };
+  }
+  const activity: Activity = {};
+  const rawActivity = (r.activity ?? {}) as Record<string, unknown>;
+  if (typeof rawActivity !== "object" || rawActivity === null || Array.isArray(rawActivity)) throw invalid("Invalid reading activity");
+  const dayKeys = Object.keys(rawActivity);
+  if (dayKeys.length > 400) throw invalid("Too many days of reading activity");
+  for (const day of dayKeys) {
+    const devices = rawActivity[day] as Record<string, unknown>;
+    if (!DAY.test(day) || typeof devices !== "object" || devices === null || Object.keys(devices).length > 20) {
+      throw invalid("Invalid reading activity");
+    }
+    activity[day] = {};
+    for (const [device, count] of Object.entries(devices)) {
+      if (!DEVICE_ID.test(device) || !isInt(count, 0, TOTAL_VERSES)) throw invalid("Invalid reading activity");
+      activity[day][device] = count;
+    }
+  }
+
+  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks, choices, collections, goal, activity: sortActivity(activity) };
 }
 
 // ------------------------------------------------------------ export, import

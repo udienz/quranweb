@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import AccountSection from "@/components/AccountSection";
 import BookmarkList from "@/components/BookmarkList";
+import DailyGoal from "@/components/DailyGoal";
 import { verseHref } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import type { StringKey } from "@/lib/i18n/messages";
@@ -82,6 +83,10 @@ export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; a
         ) : (
           <Empty>{t("myReading.lastRead.empty")}</Empty>
         )}
+      </Section>
+
+      <Section title={t("myReading.goal.title")}>
+        <DailyGoal data={data} />
       </Section>
 
       <Section title={t("myReading.progress.title")}>
