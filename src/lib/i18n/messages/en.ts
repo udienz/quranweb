@@ -20,6 +20,7 @@ export const en = {
     signIn: "Sign in",
     signOut: "Sign out",
     signedInAs: "Signed in as {name}",
+    syncFailed: "Could not sync with your account. Your reading is safe on this device and will sync later.",
     error: "Sign-in is not available right now. Try again later.",
   },
   footer: {

@@ -62,6 +62,12 @@ export async function startFakeOidc(): Promise<FakeOidc> {
       });
     }
     if (url.pathname.endsWith("/jwks/")) return json({ keys: [jwk] });
+    // Test control: the next logins are this reader (for browser runs where the provider is a separate process).
+    if (url.pathname === "/__user") {
+      const seed = url.searchParams.get("seed") ?? "reader-1";
+      state.user = { sub: hashedSub(seed), email: `${seed}@example.test`, name: seed };
+      return json({ ok: true });
+    }
     if (url.pathname.endsWith("/authorize/")) {
       state.authorizeRequests.push(url.searchParams);
       const code = randomBytes(8).toString("hex");
@@ -109,3 +115,29 @@ export async function startFakeOidc(): Promise<FakeOidc> {
   state.issuer = `http://127.0.0.1:${(server.address() as AddressInfo).port}/application/o/quranweb/`;
   return state;
 }
+
+/**
+ * Runs the browser's side of a sign-in by hand against an auth handler and the fake provider:
+ * start, follow the redirect to the provider, come back to the callback. Returns the callback response.
+ */
+export async function browserSignIn(
+  call: (path: string, init?: RequestInit) => Promise<Response>,
+  base: string,
+  callbackURL = "/",
+): Promise<Response> {
+  const start = await call("/api/auth/sign-in/social", {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: base },
+    body: JSON.stringify({ provider: "authentik", callbackURL }),
+  });
+  if (start.status !== 200) throw new Error(`sign-in did not start: ${start.status}`);
+  const cookies = start.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");
+  const { url } = (await start.json()) as { url: string };
+  const authorize = await fetch(url, { redirect: "manual" });
+  const back = new URL(authorize.headers.get("location")!);
+  return call(back.pathname + back.search, { headers: { cookie: cookies } });
+}
+
+/** The session cookie of a sign-in callback response, ready for a `cookie` request header. */
+export const sessionCookie = (response: Response): string =>
+  response.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");

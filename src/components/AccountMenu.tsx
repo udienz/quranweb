@@ -3,6 +3,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { authClient, signIn } from "@/lib/auth/client";
+import { useAccountSync } from "@/lib/sync/client";
 import { useI18n } from "@/lib/i18n/client";
 
 /** Sign-in button or the signed-in reader with a sign-out button. Rendered only when sign-in is on. */
@@ -12,6 +13,7 @@ export default function AccountMenu() {
   const pathname = usePathname();
   const search = useSearchParams().toString();
   const [failed, setFailed] = useState(false);
+  const sync = useAccountSync(data?.user.id ?? null);
 
   async function start() {
     setFailed(false);
@@ -38,6 +40,11 @@ export default function AccountMenu() {
 
   return (
     <div className="flex items-center gap-2 text-xs sm:text-sm">
+      {sync === "error" && (
+        <span role="status" title={t("account.syncFailed")} className="text-amber-600" aria-label={t("account.syncFailed")}>
+          !
+        </span>
+      )}
       <span className="hidden max-w-[10rem] truncate text-muted-foreground md:inline" title={data.user.email}>
         {t("account.signedInAs", { name: data.user.name })}
       </span>

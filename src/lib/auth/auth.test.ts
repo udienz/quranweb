@@ -7,7 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { openDatabase, type Database } from "../db";
 import { readAuthSettings } from "./config";
 import { authOptions, createAuth, type Auth } from "./create";
-import { hashedSub, startFakeOidc, type FakeOidc } from "./fake-oidc";
+import { browserSignIn, hashedSub, startFakeOidc, type FakeOidc } from "./fake-oidc";
 
 const BASE = "http://localhost:3000";
 let dir: string;
@@ -35,22 +35,7 @@ afterAll(async () => {
 
 const call = (path: string, init?: RequestInit) => auth.handler(new Request(`${BASE}${path}`, init));
 
-/** Runs the whole browser flow by hand and returns the session cookie (or the failing response). */
-async function signIn(callbackURL = "/surah/2") {
-  const start = await call("/api/auth/sign-in/social", {
-    method: "POST",
-    headers: { "content-type": "application/json", origin: BASE },
-    body: JSON.stringify({ provider: "authentik", callbackURL }),
-  });
-  expect(start.status).toBe(200);
-  const cookies = start.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");
-  const { url } = (await start.json()) as { url: string };
-  const authorize = await fetch(url, { redirect: "manual" });
-  const callback = await call(new URL(authorize.headers.get("location")!).pathname + new URL(authorize.headers.get("location")!).search, {
-    headers: { cookie: cookies },
-  });
-  return callback;
-}
+const signIn = (callbackURL = "/surah/2") => browserSignIn(call, BASE, callbackURL);
 
 describe("settings", () => {
   const full = {

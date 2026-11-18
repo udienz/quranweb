@@ -131,4 +131,20 @@ CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");
 CREATE UNIQUE INDEX "account_provider_subject_idx" ON "account" ("providerId", "accountId");
 `,
   },
+  {
+    // The reading data of a signed-in reader (step 5): one JSON document per account, in the same
+    // version-2 format the browser keeps, validated and merged by the same code (userdata/schema.ts).
+    // The whole state is small (limits in the schema) and exchanged in one request, so one document
+    // is simpler than four tables and cannot drift from the browser format. Replaces the plan in
+    // PHASE3.md of separate reading_state/progress/bookmarks/preferences tables.
+    version: 3,
+    name: "account-data",
+    sql: `
+CREATE TABLE account_data (
+  user_id    TEXT NOT NULL PRIMARY KEY REFERENCES "user" ("id") ON DELETE CASCADE,
+  data       TEXT NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+`,
+  },
 ];
