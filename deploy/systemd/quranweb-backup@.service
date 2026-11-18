@@ -1,0 +1,9 @@
+[Unit]
+Description=Encrypted backup of the quranweb %i database
+After=docker.service
+
+[Service]
+Type=oneshot
+# Optional settings (BACKUP_DIR, AGE_RECIPIENTS, RETENTION_DAYS, UPLOAD_CMD), one NAME=value per line.
+EnvironmentFile=-/etc/quranweb/backup.env
+ExecStart=/usr/local/lib/quranweb/backup-db.sh %i
