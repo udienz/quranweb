@@ -18,6 +18,10 @@ concurrency:
   group: deploy-qa
   cancel-in-progress: false
 
+# Least privilege for the GITHUB_TOKEN: the jobs only read the code (deploys use SSH secrets, not the token).
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy to QA server

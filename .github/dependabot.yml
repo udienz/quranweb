@@ -1,0 +1,44 @@
+# Update pull requests from Dependabot (security alerts are separate and on in the repository settings).
+# Minor and patch updates are grouped into one pull request per ecosystem, so they do not arrive as many small pull
+# requests that conflict in package-lock.json; a major update comes on its own, because it may need code changes
+# (read the release notes, CI must pass).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Jakarta
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Jakarta
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci"
+
+  # The node base image of the Dockerfile. Only minor and patch updates: moving to a new Node major is a planned upgrade
+  # to the next LTS (see CLAUDE.md), not something to take from a weekly pull request.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Jakarta
+    ignore:
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "docker"

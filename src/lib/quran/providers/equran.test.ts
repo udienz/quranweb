@@ -47,6 +47,14 @@ describe("metadata mapping", () => {
   it("stripHtml tidies whitespace", () => {
     expect(stripHtml("a<br/>b  <b>c</b>")).toBe("a b c");
   });
+
+  it("stripHtml leaves no tag behind, even one hidden inside another", () => {
+    expect(stripHtml("<scr<script>ipt>alert(1)</scr</script>ipt>")).toBe("alert(1)");
+    expect(stripHtml("<<b>img src=x onerror=alert(1)>>text")).toBe("text");
+    expect(stripHtml("<i onclick='x'>Al Faatihah</i>")).toBe("Al Faatihah");
+    expect(stripHtml("broken <b tag")).toBe("broken b tag");
+    expect(stripHtml("x").includes("<")).toBe(false);
+  });
 });
 
 describe("EQuran text provider", () => {

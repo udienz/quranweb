@@ -122,12 +122,19 @@ const fetchData = cache(async (location: string): Promise<unknown> => {
 // the same responses as `<dir>/surat/1.json`.
 const endpoint = (base: string, path: string) => (isRemote(base) ? `${base}${path}` : `${toFilePath(base)}${path}.json`);
 
+/**
+ * Plain text from the HTML of a surah description. Tags are removed until none is left, because one pass can leave a
+ * tag behind (`<scr<script>ipt>` becomes `<script>`), and any `<` or `>` still there is dropped, so no markup survives.
+ * The result is only ever shown as text (React escapes it); this is a second line of defence.
+ */
 export function stripHtml(html: string): string {
-  return html
-    .replace(/<br\s*\/?>/gi, " ")
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  let text = html.replace(/<br\s*\/?>/gi, " ");
+  let previous: string;
+  do {
+    previous = text;
+    text = text.replace(/<[^<>]*>/g, "");
+  } while (text !== previous);
+  return text.replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
 }
 
 function toRevelation(place: string): SurahMeta["revelation"] {
