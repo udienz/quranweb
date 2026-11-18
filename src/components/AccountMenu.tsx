@@ -6,6 +6,9 @@ import { authClient, signIn } from "@/lib/auth/client";
 import { useAccountSync } from "@/lib/sync/client";
 import { useI18n } from "@/lib/i18n/client";
 
+/** Names up to this length are shown as text; longer ones become an icon with the name in its tooltip. */
+const SHORT_NAME = 18;
+
 /** Sign-in button or the signed-in reader with a sign-out button. Rendered only when sign-in is on. */
 export default function AccountMenu() {
   const { t } = useI18n();
@@ -45,8 +48,25 @@ export default function AccountMenu() {
           !
         </span>
       )}
-      <span className="hidden max-w-[10rem] truncate text-muted-foreground md:inline" title={data.user.email}>
-        {t("account.signedInAs", { name: data.user.name })}
+      {/* The name itself when it is short (wide screens); a person icon on phones and for long names.
+          The full name and email are in the tooltip and, for screen readers, in the label. */}
+      {data.user.name.length <= SHORT_NAME && (
+        <span className="hidden font-medium md:inline" title={data.user.email}>
+          {data.user.name}
+        </span>
+      )}
+      <span
+        role="img"
+        aria-label={t("account.signedInAs", { name: data.user.name })}
+        title={`${data.user.name} (${data.user.email})`}
+        className={`grid h-8 w-8 place-items-center rounded-full border border-border bg-card text-muted-foreground ${
+          data.user.name.length <= SHORT_NAME ? "md:hidden" : ""
+        }`}
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+        </svg>
       </span>
       <button
         type="button"
