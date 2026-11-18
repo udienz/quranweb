@@ -12,3 +12,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to take part.
 ## Interface translators
 
 - **Bahasa Indonesia** (`id`): [@udienz](https://github.com/udienz)
+- **Türkçe** (`tr`): [@P1LOTRX](https://github.com/P1LOTRX)
+
+## Contributors
+
+- [@P1LOTRX](https://github.com/P1LOTRX)

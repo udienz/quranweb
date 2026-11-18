@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildModel, EXCLUDED_LOGINS, isPerson, parseLocaleNames, render, translationLocales } from "./contributors-lib.mjs";
+import { buildModel, EXCLUDED_LOGINS, isPerson, parseCodeowners, parseLocaleNames, render, translationLocales } from "./contributors-lib.mjs";
 
 const user = (login, contributions = 1) => ({ login, type: "User", contributions });
 const names = { id: "Bahasa Indonesia", tr: "Türkçe" };
@@ -34,6 +34,7 @@ describe("the model", () => {
     contributors: [user("udienz", 90), user("claude", 5), { login: "dependabot[bot]", type: "Bot", contributions: 3 }, user("Zed", 2), user("amy", 2), user("P1LOTRX", 1)],
     translators: { tr: [user("P1LOTRX"), user("P1LOTRX"), user("helper")], id: [user("udienz"), user("claude")], fr: [] },
     names,
+    codeowners: { id: ["udienz"] }, // CODEOWNERS names the owner for Indonesian only
   });
 
   it("puts the owner first as the maintainer and does not repeat them", () => {
@@ -83,5 +84,45 @@ describe("the file", () => {
     const alone = render(buildModel({ owner: "udienz", contributors: [user("udienz")], translators: {}, names }));
     expect(alone).not.toContain("Interface translators");
     expect(alone).not.toContain("## Contributors");
+  });
+});
+
+describe("people GitHub cannot link to a commit email, and who maintains a language", () => {
+  it("reads the maintainers of each language from CODEOWNERS and ignores everything else", () => {
+    const text = [
+      "# comment @nobody",
+      "/src/lib/i18n/messages/id.ts @udienz",
+      "src/lib/i18n/messages/tr.ts @amy @bob # two maintainers",
+      "/src/lib/quran/ @udienz",
+      "",
+    ].join("\n");
+    expect(parseCodeowners(text)).toEqual({ id: ["udienz"], tr: ["amy", "bob"] });
+    expect(parseCodeowners("")).toEqual({});
+  });
+
+  const base = { owner: "udienz", contributors: [user("udienz", 100)], names };
+
+  it("credits a translator found only through their pull request, and lists them as a contributor too", () => {
+    const model = buildModel({ ...base, translators: { tr: [user("P1LOTRX")] }, pullRequestAuthors: [user("P1LOTRX")] });
+    expect(model.translators.find((l) => l.code === "tr")?.people.map((p) => p.login)).toEqual(["P1LOTRX"]);
+    expect(model.contributors.map((p) => p.login)).toEqual(["P1LOTRX"]);
+  });
+
+  it("finds a contributor whose commits GitHub cannot link, from their merged pull request alone", () => {
+    const model = buildModel({ ...base, translators: {}, pullRequestAuthors: [user("newcomer"), { login: "dependabot[bot]", type: "Bot" }] });
+    expect(model.contributors.map((p) => p.login)).toEqual(["newcomer"]);
+  });
+
+  it("does not credit the owner as translator of a language they only fixed", () => {
+    const model = buildModel({ ...base, translators: { tr: [user("udienz"), user("P1LOTRX")], id: [user("udienz")] }, codeowners: { id: ["udienz"] } });
+    expect(model.translators.map((l) => [l.code, l.people.map((p) => p.login)])).toEqual([
+      ["id", ["udienz"]],
+      ["tr", ["P1LOTRX"]],
+    ]);
+  });
+
+  it("drops a language when only the owner touched it and CODEOWNERS does not name them", () => {
+    const model = buildModel({ ...base, translators: { fr: [user("udienz")] } });
+    expect(model.translators).toEqual([]);
   });
 });
