@@ -20,6 +20,9 @@ const MAX_NOTE = 500;
 const MAX_LIVE_BOOKMARKS = 5000;
 const MAX_ENTRIES = 10_000; // live items and tombstones together
 const TOMBSTONE_DAYS = 90;
+const MAX_COLLECTIONS = 50;
+const MAX_COLLECTION_NAME = 40;
+const COLLECTION_ID = /^[a-z0-9]{8,32}$/;
 
 export interface Bookmark {
   surah: number;
@@ -29,6 +32,19 @@ export interface Bookmark {
   /** When this bookmark last changed (created, noted, removed or added again). */
   updatedAt: string;
   /** Set when the bookmark was removed; the entry stays as a tombstone. */
+  deletedAt?: string;
+  /** The collection it belongs to (at most one). Missing, or a removed collection, means "no collection". */
+  collectionId?: string;
+}
+
+/** A named group of bookmarks (for example "Prayers" or "To memorise"). */
+export interface Collection {
+  id: string;
+  name: string;
+  createdAt: string;
+  /** When it was created, renamed or removed. */
+  updatedAt: string;
+  /** Set when the collection was removed; its bookmarks stay and lose the collection. */
   deletedAt?: string;
 }
 
@@ -61,6 +77,8 @@ export interface UserData {
   bookmarks: Bookmark[];
   /** Choices that follow the account (added in 2026-11; older copies have none). */
   choices: Choices;
+  /** Bookmark collections, including tombstones; use liveCollections() to show them. */
+  collections: Collection[];
 }
 
 /** Why user data was rejected; the UI turns the code into a message in the reader's language. */
@@ -77,7 +95,7 @@ export class UserDataError extends Error {
 }
 
 export function emptyUserData(): UserData {
-  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [], choices: {} };
+  return { version: USER_DATA_VERSION, lastRead: null, progress: {}, bookmarks: [], choices: {}, collections: [] };
 }
 
 const isInt = (v: unknown, min: number, max: number): v is number =>
@@ -103,6 +121,20 @@ export const liveBookmarks = (data: UserData): Bookmark[] => data.bookmarks.filt
 
 export const findBookmark = (data: UserData, surah: number, verse: number): Bookmark | undefined =>
   data.bookmarks.find((b) => b.surah === surah && b.verse === verse && !b.deletedAt);
+
+const sortCollections = (list: Collection[]): Collection[] => [...list].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+
+/** Collections that are not removed, in the order they were created. */
+export const liveCollections = (data: UserData): Collection[] =>
+  data.collections.filter((c) => !c.deletedAt).sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
+
+/** The live collection of a bookmark, or null (none, or its collection was removed). */
+export function collectionOf(data: UserData, bookmark: Bookmark): string | null {
+  if (!bookmark.collectionId) return null;
+  return data.collections.some((c) => c.id === bookmark.collectionId && !c.deletedAt) ? bookmark.collectionId : null;
+}
+
+const cleanName = (name: string) => name.replace(/\s+/g, " ").trim().slice(0, MAX_COLLECTION_NAME);
 
 /** The progress that is not cleared, by surah number. */
 export function liveProgress(data: UserData): { surah: number; readUpTo: number; at: string }[] {
@@ -167,6 +199,46 @@ export function setBookmarkNote(data: UserData, surah: number, verse: number, no
   };
 }
 
+/** Put a bookmark in a collection, or take it out (null). */
+export function setBookmarkCollection(data: UserData, surah: number, verse: number, collectionId: string | null, at: string): UserData {
+  const current = findBookmark(data, surah, verse);
+  if (!current) return data;
+  if (collectionId !== null && !liveCollections(data).some((c) => c.id === collectionId)) throw new Error("Unknown collection");
+  if ((collectionOf(data, current) ?? null) === collectionId) return data;
+  return {
+    ...data,
+    bookmarks: data.bookmarks.map((b) => {
+      if (b !== current) return b;
+      const { collectionId: _old, ...rest } = b;
+      void _old;
+      return collectionId === null ? { ...rest, updatedAt: at } : { ...rest, collectionId, updatedAt: at };
+    }),
+  };
+}
+
+export function createCollection(data: UserData, id: string, name: string, at: string): UserData {
+  const clean = cleanName(name);
+  if (!COLLECTION_ID.test(id)) throw new Error("Invalid collection id");
+  if (!clean) throw new Error("A collection needs a name");
+  if (data.collections.some((c) => c.id === id)) throw new Error("Collection id already used");
+  if (liveCollections(data).length >= MAX_COLLECTIONS) throw new Error(`At most ${MAX_COLLECTIONS} collections are allowed`);
+  return { ...data, collections: sortCollections([...data.collections, { id, name: clean, createdAt: at, updatedAt: at }]) };
+}
+
+export function renameCollection(data: UserData, id: string, name: string, at: string): UserData {
+  const clean = cleanName(name);
+  const current = data.collections.find((c) => c.id === id && !c.deletedAt);
+  if (!current || !clean || current.name === clean) return data;
+  return { ...data, collections: data.collections.map((c) => (c === current ? { ...c, name: clean, updatedAt: at } : c)) };
+}
+
+/** Remove a collection. Its bookmarks stay; they show as having no collection. */
+export function removeCollection(data: UserData, id: string, at: string): UserData {
+  const current = data.collections.find((c) => c.id === id && !c.deletedAt);
+  if (!current) return data;
+  return { ...data, collections: data.collections.map((c) => (c === current ? { ...c, updatedAt: at, deletedAt: at } : c)) };
+}
+
 /** Record an explicit choice of editions and reciter. */
 export function setSelectionChoice(data: UserData, value: Partial<Selection>, at: string): UserData {
   return { ...data, choices: { ...data.choices, selection: { value: parseSelectionObject(value), at } } };
@@ -184,8 +256,15 @@ export function pruneTombstones(data: UserData, now: string): UserData {
   const old = (deletedAt?: string) => deletedAt !== undefined && Date.parse(deletedAt) < limit;
   const bookmarks = data.bookmarks.filter((b) => !old(b.deletedAt));
   const keys = Object.keys(data.progress).filter((k) => !old(data.progress[k].deletedAt));
-  if (bookmarks.length === data.bookmarks.length && keys.length === Object.keys(data.progress).length) return data;
-  return { ...data, bookmarks, progress: Object.fromEntries(keys.map((k) => [k, data.progress[k]])) };
+  const collections = data.collections.filter((c) => !old(c.deletedAt));
+  if (
+    bookmarks.length === data.bookmarks.length &&
+    keys.length === Object.keys(data.progress).length &&
+    collections.length === data.collections.length
+  ) {
+    return data;
+  }
+  return { ...data, bookmarks, collections, progress: Object.fromEntries(keys.map((k) => [k, data.progress[k]])) };
 }
 
 // ------------------------------------------------------------------ merging
@@ -227,7 +306,19 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
     if (pick) (choices as Record<string, unknown>)[key] = pick;
   }
-  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks: sortBookmarks([...byKey.values()]), choices };
+  const byId = new Map<string, Collection>();
+  for (const collection of [...(a.collections ?? []), ...(b.collections ?? [])]) {
+    const known = byId.get(collection.id);
+    byId.set(collection.id, known ? newer(known, collection, (x) => x.updatedAt) : collection);
+  }
+  return {
+    version: USER_DATA_VERSION,
+    lastRead,
+    progress,
+    bookmarks: sortBookmarks([...byKey.values()]),
+    choices,
+    collections: sortCollections([...byId.values()]),
+  };
 }
 
 // ------------------------------------------------------------------ parsing
@@ -289,6 +380,10 @@ export function parseUserData(raw: unknown): UserData {
     };
     const deletedAt = version === 1 ? undefined : parseDeletedAt(b, "A bookmark");
     if (deletedAt) bookmark.deletedAt = deletedAt;
+    if (b.collectionId !== undefined) {
+      if (typeof b.collectionId !== "string" || !COLLECTION_ID.test(b.collectionId)) throw invalid("A bookmark has an invalid collection");
+      bookmark.collectionId = b.collectionId;
+    }
     const key = `${b.surah}:${b.verse}`;
     const known = byKey.get(key);
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
@@ -311,7 +406,24 @@ export function parseUserData(raw: unknown): UserData {
     choices.locale = { value: loc.value, at: loc.at };
   }
 
-  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks, choices };
+  if (!Array.isArray(r.collections ?? [])) throw invalid("Collections are not a list");
+  const collById = new Map<string, Collection>();
+  for (const item of (r.collections ?? []) as unknown[]) {
+    const c = item as Record<string, unknown>;
+    const name = typeof c?.name === "string" ? cleanName(c.name) : "";
+    if (typeof c?.id !== "string" || !COLLECTION_ID.test(c.id) || !name || !isDate(c.createdAt) || !isDate(c.updatedAt)) {
+      throw invalid("A collection is invalid");
+    }
+    const collection: Collection = { id: c.id, name, createdAt: c.createdAt, updatedAt: c.updatedAt };
+    const deletedAt = parseDeletedAt(c, "A collection");
+    if (deletedAt) collection.deletedAt = deletedAt;
+    const known = collById.get(c.id);
+    collById.set(c.id, known ? newer(known, collection, (x) => x.updatedAt) : collection);
+  }
+  const collections = sortCollections([...collById.values()]);
+  if (collections.filter((c) => !c.deletedAt).length > MAX_COLLECTIONS) throw invalid(`At most ${MAX_COLLECTIONS} collections are allowed`);
+
+  return { version: USER_DATA_VERSION, lastRead, progress, bookmarks, choices, collections };
 }
 
 // ------------------------------------------------------------ export, import

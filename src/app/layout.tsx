@@ -37,12 +37,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <I18nProvider locale={locale} messages={MESSAGES[locale]}>
           <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
-            <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-2 px-4">
+            {/* On phones the navigation takes a second row, so the controls never push the header wider than the screen. */}
+            <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-2 gap-y-2 px-4 py-2 sm:h-16 sm:flex-nowrap sm:py-0">
               <Link href="/" className="flex items-center gap-2.5">
                 <Logo />
                 <span className="hidden font-display text-xl font-bold tracking-tight text-primary min-[480px]:inline">QuranWeb</span>
               </Link>
-              <nav className="flex rounded-full border border-border bg-card p-1 text-xs sm:text-sm">
+              <nav className="order-last flex w-full justify-center rounded-full border border-border bg-card p-1 text-xs sm:order-none sm:w-auto sm:text-sm">
                 <Link href="/" className="flex items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
                   <span className="hidden h-2 w-2 rounded-full bg-gold sm:block" />
                   {t("nav.quran")}

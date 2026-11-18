@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import AccountSection from "@/components/AccountSection";
+import BookmarkList from "@/components/BookmarkList";
 import { verseHref } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import type { StringKey } from "@/lib/i18n/messages";
 import type { SurahMeta } from "@/lib/quran";
-import { exportUserData, liveBookmarks, liveProgress, UserDataError, type UserDataErrorCode } from "@/lib/userdata/schema";
+import { exportUserData, liveProgress, UserDataError, type UserDataErrorCode } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 
 const ERROR_MESSAGES: Record<UserDataErrorCode, StringKey> = {
@@ -38,7 +39,6 @@ export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; a
   const meta = (n: number) => surahs.find((s) => s.number === n);
 
   const progress = liveProgress(data);
-  const bookmarks = liveBookmarks(data).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const last = data.lastRead && meta(data.lastRead.surah);
 
   function download() {
@@ -119,32 +119,7 @@ export default function MyReading({ surahs, accounts }: { surahs: SurahMeta[]; a
       </Section>
 
       <Section title={t("myReading.bookmarks.title")}>
-        {bookmarks.length === 0 ? (
-          <Empty>{t("myReading.bookmarks.empty")}</Empty>
-        ) : (
-          <ul className="divide-y divide-border">
-            {bookmarks.map((b) => {
-              const s = meta(b.surah);
-              return (
-                <li key={`${b.surah}:${b.verse}`} className="flex items-start gap-4 px-5 py-3">
-                  <Link href={verseHref(b.surah, b.verse)} className="min-w-0 flex-1">
-                    <span className="block font-medium">
-                      {s?.name.latin ?? t("myReading.bookmarks.unknownSurah", { number: b.surah })} {b.surah}:{b.verse}
-                    </span>
-                    {b.note && <span className="block whitespace-pre-line text-sm text-muted-foreground">{b.note}</span>}
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => userDataActions.removeBookmark(b.surah, b.verse)}
-                    className="text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    {t("myReading.bookmarks.remove")}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <BookmarkList data={data} meta={meta} />
       </Section>
 
       <Section title={t("myReading.backup.title")}>

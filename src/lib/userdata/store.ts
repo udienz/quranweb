@@ -22,6 +22,10 @@ import {
   pruneTombstones,
   setLocaleChoice,
   setSelectionChoice,
+  createCollection,
+  renameCollection,
+  removeCollection,
+  setBookmarkCollection,
   type UserData,
 } from "./schema";
 
@@ -87,6 +91,16 @@ export const userDataActions = {
   setBookmarkNote: (surah: number, verse: number, note: string) => update((d) => setBookmarkNote(d, surah, verse, note, now())),
   /** Merge a backup into the current data. Throws a UserDataError if the file is not valid. */
   importMerge: (text: string) => update((d) => mergeUserData(d, importUserData(text))),
+  /** Create a collection and return its id. Throws when the name is empty or there are too many collections. */
+  createCollection: (name: string): string => {
+    const id = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+    update((d) => createCollection(d, id, name, now()));
+    return id;
+  },
+  renameCollection: (id: string, name: string) => update((d) => renameCollection(d, id, name, now())),
+  removeCollection: (id: string) => update((d) => removeCollection(d, id, now())),
+  setBookmarkCollection: (surah: number, verse: number, collectionId: string | null) =>
+    update((d) => setBookmarkCollection(d, surah, verse, collectionId, now())),
   /** Record an explicit choice so it follows the account (the cookie is written by the caller). */
   chooseSelection: (selection: Partial<Selection>) => update((d) => setSelectionChoice(d, selection, now())),
   chooseLocale: (locale: Locale) => update((d) => setLocaleChoice(d, locale, now())),
