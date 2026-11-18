@@ -16,6 +16,12 @@ export const id: Messages = {
     switchToLight: "Ganti ke mode terang",
     switchToDark: "Ganti ke mode gelap",
   },
+  account: {
+    signIn: "Masuk",
+    signOut: "Keluar",
+    signedInAs: "Masuk sebagai {name}",
+    error: "Masuk belum bisa dipakai sekarang. Coba lagi nanti.",
+  },
   footer: {
     intro: "Sumber tiap teks, terjemahan, tafsir, dan audio tercantum di bawah setiap surat. Data utama dari",
     and: "dan",
