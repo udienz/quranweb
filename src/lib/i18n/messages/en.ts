@@ -143,6 +143,9 @@ export const en = {
     position: "{surah}, verse {verse}",
   },
   reader: {
+    panel: "Surah list and settings",
+    hidePanel: "Hide surah list and settings",
+    showPanel: "Show surah list and settings",
     jumpToVerse: "Jump to verse",
     jumpPlaceholder: "Verse…",
     verseOption: "Verse {number}",

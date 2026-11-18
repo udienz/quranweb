@@ -9,4 +9,7 @@ export const DEFAULT_LAYOUT: Layout = "mushaf";
 
 export const isLayout = (value: unknown): value is Layout => typeof value === "string" && (LAYOUTS as readonly string[]).includes(value);
 
+/** Cookie that remembers a collapsed side panel on the surah page (wide screens), so the server renders it that way. */
+export const SIDEBAR_COOKIE = "qw-sidebar";
+
 export const parseLayout = (value: string | undefined): Layout => (isLayout(value) ? value : DEFAULT_LAYOUT);
