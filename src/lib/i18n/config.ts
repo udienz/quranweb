@@ -11,6 +11,22 @@ export const LOCALE_COOKIE = "qw-lang";
 
 export const LOCALE_NAMES: Record<Locale, string> = { en: "English", id: "Bahasa Indonesia" };
 
+/**
+ * Languages published as a **community translation**: translated by a reader and not yet reviewed by a second speaker
+ * of the language, as CONTRIBUTING.md asks. The language menu marks them and offers a link to report a mistake. Remove a
+ * language from this list once a second speaker has reviewed it and a language maintainer is in .github/CODEOWNERS.
+ * It may name a language before it exists in LOCALES (the label then appears with the language).
+ */
+export const COMMUNITY_LOCALES: readonly string[] = ["tr"];
+
+export const isCommunityLocale = (code: string): boolean => COMMUNITY_LOCALES.includes(code);
+
+/** The page to report a mistake in a community translation (a new GitHub issue, with the language in the title). */
+export const reportTranslationUrl = (code: string): string =>
+  `https://github.com/udienz/quranweb/issues/new?title=${encodeURIComponent(`Translation mistake (${code}): `)}&body=${encodeURIComponent(
+    `Language: ${code}\nWhere (page and text):\nWhat is wrong:\nWhat it should say:\n`,
+  )}`;
+
 export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (LOCALES as readonly string[]).includes(value);
 }

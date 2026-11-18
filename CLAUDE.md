@@ -119,6 +119,11 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With the English or the Turkish interface and no saved choice, the
   default translation is Yusuf Ali or the Diyanet meal (`localeDefaults` in the source registry).
+- **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language translated by a reader and not yet reviewed
+  by a second speaker (the owner's decision, 2026-11-18, for Turkish) is marked "Community" in the language menu and the
+  settings list, and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
+  that language is the current one. `tr` is already listed, so the label appears together with the language. Remove a
+  language from the list once it has been reviewed and has a maintainer in `.github/CODEOWNERS`.
 - **No machine translation of the Qur'an text.** Chrome and other browsers offer to translate a page, and on an Indonesian
   page they replaced the Arabic of Al-Fatihah with Indonesian words, the verse markers with `)1 (`, and the language code
   "ID" with "Pengenal" (seen on QA, 2026-11-18). Everything Arabic (`lang="ar"`), the transliteration, translations and tafsir of a
