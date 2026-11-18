@@ -110,6 +110,8 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Adding a language:** add the code to `LOCALES` in `config.ts`, create the catalog
   (typed as `Messages`), register it in `messages/index.ts`, give every edition name and
   credit a text for it (`LocalizedText`), and add the intl code in `translate.ts`.
+  Contributed translations (interface only) follow `CONTRIBUTING.md`, "Translating the
+  interface": pull requests only, reviewed by the language maintainer in `.github/CODEOWNERS`.
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With the English interface and no saved choice, the
   default translation is English (`localeDefaults` in the source registry).

@@ -107,6 +107,12 @@ Workflow di `.github/workflows/`:
 - **`ci.yml`**: jalan di tiap push ke `master` dan tiap PR: `npm run lint`, `npm test`, dan `npm run build` (sudah termasuk type-check).
 - **`deploy-qa.yml`** dan **`deploy-prod.yml`**: deploy ke server lewat SSH (lihat `CLAUDE.md`). `Dockerfile` divalidasi saat deploy: image dibangun di server dan dikembalikan ke versi sebelumnya kalau app baru tidak merespons, jadi tidak ada build Docker terpisah di CI.
 
+## Berkontribusi
+
+Kontribusi masuk lewat pull request; lihat [CONTRIBUTING.md](CONTRIBUTING.md) (dalam bahasa Inggris). Anda juga bisa
+menerjemahkan antarmuka ke bahasa Anda (antarmukanya saja, bukan Al-Qur'an): langkah-langkahnya dan cara terjemahan
+ditinjau ada di bagian "Translating the interface".
+
 ## Bahasa dokumentasi
 
 [README.md](README.md) berbahasa Inggris dan README ini versi Bahasa Indonesia-nya. Jaga keduanya tetap sama: setiap perubahan di salah satunya harus dilakukan juga di yang lain dalam commit yang sama.
