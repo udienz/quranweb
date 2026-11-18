@@ -10,9 +10,9 @@ Tailwind). It fully replaces the old PHP application, whose code stays on the
 `legacy-php` branch as an archive: do not develop it further and never merge it
 into `master`.
 
-There is **no panel for editing Qur'an content** and no sign-in yet. Reading progress and bookmarks live in the browser; a SQLite database
-is being added for accounts (roadmap phase 3) and nothing uses it yet. Google sign-in and
-user management are planned for later; the long-term plan is in
+There is **no panel for editing Qur'an content**. Reading progress and bookmarks live in the browser. Optional
+sign-in (OIDC through our own identity provider) and a SQLite database for accounts are being added (roadmap
+phase 3); syncing reading data and user management come later; the long-term plan is in
 `project/quranweb/ROADMAP.md` in the workspace repository `udienz/claude-project`
 (open work is in `project/quranweb/TODO.md` there).
 
@@ -136,9 +136,50 @@ is 29 pages instead of one very long scroll.
   Tafsir) and the settings also survive a page change.
 - The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
 
+### Sign-in (OIDC)
+
+Optional and off by default: reading never needs an account (`src/lib/auth/`, `src/app/api/auth/`).
+
+- **Our own provider.** Sign-in is OpenID Connect against our authentik instance (the workspace
+  repository `udienz/claude-project` documents it in `repos/auth/README.md`), whose login source is
+  Google. The app never talks to Google. One authentik application per environment (`quranweb`,
+  `quranweb-qa`), confidential client, authorization-code flow with PKCE S256.
+- **Library: Better Auth** with its Generic OAuth plugin (`create.ts`), sessions in our SQLite database
+  through `node:sqlite`. In version 1.7 the provider is used through the core endpoints
+  (`POST /api/auth/sign-in/social` with `provider: "authentik"`, `GET /api/auth/callback/authentik`), not
+  through `sign-in/oauth2` as older documentation says. The callback path is the one registered in authentik.
+- **Identity is the token's `sub`**, stored as `account.accountId` (authentik "hashed user ID": a hex digest, not
+  an email, stable when the email changes). `account.accountLinking` is off and the email is unique, so a
+  different `sub` with an existing email fails instead of merging into that account. The ID token is always
+  verified against the issuer's keys (`requireIdTokenVerification`). The provider's access and refresh tokens are
+  not used for anything.
+- **Disabled accounts** (`user.disabledAt`, set by the admin page in step 7) cannot get a session
+  (`databaseHooks.session.create.before`). `user.lastSeenAt` is updated at each sign-in.
+- **Origin checks are switched on explicitly** (`advanced.disableOriginCheck: false`): the library turns them
+  off by default when `NODE_ENV` is `test`, which hid the redirect and CSRF behaviour from the tests.
+- **Tables** are migration 2 (the library's `user`, `session`, `account`, `verification` with their own column
+  names and types, plus `disabledAt` and `lastSeenAt` on `user`); a test asks the library whether anything is
+  missing, so a library upgrade that needs a new column fails the tests. The tables of migration 1 (`users` with
+  `google_sub` and the data tables that point to it) are unused and stay until a later cleanup; step 5 creates the
+  data tables that point to `"user"(id)`.
+- **The account menu** (`AccountMenu`) is a client component that reads the session through
+  `authClient.useSession()` in a `<Suspense>` in the header, so pages stay cache-friendly and the layout never reads
+  the session cookie. It is rendered only when sign-in is configured. After sign-in the reader returns to the page they came from
+  (the callback URL must be a path on this site).
+- **Configuration** is all-or-nothing (`readAuthSettings`): all of `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`,
+  `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` and `QURAN_DB_PATH`, or none (sign-in off, the
+  route answers 404). A half configuration stops the start. On the servers they come from
+  `/etc/quranweb/<env>.env` (`deploy.sh` passes it with `--env-file`); never put them in git.
+- **Tests** run the whole flow against a fake OIDC provider (`fake-oidc.ts`: RS256 tokens, PKCE check, hashed
+  `sub`): sign-in, same account on repeat, changed email, same email with another `sub`, wrong audience,
+  disabled account, sign-out, CSRF, open redirect. Never use real credentials in tests.
+- **Security headers** (CSP, `nosniff`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`) are set for
+  every response in `next.config.ts`. The CSP allows inline scripts and styles (Next.js and the theme script need
+  them) and https audio; a nonce-based policy would make every page fully dynamic.
+
 ### Rendering and configuration
 
-- **A database exists, but nothing reads it yet** (phase 3, step 3 of `PHASE3.md`). Reading data
+- **A database exists, and only sign-in uses it so far** (phase 3, `PHASE3.md`). Reading data
   still never leaves the browser. The account database is SQLite through the built-in
   `node:sqlite` (`src/lib/db/`, chosen over `better-sqlite3` in a spike: no dependency and no
   native module in the standalone build; Node documents it as a release candidate, so re-check
@@ -165,6 +206,7 @@ is 29 pages instead of one very long scroll.
 | `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL (or local directory) of an EQuran.id-format API (point it to our mirror) |
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
+| `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
@@ -189,6 +231,7 @@ src/
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
     LanguageSwitch.tsx         EN/ID button (cookie qw-lang)
+    AccountMenu.tsx            sign-in / sign-out in the header (only when sign-in is on)
     PrefsProvider.tsx, ThemeToggle.tsx, Logo.tsx
   lib/
     quran/                     modular data sources (see above)
@@ -196,6 +239,7 @@ src/
       providers/equran.ts, providers/fawazahmed0.ts
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files
+    auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
     selection.ts               parse/serialize the selection cookie
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts

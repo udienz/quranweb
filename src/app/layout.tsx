@@ -6,12 +6,15 @@ import "@fontsource/amiri/latin-400.css";
 import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/space-grotesk";
 import "./globals.css";
+import { Suspense } from "react";
+import AccountMenu from "@/components/AccountMenu";
 import LanguageSwitch from "@/components/LanguageSwitch";
 import Logo from "@/components/Logo";
 import PrefsProvider from "@/components/PrefsProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import { I18nProvider } from "@/lib/i18n/client";
 import { MESSAGES } from "@/lib/i18n/messages";
+import { signInEnabled } from "@/lib/auth";
 import { getI18n } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,6 +27,7 @@ const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const { locale, t } = await getI18n();
+  const accounts = signInEnabled();
 
   return (
     <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
@@ -50,6 +54,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               <div className="flex items-center gap-2">
                 <LanguageSwitch />
                 <ThemeToggle />
+                {accounts && (
+                  <Suspense>
+                    <AccountMenu />
+                  </Suspense>
+                )}
               </div>
             </div>
           </header>

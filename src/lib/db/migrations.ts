@@ -68,4 +68,67 @@ CREATE TABLE audit_log (
 );
 `,
   },
+  {
+    // Tables of the auth library (Better Auth) for OIDC sign-in, with the column names and types
+    // it expects (checked against the library by src/lib/auth/auth.test.ts), plus two columns of
+    // our own on `user`. The tables of migration 1 (`users` and the data tables that point to it)
+    // are left alone: no code has ever read or written them. Step 5 (account sync) creates the data
+    // tables that point to "user"(id), and a later cleanup, two releases on, drops the old ones.
+    version: 2,
+    name: "oidc-sign-in",
+    sql: `
+CREATE TABLE "user" (
+  "id" text NOT NULL PRIMARY KEY,
+  "name" text NOT NULL,
+  "email" text NOT NULL UNIQUE,
+  "emailVerified" integer NOT NULL,
+  "image" text,
+  "createdAt" date NOT NULL,
+  "updatedAt" date NOT NULL,
+  "disabledAt" integer,
+  "lastSeenAt" integer
+);
+
+CREATE TABLE "session" (
+  "id" text NOT NULL PRIMARY KEY,
+  "expiresAt" date NOT NULL,
+  "token" text NOT NULL UNIQUE,
+  "createdAt" date NOT NULL,
+  "updatedAt" date NOT NULL,
+  "ipAddress" text,
+  "userAgent" text,
+  "userId" text NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE
+);
+
+CREATE TABLE "account" (
+  "id" text NOT NULL PRIMARY KEY,
+  "accountId" text NOT NULL,
+  "providerId" text NOT NULL,
+  "userId" text NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
+  "accessToken" text,
+  "refreshToken" text,
+  "idToken" text,
+  "accessTokenExpiresAt" date,
+  "refreshTokenExpiresAt" date,
+  "scope" text,
+  "password" text,
+  "createdAt" date NOT NULL,
+  "updatedAt" date NOT NULL
+);
+
+CREATE TABLE "verification" (
+  "id" text NOT NULL PRIMARY KEY,
+  "identifier" text NOT NULL,
+  "value" text NOT NULL,
+  "expiresAt" date NOT NULL,
+  "createdAt" date NOT NULL,
+  "updatedAt" date NOT NULL
+);
+
+CREATE INDEX "session_userId_idx" ON "session" ("userId");
+CREATE INDEX "account_userId_idx" ON "account" ("userId");
+CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");
+CREATE UNIQUE INDEX "account_provider_subject_idx" ON "account" ("providerId", "accountId");
+`,
+  },
 ];

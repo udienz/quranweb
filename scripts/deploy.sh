@@ -33,6 +33,14 @@ DB_DIR="${DB_DIR:-/srv/quranweb-db/$ENVIRONMENT}"
 sudo install -d -m 700 -o 1001 -g 1001 "$DB_DIR"
 DATA_ARGS+=(-v "$DB_DIR:/db" -e QURAN_DB_PATH=/db/quranweb.db)
 
+# Sign-in settings and secrets (BETTER_AUTH_URL, BETTER_AUTH_SECRET, AUTH_ISSUER_URL, AUTH_CLIENT_ID,
+# AUTH_CLIENT_SECRET) live only on the server, in /etc/quranweb/<env>.env (mode 600, root), never in
+# git. Without the file, or without these variables, sign-in is simply off.
+ENV_FILE="${ENV_FILE:-/etc/quranweb/$ENVIRONMENT.env}"
+if sudo test -f "$ENV_FILE"; then
+  DATA_ARGS+=(--env-file "$ENV_FILE")
+fi
+
 NAME="quranweb-$ENVIRONMENT"
 IMAGE="quranweb:$ENVIRONMENT"
 DIR="${DEPLOY_DIR:-$HOME/deploy/$NAME}"

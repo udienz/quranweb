@@ -16,6 +16,12 @@ export const en = {
     switchToLight: "Switch to light mode",
     switchToDark: "Switch to dark mode",
   },
+  account: {
+    signIn: "Sign in",
+    signOut: "Sign out",
+    signedInAs: "Signed in as {name}",
+    error: "Sign-in is not available right now. Try again later.",
+  },
   footer: {
     intro: "The sources of every text, translation, tafsir and recitation are listed under each surah. Main data from",
     and: "and",
