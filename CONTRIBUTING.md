@@ -15,6 +15,13 @@ npm run build
 
 CI runs the same commands on every pull request.
 
+## The list of contributors
+
+[CONTRIBUTORS.md](CONTRIBUTORS.md) thanks everyone who has contributed: the maintainer, the translators of each interface
+language, and everyone else with a merged commit. It is generated from the GitHub history, so it is never edited by hand:
+the maintainer runs `node scripts/update-contributors.mjs` after merging a contribution and commits the result
+(`--check` says whether it is out of date). Bots are left out.
+
 ## Translating the interface
 
 You can translate QuranWeb's interface (menus, buttons, settings, messages, and the About and privacy pages) into your
