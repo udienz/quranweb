@@ -198,7 +198,7 @@ export const en = {
     savedInBrowser: "Your choices are saved in this browser.",
     allSettings: "All settings",
     show: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translation" },
-    languages: { ar: "Arabic", id: "Indonesian", en: "English" },
+    languages: { ar: "Arabic", id: "Indonesian", en: "English", tr: "Turkish" },
   },
   settingsPage: {
     title: "Settings",

@@ -35,6 +35,7 @@ const ROUTES: Record<string, unknown> = {
   [`${FZ}/editions/ara-quranuthmanihaf/1.min.json`]: fawaz(1, ["ar-fz-1", "ar-fz-2"]),
   [`${FZ}/editions/eng-abdullahyusufal/1.min.json`]: fawaz(1, ["en-fz-1", "en-fz-2"]),
   [`${FZ}/editions/ind-jalaladdinalmah/1.min.json`]: fawaz(1, ["jalalayn-1", "jalalayn-2"]),
+  [`${FZ}/editions/tur-diyanetisleri/1.min.json`]: fawaz(1, ["tr-fz-1", "tr-fz-2"]),
 };
 
 function service() {
@@ -92,10 +93,19 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
     expect(first.name.meaning).toEqual({ id: "Pembukaan", en: "The Opening" });
   });
 
-  it("reads an English translation by default with the English interface, and Indonesian otherwise", async () => {
+  it("reads a translation in the interface language by default (English, Turkish), and Indonesian otherwise", async () => {
     const svc = service();
     expect((await svc.getSurahView(1, {}, "en")).selection.translations).toEqual(["eng-abdullahyusufal"]);
     expect((await svc.getSurahView(1, {}, "id")).selection.translations).toEqual(["ind-kemenag"]);
+    const turkish = await svc.getSurahView(1, {}, "tr");
+    expect(turkish.selection.translations).toEqual(["tur-diyanetisleri"]);
+    expect(turkish.verses.map((v) => v.translations[0].text)).toEqual(["tr-fz-1", "tr-fz-2"]);
+    expect(turkish.selection.tafsir).toBe("ind-kemenag-tafsir"); // only the translation follows the interface language
+  });
+
+  it("a reader's own choice still wins over the Turkish default", async () => {
+    const view = await service().getSurahView(1, { translations: ["ind-kemenag"] }, "tr");
+    expect(view.selection.translations).toEqual(["ind-kemenag"]);
   });
 
   it("a failing fawazahmed0 edition does not break the defaults", async () => {

@@ -105,6 +105,7 @@ describe("fawazahmed0 provider", () => {
     expect(FAWAZ_EDITIONS.find((e) => e.id === "ara-quranuthmanihaf")).toMatchObject({ kind: "arabic", direction: "rtl" });
     expect(FAWAZ_EDITIONS.find((e) => e.id === "ind-jalaladdinalmah")?.kind).toBe("tafsir");
     expect(FAWAZ_EDITIONS.find((e) => e.id === "ind-muhammadquraish")?.kind).toBe("tafsir");
+    expect(FAWAZ_EDITIONS.find((e) => e.id === "tur-diyanetisleri")).toMatchObject({ kind: "translation", language: "tr", direction: "ltr" });
     for (const e of FAWAZ_EDITIONS) {
       expect(e.source.attribution.en).toMatch(/fawazahmed0\/quran-api/);
       expect(e.source.attribution.id).toMatch(/fawazahmed0\/quran-api/);
@@ -112,6 +113,10 @@ describe("fawazahmed0 provider", () => {
       expect(e.name.id).toBeTruthy();
       expect(e.source.url).toBeTruthy();
     }
+  });
+
+  it("credits Tanzil with a link back to its translations page (its terms ask for one when more than three are used)", () => {
+    expect(FAWAZ_EDITIONS.find((e) => e.id === "tur-diyanetisleri")?.source.url).toBe("https://tanzil.net/trans/");
   });
 
   it("has no surah list (it comes from another provider)", () => {
