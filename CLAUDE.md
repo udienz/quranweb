@@ -51,7 +51,8 @@ own format.
     (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall, and the Turkish Diyanet İşleri meal
     (`tur-diyanetisleri`, the default translation with the Turkish interface). They only extend the catalog.
     Tanzil's terms (four of these editions, and the Turkish one, come through Tanzil): non-commercial use, and a link back
-    to https://tanzil.net/trans/ when more than three of its translations are used on a site; the About page links there.
+    to https://tanzil.net/trans/ when more than three of its translations are used on a site; the source link of every Tanzil
+    edition on the About page goes there (a test checks it).
     All have 6,236 verses and verse counts per surah identical to the EQuran.id
     metadata (verified for every surah).
 - **Adding a source** = write a provider, add its type to `sources.ts` (parser and
