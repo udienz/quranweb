@@ -29,6 +29,8 @@ nothing that identifies you (see the privacy policy).
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices.
 - Works well on phones, and you can copy a verse or a link to it.
+- **Install it as an app** on your phone or computer, with its own icon and window: "Install app" in Chrome or Edge,
+  "Add to Home Screen" in Safari on an iPhone. It still needs an internet connection.
 
 Long surahs are split into pages of 10 verses, so every page opens quickly, even on a slow connection.
 

@@ -244,6 +244,21 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
 
+### Installable app (no offline yet)
+
+- **`src/app/manifest.ts`** (served as `/manifest.webmanifest`): name, description and `lang` in the reader's language (per
+  request, from Accept-Language; a browser does not always send cookies with it), `display: standalone`, start at `/`, and three
+  PNG icons in `public/icons/` (192 and 512 with rounded corners, and a full-bleed maskable 512 with the logo inside the 80 %
+  safe zone). The root layout adds `appleWebApp` (iPhone "Add to Home Screen") and a `theme-color` per colour scheme (the
+  page background of each theme; it follows the device's scheme, not a theme chosen on the site).
+- **Icons** (`src/app/favicon.ico`, `icon.svg`, `apple-icon.png`, `public/icons/*.png`) are the logo of `Logo.tsx` in cream and
+  gold on the primary colour. Until 2026-11-19 `favicon.ico` was still the Next.js default. There is no image tool on the
+  server: they were rendered from the SVG with Playwright (`locator.screenshot({ omitBackground: true })`), and the `.ico`
+  is three PNGs (16, 32, 48) in an ICO container. Redraw all of them together if the logo changes.
+- **No service worker**, so nothing works offline yet: Chromium no longer needs one to offer installing
+  (`Page.getInstallabilityErrors` reports none). Offline reading is the next step of public issue #46 and needs a decision on
+  what is kept (text only, or audio too, which is large) and a CSP `worker-src`.
+
 ### Paging of long surahs
 
 A surah is shown 10 verses at a time (`PAGE_SIZE` in `src/lib/pagination.ts`), so Al-Baqarah
@@ -477,6 +492,7 @@ src/
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
+    manifest.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
     SurahReader.tsx            surah header, Reading/Tafsir tabs, jump to verse, audio

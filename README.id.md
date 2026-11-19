@@ -29,6 +29,8 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain.
 - Nyaman di ponsel, dan Anda bisa menyalin ayat atau tautannya.
+- **Memasangnya sebagai aplikasi** di ponsel atau komputer, dengan ikon dan jendela sendiri: "Instal aplikasi" di
+  Chrome atau Edge, "Tambahkan ke Layar Utama" di Safari pada iPhone. Tetap butuh koneksi internet.
 
 Surat yang panjang dibagi menjadi halaman berisi 10 ayat, sehingga setiap halaman cepat terbuka, bahkan di koneksi yang
 lambat.
