@@ -51,3 +51,18 @@ jobs:
           # Pages are rendered per request (instant = false), so this build needs no
           # access to any data source: it only checks that the code and bundle are valid.
           QURAN_API_URL: ""
+
+  docker:
+    # The image the servers build: it must start and serve its files as the runtime user (uid 1001), with the checkout's
+    # permissions as strict as on the server. This was dropped once (2026-11-17) and brought back after a QA deploy failed
+    # on a directory the runtime user could not read (PR #71).
+    name: Docker image starts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build and smoke test
+        run: bash scripts/docker-smoke.sh
+        env:
+          STRICT_PERMISSIONS: "1"

@@ -578,6 +578,7 @@ bash scripts/backup-db.test.sh   # backup/restore round trip (needs age; CI runs
 bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (CI runs it)
 bash scripts/upload-rclone.test.sh    # Google Drive upload and retention (needs rclone; CI runs it; not in use)
 bash scripts/upload-git.test.sh       # off-server copy to the private GitHub repository (CI runs it; in use)
+bash scripts/docker-smoke.sh          # build the image and check it starts as uid 1001 and serves its files (CI runs it)
 node scripts/update-contributors.mjs  # regenerate CONTRIBUTORS.md from the GitHub history (--check: only say if it is stale)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.
@@ -609,10 +610,12 @@ October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (b
 
 - `.github/workflows/ci.yml`: lint, `npm test` and `npm run build` (which includes the
   type check) on every push to `master` and every PR.
-- There is no separate Docker build in CI (removed 2026-11-17: it never failed in 14
-  runs, repeated `npm run build`, and the Dockerfile changed once). The Dockerfile is
-  validated by the QA deploy, which builds the same image and rolls back on failure.
-  If you change the Dockerfile, run `docker build` locally before merging.
+- **The Docker image is checked in CI** (job "Docker image starts", `scripts/docker-smoke.sh`): it builds the image, starts
+  it as the servers do (runtime user uid 1001), and checks that `/privacy`, the manifest and the icons answer 200 and that the
+  log has no error. With `STRICT_PERMISSIONS=1` (CI) it first removes the "others" permission bits from the checkout, like the
+  servers' umask 007. A Docker build in CI was dropped on 2026-11-17 (it had never failed) and brought back after a QA deploy
+  failed on a `public/` directory the runtime user could not read (PR #71); the script fails on exactly that (checked by
+  reverting the fix). Run it locally with `bash scripts/docker-smoke.sh` before merging a Dockerfile or `public/` change.
 - `.github/workflows/deploy-qa.yml`: run by hand (`workflow_dispatch`, not on push) deploys to QA over SSH with
   `scripts/deploy.sh qa <sha>`. It needs the repository variable `QA_DEPLOY=true`
   and the `QA_SSH_*` secrets (listed in the workflow).
