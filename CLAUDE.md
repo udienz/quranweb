@@ -260,6 +260,12 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
   `authClient.useSession()` in a `<Suspense>` in the header, so pages stay cache-friendly and the layout never reads
   the session cookie. It is rendered only when sign-in is configured. After sign-in the reader returns to the page they came from
   (the callback URL must be a path on this site).
+- **Sign-out ends the authentik session too.** The library's Generic OAuth plugin finds authentik's
+  `end_session_endpoint` in discovery, and `POST /api/auth/sign-out` answers with that URL (`redirect: true`), which
+  the client follows. `postLogoutRedirectURI: "/"` makes authentik send the reader back to our home page; without it the
+  reader ended on `auth.udienz.web.id` (seen on QA and production, 2026-11-19). authentik 2026.8 only redirects back to
+  a URI registered on the provider as a **Logout** redirect URI (`BETTER_AUTH_URL` plus `/`, strict) and only when
+  `id_token_hint` is sent, which works because the library keeps the ID token in `account.idToken`.
 - **Configuration** is all-or-nothing (`readAuthSettings`): all of `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`,
   `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` and `QURAN_DB_PATH`, or none (sign-in off, the
   route answers 404). A half configuration stops the start. On the servers they come from

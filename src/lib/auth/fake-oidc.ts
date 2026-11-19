@@ -55,6 +55,8 @@ export async function startFakeOidc(): Promise<FakeOidc> {
         token_endpoint: `${base}/token/`,
         userinfo_endpoint: `${base}/userinfo/`,
         jwks_uri: `${base}/jwks/`,
+        // authentik advertises RP-initiated logout; Better Auth then sends the reader there on sign-out.
+        end_session_endpoint: `${base}/end-session/`,
         response_types_supported: ["code"],
         subject_types_supported: ["public"],
         id_token_signing_alg_values_supported: ["RS256"],

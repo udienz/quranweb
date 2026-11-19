@@ -86,6 +86,11 @@ export function authOptions(db: DatabaseSync, settings: AuthSettings, extras: Au
             requireIdTokenVerification: true,
             pkce: true,
             scopes: ["openid", "email", "profile"],
+            // Sign-out also ends the authentik session (RP-initiated logout, found through discovery). Without
+            // this, authentik ends on its own home page; with it, it sends the reader back to our home page.
+            // The URI (BETTER_AUTH_URL with a trailing slash) must be registered in authentik as a logout
+            // redirect URI, and authentik needs the ID token with it, which the library keeps in `account`.
+            postLogoutRedirectURI: "/",
           },
         ],
       }),
