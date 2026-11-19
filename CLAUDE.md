@@ -605,6 +605,12 @@ Keep that footer link: the credit must stay one click away from every reading pa
   User management (view, disable, delete accounts) may be added together with the
   account feature.
 - Non-trivial changes go through a PR, not a direct push to `master`.
+- **Licence and community files.** The code is MIT (`LICENSE`, `"license"` in `package.json`; the owner's choice, 2026-11-19: free
+  to modify, no duty to publish changes, no liability); the content (Qur'an text, translations, tafsir, recitations) is not
+  covered and keeps its sources' terms (READMEs and About say so). `SECURITY.md` sends reports to GitHub's private vulnerability
+  reporting, and `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1) to the same private channel with "Conduct:" in the title: no
+  personal email in this public repository. The issue forms are in `.github/ISSUE_TEMPLATE/`; the "Report a translation
+  mistake" link in the language menu opens the `translation_mistake.yml` form with the language filled in.
 - **`CONTRIBUTORS.md` is generated**, never edited by hand: after merging a contribution from someone else (code or a
   translation), run `node scripts/update-contributors.mjs` and commit the result. The script lists the owner as
   maintainer, the people who changed each language catalog, and everyone with commits; it leaves out bots and the

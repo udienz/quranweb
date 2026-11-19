@@ -15,6 +15,16 @@ npm run build
 
 CI runs the same commands on every pull request.
 
+## Licence of your contribution
+
+QuranWeb's code is under the [MIT licence](LICENSE). By opening a pull request you agree that your contribution is under the
+same licence. This is about code and interface text only: the Qur'an text, translations, tafsir and recitations keep the terms
+of their sources and are never changed in a pull request.
+
+The issue forms ("Bug report", "Translation mistake", "Feature idea") and the pull request template ask for what we need; please
+follow them. The code of conduct is in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and security problems are reported privately,
+see [SECURITY.md](SECURITY.md).
+
 ## The list of contributors
 
 [CONTRIBUTORS.md](CONTRIBUTORS.md) thanks everyone who has contributed: the maintainer, the translators of each interface

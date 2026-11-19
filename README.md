@@ -72,6 +72,12 @@ helped: see [CONTRIBUTORS.md](CONTRIBUTORS.md).
 You can also help by translating the interface (menus, buttons, pages) into your language. The Qur'an itself is never
 translated this way. How it works: [CONTRIBUTING.md](CONTRIBUTING.md), section "Translating the interface".
 
+## Licence
+
+The **code** of QuranWeb is free to use, change and share under the [MIT licence](LICENSE), without any warranty. The text of
+the Qur'an, the translations, the tafsir and the recitations are **not** covered by it: each keeps the terms of its source,
+listed on the About page of the site.
+
 ## For developers
 
 Running it locally, Docker, the data sources, the environments and deployment are described in

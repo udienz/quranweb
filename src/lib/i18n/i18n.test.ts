@@ -122,11 +122,12 @@ describe("community translations", () => {
     for (const code of LOCALES) expect(isCommunityLocale(code)).toBe(COMMUNITY_LOCALES.includes(code));
   });
 
-  it("builds a link that opens a new issue with the language in the title, and escapes it", () => {
+  it("builds a link to the translation form with the language filled in and in the title, and escapes it", () => {
     const url = new URL(reportTranslationUrl("tr"));
     expect(url.origin + url.pathname).toBe("https://github.com/udienz/quranweb/issues/new");
+    expect(url.searchParams.get("template")).toBe("translation_mistake.yml");
     expect(url.searchParams.get("title")).toBe("Translation mistake (tr): ");
-    expect(url.searchParams.get("body")).toContain("Language: tr");
+    expect(url.searchParams.get("language")).toBe("tr");
     const hostile = new URL(reportTranslationUrl("x&labels=bug#"));
     expect(hostile.searchParams.get("labels")).toBeNull();
     expect(hostile.hash).toBe("");

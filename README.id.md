@@ -74,6 +74,12 @@ Anda juga bisa membantu dengan menerjemahkan antarmuka (menu, tombol, halaman) k
 pernah diterjemahkan dengan cara ini. Caranya: [CONTRIBUTING.md](CONTRIBUTING.md) (dalam bahasa Inggris), bagian
 "Translating the interface".
 
+## Lisensi
+
+**Kode** QuranWeb bebas dipakai, diubah, dan dibagikan dengan [lisensi MIT](LICENSE), tanpa jaminan apa pun. Teks Al-Qur'an,
+terjemahan, tafsir, dan murottal **tidak** tercakup di dalamnya: masing-masing mengikuti ketentuan sumbernya, yang tercantum
+di halaman Tentang situs.
+
 ## Untuk pengembang
 
 Cara menjalankan secara lokal, Docker, sumber data, lingkungan, dan deploy dijelaskan di
