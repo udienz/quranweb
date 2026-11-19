@@ -68,8 +68,14 @@ cd "$DIR"
 git fetch --tags origin
 git checkout --force --detach "$REF"
 
-# Remember the previous image so we can roll back if the deploy fails.
-PREVIOUS="$(sudo docker image inspect -f '{{.Id}}' "$IMAGE" 2>/dev/null || true)"
+# Keep the previous image under its own tag so we can roll back if the deploy fails. Remembering only its ID was not
+# enough: once the build moved the tag and the old container was removed, the image could be deleted before the
+# rollback (QA, 2026-11-19: "No such image"). The tag is replaced at every deploy, so it costs one image.
+PREVIOUS=""
+if sudo docker image inspect "$IMAGE" >/dev/null 2>&1; then
+  PREVIOUS="$IMAGE-previous"
+  sudo docker tag "$IMAGE" "$PREVIOUS"
+fi
 
 sudo docker build -t "$IMAGE" .
 sudo docker rm -f "$NAME" >/dev/null 2>&1 || true
