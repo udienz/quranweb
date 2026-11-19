@@ -48,7 +48,8 @@ export function authOptions(db: DatabaseSync, settings: AuthSettings, extras: Au
       // Never link accounts by email: a person with the same email but another subject is a
       // different account (and the unique email makes the second one fail instead of merging).
       accountLinking: { enabled: false },
-      // We never call the provider on the reader's behalf, so its tokens are not kept.
+      // We never call the provider on the reader's behalf, so its tokens are not put in a cookie. They are
+      // still stored in `account` (the ID token is needed to sign out of authentik); the privacy page says so.
       storeAccountCookie: false,
     },
     user: {

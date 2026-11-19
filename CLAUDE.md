@@ -271,8 +271,9 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
 - **Identity is the token's `sub`**, stored as `account.accountId` (authentik "hashed user ID": a hex digest, not
   an email, stable when the email changes). `account.accountLinking` is off and the email is unique, so a
   different `sub` with an existing email fails instead of merging into that account. The ID token is always
-  verified against the issuer's keys (`requireIdTokenVerification`). The provider's access and refresh tokens are
-  not used for anything.
+  verified against the issuer's keys (`requireIdTokenVerification`). The library stores the provider's tokens
+  from the last sign-in in `account` (ID token, access token, scope): the ID token is
+  used only as `id_token_hint` on sign-out, the access token is not used for anything. The privacy page lists them.
 - **Disabled accounts** (`user.disabledAt`, set by the admin page in step 7) cannot get a session
   (`databaseHooks.session.create.before`). `user.lastSeenAt` is updated at each sign-in.
 - **Origin checks are switched on explicitly** (`advanced.disableOriginCheck: false`): the library turns them
