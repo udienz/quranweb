@@ -37,6 +37,8 @@ export interface Qari {
   id: string;
   /** A person's name, the same in every language. */
   name: string;
+  /** The name in Arabic letters, for searching and showing beside the Latin one. */
+  arabicName?: string;
   source: SourceInfo;
 }
 

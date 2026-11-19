@@ -82,6 +82,12 @@ describe("applyEnv", () => {
     expect(out.audioProviders[0].baseUrl).toBe("https://audio.test");
   });
 
+  it("points the AlQuran.cloud audio at QURAN_ISLAMIC_AUDIO_URL, not QURAN_AUDIO_URL", () => {
+    const config: SourceConfig = { ...valid(), audioProviders: [{ type: "equran-audio" }, { type: "islamic-network" }] };
+    const out = applyEnv(config, { QURAN_AUDIO_URL: "https://audio.test", QURAN_ISLAMIC_AUDIO_URL: "https://cdn.test" });
+    expect(out.audioProviders.map((p) => p.baseUrl)).toEqual(["https://audio.test", "https://cdn.test"]);
+  });
+
   it("does nothing for unset or blank variables", () => {
     expect(applyEnv(valid(), { QURAN_API_URL: "  " }).textProviders[0].baseUrl).toBeUndefined();
   });

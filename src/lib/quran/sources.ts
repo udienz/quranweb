@@ -12,6 +12,7 @@ import type { AudioProvider, TextProvider } from "./provider";
 import { createEquranAudioProvider, createEquranTextProvider } from "./providers/equran";
 import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0";
 import { createQuranEncTextProvider, QURANENC_EDITIONS } from "./providers/quranenc";
+import { createIslamicNetworkAudioProvider } from "./providers/islamic-network";
 import type { QuranConfig } from "./service";
 import type { Selection } from "./types";
 
@@ -43,8 +44,14 @@ export interface EquranAudioSource {
   baseUrl?: string;
 }
 
+export interface IslamicNetworkAudioSource {
+  type: "islamic-network";
+  /** Base URL of the AlQuran.cloud CDN. Default: https://cdn.islamic.network */
+  baseUrl?: string;
+}
+
 export type TextSourceConfig = EquranTextSource | FawazTextSource | QuranEncTextSource;
-export type AudioSourceConfig = EquranAudioSource;
+export type AudioSourceConfig = EquranAudioSource | IslamicNetworkAudioSource;
 
 export interface SourceConfig {
   /** Order = priority: the first provider is tried first, the rest are fallbacks. */
@@ -59,7 +66,9 @@ export interface SourceConfig {
 export const DEFAULT_SOURCES: SourceConfig = {
   // fawazahmed0 only adds editions to the catalog; the defaults still come from EQuran.id.
   textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }],
-  audioProviders: [{ type: "equran-audio" }],
+  // EQuran.id first (its reciters and the default), then the AlQuran.cloud CDN: more reciters, and the fallback for the two
+  // that both have.
+  audioProviders: [{ type: "equran-audio" }, { type: "islamic-network" }],
   defaults: {
     arabic: "ara-equran",
     transliteration: "ara-equran-la",
@@ -83,7 +92,7 @@ export class SourceConfigError extends Error {
 }
 
 const TEXT_TYPES = ["equran", "fawazahmed0", "quranenc"] as const;
-const AUDIO_TYPES = ["equran-audio"] as const;
+const AUDIO_TYPES = ["equran-audio", "islamic-network"] as const;
 
 // ---------------------------------------------------------------- validation
 
@@ -221,7 +230,11 @@ export function applyEnv(config: SourceConfig, env: Env): SourceConfig {
           ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_QURANENC_URL) }
           : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
     ),
-    audioProviders: config.audioProviders.map((p) => ({ ...p, baseUrl: fill(p.baseUrl, env.QURAN_AUDIO_URL) })),
+    audioProviders: config.audioProviders.map((p) =>
+      p.type === "islamic-network"
+        ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_ISLAMIC_AUDIO_URL) }
+        : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_AUDIO_URL) },
+    ),
   };
 }
 
@@ -254,7 +267,10 @@ export function toQuranConfig(config: SourceConfig): QuranConfig {
       : c.type === "quranenc"
         ? createQuranEncTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
         : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
-  const audio = (c: AudioSourceConfig): AudioProvider => createEquranAudioProvider({ audioBaseUrl: c.baseUrl });
+  const audio = (c: AudioSourceConfig): AudioProvider =>
+    c.type === "islamic-network"
+      ? createIslamicNetworkAudioProvider({ baseUrl: c.baseUrl })
+      : createEquranAudioProvider({ audioBaseUrl: c.baseUrl });
 
   return {
     textProviders: config.textProviders.map(text),

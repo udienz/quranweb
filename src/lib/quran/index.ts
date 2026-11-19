@@ -4,6 +4,7 @@
 //
 //   QURAN_API_URL    base URL of an EQuran.id v2 format API (default https://equran.id/api/v2)
 //   QURAN_AUDIO_URL  base URL of the audio (default https://cdn.equran.id)
+//   QURAN_ISLAMIC_AUDIO_URL  base URL of the AlQuran.cloud audio CDN (default https://cdn.islamic.network)
 //   QURAN_FAWAZ_URL  base URL of fawazahmed0/quran-api (default jsDelivr; point it to our own mirror)
 //   QURAN_QURANENC_URL  base URL of QuranEnc (default the live API; point it to the private copy, /data/quranenc)
 //   QURAN_CONFIG     path of a JSON file that replaces the built-in source registry (see sources.ts)

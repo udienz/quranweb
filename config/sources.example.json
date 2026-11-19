@@ -9,7 +9,7 @@
     },
     { "type": "quranenc", "baseUrl": "/data/quranenc" }
   ],
-  "audioProviders": [{ "type": "equran-audio" }],
+  "audioProviders": [{ "type": "equran-audio" }, { "type": "islamic-network" }],
   "defaults": {
     "arabic": "ara-quranuthmanihaf",
     "transliteration": "ara-equran-la",

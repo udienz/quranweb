@@ -62,12 +62,12 @@ export const EQURAN_EDITIONS: Edition[] = [
 
 // The API's reciter keys ("01".."06") map to these folders on its CDN.
 const QARIS = [
-  { id: "abdullah-al-juhany", name: "Abdullah Al-Juhany", folder: "Abdullah-Al-Juhany" },
-  { id: "abdul-muhsin-al-qasim", name: "Abdul Muhsin Al-Qasim", folder: "Abdul-Muhsin-Al-Qasim" },
-  { id: "abdurrahman-as-sudais", name: "Abdurrahman As-Sudais", folder: "Abdurrahman-as-Sudais" },
-  { id: "ibrahim-al-dossari", name: "Ibrahim Al-Dossari", folder: "Ibrahim-Al-Dossari" },
-  { id: "misyari-rasyid-al-afasi", name: "Misyari Rasyid Al-Afasi", folder: "Misyari-Rasyid-Al-Afasi" },
-  { id: "yasser-al-dosari", name: "Yasser Al-Dosari", folder: "Yasser-Al-Dosari" },
+  { id: "abdullah-al-juhany", name: "Abdullah Al-Juhany", arabicName: "عبد الله الجهني", folder: "Abdullah-Al-Juhany" },
+  { id: "abdul-muhsin-al-qasim", name: "Abdul Muhsin Al-Qasim", arabicName: "عبد المحسن القاسم", folder: "Abdul-Muhsin-Al-Qasim" },
+  { id: "abdurrahman-as-sudais", name: "Abdurrahman As-Sudais", arabicName: "عبد الرحمن السديس", folder: "Abdurrahman-as-Sudais" },
+  { id: "ibrahim-al-dossari", name: "Ibrahim Al-Dossari", arabicName: "إبراهيم الدوسري", folder: "Ibrahim-Al-Dossari" },
+  { id: "misyari-rasyid-al-afasi", name: "Misyari Rasyid Al-Afasi", arabicName: "مشاري راشد العفاسي", folder: "Misyari-Rasyid-Al-Afasi" },
+  { id: "yasser-al-dosari", name: "Yasser Al-Dosari", arabicName: "ياسر الدوسري", folder: "Yasser-Al-Dosari" },
 ];
 
 const AUDIO_SOURCE: SourceInfo = {
@@ -204,7 +204,7 @@ export function createEquranTextProvider(options: EquranOptions = {}): TextProvi
 
 export function createEquranAudioProvider(options: EquranOptions = {}): AudioProvider {
   const base = trimSlash(options.audioBaseUrl || EQURAN_AUDIO_URL);
-  const qaris: Qari[] = QARIS.map((q) => ({ id: q.id, name: q.name, source: AUDIO_SOURCE }));
+  const qaris: Qari[] = QARIS.map((q) => ({ id: q.id, name: q.name, arabicName: q.arabicName, source: AUDIO_SOURCE }));
   const pad = (n: number) => String(n).padStart(3, "0");
 
   return {

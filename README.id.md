@@ -15,7 +15,7 @@ Anda tidak perlu akun, dan tidak ada iklan maupun analitik.
   beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya).
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan.
-- **Mendengarkan** murottal per ayat dari enam qari; otomatis lanjut ke ayat berikutnya. Di akhir surat, audio bisa
+- **Mendengarkan** murottal per ayat dari 23 qari (yang paling dikenal di atas, dan ada kolom pencarian); otomatis lanjut ke ayat berikutnya. Di akhir surat, audio bisa
   berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
   **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, atau Jalalayn).
@@ -43,7 +43,8 @@ privasi: https://quranweb.udienz.web.id/privacy.
 ## Sumber dan kredit
 
 Teks Arab, terjemahan, dan tafsir berasal dari sumber yang sudah diterbitkan: [EQuran.id](https://equran.id) (teks Arab,
-terjemahan, dan tafsir Kementerian Agama RI, serta murottal) dan [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api). Halaman
+terjemahan, dan tafsir Kementerian Agama RI, serta murottal), [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api), dan
+[QuranEnc.com](https://quranenc.com); murottal lainnya dari CDN audio [AlQuran.cloud](https://alquran.cloud/cdn). Halaman
 **Tentang**, yang ditautkan di bagian bawah setiap halaman, mencantumkan sumber, kredit, dan lisensi setiap teks,
 terjemahan, tafsir, dan murottal.
 

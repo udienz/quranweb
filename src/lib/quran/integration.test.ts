@@ -53,7 +53,7 @@ function service() {
       return data === undefined ? new Response("not found", { status: 404 }) : new Response(JSON.stringify(data));
     }),
   );
-  return createQuranService(defaultConfig({ QURAN_API_URL: EQ, QURAN_FAWAZ_URL: FZ, QURAN_QURANENC_URL: QE, QURAN_AUDIO_URL: "https://audio.test" }));
+  return createQuranService(defaultConfig({ QURAN_API_URL: EQ, QURAN_FAWAZ_URL: FZ, QURAN_QURANENC_URL: QE, QURAN_AUDIO_URL: "https://audio.test", QURAN_ISLAMIC_AUDIO_URL: "https://cdn.test" }));
 }
 
 afterEach(() => vi.unstubAllGlobals());
@@ -85,7 +85,12 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
         { edition: "eng-abdullahyusufal", text: "en-fz-2" },
       ],
       tafsir: "tafsir-eq-2",
-      audio: ["https://audio.test/audio-partial/Misyari-Rasyid-Al-Afasi/001002.mp3"],
+      // EQuran.id first; the same reciter on the AlQuran.cloud CDN is the fallback (verse 1:2 is ayah 2 of the Qur'an).
+      audio: [
+        "https://audio.test/audio-partial/Misyari-Rasyid-Al-Afasi/001002.mp3",
+        "https://cdn.test/quran/audio/128/ar.alafasy/2.mp3",
+        "https://cdn.test/quran/audio/64/ar.alafasy/2.mp3",
+      ],
     });
     expect(new Set(view.editions.map((e) => e.source.name))).toEqual(new Set(["EQuran.id", "fawazahmed0/quran-api"]));
   });
