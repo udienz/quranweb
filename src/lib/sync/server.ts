@@ -24,6 +24,10 @@ export function exchangeAccountData(db: Database, userId: string, incoming: User
   db.exec("BEGIN IMMEDIATE");
   try {
     const merged = pruneTombstones(mergeUserData(readAccountData(db, userId), incoming), now.toISOString());
+    // Each side is within the schema limits, but their union may not be (two devices with 3,000 bookmarks
+    // each). readAccountData refuses a stored document over the limits, so storing it would lock the
+    // account out of sync and export: check it here and throw (UserDataError), which rolls back.
+    parseUserData(JSON.parse(JSON.stringify(merged)));
     db.prepare(
       `INSERT INTO account_data (user_id, data, updated_at) VALUES (?, ?, ?)
        ON CONFLICT (user_id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at`,

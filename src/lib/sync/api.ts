@@ -40,5 +40,11 @@ export async function handleState(request: Request, deps: { auth: Auth; db: Data
   } catch (error) {
     return json({ error: "invalid", code: error instanceof UserDataError ? error.code : "not-json" }, 400);
   }
-  return json({ data: exchangeAccountData(deps.db, userId, incoming) });
+  try {
+    return json({ data: exchangeAccountData(deps.db, userId, incoming) });
+  } catch (error) {
+    // The merge with the stored data would go over the limits: nothing was stored.
+    if (error instanceof UserDataError) return json({ error: "invalid", code: error.code }, 400);
+    throw error;
+  }
 }

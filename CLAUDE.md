@@ -384,7 +384,8 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   device's data into it in one `BEGIN IMMEDIATE` transaction and returns the merged result, so one request both
   pushes and pulls. Needs a session; a disabled account gets 403 even with a session that already exists. A `PUT`
   must come from this site (`Origin`), be JSON and be at most 4 MB (a reverse proxy in front must allow a body that
-  size on this path, for example nginx `client_max_body_size 4m`). Bad data is a 400 and nothing is stored. Tombstones
+  size on this path, for example nginx `client_max_body_size 4m`). Bad data is a 400 and nothing is stored, and so is a PUT
+  whose merge with the stored data would go over the schema limits (each side valid, the union not). Tombstones
   older than 90 days are dropped on each exchange.
 - **Browser** (`src/lib/sync/engine.ts`, `client.ts`, used by `AccountMenu`): sync once when the reader is known, about
   2 s after a local change, when the tab is hidden or shown, and when the connection returns. A failure never changes
