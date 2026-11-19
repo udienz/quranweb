@@ -20,6 +20,8 @@ nothing that identifies you (see the privacy policy).
   mode for mobile data; it moves on to the next verse by itself. At the end of a
   surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
   **play a whole juz**, from its first verse to its last, across surahs.
+- **Memorize**: hear each verse two, three or more times, and repeat a range of verses (for example 2:1–5) as many
+  times as you like.
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab or Jalalayn).
 - **Pick up where you stopped** with "continue reading", and mark how far you have read.
 - **Bookmark verses**, add your own notes, and group them into collections.
