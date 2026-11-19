@@ -13,6 +13,10 @@ COPY . .
 # `export const instant = false` in src/app) instead of prerendered at build time, so
 # building the image needs no network access to any Qur'an data source.
 RUN npm run build
+# The checkout on the server is made with umask 007, so its directories are closed to "others", and the runtime user
+# (nextjs, uid 1001) is "other" for files copied without --chown. Next.js scans public/ at start and refused to start on
+# public/icons (EACCES, QA 2026-11-19). Make public/ readable by everyone; it is served to everyone anyway.
+RUN chmod -R a+rX public
 
 # 3. Runtime (standalone output Next.js — minim dependency)
 FROM node:26-alpine AS runner
