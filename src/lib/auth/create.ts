@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { genericOAuth } from "better-auth/plugins";
 import type { DatabaseSync } from "node:sqlite";
 import { IP_HEADERS } from "../ratelimit";
@@ -57,6 +58,18 @@ export function authOptions(db: DatabaseSync, settings: AuthSettings, extras: Au
         disabledAt: { type: "number" as const, required: false, input: false },
         lastSeenAt: { type: "number" as const, required: false, input: false },
       },
+    },
+    hooks: {
+      // The only way in is the authorization-code callback (state, PKCE and nonce). Because the provider
+      // comes from discovery, the library would also accept a bare ID token on these two endpoints, with
+      // none of those bindings and no single use; the same token is in the sign-out URL (id_token_hint),
+      // so anyone who read that URL could sign in as the reader while the token is valid.
+      before: createAuthMiddleware(async (ctx) => {
+        const body = ctx.body as { idToken?: unknown } | undefined;
+        if ((ctx.path === "/sign-in/social" || ctx.path === "/link-social") && body?.idToken !== undefined) {
+          throw new APIError("BAD_REQUEST", { message: "Sign-in with an ID token is not accepted" });
+        }
+      }),
     },
     databaseHooks: {
       session: {

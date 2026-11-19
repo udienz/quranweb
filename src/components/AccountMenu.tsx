@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { authClient, signIn } from "@/lib/auth/client";
-import { useAccountSync } from "@/lib/sync/client";
+import { syncOnce, useAccountSync } from "@/lib/sync/client";
+import { signOutOfAccount } from "@/lib/sync/sign-out";
 import { useI18n } from "@/lib/i18n/client";
 import { useDismiss } from "@/lib/useDismiss";
 
@@ -19,6 +20,8 @@ const PersonIcon = () => (
 );
 
 const item = "block w-full whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background";
+/** The two sign-out choices wrap, unlike the other items. */
+const choice = "block w-full rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background";
 
 /**
  * The account button in the header and its dropdown: "My reading" (which lives here instead of the main navigation
@@ -31,11 +34,17 @@ export default function AccountMenu() {
   const search = useSearchParams().toString();
   const [open, setOpen] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [signOutFailed, setSignOutFailed] = useState(false);
+  // Sign out asks first whether the reading stays on this device.
+  const [askKeep, setAskKeep] = useState(false);
   const sync = useAccountSync(data?.user.id ?? null);
   const box = useRef<HTMLDivElement>(null);
 
   // Close on a click outside or on Escape.
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    setOpen(false);
+    setAskKeep(false);
+  }, []);
   useDismiss(open, close, box);
 
   async function start() {
@@ -62,7 +71,10 @@ export default function AccountMenu() {
         aria-expanded={open}
         aria-label={t("account.menu")}
         title={user ? `${user.name} (${user.email})` : undefined}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          setOpen((o) => !o);
+          setAskKeep(false);
+        }}
         className="flex items-center gap-2 rounded-full border border-border bg-card px-1 py-1 font-semibold hover:bg-background sm:pr-3"
       >
         <span className="grid h-7 w-7 place-items-center rounded-full bg-background text-muted-foreground">
@@ -92,17 +104,39 @@ export default function AccountMenu() {
           <Link href="/settings" className={item} onClick={() => setOpen(false)}>
             {t("nav.settings")}
           </Link>
-          {user ? (
-            <button
-              type="button"
-              className={item}
-              onClick={() => {
-                setOpen(false);
-                authClient.signOut();
-              }}
-            >
+          {user && !askKeep ? (
+            <button type="button" className={item} onClick={() => setAskKeep(true)}>
               {t("account.signOut")}
             </button>
+          ) : user ? (
+            <div className="mt-1 grid gap-0.5 border-t border-border pt-2" role="group" aria-labelledby="sign-out-question">
+              <p id="sign-out-question" className="px-3 pb-1 text-xs text-muted-foreground">
+                {t("account.signOutQuestion")}
+              </p>
+              {([false, true] as const).map((keepOnDevice) => (
+                <button
+                  key={String(keepOnDevice)}
+                  type="button"
+                  className={choice}
+                  // The Sign out button the focus was on is gone: move it to the first choice.
+                  autoFocus={!keepOnDevice}
+                  onClick={async () => {
+                    setSignOutFailed(false);
+                    // Sends pending changes, removes the reading from this browser unless the reader keeps it, then
+                    // signs out. On failure the menu stays open with the message, and nothing was removed.
+                    const done = await signOutOfAccount(
+                      { sync: () => syncOnce(user.id), signOut: () => authClient.signOut() },
+                      { keepOnDevice },
+                    ).catch(() => false);
+                    if (done) close();
+                    else setSignOutFailed(true);
+                  }}
+                >
+                  {t(keepOnDevice ? "account.signOutKeep" : "account.signOutRemove")}
+                </button>
+              ))}
+              <p className="px-3 pb-1 text-xs text-muted-foreground">{t("account.signOutHint")}</p>
+            </div>
           ) : (
             <button type="button" className={item} onClick={start}>
               {t("account.signIn")}
@@ -111,6 +145,11 @@ export default function AccountMenu() {
           {failed && (
             <p role="alert" className="px-3 py-1 text-xs text-red-600">
               {t("account.error")}
+            </p>
+          )}
+          {signOutFailed && (
+            <p role="alert" className="max-w-64 whitespace-normal px-3 py-1 text-xs text-red-600">
+              {t("account.signOutFailed")}
             </p>
           )}
         </div>

@@ -389,6 +389,47 @@ export function pruneTombstones(data: UserData, now: string): UserData {
   };
 }
 
+/** How far ahead of "now" a time may be before it is treated as wrong (a device clock that runs a little fast is fine). */
+const MAX_CLOCK_SKEW_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Bring every change time that lies further in the future than the allowed clock skew back to `now`. The newest
+ * change wins a merge and a tombstone is pruned 90 days after its time, so an item dated 9999 (for example from a
+ * crafted backup file) would beat every later real change on every device and never go away. Times are clamped, not
+ * refused, so a device whose clock runs ahead still syncs. Returns the same object when nothing changes.
+ */
+export function clampFutureTimes(data: UserData, now: string): UserData {
+  const nowMs = Date.parse(now);
+  const limit = nowMs + MAX_CLOCK_SKEW_MS;
+  let changed = false;
+  const fix = (t: string): string => {
+    if (Date.parse(t) <= limit) return t;
+    changed = true;
+    return new Date(nowMs).toISOString();
+  };
+  const fixItem = <T extends { deletedAt?: string }>(item: T, keys: readonly (keyof T)[]): T => {
+    const out = { ...item };
+    for (const key of keys) {
+      const value = out[key];
+      if (typeof value === "string") (out as Record<keyof T, unknown>)[key] = fix(value);
+    }
+    if (out.deletedAt !== undefined) out.deletedAt = fix(out.deletedAt);
+    return out;
+  };
+
+  const lastRead = data.lastRead && { ...data.lastRead, at: fix(data.lastRead.at) };
+  const progress = Object.fromEntries(Object.entries(data.progress).map(([k, p]) => [k, fixItem(p, ["at"])]));
+  const bookmarks = data.bookmarks.map((b) => fixItem(b, ["createdAt", "updatedAt"]));
+  const collections = data.collections.map((c) => fixItem(c, ["createdAt", "updatedAt"]));
+  const choices: Choices = {};
+  for (const [key, choice] of Object.entries(data.choices)) {
+    if (choice) (choices as Record<string, unknown>)[key] = { ...choice, at: fix(choice.at) };
+  }
+  const goal = data.goal && { ...data.goal, at: fix(data.goal.at) };
+  if (!changed) return data;
+  return { ...data, lastRead, progress, bookmarks, collections, choices, goal };
+}
+
 // ------------------------------------------------------------------ merging
 
 /**
@@ -611,8 +652,11 @@ export function exportUserData(data: UserData, now: string): string {
   return JSON.stringify({ app: EXPORT_APP, format: EXPORT_FORMAT, exportedAt: now, data }, null, 2);
 }
 
-/** Read a backup file; it may hold version 1 or 2 data, and the result is version 2. */
-export function importUserData(text: string): UserData {
+/**
+ * Read a backup file; it may hold version 1 or 2 data, and the result is version 2. A file can come from anywhere,
+ * so change times in the future are brought back to `now` (see clampFutureTimes).
+ */
+export function importUserData(text: string, now = new Date().toISOString()): UserData {
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);
@@ -623,5 +667,5 @@ export function importUserData(text: string): UserData {
   if (!p || p.app !== EXPORT_APP || p.format !== EXPORT_FORMAT) {
     throw new UserDataError("not-backup", "The file is not a QuranWeb backup");
   }
-  return parseUserData(p.data);
+  return clampFutureTimes(parseUserData(p.data), now);
 }

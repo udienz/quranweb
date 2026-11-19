@@ -188,6 +188,27 @@ describe("OIDC sign-in against a fake provider", () => {
     expect(await session.json()).not.toBeNull();
   });
 
+  it("does not accept a bare ID token as a sign-in, not even the one from the sign-out URL", async () => {
+    const callback = await signIn();
+    const cookie = callback.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");
+    const out = await call("/api/auth/sign-out", { method: "POST", headers: { cookie, origin: BASE, "content-type": "application/json" }, body: "{}" });
+    const hint = new URL(((await out.json()) as { url: string }).url).searchParams.get("id_token_hint");
+    expect(hint).toBeTruthy();
+    const sessionsBefore = db.prepare("SELECT COUNT(*) AS n FROM session").get();
+
+    const variants: Record<string, string>[] = [{ "content-type": "application/json" }, { "content-type": "application/json", origin: BASE }];
+    for (const headers of variants) {
+      const res = await call("/api/auth/sign-in/social", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ provider: "authentik", idToken: { token: hint } }),
+      });
+      expect(res.status).toBe(400);
+      expect(res.headers.getSetCookie().some((c) => c.startsWith("better-auth.session_token"))).toBe(false);
+    }
+    expect(db.prepare("SELECT COUNT(*) AS n FROM session").get()).toEqual(sessionsBefore);
+  });
+
   it("refuses a callback URL on another site (no open redirect after sign-in)", async () => {
     const res = await call("/api/auth/sign-in/social", {
       method: "POST",

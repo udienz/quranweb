@@ -1,5 +1,5 @@
 import type { Database } from "../db";
-import { emptyUserData, mergeUserData, parseUserData, pruneTombstones, type UserData } from "../userdata/schema";
+import { clampFutureTimes, emptyUserData, mergeUserData, parseUserData, pruneTombstones, type UserData } from "../userdata/schema";
 
 /** The biggest state allowed by the schema limits is about 3 MB (5,000 bookmarks with 500-character notes). */
 export const MAX_BODY_BYTES = 4 * 1024 * 1024;
@@ -23,7 +23,17 @@ export function readAccountData(db: Database, userId: string): UserData {
 export function exchangeAccountData(db: Database, userId: string, incoming: UserData, now = new Date()): UserData {
   db.exec("BEGIN IMMEDIATE");
   try {
-    const merged = pruneTombstones(mergeUserData(readAccountData(db, userId), incoming), now.toISOString());
+    // Future change times from either side are brought back to now first: the device sent them, and a stored copy
+    // may still hold some from before this check existed (it heals on the next exchange).
+    const at = now.toISOString();
+    const merged = pruneTombstones(
+      mergeUserData(clampFutureTimes(readAccountData(db, userId), at), clampFutureTimes(incoming, at)),
+      at,
+    );
+    // Each side is within the schema limits, but their union may not be (two devices with 3,000 bookmarks
+    // each). readAccountData refuses a stored document over the limits, so storing it would lock the
+    // account out of sync and export: check it here and throw (UserDataError), which rolls back.
+    parseUserData(JSON.parse(JSON.stringify(merged)));
     db.prepare(
       `INSERT INTO account_data (user_id, data, updated_at) VALUES (?, ?, ?)
        ON CONFLICT (user_id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at`,

@@ -147,6 +147,40 @@ describe("state API", () => {
     expect(db.prepare("SELECT COUNT(*) AS n FROM account_data WHERE user_id = ?").get(row.id)).toEqual({ n: 0 });
   });
 
+  it("refuses a PUT whose merge with the stored data would go over the limits, and stays readable", async () => {
+    const cookie = await reader("over-limit");
+    // 3,000 live bookmarks each, different verses: each is valid, together they are 6,000 (limit 5,000).
+    const many = (first: number) => {
+      const bookmarks = [];
+      for (let surah = first; bookmarks.length < 3000; surah++) {
+        for (let verse = 1; verse <= 60 && bookmarks.length < 3000; verse++) {
+          bookmarks.push({ surah, verse, note: "", createdAt: T(1), updatedAt: T(1) });
+        }
+      }
+      return { ...emptyUserData(), bookmarks };
+    };
+    expect((await put(cookie, many(1))).status).toBe(200);
+    const second = await put(cookie, many(60));
+    expect(second.status).toBe(400);
+    expect(((await second.json()) as { code: string }).code).toBe("invalid");
+    const stored = await state(cookie);
+    expect(stored.status).toBe(200);
+    expect(liveBookmarks(((await stored.json()) as { data: UserData }).data).length).toBe(3000);
+  });
+
+  it("brings future change times back to now on the server, also in a copy stored before", () => {
+    db.prepare(`INSERT INTO "user" (id, name, email, "emailVerified", "createdAt", "updatedAt") VALUES ('u-future', 'f', 'future@example.test', 1, 0, 0)`).run();
+    const FAR = "9999-01-01T00:00:00.000Z";
+    const planted = { ...emptyUserData(), bookmarks: [{ surah: 1, verse: 1, note: "planted", createdAt: FAR, updatedAt: FAR }] };
+    // a copy stored before the check existed
+    db.prepare("INSERT INTO account_data (user_id, data, updated_at) VALUES (?, ?, ?)").run("u-future", JSON.stringify(planted), 0);
+    const now = new Date(Date.UTC(2026, 10, 19));
+    const healed = exchangeAccountData(db, "u-future", emptyUserData(), now);
+    expect(healed.bookmarks[0].updatedAt).toBe(now.toISOString());
+    const later = removeBookmark(healed, 1, 1, new Date(Date.UTC(2026, 10, 20)).toISOString());
+    expect(liveBookmarks(exchangeAccountData(db, "u-future", later, new Date(Date.UTC(2026, 10, 20)))).length).toBe(0);
+  });
+
   it("two overlapping exchanges lose nothing", () => {
     db.prepare(`INSERT INTO "user" (id, name, email, "emailVerified", "createdAt", "updatedAt") VALUES ('u-race', 'r', 'race@example.test', 1, 0, 0)`).run();
     exchangeAccountData(db, "u-race", withBookmark(emptyUserData(), 10, 1, T(1)));
