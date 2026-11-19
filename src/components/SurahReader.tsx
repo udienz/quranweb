@@ -11,6 +11,7 @@ import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
 import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
 import { audioFor, readAudioQuality } from "@/lib/audio-quality";
+import { clearNowPlaying, showNowPlaying } from "@/lib/media-session";
 import { getRangeLoop, rangeStep, readVerseRepeat, setRangeLoop, subscribeRangeLoop, type RangeLoop } from "@/lib/memorize";
 import { afterJuz, afterSurah, readPlaybackMode } from "@/lib/playback";
 import { userDataActions } from "@/lib/userdata/store";
@@ -53,6 +54,8 @@ export default function SurahReader({
   const audioUrls = useRef<string[]>([]);
   // How many more times the verse that is playing is played before moving on (memorization: "play each verse N times").
   const repeatsLeft = useRef(0);
+  // The verse paused by hand or from the lock screen, so the lock screen's play button can carry on from there.
+  const pausedVerse = useRef<number | null>(null);
   const rangeLoop = useSyncExternalStore(subscribeRangeLoop, getRangeLoop, () => null);
   const [memorizeOpen, setMemorizeOpen] = useState(false);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
@@ -121,6 +124,7 @@ export default function SurahReader({
     if (!verse) return;
     if (playingN === verse.number) {
       getAudio().pause();
+      pausedVerse.current = verse.number;
       setPlayingN(null);
     } else {
       setJuzScope(null); // playing from a verse by hand leaves the juz that was being played
@@ -248,6 +252,47 @@ export default function SurahReader({
       setPlayingN(null);
     }
   }
+
+  // Lock screen and media keys (Media Session): pause, carry on, and the previous or next verse of the surah.
+  function mediaPause() {
+    if (playingN === null) return;
+    pausedVerse.current = playingN;
+    getAudio().pause();
+    setPlayingN(null);
+  }
+  function mediaPlay() {
+    const n = pausedVerse.current;
+    if (n === null || n < from || n > to) return;
+    pausedVerse.current = null;
+    setPlayingN(n);
+    getAudio().play().catch(() => setPlayingN(null));
+  }
+  function mediaStep(delta: -1 | 1) {
+    const n = playingN ?? pausedVerse.current;
+    if (n === null) return;
+    pausedVerse.current = null;
+    if (n + delta >= 1 && n + delta <= meta.verseCount) goTo(meta.number, n + delta);
+    else if (delta === 1 && meta.number < 114) goTo(meta.number + 1, 1);
+  }
+  const mediaActions = useRef({ mediaPause, mediaPlay, mediaStep });
+  useEffect(() => {
+    mediaActions.current = { mediaPause, mediaPlay, mediaStep };
+  });
+  useEffect(() => {
+    const shown = playingN ?? pausedVerse.current;
+    if (shown === null) return;
+    showNowPlaying(
+      { surahName: meta.name.latin, surah: meta.number, verse: shown, reciter: view.qari.name, site: t("meta.title") },
+      playingN !== null,
+      {
+        play: () => mediaActions.current.mediaPlay(),
+        pause: () => mediaActions.current.mediaPause(),
+        previous: () => mediaActions.current.mediaStep(-1),
+        next: () => mediaActions.current.mediaStep(1),
+      },
+    );
+  }, [playingN, meta.name.latin, meta.number, view.qari.name, t]);
+  useEffect(() => clearNowPlaying, []);
 
   function jump(n: number) {
     if (n >= from && n <= to) document.getElementById(verseId(n))?.scrollIntoView({ behavior: "smooth", block: "start" });

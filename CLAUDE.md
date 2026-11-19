@@ -240,6 +240,11 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Next keeps a page that was left**, hidden and with its state, so a hidden `SurahReader` is still in the DOM (a second
   "Playing juz" in a text search; use `:visible`). Its effects are cleaned up, which pauses the audio and clears the
   "playing" mark, so returning to it does not show a verse as playing that is not.
+- **Lock screen and media keys** (`src/lib/media-session.ts`, Media Session API): while a verse plays or is paused, the phone's
+  lock screen shows "Al-Baqarah 2:255", the reciter and the logo, with play/pause and previous/next verse. Next and previous go
+  through `goTo`, so they cross pages; next after the last verse of a surah starts the next surah, and nothing follows 114:6.
+  Pausing remembers the verse (`pausedVerse`), so play carries on from where it stopped. Browsers without the API are left
+  alone. Test it by capturing `setActionHandler` in an init script and calling the handlers.
 - **Memorization, step 1** (`src/lib/memorize.ts`, `MemorizePanel` behind the "Memorize" button in the surah header; public
   issue #45): **play each verse N times** (1, 2, 3, 5, 10; local storage `quranweb:verse-repeat`): `startVerse` sets
   `repeatsLeft`, and `onEnded` restarts the same verse before anything else, so it applies to surahs, juz and ranges alike.
