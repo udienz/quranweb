@@ -23,7 +23,8 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
   **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
 - **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, dan ulangi rentang ayat (misalnya 2:1–5) sebanyak
   yang Anda mau.
-- **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, atau Jalalayn).
+- **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
+  Al-Mukhtasar juga dalam bahasa Inggris dan Turki).
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam.

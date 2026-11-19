@@ -76,10 +76,11 @@ own format.
     local storage `quranweb:audio-quality`, per device and **not** recorded in the account: it depends on the device's
     connection. `SurahReader` reads it when a verse starts and keeps that verse's list for the error fallback.
   - `providers/quranenc.ts`: [QuranEnc.com](https://quranenc.com/en/home/api), reviewed translations with **footnotes**
-    and *Al-Mukhtasar fi Tafsir al-Qur'an* in many languages. Three editions: the Kemenag translation (`ind-indonesianislam`,
+    and *Al-Mukhtasar fi Tafsir al-Qur'an* in many languages. Four editions: the Kemenag translation (`ind-indonesianislam`,
     which came through fawazahmed0 until 2026-11-19; that copy had turned the footnote markers into stray numbers in 563 verses,
     so the edition moved here with the same ID, and readers' saved choices still work) and Al-Mukhtasar in English
-    (`eng-mokhtasar`) and Turkish (`tur-mokhtasar`), the default tafsir with those interfaces. The text is passed on unchanged:
+    (`eng-mokhtasar`) and Turkish (`tur-mokhtasar`), the default tafsir with those interfaces, and in Indonesian (`ind-mokhtasar`, a
+    short tafsir to choose beside Kemenag, which stays the Indonesian default; added 2026-11-19). The text is passed on unchanged:
     the markers ("[252]") stay in it and the footnotes come with it (`VerseText.notes`, shown folded under the translation by
     `Footnotes`). QuranEnc's terms: no modification, addition or deletion; name the publisher and QuranEnc.com; give the version;
     keep it up to date; no inappropriate ads. So each credit names the version (1.0.1 for Kemenag; Al-Mukhtasar has none

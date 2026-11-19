@@ -70,6 +70,21 @@ export const QURANENC_EDITIONS: Edition[] = [
       "Tafsir Center for Quranic Studies, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; 2026-11-19 kopyası)",
     ),
   },
+  {
+    // A short tafsir in Indonesian beside the Kemenag one (the Indonesian default stays Kemenag).
+    id: "ind-mokhtasar",
+    kind: "tafsir",
+    language: "id",
+    direction: "ltr",
+    name: { en: "Al-Mukhtasar fi Tafsir al-Qur'an (Indonesian)", id: "Al-Mukhtasar fi Tafsir al-Qur'an (Indonesia)", tr: "Al-Mukhtasar fi Tafsir al-Qur'an (Endonezce)" },
+    author: "Tafsir Center for Quranic Studies",
+    source: credit(
+      "indonesian_mokhtasar",
+      "Tafsir Center for Quranic Studies, via QuranEnc.com (no version number published; copy of 2026-11-19)",
+      "Tafsir Center for Quranic Studies, melalui QuranEnc.com (nomor versi tidak diterbitkan; salinan 2026-11-19)",
+      "Tafsir Center for Quranic Studies, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; 2026-11-19 kopyası)",
+    ),
+  },
 ];
 
 /** The translation key at QuranEnc of each edition. */
@@ -77,6 +92,7 @@ export const QURANENC_KEYS: Record<string, string> = {
   "ind-indonesianislam": "indonesian_affairs",
   "eng-mokhtasar": "english_mokhtasar",
   "tur-mokhtasar": "turkish_mokhtasar",
+  "ind-mokhtasar": "indonesian_mokhtasar",
 };
 
 interface RawSura {

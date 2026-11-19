@@ -69,6 +69,7 @@ describe("QuranEnc provider", () => {
       ["ind-indonesianislam", "translation", "id"],
       ["eng-mokhtasar", "tafsir", "en"],
       ["tur-mokhtasar", "tafsir", "tr"],
+      ["ind-mokhtasar", "tafsir", "id"],
     ]);
   });
 });
