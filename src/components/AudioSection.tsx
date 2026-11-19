@@ -5,13 +5,14 @@ import { beginJuz } from "@/lib/audio";
 import { useI18n } from "@/lib/i18n/client";
 import type { Catalog, JuzRef, Selection } from "@/lib/quran";
 import { useSelectionChoice } from "@/lib/useSelectionChoice";
+import AudioQualitySelect from "./AudioQualitySelect";
 import PlaybackModeSelect from "./PlaybackModeSelect";
 import ReciterPicker from "./ReciterPicker";
 
 const selectClass = "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
 
 /**
- * The Audio section of the settings page: the reciter, what happens at the end of a surah or a juz, and starting a whole juz.
+ * The Audio section of the settings page: the reciter, the audio quality (data saver), what happens at the end of a surah or a juz, and starting a whole juz.
  * The reciter is also in the quick settings beside a surah; here it is not repeated under the reading settings.
  */
 export default function AudioSection({ catalog, selection: saved, juzs }: { catalog: Catalog; selection: Selection; juzs: JuzRef[] }) {
@@ -24,6 +25,8 @@ export default function AudioSection({ catalog, selection: saved, juzs }: { cata
       <h2 className="mb-3 font-display font-semibold">{t("settingsPage.audio")}</h2>
       <div className="flex flex-col gap-4">
         <ReciterPicker qaris={catalog.qaris} value={selection.qari} onChange={(qari) => save({ ...selection, qari })} />
+
+        <AudioQualitySelect dataSaver={catalog.qaris.find((q) => q.id === selection.qari)?.dataSaver === true} />
 
         <PlaybackModeSelect />
 

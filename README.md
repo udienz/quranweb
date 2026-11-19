@@ -16,7 +16,8 @@ nothing that identifies you (see the privacy policy).
   more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others).
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings.
-- **Listen** to the recitation verse by verse from 23 reciters (the best known at the top of the list, and a search box); it moves on to the next verse by itself. At the end of a
+- **Listen** to the recitation verse by verse from 23 reciters (the best known at the top of the list, and a search box), with a data-saver
+  mode for mobile data; it moves on to the next verse by itself. At the end of a
   surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
   **play a whole juz**, from its first verse to its last, across surahs.
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab or Jalalayn).

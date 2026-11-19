@@ -283,6 +283,31 @@ describe("audio", () => {
     const view = await svc.getSurahView(1);
     expect(view.verses[0].audio).toEqual(["https://a1/1/1.mp3", "https://a2/1/1.mp3"]);
   });
+
+  // A provider that knows its bitrates: the URL names it, as on the AlQuran.cloud CDN.
+  const sized = (base: string, bitrates: number[]): AudioProvider => ({
+    id: base,
+    qaris: () => [QARI],
+    urls: (_q, surah, verse) => bitrates.map((b) => `${base}/${b}/${surah}/${verse}.mp3`),
+    kbps: (url) => Number(url.slice(base.length + 1).split("/")[0]),
+  });
+
+  it("orders the same URLs smallest first for data saving; a URL of unknown size goes last", async () => {
+    const svc = createQuranService(config({ audioProviders: [audioProvider("a1", "https://a1"), sized("https://cdn", [128, 64])] }));
+    const view = await svc.getSurahView(1);
+    expect(view.verses[0].audio).toEqual(["https://a1/1/1.mp3", "https://cdn/128/1/1.mp3", "https://cdn/64/1/1.mp3"]);
+    expect(view.verses[0].audioSaver).toEqual(["https://cdn/64/1/1.mp3", "https://cdn/128/1/1.mp3", "https://a1/1/1.mp3"]);
+    expect(svc.getCatalog().qaris[0].dataSaver).toBe(true);
+  });
+
+  it("gives no data-saver order, and no data-saver mark, when the usual file is already the smallest", async () => {
+    for (const providers of [[audioProvider("a1", "https://a1")], [sized("https://cdn", [64, 128])], [sized("https://cdn", [64])]]) {
+      const svc = createQuranService(config({ audioProviders: providers }));
+      const view = await svc.getSurahView(1);
+      expect(view.verses[0].audioSaver).toBeUndefined();
+      expect(svc.getCatalog().qaris[0].dataSaver).toBeUndefined();
+    }
+  });
 });
 
 describe("the juz boundaries", () => {

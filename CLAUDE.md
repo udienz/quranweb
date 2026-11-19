@@ -68,6 +68,13 @@ own format.
     order (`BEST_KNOWN_RECITERS` in `reciter-order.ts`), then the others by name, with a search box over the Latin and
     Arabic names (`matchesReciter`: no diacritics, any alif, hyphens and spaces optional). A reciter's name is the same in
     every language, so never put a translatable word in it.
+  - **Data saver** (`src/lib/audio-quality.ts`, `AudioQualitySelect` in the Audio section; public issue #41 ended here): a provider
+    may tell the bitrate of its URLs (`AudioProvider.kbps`; the CDN's is in the path). The service gives each verse `audio` (the
+    usual order) and, only when it differs, `audioSaver` (smallest first; a URL of unknown size counts as the largest), and marks
+    a reciter `dataSaver` when that changes the first file, so the setting can say whether it does anything for the chosen
+    reciter. EQuran.id's Alafasy file is byte for byte the CDN's 128 kbps file; the 64 kbps one is half that. The choice is
+    local storage `quranweb:audio-quality`, per device and **not** recorded in the account: it depends on the device's
+    connection. `SurahReader` reads it when a verse starts and keeps that verse's list for the error fallback.
   - `providers/quranenc.ts`: [QuranEnc.com](https://quranenc.com/en/home/api), reviewed translations with **footnotes**
     and *Al-Mukhtasar fi Tafsir al-Qur'an* in many languages. Three editions: the Kemenag translation (`ind-indonesianislam`,
     which came through fawazahmed0 until 2026-11-19; that copy had turned the footnote markers into stray numbers in 563 verses,
@@ -484,6 +491,7 @@ src/
                                (`quran/translation-groups.ts`; language names from `i18n/languages.ts`, the catalogs first,
                                then `Intl.DisplayNames`, so a new language of translations needs no new message)
     AudioSection.tsx, PlaybackModeSelect.tsx   the Audio section of the settings page; the end-of-surah mode select (also in the surah header)
+    AudioQualitySelect.tsx     standard or data-saver audio (this device only; `lib/audio-quality.ts`)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx

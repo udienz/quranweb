@@ -167,9 +167,22 @@ export function createQuranService(config: QuranConfig) {
     }
   }
 
-  function audioUrls(qari: string, surah: number, verse: number): string[] {
-    const urls = (qaris.get(qari)?.providers ?? []).flatMap((p) => p.urls(qari, surah, verse));
-    return [...new Set(urls)];
+  /**
+   * A verse's audio URLs in priority order, and the same URLs smallest first for data-saver mode (only when that order
+   * differs). A URL whose bitrate no provider knows counts as the largest, so it never moves ahead of a known smaller one.
+   */
+  function audioUrls(qari: string, surah: number, verse: number): { audio: string[]; audioSaver?: string[] } {
+    const providers = qaris.get(qari)?.providers ?? [];
+    const sized = providers.flatMap((p) => p.urls(qari, surah, verse).map((url) => ({ url, kbps: p.kbps?.(url) ?? Infinity })));
+    const audio = [...new Set(sized.map((s) => s.url))];
+    const saver = [...new Set([...sized].sort((a, b) => a.kbps - b.kbps).map((s) => s.url))];
+    return saver.every((url, i) => url === audio[i]) ? { audio } : { audio, audioSaver: saver };
+  }
+
+  // Whether data-saver mode changes anything for a reciter: true when its smallest file is not the one played by default.
+  for (const [id, entry] of qaris) {
+    const { audioSaver } = audioUrls(id, 1, 1);
+    if (audioSaver) entry.qari = { ...entry.qari, dataSaver: true };
   }
 
   /**
@@ -221,7 +234,7 @@ export function createQuranService(config: QuranConfig) {
         return { edition: id, text: textOf(id, i), ...(notes ? { notes } : {}) };
       }),
       tafsir: selection.tafsir ? textOf(selection.tafsir, i) : null,
-      audio: audioUrls(selection.qari, number, i + 1),
+      ...audioUrls(selection.qari, number, i + 1),
     }));
 
     return {

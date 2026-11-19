@@ -10,6 +10,7 @@ import type { JuzRef, SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
 import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
+import { audioFor, readAudioQuality } from "@/lib/audio-quality";
 import { afterJuz, afterSurah, readPlaybackMode } from "@/lib/playback";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
@@ -46,6 +47,8 @@ export default function SurahReader({
   const [playingN, setPlayingN] = useState<number | null>(null);
   // Index of the audio URL being tried for the verse that is playing (0 = preferred).
   const audioIndex = useRef(0);
+  // The URLs being tried for that verse, in the order of the audio quality chosen when it started.
+  const audioUrls = useRef<string[]>([]);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
   const { meta, verses } = view;
   const { from, to } = view.range;
@@ -95,9 +98,12 @@ export default function SurahReader({
   function startVerse(index: number) {
     const audio = getAudio();
     const verse = verses[index];
-    if (!verse?.audio[0]) return;
+    if (!verse) return;
+    const urls = audioFor(verse, readAudioQuality());
+    if (!urls[0]) return;
+    audioUrls.current = urls;
     audioIndex.current = 0;
-    audio.src = verse.audio[0];
+    audio.src = urls[0];
     setPlayingN(verse.number);
     audio.play().catch(() => setPlayingN(null));
     document.getElementById(verseId(verse.number))?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -187,8 +193,7 @@ export default function SurahReader({
 
   function onError() {
     const audio = getAudio();
-    const verse = verses.find((v) => v.number === playingN);
-    const next = verse?.audio[audioIndex.current + 1];
+    const next = playingN === null ? undefined : audioUrls.current[audioIndex.current + 1];
     if (next) {
       audioIndex.current += 1;
       audio.src = next;

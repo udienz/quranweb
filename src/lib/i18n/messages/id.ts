@@ -50,7 +50,7 @@ export const id: Messages = {
     sections: {
       reading: {
         title: "Membaca tanpa akun",
-        body: "Posisi terakhir dibaca, kemajuan, penanda, catatan, dan pilihan tampilan Anda disimpan di peramban Anda sendiri (penyimpanan lokal) dan tidak keluar dari sana. Pilihan edisi dan qari, serta bahasa antarmuka, disimpan di dua kuki kecil (qw-sel dan qw-lang) yang dibutuhkan situs agar halaman tampil sesuai pilihan Anda.\n\nAudio bacaan dimuat dari EQuran.id (cdn.equran.id) secara bawaan, sehingga layanan itu melihat alamat IP Anda saat Anda memutar audio.",
+        body: "Posisi terakhir dibaca, kemajuan, penanda, catatan, dan pilihan tampilan Anda disimpan di peramban Anda sendiri (penyimpanan lokal) dan tidak keluar dari sana. Pilihan edisi dan qari, serta bahasa antarmuka, disimpan di dua kuki kecil (qw-sel dan qw-lang) yang dibutuhkan situs agar halaman tampil sesuai pilihan Anda.\n\nAudio bacaan dimuat dari EQuran.id (cdn.equran.id) atau, untuk qari lainnya dan sebagai cadangan, dari AlQuran.cloud (cdn.islamic.network), sehingga layanan yang mengirim berkas itu melihat alamat IP Anda saat Anda memutar audio.",
       },
       account: {
         title: "Jika Anda masuk",
@@ -228,6 +228,11 @@ export const id: Messages = {
     audio: "Audio",
   },
   audio: {
+    quality: "Kualitas audio",
+    qualities: { standard: "Standar", saver: "Hemat data (berkas lebih kecil)" },
+    qualityHelpSaver: "Qari ini punya rekaman yang lebih kecil: hemat data memakai lebih sedikit kuota (sering separuhnya), dengan kualitas suara lebih rendah.",
+    qualityHelpNone: "Qari ini hanya punya satu ukuran rekaman, jadi hemat data tidak mengubah apa pun untuknya.",
+    qualityDevice: "Disimpan di perangkat ini saja, karena bergantung pada koneksinya.",
     hint: "Qari juga ada di pengaturan di samping surat. Memutar satu juz dimulai dari ayat pertamanya dan berlanjut menyeberangi surat; pengaturan di atas menentukan apa yang terjadi saat juz selesai.",
   },
   display: {

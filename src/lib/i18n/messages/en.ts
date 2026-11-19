@@ -50,7 +50,7 @@ export const en = {
     sections: {
       reading: {
         title: "Reading without an account",
-        body: "Your last read position, progress, bookmarks, notes and display choices are kept in your own browser (local storage) and do not leave it. Your choice of editions and reciter, and the interface language, are kept in two small cookies (qw-sel and qw-lang) that the site needs to show the page the way you chose.\n\nRecitation audio is loaded from EQuran.id (cdn.equran.id) by default, so that service sees your IP address when you play audio.",
+        body: "Your last read position, progress, bookmarks, notes and display choices are kept in your own browser (local storage) and do not leave it. Your choice of editions and reciter, and the interface language, are kept in two small cookies (qw-sel and qw-lang) that the site needs to show the page the way you chose.\n\nRecitation audio is loaded from EQuran.id (cdn.equran.id) or, for the other reciters and as a fallback, from AlQuran.cloud (cdn.islamic.network), so the service that serves the file sees your IP address when you play audio.",
       },
       account: {
         title: "If you sign in",
@@ -228,6 +228,11 @@ export const en = {
     audio: "Audio",
   },
   audio: {
+    quality: "Audio quality",
+    qualities: { standard: "Standard", saver: "Data saver (smaller files)" },
+    qualityHelpSaver: "This reciter has a smaller recording: data saver uses less data (often half), with a lower sound quality.",
+    qualityHelpNone: "This reciter has one recording size, so data saver changes nothing for them.",
+    qualityDevice: "Kept on this device only, because it depends on its connection.",
     hint: "The reciter is also in the settings beside a surah. Playing a juz starts at its first verse and goes on across surahs; the setting above says what happens when it ends.",
   },
   display: {
