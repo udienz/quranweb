@@ -21,11 +21,14 @@ export const COMMUNITY_LOCALES: readonly string[] = ["tr"];
 
 export const isCommunityLocale = (code: string): boolean => COMMUNITY_LOCALES.includes(code);
 
-/** The page to report a mistake in a community translation (a new GitHub issue, with the language in the title). */
+/**
+ * The page to report a mistake in a community translation: a new GitHub issue from the "Translation mistake" form
+ * (`.github/ISSUE_TEMPLATE/translation_mistake.yml`), with the language already filled in and in the title.
+ */
 export const reportTranslationUrl = (code: string): string =>
-  `https://github.com/udienz/quranweb/issues/new?title=${encodeURIComponent(`Translation mistake (${code}): `)}&body=${encodeURIComponent(
-    `Language: ${code}\nWhere (page and text):\nWhat is wrong:\nWhat it should say:\n`,
-  )}`;
+  `https://github.com/udienz/quranweb/issues/new?template=translation_mistake.yml&title=${encodeURIComponent(
+    `Translation mistake (${code}): `,
+  )}&language=${encodeURIComponent(code)}`;
 
 export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (LOCALES as readonly string[]).includes(value);

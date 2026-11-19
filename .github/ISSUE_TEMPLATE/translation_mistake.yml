@@ -1,0 +1,32 @@
+name: Translation mistake
+description: A mistake in the interface text in one language
+labels: ["translation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is for the **interface** (menus, buttons, messages and the About and privacy pages). The text of the Qur'an, its translations and tafsir come from published sources and are not edited here: if you find a mistake in one of those, say which edition in the box below and we will look at the source.
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: The language code, for example tr, id or en.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The page address, and where on the page.
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+    validations:
+      required: true
+  - type: textarea
+    id: right
+    attributes:
+      label: What it should say
