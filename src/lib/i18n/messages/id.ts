@@ -190,6 +190,7 @@ export const id: Messages = {
     note: "Catatan: {note}",
     noteLabel: "Catatan untuk ayat ini",
     notePlaceholder: "Catatan pribadi (disimpan di browser ini)",
+    footnotes: "Catatan kaki",
     tafsirNotSelected: "Tafsir tidak dipilih. Pilih tafsir di pengaturan bacaan.",
   },
   settings: {

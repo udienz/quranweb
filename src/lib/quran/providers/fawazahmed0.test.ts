@@ -22,12 +22,12 @@ afterEach(() => vi.unstubAllGlobals());
 describe("fawazahmed0 provider", () => {
   it("maps a surah and trims whitespace", async () => {
     const fetchMock = mockFetch({
-      [`${BASE}/editions/ind-indonesianislam/1.min.json`]: chapter(1, [" Dengan nama Allah ", "Segala puji"]),
+      [`${BASE}/editions/eng-mohammedmarmadu/1.min.json`]: chapter(1, [" Dengan nama Allah ", "Segala puji"]),
     });
     const p = createFawazTextProvider({ baseUrl: `${BASE}/` });
-    const text = await p.text("ind-indonesianislam", 1);
+    const text = await p.text("eng-mohammedmarmadu", 1);
     expect(text).toEqual({
-      edition: "ind-indonesianislam",
+      edition: "eng-mohammedmarmadu",
       surah: 1,
       verses: [
         { number: 1, text: "Dengan nama Allah" },
@@ -55,12 +55,12 @@ describe("fawazahmed0 provider", () => {
       return new Response(JSON.stringify(chapter(45, ["ok"])));
     });
     vi.stubGlobal("fetch", fetchMock);
-    const text = await createFawazTextProvider().text("ind-indonesianislam", 45);
+    const text = await createFawazTextProvider().text("eng-mohammedmarmadu", 45);
     expect(text.verses[0].text).toBe("ok");
     expect(fetchMock.mock.calls.map((c) => String(c[0]))).toEqual([
-      `${FAWAZ_API_URL}/editions/ind-indonesianislam/45.min.json`,
-      `${FAWAZ_API_URL}/editions/ind-indonesianislam/45.json`,
-      `${FAWAZ_RAW_URL}/editions/ind-indonesianislam/45.min.json`,
+      `${FAWAZ_API_URL}/editions/eng-mohammedmarmadu/45.min.json`,
+      `${FAWAZ_API_URL}/editions/eng-mohammedmarmadu/45.json`,
+      `${FAWAZ_RAW_URL}/editions/eng-mohammedmarmadu/45.min.json`,
     ]);
   });
 

@@ -7,6 +7,10 @@ import { createQuranService } from "./service";
 
 const EQ = "https://eq.test/api/v2";
 const FZ = "https://fz.test/qa";
+const QE = "https://qe.test/copy";
+const qe = (sura: number, rows: [string, string | null][]) => ({
+  result: rows.map(([translation, footnotes], i) => ({ sura: String(sura), aya: String(i + 1), translation, footnotes })),
+});
 
 const envelope = (data: unknown) => ({ code: 200, message: "ok", data });
 const fawaz = (surah: number, texts: string[]) => ({
@@ -36,6 +40,9 @@ const ROUTES: Record<string, unknown> = {
   [`${FZ}/editions/eng-abdullahyusufal/1.min.json`]: fawaz(1, ["en-fz-1", "en-fz-2"]),
   [`${FZ}/editions/ind-jalaladdinalmah/1.min.json`]: fawaz(1, ["jalalayn-1", "jalalayn-2"]),
   [`${FZ}/editions/tur-diyanetisleri/1.min.json`]: fawaz(1, ["tr-fz-1", "tr-fz-2"]),
+  [`${QE}/translation/sura/english_mokhtasar/1.json`]: qe(1, [["en-tafsir-1", null], ["en-tafsir-2", null]]),
+  [`${QE}/translation/sura/turkish_mokhtasar/1.json`]: qe(1, [["tr-tafsir-1", null], ["tr-tafsir-2", null]]),
+  [`${QE}/translation/sura/indonesian_affairs/1.json`]: qe(1, [["kemenag-qe-1 [1]", "[1] a footnote"], ["kemenag-qe-2", null]]),
 };
 
 function service() {
@@ -46,7 +53,7 @@ function service() {
       return data === undefined ? new Response("not found", { status: 404 }) : new Response(JSON.stringify(data));
     }),
   );
-  return createQuranService(defaultConfig({ QURAN_API_URL: EQ, QURAN_FAWAZ_URL: FZ, QURAN_AUDIO_URL: "https://audio.test" }));
+  return createQuranService(defaultConfig({ QURAN_API_URL: EQ, QURAN_FAWAZ_URL: FZ, QURAN_QURANENC_URL: QE, QURAN_AUDIO_URL: "https://audio.test" }));
 }
 
 afterEach(() => vi.unstubAllGlobals());
@@ -100,7 +107,11 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
     const turkish = await svc.getSurahView(1, {}, "tr");
     expect(turkish.selection.translations).toEqual(["tur-diyanetisleri"]);
     expect(turkish.verses.map((v) => v.translations[0].text)).toEqual(["tr-fz-1", "tr-fz-2"]);
-    expect(turkish.selection.tafsir).toBe("ind-kemenag-tafsir"); // only the translation follows the interface language
+    expect(turkish.selection.tafsir).toBe("tur-mokhtasar"); // the tafsir follows the interface language too (Al-Mukhtasar)
+    expect(turkish.verses[0].tafsir).toBe("tr-tafsir-1");
+    const english = await svc.getSurahView(1, {}, "en");
+    expect([english.selection.tafsir, english.verses[1].tafsir]).toEqual(["eng-mokhtasar", "en-tafsir-2"]);
+    expect((await svc.getSurahView(1, {}, "id")).selection.tafsir).toBe("ind-kemenag-tafsir");
   });
 
   it("a reader's own choice still wins over the Turkish default", async () => {
@@ -112,5 +123,12 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
     const svc = service();
     await expect(svc.getSurahView(1, { translations: ["eng-mohammedmarmadu"] })).rejects.toThrow(/eng-mohammedmarmadu/);
     await expect(svc.getSurahView(1)).resolves.toBeTruthy();
+  });
+
+  it("serves the Kemenag translation from QuranEnc, with its footnotes, under the ID readers already chose", async () => {
+    const view = await service().getSurahView(1, { translations: ["ind-indonesianislam"] });
+    expect(view.verses[0].translations[0]).toEqual({ edition: "ind-indonesianislam", text: "kemenag-qe-1 [1]", notes: "[1] a footnote" });
+    expect(view.verses[1].translations[0]).toEqual({ edition: "ind-indonesianislam", text: "kemenag-qe-2" });
+    expect(view.editions.find((e) => e.id === "ind-indonesianislam")?.source.name).toBe("QuranEnc.com");
   });
 });

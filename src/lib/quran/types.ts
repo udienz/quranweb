@@ -72,6 +72,8 @@ export interface VerseText {
   /** Verse number within the surah, starting at 1. */
   number: number;
   text: string;
+  /** The edition's own footnotes for this verse (QuranEnc), shown as they are published. */
+  notes?: string;
 }
 
 /** The content of one edition for one surah. */
@@ -94,7 +96,7 @@ export interface VerseView {
   number: number;
   arabic: string;
   transliteration: string | null;
-  translations: { edition: string; text: string }[];
+  translations: { edition: string; text: string; notes?: string }[];
   tafsir: string | null;
   /** Audio URLs in priority order; the first one is tried first. */
   audio: string[];

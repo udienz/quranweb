@@ -20,11 +20,11 @@ esac
 # it makes no HTTP request for text. nginx still serves the same files publicly at
 # /api/v2 and /quran-api. The directory comes from the quranweb-data repository.
 MIRROR_DIR="${MIRROR_DIR:-/srv/quranweb-mirror}"
-if [ ! -d "$MIRROR_DIR/api/v2" ] || [ ! -d "$MIRROR_DIR/quran-api" ]; then
-  echo "mirror directory $MIRROR_DIR does not have api/v2 and quran-api" >&2
+if [ ! -d "$MIRROR_DIR/api/v2" ] || [ ! -d "$MIRROR_DIR/quran-api" ] || [ ! -d "$MIRROR_DIR/quranenc" ]; then
+  echo "mirror directory $MIRROR_DIR does not have api/v2, quran-api and quranenc" >&2
   exit 2
 fi
-DATA_ARGS=(-v "$MIRROR_DIR:/data:ro" -e QURAN_API_URL=/data/api/v2 -e QURAN_FAWAZ_URL=/data/quran-api)
+DATA_ARGS=(-v "$MIRROR_DIR:/data:ro" -e QURAN_API_URL=/data/api/v2 -e QURAN_FAWAZ_URL=/data/quran-api -e QURAN_QURANENC_URL=/data/quranenc)
 
 # The account database (SQLite) lives in its own directory per environment, mounted read-write at
 # /db. It is created if missing and NEVER replaced or emptied by a deploy. The app opens it and

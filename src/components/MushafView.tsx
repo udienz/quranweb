@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n/client";
 import type { VerseView } from "@/lib/quran";
 import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { useUserData } from "@/lib/userdata/store";
+import Footnotes from "./Footnotes";
 import { usePrefs } from "./PrefsProvider";
 import { NoteEditor, VerseActions } from "./VerseCard";
 
@@ -120,12 +121,15 @@ export default function MushafView({
                   {prefs.transliteration && v.transliteration && <span className="italic text-primary">{v.transliteration} </span>}
                   {prefs.translation &&
                     v.translations.map((tr, i) => (
-                      <span key={tr.edition} lang={editions[tr.edition]?.language} className={i > 0 ? "mt-1 block" : ""}>
-                        {v.translations.length > 1 && (
-                          <span className="mr-1 text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}:</span>
-                        )}
-                        {tr.text}
-                      </span>
+                      <Fragment key={tr.edition}>
+                        <span lang={editions[tr.edition]?.language} className={i > 0 ? "mt-1 block" : ""}>
+                          {v.translations.length > 1 && (
+                            <span className="mr-1 text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}:</span>
+                          )}
+                          {tr.text}
+                        </span>
+                        {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} />}
+                      </Fragment>
                     ))}
                   {bookmark?.note && <span className="mt-1 block whitespace-pre-line text-sm text-muted-foreground">{bookmark.note}</span>}
                 </li>
