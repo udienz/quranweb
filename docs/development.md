@@ -18,6 +18,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). Run the tests (no network needed) with `npm test`; `npm run test:live` checks the real sources (about 8 minutes).
 
+### Browser tests
+
+`e2e/*.e2e.ts` drive Chromium against the production build with a small copy of the data (`e2e/fixtures`, made by
+`node scripts/e2e-fixtures.mjs /path/to/mirror`; run it again when a test needs another surah). Every `.mp3` is answered
+with a short silent WAV, so nothing is downloaded.
+
+```bash
+npm run build
+npx playwright install chromium   # once
+npm run test:e2e                  # starts `next start` on port 3100 with the fixtures, then runs the tests
+```
+
+Without a local browser (for example on the server), use the Playwright image of the version in `package.json` and a
+server started separately (the config reuses one that already answers on port 3100):
+
+```bash
+docker run -d --name qw-e2e --network host -v "$PWD":/app -w /app \
+  -e QURAN_API_URL=/app/e2e/fixtures/api/v2 -e QURAN_FAWAZ_URL=/app/e2e/fixtures/quran-api \
+  -e QURAN_QURANENC_URL=/app/e2e/fixtures/quranenc node:26-alpine npx next start -p 3100 -H 127.0.0.1
+docker run --rm --network host -v "$PWD":/app -w /app mcr.microsoft.com/playwright:v1.65.1-noble npx playwright test
+```
+
 ## Environments and deployment
 
 | Environment | URL | Purpose | How it is deployed | Data source |
@@ -73,8 +95,8 @@ Building the image needs no network access to the data sources at all: pages are
 
 Workflows in `.github/workflows/`:
 
-- **`ci.yml`**: runs on every push to `master` and every PR: `npm run lint`, `npm test` and `npm run build` (which already includes the type check).
-- **`deploy-qa.yml`** and **`deploy-prod.yml`**: deploy to the server over SSH (see `CLAUDE.md`). The `Dockerfile` is validated at deploy time: the image is built on the server and rolled back to the previous version if the new app does not respond, so there is no separate Docker build in CI.
+- **`ci.yml`**: runs on every push to `master` and every PR: `npm run lint`, `npm test` and `npm run build` (which already includes the type check); the Docker image is built and started (`scripts/docker-smoke.sh`); and the browser tests run against the build (`npm run test:e2e`).
+- **`deploy-qa.yml`** and **`deploy-prod.yml`**: deploy to the server over SSH (see `CLAUDE.md`). The image is built on the server and rolled back to the previous version if the new app does not respond.
 
 ## Backups
 

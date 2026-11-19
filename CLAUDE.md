@@ -266,6 +266,14 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   that verse and hides it again. Which verses are shown is module state in `memorize.ts`, cleared when the mode changes; it
   is a check, not a setting. Works in both layouts; the Tafsir tab is never hidden. Space on a hidden block toggles it
   instead of starting the audio.
+- **Browser tests in the repository** (`e2e/*.e2e.ts`, `playwright.config.ts`, CI job "Browser tests"): audio across pages and
+  surahs, the end-of-surah mode, data saver, the fallback server, keyboard, lock screen, memorization (repeats, range, hiding),
+  the reciter list, the 404s and the manifest. They run against the production build with `e2e/fixtures`, a small copy of the
+  mirror (surahs 1, 2 and 112 to 114 with their tafsir, the surah list, a reduced `info.json`) made by
+  `scripts/e2e-fixtures.mjs`: run it again when a test needs another surah. The Indonesian interface only (`locale: "id-ID"`;
+  the browser's locale decides Accept-Language, `extraHTTPHeaders` did not), because the fixtures hold the Indonesian
+  editions. Helpers in `e2e/helpers.ts` (`routeAudio`, `logPlays`, `playing`). `@playwright/test` is pinned exactly, so a
+  local run can use the Playwright image of the same version (docs/development.md, "Browser tests").
 - **Testing audio in a browser:** route `**/*.mp3` to a short generated WAV so `ended` fires at once, and read the requested
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
@@ -597,6 +605,7 @@ bash scripts/deploy-contact.test.sh   # the privacy contact part of deploy.sh (C
 bash scripts/upload-rclone.test.sh    # Google Drive upload and retention (needs rclone; CI runs it; not in use)
 bash scripts/upload-git.test.sh       # off-server copy to the private GitHub repository (CI runs it; in use)
 bash scripts/docker-smoke.sh          # build the image and check it starts as uid 1001 and serves its files (CI runs it)
+npm run test:e2e          # browser tests (e2e/*.e2e.ts, Playwright) against the build; needs `npm run build` first (CI runs it)
 node scripts/update-contributors.mjs  # regenerate CONTRIBUTORS.md from the GitHub history (--check: only say if it is stale)
 npm run build             # production build; needs no network (see instant = false).
                           # Includes the full type check.

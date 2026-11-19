@@ -15,3 +15,7 @@ npm-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright (browser tests)
+/test-results/
+/playwright-report/
