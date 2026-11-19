@@ -196,7 +196,8 @@ describe("OIDC sign-in against a fake provider", () => {
     expect(hint).toBeTruthy();
     const sessionsBefore = db.prepare("SELECT COUNT(*) AS n FROM session").get();
 
-    for (const headers of [{ "content-type": "application/json" }, { "content-type": "application/json", origin: BASE }]) {
+    const variants: Record<string, string>[] = [{ "content-type": "application/json" }, { "content-type": "application/json", origin: BASE }];
+    for (const headers of variants) {
       const res = await call("/api/auth/sign-in/social", {
         method: "POST",
         headers,
