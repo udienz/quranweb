@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "@fontsource/amiri/arabic-400.css";
 import "@fontsource/amiri/arabic-700.css";
@@ -20,8 +20,21 @@ import { getI18n } from "@/lib/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
-  return { title: t("meta.title"), description: t("meta.description") };
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    // On an iPhone, "Add to Home Screen" opens the site in its own window with this name.
+    appleWebApp: { capable: true, title: t("meta.title"), statusBarStyle: "default" },
+  };
 }
+
+// The colour of the browser's bar (and of the installed app's title bar): the page background of each theme.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f2eb" },
+    { media: "(prefers-color-scheme: dark)", color: "#071b20" },
+  ],
+};
 
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
