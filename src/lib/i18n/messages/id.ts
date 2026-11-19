@@ -249,6 +249,7 @@ export const id: Messages = {
     qualityHelpSaver: "Qari ini punya rekaman yang lebih kecil: hemat data memakai lebih sedikit kuota (sering separuhnya), dengan kualitas suara lebih rendah.",
     qualityHelpNone: "Qari ini hanya punya satu ukuran rekaman, jadi hemat data tidak mengubah apa pun untuknya.",
     qualityDevice: "Disimpan di perangkat ini saja, karena bergantung pada koneksinya.",
+    keys: "Di komputer: Spasi memutar atau menjeda, N ke ayat berikutnya, dan P ke ayat sebelumnya.",
     hint: "Qari juga ada di pengaturan di samping surat. Memutar satu juz dimulai dari ayat pertamanya dan berlanjut menyeberangi surat; pengaturan di atas menentukan apa yang terjadi saat juz selesai.",
   },
   display: {

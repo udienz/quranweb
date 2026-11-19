@@ -56,6 +56,16 @@ export default function SurahReader({
   const repeatsLeft = useRef(0);
   // The verse paused by hand or from the lock screen, so the lock screen's play button can carry on from there.
   const pausedVerse = useRef<number | null>(null);
+  // Each play() gets a number: when it fails, only the latest one may clear the "playing" mark. Moving on quickly
+  // (N, the lock screen's next button, fast clicks) interrupts the previous play() with an AbortError, which used to
+  // clear the mark of the verse that had just started.
+  const playToken = useRef(0);
+  function play(audio: HTMLAudioElement) {
+    const token = ++playToken.current;
+    audio.play().catch(() => {
+      if (playToken.current === token) setPlayingN(null);
+    });
+  }
   const rangeLoop = useSyncExternalStore(subscribeRangeLoop, getRangeLoop, () => null);
   const [memorizeOpen, setMemorizeOpen] = useState(false);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
@@ -115,7 +125,7 @@ export default function SurahReader({
     repeatsLeft.current = readVerseRepeat() - 1;
     audio.src = urls[0];
     setPlayingN(verse.number);
-    audio.play().catch(() => setPlayingN(null));
+    play(audio);
     document.getElementById(verseId(verse.number))?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
@@ -173,7 +183,7 @@ export default function SurahReader({
       repeatsLeft.current -= 1;
       const audio = getAudio();
       audio.currentTime = 0;
-      audio.play().catch(() => setPlayingN(null));
+      play(audio);
       return;
     }
     const idx = verses.findIndex((v) => v.number === playingN);
@@ -247,7 +257,7 @@ export default function SurahReader({
     if (next) {
       audioIndex.current += 1;
       audio.src = next;
-      audio.play().catch(() => setPlayingN(null));
+      play(audio);
     } else {
       setPlayingN(null);
     }
@@ -265,7 +275,7 @@ export default function SurahReader({
     if (n === null || n < from || n > to) return;
     pausedVerse.current = null;
     setPlayingN(n);
-    getAudio().play().catch(() => setPlayingN(null));
+    play(getAudio());
   }
   function mediaStep(delta: -1 | 1) {
     const n = playingN ?? pausedVerse.current;
@@ -293,6 +303,42 @@ export default function SurahReader({
     );
   }, [playingN, meta.name.latin, meta.number, view.qari.name, t]);
   useEffect(() => clearNowPlaying, []);
+
+  // Keyboard: Space plays or pauses (with nothing playing or paused, the first verse in view starts), N and P move to the
+  // next and the previous verse. Ignored while typing in a field and with a modifier key, so browser shortcuts still work.
+  function onKey(e: KeyboardEvent) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.defaultPrevented) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
+    const key = e.key.toLowerCase();
+    // On a focused button or link, Space already activates it (a play button after a click, for example).
+    if (key === " " && target?.closest("button, a")) return;
+    if (key === " ") {
+      e.preventDefault();
+      if (playingN !== null) mediaPause();
+      else if (pausedVerse.current !== null && pausedVerse.current >= from && pausedVerse.current <= to) mediaPlay();
+      else {
+        const inView = verses.findIndex((v) => {
+          const el = [...document.querySelectorAll<HTMLElement>(`#${verseId(v.number)}`)].find((x) => x.offsetParent !== null);
+          return el ? el.getBoundingClientRect().bottom > 0 : false;
+        });
+        togglePlay(Math.max(0, inView));
+      }
+    } else if (key === "n" || key === "p") {
+      if (playingN === null && pausedVerse.current === null) return;
+      e.preventDefault();
+      mediaStep(key === "n" ? 1 : -1);
+    }
+  }
+  const keyHandler = useRef(onKey);
+  useEffect(() => {
+    keyHandler.current = onKey;
+  });
+  useEffect(() => {
+    const listener = (e: KeyboardEvent) => keyHandler.current(e);
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, []);
 
   function jump(n: number) {
     if (n >= from && n <= to) document.getElementById(verseId(n))?.scrollIntoView({ behavior: "smooth", block: "start" });

@@ -245,6 +245,12 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   through `goTo`, so they cross pages; next after the last verse of a surah starts the next surah, and nothing follows 114:6.
   Pausing remembers the verse (`pausedVerse`), so play carries on from where it stopped. Browsers without the API are left
   alone. Test it by capturing `setActionHandler` in an init script and calling the handlers.
+- **Keyboard** (surah page): Space plays or pauses (with nothing playing or paused, the first verse in view starts), N and P
+  go to the next and the previous verse, through the same functions as the lock screen. Ignored in fields and with Alt, Ctrl
+  or Meta; Space on a focused button or link is left to the browser. The Audio section of the settings lists the keys.
+- **Every `play()` goes through `play()` in `SurahReader`**, which numbers it: a failure clears the "playing" mark only if it is
+  the latest one. Moving on quickly interrupts the previous `play()` with an `AbortError`, which used to clear the mark of the
+  verse that had just started (found with the N and P keys, 2026-11-19).
 - **Memorization, step 1** (`src/lib/memorize.ts`, `MemorizePanel` behind the "Memorize" button in the surah header; public
   issue #45): **play each verse N times** (1, 2, 3, 5, 10; local storage `quranweb:verse-repeat`): `startVerse` sets
   `repeatsLeft`, and `onEnded` restarts the same verse before anything else, so it applies to surahs, juz and ranges alike.

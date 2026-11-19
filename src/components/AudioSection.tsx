@@ -54,6 +54,7 @@ export default function AudioSection({ catalog, selection: saved, juzs }: { cata
           </label>
         )}
         <p className="text-xs text-muted-foreground">{t("audio.hint")}</p>
+        <p className="text-xs text-muted-foreground">{t("audio.keys")}</p>
       </div>
     </section>
   );
