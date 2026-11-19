@@ -337,7 +337,9 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
 - **Tables** are migration 2 (the library's `user`, `session`, `account`, `verification` with their own column
   names and types, plus `disabledAt` and `lastSeenAt` on `user`); a test asks the library whether anything is
   missing, so a library upgrade that needs a new column fails the tests. The tables of migration 1 (`users` with
-  `google_sub` and the data tables that point to it) are unused and stay until a later cleanup (two releases on).
+  `google_sub` and the data tables that point to it) were never used and are dropped by migration 5 (2026-11-19, three
+  releases after they shipped), which first checks that all six are empty and otherwise fails and rolls back, so the
+  deploy keeps the previous image and no row is lost.
 - **The account menu** (`AccountMenu`) is a client component that reads the session through
   `authClient.useSession()` in a `<Suspense>` in the header, so pages stay cache-friendly and the layout never reads
   the session cookie. It is rendered only when sign-in is configured. After sign-in the reader returns to the page they came from

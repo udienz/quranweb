@@ -162,4 +162,26 @@ CREATE TABLE admin_audit (
 );
 `,
   },
+  {
+    // The destructive half of the two-release rule: drop the tables of migration 1. No released code has ever read or
+    // written them (checked for v2.2.0, where migrations 1 to 4 first shipped, through v2.5.0), and three releases have
+    // passed, so every image a rollback can reach works without them. As a safeguard the drop only happens when all six are
+    // empty: the INSERT below breaks the named CHECK if any holds a row, the whole migration is rolled back, the app does
+    // not start and the deploy restores the previous image. Nothing is lost; look at the rows, then decide.
+    version: 5,
+    name: "drop-unused-v1-tables",
+    sql: `
+CREATE TEMP TABLE v1_tables_guard (rows INTEGER CONSTRAINT v1_tables_must_be_empty CHECK (rows = 0));
+INSERT INTO v1_tables_guard SELECT
+  (SELECT COUNT(*) FROM users) + (SELECT COUNT(*) FROM reading_state) + (SELECT COUNT(*) FROM progress) +
+  (SELECT COUNT(*) FROM bookmarks) + (SELECT COUNT(*) FROM preferences) + (SELECT COUNT(*) FROM audit_log);
+DROP TABLE v1_tables_guard;
+DROP TABLE reading_state;
+DROP TABLE progress;
+DROP TABLE bookmarks;
+DROP TABLE preferences;
+DROP TABLE audit_log;
+DROP TABLE users;
+`,
+  },
 ];
