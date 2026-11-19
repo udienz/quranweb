@@ -55,6 +55,19 @@ own format.
     edition on the About page goes there (a test checks it).
     All have 6,236 verses and verse counts per surah identical to the EQuran.id
     metadata (verified for every surah).
+  - `providers/islamic-network.ts`: audio only, from the [AlQuran.cloud](https://alquran.cloud/cdn) CDN
+    (`cdn.islamic.network/quran/audio/{bitrate}/{edition}/{ayah}.mp3`, where `{ayah}` is the verse's number in the whole
+    Qur'an, 1 to 6,236: `ayahNumber` in `ayah-number.ts`). The owner chose it over hosting audio ourselves (2026-11-19). Of
+    its 176 Arabic audio editions only 26 have every verse as a file, 7 of those are copies of another ("-2"), and the rest
+    are whole surahs only, so 19 reciters are listed (`ISLAMIC_NETWORK_RECITERS`, each checked file by file at the chosen
+    bitrates; Minshawi's murattal is left out, it misses one verse). Two of them (Alafasy and Sudais) have the EQuran.id
+    ids, so the service merges them and the CDN becomes their fallback URL. The API itself is limited to 12 requests a
+    second, so the app never calls it: the list is in the code. Whole-surah recordings would need a playback mode of their
+    own (not built).
+  - **The reciter list** (`ReciterPicker`, in the side panel and the Audio section) puts the best known first in a fixed
+    order (`BEST_KNOWN_RECITERS` in `reciter-order.ts`), then the others by name, with a search box over the Latin and
+    Arabic names (`matchesReciter`: no diacritics, any alif, hyphens and spaces optional). A reciter's name is the same in
+    every language, so never put a translatable word in it.
   - `providers/quranenc.ts`: [QuranEnc.com](https://quranenc.com/en/home/api), reviewed translations with **footnotes**
     and *Al-Mukhtasar fi Tafsir al-Qur'an* in many languages. Three editions: the Kemenag translation (`ind-indonesianislam`,
     which came through fawazahmed0 until 2026-11-19; that copy had turned the footnote markers into stray numbers in 563 verses,
@@ -427,7 +440,8 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | Variable | Default | Purpose |
 |---|---|---|
 | `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL (or local directory) of an EQuran.id-format API (point it to our mirror) |
-| `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
+| `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL of the EQuran.id audio |
+| `QURAN_ISLAMIC_AUDIO_URL` | `https://cdn.islamic.network` | Base URL of the AlQuran.cloud audio CDN |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
 | `QURAN_QURANENC_URL` | the live QuranEnc API | Base URL (or local directory) of the QuranEnc copy (`/data/quranenc` on the servers) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
@@ -459,6 +473,7 @@ src/
     MushafView.tsx             mushaf layout: running Arabic block, numbered translation column, verse action bar
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
+    ReciterPicker.tsx          the reciter list: best known first, search in Latin and Arabic
     TranslationPicker.tsx      the translations: chosen ones as removable labels, a language list, that language's editions
                                (`quran/translation-groups.ts`; language names from `i18n/languages.ts`, the catalogs first,
                                then `Intl.DisplayNames`, so a new language of translations needs no new message)
@@ -475,7 +490,8 @@ src/
   lib/
     quran/                     modular data sources (see above)
       types.ts, provider.ts, service.ts, sources.ts, transport.ts, index.ts, labels.ts
-      providers/equran.ts, providers/fawazahmed0.ts
+      providers/equran.ts, providers/fawazahmed0.ts, providers/quranenc.ts, providers/islamic-network.ts
+      ayah-number.ts, reciter-order.ts   verse number in the whole Qur'an; order and search of the reciter list
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files
     auth/                      OIDC sign-in (Better Auth): settings, options, client, fake provider for tests
@@ -600,7 +616,7 @@ that does not change; there is no scheduled sync (the server has no `crontab`, a
 systemd timer was installed and then disabled). To refresh, run
 `node scripts/sync-mirror.mjs` here or `node scripts/sync-fawaz.mjs` in the data
 repository, review the diff and copy the result to the server. Only text is mirrored;
-audio still comes from `cdn.equran.id`.
+audio comes from `cdn.equran.id` and `cdn.islamic.network` (the CSP allows any https audio).
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
 sources of each edition are credited in the UI: the About page (`/about`) lists the source, credit and licence of every

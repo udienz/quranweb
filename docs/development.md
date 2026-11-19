@@ -35,6 +35,7 @@ The app does not depend on any one API's format. Everything is mapped to an **ed
 | Source | Provides | Variable (optional) |
 |---|---|---|
 | [EQuran.id API v2](https://equran.id/apidev/v2) | Arabic text, Latin transliteration, Indonesian translation and tafsir (Kemenag), audio from six reciters | `QURAN_API_URL` (default `https://equran.id/api/v2`), `QURAN_AUDIO_URL` (default `https://cdn.equran.id`) |
+| [AlQuran.cloud CDN](https://alquran.cloud/cdn) | audio only: 19 more reciters verse by verse (EveryAyah recordings), and a second address for the reciters EQuran.id also has | `QURAN_ISLAMIC_AUDIO_URL` (default `https://cdn.islamic.network`) |
 | [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) | more editions, text only: Arabic Uthmani Hafs, Indonesian (Kemenag, Quraish Shihab, Jalalayn), English (Yusuf Ali, Pickthall) | `QURAN_FAWAZ_URL` (default jsDelivr with a raw GitHub fallback) |
 
 The variables intentionally have no `NEXT_PUBLIC_` prefix: they are read on the server at request time (pages are not prerendered at build), so they can be changed through the platform's environment variables or `docker run -e` without a rebuild. See `.env.example`.
@@ -44,7 +45,7 @@ In production both text sources are served from our own static mirrors, so the s
 - `/api/v2/...` follows the EQuran.id format.
 - `/quran-api/...` follows the fawazahmed0 format (`editions.json`, `info.json`, `editions/{edition}/{surah}.json`).
 
-They are plain JSON files kept in a separate data repository. Recitation audio still comes from `cdn.equran.id`. Every edition's source is credited in the UI and in its entry in `editions.json`.
+They are plain JSON files kept in a separate data repository. Recitation audio is not mirrored: it comes from `cdn.equran.id` and `cdn.islamic.network`. Every edition's source is credited in the UI and in its entry in `editions.json`.
 
 A base URL can also be a **directory with a local copy of that data** (for example `/data/api/v2`), and then the app makes no HTTP request at all for text: QA and production run this way, with the mirror directory mounted read-only into the container. To change which providers are active, their order, which editions are enabled and the defaults without touching code, point `QURAN_CONFIG` to a JSON file (see `config/sources.example.json`, which reads the local copy first and falls back to EQuran.id). The three variables above only fill in a `baseUrl` that the file leaves out.
 

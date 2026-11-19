@@ -13,6 +13,7 @@ import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { userDataActions } from "@/lib/userdata/store";
 import { FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
+import ReciterPicker from "./ReciterPicker";
 import TranslationPicker from "./TranslationPicker";
 
 const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
@@ -167,19 +168,7 @@ export default function SettingsPanel({
         </Field>
 
         {showQari && (
-          <Field label={t("settings.qari")}>
-            <select
-              className={selectClass}
-              value={selection.qari}
-              onChange={(e) => save({ ...selection, qari: e.target.value })}
-            >
-              {catalog.qaris.map((q) => (
-                <option key={q.id} value={q.id}>
-                  {q.name}
-                </option>
-              ))}
-            </select>
-          </Field>
+          <ReciterPicker qaris={catalog.qaris} value={selection.qari} onChange={(qari) => save({ ...selection, qari })} />
         )}
       </div>
       <p className="mt-3 text-xs text-muted-foreground">{t("settings.savedInBrowser")}</p>

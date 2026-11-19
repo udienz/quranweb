@@ -15,7 +15,7 @@ tafsir. You do not need an account, and there are no ads and no analytics.
   more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others).
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings.
-- **Listen** to the recitation verse by verse from six reciters; it moves on to the next verse by itself. At the end of a
+- **Listen** to the recitation verse by verse from 23 reciters (the best known at the top of the list, and a search box); it moves on to the next verse by itself. At the end of a
   surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
   **play a whole juz**, from its first verse to its last, across surahs.
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab or Jalalayn).
@@ -42,7 +42,8 @@ privacy policy: https://quranweb.udienz.web.id/privacy.
 ## Sources and credits
 
 The Arabic text, translations and tafsir come from published sources: [EQuran.id](https://equran.id) (the Arabic text,
-translation and tafsir of Kementerian Agama RI, and the recitations) and [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api). The **About** page,
+translation and tafsir of Kementerian Agama RI, and the recitations), [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) and
+[QuranEnc.com](https://quranenc.com); more recitations come from the [AlQuran.cloud](https://alquran.cloud/cdn) audio CDN. The **About** page,
 linked at the bottom of every page, lists the source, credit and licence of every text, translation, tafsir and
 recitation.
 

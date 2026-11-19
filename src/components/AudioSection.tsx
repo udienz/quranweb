@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n/client";
 import type { Catalog, JuzRef, Selection } from "@/lib/quran";
 import { useSelectionChoice } from "@/lib/useSelectionChoice";
 import PlaybackModeSelect from "./PlaybackModeSelect";
+import ReciterPicker from "./ReciterPicker";
 
 const selectClass = "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
 
@@ -22,16 +23,7 @@ export default function AudioSection({ catalog, selection: saved, juzs }: { cata
     <section id="audio" className="scroll-mt-24 rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
       <h2 className="mb-3 font-display font-semibold">{t("settingsPage.audio")}</h2>
       <div className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">{t("settings.qari")}</span>
-          <select className={selectClass} value={selection.qari} onChange={(e) => save({ ...selection, qari: e.target.value })}>
-            {catalog.qaris.map((q) => (
-              <option key={q.id} value={q.id}>
-                {q.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <ReciterPicker qaris={catalog.qaris} value={selection.qari} onChange={(qari) => save({ ...selection, qari })} />
 
         <PlaybackModeSelect />
 
