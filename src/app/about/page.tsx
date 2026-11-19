@@ -4,7 +4,7 @@ import { getQuran } from "@/lib/quran";
 import type { Edition, EditionKind, SourceInfo } from "@/lib/quran/types";
 import { localized } from "@/lib/i18n/translate";
 import { getI18n } from "@/lib/i18n/server";
-import type { StringKey } from "@/lib/i18n/messages";
+import { languageNamer } from "@/lib/i18n/languages";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -15,7 +15,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export const instant = false;
 
 const KINDS: EditionKind[] = ["arabic", "transliteration", "translation", "tafsir"];
-const LANGUAGES: Record<string, StringKey> = { ar: "settings.languages.ar", id: "settings.languages.id", en: "settings.languages.en" };
 
 function Credit({ source, locale, unknown }: { source: SourceInfo; locale: string; unknown: string }) {
   const text = localized(source.attribution, locale);
@@ -34,7 +33,7 @@ export default async function AboutPage() {
   await quran.getSurahList();
   const catalog = quran.getCatalog();
   const byKind = (kind: EditionKind): Edition[] => catalog.editions.filter((e) => e.kind === kind);
-  const language = (code: string) => (LANGUAGES[code] ? t(LANGUAGES[code]) : code.toUpperCase());
+  const language = languageNamer(t, locale);
   const head = (
     <thead className="text-left text-xs text-muted-foreground">
       <tr>
