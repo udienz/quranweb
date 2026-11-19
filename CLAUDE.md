@@ -397,11 +397,13 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   (`quranweb:sync-owner`). A different reader signing in never sends that data: it is dropped from the browser and
   the new reader starts from their own account. Data from before any sign-in (no owner) is merged in. Known cost:
   changes the previous reader made offline and never synced are lost when another reader signs in.
-- **Signing out clears this browser** (`signOutClearingData` in `sync/sign-out.ts`, called by `AccountMenu`): it sends
-  pending changes first, then empties `quranweb:user`, forgets the owner and signs out. Before, the account's whole document
-  (notes from other devices too) stayed for the next person at a shared computer, and their changes went to the account when
-  its owner signed in again. If the pending changes cannot be sent, nothing is removed and the reader stays signed in, with a
-  message. While it runs (and after it succeeds) the sync hook neither starts nor saves. The privacy page says so.
+- **Signing out asks whether to keep the reading on this device** (`signOutOfAccount` in `sync/sign-out.ts`; `AccountMenu`
+  shows "remove from this device", first and focused, and "keep on this device", with a hint to remove it on a shared
+  computer; the owner's choice, 2026-11-19). Both send pending changes first. Remove then empties `quranweb:user`, forgets the
+  owner and signs out; keep only signs out. Before, the account's whole document (notes from other devices too) always stayed
+  for the next person at a shared computer, and their changes went to the account when its owner signed in again. If the
+  pending changes cannot be sent, nothing is removed and the reader stays signed in, with a message. While a removal runs
+  (and after it succeeds) the sync hook neither starts nor saves. The privacy page says so.
 - **Bookmark collections** (`collections` in the user data, `BookmarkList` on `/my-reading`): named groups, at most 50, names up
   to 40 characters; a bookmark is in at most one (`collectionId`). Collections merge by id, newest change wins, removal is a
   tombstone; moving a bookmark is a change of that bookmark. Removing a collection keeps its bookmarks, which then show as having no
