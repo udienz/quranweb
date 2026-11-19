@@ -249,6 +249,7 @@ export const tr: Messages = {
     qualityHelpSaver: "Bu okuyucunun daha küçük bir kaydı var: veri tasarrufu daha az veri kullanır (çoğu zaman yarısı), ses kalitesi daha düşüktür.",
     qualityHelpNone: "Bu okuyucunun tek bir kayıt boyutu var, bu yüzden veri tasarrufu onun için hiçbir şeyi değiştirmez.",
     qualityDevice: "Yalnızca bu cihazda saklanır, çünkü bağlantısına bağlıdır.",
+    keys: "Bilgisayarda: Boşluk tuşu çalar veya duraklatır, N sonraki ayete, P önceki ayete geçer.",
     hint: "Okuyucu, bir surenin yanındaki ayarlarda da bulunur. Bir cüz çalmak ilk ayetinden başlar ve surelere yayılarak devam eder; yukarıdaki ayar, cüz bittiğinde ne olacağını belirler.",
   },
   display: {

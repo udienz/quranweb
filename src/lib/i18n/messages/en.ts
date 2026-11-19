@@ -249,6 +249,7 @@ export const en = {
     qualityHelpSaver: "This reciter has a smaller recording: data saver uses less data (often half), with a lower sound quality.",
     qualityHelpNone: "This reciter has one recording size, so data saver changes nothing for them.",
     qualityDevice: "Kept on this device only, because it depends on its connection.",
+    keys: "On a computer: Space plays or pauses, N goes to the next verse and P to the previous one.",
     hint: "The reciter is also in the settings beside a surah. Playing a juz starts at its first verse and goes on across surahs; the setting above says what happens when it ends.",
   },
   display: {
