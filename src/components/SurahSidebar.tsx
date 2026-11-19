@@ -61,7 +61,7 @@ export default function SurahSidebar({
                     active ? "border-gold bg-primary-soft" : "border-transparent"
                   }`}
                 >
-                  <span className="w-8 font-mono text-xs text-muted-foreground">
+                  <span className="w-8 tabular-nums text-xs text-muted-foreground">
                     {String(s.number).padStart(3, "0")}
                   </span>
                   <span className="flex-1 font-medium">{s.name.latin}</span>

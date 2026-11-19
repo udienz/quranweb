@@ -55,7 +55,7 @@ export default function MushafView({
         <div role="toolbar" aria-label={t("mushaf.selected", { n: current.number })} className="fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl flex-wrap items-center justify-between gap-2 rounded-2xl border border-border bg-card px-4 py-2 shadow-lg">
           <span className="font-medium">
             {t("mushaf.selected", { n: current.number })}
-            <span className="ml-2 font-mono text-xs text-muted-foreground">
+            <span className="ml-2 tabular-nums text-xs text-muted-foreground">
               {surahNumber}:{current.number}
             </span>
           </span>

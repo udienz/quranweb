@@ -1,0 +1,1191 @@
+{
+ "meta": {
+  "url": "https://quranweb.udienz.web.id",
+  "pages": [
+   "/",
+   "/surah/36",
+   "/settings",
+   "/my-reading",
+   "/about"
+  ],
+  "extractedAt": "2026-11-19T08:37:52.976Z",
+  "method": "computed styles of every visible element (Playwright 1.65.1), light and dark"
+ },
+ "colorTokens": [
+  {
+   "hex": "#596e73",
+   "alpha": 1,
+   "value": "#596e73",
+   "count": 435,
+   "text": 435
+  },
+  {
+   "hex": "#274045",
+   "alpha": 1,
+   "value": "#274045",
+   "count": 412,
+   "text": 412
+  },
+  {
+   "hex": "#176c7d",
+   "alpha": 1,
+   "value": "#176c7d",
+   "count": 340,
+   "text": 327,
+   "background": 13
+  },
+  {
+   "hex": "#e0e8e4",
+   "alpha": 1,
+   "value": "#e0e8e4",
+   "count": 204,
+   "border": 204
+  },
+  {
+   "hex": "#ffffff",
+   "alpha": 1,
+   "value": "#ffffff",
+   "count": 184,
+   "background": 175,
+   "text": 9
+  },
+  {
+   "hex": "#e2f0f3",
+   "alpha": 1,
+   "value": "#e2f0f3",
+   "count": 115,
+   "background": 115
+  },
+  {
+   "hex": "#f5f2eb",
+   "alpha": 1,
+   "value": "#f5f2eb",
+   "count": 32,
+   "background": 32
+  },
+  {
+   "hex": "#d7a342",
+   "alpha": 1,
+   "value": "#d7a342",
+   "count": 10,
+   "background": 7,
+   "text": 3
+  },
+  {
+   "hex": "#104f5b",
+   "alpha": 1,
+   "value": "#104f5b",
+   "count": 2,
+   "gradient": 2
+  },
+  {
+   "hex": "#082026",
+   "alpha": 1,
+   "value": "#082026",
+   "count": 2,
+   "gradient": 2
+  },
+  {
+   "hex": "#092d34",
+   "alpha": 1,
+   "value": "#092d34",
+   "count": 2,
+   "text": 2
+  },
+  {
+   "hex": "#ede9de",
+   "alpha": 1,
+   "value": "#ede9de",
+   "count": 1,
+   "background": 1
+  }
+ ],
+ "darkColorTokens": [
+  {
+   "hex": "#a0b2b6",
+   "alpha": 1,
+   "value": "#a0b2b6",
+   "count": 435,
+   "text": 435
+  },
+  {
+   "hex": "#e6eff0",
+   "alpha": 1,
+   "value": "#e6eff0",
+   "count": 412,
+   "text": 412
+  },
+  {
+   "hex": "#3db8ab",
+   "alpha": 1,
+   "value": "#3db8ab",
+   "count": 340,
+   "text": 327,
+   "background": 13
+  },
+  {
+   "hex": "#1f3337",
+   "alpha": 1,
+   "value": "#1f3337",
+   "count": 204,
+   "border": 204
+  },
+  {
+   "hex": "#0d252b",
+   "alpha": 1,
+   "value": "#0d252b",
+   "count": 169,
+   "background": 169
+  },
+  {
+   "hex": "#153038",
+   "alpha": 1,
+   "value": "#153038",
+   "count": 116,
+   "background": 116
+  },
+  {
+   "hex": "#071b20",
+   "alpha": 1,
+   "value": "#071b20",
+   "count": 32,
+   "background": 32
+  },
+  {
+   "hex": "#dfb85d",
+   "alpha": 1,
+   "value": "#dfb85d",
+   "count": 10,
+   "background": 7,
+   "text": 3
+  },
+  {
+   "hex": "#ffffff",
+   "alpha": 1,
+   "value": "#ffffff",
+   "count": 8,
+   "text": 2,
+   "background": 6
+  },
+  {
+   "hex": "#071c21",
+   "alpha": 1,
+   "value": "#071c21",
+   "count": 7,
+   "text": 7
+  },
+  {
+   "hex": "#104f5b",
+   "alpha": 1,
+   "value": "#104f5b",
+   "count": 2,
+   "gradient": 2
+  },
+  {
+   "hex": "#082026",
+   "alpha": 1,
+   "value": "#082026",
+   "count": 2,
+   "gradient": 2
+  },
+  {
+   "hex": "#092d34",
+   "alpha": 1,
+   "value": "#092d34",
+   "count": 2,
+   "text": 2
+  }
+ ],
+ "typographyLevels": [
+  {
+   "value": "Plus Jakarta Sans Variable|14px|500|20px|normal|none|normal",
+   "count": 402
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|14px|400|20px|normal|none|normal",
+   "count": 304
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|12px|400|16px|normal|none|normal",
+   "count": 248
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|16px|600|24px|normal|none|normal",
+   "count": 238
+  },
+  {
+   "value": "ui-monospace|12px|400|16px|normal|none|normal",
+   "count": 238
+  },
+  {
+   "value": "Space Grotesk Variable|12px|700|16px|normal|none|normal",
+   "count": 228
+  },
+  {
+   "value": "Amiri|24px|400|32px|normal|none|normal",
+   "count": 228
+  },
+  {
+   "value": "Amiri|18px|400|28px|normal|none|normal",
+   "count": 228
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|12px|500|16px|normal|none|normal",
+   "count": 42
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|15px|400|24.375px|normal|none|normal",
+   "count": 40
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|14px|600|20px|normal|none|normal",
+   "count": 26
+  },
+  {
+   "value": "Space Grotesk Variable|16px|600|24px|normal|none|normal",
+   "count": 22
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|12px|600|16px|normal|none|normal",
+   "count": 22
+  },
+  {
+   "value": "Space Grotesk Variable|14px|700|20px|normal|none|normal",
+   "count": 22
+  },
+  {
+   "value": "Amiri|36px|400|86.4px|normal|none|normal",
+   "count": 20
+  },
+  {
+   "value": "Amiri|25.2px|400|25.2px|normal|none|normal",
+   "count": 20
+  },
+  {
+   "value": "Space Grotesk Variable|20px|700|28px|-0.5px|none|normal",
+   "count": 10
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|12px|600|16px|normal|uppercase|normal",
+   "count": 10
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|16px|400|24px|normal|none|normal",
+   "count": 8
+  },
+  {
+   "value": "Plus Jakarta Sans Variable|16px|400|26px|normal|none|normal",
+   "count": 8
+  },
+  {
+   "value": "Space Grotesk Variable|24px|600|32px|normal|none|normal",
+   "count": 6
+  },
+  {
+   "value": "Space Grotesk Variable|18px|600|28px|normal|none|normal",
+   "count": 6
+  },
+  {
+   "value": "Amiri|14px|600|20px|normal|none|normal",
+   "count": 4
+  },
+  {
+   "value": "Amiri|16px|600|24px|normal|none|normal",
+   "count": 4
+  },
+  {
+   "value": "Amiri|48px|400|48px|normal|none|normal",
+   "count": 2
+  },
+  {
+   "value": "Space Grotesk Variable|30px|700|36px|normal|none|normal",
+   "count": 2
+  },
+  {
+   "value": "Space Grotesk Variable|20px|600|28px|normal|none|normal",
+   "count": 2
+  },
+  {
+   "value": "Space Grotesk Variable|20px|700|28px|normal|none|normal",
+   "count": 2
+  },
+  {
+   "value": "Amiri|30px|400|36px|normal|none|normal",
+   "count": 2
+  },
+  {
+   "value": "Amiri|36px|400|54px|normal|none|normal",
+   "count": 2
+  }
+ ],
+ "fontFamilies": [
+  {
+   "value": "\"Plus Jakarta Sans Variable\", ui-sans-serif, system-ui, sans-serif",
+   "count": 1348
+  },
+  {
+   "value": "Amiri, \"Scheherazade New\", serif",
+   "count": 510
+  },
+  {
+   "value": "\"Space Grotesk Variable\", \"Plus Jakarta Sans Variable\", ui-sans-serif, sans-serif",
+   "count": 300
+  },
+  {
+   "value": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+   "count": 238
+  }
+ ],
+ "spacing": [
+  {
+   "value": "16px",
+   "count": 1324,
+   "padding": 1060,
+   "gap": 244,
+   "margin": 20
+  },
+  {
+   "value": "12px",
+   "count": 1258,
+   "padding": 962,
+   "gap": 258,
+   "margin": 38
+  },
+  {
+   "value": "8px",
+   "count": 878,
+   "gap": 82,
+   "margin": 20,
+   "padding": 776
+  },
+  {
+   "value": "10px",
+   "count": 474,
+   "gap": 10,
+   "padding": 464
+  },
+  {
+   "value": "14px",
+   "count": 456,
+   "padding": 456
+  },
+  {
+   "value": "4px",
+   "count": 228,
+   "padding": 176,
+   "gap": 18,
+   "margin": 34
+  },
+  {
+   "value": "6px",
+   "count": 88,
+   "padding": 68,
+   "gap": 20
+  },
+  {
+   "value": "20px",
+   "count": 80,
+   "margin": 12,
+   "padding": 68
+  },
+  {
+   "value": "24px",
+   "count": 74,
+   "margin": 18,
+   "padding": 50,
+   "gap": 6
+  },
+  {
+   "value": "32px",
+   "count": 34,
+   "padding": 24,
+   "margin": 10
+  },
+  {
+   "value": "2px",
+   "count": 32,
+   "padding": 32
+  },
+  {
+   "value": "40px",
+   "count": 8,
+   "padding": 8
+  }
+ ],
+ "radiusTokens": [
+  {
+   "value": "16px",
+   "count": 266
+  },
+  {
+   "value": "6px",
+   "count": 248
+  },
+  {
+   "value": "3.35544e+07px",
+   "count": 204
+  },
+  {
+   "value": "12px",
+   "count": 52
+  },
+  {
+   "value": "4px",
+   "count": 20
+  },
+  {
+   "value": "8px",
+   "count": 2
+  }
+ ],
+ "shadowTokens": [
+  {
+   "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+   "count": 14
+  },
+  {
+   "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.745735 0.0226257 0.125682 / 0.6) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+   "count": 1
+  },
+  {
+   "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.799262 0.00763762 0.118175 / 0.6) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+   "count": 1
+  }
+ ],
+ "transitions": [
+  {
+   "value": "color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+   "count": 542
+  },
+  {
+   "value": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+   "count": 12
+  }
+ ],
+ "cssVariables": {
+  "--tw-rotate-x": "",
+  "--tw-rotate-y": "",
+  "--tw-rotate-z": "",
+  "--tw-skew-x": "",
+  "--tw-skew-y": "",
+  "--tw-space-y-reverse": "0",
+  "--tw-divide-y-reverse": "0",
+  "--tw-border-style": "solid",
+  "--tw-leading": "",
+  "--tw-font-weight": "",
+  "--tw-tracking": "",
+  "--tw-shadow": "0 0 #0000",
+  "--tw-shadow-color": "",
+  "--tw-shadow-alpha": "100%",
+  "--tw-inset-shadow": "0 0 #0000",
+  "--tw-inset-shadow-color": "",
+  "--tw-inset-shadow-alpha": "100%",
+  "--tw-ring-color": "",
+  "--tw-ring-shadow": "0 0 #0000",
+  "--tw-inset-ring-color": "",
+  "--tw-inset-ring-shadow": "0 0 #0000",
+  "--tw-ring-inset": "",
+  "--tw-ring-offset-width": "0px",
+  "--tw-ring-offset-color": "#fff",
+  "--tw-ring-offset-shadow": "0 0 #0000",
+  "--tw-blur": "",
+  "--tw-brightness": "",
+  "--tw-contrast": "",
+  "--tw-grayscale": "",
+  "--tw-hue-rotate": "",
+  "--tw-invert": "",
+  "--tw-opacity": "",
+  "--tw-saturate": "",
+  "--tw-sepia": "",
+  "--tw-drop-shadow": "",
+  "--tw-drop-shadow-color": "",
+  "--tw-drop-shadow-alpha": "100%",
+  "--tw-drop-shadow-size": "",
+  "--tw-backdrop-blur": "",
+  "--tw-backdrop-brightness": "",
+  "--tw-backdrop-contrast": "",
+  "--tw-backdrop-grayscale": "",
+  "--tw-backdrop-hue-rotate": "",
+  "--tw-backdrop-invert": "",
+  "--tw-backdrop-opacity": "",
+  "--tw-backdrop-saturate": "",
+  "--tw-backdrop-sepia": "",
+  "--font-sans": "\"Plus Jakarta Sans Variable\", ui-sans-serif, system-ui, sans-serif",
+  "--font-mono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+  "--color-red-50": "lab(96.5005% 4.18508 1.52328)",
+  "--color-red-400": "lab(63.7053% 60.745 31.3109)",
+  "--color-red-500": "lab(55.4814% 75.0732 48.8528)",
+  "--color-red-600": "lab(48.4493% 77.4328 61.5452)",
+  "--color-red-950": "lab(13.003% 29.04 16.7519)",
+  "--color-amber-600": "lab(60.3514% 40.5624 87.1228)",
+  "--color-white": "#fff",
+  "--spacing": ".25rem",
+  "--container-xl": "36rem",
+  "--container-3xl": "48rem",
+  "--container-4xl": "56rem",
+  "--container-5xl": "64rem",
+  "--text-xs": ".75rem",
+  "--text-xs--line-height": "calc(1 / .75)",
+  "--text-sm": ".875rem",
+  "--text-sm--line-height": "calc(1.25 / .875)",
+  "--text-base": "1rem",
+  "--text-base--line-height": "calc(1.5 / 1)",
+  "--text-lg": "1.125rem",
+  "--text-lg--line-height": "calc(1.75 / 1.125)",
+  "--text-xl": "1.25rem",
+  "--text-xl--line-height": "calc(1.75 / 1.25)",
+  "--text-2xl": "1.5rem",
+  "--text-2xl--line-height": "calc(2 / 1.5)",
+  "--text-3xl": "1.875rem",
+  "--text-3xl--line-height": "calc(2.25 / 1.875)",
+  "--text-4xl": "2.25rem",
+  "--text-4xl--line-height": "calc(2.5 / 2.25)",
+  "--text-5xl": "3rem",
+  "--text-5xl--line-height": "1",
+  "--text-6xl": "3.75rem",
+  "--text-6xl--line-height": "1",
+  "--font-weight-medium": "500",
+  "--font-weight-semibold": "600",
+  "--font-weight-bold": "700",
+  "--tracking-tight": "-.025em",
+  "--tracking-wide": ".025em",
+  "--leading-relaxed": "1.625",
+  "--leading-loose": "2",
+  "--radius-md": ".375rem",
+  "--radius-lg": ".5rem",
+  "--radius-xl": ".75rem",
+  "--radius-2xl": "1rem",
+  "--default-transition-duration": ".15s",
+  "--default-transition-timing-function": "cubic-bezier(.4, 0, .2, 1)",
+  "--default-font-family": "\"Plus Jakarta Sans Variable\", ui-sans-serif, system-ui, sans-serif",
+  "--default-mono-font-family": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+  "--font-arabic": "\"Amiri\", \"Scheherazade New\", serif",
+  "--tw-outline-style": "",
+  "--background": "42 33% 94%",
+  "--foreground": "190 28% 21%",
+  "--card": "0 0% 100%",
+  "--muted": "44 29% 90%",
+  "--muted-foreground": "191 13% 40%",
+  "--border": "146 14% 89.5%",
+  "--primary": "190 69% 29%",
+  "--primary-soft": "190 40% 92%",
+  "--gold": "39 65% 55%",
+  "--hero-from": "190 70% 21%",
+  "--hero-to": "192 64% 9%",
+  "--lightningcss-light": "",
+  "--lightningcss-dark": ""
+ },
+ "darkMode": {
+  "supported": true,
+  "detectionMethod": "localStorage theme + prefers-color-scheme",
+  "variableDiff": [
+   {
+    "variable": "--background",
+    "light": "42 33% 94%",
+    "dark": "192 64% 7.6%"
+   },
+   {
+    "variable": "--foreground",
+    "light": "190 28% 21%",
+    "dark": "186 25% 92%"
+   },
+   {
+    "variable": "--card",
+    "light": "0 0% 100%",
+    "dark": "192 54% 11%"
+   },
+   {
+    "variable": "--muted",
+    "light": "44 29% 90%",
+    "dark": "193 46% 15%"
+   },
+   {
+    "variable": "--muted-foreground",
+    "light": "191 13% 40%",
+    "dark": "191 13% 67%"
+   },
+   {
+    "variable": "--border",
+    "light": "146 14% 89.5%",
+    "dark": "190 28% 17%"
+   },
+   {
+    "variable": "--primary",
+    "light": "190 69% 29%",
+    "dark": "174 50% 48%"
+   },
+   {
+    "variable": "--primary-soft",
+    "light": "190 40% 92%",
+    "dark": "193 46% 15%"
+   },
+   {
+    "variable": "--gold",
+    "light": "39 65% 55%",
+    "dark": "42 67% 62%"
+   }
+  ]
+ },
+ "breakpoints": [],
+ "focusStyles": [
+  "a|outline: 1px auto rgb(16, 16, 16) offset 1px|shadow: none",
+  "button|outline: 1px auto rgb(39, 64, 69) offset 0px|shadow: none",
+  "button|outline: 1px auto rgb(16, 16, 16) offset 0px|shadow: none",
+  "input|outline: 1px none rgb(16, 16, 16) offset 0px|shadow: none"
+ ],
+ "icons": {
+  "sizes": [
+   {
+    "value": "16x16",
+    "count": 22
+   },
+   {
+    "value": "32x32",
+    "count": 10
+   },
+   {
+    "value": "18x18",
+    "count": 10
+   },
+   {
+    "value": "12x12",
+    "count": 10
+   },
+   {
+    "value": "14x14",
+    "count": 4
+   }
+  ],
+  "strokeAndViewBox": [
+   {
+    "value": "2|0 0 24 24",
+    "count": 46
+   },
+   {
+    "value": "1px|0 0 32 32",
+    "count": 10
+   }
+  ]
+ },
+ "aria": [
+  {
+   "value": "aria-label",
+   "count": 150
+  },
+  {
+   "value": "aria-hidden",
+   "count": 84
+  },
+  {
+   "value": "aria-pressed",
+   "count": 34
+  },
+  {
+   "value": "aria-expanded",
+   "count": 28
+  },
+  {
+   "value": "role",
+   "count": 28
+  },
+  {
+   "value": "aria-haspopup",
+   "count": 24
+  },
+  {
+   "value": "aria-labelledby",
+   "count": 16
+  },
+  {
+   "value": "aria-checked",
+   "count": 12
+  },
+  {
+   "value": "aria-live",
+   "count": 8
+  },
+  {
+   "value": "aria-current",
+   "count": 6
+  },
+  {
+   "value": "aria-busy",
+   "count": 6
+  },
+  {
+   "value": "aria-describedby",
+   "count": 4
+  },
+  {
+   "value": "aria-valuemin",
+   "count": 2
+  },
+  {
+   "value": "aria-valuemax",
+   "count": 2
+  },
+  {
+   "value": "aria-valuenow",
+   "count": 2
+  }
+ ],
+ "sampleTexts": {
+  "buttons": [
+   "id",
+   "Masuk",
+   "Mushaf",
+   "Per ayat",
+   "ع−",
+   "ع+",
+   "A−",
+   "A+",
+   "×",
+   "Misyari Rasyid Al-Afasi",
+   "Sembunyikan daftar surat dan pengaturan",
+   "Bacaan",
+   "Tafsir",
+   "Hafalan",
+   "﴿١﴾",
+   "﴿٢﴾",
+   "﴿٣﴾",
+   "﴿٤﴾",
+   "﴿٥﴾",
+   "﴿٦﴾",
+   "﴿٧﴾",
+   "﴿٨﴾",
+   "﴿٩﴾",
+   "﴿١٠﴾",
+   "1.",
+   "2.",
+   "3.",
+   "4.",
+   "5.",
+   "6.",
+   "7.",
+   "8.",
+   "9.",
+   "10.",
+   "Terang",
+   "Gelap",
+   "Otomatis",
+   "Unduh cadangan",
+   "Impor cadangan"
+  ],
+  "links": [
+   "QuranWeb",
+   "Al-Quran",
+   "Mulai dari Al-Fatihah",
+   "1Al-FatihahPembukaan · 7 ayat · Mekahالفاتحة",
+   "2Al-BaqarahSapi · 286 ayat · Madinahالبقرة",
+   "3Ali 'ImranKeluarga Imran · 200 ayat · Madinahاٰل عمران",
+   "4An-Nisa'Wanita · 176 ayat · Madinahالنساۤء",
+   "5Al-Ma'idahHidangan · 120 ayat · Madinahالماۤئدة",
+   "6Al-An'amBinatang Ternak · 165 ayat · Mekahالانعام",
+   "7Al-A'rafTempat Tertinggi · 206 ayat · Mekahالاعراف",
+   "8Al-AnfalRampasan Perang · 75 ayat · Madinahالانفال",
+   "9At-TaubahPengampunan · 129 ayat · Madinahالتوبة",
+   "10YunusYunus · 109 ayat · Mekahيونس",
+   "11HudHud · 123 ayat · Mekahهود",
+   "12YusufYusuf · 111 ayat · Mekahيوسف",
+   "13Ar-Ra'dGuruh · 43 ayat · Madinahالرّعد",
+   "14IbrahimIbrahim · 52 ayat · Mekahابرٰهيم",
+   "15Al-HijrHijr · 99 ayat · Mekahالحجر",
+   "16An-NahlLebah · 128 ayat · Mekahالنحل",
+   "17Al-Isra'Memperjalankan Malam Hari · 111 ayat · Mekahالاسرا",
+   "18Al-KahfGoa · 110 ayat · Mekahالكهف",
+   "19MaryamMaryam · 98 ayat · Mekahمريم",
+   "20TahaTaha · 135 ayat · Mekahطٰهٰ",
+   "21Al-Anbiya'Para Nabi · 112 ayat · Mekahالانبياۤء",
+   "22Al-HajjHaji · 78 ayat · Madinahالحج",
+   "23Al-Mu'minunOrang-Orang Mukmin · 118 ayat · Mekahالمؤمنون",
+   "24An-NurCahaya · 64 ayat · Madinahالنّور",
+   "25Al-FurqanPembeda · 77 ayat · Mekahالفرقان",
+   "26Asy-Syu'ara'Para Penyair · 227 ayat · Mekahالشعراۤء",
+   "27An-NamlSemut-semut · 93 ayat · Mekahالنمل",
+   "28Al-QasasKisah-Kisah · 88 ayat · Mekahالقصص",
+   "29Al-'AnkabutLaba-Laba · 69 ayat · Mekahالعنكبوت",
+   "30Ar-RumRomawi · 60 ayat · Mekahالرّوم",
+   "31LuqmanLuqman · 34 ayat · Mekahلقمٰن",
+   "32As-SajdahSajdah · 30 ayat · Mekahالسّجدة",
+   "33Al-AhzabGolongan Yang Bersekutu · 73 ayat · Madinahالاحزاب",
+   "34Saba'Saba' · 54 ayat · Mekahسبأ",
+   "35FatirMaha Pencipta · 45 ayat · Mekahفاطر",
+   "36YasinYasin · 83 ayat · Mekahيٰسۤ",
+   "37As-SaffatBarisan-Barisan · 182 ayat · Mekahالصّٰۤفّٰت",
+   "38SadSad · 88 ayat · Mekahص",
+   "39Az-ZumarRombongan · 75 ayat · Mekahالزمر",
+   "40GhafirMaha Pengampun · 85 ayat · Mekahغافر",
+   "41FussilatYang Dijelaskan · 54 ayat · Mekahفصّلت",
+   "42Asy-SyuraMusyawarah · 53 ayat · Mekahالشورى",
+   "43Az-ZukhrufPerhiasan · 89 ayat · Mekahالزخرف",
+   "44Ad-DukhanKabut · 59 ayat · Mekahالدخان",
+   "45Al-JasiyahBerlutut · 37 ayat · Mekahالجاثية",
+   "46Al-AhqafBukit Pasir · 35 ayat · Mekahالاحقاف",
+   "47MuhammadMuhammad · 38 ayat · Madinahمحمّد",
+   "48Al-FathKemenangan · 29 ayat · Madinahالفتح",
+   "49Al-HujuratKamar-Kamar · 18 ayat · Madinahالحجرٰت",
+   "50QafQaf · 45 ayat · Mekahق",
+   "51Az-ZariyatAngin yang Menerbangkan · 60 ayat · Mekahالذّٰري",
+   "52At-TurBukit Tursina · 49 ayat · Mekahالطور",
+   "53An-NajmBintang · 62 ayat · Mekahالنجم",
+   "54Al-QamarBulan · 55 ayat · Mekahالقمر",
+   "55Ar-RahmanMaha Pengasih · 78 ayat · Madinahالرحمن",
+   "56Al-Waqi'ahHari Kiamat · 96 ayat · Mekahالواقعة",
+   "57Al-HadidBesi · 29 ayat · Madinahالحديد",
+   "58Al-MujadilahGugatan · 22 ayat · Madinahالمجادلة",
+   "59Al-HasyrPengusiran · 24 ayat · Madinahالحشر",
+   "60Al-MumtahanahWanita Yang Diuji · 13 ayat · Madinahالممتحنة",
+   "61As-SaffBarisan · 14 ayat · Madinahالصّفّ",
+   "62Al-Jumu'ahJumat · 11 ayat · Madinahالجمعة",
+   "63Al-MunafiqunOrang-Orang Munafik · 11 ayat · Madinahالمنٰفق",
+   "64At-TagabunPengungkapan Kesalahan · 18 ayat · Madinahالتغاب",
+   "65At-TalaqTalak · 12 ayat · Madinahالطلاق",
+   "66At-TahrimPengharaman · 12 ayat · Madinahالتحريم",
+   "67Al-MulkKerajaan · 30 ayat · Mekahالملك",
+   "68Al-QalamPena · 52 ayat · Mekahالقلم",
+   "69Al-HaqqahHari Kiamat · 52 ayat · Mekahالحاۤقّة",
+   "70Al-Ma'arijTempat Naik · 44 ayat · Mekahالمعارج",
+   "71NuhNuh · 28 ayat · Mekahنوح",
+   "72Al-JinnJin · 28 ayat · Mekahالجن",
+   "73Al-MuzzammilOrang Yang Berselimut · 20 ayat · Mekahالمزّمّ",
+   "74Al-MuddassirOrang Yang Berkemul · 56 ayat · Mekahالمدّثّر",
+   "75Al-QiyamahHari Kiamat · 40 ayat · Mekahالقيٰمة",
+   "76Al-InsanManusia · 31 ayat · Madinahالانسان",
+   "77Al-MursalatMalaikat Yang Diutus · 50 ayat · Mekahالمرسلٰت",
+   "78An-Naba'Berita Besar · 40 ayat · Mekahالنبأ",
+   "79An-Nazi'atMalaikat Yang Mencabut · 46 ayat · Mekahالنّٰزعٰ",
+   "80'AbasaBermuka Masam · 42 ayat · Mekahعبس",
+   "81At-TakwirPenggulungan · 29 ayat · Mekahالتكوير",
+   "82Al-InfitarTerbelah · 19 ayat · Mekahالانفطار",
+   "83Al-MutaffifinOrang-Orang Curang · 36 ayat · Mekahالمطفّفين",
+   "84Al-InsyiqaqTerbelah · 25 ayat · Mekahالانشقاق",
+   "85Al-BurujGugusan Bintang · 22 ayat · Mekahالبروج",
+   "86At-TariqYang Datang Di Malam Hari · 17 ayat · Mekahالطارق",
+   "87Al-A'laMaha Tinggi · 19 ayat · Mekahالاعلى",
+   "88Al-GasyiyahHari Kiamat · 26 ayat · Mekahالغاشية",
+   "89Al-FajrFajar · 30 ayat · Mekahالفجر",
+   "90Al-BaladNegeri · 20 ayat · Mekahالبلد",
+   "91Asy-SyamsMatahari · 15 ayat · Mekahالشمس",
+   "92Al-LailMalam · 21 ayat · Mekahالّيل",
+   "93Ad-DuhaDuha · 11 ayat · Mekahالضحى",
+   "94Al-InsyirahLapang · 8 ayat · Mekahالشرح",
+   "95At-TinBuah Tin · 8 ayat · Mekahالتين",
+   "96Al-'AlaqSegumpal Darah · 19 ayat · Mekahالعلق",
+   "97Al-QadrKemuliaan · 5 ayat · Mekahالقدر",
+   "98Al-BayyinahBukti Nyata · 8 ayat · Madinahالبيّنة",
+   "99Az-ZalzalahGuncangan · 8 ayat · Madinahالزلزلة",
+   "100Al-'AdiyatKuda Yang Berlari Kencang · 11 ayat · Mekahالعٰ",
+   "101Al-Qari'ahHari Kiamat · 11 ayat · Mekahالقارعة",
+   "102At-TakasurBermegah-Megahan · 8 ayat · Mekahالتكاثر",
+   "103Al-'AsrMasa · 3 ayat · Mekahالعصر",
+   "104Al-HumazahPengumpat · 9 ayat · Mekahالهمزة",
+   "105Al-FilGajah · 5 ayat · Mekahالفيل",
+   "106QuraisyQuraisy · 4 ayat · Mekahقريش",
+   "107Al-Ma'unBarang Yang Berguna · 7 ayat · Mekahالماعون",
+   "108Al-KausarPemberian Yang Banyak · 3 ayat · Mekahالكوثر",
+   "109Al-KafirunOrang-Orang kafir · 6 ayat · Mekahالكٰفرون",
+   "110An-NasrPertolongan · 3 ayat · Madinahالنصر",
+   "111Al-LahabApi Yang Bergejolak · 5 ayat · Mekahاللهب",
+   "112Al-IkhlasIkhlas · 4 ayat · Mekahالاخلاص",
+   "113Al-FalaqSubuh · 5 ayat · Madinahالفلق",
+   "114An-NasManusia · 6 ayat · Madinahالناس",
+   "Tentang",
+   "Privasi",
+   "001Al-Fatihahالفاتحة",
+   "002Al-Baqarahالبقرة",
+   "003Ali 'Imranاٰل عمران",
+   "004An-Nisa'النساۤء",
+   "005Al-Ma'idahالماۤئدة",
+   "006Al-An'amالانعام",
+   "007Al-A'rafالاعراف",
+   "008Al-Anfalالانفال",
+   "009At-Taubahالتوبة",
+   "010Yunusيونس",
+   "011Hudهود",
+   "012Yusufيوسف",
+   "013Ar-Ra'dالرّعد",
+   "014Ibrahimابرٰهيم",
+   "015Al-Hijrالحجر",
+   "016An-Nahlالنحل",
+   "017Al-Isra'الاسراۤء",
+   "018Al-Kahfالكهف",
+   "019Maryamمريم",
+   "020Tahaطٰهٰ",
+   "021Al-Anbiya'الانبياۤء",
+   "022Al-Hajjالحج",
+   "023Al-Mu'minunالمؤمنون",
+   "024An-Nurالنّور",
+   "025Al-Furqanالفرقان",
+   "026Asy-Syu'ara'الشعراۤء",
+   "027An-Namlالنمل",
+   "028Al-Qasasالقصص",
+   "029Al-'Ankabutالعنكبوت",
+   "030Ar-Rumالرّوم",
+   "031Luqmanلقمٰن",
+   "032As-Sajdahالسّجدة",
+   "033Al-Ahzabالاحزاب",
+   "034Saba'سبأ",
+   "035Fatirفاطر",
+   "036Yasinيٰسۤ",
+   "037As-Saffatالصّٰۤفّٰت",
+   "038Sadص",
+   "039Az-Zumarالزمر",
+   "040Ghafirغافر",
+   "041Fussilatفصّلت",
+   "042Asy-Syuraالشورى",
+   "043Az-Zukhrufالزخرف",
+   "044Ad-Dukhanالدخان",
+   "045Al-Jasiyahالجاثية",
+   "046Al-Ahqafالاحقاف",
+   "047Muhammadمحمّد",
+   "048Al-Fathالفتح",
+   "049Al-Hujuratالحجرٰت",
+   "050Qafق",
+   "051Az-Zariyatالذّٰريٰت",
+   "052At-Turالطور",
+   "053An-Najmالنجم",
+   "054Al-Qamarالقمر",
+   "055Ar-Rahmanالرحمن",
+   "056Al-Waqi'ahالواقعة",
+   "057Al-Hadidالحديد",
+   "058Al-Mujadilahالمجادلة",
+   "059Al-Hasyrالحشر",
+   "060Al-Mumtahanahالممتحنة",
+   "061As-Saffالصّفّ",
+   "062Al-Jumu'ahالجمعة",
+   "063Al-Munafiqunالمنٰفقون",
+   "064At-Tagabunالتغابن",
+   "065At-Talaqالطلاق",
+   "066At-Tahrimالتحريم",
+   "067Al-Mulkالملك",
+   "068Al-Qalamالقلم",
+   "069Al-Haqqahالحاۤقّة",
+   "070Al-Ma'arijالمعارج",
+   "071Nuhنوح",
+   "072Al-Jinnالجن",
+   "073Al-Muzzammilالمزّمّل",
+   "074Al-Muddassirالمدّثّر",
+   "075Al-Qiyamahالقيٰمة",
+   "076Al-Insanالانسان",
+   "077Al-Mursalatالمرسلٰت",
+   "078An-Naba'النبأ",
+   "079An-Nazi'atالنّٰزعٰت",
+   "080'Abasaعبس",
+   "081At-Takwirالتكوير",
+   "082Al-Infitarالانفطار",
+   "083Al-Mutaffifinالمطفّفين",
+   "084Al-Insyiqaqالانشقاق",
+   "085Al-Burujالبروج",
+   "086At-Tariqالطارق",
+   "087Al-A'laالاعلى",
+   "088Al-Gasyiyahالغاشية",
+   "089Al-Fajrالفجر",
+   "090Al-Baladالبلد",
+   "091Asy-Syamsالشمس",
+   "092Al-Lailالّيل",
+   "093Ad-Duhaالضحى",
+   "094Al-Insyirahالشرح",
+   "095At-Tinالتين",
+   "096Al-'Alaqالعلق",
+   "097Al-Qadrالقدر",
+   "098Al-Bayyinahالبيّنة",
+   "099Az-Zalzalahالزلزلة",
+   "100Al-'Adiyatالعٰديٰت",
+   "101Al-Qari'ahالقارعة",
+   "102At-Takasurالتكاثر",
+   "103Al-'Asrالعصر",
+   "104Al-Humazahالهمزة",
+   "105Al-Filالفيل",
+   "106Quraisyقريش",
+   "107Al-Ma'unالماعون",
+   "108Al-Kausarالكوثر",
+   "109Al-Kafirunالكٰفرون",
+   "110An-Nasrالنصر",
+   "111Al-Lahabاللهب",
+   "112Al-Ikhlasالاخلاص",
+   "113Al-Falaqالفلق",
+   "114An-Nasالناس",
+   "Semua pengaturan",
+   "2",
+   "3",
+   "4",
+   "9",
+   "→",
+   "← Surat sebelumnya",
+   "Surat berikutnya →",
+   "Bahasa, tema, dan ukuran huruf",
+   "Audio",
+   "Pengaturan bacaan",
+   "Akun Anda",
+   "Kementerian Agama RI, melalui EQuran.id",
+   "King Fahd Quran Complex, melalui fawazahmed0/quran-api",
+   "Abdullah Yusuf Ali melalui Tanzil, melalui fawazahmed0/quran",
+   "Mohammed Marmaduke William Pickthall melalui Tanzil, melalui",
+   "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tan",
+   "Kementerian Agama RI, melalui QuranEnc.com, versi 1.0.1",
+   "Muhammad Quraish Shihab dkk. melalui Tanzil, melalui fawazah",
+   "Jalaluddin al-Mahalli dan Jalaluddin as-Suyuthi melalui Tanz",
+   "Tafsir Center for Quranic Studies, melalui QuranEnc.com (nom",
+   "Verse By Verse Quran, melalui EQuran.id",
+   "Rekaman EveryAyah, melalui CDN AlQuran.cloud (Islamic Networ",
+   "EQuran.id",
+   "fawazahmed0/quran-api",
+   "github.com/udienz/quranweb",
+   "Cara data Anda diperlakukan: kebijakan privasi."
+  ],
+  "headings": [
+   "Baca Al-Qur'an",
+   "Daftar surat",
+   "Pengaturan bacaan",
+   "Yasin",
+   "Pengaturan",
+   "Bahasa, tema, dan ukuran huruf",
+   "Audio",
+   "Akun Anda",
+   "Bacaan saya",
+   "Terakhir dibaca",
+   "Target harian",
+   "Progres baca",
+   "Penanda ayat",
+   "Cadangan",
+   "Tentang QuranWeb",
+   "Sumber dan kredit",
+   "Teks Arab",
+   "Transliterasi",
+   "Terjemahan",
+   "Tafsir",
+   "Murotal (audio)",
+   "Dari mana data diambil",
+   "Kode sumber"
+  ]
+ },
+ "sourceDerived": {
+  "note": "Read from udienz/quranweb master (src/app/globals.css and components) on 2026-11-19, to complement the computed styles.",
+  "hslTokens": {
+   "light": {
+    "--background": "42 33% 94%",
+    "--foreground": "190 28% 21%",
+    "--card": "0 0% 100%",
+    "--muted": "44 29% 90%",
+    "--muted-foreground": "191 13% 40%",
+    "--border": "146 14% 89.5%",
+    "--primary": "190 69% 29%",
+    "--primary-soft": "190 40% 92%",
+    "--gold": "39 65% 55%",
+    "--hero-from": "190 70% 21%",
+    "--hero-to": "192 64% 9%"
+   },
+   "dark": {
+    "--background": "192 64% 7.6%",
+    "--foreground": "186 25% 92%",
+    "--card": "192 54% 11%",
+    "--muted": "193 46% 15%",
+    "--muted-foreground": "191 13% 67%",
+    "--border": "190 28% 17%",
+    "--primary": "174 50% 48%",
+    "--primary-soft": "193 46% 15%",
+    "--gold": "42 67% 62%"
+   }
+  },
+  "tokenToHex": {
+   "light": {
+    "--background": "#f5f2eb",
+    "--foreground": "#274045",
+    "--card": "#ffffff",
+    "--muted": "#ede9de",
+    "--muted-foreground": "#596e73",
+    "--border": "#e0e8e4",
+    "--primary": "#176c7d",
+    "--primary-soft": "#e2f0f3",
+    "--gold": "#d7a342",
+    "--hero-from": "#104f5b",
+    "--hero-to": "#082026",
+    "text on gold (hsl(190 70% 12%))": "#092d34"
+   },
+   "dark": {
+    "--background": "#071b20",
+    "--foreground": "#e6eff0",
+    "--card": "#0d252b",
+    "--muted-foreground": "#a0b2b6",
+    "--border": "#1f3337",
+    "--primary": "#3db8ab",
+    "--primary-soft": "#153038",
+    "--gold": "#dfb85d",
+    "text on primary/gold": "#071c21"
+   }
+  },
+  "fonts": {
+   "sans": "\"Plus Jakarta Sans Variable\", ui-sans-serif, system-ui, sans-serif",
+   "display": "\"Space Grotesk Variable\", \"Plus Jakarta Sans Variable\", ui-sans-serif, sans-serif",
+   "arabic": "\"Amiri\", \"Scheherazade New\", serif",
+   "loadedVia": "@fontsource (self-hosted)"
+  },
+  "breakpoints": [
+   {
+    "name": "sm",
+    "width": "640px",
+    "uses": 24
+   },
+   {
+    "name": "md",
+    "width": "768px",
+    "uses": 1
+   },
+   {
+    "name": "lg",
+    "width": "1024px",
+    "uses": 11
+   }
+  ],
+  "containers": {
+   "site": "1200px (max-w-[1200px])",
+   "prose pages": "768px (max-w-3xl)",
+   "narrow": "576px (max-w-xl)"
+  },
+  "textScale": {
+   "variables": [
+    "--arabic-scale",
+    "--latin-scale"
+   ],
+   "steps": "85% to 150%, five steps",
+   "example": "text-[length:calc(2rem*var(--arabic-scale,1))]"
+  },
+  "focus": {
+   "inputs": "focus:border-primary (11 uses)",
+   "buttons and links": "browser default outline (computed: outline 1px auto, offset 0px/1px)"
+  },
+  "motion": {
+   "reducedMotion": "none found",
+   "animations": "none (no animate-* classes)",
+   "blur": "[data-hidden] { filter: blur(0.4em) }"
+  },
+  "icons": {
+   "library": "none: inline SVG in components (15 <svg>)",
+   "viewBox": "0 0 24 24",
+   "strokeWidth": {
+    "2": 7,
+    "1.8": 2,
+    "2.5": 1
+   },
+   "logo": "viewBox 0 0 32 32"
+  },
+  "contrast": {
+   "#274045 on #f5f2eb": 9.86,
+   "#274045 on #ffffff": 11.02,
+   "#596e73 on #ffffff": 5.38,
+   "#596e73 on #f5f2eb": 4.81,
+   "#176c7d on #ffffff": 6.04,
+   "#176c7d on #e2f0f3": 5.17,
+   "#ffffff on #176c7d": 6.04,
+   "#092d34 on #d7a342": 6.41,
+   "#d7a342 on #104f5b": 4.02,
+   "#ffffff on #082026": 16.87,
+   "#e6eff0 on #071b20": 15.14,
+   "#e6eff0 on #0d252b": 13.65,
+   "#a0b2b6 on #0d252b": 7.24,
+   "#3db8ab on #0d252b": 6.56,
+   "#071c21 on #3db8ab": 7.22,
+   "#dfb85d on #104f5b": 4.87
+  }
+ }
+}

@@ -118,7 +118,7 @@ export const id: Messages = {
     unknownLicence: "Lihat sumbernya",
     providersTitle: "Dari mana data diambil",
     providers:
-      "Sebagian besar teks dan semua murotal datang melalui API EQuran.id; edisi tambahan berasal dari koleksi fawazahmed0/quran-api. Situs ini menyimpan salinan teksnya sendiri dan menyajikannya sebagai mirror publik.",
+      "Teks berasal dari tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api, dan QuranEnc.com. Situs ini menyimpan salinan masing-masing dan membacanya dari sana; salinan EQuran.id dan fawazahmed0 juga terbuka untuk siapa saja sebagai mirror. Murotal berasal dari EQuran.id dan dari CDN audio AlQuran.cloud.",
     codeTitle: "Kode sumber",
     code: "Kode situs ini terbuka:",
     privacyLink: "Cara data Anda diperlakukan: kebijakan privasi.",
@@ -321,7 +321,7 @@ export const id: Messages = {
     backup: {
       title: "Cadangan",
       description:
-        "Unduh cadangan data bacaan di browser ini untuk menyimpannya atau memindahkannya ke perangkat lain tanpa akun, lalu impor di sana; data yang diimpor digabungkan, tidak menimpa.",
+        "Simpan data bacaan di browser ini ke sebuah berkas, untuk disimpan atau dipindahkan ke perangkat lain tanpa akun. Mengimpor berkas menggabungkannya dengan data yang sudah ada; tidak ada yang tertimpa.",
       download: "Unduh cadangan",
       import: "Impor cadangan",
       imported: "Cadangan digabungkan dengan data di browser ini.",

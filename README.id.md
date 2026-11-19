@@ -2,9 +2,9 @@
 
 [English](README.md) · **Bahasa Indonesia**
 
-Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia dan Inggris, audio murottal, dan tafsir.
-Anda tidak perlu akun, dan tidak ada iklan. Kami hanya menghitung kunjungan, dengan Cloudflare Web Analytics: tanpa kuki
-dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
+Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, dan lainnya), audio
+murottal, dan tafsir. Anda tidak perlu akun, dan tidak ada iklan. Kunjungan dihitung dengan Cloudflare Web Analytics, yang
+menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan privasi).
 
 **Buka di https://quranweb.udienz.web.id**
 
@@ -16,12 +16,11 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
   beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya).
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan.
-- **Mendengarkan** murottal per ayat dari 23 qari (yang paling dikenal di atas, dan ada kolom pencarian), dengan mode hemat data untuk kuota
-  seluler; otomatis lanjut ke ayat berikutnya, dan layar kunci ponsel
-  bisa menjeda atau melompat ke ayat berikutnya. Di komputer, Spasi memutar atau menjeda, serta N dan P
-  berpindah antarayat. Di akhir surat, audio bisa
-  berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
-  **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
+- **Mendengarkan** murottal per ayat dari 23 qari. Yang paling dikenal ada di atas daftar, dan Anda bisa mencari namanya.
+  Audio lanjut sendiri ke ayat berikutnya; di akhir surat audio berhenti, mengulang surat, atau lanjut ke surat berikutnya,
+  sesuai pilihan Anda. Anda juga bisa **memutar satu juz penuh**, menyeberangi surat.
+- **Mengendalikan audio** dari layar kunci ponsel (jeda, ayat berikutnya), atau di komputer dengan Spasi (putar atau jeda)
+  serta N dan P (ayat berikutnya dan sebelumnya). Mode hemat data memutar berkas yang lebih kecil untuk kuota seluler.
 - **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, ulangi rentang ayat (misalnya 2:1–5) sebanyak
   yang Anda mau, dan buramkan teks Arab atau terjemahan untuk menguji diri, lalu ketuk ayat untuk mengecek.
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
@@ -29,16 +28,17 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam.
-- **Memakai bahasa Anda**: antarmuka mengikuti bahasa browser Anda (untuk saat ini bahasa Indonesia atau Inggris), dan
-  bisa diganti lewat menu bahasa di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun.
+- **Memakai bahasa Anda**: antarmuka tersedia dalam bahasa Indonesia, Inggris, dan Turki (bahasa Turki adalah terjemahan
+  komunitas yang masih menunggu peninjau kedua). Bahasanya mengikuti browser Anda sampai Anda memilih sendiri di header
+  atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun.
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain.
-- Nyaman di ponsel, dan Anda bisa menyalin ayat atau tautannya.
+- **Menyalin ayat**, atau tautannya.
 - **Memasangnya sebagai aplikasi** di ponsel atau komputer, dengan ikon dan jendela sendiri: "Instal aplikasi" di
   Chrome atau Edge, "Tambahkan ke Layar Utama" di Safari pada iPhone. Tetap butuh koneksi internet.
 
-Surat yang panjang dibagi menjadi halaman berisi 10 ayat, sehingga setiap halaman cepat terbuka, bahkan di koneksi yang
-lambat.
+Surat yang panjang dibagi menjadi halaman berisi 10 ayat: satu halaman Al-Baqarah sekitar 230 KB, dibanding sekitar 2 MB
+untuk seluruh surat.
 
 ## Bacaan dan privasi Anda
 

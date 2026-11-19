@@ -375,7 +375,7 @@ export default function SurahReader({
   return (
     <div>
       <header
-        className="rounded-2xl p-5 text-white shadow-sm sm:px-6"
+        className="on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
       >
         <div className="flex items-center justify-between gap-4 border-b border-white/15 pb-4">
@@ -385,7 +385,7 @@ export default function SurahReader({
             </span>
             <div>
               <h1 className="font-display text-xl font-bold">{meta.name.latin}</h1>
-              <p className="font-mono text-xs text-white/70">
+              <p className="tabular-nums text-xs text-white/70">
                 {tn("common.verses", meta.verseCount)} · {t(`revelation.${meta.revelation}`)}
               </p>
             </div>

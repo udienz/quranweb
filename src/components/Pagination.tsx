@@ -24,7 +24,8 @@ export default function Pagination({
   const { t } = useI18n();
   if (count <= 1) return null;
 
-  const box = "flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-medium";
+  // 36px to look at, 44px or more to tap: the ::after layer reaches 6px out from inside the 1px border.
+  const box = "flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-medium relative after:absolute after:-inset-1.5 after:rounded-full";
   const link = `${box} border border-border bg-card text-primary hover:bg-muted`;
   const off = `${box} border border-transparent text-muted-foreground/50`;
 

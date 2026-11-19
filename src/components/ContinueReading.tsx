@@ -22,7 +22,7 @@ export default function ContinueReading({ surahs }: { surahs: SurahMeta[] }) {
         <span className="-rotate-45 font-display text-sm font-bold">{surah.number}</span>
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-xs font-medium uppercase tracking-wide text-muted-foreground">{t("continueReading.label")}</span>
+        <span className="block text-xs font-medium text-muted-foreground">{t("continueReading.label")}</span>
         <span className="block truncate font-display text-lg font-semibold">
           {t("continueReading.position", { surah: surah.name.latin, verse: lastRead.verse })}
         </span>

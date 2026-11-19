@@ -75,3 +75,14 @@ body {
 [role="button"][aria-pressed] {
   cursor: pointer;
 }
+
+/* Keyboard focus, for every control: a 2px teal ring outside the element (gold on the dark chapter head and hero, where
+   teal would not show). Unlayered on purpose, so a utility such as `outline-none` cannot remove it; inputs keep their
+   teal border as well. Before this, buttons and links had only the browser's default ring. */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: hsl(var(--gold));
+}

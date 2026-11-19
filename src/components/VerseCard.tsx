@@ -40,7 +40,7 @@ function IconButton({
       aria-label={label}
       aria-pressed={active}
       title={label}
-      className={`flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-muted ${
+      className={`flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-muted relative after:absolute after:-inset-1 after:rounded-full ${
         active ? "bg-primary-soft text-primary" : "text-muted-foreground"
       }`}
     >
@@ -197,7 +197,7 @@ export default function VerseCard({
           <span className="flex h-8 w-8 rotate-45 items-center justify-center rounded-md bg-primary-soft text-primary">
             <span className="-rotate-45 font-display text-xs font-bold">{n}</span>
           </span>
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="tabular-nums text-xs text-muted-foreground">
             {surahNumber}:{n}
           </span>
           {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">{t("verse.read")}</span>}

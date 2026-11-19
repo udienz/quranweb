@@ -77,7 +77,7 @@ export default function ReciterPicker({ qaris, value, onChange }: { qaris: Qari[
             {groups.length === 0 && <p className="px-2 py-3 text-muted-foreground">{t("settings.qariNone")}</p>}
             {groups.map((g) => (
               <div key={g.label} className="mb-1 last:mb-0">
-                <p className="px-2 pb-1 pt-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{g.label}</p>
+                <p className="px-2 pb-1 pt-1.5 text-xs font-semibold text-muted-foreground">{g.label}</p>
                 <ul>
                   {g.list.map((q) => (
                     <li key={q.id}>
