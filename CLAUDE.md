@@ -679,9 +679,10 @@ Keep that footer link: the credit must stay one click away from every reading pa
 
 ### Known limits
 
-- `/surah/<invalid>` shows the translated 404 page but the HTTP status is 200: Cache
-  Components does not support `dynamicParams = false`, and a `proxy.ts` check was judged
-  too much for links nobody has.
+- `/surah/<invalid>` answers **404** since 2026-11-19: `src/proxy.ts` checks the number before rendering (`surahFromSegment`,
+  shared with the page) and rewrites anything else to a path that does not exist, so Next.js serves the translated
+  not-found page with status 404. Without it the page's own `notFound()` came after streaming had started, with status 200
+  (Cache Components does not support `dynamicParams = false`).
 - The surah list is fetched on every request (from our mirror, so it is cheap).
 
 ## Working rules

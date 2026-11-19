@@ -1,6 +1,7 @@
 import { LAYOUT_COOKIE, parseLayout, SIDEBAR_COOKIE } from "@/lib/layout";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { surahFromSegment } from "@/lib/surah-number";
 import { getI18n, getLocale } from "@/lib/i18n/server";
 import { clampPage, pageCount, pageRange } from "@/lib/pagination";
 import { getQuran } from "@/lib/quran";
@@ -21,11 +22,9 @@ export default async function SurahPage({
   searchParams: Promise<{ page?: string | string[] }>;
 }) {
   const { number } = await params;
-  const surahNumber = Number(number);
-
-  if (!Number.isInteger(surahNumber) || surahNumber < 1 || surahNumber > 114) {
-    notFound();
-  }
+  // proxy.ts already answers 404 for anything else; this stays for a request that reaches the page another way.
+  const surahNumber = surahFromSegment(number);
+  if (surahNumber === null) notFound();
 
   // The reader's edition and reciter choice is in a cookie; anything that is not valid
   // against the catalog is ignored and the defaults are used.
