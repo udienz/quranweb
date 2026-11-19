@@ -122,7 +122,7 @@ export const en = {
     unknownLicence: "See the source",
     providersTitle: "Where the data is fetched from",
     providers:
-      "Most text and all recitations come through the EQuran.id API; further editions come from the fawazahmed0/quran-api collection. This site keeps its own copy of the text and serves it as a public mirror.",
+      "The text comes from three sources: the EQuran.id API, the fawazahmed0/quran-api collection and QuranEnc.com. This site keeps its own copy of each and reads from it; the EQuran.id and fawazahmed0 copies are also open to anyone as a mirror. Recitations come from EQuran.id and from the AlQuran.cloud audio CDN.",
     codeTitle: "Source code",
     code: "The code of this site is open:",
     privacyLink: "How your data is handled: the privacy policy.",
@@ -321,7 +321,7 @@ export const en = {
     backup: {
       title: "Backup",
       description:
-        "Download a backup of the reading data in this browser to keep it or to move it to another device without an account, then import it there; imported data is merged, never overwritten.",
+        "Save the reading data of this browser to a file, to keep it or to move it to another device without an account. Importing a file merges it with the data already there; nothing is overwritten.",
       download: "Download backup",
       import: "Import backup",
       imported: "The backup was merged with the data in this browser.",

@@ -122,7 +122,7 @@ export const tr: Messages = {
     unknownLicence: "Kaynağa bakın",
     providersTitle: "Verilerin alındığı yerler",
     providers:
-      "Metinlerin çoğu ve tüm sesli okuyuşlar EQuran.id API'si üzerinden gelir; diğer yayımlar fawazahmed0/quran-api koleksiyonundan gelir. Bu site metnin kendi kopyasını tutar ve onu herkese açık bir ayna olarak sunar.",
+      "Metin üç kaynaktan gelir: EQuran.id API'si, fawazahmed0/quran-api koleksiyonu ve QuranEnc.com. Bu site her birinin kendi kopyasını tutar ve metni oradan okur; EQuran.id ve fawazahmed0 kopyaları ayrıca herkese açık bir ayna olarak sunulur. Sesli okuyuşlar EQuran.id'den ve AlQuran.cloud ses CDN'inden gelir.",
     codeTitle: "Kaynak kodu",
     code: "Bu sitenin kodu açıktır:",
     privacyLink: "Verilerinize nasıl davranıldığı: gizlilik politikası.",

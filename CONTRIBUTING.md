@@ -11,9 +11,10 @@ npm ci
 npm run lint
 npm test
 npm run build
+npm run test:e2e   # browser tests against the build; needs Chromium (`npx playwright install chromium`)
 ```
 
-CI runs the same commands on every pull request.
+CI runs the same commands on every pull request, and also builds and starts the Docker image.
 
 ## Licence of your contribution
 
@@ -37,7 +38,7 @@ translator of a language only if `.github/CODEOWNERS` names them for it, not for
 ## Translating the interface
 
 You can translate QuranWeb's interface (menus, buttons, settings, messages, and the About and privacy pages) into your
-language. The interface is in English and Indonesian today.
+language. The interface is in Indonesian, English and Turkish today (Turkish as a community translation, see Review).
 
 **Only the interface is translated this way, never the Qur'an.** Translations of the meaning of the Qur'an and tafsir
 come only from verified, published sources and are chosen by the reader as editions. A pull request that adds or changes

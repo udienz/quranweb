@@ -8,7 +8,7 @@ Please report a security problem **privately**, not in a public issue:
 2. Say what you found, how to reproduce it, and what it could allow. A page address and the steps are usually enough.
 
 Only the maintainers see the report. We will answer as soon as we can, tell you whether we agree it is a problem, and credit you
-in the fix if you wish. This is a small project run by volunteers, so please be patient; we do not promise a fixed response time.
+in the fix if you wish. This is a small project, so please be patient; there is no fixed response time.
 
 ## What is in scope
 

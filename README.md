@@ -2,9 +2,9 @@
 
 **English** · [Bahasa Indonesia](README.id.md)
 
-A free website for reading the Qur'an: the Arabic text, translations in Indonesian and English, recitation audio and
-tafsir. You do not need an account, and there are no ads. We only count visits, with Cloudflare Web Analytics: no cookies, and
-nothing that identifies you (see the privacy policy).
+A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish and others), recitation
+audio and tafsir. You do not need an account, and there are no ads. Visits are counted with Cloudflare Web Analytics, which,
+according to Cloudflare, sets no cookies and does not identify you (see the privacy policy).
 
 **Open it at https://quranweb.udienz.web.id**
 
@@ -16,11 +16,11 @@ nothing that identifies you (see the privacy policy).
   more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others).
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings.
-- **Listen** to the recitation verse by verse from 23 reciters (the best known at the top of the list, and a search box), with a data-saver
-  mode for mobile data; it moves on to the next verse by itself, and your phone's lock screen
-  can pause it or skip to the next verse. On a computer, Space plays or pauses and N and P move between verses. At the end of a
-  surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
-  **play a whole juz**, from its first verse to its last, across surahs.
+- **Listen** to the recitation verse by verse, from 23 reciters. The best known are at the top of the list, and you can
+  search by name. Playback moves on to the next verse by itself; at the end of a surah it stops, repeats the surah or goes
+  on to the next one, as you choose. You can also **play a whole juz**, across surahs.
+- **Control the audio** from your phone's lock screen (pause, next verse), or on a computer with Space (play or pause) and
+  N and P (next and previous verse). A data-saver mode plays smaller files on mobile data.
 - **Memorize**: hear each verse two, three or more times, repeat a range of verses (for example 2:1–5) as many
   times as you like, and blur the Arabic or the translation to test yourself, tapping a verse to check it.
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab, Jalalayn or Al-Mukhtasar;
@@ -28,15 +28,16 @@ nothing that identifies you (see the privacy policy).
 - **Pick up where you stopped** with "continue reading", and mark how far you have read.
 - **Bookmark verses**, add your own notes, and group them into collections.
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam.
-- **Use it in your language**: the interface follows your browser's language (English or Indonesian for now), and the
-  language menu in the header, or the Settings page, changes it. When you are signed in, your choice follows you.
+- **Use it in your language**: the interface is in Indonesian, English and Turkish (Turkish is a community translation,
+  still waiting for a second reviewer). It follows your browser's language until you pick one in the header or on the
+  Settings page. When you are signed in, your choice follows you.
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices.
-- Works well on phones, and you can copy a verse or a link to it.
+- **Copy a verse**, or a link to it.
 - **Install it as an app** on your phone or computer, with its own icon and window: "Install app" in Chrome or Edge,
   "Add to Home Screen" in Safari on an iPhone. It still needs an internet connection.
 
-Long surahs are split into pages of 10 verses, so every page opens quickly, even on a slow connection.
+Long surahs are split into pages of 10 verses: a page of Al-Baqarah is about 230 KB instead of about 2 MB for the whole surah.
 
 ## Your reading and your privacy
 

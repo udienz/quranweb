@@ -8,7 +8,7 @@
 
 QuranWeb is a free reading site for the Qur'an: Arabic text, transliteration, translations, tafsir and verse-by-verse recitation, with an optional account that syncs reading progress.
 
-Target audience: Indonesian readers first (the interface defaults to Indonesian), then English and Turkish readers, reading daily on phones as often as on desktops. Secondary: people memorizing, who use repetition and hidden text.
+Target audience: Indonesian readers first (the interface defaults to Indonesian), then English and Turkish readers. The layout has a phone version for every page. Secondary: people memorizing, who use repetition and hidden text.
 
 **Brand personality:**
 - Devotional (the Arabic text is set in `Amiri` at 36px with a 86.4px line, larger than any Latin headline on the page)
@@ -20,7 +20,7 @@ Target audience: Indonesian readers first (the interface defaults to Indonesian)
 
 ## 1. Visual Theme & Atmosphere
 
-QuranWeb's website is a printed mushaf laid on a reading desk -- a cream page and white index cards around one block of Arabic that is allowed to be bigger, darker and more generous than anything else on screen.
+QuranWeb's website is a printed mushaf laid on a reading desk -- a cream page and white index cards around one block of Arabic that is bigger and more widely spaced than anything else on screen.
 
 The canvas is warm paper, `#f5f2eb`, never white; white `#ffffff` is reserved for cards and panels that sit on it, so every surface reads as a card placed on a page. Text is a deep green-grey, `#274045`, rather than black, and the only saturated colour is the teal `#176c7d`, used for links, the active page number and the selected layout. The one dark surface is the surah header: a 135-degree gradient from `#104f5b` to `#082026` that frames the surah title like the illuminated head of a chapter.
 
@@ -28,7 +28,7 @@ Typography splits three ways by script and purpose. `Space Grotesk` carries iden
 
 The technique that defines the system is the pair of scale variables `--arabic-scale` and `--latin-scale`. Reading text never uses a fixed size; it is written as `calc(2rem*var(--arabic-scale,1))`, so the reader can enlarge Arabic and Latin separately (85% to 150%) without touching any label or button.
 
-Unlike most reading sites, which treat the translation as the main text and the Arabic as decoration, QuranWeb gives the Arabic the largest size, the widest line spacing and the right-hand column in the mushaf layout.
+In the mushaf layout the Arabic takes the wider, right-hand column (3 parts to the translation's 2), at 36px against the translation's 15px. Most of the visual weight on a reading page belongs to the Arabic.
 
 **Design Principles:**
 - **Arabic first**: the Arabic text is the largest and most spacious element of every reading view; Latin text yields to it.
@@ -37,15 +37,15 @@ Unlike most reading sites, which treat the translation as the main text and the 
 - **Reader-owned scale**: reading text scales by the reader's choice through CSS variables; chrome does not.
 
 **Key Characteristics:**
-- Warm paper canvas instead of white -- `#f5f2eb` body, `#ffffff` only on cards
-- Ink that is green, not black -- body text `#274045`, secondary `#596e73`
+- Warm paper canvas -- `#f5f2eb` body, `#ffffff` only on cards
+- Green-grey ink -- body text `#274045`, secondary `#596e73`
 - A single interactive colour -- teal `#176c7d` for links, active states and focus borders
-- Gold as ornament, not as action colour -- `#d7a342` on verse markers ﴿١﴾, the surah badge ring and the hero button
+- Gold for ornament and for the one main action -- `#d7a342` on verse markers ﴿١﴾, the surah badge ring and the hero button
 - Chapter-head gradient -- `linear-gradient(135deg, #104f5b, #082026)` behind every surah title
 - Arabic set larger than any heading -- `Amiri` 36px, line height 86.4px
 - Translation in a reading measure -- 15px `Plus Jakarta Sans`, line height 24.375px (1.625)
 - Cards drawn with borders -- 1px `#e0e8e4` borders appear 204 times; the only drop shadow appears 14 times
-- Rounded but not bubbly -- 16px card radius, fully rounded pills for buttons and chips
+- Two radii carry most of the shapes -- 16px on cards, fully rounded pills on buttons and chips
 - Reader-controlled type -- `--arabic-scale` and `--latin-scale`, five steps from 85% to 150%
 - Every state change in 150ms -- `cubic-bezier(0.4, 0, 0.2, 1)` on colour, background and border
 
@@ -68,12 +68,12 @@ The system defines nine HSL tokens in `src/app/globals.css` (`--background`, `--
 
 ### Structural Colors
 
-- **Paper** (`#f5f2eb`): frequency 32. Used as background (32). CSS var: `--background` (`42 33% 94%`). The page itself. A cream with a faint yellow cast that keeps long reading sessions from glaring.
+- **Paper** (`#f5f2eb`): frequency 32. Used as background (32). CSS var: `--background` (`42 33% 94%`). The page itself. A cream with a faint yellow cast.
 - **Card White** (`#ffffff`): frequency 184. Used as background (175), text (9). CSS var: `--card` (`0 0% 100%`). Cards, panels, the reader body, the settings sections; white text on teal and on the hero.
 - **Ink** (`#274045`): frequency 412. Used as text (412). CSS var: `--foreground` (`190 28% 21%`). All primary text. A green-grey that matches the teal's hue family.
 - **Faded Ink** (`#596e73`): frequency 435. Used as text (435). CSS var: `--muted-foreground` (`191 13% 40%`). Meta lines ("286 ayat · Madinah"), hints, placeholders, inactive tabs. The most frequent text colour on the site, which keeps the page calm.
 - **Rule** (`#e0e8e4`): frequency 204. Used as border (204). CSS var: `--border` (`146 14% 89.5%`). Every card edge, divider and input border. A grey with a hint of green.
-- **Teal Wash** (`#e2f0f3`): frequency 115. Used as background (115). CSS var: `--primary-soft` (`190 40% 92%`). The current surah in the list, the playing verse, chips, hover fills. A pale blue that signals "selected" without colour shouting.
+- **Teal Wash** (`#e2f0f3`): frequency 115. Used as background (115). CSS var: `--primary-soft` (`190 40% 92%`). The current surah in the list, the playing verse, chips, hover fills. A pale blue that marks "selected".
 - **Linen** (`#ede9de`): frequency 1. Used as background (1). CSS var: `--muted` (`44 29% 90%`). Hover fill on secondary buttons and the track of progress bars.
 
 ### Color Boundary Rules
@@ -194,7 +194,7 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 
 ### Named Strategies
 
-- **Script sovereignty**: Arabic is never set below 18px and reaches 36px with an 86.4px line in reading views, while the largest Latin heading is 30px. Architectural benefit: the reading text keeps its rank even when a reader enlarges Latin text to 150%.
+- **Script sovereignty**: Arabic text is 18px in the surah list, 24px in the grid and 36px with an 86.4px line in reading views, while the largest Latin heading is 30px (the only smaller Arabic is the letter ع on the text-size buttons). Architectural benefit: the reading text keeps its rank even when a reader enlarges Latin text to 150%.
 - **Three families, three jobs**: `Space Grotesk` only names things (titles, numbers, wordmark), `Plus Jakarta Sans` only explains them, `Amiri` only carries the revelation. Architectural benefit: a reader can tell UI from scripture by typeface alone.
 - **Weight over size in the interface**: chrome lives at 12px and 14px and gets its hierarchy from weight (400, 500, 600). Architectural benefit: navigation stays compact so the reading column keeps its width.
 - **Variables, not breakpoints, for reading size**: reading text is `calc(<base>*var(--arabic-scale,1))`; only the mushaf Arabic also steps up at 640px (2rem to 2.25rem). Architectural benefit: size follows the reader, not the device.
@@ -326,8 +326,8 @@ Base unit 4px (Tailwind's `spacing` scale). Most frequent values (padding, gap a
 
 ### Whitespace Philosophy
 
-- **Cards on paper, not sections on a band**: unlike landing-page systems that separate sections with full-width colour bands, QuranWeb separates everything with 16px of cream between white cards, so the page always reads as one desk.
-- **Generous reading, dense chrome**: the Arabic gets an 86.4px line for a 36px size, while lists use 10px and 12px row padding; space is spent on scripture, not on navigation.
+- **Cards on paper**: there are no full-width colour bands; content sits in white cards with 16px of cream between them, so every page has the same ground.
+- **Generous reading, dense chrome**: the Arabic gets an 86.4px line for a 36px size, while lists use 10px and 12px row padding.
 
 ### Border Radius Scale
 
@@ -351,11 +351,11 @@ Base unit 4px (Tailwind's `spacing` scale). Most frequent values (padding, gap a
 
 **Dominant shadow:** `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px` (14 occurrences) -- Tailwind's `shadow-sm`, on the chapter head and on cards while hovered. Things that float above the page (the language and account menus, the reciter list, the mushaf verse bar) use `shadow-lg` when open.
 
-Where most component systems stack three or four resting shadow levels, QuranWeb has one small shadow and lets the cream-to-white step do the work: `#f5f2eb` to `#ffffff` is a visible edge on its own, and the `#e0e8e4` border sharpens it. The result is a page that stays flat enough to read for an hour, and a dark mode that needs no shadow changes at all.
+QuranWeb has one small resting shadow and lets the cream-to-white step do the rest: `#f5f2eb` to `#ffffff` is a visible edge on its own, and the `#e0e8e4` border sharpens it. The result is a page that stays flat enough to read for an hour, and a dark mode that needs no shadow changes at all.
 
 ## 6.5. Motion System
 
-**Motion philosophy:** Motion only confirms that a state changed. Nothing moves on its own, nothing slides in, and reading text never animates.
+**Motion philosophy:** Motion only confirms that a state changed. Nothing moves on its own; menus and panels appear without sliding.
 
 | Token | Duration | Frequency | Use |
 |---|---|---|---|
@@ -376,8 +376,8 @@ Where most component systems stack three or four resting shadow levels, QuranWeb
 
 - **Plain**: "Baca Al-Qur'an" (not "Explore the Holy Qur'an")
 - **Instructional**: "Buka sebuah surat dan posisi bacaan Anda akan dicatat otomatis." (empty state that says what to do)
-- **Respectful**: Arabic names stay in Arabic beside their transliteration ("Yasin", يٰسۤ); "Al-Qur'an", never "Quran app"
-- **Second person, formal**: "Anda" throughout, never "kamu"
+- **Respectful**: Arabic names stay in Arabic beside their transliteration ("Yasin", يٰسۤ), and the book is written "Al-Qur'an"
+- **Second person, formal**: "Anda" (28 times in the Indonesian catalog; "kamu" does not appear)
 
 ### Capitalization Rules
 
@@ -408,7 +408,7 @@ Where most component systems stack three or four resting shadow levels, QuranWeb
 3. "Sembunyikan daftar surat dan pengaturan" (surah page control)
 4. "Belum ada bacaan tersimpan. Buka sebuah surat dan posisi bacaan Anda akan dicatat otomatis." (My reading, empty)
 
-QuranWeb writes like a careful librarian: short labels, full sentences only where an action needs explaining, and no persuasion anywhere. The copy never praises the product or the reader's progress; it states where the reader stopped and how to continue.
+Labels are short, and full sentences appear only where an action needs explaining. The copy does not praise the product or the reader's progress; it says where the reader stopped and how to continue.
 
 ## 8. Do's and Don'ts
 
@@ -427,7 +427,7 @@ QuranWeb writes like a careful librarian: short labels, full sentences only wher
 ### Don'ts
 
 - Don't set the Arabic smaller than the translation -- in this system the Arabic is the main text; keep it at 36px against a 15px translation
-- Don't use black ink on cream -- text is `#274045` (11.02:1 on white, already far above AA); pure black on `#f5f2eb` reads like a printout instead of a page
+- Don't use black ink on cream -- text is `#274045` (9.86:1 on `#f5f2eb`, 11.02:1 on white), already far above AA; black adds contrast nobody needs and breaks the teal family
 - Don't put gold on a button that is not the main action -- gold `#d7a342` appears about ten times per page; more than one gold button per view dilutes it
 - Don't give resting cards a shadow -- depth here is the `#e0e8e4` border; `shadow-sm` (`rgba(0, 0, 0, 0.1) 0px 1px 3px 0px`) is for hover and the chapter head, `shadow-lg` only for things that float (menus, the verse bar)
 - Don't use a white page background -- `#ffffff` is the card colour; a white page erases the card edges

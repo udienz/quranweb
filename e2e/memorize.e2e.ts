@@ -3,7 +3,7 @@ import { cards, logPlays, playing, plays, routeAudio } from "./helpers";
 
 // Memorization: each verse several times, a range in rounds, and hiding the text.
 
-test.beforeEach(async ({ context, baseURL }) => {
+test.beforeEach(async ({ context }) => {
   await logPlays(context);
 });
 
