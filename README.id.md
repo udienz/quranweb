@@ -17,7 +17,8 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan.
 - **Mendengarkan** murottal per ayat dari 23 qari (yang paling dikenal di atas, dan ada kolom pencarian), dengan mode hemat data untuk kuota
-  seluler; otomatis lanjut ke ayat berikutnya. Di akhir surat, audio bisa
+  seluler; otomatis lanjut ke ayat berikutnya, dan layar kunci ponsel
+  bisa menjeda atau melompat ke ayat berikutnya. Di akhir surat, audio bisa
   berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
   **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
 - **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, dan ulangi rentang ayat (misalnya 2:1–5) sebanyak

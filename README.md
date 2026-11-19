@@ -17,7 +17,8 @@ nothing that identifies you (see the privacy policy).
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings.
 - **Listen** to the recitation verse by verse from 23 reciters (the best known at the top of the list, and a search box), with a data-saver
-  mode for mobile data; it moves on to the next verse by itself. At the end of a
+  mode for mobile data; it moves on to the next verse by itself, and your phone's lock screen
+  can pause it or skip to the next verse. At the end of a
   surah it can stop, repeat the surah, or carry on with the next one: your choice, kept with your account. You can also
   **play a whole juz**, from its first verse to its last, across surahs.
 - **Memorize**: hear each verse two, three or more times, and repeat a range of verses (for example 2:1–5) as many
