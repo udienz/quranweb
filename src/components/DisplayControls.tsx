@@ -87,7 +87,7 @@ function SizeRow({ kind }: { kind: keyof FontSize }) {
   const label = t(kind === "arabic" ? "display.arabicSize" : "display.latinSize");
   const step = (direction: 1 | -1) => chooseFontSize({ ...fontSize, [kind]: stepFontScale(value, direction) });
   const button =
-    "flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background font-semibold transition hover:bg-muted disabled:opacity-40 disabled:hover:bg-background";
+    "relative flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background font-semibold transition after:absolute after:-inset-2 after:rounded-full hover:bg-muted disabled:opacity-40 disabled:hover:bg-background";
   return (
     <div role="group" aria-label={label} className="flex items-center justify-between gap-3 text-sm">
       <span className="font-medium">{label}</span>
@@ -103,7 +103,7 @@ function SizeRow({ kind }: { kind: keyof FontSize }) {
             {kind === "arabic" ? <span className="font-arabic text-sm">ع</span> : "A"}−
           </span>
         </button>
-        <output aria-live="polite" className="w-12 text-center font-mono text-xs text-muted-foreground">
+        <output aria-live="polite" className="w-12 text-center tabular-nums text-xs text-muted-foreground">
           {Math.round(value * 100)}%
         </output>
         <button

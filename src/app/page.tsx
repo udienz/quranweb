@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8">
       <section
-        className="mb-8 rounded-2xl px-6 py-10 text-white sm:px-10"
+        className="on-dark mb-8 rounded-2xl px-6 py-10 text-white sm:px-10"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
       >
         <p className="font-arabic text-center text-4xl text-gold sm:text-5xl" dir="rtl" lang="ar" translate="no">

@@ -58,7 +58,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               </Link>
               <nav className="order-last flex w-full justify-center rounded-full border border-border bg-card p-1 text-xs sm:order-none sm:w-auto sm:text-sm">
                 <Link href="/" className="flex items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                  <span className="hidden h-2 w-2 rounded-full bg-gold sm:block" />
                   {t("nav.quran")}
                 </Link>
                 {/* With sign-in on, "My reading" and "Settings" live in the account menu; without it, they stay here. */}

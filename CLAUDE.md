@@ -190,6 +190,12 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   "Surah list and settings" panel above the surah, so phones have everything the side panel has.
 - **No page wider than the screen on phones:** the header puts the navigation on a second row below `sm`, and grids that
   hold `truncate`d text need `grid-cols-1` (an implicit grid column grows to the text). Check new pages at 320 px.
+- **Keyboard focus and tap targets** (UI audit, 2026-11-19): every control gets a 2px ring on `:focus-visible` from an
+  unlayered rule in `globals.css` (teal; gold inside `.on-dark`, which the chapter head and the home hero carry), so do not
+  remove it with `outline-none`. Small round buttons keep their look and get a 44px hit area from an `::after` layer
+  (`relative after:absolute after:-inset-1 after:rounded-full`; one step more when the button has a 1px border, because
+  the layer is measured from inside it). Numbers use `tabular-nums` in the interface font, not monospace; small labels are
+  sentence case. `docs/DESIGN.md` describes the system: update it with any visible change.
 
 ### Settings page, theme and text size
 

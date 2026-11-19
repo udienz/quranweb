@@ -1,5 +1,5 @@
 <!-- Generated: 2026-11-19 | Source: https://quranweb.udienz.web.id | Pages: 5 | Framework: tailwindcss 4 | Format: v2 -->
-<!-- Values come from the computed styles of every visible element (light and dark) and from src/app/globals.css; see docs/design-tokens.json. -->
+<!-- Values come from the computed styles of every visible element (light and dark) in production and from src/app/globals.css; see docs/design-tokens.json. The UI audit fixes of 2026-11-19 (focus ring, tap areas, tabular figures, no header dot, no uppercase eyebrows) were measured on their build. -->
 <!-- Generated with the design-md-generator method (https://github.com/jasonhnd/design-md-generator), extraction done with the project's own Playwright. -->
 
 # Design System: QuranWeb
@@ -12,8 +12,8 @@ Target audience: Indonesian readers first (the interface defaults to Indonesian)
 
 **Brand personality:**
 - Devotional (the Arabic text is set in `Amiri` at 36px with a 86.4px line, larger than any Latin headline on the page)
-- Quiet (one chromatic brand colour, teal `#176c7d`, on a cream `#f5f2eb` canvas; gold `#d7a342` appears only 10 times per page set)
-- Bookish (`Space Grotesk` for titles, `Plus Jakarta Sans` for reading, `ui-monospace` only for surah numbers like "036")
+- Quiet (one chromatic brand colour, teal `#176c7d`, on a cream `#f5f2eb` canvas; gold `#d7a342` appears on 5 elements across the five pages)
+- Bookish (`Space Grotesk` for titles, `Plus Jakarta Sans` for reading and for numbers, set with tabular figures so "036" and "36:1" line up)
 - Patient (every interaction uses one 150ms transition, `cubic-bezier(0.4, 0, 0.2, 1)`; nothing animates on its own)
 
 **Sources referenced:** `/`, `/surah/36`, `/settings`, `/my-reading`, `/about` on https://quranweb.udienz.web.id, in light and dark, desktop (1280px) and phone (390px).
@@ -58,7 +58,7 @@ The system defines nine HSL tokens in `src/app/globals.css` (`--background`, `--
 #### Accent
 
 - **Mushaf Teal** (`#176c7d`): frequency 340. Used as text (327), background (13). CSS var: `--primary` (`190 69% 29%`). Links, the active page number, the selected layout segment, focus borders on inputs, verse numbers. A deep blue-green with enough weight to read as ink on cream.
-- **Illumination Gold** (`#d7a342`): frequency 10. Used as background (7), text (3). CSS var: `--gold` (`39 65% 55%`). The hero call to action, verse markers ﴿N﴾ in the mushaf block, the ring around the surah badge, the 2px left edge of the current surah in the list. A muted ochre that reads as gilt rather than as yellow.
+- **Illumination Gold** (`#d7a342`): frequency 5 (10 before a decorative dot in the header was removed). Used as background (2), text (3). CSS var: `--gold` (`39 65% 55%`). The hero call to action, verse markers ﴿N﴾ in the mushaf block, the ring around the surah badge, the 2px left edge of the current surah in the list. A muted ochre that reads as gilt rather than as yellow.
 - **Gold Ink** (`#092d34`): frequency 2. Used as text (2). Defined inline as `hsl(190 70% 12%)`. Text on gold buttons and on the active Reading/Tafsir tab. Nearly black teal, so gold buttons keep the brand hue in their label.
 
 #### Chapter Head
@@ -160,7 +160,7 @@ The hierarchy compresses in dark mode: in light mode, muted text (`#596e73`) on 
 - **Interface and reading**: `Plus Jakarta Sans Variable`, with fallbacks: `ui-sans-serif, system-ui, sans-serif`
 - **Display**: `Space Grotesk Variable`, with fallbacks: `Plus Jakarta Sans Variable, ui-sans-serif, sans-serif`
 - **Arabic**: `Amiri`, with fallbacks: `Scheherazade New, serif`
-- **Monospace**: `ui-monospace`, with fallbacks: `SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace`
+- **Numbers**: no monospace; surah indexes, verse references and percentages use `Plus Jakarta Sans` with `font-variant-numeric: tabular-nums`.
 - **OpenType Features**: none set (`font-feature-settings: normal` everywhere).
 
 All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts.
@@ -184,8 +184,8 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 | UI Label | Plus Jakarta Sans Variable | 14px (0.88rem) | 500 | 20px | normal | - | Buttons, list names, tabs (most frequent: 402) |
 | Secondary | Plus Jakarta Sans Variable | 14px (0.88rem) | 400 | 20px | normal | - | Descriptions, hints |
 | Meta | Plus Jakarta Sans Variable | 12px (0.75rem) | 400 | 16px | normal | - | "7 ayat · Mekah" |
-| Eyebrow | Plus Jakarta Sans Variable | 12px (0.75rem) | 600 | 16px | normal | - | `text-transform: uppercase`, "LANJUTKAN MEMBACA" |
-| Surah Index | ui-monospace | 12px (0.75rem) | 400 | 16px | normal | - | "036" in the surah list |
+| Language Code | Plus Jakarta Sans Variable | 12px (0.75rem) | 600 | 16px | normal | - | `text-transform: uppercase`, "ID" on the language button |
+| Surah Index | Plus Jakarta Sans Variable | 12px (0.75rem) | 400 | 16px | normal | `tabular-nums` | "036" in the surah list |
 | Mushaf Arabic | Amiri | 36px (2.25rem) | 400 | 86.4px | normal | - | Line height 2.4; scales with `--arabic-scale` |
 | Verse Marker | Amiri | 25.2px (1.58rem) | 400 | 25.2px | normal | - | ﴿١﴾ at 0.7em of the Arabic |
 | Hero Bismillah | Amiri | 48px (3.00rem) | 400 | 48px | normal | - | Home hero, `#d7a342`; 36px below 640px |
@@ -245,7 +245,7 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 - Background: `#f5f2eb` (on cards) or `#ffffff`
 - Border: 1px `#e0e8e4`; radius 12px
 - Text: 14px `#274045`; padding 8px 12px
-- Focus: border becomes `#176c7d` (`focus:border-primary`) -- the only custom focus style in the system
+- Focus: border becomes `#176c7d` (`focus:border-primary`), and the keyboard ring below appears as well
 - Use: "Cari nama atau nomor...", "Ayat per hari", the translation language list
 
 **Dark Select (on the chapter head)**
@@ -278,7 +278,7 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 - Use: every page
 
 **Surah List (side panel)**
-- Rows: monospace index `#596e73`, name 14px weight 500, Arabic name `Amiri` 18px
+- Rows: index in tabular figures `#596e73`, name 14px weight 500, Arabic name `Amiri` 18px
 - Current surah: background `#e2f0f3`, 2px left edge in `#d7a342`
 - Use: the side panel and the phone panel "Daftar surat dan pengaturan"
 
@@ -383,7 +383,7 @@ QuranWeb has one small resting shadow and lets the cream-to-white step do the re
 
 - Headings: sentence case ("Bacaan saya", "Target harian")
 - Buttons: sentence case ("Unduh cadangan", "Mulai dari Al-Fatihah")
-- Eyebrow labels: uppercase via `text-transform: uppercase` ("LANJUTKAN MEMBACA")
+- Small labels: sentence case ("Lanjutkan membaca", "Paling dikenal"); only the language code is uppercase ("ID")
 - Surah names: transliterated with hyphen and capital ("Al-Baqarah", "An-Nas")
 
 ### Button Label Patterns
@@ -428,7 +428,7 @@ Labels are short, and full sentences appear only where an action needs explainin
 
 - Don't set the Arabic smaller than the translation -- in this system the Arabic is the main text; keep it at 36px against a 15px translation
 - Don't use black ink on cream -- text is `#274045` (9.86:1 on `#f5f2eb`, 11.02:1 on white), already far above AA; black adds contrast nobody needs and breaks the teal family
-- Don't put gold on a button that is not the main action -- gold `#d7a342` appears about ten times per page; more than one gold button per view dilutes it
+- Don't put gold on a button that is not the main action -- gold `#d7a342` is on 5 elements across five pages; more than one gold button per view dilutes it
 - Don't give resting cards a shadow -- depth here is the `#e0e8e4` border; `shadow-sm` (`rgba(0, 0, 0, 0.1) 0px 1px 3px 0px`) is for hover and the chapter head, `shadow-lg` only for things that float (menus, the verse bar)
 - Don't use a white page background -- `#ffffff` is the card colour; a white page erases the card edges
 - Don't machine-translate or restyle the Arabic -- every Arabic element carries `translate="no"`; no letter-spacing, no italic, no `font-weight` above 400 in reading views
@@ -462,15 +462,16 @@ Gold on the hero is used for the Arabic surah name (30px) and the badge numeral;
 
 ### Focus Indicators
 
-- Inputs and selects: `outline: none` and the border becomes `#176c7d` on focus
-- Buttons and links: **no custom style**; the browser default (`outline: auto`, 1px) is all there is. This is the main accessibility gap: on the dark chapter head the default ring is hard to see. Recommended: `outline: 2px solid #176c7d` with 2px offset (dark: `#3db8ab`), and `#d7a342` on the chapter head.
+- Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#176c7d`, dark `#3db8ab`) with a 2px offset. On the dark chapter head and the home hero (`.on-dark`) the ring is gold `#d7a342`.
+- The rule is unlayered in `globals.css`, so a utility such as `outline-none` cannot remove it; inputs also turn their border `#176c7d`.
+- Until 2026-11-19 buttons and links had only the browser's default ring, which was nearly invisible on the chapter head.
 
 ### Touch/Click Targets
 
 - Header controls: 40px round buttons
-- Verse action buttons and page numbers: 36px -- below the 44px recommendation; fine for a pointer, tight on phones
+- Verse action buttons and page numbers: 36px to look at, 44px to tap -- an `::after` layer reaches past the edge (`after:-inset-1`, `after:-inset-1.5` where a 1px border sits inside)
 - Gold pill: 40px high on pages (10px + 20px line + 10px), 36px in panels
-- Font-size steppers (ع− ع+ A− A+): 32px -- the smallest targets on the site
+- Font-size steppers (ع− ع+ A− A+): 32px to look at, 46px to tap (`after:-inset-2`)
 - Surah list rows: 44px or taller
 
 ### Reduced-Motion Support
@@ -584,7 +585,7 @@ Every prompt below satisfies:
 
 ### Example Component Prompts
 
-- "Build a chapter header card: background `linear-gradient(135deg, #104f5b, #082026)`, radius 16px, padding 20px 24px, white text, shadow `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px`. Left: a 44px square rotated 45 degrees with a 1px ring of `#d7a342` at 60% opacity and the number in `Space Grotesk Variable` 14px weight 700 `#d7a342`. Next to it the title in `Space Grotesk Variable` 20px weight 700, line height 28px, and a meta line in `ui-monospace` 12px white at 70%. Right: the Arabic name in `Amiri` 30px, line height 36px, colour `#d7a342`, `dir=rtl`. Below a 1px rule of white at 15%: two pill tabs, padding 8px 20px, 14px weight 600 -- active `#d7a342` fill with `#092d34` text, inactive transparent with a 1px border of white at 15% and white text at 85%, hover background white at 10%, transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
+- "Build a chapter header card: background `linear-gradient(135deg, #104f5b, #082026)`, radius 16px, padding 20px 24px, white text, shadow `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px`. Left: a 44px square rotated 45 degrees with a 1px ring of `#d7a342` at 60% opacity and the number in `Space Grotesk Variable` 14px weight 700 `#d7a342`. Next to it the title in `Space Grotesk Variable` 20px weight 700, line height 28px, and a meta line in `Plus Jakarta Sans Variable` 12px with `tabular-nums`, white at 70%. Right: the Arabic name in `Amiri` 30px, line height 36px, colour `#d7a342`, `dir=rtl`. Below a 1px rule of white at 15%: two pill tabs, padding 8px 20px, 14px weight 600 -- active `#d7a342` fill with `#092d34` text, inactive transparent with a 1px border of white at 15% and white text at 85%, hover background white at 10%, transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
 - "Build a section card on a `#f5f2eb` page: background `#ffffff`, 1px border `#e0e8e4`, radius 16px, no shadow. Header row: title in `Space Grotesk Variable` 16px weight 600, line height 24px, colour `#274045`, padding 16px 24px, separated from the body by a 1px `#e0e8e4` rule. Body: padding 16px 24px, text `Plus Jakarta Sans Variable` 14px weight 400 line height 20px `#274045`, secondary lines 12px `#596e73`. An empty state is one sentence in 14px `#596e73` that names the action that fills the card."
 - "Build a surah grid card: `#ffffff`, 1px `#e0e8e4` border, radius 16px, padding 14px 16px, flex row with 16px gap. Left: a 36px diamond (square rotated 45 degrees, radius 6px) filled `#e2f0f3` with the number in `Space Grotesk Variable` 12px weight 700 `#176c7d`. Middle: name in `Plus Jakarta Sans Variable` 16px weight 600 line height 24px `#274045`, meta below in 12px weight 400 `#596e73` ('Pembukaan · 7 ayat · Mekah'). Right: Arabic name in `Amiri` 24px line height 32px `#274045`, `dir=rtl lang=ar translate=no`. Hover: border `#176c7d` at 50% opacity plus shadow `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px`, transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
 - "Build a pill badge: fully rounded, padding 4px 12px, background `#e2f0f3`, text `#176c7d` in `Plus Jakarta Sans Variable` 12px weight 500 line height 16px, no border, no shadow. For a removable label add a 12px close icon (24px grid, stroke 2, `currentColor`) with an 8px gap and `aria-label` naming what it removes."
@@ -600,4 +601,4 @@ Every prompt below satisfies:
 5. Show selection with `#e2f0f3`, not with weight or a shadow.
 6. Add `transition: color, background-color, border-color 150ms cubic-bezier(0.4, 0, 0.2, 1)` to interactive elements and nothing else.
 7. Check dark mode by swapping the tokens: page `#071b20`, card `#0d252b`, text `#e6eff0`, teal `#3db8ab`.
-8. Give every focusable control a visible focus outline (2px `#176c7d`), which the current build still lacks.
+8. Keep the global keyboard ring (2px `#176c7d`, gold `#d7a342` inside `.on-dark`); never hide it with `outline-none` on a new control.
