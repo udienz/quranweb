@@ -171,7 +171,7 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Features | Notes |
 |---|---|---|---|---|---|---|---|
-| Home Headline | Space Grotesk Variable | 30px (1.88rem) | 700 | 36px | normal | - | "Baca Al-Qur'an" |
+| Home Headline | Space Grotesk Variable | 30px (1.88rem) | 700 | 36px | normal | - | "Baca Al-Qur'an"; 24px below 640px |
 | Page Title | Space Grotesk Variable | 24px (1.50rem) | 600 | 32px | normal | - | "Bacaan saya", "Pengaturan" |
 | Wordmark | Space Grotesk Variable | 20px (1.25rem) | 700 | 28px | -0.5px | - | "QuranWeb" in the header |
 | Surah Title | Space Grotesk Variable | 20px (1.25rem) | 700 | 28px | normal | - | "Yasin" in the chapter head |
@@ -188,7 +188,7 @@ All three named families are open source (SIL OFL) and self-hosted through `@fon
 | Surah Index | Plus Jakarta Sans Variable | 12px (0.75rem) | 400 | 16px | normal | `tabular-nums` | "036" in the surah list |
 | Mushaf Arabic | Amiri | 36px (2.25rem) | 400 | 86.4px | normal | - | Line height 2.4; scales with `--arabic-scale` |
 | Verse Marker | Amiri | 25.2px (1.58rem) | 400 | 25.2px | normal | - | ﴿١﴾ at 0.7em of the Arabic |
-| Hero Bismillah | Amiri | 48px (3.00rem) | 400 | 48px | normal | - | Home hero, `#d7a342`; 36px below 640px |
+| Hero Bismillah | Amiri | 36px (2.25rem) | 400 | 40px | normal | - | Home hero, `#d7a342`; 30px below 640px (kept short so "continue reading" stays high) |
 | Bismillah | Amiri | 36px (2.25rem) | 400 | 54px | normal | - | Above every surah but 1 and 9 |
 | Arabic Surah Name | Amiri | 24px (1.50rem) | 400 | 32px | normal | - | Grid cards; 18px/28px in the side list |
 
