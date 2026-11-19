@@ -16,6 +16,13 @@ describe("AlQuran.cloud CDN audio", () => {
     expect(p.urls("ibrahim-al-akhdar", 1, 1)).toEqual(["https://cdn.test/quran/audio/32/ar.ibrahimakhbar/1.mp3"]);
   });
 
+  it("knows the bitrate of its own URLs and of no one else's", () => {
+    const p = createIslamicNetworkAudioProvider({ baseUrl: "https://cdn.test" });
+    expect(p.kbps?.("https://cdn.test/quran/audio/64/ar.alafasy/1.mp3")).toBe(64);
+    expect(p.kbps?.("https://cdn.test/quran/audio/192/ar.hanirifai/1.mp3")).toBe(192);
+    expect(p.kbps?.("https://cdn.equran.id/audio-partial/Misyari-Rasyid-Al-Afasi/001001.mp3")).toBeUndefined();
+  });
+
   it("has no audio for a reciter it does not know", () => {
     expect(createIslamicNetworkAudioProvider().urls("nobody", 1, 1)).toEqual([]);
   });

@@ -40,6 +40,8 @@ export interface Qari {
   /** The name in Arabic letters, for searching and showing beside the Latin one. */
   arabicName?: string;
   source: SourceInfo;
+  /** Set by the service: a smaller recording of this reciter exists, so data-saver mode plays something lighter. */
+  dataSaver?: boolean;
 }
 
 /** Surah metadata, independent of any edition. */
@@ -102,6 +104,8 @@ export interface VerseView {
   tafsir: string | null;
   /** Audio URLs in priority order; the first one is tried first. */
   audio: string[];
+  /** The same URLs, smallest files first, for data-saver mode; only present when that order differs from `audio`. */
+  audioSaver?: string[];
 }
 
 export interface SurahView {

@@ -91,6 +91,12 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
         "https://cdn.test/quran/audio/128/ar.alafasy/2.mp3",
         "https://cdn.test/quran/audio/64/ar.alafasy/2.mp3",
       ],
+      // Data saver: the CDN's 64 kbps file first (half the size of the 128 kbps one, which is the same file as EQuran.id's).
+      audioSaver: [
+        "https://cdn.test/quran/audio/64/ar.alafasy/2.mp3",
+        "https://cdn.test/quran/audio/128/ar.alafasy/2.mp3",
+        "https://audio.test/audio-partial/Misyari-Rasyid-Al-Afasi/001002.mp3",
+      ],
     });
     expect(new Set(view.editions.map((e) => e.source.name))).toEqual(new Set(["EQuran.id", "fawazahmed0/quran-api"]));
   });

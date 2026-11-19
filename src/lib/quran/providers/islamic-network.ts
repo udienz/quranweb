@@ -69,5 +69,10 @@ export function createIslamicNetworkAudioProvider(options: { baseUrl?: string } 
       const n = ayahNumber(surah, verse);
       return reciter.bitrates.map((bitrate) => `${base}/quran/audio/${bitrate}/${reciter.edition}/${n}.mp3`);
     },
+    kbps(url) {
+      if (!url.startsWith(`${base}/quran/audio/`)) return undefined;
+      const bitrate = Number(url.slice(base.length).split("/")[3]);
+      return Number.isFinite(bitrate) && bitrate > 0 ? bitrate : undefined;
+    },
   };
 }

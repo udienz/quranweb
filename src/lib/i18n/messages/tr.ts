@@ -50,7 +50,7 @@ export const tr: Messages = {
     sections: {
       reading: {
         title: "Hesap olmadan okuma",
-        body: "Son okuduğunuz yer, ilerlemeniz, yer imleriniz, notlarınız ve görünüm tercihleriniz kendi tarayıcınızda (yerel depolama) tutulur ve tarayıcıdan çıkmaz. Meal ve okuyucu seçiminiz ile arayüz dili, sitenin sayfayı seçtiğiniz şekilde gösterebilmesi için gereken iki küçük çerezde (qw-sel ve qw-lang) tutulur.\n\nSesli okuyuş varsayılan olarak EQuran.id'den (cdn.equran.id) yüklenir; bu yüzden ses çaldığınızda bu hizmet IP adresinizi görür.",
+        body: "Son okuduğunuz yer, ilerlemeniz, yer imleriniz, notlarınız ve görünüm tercihleriniz kendi tarayıcınızda (yerel depolama) tutulur ve tarayıcıdan çıkmaz. Meal ve okuyucu seçiminiz ile arayüz dili, sitenin sayfayı seçtiğiniz şekilde gösterebilmesi için gereken iki küçük çerezde (qw-sel ve qw-lang) tutulur.\n\nSesli okuyuş EQuran.id'den (cdn.equran.id) ya da diğer okuyucular için ve yedek olarak AlQuran.cloud'dan (cdn.islamic.network) yüklenir; bu yüzden ses çaldığınızda dosyayı gönderen hizmet IP adresinizi görür.",
       },
       account: {
         title: "Giriş yaparsanız",
@@ -228,6 +228,11 @@ export const tr: Messages = {
     audio: "Ses",
   },
   audio: {
+    quality: "Ses kalitesi",
+    qualities: { standard: "Standart", saver: "Veri tasarrufu (daha küçük dosyalar)" },
+    qualityHelpSaver: "Bu okuyucunun daha küçük bir kaydı var: veri tasarrufu daha az veri kullanır (çoğu zaman yarısı), ses kalitesi daha düşüktür.",
+    qualityHelpNone: "Bu okuyucunun tek bir kayıt boyutu var, bu yüzden veri tasarrufu onun için hiçbir şeyi değiştirmez.",
+    qualityDevice: "Yalnızca bu cihazda saklanır, çünkü bağlantısına bağlıdır.",
     hint: "Okuyucu, bir surenin yanındaki ayarlarda da bulunur. Bir cüz çalmak ilk ayetinden başlar ve surelere yayılarak devam eder; yukarıdaki ayar, cüz bittiğinde ne olacağını belirler.",
   },
   display: {
