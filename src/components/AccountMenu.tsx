@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { authClient, signIn } from "@/lib/auth/client";
-import { useAccountSync } from "@/lib/sync/client";
+import { syncOnce, useAccountSync } from "@/lib/sync/client";
+import { signOutClearingData } from "@/lib/sync/sign-out";
 import { useI18n } from "@/lib/i18n/client";
 import { useDismiss } from "@/lib/useDismiss";
 
@@ -31,6 +32,7 @@ export default function AccountMenu() {
   const search = useSearchParams().toString();
   const [open, setOpen] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [signOutFailed, setSignOutFailed] = useState(false);
   const sync = useAccountSync(data?.user.id ?? null);
   const box = useRef<HTMLDivElement>(null);
 
@@ -96,9 +98,13 @@ export default function AccountMenu() {
             <button
               type="button"
               className={item}
-              onClick={() => {
-                setOpen(false);
-                authClient.signOut();
+              onClick={async () => {
+                setSignOutFailed(false);
+                // Sends pending changes, removes the account's reading data from this browser, then signs out.
+                // On failure the menu stays open with the message, and nothing was removed.
+                const done = await signOutClearingData({ sync: () => syncOnce(user.id), signOut: () => authClient.signOut() }).catch(() => false);
+                if (done) setOpen(false);
+                else setSignOutFailed(true);
               }}
             >
               {t("account.signOut")}
@@ -111,6 +117,11 @@ export default function AccountMenu() {
           {failed && (
             <p role="alert" className="px-3 py-1 text-xs text-red-600">
               {t("account.error")}
+            </p>
+          )}
+          {signOutFailed && (
+            <p role="alert" className="max-w-64 whitespace-normal px-3 py-1 text-xs text-red-600">
+              {t("account.signOutFailed")}
             </p>
           )}
         </div>

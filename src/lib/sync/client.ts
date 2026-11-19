@@ -9,6 +9,7 @@ import { userDataSync } from "../userdata/store";
 import { parseUserData, type UserData } from "../userdata/schema";
 import { cookieUpdates } from "./choices";
 import { runSync } from "./engine";
+import { isSigningOut } from "./sign-out";
 
 export type SyncStatus = "idle" | "syncing" | "error";
 
@@ -30,6 +31,11 @@ async function exchange(data: UserData): Promise<UserData> {
  * reader is known, about 2 s after a local change, when the tab is hidden or shown again and when the
  * connection comes back. A failure never touches the local data; the next trigger tries again.
  */
+/** One sync of this browser's data for the signed-in reader (used to send pending changes before signing out). */
+export function syncOnce(userId: string): Promise<UserData> {
+  return runSync({ userId, ...userDataSync, exchange });
+}
+
 export function useAccountSync(userId: string | null): SyncStatus {
   const [status, setStatus] = useState<SyncStatus>("idle");
   const router = useRouter();
@@ -44,7 +50,7 @@ export function useAccountSync(userId: string | null): SyncStatus {
     let syncedRaw = "";
 
     async function sync() {
-      if (stopped) return;
+      if (stopped || isSigningOut()) return;
       if (running) {
         again = true;
         return;
@@ -52,7 +58,18 @@ export function useAccountSync(userId: string | null): SyncStatus {
       running = true;
       setStatus("syncing");
       try {
-        const merged = await runSync({ userId: id, ...userDataSync, exchange });
+        const merged = await runSync({
+          userId: id,
+          ...userDataSync,
+          // A sign-out that began while this sync was running has cleared the browser: do not refill it.
+          save: (data) => {
+            if (!stopped && !isSigningOut()) userDataSync.save(data);
+          },
+          setOwner: (owner) => {
+            if (!stopped && !isSigningOut()) userDataSync.setOwner(owner);
+          },
+          exchange,
+        });
         syncedRaw = userDataSync.raw();
         // Choices made on another device: write them to this browser's cookies and render again.
         const updates = cookieUpdates(merged.choices, document.cookie);
