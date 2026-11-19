@@ -1,4 +1,4 @@
-import { emptyUserData, mergeUserData, type UserData } from "../userdata/schema";
+import { clampFutureTimes, emptyUserData, mergeUserData, type UserData } from "../userdata/schema";
 
 export interface SyncDeps {
   userId: string;
@@ -29,7 +29,8 @@ export async function runSync(deps: SyncDeps): Promise<UserData> {
   }
   deps.setOwner(deps.userId);
   const server = await deps.exchange(deps.load());
-  const merged = mergeUserData(deps.load(), server);
+  // Future change times in this browser's copy (an old import) are brought back to now, as the server does.
+  const merged = clampFutureTimes(mergeUserData(deps.load(), server), new Date().toISOString());
   deps.save(merged);
   return merged;
 }

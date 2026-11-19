@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -246,6 +246,45 @@ describe("export and import", () => {
       data: { version: 1, lastRead: null, progress: {}, bookmarks: [{ surah: 2, verse: 3, note: "old", createdAt: T1 }] },
     });
     expect(importUserData(file).bookmarks).toEqual([{ surah: 2, verse: 3, note: "old", createdAt: T1, updatedAt: T1 }]);
+  });
+
+  it("brings future change times in a backup file back to now, so the file cannot outrank later real changes", () => {
+    const FAR = "9999-01-01T00:00:00.000Z";
+    const file = JSON.stringify({
+      app: "quranweb",
+      format: 1,
+      exportedAt: T1,
+      data: {
+        version: 2,
+        lastRead: null,
+        progress: {},
+        bookmarks: [
+          { surah: 1, verse: 1, note: "planted", createdAt: FAR, updatedAt: FAR },
+          { surah: 2, verse: 255, note: "", createdAt: FAR, updatedAt: FAR, deletedAt: FAR },
+        ],
+        choices: { locale: { value: "en", at: FAR } },
+        collections: [],
+        goal: null,
+        activity: {},
+      },
+    });
+    const imported = importUserData(file, T2);
+    expect(imported.bookmarks.every((b) => b.updatedAt === T2 && b.createdAt === T2)).toBe(true);
+    expect(imported.choices.locale?.at).toBe(T2);
+
+    // A later real change on another device now wins, and the tombstone ages out like any other.
+    let device = mergeUserData(toggleBookmark(emptyUserData(), 2, 255, T1), imported);
+    device = toggleBookmark(removeBookmark(device, 1, 1, T3), 2, 255, T3);
+    device = setLocaleChoice(device, "id", T3);
+    const merged = mergeUserData(imported, device);
+    expect(liveBookmarks(merged).map((b) => `${b.surah}:${b.verse}`)).toEqual(["2:255"]);
+    expect(merged.choices.locale?.value).toBe("id");
+    expect(pruneTombstones(imported, "2027-03-01T00:00:00.000Z").bookmarks.some((b) => b.deletedAt)).toBe(false);
+  });
+
+  it("keeps times up to a day ahead (a fast device clock) and returns the same object when nothing changes", () => {
+    const d = toggleBookmark(emptyUserData(), 3, 3, "2026-11-19T20:00:00.000Z");
+    expect(clampFutureTimes(d, T3)).toBe(d);
   });
 
   it("rejects files that are not a QuranWeb backup or not JSON", () => {

@@ -122,6 +122,9 @@ own format.
   (`deletedAt`) for 90 days, so a removal reaches every device. `mergeUserData` takes the
   newest change per item (a removal wins a tie), and it is commutative, associative and
   idempotent, which tests check on 300 random triples: copies merged in any order converge.
+  Change times more than a day in the future are brought back to the current time (`clampFutureTimes`) on import, on the
+  server before each merge and in the browser after a sync: otherwise an item dated 9999 (a crafted backup file) would beat
+  every later real change and its tombstone would never be pruned.
   Show data with `liveBookmarks` and `liveProgress`, never by reading `bookmarks` or
   `progress` directly. Version 1 data (and backup files) is migrated when read; the stored
   copy becomes version 2 at the next change. The backup envelope stays `format: 1`.

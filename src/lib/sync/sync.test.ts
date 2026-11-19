@@ -168,6 +168,19 @@ describe("state API", () => {
     expect(liveBookmarks(((await stored.json()) as { data: UserData }).data).length).toBe(3000);
   });
 
+  it("brings future change times back to now on the server, also in a copy stored before", () => {
+    db.prepare(`INSERT INTO "user" (id, name, email, "emailVerified", "createdAt", "updatedAt") VALUES ('u-future', 'f', 'future@example.test', 1, 0, 0)`).run();
+    const FAR = "9999-01-01T00:00:00.000Z";
+    const planted = { ...emptyUserData(), bookmarks: [{ surah: 1, verse: 1, note: "planted", createdAt: FAR, updatedAt: FAR }] };
+    // a copy stored before the check existed
+    db.prepare("INSERT INTO account_data (user_id, data, updated_at) VALUES (?, ?, ?)").run("u-future", JSON.stringify(planted), 0);
+    const now = new Date(Date.UTC(2026, 10, 19));
+    const healed = exchangeAccountData(db, "u-future", emptyUserData(), now);
+    expect(healed.bookmarks[0].updatedAt).toBe(now.toISOString());
+    const later = removeBookmark(healed, 1, 1, new Date(Date.UTC(2026, 10, 20)).toISOString());
+    expect(liveBookmarks(exchangeAccountData(db, "u-future", later, new Date(Date.UTC(2026, 10, 20)))).length).toBe(0);
+  });
+
   it("two overlapping exchanges lose nothing", () => {
     db.prepare(`INSERT INTO "user" (id, name, email, "emailVerified", "createdAt", "updatedAt") VALUES ('u-race', 'r', 'race@example.test', 1, 0, 0)`).run();
     exchangeAccountData(db, "u-race", withBookmark(emptyUserData(), 10, 1, T(1)));
