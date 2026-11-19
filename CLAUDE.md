@@ -333,8 +333,8 @@ Optional and off by default: reading never needs an account (`src/lib/auth/`, `s
   every response in `next.config.ts`. The CSP allows inline scripts and styles (Next.js and the theme script need
   them) and https audio; a nonce-based policy would make every page fully dynamic.
 - **Cloudflare Web Analytics** (the owner's choice, 2026-11-19: internal traffic figures only). Cloudflare adds its beacon to
-  every page of both domains (`static.cloudflareinsights.com/beacon.min.js`, reporting to `cloudflareinsights.com`); the CSP
-  allows those two hosts and nothing else of Cloudflare's. Before that the CSP blocked it, with a console error on every page.
+  every page of both domains (`static.cloudflareinsights.com/beacon.min.js`, which reports to `/cdn-cgi/rum` on our own domain);
+  the CSP allows that one script host and nothing else of Cloudflare's. Before that the CSP blocked it, with a console error on every page.
   The privacy page ("Visitor statistics"), both READMEs and the CSP describe the same thing: change them together, and never
   add another analytics or tracking tool without updating the policy in every language first.
 

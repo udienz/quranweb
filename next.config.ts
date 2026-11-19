@@ -9,14 +9,15 @@ const SECURITY_HEADERS = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Cloudflare Web Analytics: Cloudflare adds its beacon script to every page, and the beacon reports to cloudflareinsights.com.
+      // Cloudflare Web Analytics: Cloudflare adds its beacon script to every page; the beacon reports to /cdn-cgi/rum on this
+      // site ('self'), seen on QA and production 2026-11-19, so no other host is needed for it.
       // The privacy page describes it ("Visitor statistics"); change both together.
       "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self'",
       "media-src 'self' https:",
-      "connect-src 'self' https://cloudflareinsights.com",
+      "connect-src 'self'",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
