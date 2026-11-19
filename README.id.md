@@ -3,7 +3,8 @@
 [English](README.md) · **Bahasa Indonesia**
 
 Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan Bahasa Indonesia dan Inggris, audio murottal, dan tafsir.
-Anda tidak perlu akun, dan tidak ada iklan maupun analitik.
+Anda tidak perlu akun, dan tidak ada iklan. Kami hanya menghitung kunjungan, dengan Cloudflare Web Analytics: tanpa kuki
+dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
 
 **Buka di https://quranweb.udienz.web.id**
 
