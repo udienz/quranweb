@@ -240,6 +240,14 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **Next keeps a page that was left**, hidden and with its state, so a hidden `SurahReader` is still in the DOM (a second
   "Playing juz" in a text search; use `:visible`). Its effects are cleaned up, which pauses the audio and clears the
   "playing" mark, so returning to it does not show a verse as playing that is not.
+- **Memorization, step 1** (`src/lib/memorize.ts`, `MemorizePanel` behind the "Memorize" button in the surah header; public
+  issue #45): **play each verse N times** (1, 2, 3, 5, 10; local storage `quranweb:verse-repeat`): `startVerse` sets
+  `repeatsLeft`, and `onEnded` restarts the same verse before anything else, so it applies to surahs, juz and ranges alike.
+  **Loop a range** of the surah (from/to verse, 2, 3, 5, 10 rounds or until stopped): module state like the juz scope
+  (`getRangeLoop`/`setRangeLoop`), so it survives a page change inside the surah; `rangeStep` is the pure rule (after the last
+  verse: the next round from the first verse, or stop). A range and a juz exclude each other; playing a verse by hand outside
+  the range leaves it (inside it, the loop goes on, so pause and play keep it). Both are per browser and not in the account
+  yet. Not built: hiding part of a verse (step 2 of #45).
 - **Testing audio in a browser:** route `**/*.mp3` to a short generated WAV so `ended` fires at once, and read the requested
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
@@ -507,6 +515,7 @@ src/
                                (`quran/translation-groups.ts`; language names from `i18n/languages.ts`, the catalogs first,
                                then `Intl.DisplayNames`, so a new language of translations needs no new message)
     AudioSection.tsx, PlaybackModeSelect.tsx   the Audio section of the settings page; the end-of-surah mode select (also in the surah header)
+    MemorizePanel.tsx          memorization: play each verse N times, loop a range of verses (`lib/memorize.ts`)
     AudioQualitySelect.tsx     standard or data-saver audio (this device only; `lib/audio-quality.ts`)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"

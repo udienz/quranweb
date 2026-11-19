@@ -11,9 +11,11 @@ import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
 import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
 import { audioFor, readAudioQuality } from "@/lib/audio-quality";
+import { getRangeLoop, rangeStep, readVerseRepeat, setRangeLoop, subscribeRangeLoop, type RangeLoop } from "@/lib/memorize";
 import { afterJuz, afterSurah, readPlaybackMode } from "@/lib/playback";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
+import MemorizePanel from "./MemorizePanel";
 import PlaybackModeSelect from "./PlaybackModeSelect";
 import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
@@ -49,6 +51,10 @@ export default function SurahReader({
   const audioIndex = useRef(0);
   // The URLs being tried for that verse, in the order of the audio quality chosen when it started.
   const audioUrls = useRef<string[]>([]);
+  // How many more times the verse that is playing is played before moving on (memorization: "play each verse N times").
+  const repeatsLeft = useRef(0);
+  const rangeLoop = useSyncExternalStore(subscribeRangeLoop, getRangeLoop, () => null);
+  const [memorizeOpen, setMemorizeOpen] = useState(false);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
   const { meta, verses } = view;
   const { from, to } = view.range;
@@ -103,6 +109,7 @@ export default function SurahReader({
     if (!urls[0]) return;
     audioUrls.current = urls;
     audioIndex.current = 0;
+    repeatsLeft.current = readVerseRepeat() - 1;
     audio.src = urls[0];
     setPlayingN(verse.number);
     audio.play().catch(() => setPlayingN(null));
@@ -117,6 +124,9 @@ export default function SurahReader({
       setPlayingN(null);
     } else {
       setJuzScope(null); // playing from a verse by hand leaves the juz that was being played
+      // and the range being looped, unless the verse is inside it (pausing and playing again keeps the loop).
+      const loop = getRangeLoop();
+      if (loop && (loop.surah !== meta.number || verse.number < loop.from || verse.number > loop.to)) setRangeLoop(null);
       startVerse(index);
     }
   }
@@ -135,12 +145,48 @@ export default function SurahReader({
   function playJuz(n: number) {
     const ref = juzs.find((j) => j.juz === n);
     if (!ref) return;
+    setRangeLoop(null);
     setJuzScope(n);
     goTo(ref.start.surah, ref.start.verse);
   }
 
+  /** Loop a range of verses of this surah: from its first verse, again after its last, as many rounds as chosen. */
+  function startRange(loop: RangeLoop) {
+    setJuzScope(null);
+    setRangeLoop(loop);
+    goTo(loop.surah, loop.from);
+  }
+
+  function stopRange() {
+    setRangeLoop(null);
+    getAudio().pause();
+    setPlayingN(null);
+  }
+
   function onEnded() {
+    // The same verse again, as many times as the reader chose for memorizing.
+    if (playingN !== null && repeatsLeft.current > 0) {
+      repeatsLeft.current -= 1;
+      const audio = getAudio();
+      audio.currentTime = 0;
+      audio.play().catch(() => setPlayingN(null));
+      return;
+    }
     const idx = verses.findIndex((v) => v.number === playingN);
+    const loop = getRangeLoop();
+    if (idx >= 0 && loop) {
+      const step = rangeStep(loop, meta.number, verses[idx].number);
+      if (step.kind === "stop") {
+        setRangeLoop(null);
+        setPlayingN(null);
+        return;
+      }
+      if (step.kind === "again") {
+        setRangeLoop(step.loop);
+        goTo(loop.surah, loop.from);
+        return;
+      }
+    }
     const scope = getJuzScope();
     const juz = scope === null ? undefined : juzs.find((j) => j.juz === scope);
     if (idx >= 0 && juz && meta.number === juz.end.surah && verses[idx].number === juz.end.verse) {
@@ -310,8 +356,27 @@ export default function SurahReader({
               </label>
             )}
             <PlaybackModeSelect onDark />
+            <button
+              type="button"
+              aria-expanded={memorizeOpen}
+              onClick={() => setMemorizeOpen((o) => !o)}
+              className={`rounded-xl border px-3 py-2 text-sm ${memorizeOpen ? "border-gold text-gold" : "border-white/15 text-white/85 hover:bg-white/10"}`}
+            >
+              {t("memorize.button")}
+            </button>
           </div>
         </div>
+        {memorizeOpen && <MemorizePanel surah={meta.number} verseCount={meta.verseCount} first={from} onStart={startRange} />}
+        {rangeLoop !== null && rangeLoop.surah === meta.number && playingN !== null && (
+          <p role="status" className="mt-3 flex flex-wrap items-center gap-3 text-sm text-gold">
+            {rangeLoop.times === 0
+              ? t("memorize.playingEndless", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round })
+              : t("memorize.playing", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round, times: rangeLoop.times })}
+            <button type="button" onClick={stopRange} className="rounded-full border border-gold/60 px-3 py-1 text-xs hover:bg-white/10">
+              {t("memorize.stop")}
+            </button>
+          </p>
+        )}
         {playingJuz !== null && playingN !== null && (
           <p role="status" className="mt-3 text-sm text-gold">
             {t("reader.playingJuz", { juz: playingJuz })}

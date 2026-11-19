@@ -20,6 +20,8 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
   seluler; otomatis lanjut ke ayat berikutnya. Di akhir surat, audio bisa
   berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
   **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
+- **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, dan ulangi rentang ayat (misalnya 2:1–5) sebanyak
+  yang Anda mau.
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, atau Jalalayn).
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi.
