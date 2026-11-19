@@ -14,6 +14,7 @@ const SECTIONS = [
   ["privacy.sections.reading.title", "privacy.sections.reading.body"],
   ["privacy.sections.account.title", "privacy.sections.account.body"],
   ["privacy.sections.cookies.title", "privacy.sections.cookies.body"],
+  ["privacy.sections.analytics.title", "privacy.sections.analytics.body"],
   ["privacy.sections.recipients.title", "privacy.sections.recipients.body"],
   ["privacy.sections.retention.title", "privacy.sections.retention.body"],
   ["privacy.sections.rights.title", "privacy.sections.rights.body"],

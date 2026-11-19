@@ -3,7 +3,8 @@
 **English** · [Bahasa Indonesia](README.id.md)
 
 A free website for reading the Qur'an: the Arabic text, translations in Indonesian and English, recitation audio and
-tafsir. You do not need an account, and there are no ads and no analytics.
+tafsir. You do not need an account, and there are no ads. We only count visits, with Cloudflare Web Analytics: no cookies, and
+nothing that identifies you (see the privacy policy).
 
 **Open it at https://quranweb.udienz.web.id**
 
