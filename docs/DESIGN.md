@@ -165,6 +165,13 @@ The hierarchy compresses in dark mode: in light mode, muted text (`#596e73`) on 
 
 All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts.
 
+**Why `Space Grotesk` stays** (owner's decision, 2026-11-19, after the UI audit flagged it as a common default for generated sites):
+- It is the typeface of the site's own voice, never of the text being read. It sets the wordmark, page and surah titles and the numerals in the surah badges, and no running paragraph, so it never sits in a line next to the Arabic.
+- Its hard-edged grotesque shapes are as far from `Amiri`'s naskh as the three families get. A title reads as the site speaking; the Arabic reads as the text itself. A serif here would compete with the Arabic instead.
+- Its figures are wide and distinct at 12px weight 700, which is where most of its uses are (228 badge numerals in the measurement: five pages, light and dark).
+
+Changing it would be a redesign of every title and badge, with new screenshots, for no reader-facing gain; revisit only together with a new identity.
+
 **Substitution notes:** none needed; if `Amiri` cannot be loaded, `Scheherazade New` is the declared fallback and keeps the naskh style. Never substitute a geometric sans for Arabic.
 
 ### Hierarchy
@@ -465,6 +472,7 @@ Gold on the hero is used for the Arabic surah name (30px) and the badge numeral;
 - Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#176c7d`, dark `#3db8ab`) with a 2px offset. On the dark chapter head and the home hero (`.on-dark`) the ring is gold `#d7a342`.
 - The rule is unlayered in `globals.css`, so a utility such as `outline-none` cannot remove it; inputs also turn their border `#176c7d`.
 - Until 2026-11-19 buttons and links had only the browser's default ring, which was nearly invisible on the chapter head.
+- Ring contrast against what surrounds it (3:1 needed): teal `#176c7d` 5.40:1 on `#f5f2eb`, 6.04:1 on `#ffffff`, 5.17:1 on `#e2f0f3`; dark teal `#3db8ab` 7.28:1 on `#071b20`, 6.56:1 on `#0d252b`; gold `#d7a342` 4.02:1 on `#104f5b` (the weakest pair) and 7.40:1 on `#082026`; dark gold `#dfb85d` 4.87:1 and 8.96:1.
 
 ### Touch/Click Targets
 
