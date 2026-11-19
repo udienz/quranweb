@@ -241,7 +241,10 @@ export const tr: Messages = {
     stop: "Durdur",
     playing: "{from}–{to}. ayetler tekrarlanıyor: {round}. tur / {times}",
     playingEndless: "{from}–{to}. ayetler tekrarlanıyor: {round}. tur",
-    hint: "Her ayet seçilen sayıda çalınır; bir sure veya cüz çalarken de. Bu tarayıcıda saklanır.",
+    hide: "Ezberlerken gizle",
+    hideModes: { none: "hiçbir şey", arabic: "Arapça metin", translation: "meal" },
+    showVerse: "{n}. ayeti göster",
+    hint: "Her ayet seçilen sayıda çalınır; bir sure veya cüz çalarken de. Gizlenen metin bulanıklaşır: kontrol etmek için ayete dokunun, yeniden gizlemek için tekrar dokunun. Bu tarayıcıda saklanır.",
   },
   audio: {
     quality: "Ses kalitesi",

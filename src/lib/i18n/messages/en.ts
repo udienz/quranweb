@@ -241,7 +241,10 @@ export const en = {
     stop: "Stop",
     playing: "Repeating verses {from}–{to}: round {round} of {times}",
     playingEndless: "Repeating verses {from}–{to}: round {round}",
-    hint: "Each verse is played the chosen number of times, also when you play a surah or a juz. Kept in this browser.",
+    hide: "Hide while memorizing",
+    hideModes: { none: "nothing", arabic: "the Arabic text", translation: "the translation" },
+    showVerse: "Show verse {n}",
+    hint: "Each verse is played the chosen number of times, also when you play a surah or a juz. Hidden text is blurred: tap a verse to check it, and again to hide it. Kept in this browser.",
   },
   audio: {
     quality: "Audio quality",
