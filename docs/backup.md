@@ -24,6 +24,11 @@ even when the run fails.
 
 ## Installing on a server (once, needs root)
 
+The scripts run from `/usr/local/lib/quranweb/`, not from the deploy checkout, so **a change to `backup-db.sh`,
+`db-tool.mjs` or the upload scripts must be installed again** (the `sudo install` lines below). `db-tool.mjs` counts the
+rows of `user`, `session`, `account_data` and `admin_audit` (the ones that exist), so it works on every schema version;
+install it before a release whose migration drops a table it used to count (migration 5, 2026-11-19).
+
 ```bash
 sudo apt install age
 age-keygen -o backup-key.txt          # run this on the OWNER's machine, not the server

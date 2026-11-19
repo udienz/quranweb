@@ -18,7 +18,9 @@ const tables = (db: DatabaseSync) =>
 describe("database", () => {
   it("creates the schema, in WAL mode with foreign keys", () => {
     const db = openDatabase(join(dir, "a.db"));
-    expect(tables(db)).toEqual(expect.arrayContaining(["users", "bookmarks", "progress", "reading_state", "preferences", "audit_log", "schema_version"]));
+    expect(tables(db)).toEqual(expect.arrayContaining(["user", "session", "account", "account_data", "admin_audit", "schema_version"]));
+    // Migration 5 dropped the unused tables of migration 1.
+    for (const old of ["users", "reading_state", "progress", "bookmarks", "preferences", "audit_log"]) expect(tables(db)).not.toContain(old);
     expect((db.prepare("PRAGMA journal_mode").get() as { journal_mode: string }).journal_mode).toBe("wal");
     expect((db.prepare("PRAGMA foreign_keys").get() as { foreign_keys: number }).foreign_keys).toBe(1);
     db.close();
@@ -32,12 +34,31 @@ describe("database", () => {
     db.close();
   });
 
-  it("deletes a user's rows with the user", () => {
-    const db = openDatabase(join(dir, "a.db"));
-    db.prepare("INSERT INTO users (id, google_sub, email, created_at, last_seen_at) VALUES (1, 's', 'x@example.test', 0, 0)").run();
-    db.prepare("INSERT INTO bookmarks (user_id, surah, verse, created_at, updated_at) VALUES (1, 2, 255, 0, 0)").run();
-    db.prepare("DELETE FROM users WHERE id = 1").run();
-    expect(db.prepare("SELECT COUNT(*) AS n FROM bookmarks").get()).toEqual({ n: 0 });
+  it("drops the migration 1 tables only when they are empty, and keeps them (and everything else) otherwise", () => {
+    const upTo4 = MIGRATIONS.filter((m) => m.version <= 4);
+    for (const [name, insert] of [
+      ["users", "INSERT INTO users (id, google_sub, email, created_at, last_seen_at) VALUES (1, 's', 'x@example.test', 0, 0)"],
+      ["audit_log", "INSERT INTO audit_log (at, actor_email, action) VALUES (0, 'boss@example.test', 'x')"],
+    ] as const) {
+      const db = new DatabaseSync(join(dir, `${name}.db`));
+      db.exec("PRAGMA foreign_keys = ON");
+      migrate(db, upTo4);
+      db.prepare(insert).run();
+      expect(() => migrate(db, MIGRATIONS), name).toThrow(/Migration 5 \(drop-unused-v1-tables\) failed.*v1_tables_must_be_empty/);
+      expect(tables(db)).toEqual(expect.arrayContaining(["users", "reading_state", "progress", "bookmarks", "preferences", "audit_log"]));
+      expect(db.prepare(`SELECT COUNT(*) AS n FROM ${name}`).get()).toEqual({ n: 1 });
+      expect(db.prepare("SELECT MAX(version) AS v FROM schema_version").get()).toEqual({ v: 4 });
+      db.close();
+    }
+  });
+
+  it("an image from before migration 5 still starts on a database it has run (the rollback)", () => {
+    const path = join(dir, "r.db");
+    openDatabase(path).close();
+    const db = new DatabaseSync(path);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(() => migrate(db, MIGRATIONS.filter((m) => m.version <= 4))).not.toThrow();
+    warn.mockRestore();
     db.close();
   });
 

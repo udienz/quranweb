@@ -16,18 +16,17 @@ const db = new DatabaseSync(process.argv[2]);
 db.exec("PRAGMA journal_mode = WAL");
 db.exec(`CREATE TABLE schema_version (version INTEGER NOT NULL, applied_at INTEGER NOT NULL);
   INSERT INTO schema_version VALUES (1, 0);
-  CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT);
-  CREATE TABLE bookmarks (user_id INTEGER, surah INTEGER, verse INTEGER);
-  CREATE TABLE progress (user_id INTEGER, surah INTEGER);
-  INSERT INTO users VALUES (1, 'reader@example.test');
-  INSERT INTO bookmarks VALUES (1, 2, 255);`);
+  CREATE TABLE "user" (id TEXT PRIMARY KEY, email TEXT);
+  CREATE TABLE account_data (userId TEXT, data TEXT);
+  INSERT INTO "user" VALUES ('u1', 'reader@example.test');
+  INSERT INTO account_data VALUES ('u1', '{}');`);
 db.close();
 JS
 
 export AGE_RECIPIENTS="$work/recipients.txt" BACKUP_DIR="$work/backups" RETENTION_DAYS=30
 export DB_FILE="$work/live.db" SNAPSHOT_DIR="$work" RUN_IN_APP=env
 bash "$here/backup-db.sh" qa | tee "$work/out.txt"
-grep -q '"users":1' "$work/out.txt"
+grep -q '"user":1' "$work/out.txt"
 
 backup="$(ls "$work"/backups/quranweb-qa-*.db.age)"
 # the file must be encrypted and the plaintext snapshot gone
@@ -35,7 +34,7 @@ if grep -q "SQLite format" "$backup"; then echo "backup is not encrypted" >&2; e
 [ -z "$(ls -A "$work" | grep '^\.snapshot' || true)" ] || { echo "snapshot left behind" >&2; exit 1; }
 
 bash "$here/restore-db.sh" "$backup" "$work/key.txt" "$work/restored.db" | tee "$work/restore.txt"
-grep -q '"bookmarks":1' "$work/restore.txt"
+grep -q '"account_data":1' "$work/restore.txt"
 if bash "$here/restore-db.sh" "$backup" "$work/key.txt" "$work/restored.db" 2>/dev/null; then
   echo "restore overwrote an existing file" >&2; exit 1
 fi
