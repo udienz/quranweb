@@ -13,19 +13,13 @@ import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { userDataActions } from "@/lib/userdata/store";
 import { FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
+import TranslationPicker from "./TranslationPicker";
 
 const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
   { key: "arabic", label: "settings.show.arabic" },
   { key: "transliteration", label: "settings.show.transliteration" },
   { key: "translation", label: "settings.show.translation" },
 ];
-
-const LANGUAGE_LABELS: Record<string, StringKey> = {
-  ar: "settings.languages.ar",
-  id: "settings.languages.id",
-  en: "settings.languages.en",
-  tr: "settings.languages.tr",
-};
 
 const selectClass =
   "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
@@ -73,7 +67,6 @@ export default function SettingsPanel({
 
   const ofKind = (kind: Edition["kind"]) => catalog.editions.filter((e) => e.kind === kind);
   const nameOf = (e: Edition) => localized(e.name, locale);
-  const languageLabel = (code: string) => (LANGUAGE_LABELS[code] ? t(LANGUAGE_LABELS[code]) : code.toUpperCase());
 
   function saveLayout(next: Layout) {
     if (next === layout) return;
@@ -84,9 +77,6 @@ export default function SettingsPanel({
       router.refresh();
     });
   }
-
-  const translationGroups = new Map<string, Edition[]>();
-  for (const e of ofKind("translation")) translationGroups.set(e.language, [...(translationGroups.get(e.language) ?? []), e]);
 
   return (
     <section id={id} className="scroll-mt-24 rounded-2xl border border-border bg-card p-4" aria-busy={pending}>
@@ -154,35 +144,12 @@ export default function SettingsPanel({
           </select>
         </Field>
 
-        <fieldset>
-          <legend className="mb-1 text-sm font-medium">{t("settings.translation")}</legend>
-          {[...translationGroups].map(([language, editions]) => (
-            <div key={language} className="mb-2 last:mb-0">
-              <p className="mb-1 text-xs text-muted-foreground">{languageLabel(language)}</p>
-              {editions.map((e) => {
-                const checked = selection.translations.includes(e.id);
-                return (
-                  <label key={e.id} className="flex items-start gap-2 py-1 text-sm">
-                    <input
-                      type="checkbox"
-                      className="mt-1 accent-[hsl(var(--primary))]"
-                      checked={checked}
-                      onChange={() =>
-                        save({
-                          ...selection,
-                          translations: checked
-                            ? selection.translations.filter((id) => id !== e.id)
-                            : [...selection.translations, e.id],
-                        })
-                      }
-                    />
-                    <span>{nameOf(e)}</span>
-                  </label>
-                );
-              })}
-            </div>
-          ))}
-        </fieldset>
+        <TranslationPicker
+          editions={ofKind("translation")}
+          selected={selection.translations}
+          onChange={(translations) => save({ ...selection, translations })}
+          nameOf={nameOf}
+        />
 
         <Field label={t("settings.tafsir")}>
           <select

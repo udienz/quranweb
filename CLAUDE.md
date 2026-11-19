@@ -446,6 +446,9 @@ src/
     MushafView.tsx             mushaf layout: running Arabic block, numbered translation column, verse action bar
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
+    TranslationPicker.tsx      the translations: chosen ones as removable labels, a language list, that language's editions
+                               (`quran/translation-groups.ts`; language names from `i18n/languages.ts`, the catalogs first,
+                               then `Intl.DisplayNames`, so a new language of translations needs no new message)
     AudioSection.tsx, PlaybackModeSelect.tsx   the Audio section of the settings page; the end-of-surah mode select (also in the surah header)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
