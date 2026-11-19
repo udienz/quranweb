@@ -7,6 +7,7 @@ import type { VerseView } from "@/lib/quran";
 import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 import { usePrefs } from "./PrefsProvider";
+import Footnotes from "./Footnotes";
 
 const iconProps = {
   width: 18,
@@ -220,6 +221,7 @@ export default function VerseCard({
                 <p lang={editions[tr.edition]?.language} translate="no" className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
                   {tr.text}
                 </p>
+                {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} />}
               </div>
             ))}
         </>

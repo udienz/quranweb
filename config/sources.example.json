@@ -5,8 +5,9 @@
     {
       "type": "fawazahmed0",
       "baseUrl": "/data/quran-api",
-      "editions": ["ara-quranuthmanihaf", "ind-indonesianislam", "eng-abdullahyusufal", "eng-mohammedmarmadu", "tur-diyanetisleri"]
-    }
+      "editions": ["ara-quranuthmanihaf", "eng-abdullahyusufal", "eng-mohammedmarmadu", "tur-diyanetisleri"]
+    },
+    { "type": "quranenc", "baseUrl": "/data/quranenc" }
   ],
   "audioProviders": [{ "type": "equran-audio" }],
   "defaults": {
@@ -17,7 +18,7 @@
     "qari": "misyari-rasyid-al-afasi"
   },
   "localeDefaults": {
-    "en": { "translations": ["eng-abdullahyusufal"] },
-    "tr": { "translations": ["tur-diyanetisleri"] }
+    "en": { "translations": ["eng-abdullahyusufal"], "tafsir": "eng-mokhtasar" },
+    "tr": { "translations": ["tur-diyanetisleri"], "tafsir": "tur-mokhtasar" }
   }
 }

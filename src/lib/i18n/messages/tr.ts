@@ -190,6 +190,7 @@ export const tr: Messages = {
     note: "Not: {note}",
     noteLabel: "Bu ayet için not",
     notePlaceholder: "Kişisel not (bu tarayıcıda saklanır)",
+    footnotes: "Dipnotlar",
     tafsirNotSelected: "Tefsir seçilmedi. Okuma ayarlarından bir tefsir seçin.",
   },
   settings: {

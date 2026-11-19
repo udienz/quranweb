@@ -47,7 +47,7 @@ own format.
     Indonesian translation (Kemenag), Indonesian tafsir (Kemenag) and six reciters
     (default `misyari-rasyid-al-afasi`). These editions are the defaults.
   - `providers/fawazahmed0.ts`: [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api),
-    text only. Seven editions: Arabic Uthmani Hafs, Kemenag (QuranEnc), Quraish Shihab
+    text only. Six editions: Arabic Uthmani Hafs, Quraish Shihab
     (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall, and the Turkish Diyanet İşleri meal
     (`tur-diyanetisleri`, the default translation with the Turkish interface). They only extend the catalog.
     Tanzil's terms (four of these editions, and the Turkish one, come through Tanzil): non-commercial use, and a link back
@@ -55,6 +55,17 @@ own format.
     edition on the About page goes there (a test checks it).
     All have 6,236 verses and verse counts per surah identical to the EQuran.id
     metadata (verified for every surah).
+  - `providers/quranenc.ts`: [QuranEnc.com](https://quranenc.com/en/home/api), reviewed translations with **footnotes**
+    and *Al-Mukhtasar fi Tafsir al-Qur'an* in many languages. Three editions: the Kemenag translation (`ind-indonesianislam`,
+    which came through fawazahmed0 until 2026-11-19; that copy had turned the footnote markers into stray numbers in 563 verses,
+    so the edition moved here with the same ID, and readers' saved choices still work) and Al-Mukhtasar in English
+    (`eng-mokhtasar`) and Turkish (`tur-mokhtasar`), the default tafsir with those interfaces. The text is passed on unchanged:
+    the markers ("[252]") stay in it and the footnotes come with it (`VerseText.notes`, shown folded under the translation by
+    `Footnotes`). QuranEnc's terms: no modification, addition or deletion; name the publisher and QuranEnc.com; give the version;
+    keep it up to date; no inappropriate ads. So each credit names the version (1.0.1 for Kemenag; Al-Mukhtasar has none
+    published, so the date of the copy), and the copy is **not** served publicly. Production reads the private copy made by
+    `sync-quranenc.mjs` in the data repository (`QURAN_QURANENC_URL=/data/quranenc`); run its `--check` now and then, and when
+    it reports a newer version, fetch again and update the version in the credit.
 - **Adding a source** = write a provider, add its type to `sources.ts` (parser and
   factory), and record its licence in the source register of the roadmap. No component
   changes.
@@ -119,7 +130,8 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   interface": pull requests only, reviewed by the language maintainer in `.github/CODEOWNERS`.
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With the English or the Turkish interface and no saved choice, the
-  default translation is Yusuf Ali or the Diyanet meal (`localeDefaults` in the source registry).
+  default translation is Yusuf Ali or the Diyanet meal and the default tafsir is Al-Mukhtasar in that language
+  (`localeDefaults` in the source registry); Indonesian keeps the Kemenag tafsir.
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language translated by a reader and not yet reviewed
   by a second speaker (the owner's decision, 2026-11-18, for Turkish) is marked "Community" in the language menu and the
   settings list, and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
@@ -417,6 +429,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_API_URL` | `https://equran.id/api/v2` | Base URL (or local directory) of an EQuran.id-format API (point it to our mirror) |
 | `QURAN_AUDIO_URL` | `https://cdn.equran.id` | Base URL for audio (for when audio is self-hosted) |
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
+| `QURAN_QURANENC_URL` | the live QuranEnc API | Base URL (or local directory) of the QuranEnc copy (`/data/quranenc` on the servers) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
 | `ADMIN_EMAILS` | none | Comma-separated emails of the admins (verified sign-in emails); unset = no admin page |
 | `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
@@ -572,9 +585,9 @@ proxied.
 
 Both domains serve static JSON mirrors from `/srv/quranweb-mirror` (nginx locations in
 `scripts/mirror-nginx.conf.example`) as public APIs. The containers do not call them over
-HTTP: `deploy.sh` mounts the directory read-only at `/data` and sets `QURAN_API_URL=/data/api/v2`
-and `QURAN_FAWAZ_URL=/data/quran-api`, so the app reads the files directly (a deploy fails,
-and rolls back, if the directory is missing). The two mirrors are:
+HTTP: `deploy.sh` mounts the directory read-only at `/data` and sets `QURAN_API_URL=/data/api/v2`,
+`QURAN_FAWAZ_URL=/data/quran-api` and `QURAN_QURANENC_URL=/data/quranenc`, so the app reads the files directly (a deploy
+fails, and rolls back, if one of the three directories is missing). `quranenc/` is private: nginx does not serve it. The two mirrors are:
 
 - `/api/v2/...`: EQuran.id format (`surat.json`, `surat/{n}`, `tafsir/{n}`).
 - `/quran-api/...`: fawazahmed0 format (`editions.json`, `info.json`,

@@ -191,6 +191,7 @@ export const en = {
     noteLabel: "Note for this verse",
     notePlaceholder: "Personal note (saved in this browser)",
     tafsirNotSelected: "No tafsir selected. Choose one in the reading settings.",
+    footnotes: "Footnotes",
   },
   settings: {
     title: "Reading settings",

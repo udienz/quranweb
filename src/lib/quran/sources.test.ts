@@ -27,9 +27,9 @@ const parse = (mutate: (c: Loose) => void) => {
 
 describe("parseSourceConfig", () => {
   it("accepts the built-in configuration and the example file", () => {
-    expect(parseSourceConfig(valid())).toMatchObject({ textProviders: [{ type: "equran" }, { type: "fawazahmed0" }] });
+    expect(parseSourceConfig(valid())).toMatchObject({ textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }] });
     const example = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
-    expect(parseSourceConfig(example).textProviders).toHaveLength(3);
+    expect(parseSourceConfig(example).textProviders).toHaveLength(4);
     expect(parseSourceConfig(example).localeDefaults?.tr?.translations).toEqual(["tur-diyanetisleri"]); // Turkish by default, like the built-in registry
     // and the example describes a working service
     expect(() => createQuranService(toQuranConfig(parseSourceConfig(example)))).not.toThrow();
@@ -44,7 +44,7 @@ describe("parseSourceConfig", () => {
 
   it("rejects empty or unknown providers and names the allowed types", () => {
     expect(parse((c) => (c.textProviders = []))).toThrow(/textProviders must be a non-empty list/);
-    expect(parse((c) => (c.textProviders[1].type = "nope"))).toThrow(/textProviders\[1\]\.type must be one of: equran, fawazahmed0 \(got "nope"\)/);
+    expect(parse((c) => (c.textProviders[1].type = "nope"))).toThrow(/textProviders\[1\]\.type must be one of: equran, fawazahmed0, quranenc \(got "nope"\)/);
     expect(parse((c) => (c.audioProviders = []))).toThrow(/audioProviders must be a non-empty list/);
     expect(parse((c) => (c.audioProviders[0].type = "mp3"))).toThrow(/audioProviders\[0\]\.type/);
   });
@@ -236,5 +236,18 @@ describe("running from local files only", () => {
     } finally {
       await rm(second, { recursive: true, force: true });
     }
+  });
+});
+
+describe("the QuranEnc provider in the registry", () => {
+  it("is a known type, checks its edition names, and takes its base URL from QURAN_QURANENC_URL", () => {
+    const base = parseSourceConfig(JSON.parse(readFileSync("config/sources.example.json", "utf8")));
+    const raw = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
+    raw.textProviders = [...raw.textProviders.slice(0, 3), { type: "quranenc", editions: ["eng-mokhtasar", "nope"] }];
+    expect(() => parseSourceConfig(raw)).toThrow(/unknown edition "nope" \(known: ind-indonesianislam, eng-mokhtasar, tur-mokhtasar\)/);
+    expect(base.textProviders.find((p) => p.type === "quranenc")?.baseUrl).toBe("/data/quranenc");
+    const filled = applyEnv({ ...DEFAULT_SOURCES }, { QURAN_QURANENC_URL: "/data/quranenc", QURAN_FAWAZ_URL: "/data/quran-api" });
+    expect(filled.textProviders.find((p) => p.type === "quranenc")?.baseUrl).toBe("/data/quranenc");
+    expect(filled.textProviders.find((p) => p.type === "fawazahmed0")?.baseUrl).toBe("/data/quran-api");
   });
 });

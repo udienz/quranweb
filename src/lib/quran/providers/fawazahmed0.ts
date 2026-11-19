@@ -48,18 +48,6 @@ export const FAWAZ_EDITIONS: Edition[] = [
     source: source("https://qurancomplex.gov.sa/", via("King Fahd Quran Complex", "King Fahd Quran Complex", "King Fahd Quran Complex")),
   },
   {
-    id: "ind-indonesianislam",
-    kind: "translation",
-    language: "id",
-    direction: "ltr",
-    name: { en: "Indonesian translation (Kemenag, QuranEnc)", id: "Terjemahan Kemenag RI (QuranEnc)", tr: "Endonezce meal (Kemenag, QuranEnc)" },
-    author: "Kementerian Agama RI",
-    source: source(
-      "https://quranenc.com/check/indonesian_affairs/v1",
-      via("Indonesian Ministry of Religious Affairs (Kemenag) through QuranEnc", "Kementerian Agama RI melalui QuranEnc", "Endonezya Din İşleri Bakanlığı (Kemenag), QuranEnc"),
-    ),
-  },
-  {
     // Its text explains rather than translates (about 400 characters per verse), so it
     // is classified as a tafsir. The owner confirmed this.
     id: "ind-muhammadquraish",

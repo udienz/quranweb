@@ -210,12 +210,16 @@ export function createQuranService(config: QuranConfig) {
 
     const byEdition = new Map(texts.map((t) => [t.edition, t]));
     const textOf = (id: string, i: number) => byEdition.get(id)!.verses[i].text;
+    const notesOf = (id: string, i: number) => byEdition.get(id)!.verses[i].notes;
 
     const verses: VerseView[] = Array.from({ length: to - from + 1 }, (_, k) => k + from - 1).map((i) => ({
       number: i + 1,
       arabic: textOf(selection.arabic, i),
       transliteration: selection.transliteration ? textOf(selection.transliteration, i) : null,
-      translations: selection.translations.map((id) => ({ edition: id, text: textOf(id, i) })),
+      translations: selection.translations.map((id) => {
+        const notes = notesOf(id, i);
+        return { edition: id, text: textOf(id, i), ...(notes ? { notes } : {}) };
+      }),
       tafsir: selection.tafsir ? textOf(selection.tafsir, i) : null,
       audio: audioUrls(selection.qari, number, i + 1),
     }));
