@@ -84,3 +84,57 @@ export function subscribeVerseRepeat(callback: () => void): () => void {
     window.removeEventListener("storage", onStorage);
   };
 }
+
+// Hiding text while memorizing (step 2): the Arabic, or the translation and transliteration, are blurred until the reader
+// taps a verse to check it. The mode is kept in this browser; which verses are shown is module state, cleared when the
+// mode changes (and not kept across visits: it is a check, not a setting).
+export const HIDE_MODES = ["none", "arabic", "translation"] as const;
+export type HideMode = (typeof HIDE_MODES)[number];
+export const DEFAULT_HIDE_MODE: HideMode = "none";
+export const isHideMode = (value: unknown): value is HideMode => (HIDE_MODES as readonly unknown[]).includes(value);
+export const HIDE_MODE_KEY = "quranweb:memorize-hide";
+const HIDE_EVENT = "quranweb:memorize-hide";
+
+export function readHideMode(): HideMode {
+  try {
+    const value = localStorage.getItem(HIDE_MODE_KEY);
+    return isHideMode(value) ? value : DEFAULT_HIDE_MODE;
+  } catch {
+    return DEFAULT_HIDE_MODE;
+  }
+}
+
+let shown = new Set<string>();
+const verseKey = (surah: number, verse: number) => `${surah}:${verse}`;
+
+export function applyHideMode(mode: HideMode): void {
+  try {
+    localStorage.setItem(HIDE_MODE_KEY, mode);
+  } catch {}
+  shown = new Set();
+  window.dispatchEvent(new Event(HIDE_EVENT));
+}
+
+/** Show a hidden verse, or hide it again. */
+export function toggleShown(surah: number, verse: number): void {
+  const key = verseKey(surah, verse);
+  shown = new Set(shown);
+  if (shown.has(key)) shown.delete(key);
+  else shown.add(key);
+  window.dispatchEvent(new Event(HIDE_EVENT));
+}
+
+export const isShown = (set: ReadonlySet<string>, surah: number, verse: number) => set.has(verseKey(surah, verse));
+export const getShown = (): ReadonlySet<string> => shown;
+
+export function subscribeHiding(callback: () => void): () => void {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === HIDE_MODE_KEY) callback();
+  };
+  window.addEventListener(HIDE_EVENT, callback);
+  window.addEventListener("storage", onStorage);
+  return () => {
+    window.removeEventListener(HIDE_EVENT, callback);
+    window.removeEventListener("storage", onStorage);
+  };
+}

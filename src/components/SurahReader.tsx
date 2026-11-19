@@ -312,7 +312,7 @@ export default function SurahReader({
     if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
     const key = e.key.toLowerCase();
     // On a focused button or link, Space already activates it (a play button after a click, for example).
-    if (key === " " && target?.closest("button, a")) return;
+    if (key === " " && target?.closest("button, a, [role='button']")) return;
     if (key === " ") {
       e.preventDefault();
       if (playingN !== null) mediaPause();

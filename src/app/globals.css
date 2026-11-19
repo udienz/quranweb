@@ -66,3 +66,12 @@ body {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--primary) / 0.35) transparent;
 }
+
+/* Memorizing: a hidden Arabic text or translation is blurred until the reader taps it (useHiding). */
+[data-hidden] {
+  filter: blur(0.4em);
+  user-select: none;
+}
+[role="button"][aria-pressed] {
+  cursor: pointer;
+}

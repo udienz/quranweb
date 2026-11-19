@@ -1,5 +1,6 @@
 "use client";
 
+import { useHiding } from "@/lib/useHiding";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import { verseHref, verseId } from "@/lib/anchors";
@@ -177,6 +178,8 @@ export default function VerseCard({
   const { prefs } = usePrefs();
   const data = useUserData();
   const n = verse.number;
+  const hiding = useHiding(surahNumber);
+  const showLabel = t("memorize.showVerse", { n });
 
   const bookmark = findBookmark(data, surahNumber, n);
   const readUpTo = progressOf(data, surahNumber);
@@ -205,12 +208,12 @@ export default function VerseCard({
       {mode === "reading" ? (
         <>
           {prefs.arabic && (
-            <p dir="rtl" lang="ar" translate="no" className="font-arabic mb-4 text-right text-[length:calc(2.25rem*var(--arabic-scale,1))] leading-[2.4] sm:text-[length:calc(2.6rem*var(--arabic-scale,1))]">
+            <p dir="rtl" lang="ar" translate="no" {...hiding.props("arabic", n, showLabel)} className="font-arabic mb-4 text-right text-[length:calc(2.25rem*var(--arabic-scale,1))] leading-[2.4] sm:text-[length:calc(2.6rem*var(--arabic-scale,1))]">
               {verse.arabic}
             </p>
           )}
           {prefs.transliteration && verse.transliteration && (
-            <p translate="no" className="mb-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">{verse.transliteration}</p>
+            <p translate="no" {...hiding.props("translation", n, showLabel)} className="mb-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">{verse.transliteration}</p>
           )}
           {prefs.translation &&
             verse.translations.map((tr) => (
@@ -218,7 +221,7 @@ export default function VerseCard({
                 {verse.translations.length > 1 && (
                   <p className="text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}</p>
                 )}
-                <p lang={editions[tr.edition]?.language} translate="no" className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
+                <p lang={editions[tr.edition]?.language} translate="no" {...hiding.props("translation", n, showLabel)} className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
                   {tr.text}
                 </p>
                 {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} />}

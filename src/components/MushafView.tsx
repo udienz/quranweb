@@ -1,5 +1,6 @@
 "use client";
 
+import { useHiding } from "@/lib/useHiding";
 import { Fragment, useState } from "react";
 import { verseId } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
@@ -38,6 +39,7 @@ export default function MushafView({
   const readUpTo = progressOf(data, surahNumber);
   const side = prefs.translation || prefs.transliteration;
   const current = verses.find((v) => v.number === selected) ?? null;
+  const hiding = useHiding(surahNumber);
   const currentBookmark = current ? findBookmark(data, surahNumber, current.number) : undefined;
 
   const select = (n: number) => setSelected((s) => (s === n ? null : n));
@@ -78,6 +80,7 @@ export default function MushafView({
               <Fragment key={v.number}>
                 <span
                   id={side ? undefined : verseId(v.number)}
+                  {...hiding.props("arabic", v.number, t("memorize.showVerse", { n: v.number }))}
                   className={`scroll-mt-24 rounded ${playingN === v.number ? "bg-primary-soft" : ""}`}
                 >
                   {v.arabic}
@@ -118,11 +121,19 @@ export default function MushafView({
                   >
                     {v.number}.
                   </button>
-                  {prefs.transliteration && v.transliteration && <span className="italic text-primary">{v.transliteration} </span>}
+                  {prefs.transliteration && v.transliteration && (
+                    <span {...hiding.props("translation", v.number, t("memorize.showVerse", { n: v.number }))} className="italic text-primary">
+                      {v.transliteration}{" "}
+                    </span>
+                  )}
                   {prefs.translation &&
                     v.translations.map((tr, i) => (
                       <Fragment key={tr.edition}>
-                        <span lang={editions[tr.edition]?.language} className={i > 0 ? "mt-1 block" : ""}>
+                        <span
+                          lang={editions[tr.edition]?.language}
+                          {...hiding.props("translation", v.number, t("memorize.showVerse", { n: v.number }))}
+                          className={i > 0 ? "mt-1 block" : ""}
+                        >
                           {v.translations.length > 1 && (
                             <span className="mr-1 text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}:</span>
                           )}

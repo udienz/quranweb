@@ -41,3 +41,11 @@ describe("isVerseRepeat", () => {
     expect(isVerseRepeat("2")).toBe(false);
   });
 });
+
+describe("isHideMode", () => {
+  it("accepts the three modes only", async () => {
+    const { isHideMode } = await import("./memorize");
+    expect(["none", "arabic", "translation"].every(isHideMode)).toBe(true);
+    expect(isHideMode("both")).toBe(false);
+  });
+});

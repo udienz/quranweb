@@ -241,7 +241,10 @@ export const id: Messages = {
     stop: "Berhenti",
     playing: "Mengulang ayat {from}–{to}: putaran {round} dari {times}",
     playingEndless: "Mengulang ayat {from}–{to}: putaran {round}",
-    hint: "Setiap ayat diputar sebanyak yang dipilih, juga saat memutar satu surat atau satu juz. Disimpan di browser ini.",
+    hide: "Sembunyikan saat menghafal",
+    hideModes: { none: "tidak ada", arabic: "teks Arab", translation: "terjemahan" },
+    showVerse: "Tampilkan ayat {n}",
+    hint: "Setiap ayat diputar sebanyak yang dipilih, juga saat memutar satu surat atau satu juz. Teks yang disembunyikan dibuat buram: ketuk ayat untuk mengecek, ketuk lagi untuk menyembunyikan. Disimpan di browser ini.",
   },
   audio: {
     quality: "Kualitas audio",

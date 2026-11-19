@@ -259,7 +259,13 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   (`getRangeLoop`/`setRangeLoop`), so it survives a page change inside the surah; `rangeStep` is the pure rule (after the last
   verse: the next round from the first verse, or stop). A range and a juz exclude each other; playing a verse by hand outside
   the range leaves it (inside it, the loop goes on, so pause and play keep it). Both are per browser and not in the account
-  yet. Not built: hiding part of a verse (step 2 of #45).
+  yet.
+- **Memorization, step 2: hide the text** ("Hide while memorizing" in the same panel: nothing, the Arabic, or the translation
+  with the transliteration; local storage `quranweb:memorize-hide`). `useHiding(surah)` gives each block that may be hidden
+  its props: `data-hidden` (blurred by `globals.css`, not selectable), `role="button"`, and a tap, Enter or Space that shows
+  that verse and hides it again. Which verses are shown is module state in `memorize.ts`, cleared when the mode changes; it
+  is a check, not a setting. Works in both layouts; the Tafsir tab is never hidden. Space on a hidden block toggles it
+  instead of starting the audio.
 - **Testing audio in a browser:** route `**/*.mp3` to a short generated WAV so `ended` fires at once, and read the requested
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.

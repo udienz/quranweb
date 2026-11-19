@@ -3,13 +3,19 @@
 import { useState, useSyncExternalStore } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import {
+  applyHideMode,
   applyVerseRepeat,
+  DEFAULT_HIDE_MODE,
   DEFAULT_VERSE_REPEAT,
+  HIDE_MODES,
   makeRange,
   RANGE_TIMES,
+  readHideMode,
   readVerseRepeat,
+  subscribeHiding,
   subscribeVerseRepeat,
   VERSE_REPEATS,
+  type HideMode,
   type RangeLoop,
   type VerseRepeat,
 } from "@/lib/memorize";
@@ -34,6 +40,7 @@ export default function MemorizePanel({
 }) {
   const { t } = useI18n();
   const repeat = useSyncExternalStore(subscribeVerseRepeat, readVerseRepeat, () => DEFAULT_VERSE_REPEAT);
+  const hide = useSyncExternalStore(subscribeHiding, readHideMode, () => DEFAULT_HIDE_MODE);
   const [from, setFrom] = useState(first);
   const [to, setTo] = useState(Math.min(first + 4, verseCount));
   const [times, setTimes] = useState<number>(3);
@@ -97,6 +104,16 @@ export default function MemorizePanel({
           {t("memorize.start")}
         </button>
       </div>
+      <label className="flex flex-wrap items-center gap-2">
+        <span>{t("memorize.hide")}</span>
+        <select value={hide} onChange={(e) => applyHideMode(e.target.value as HideMode)} className={selectClass}>
+          {HIDE_MODES.map((m) => (
+            <option key={m} value={m}>
+              {t(`memorize.hideModes.${m}`)}
+            </option>
+          ))}
+        </select>
+      </label>
       <p className="text-xs text-white/65">{t("memorize.hint")}</p>
     </div>
   );

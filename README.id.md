@@ -22,8 +22,8 @@ dan tanpa apa pun yang mengenali Anda (lihat kebijakan privasi).
   berpindah antarayat. Di akhir surat, audio bisa
   berhenti, mengulang surat, atau lanjut ke surat berikutnya: pilihan Anda, tersimpan di akun. Anda juga bisa
   **memutar satu juz penuh**, dari ayat pertama sampai terakhir, menyeberangi surat.
-- **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, dan ulangi rentang ayat (misalnya 2:1–5) sebanyak
-  yang Anda mau.
+- **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, ulangi rentang ayat (misalnya 2:1–5) sebanyak
+  yang Anda mau, dan buramkan teks Arab atau terjemahan untuk menguji diri, lalu ketuk ayat untuk mengecek.
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
   Al-Mukhtasar juga dalam bahasa Inggris dan Turki).
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca.
