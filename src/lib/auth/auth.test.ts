@@ -160,6 +160,21 @@ describe("OIDC sign-in against a fake provider", () => {
     expect(await session.json()).toBeNull();
   });
 
+  it("signs out at the provider too, and the provider sends the reader back to this site", async () => {
+    const callback = await signIn();
+    const cookie = callback.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");
+    const { idToken } = db.prepare('SELECT "idToken" FROM account').get() as { idToken: string | null };
+    const out = await call("/api/auth/sign-out", { method: "POST", headers: { cookie, origin: BASE, "content-type": "application/json" }, body: "{}" });
+    const body = (await out.json()) as { url?: string; redirect?: boolean };
+    expect(body.redirect).toBe(true);
+    const url = new URL(body.url ?? "");
+    expect(`${url.origin}${url.pathname}`).toBe(`${idp.issuer.replace(/\/$/, "")}/end-session/`);
+    // authentik only redirects back when the URI is registered and the ID token is sent with it.
+    expect(url.searchParams.get("post_logout_redirect_uri")).toBe(`${BASE}/`);
+    expect(url.searchParams.get("id_token_hint")).toBe(idToken);
+    expect(url.searchParams.get("client_id")).toBe(idp.clientId);
+  });
+
   it("refuses a sign-out sent from another site (CSRF), and the session survives", async () => {
     const callback = await signIn();
     const cookie = callback.headers.getSetCookie().map((c) => c.split(";")[0]).join("; ");
