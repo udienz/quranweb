@@ -2,6 +2,7 @@
 // between providers, and data checks.
 
 import { checkJuzList } from "./juz";
+import { checkMushafPages } from "./mushaf-pages";
 import type { AudioProvider, TextProvider } from "./provider";
 import type {
   Catalog,
@@ -9,6 +10,7 @@ import type {
   EditionKind,
   EditionText,
   JuzRef,
+  MushafPageRef,
   Qari,
   Selection,
   SurahMeta,
@@ -144,6 +146,27 @@ export function createQuranService(config: QuranConfig) {
     return list;
   }
 
+  /**
+   * Where the 604 pages of the printed mushaf start and end, from the first provider that has them, checked against the
+   * surah list in the same way as the juz (a page can span surahs, so the surah list is the only reference there is).
+   */
+  async function getMushafPages(): Promise<MushafPageRef[]> {
+    const errors: unknown[] = [];
+    let list: MushafPageRef[] | undefined;
+    for (const provider of config.textProviders) {
+      if (!provider.mushafPages) continue;
+      try {
+        list = await provider.mushafPages();
+        break;
+      } catch (err) {
+        errors.push(err);
+      }
+    }
+    if (!list) throw new Error(`The mushaf pages could not be loaded: ${describeErrors(errors) || "no provider has them"}`);
+    checkMushafPages(list, await getSurahList());
+    return list;
+  }
+
   async function getEditionText(edition: string, surah: number): Promise<EditionText> {
     const entry = editions.get(edition);
     if (!entry) throw new Error(`Edition "${edition}" is not in the catalog`);
@@ -254,7 +277,7 @@ export function createQuranService(config: QuranConfig) {
     };
   }
 
-  return { getSurahList, getJuzList, getCatalog, getSurahView, resolveSelection };
+  return { getSurahList, getJuzList, getMushafPages, getCatalog, getSurahView, resolveSelection };
 }
 
 export type QuranService = ReturnType<typeof createQuranService>;

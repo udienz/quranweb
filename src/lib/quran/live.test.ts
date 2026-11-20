@@ -3,6 +3,7 @@
 //   npm run test:live
 import { describe, expect, it } from "vitest";
 import { defaultConfig } from "./index";
+import { mushafPageOf } from "./mushaf-pages";
 import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0";
 import { createQuranService } from "./service";
 
@@ -34,6 +35,16 @@ describe.skipIf(!process.env.LIVE)("real sources", () => {
     const list = await svc.getSurahList();
     expect(list).toHaveLength(114);
     expect(list.every((s) => s.name.meaning.en && s.name.meaning.id)).toBe(true);
+  });
+
+  it("the juz and the 604 mushaf pages of the source check out against the surah list", async () => {
+    expect(await svc.getJuzList()).toHaveLength(30);
+    const pages = await svc.getMushafPages();
+    expect(pages).toHaveLength(604);
+    // Known pages of the Madinah mushaf: Al-Baqarah starts on page 2, Ayat al-Kursi is on page 42, the last page holds 112 to 114.
+    expect(mushafPageOf(pages, { surah: 2, verse: 1 })).toBe(2);
+    expect(mushafPageOf(pages, { surah: 2, verse: 255 })).toBe(42);
+    expect(pages[603]).toEqual({ page: 604, start: { surah: 112, verse: 1 }, end: { surah: 114, verse: 6 } });
   });
 
   it("every enabled fawazahmed0 edition is consistent across all 114 surahs", async () => {

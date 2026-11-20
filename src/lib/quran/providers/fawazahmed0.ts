@@ -12,7 +12,7 @@
 import { cache } from "react";
 import type { TextProvider } from "../provider";
 import { loadJson } from "../transport";
-import type { Edition, EditionText, JuzRef, SourceInfo } from "../types";
+import type { Edition, EditionText, JuzRef, MushafPageRef, SourceInfo } from "../types";
 
 export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1";
 // Fallback: that repository is about 4.2 GB, so jsDelivr sometimes refuses specific
@@ -112,9 +112,15 @@ interface RawChapter {
   chapter: { chapter: number; verse: number; text: string }[];
 }
 
+interface RawVerse {
+  chapter: number;
+  verse: number;
+}
+
 interface RawInfo {
   chapters: { chapter: number; englishname: string }[];
-  juzs?: { references: { juz: number; start: { chapter: number; verse: number }; end: { chapter: number; verse: number } }[] };
+  juzs?: { references: { juz: number; start: RawVerse; end: RawVerse }[] };
+  pages?: { references: { page: number; start: RawVerse; end: RawVerse }[] };
 }
 
 export interface FawazOptions {
@@ -174,6 +180,17 @@ export function createFawazTextProvider(options: FawazOptions = {}): TextProvide
       if (!Array.isArray(references)) throw new Error("info.json has no juz boundaries");
       return references.map((r) => ({
         juz: r.juz,
+        start: { surah: r.start.chapter, verse: r.start.verse },
+        end: { surah: r.end.chapter, verse: r.end.verse },
+      }));
+    },
+
+    async mushafPages(): Promise<MushafPageRef[]> {
+      const info = await fetchInfo(bases.join("|"));
+      const references = info.pages?.references;
+      if (!Array.isArray(references)) throw new Error("info.json has no mushaf pages");
+      return references.map((r) => ({
+        page: r.page,
         start: { surah: r.start.chapter, verse: r.start.verse },
         end: { surah: r.end.chapter, verse: r.end.verse },
       }));
