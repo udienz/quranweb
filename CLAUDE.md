@@ -600,6 +600,7 @@ scripts/
   sync-mirror.mjs              copy the EQuran.id text to static JSON
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
   deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
+  readme-screenshots.mjs       take the how-to screenshots of the READMEs (docs/screenshots/<lang>/how-*.png)
   upload-git.sh, upload-git.test.sh   off-server copy of the backups to a private GitHub repository (in use, docs/backup.md)
   update-contributors.mjs, contributors-lib.mjs   write CONTRIBUTORS.md from the GitHub API (the logic is tested in contributors.test.mjs)
   upload-rclone.sh, rclone-conf-from-blob.py, upload-rclone.test.sh   alternative copy to Google Drive (not in use)
@@ -754,7 +755,11 @@ Keep that footer link: the credit must stay one click away from every reading pa
   `docs/development.md` (English only).
 - Screenshots in `docs/screenshots/en/` and `docs/screenshots/id/` show the real UI in each
   language (English README and Indonesian README respectively); retake both sets when the
-  UI changes noticeably.
+  UI changes noticeably. The `how-*.png` pictures of the "How to" section come from
+  `node scripts/readme-screenshots.mjs [base URL]` (production by default; sample reading data in local storage, nothing
+  of a real reader). It needs a Chromium that Playwright can start: on a machine without one, run it in the Playwright
+  image of the pinned version, as for the browser tests. The other pictures are still taken by hand. When a step in the
+  "How to" section changes (a label, where a setting lives), change it in both READMEs.
 - **Language of the repository.** Everything is in English: code, identifiers, comments,
   error messages and logs, test names, scripts, workflows, configuration and documentation.
   The only exceptions are the Indonesian interface strings (`messages/id.ts`),
