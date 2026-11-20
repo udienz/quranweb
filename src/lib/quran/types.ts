@@ -72,6 +72,13 @@ export interface JuzRef {
   end: VerseRef;
 }
 
+/** One of the 604 pages of the printed Madinah mushaf: the first and the last verse (a page can span surahs). */
+export interface MushafPageRef {
+  page: number;
+  start: VerseRef;
+  end: VerseRef;
+}
+
 export interface VerseText {
   /** Verse number within the surah, starting at 1. */
   number: number;

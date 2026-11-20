@@ -335,3 +335,31 @@ describe("the juz boundaries", () => {
     await expect(createQuranService(withJuzs(undefined)).getJuzList()).rejects.toThrow(/juz boundaries could not be loaded: no provider has them/);
   });
 });
+
+describe("the mushaf pages", () => {
+  const SURAHS114: SurahMeta[] = Array.from({ length: 114 }, (_, i) => ({ ...META, number: i + 1, verseCount: 10 }));
+  const flat = SURAHS114.flatMap((s) => Array.from({ length: 10 }, (_, v) => ({ surah: s.number, verse: v + 1 })));
+  // 1,140 verses on 604 pages: 536 pages of two verses, then 68 of one.
+  const sizes = [...Array(536).fill(2), ...Array(68).fill(1)];
+  const starts = sizes.map((_, i) => sizes.slice(0, i).reduce((a, b) => a + b, 0));
+  const PAGES = sizes.map((size, i) => ({ page: i + 1, start: flat[starts[i]], end: flat[starts[i] + size - 1] }));
+
+  const withPages = (mushafPages: TextProvider["mushafPages"]): QuranConfig =>
+    config({ textProviders: [{ ...textProvider("p1", EDITIONS), surahs: async () => SURAHS114, ...(mushafPages ? { mushafPages } : {}) }] });
+
+  it("returns the table of the first provider that has one, once it checks out", async () => {
+    expect(await createQuranService(withPages(async () => PAGES)).getMushafPages()).toEqual(PAGES);
+  });
+
+  it("refuses a table that does not fit the surah list", async () => {
+    await expect(createQuranService(withPages(async () => PAGES.slice(1))).getMushafPages()).rejects.toThrow(/Expected 604 pages, got 603/);
+  });
+
+  it("falls back to the next provider when the first one fails, and says so when none has the table", async () => {
+    const failing: TextProvider = { ...textProvider("p1", EDITIONS), mushafPages: async () => { throw new Error("down"); } };
+    const good: TextProvider = { ...textProvider("p2", [], { surahs: false }), mushafPages: async () => PAGES };
+    const svc = createQuranService(config({ textProviders: [{ ...failing, surahs: async () => SURAHS114 }, good] }));
+    expect(await svc.getMushafPages()).toEqual(PAGES);
+    await expect(createQuranService(withPages(undefined)).getMushafPages()).rejects.toThrow(/mushaf pages could not be loaded: no provider has them/);
+  });
+});

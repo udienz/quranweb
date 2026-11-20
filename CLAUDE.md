@@ -179,7 +179,7 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   with `VerseCard`) in a bar fixed at the bottom of the screen (a sticky bar would not stick inside the reader's
   `overflow-hidden` box). The translation items carry the `verse-N` ids, so verse links, the jump menu, last-read
   tracking (`[id^='verse-']`) and audio scrolling work in both layouts. The Tafsir tab always uses cards. Pages are still
-  our 10-verse pages (the data has no printed-mushaf page numbers). The layout is a choice like the editions: switching it
+  our 10-verse pages; the 604 pages of the printed mushaf are being added as a second paging mode (see "Mushaf pages"). The layout is a choice like the editions: switching it
   in the settings writes the cookie and records `choices.layout`, which follows the account.
 - **Account menu** (`AccountMenu`): a button with the person icon (and the name on wide screens) opens a dropdown with
   "My reading" and Sign in, or the name and email, "My reading" and Sign out. With sign-in on, "My reading" is only in
@@ -301,6 +301,17 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
 - **No service worker**, so nothing works offline yet: Chromium no longer needs one to offer installing
   (`Page.getInstallabilityErrors` reports none). Offline reading is the next step of public issue #46 and needs a decision on
   what is kept (text only, or audio too, which is large) and a CSP `worker-src`.
+
+### Mushaf pages (public issue #61, in progress)
+
+The 604 pages of the printed Madinah mushaf come as a second way to cut the text, next to our 10-verse pages; the plan, the
+owner's decisions (addresses `/mushaf/50` and `/surah/2/page/3`, 10-verse pages stay the default) and the order of the
+pull requests are in `ROADMAP.md`, phase 5. Step 1 is in: the page table. Like the juz, it is not ours: `info.json` of
+fawazahmed0 has it (`pages.references`, page, first and last verse), the provider gives it as `mushafPages()`, and
+`getMushafPages` in the service checks it (`quran/mushaf-pages.ts`) before use. The juz and the pages share one check
+(`checkRanges` in `quran/ranges.ts`: the right count, numbered in order, starting at 1:1, every range right after the
+previous one, every verse real, ending at the end of surah 114). A page can span surahs (page 604 holds 112 to 114).
+`mushafPageOf` finds the page of a verse (binary search, `rangeOf`). Nothing in the interface uses them yet.
 
 ### Paging of long surahs
 
@@ -589,6 +600,8 @@ src/
     display.ts                 theme and text size: steps, storage, the no-flash head script, account updates
     playback.ts, audio.ts      audio at the end of a surah or a juz (stop, repeat, next); the one shared <audio> element
     quran/juz.ts               checks the table of the 30 juz that a source gives
+    quran/mushaf-pages.ts      checks the table of the 604 mushaf pages; the page of a verse
+    quran/ranges.ts            the shared check of a table of verse ranges (juz, pages) and the range of a verse
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper
