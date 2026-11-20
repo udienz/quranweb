@@ -620,6 +620,7 @@ scripts/
 deploy/systemd/                backup service and timer units
 config/sources.example.json    example source registry for QURAN_CONFIG
 docs/screenshots/              images used by the READMEs
+docs/previews/                 pictures of planned features in pull requests (mushaf page 42 for #61), not the real interface
 docs/development.md            running, Docker, data sources, environments, deployment
 docs/DESIGN.md                 the visual design system (colours, type, components, do's and don'ts, agent prompts), measured
                                from production on 2026-11-19; evidence in docs/design-tokens.json. Update it with the UI
