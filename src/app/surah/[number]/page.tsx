@@ -60,7 +60,7 @@ export default async function SurahPage({
       initiallyCollapsed={jar.get(SIDEBAR_COOKIE)?.value === "collapsed"}
       side={
         // The column can be taller than the screen; it scrolls on its own so every setting stays reachable.
-        <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pr-1">
+        <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pe-1">
           <SurahSidebar surahs={surahs} current={surahNumber} />
           <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
         </div>

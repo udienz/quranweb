@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COMMUNITY_LOCALES, DEFAULT_LOCALE, isCommunityLocale, isLocale, LOCALES, negotiateLocale, reportTranslationUrl } from "./config";
+import { COMMUNITY_LOCALES, DEFAULT_LOCALE, directionOf, isCommunityLocale, isLocale, LOCALES, negotiateLocale, reportTranslationUrl } from "./config";
 import { MESSAGES } from "./messages";
 import { createTranslator, format, localized, type Plural } from "./translate";
 
@@ -157,5 +157,12 @@ describe("localized data text", () => {
     expect(localized(meaning, "ms")).toBe("Pembukaan");
     expect(localized(meaning, "fr")).toBe("The Opening");
     expect(localized({ ...meaning, ms: "Pembuka" }, "ms")).toBe("Pembuka");
+  });
+});
+
+describe("text direction of the interface", () => {
+  it("is right to left for Arabic, Urdu and Persian, and left to right for every language we have now", () => {
+    for (const code of ["ar", "ur", "fa"]) expect(directionOf(code)).toBe("rtl");
+    for (const code of LOCALES) expect(directionOf(code), code).toBe("ltr");
   });
 });

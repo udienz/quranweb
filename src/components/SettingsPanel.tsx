@@ -122,7 +122,7 @@ export default function SettingsPanel({
             >
               <span
                 className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
-                  prefs[key] ? "left-[22px]" : "left-0.5"
+                  prefs[key] ? "start-[22px]" : "start-0.5"
                 }`}
               />
             </button>

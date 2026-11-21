@@ -35,7 +35,7 @@ export default async function AboutPage() {
   const byKind = (kind: EditionKind): Edition[] => catalog.editions.filter((e) => e.kind === kind);
   const language = languageNamer(t, locale);
   const head = (
-    <thead className="text-left text-xs text-muted-foreground">
+    <thead className="text-start text-xs text-muted-foreground">
       <tr>
         <th className="px-3 py-2 font-medium">{t("about.columns.name")}</th>
         <th className="px-3 py-2 font-medium">{t("about.columns.language")}</th>

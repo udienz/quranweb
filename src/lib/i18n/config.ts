@@ -28,6 +28,15 @@ export const LOCALE_NAMES: Record<Locale, string> = {
  */
 export const COMMUNITY_LOCALES: readonly string[] = ["tr", "ms", "bn", "fr", "ru"];
 
+/**
+ * Languages written right to left. The root layout sets `<html dir>` from this, and the layout uses logical CSS (`ms-`,
+ * `pe-`, `border-s`, `start-`, `text-start`, `rtl:` for arrows), so the interface mirrors itself. Listed before they are in
+ * LOCALES so that adding one of them needs no layout change.
+ */
+export const RTL_LOCALES: readonly string[] = ["ar", "ur", "fa"];
+
+export const directionOf = (code: string): "ltr" | "rtl" => (RTL_LOCALES.includes(code) ? "rtl" : "ltr");
+
 export const isCommunityLocale = (code: string): boolean => COMMUNITY_LOCALES.includes(code);
 
 /**

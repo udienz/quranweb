@@ -72,7 +72,7 @@ export default function SurahReader({
   const { meta, verses } = view;
   const { from, to } = view.range;
   const editionInfo = Object.fromEntries(
-    view.editions.map((e) => [e.id, { name: localized(e.name, locale), language: e.language }]),
+    view.editions.map((e) => [e.id, { name: localized(e.name, locale), language: e.language, direction: e.direction }]),
   );
 
   // Record the verse near the top third of the screen as the "last read" position.
@@ -511,14 +511,14 @@ export default function SurahReader({
       <nav className="mt-2 flex justify-between text-sm font-medium">
         {prev ? (
           <Link href={`/surah/${prev}`} className="rounded-full border border-border bg-card px-4 py-2 text-primary hover:bg-muted">
-            &larr; {t("reader.previousSurah")}
+            <span aria-hidden className="inline-block rtl:-scale-x-100">&larr;</span> {t("reader.previousSurah")}
           </Link>
         ) : (
           <span />
         )}
         {next ? (
           <Link href={`/surah/${next}`} className="rounded-full border border-border bg-card px-4 py-2 text-primary hover:bg-muted">
-            {t("reader.nextSurah")} &rarr;
+            {t("reader.nextSurah")} <span aria-hidden className="inline-block rtl:-scale-x-100">&rarr;</span>
           </Link>
         ) : (
           <span />

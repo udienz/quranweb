@@ -57,7 +57,7 @@ export default function SurahSidebar({
                 <Link
                   href={`/surah/${s.number}`}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 border-l-2 px-4 py-2.5 text-sm transition hover:bg-muted ${
+                  className={`flex items-center gap-3 border-s-2 px-4 py-2.5 text-sm transition hover:bg-muted ${
                     active ? "border-gold bg-primary-soft" : "border-transparent"
                   }`}
                 >

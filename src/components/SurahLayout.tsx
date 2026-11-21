@@ -7,7 +7,7 @@ import { SIDEBAR_COOKIE } from "@/lib/layout";
 
 
 const ChevronIcon = ({ flip }: { flip: boolean }) => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className={flip ? "rotate-180" : ""}>
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className={`rtl:-scale-x-100 ${flip ? "rotate-180" : ""}`}>
     <path d="M15 6l-6 6 6 6" />
   </svg>
 );
