@@ -219,7 +219,9 @@ language with its default translation and tafsir (section "Languages"): update t
   flags (an `<option>` cannot hold an image).
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's
   decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for the twenty-two others, first drafts by Claude at
-  the owner's request) is marked "Community" in the language menu and the settings list, its privacy
+  the owner's request) is marked with an asterisk after its name in the language menu and the settings list (the owner's choice, 2026-11-21,
+  replacing a "Community" badge; screen readers hear "(Community)" instead of "star"), with a note under the list that the
+  asterisk means a community translation not yet reviewed (`nav.communityTranslation`), its privacy
   page says that the English and Indonesian versions apply where the translation differs (`privacy.translationNote`), and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
   that language is the current one. `tr` is already listed, so the label appears together with the language. Remove a
   language from the list once it has been reviewed and has a maintainer in `.github/CODEOWNERS`.

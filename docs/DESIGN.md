@@ -283,8 +283,9 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Wordmark 20px `Space Grotesk` 700, -0.5px tracking, in `#176c7d`, next to the book logo
 - Right side: language menu, theme toggle, account menu: 40px round buttons, 1px `#e0e8e4` border on `#ffffff`, hover `#ede9de`
 - Language menu: 240px wide, scrolls inside itself; languages in alphabetical order of their own names, each with a 20×14px
-  flag (inline SVG, 2px radius, a 1px ring at 10% black so white flags stay visible) before the name, and the
-  "Community" badge after it
+  flag (inline SVG, 2px radius, a 1px ring at 10% black so white flags stay visible) before the name; a community
+  translation has an asterisk after the name in `#176c7d` (gold `#d7a342` is only 2.3:1 on white), explained by a 12px
+  note in `--muted-foreground` under the list
 - Use: every page
 
 **Surah List (side panel)**

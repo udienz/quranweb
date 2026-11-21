@@ -31,8 +31,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))
 - **Use it in your language**: the interface is in 25 languages (the list is under [Languages](#languages)); Urdu, Arabic
   and Persian read right to left. Apart from Indonesian and English they are community translations, not yet checked by a
-  second speaker (Turkish was translated by a reader, the other twenty-two are first drafts by Claude, an AI), so each has a
-  link to report a mistake. Each language shows a translation and a tafsir in that language by default, or in English when
+  second speaker (Turkish was translated by a reader, the other twenty-two are first drafts by Claude, an AI). The menu
+  marks them with an asterisk (*) and a note, and each has a link to report a mistake. Each language shows a translation and a tafsir in that language by default, or in English when
   our sources have none. The site follows your browser's language until you pick one in the header or on the Settings page.
   When you are signed in, your choice follows you. ([how](#change-the-language))
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
@@ -79,6 +79,10 @@ our sources have no translation or no tafsir in a language, the site shows the E
 | 日本語 (Japanese) | Saeed Sato | Al-Mukhtasar |
 
 Unless the table says otherwise, a translation or tafsir is in the language of its row.
+
+Every language except Bahasa Indonesia and English is a community translation, marked with an asterisk (*) in the menu:
+no second speaker has reviewed it yet. If you speak one of them, a review is the most useful help you can give; it is what
+makes the language official. [CONTRIBUTING.md](CONTRIBUTING.md), "From community to official", explains how.
 
 ## How to
 
@@ -171,7 +175,7 @@ The picture at the top of this page is the mushaf layout.
 
 ### Change the language
 
-![The language menu open in the header: languages in alphabetical order by their own names, each with a flag (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English and more), community translations marked Community](docs/screenshots/en/how-language.png)
+![The language menu open in the header: languages in alphabetical order by their own names, each with a flag (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English and more), community translations marked with an asterisk](docs/screenshots/en/how-language.png)
 
 Press the globe button at the top (it shows the code of the current language, such as EN or FR) and pick a language, or use "Interface language" on the
 Settings page. The languages are in alphabetical order of their own names, each with a flag; the menu scrolls when it is

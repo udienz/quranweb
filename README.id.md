@@ -31,8 +31,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))
 - **Memakai bahasa Anda**: antarmuka tersedia dalam 25 bahasa (daftarnya di bagian [Bahasa](#bahasa)); Urdu, Arab, dan
   Persia dibaca dari kanan ke kiri. Selain bahasa Indonesia dan Inggris, semuanya terjemahan komunitas yang belum diperiksa
-  penutur kedua (bahasa Turki diterjemahkan seorang pembaca, dua puluh dua lainnya draf awal oleh Claude, sebuah AI), jadi
-  masing-masing punya tautan untuk melaporkan kesalahan. Setiap bahasa menampilkan terjemahan dan tafsir dalam bahasa itu
+  penutur kedua (bahasa Turki diterjemahkan seorang pembaca, dua puluh dua lainnya draf awal oleh Claude, sebuah AI). Menu
+  menandainya dengan tanda bintang (*) dan sebuah catatan, dan masing-masing punya tautan untuk melaporkan kesalahan. Setiap bahasa menampilkan terjemahan dan tafsir dalam bahasa itu
   sebagai bawaan, atau dalam bahasa Inggris bila sumber kami tidak punya. Bahasanya mengikuti browser Anda sampai Anda
   memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun. ([caranya](#mengganti-bahasa))
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
@@ -81,6 +81,11 @@ berbahasa Inggris: sel itu bertuliskan "Inggris".
 | 日本語 (Jepang) | Saeed Sato | Al-Mukhtasar |
 
 Kecuali tabel menyebut lain, terjemahan atau tafsir itu berbahasa sesuai barisnya.
+
+Semua bahasa selain Bahasa Indonesia dan English adalah terjemahan komunitas, ditandai tanda bintang (*) di menu: belum
+ada penutur kedua yang meninjaunya. Kalau Anda menguasai salah satunya, tinjauan Anda adalah bantuan yang paling berguna,
+karena tinjauan itulah yang menjadikan bahasa tersebut resmi. Caranya ada di [CONTRIBUTING.md](CONTRIBUTING.md) (dalam
+bahasa Inggris), bagian "From community to official".
 
 ## Cara memakai
 
@@ -175,7 +180,7 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 ### Mengganti bahasa
 
-![Menu bahasa terbuka di header: bahasa diurutkan menurut abjad nama bahasa itu sendiri, masing-masing dengan bendera (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English, dan seterusnya), terjemahan komunitas bertanda Komunitas](docs/screenshots/id/how-language.png)
+![Menu bahasa terbuka di header: bahasa diurutkan menurut abjad nama bahasa itu sendiri, masing-masing dengan bendera (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English, dan seterusnya), terjemahan komunitas bertanda bintang](docs/screenshots/id/how-language.png)
 
 Tekan tombol bola dunia di atas (bertuliskan kode bahasa yang sedang dipakai, misalnya ID atau EN) dan pilih bahasa, atau pakai "Bahasa antarmuka" di halaman
 Pengaturan. Bahasa diurutkan menurut abjad nama bahasa itu sendiri, masing-masing dengan benderanya; menunya bisa digulir

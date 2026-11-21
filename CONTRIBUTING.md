@@ -44,6 +44,28 @@ as community translations (see Review). Turkish was translated by a reader.
 **The other twenty-two are first drafts made by Claude (an AI) at the owner's request**, published as community translations so that speakers can correct them: a review
 of one of them, even of a few messages, is very welcome, and a reviewer can become that language's maintainer.
 
+### From community to official: why your review matters
+
+Twenty-three of the 25 interface languages are community translations, marked with an asterisk (*) in the language menu;
+a note under the list explains it. Twenty-two of them are drafts by an AI that no speaker of the language has read yet.
+They can have a wrong word, a sentence that reads like a machine wrote it, or a term your community writes differently.
+On a site where people read the Qur'an, that matters: the interface is how a reader finds a surah, starts the recitation,
+marks their progress, and learns what happens to their data. Until a speaker has checked it, the privacy policy in that
+language is not binding either: the page says that the English and Indonesian versions apply.
+
+Your review is what makes a community translation official. You do not need to translate anything from scratch: read the
+language as a reader would, and fix what reads wrong. A review of a few screens already helps.
+
+1. **Read it.** Choose your language in the menu at the top of the site, and go through the pages you use. The messages are
+   also in one file, `src/lib/i18n/messages/<code>.ts` (for example `de.ts`), next to the English source `en.ts`.
+2. **Fix it.** Open a pull request with your corrections (see "How to translate" below). Not on GitHub with code? Use
+   "Report a translation mistake" at the bottom of the language menu while your language is chosen; it opens an issue with
+   the language filled in.
+3. **It becomes official.** When a speaker has reviewed the whole catalog, the owner removes the language from
+   `COMMUNITY_LOCALES` in `src/lib/i18n/config.ts`: the asterisk goes, the privacy page drops its note, and the reviewer
+   is listed as the language's maintainer in [.github/CODEOWNERS](.github/CODEOWNERS), so later changes to that language go
+   through them. Your name is added to `CONTRIBUTORS.md`.
+
 **Only the interface is translated this way, never the Qur'an.** Translations of the meaning of the Qur'an and tafsir
 come only from verified, published sources and are chosen by the reader as editions. A pull request that adds or changes
 Qur'an content as part of a translation is not accepted.
@@ -86,8 +108,8 @@ A translation is published only after another speaker of the language has review
    maintainers, listed in [.github/CODEOWNERS](.github/CODEOWNERS); GitHub asks them to review every change to their
    catalog. The project owner merges after their approval.
 3. **A new language with no maintainer yet** stays open until someone else who speaks it has reviewed it, or the owner
-   may decide to publish it as a **community translation**: the language menu marks it ("Community") and offers a link to
-   report a mistake (`COMMUNITY_LOCALES` in `src/lib/i18n/config.ts`). The label is removed once a second speaker has
-   reviewed it. The first contributor of a language becomes its maintainer once their work has been reviewed by someone else.
+   may decide to publish it as a **community translation**: the language menu marks it with an asterisk (*), explained in
+   a note under the list, and offers a link to report a mistake (`COMMUNITY_LOCALES` in `src/lib/i18n/config.ts`). The
+   asterisk is removed once a second speaker has reviewed it (see "From community to official"). The first contributor of a language becomes its maintainer once their work has been reviewed by someone else.
 
 The Indonesian catalog (`messages/id.ts`) is maintained by @udienz.
