@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COMMUNITY_LOCALES, DEFAULT_LOCALE, directionOf, isCommunityLocale, isLocale, LOCALES, negotiateLocale, reportTranslationUrl } from "./config";
+import { COMMUNITY_LOCALES, DEFAULT_LOCALE, directionOf, isCommunityLocale, isLocale, LOCALE_FLAGS, LOCALE_NAMES, LOCALES, LOCALES_BY_NAME, negotiateLocale, reportTranslationUrl } from "./config";
 import { MESSAGES } from "./messages";
 import { createTranslator, format, localized, type Plural } from "./translate";
 
@@ -11,21 +11,21 @@ describe("negotiateLocale", () => {
 
   it("uses the first supported language the browser lists", () => {
     expect(negotiateLocale(undefined, "en-US,en;q=0.9,id;q=0.8")).toBe("en");
-    expect(negotiateLocale(undefined, "de-DE,id;q=0.8,en;q=0.5")).toBe("id");
+    expect(negotiateLocale(undefined, "ko-KR,id;q=0.8,en;q=0.5")).toBe("id");
     expect(negotiateLocale(undefined, "ru-RU,ru;q=0.9,en;q=0.5")).toBe("ru");
     expect(negotiateLocale(undefined, "ms-MY,en;q=0.5")).toBe("ms");
     expect(negotiateLocale(undefined, "EN-gb")).toBe("en");
   });
 
   it("falls back to the default for an unknown cookie, an unsupported language or no header", () => {
-    expect(negotiateLocale("de", "de-DE,nl;q=0.9")).toBe(DEFAULT_LOCALE);
+    expect(negotiateLocale("ko", "ko-KR,nl;q=0.9")).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale(undefined, null)).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale("", "")).toBe(DEFAULT_LOCALE);
   });
 
   it("isLocale only accepts supported codes", () => {
     expect(LOCALES.every(isLocale)).toBe(true);
-    expect(isLocale("de")).toBe(false);
+    expect(isLocale("ko")).toBe(false);
     expect(isLocale(undefined)).toBe(false);
   });
 });
@@ -148,6 +148,9 @@ describe("plural forms", () => {
     expect(en.tn("common.verses", 1)).toBe("1 verse");
     expect(en.tn("common.verses", 3)).toBe("3 verses");
     expect(createTranslator("ms", MESSAGES.ms).tn("common.verses", 1)).toBe("1 ayat");
+    const bs = createTranslator("bs", MESSAGES.bs);
+    expect([1, 3, 5, 21, 22].map((n) => bs.tn("common.verses", n))).toEqual(["1 ajet", "3 ajeta", "5 ajeta", "21 ajet", "22 ajeta"]);
+    expect(createTranslator("zh", MESSAGES.zh).tn("common.verses", 7)).toBe("7 节");
     const ar = createTranslator("ar", MESSAGES.ar);
     expect([0, 1, 2, 3, 11, 100].map((n) => ar.tn("common.verses", n))).toEqual([
       "لا آيات",
@@ -173,5 +176,18 @@ describe("text direction of the interface", () => {
   it("is right to left for Arabic, Urdu and Persian, and left to right for the others", () => {
     for (const code of ["ar", "ur", "fa"]) expect(directionOf(code)).toBe("rtl");
     for (const code of LOCALES.filter((c) => !["ar", "ur", "fa"].includes(c))) expect(directionOf(code), code).toBe("ltr");
+  });
+});
+
+describe("language menu order and flags", () => {
+  it("lists every language once, alphabetically by its own name", () => {
+    expect([...LOCALES_BY_NAME].sort()).toEqual([...LOCALES].sort());
+    const collator = new Intl.Collator("und");
+    const names = LOCALES_BY_NAME.map((code) => LOCALE_NAMES[code]);
+    expect(names).toEqual([...names].sort(collator.compare));
+  });
+
+  it("gives every language a two-letter country flag", () => {
+    for (const code of LOCALES) expect(LOCALE_FLAGS[code]).toMatch(/^[A-Z]{2}$/);
   });
 });

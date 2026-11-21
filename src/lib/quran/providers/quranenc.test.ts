@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { LOCALES } from "../../i18n/config";
-import { createQuranEncTextProvider, QURANENC_API_URL, QURANENC_EDITIONS, QURANENC_KEYS } from "./quranenc";
+import { createQuranEncTextProvider, MIRRORED_KEYS, QURANENC_API_URL, QURANENC_EDITIONS, QURANENC_KEYS } from "./quranenc";
 
 const BASE = "https://mirror.test/quranenc";
 const sura = (n: number, rows: [string, string | null][]) => ({
@@ -64,7 +64,7 @@ describe("QuranEnc provider", () => {
       for (const locale of LOCALES) {
         const text = e.source.attribution[locale];
         expect(text, `${e.id} ${locale}`).toMatch(/QuranEnc\.com/);
-        expect(text, `${e.id} ${locale}`).toMatch(/1\.0\.1|1\.0\.3|1\.1\.3|2026-11-19|2026-11-21/);
+        expect(text, `${e.id} ${locale}`).toMatch(/version|versi|sürüm|versión|verzija|версия|ورژن|الإصدار|نسخهٔ|সংস্করণ|2026-11-19|2026-11-21/);
         expect(e.name[locale], `${e.id} ${locale}`).toBeTruthy();
       }
     }
@@ -81,6 +81,47 @@ describe("QuranEnc provider", () => {
       ["fas-islamhousecompe", "translation", "fa"],
       ["fas-mokhtasar", "tafsir", "fa"],
       ["ara-mokhtasar", "tafsir", "ar"],
+      ["spa-isagarcia", "translation", "es"],
+      ["bos-rowwad", "translation", "bs"],
+      ["zho-makin", "translation", "zh"],
+      ["tha-rowwad", "translation", "th"],
+      ["uzb-rowwad", "translation", "uz"],
+      ["tam-omarsharif", "translation", "ta"],
+      ["mal-kunhimuhammad", "translation", "ml"],
+      ["bos-mokhtasar", "tafsir", "bs"],
+      ["zho-mokhtasar", "tafsir", "zh"],
+      ["tha-mokhtasar", "tafsir", "th"],
+      ["uzb-mokhtasar", "tafsir", "uz"],
+      ["tam-mokhtasar", "tafsir", "ta"],
+      ["mal-mokhtasar", "tafsir", "ml"],
+      ["deu-bubenheim", "translation", "de"],
+      ["por-helminasr", "translation", "pt"],
+      ["hin-omari", "translation", "hi"],
+      ["swa-barwani", "translation", "sw"],
+      ["hau-gumi", "translation", "ha"],
+      ["jpn-saeedsato", "translation", "ja"],
+      ["vie-rowwad", "translation", "vi"],
+      ["ita-mokhtasar", "tafsir", "it"],
+      ["hin-mokhtasar", "tafsir", "hi"],
+      ["jpn-mokhtasar", "tafsir", "ja"],
+      ["vie-mokhtasar", "tafsir", "vi"],
     ]);
+  });
+
+  it("reads a key our copy does not hold from the live API, even with a copy configured", async () => {
+    const urls: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string | URL | Request) => {
+        urls.push(String(url));
+        return new Response(JSON.stringify(sura(1, Array.from({ length: 7 }, () => ["…", null]))));
+      }),
+    );
+    const provider = createQuranEncTextProvider({ baseUrl: BASE });
+    expect(MIRRORED_KEYS.has(QURANENC_KEYS["spa-isagarcia"])).toBe(false);
+    await provider.text("spa-isagarcia", 1);
+    expect(urls[0]).toBe(`${QURANENC_API_URL}/translation/sura/spanish_garcia/1.json`);
+    await provider.text("eng-mokhtasar", 1);
+    expect(urls.at(-1)).toBe(`${BASE}/translation/sura/english_mokhtasar/1.json`);
   });
 });

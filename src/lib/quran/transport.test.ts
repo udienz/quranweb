@@ -44,7 +44,18 @@ describe("loadJson", () => {
     vi.stubGlobal("fetch", fetchMock);
     expect(await loadJson("https://example.test/ok")).toEqual({ remote: true });
     await expect(loadJson("https://example.test/down")).rejects.toThrow(/Failed to load https:\/\/example\.test\/down \(status 503\)/);
-    expect(fetchMock).toHaveBeenCalledWith("https://example.test/ok");
+    expect(fetchMock.mock.calls[0][0]).toBe("https://example.test/ok");
+  });
+
+  it("keeps a remote answer in memory, but not a failure", async () => {
+    let up = false;
+    const fetchMock = vi.fn(async () => (up ? new Response(JSON.stringify({ n: 1 })) : new Response("no", { status: 503 })));
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(loadJson("https://example.test/a")).rejects.toThrow(/status 503/);
+    up = true;
+    expect(await loadJson("https://example.test/a")).toEqual({ n: 1 });
+    expect(await loadJson("https://example.test/a")).toEqual({ n: 1 });
+    expect(fetchMock).toHaveBeenCalledTimes(2); // the failure, then one success; the third read came from memory
   });
 
   it("never reads a file for a remote location", async () => {

@@ -475,6 +475,12 @@ export default function SurahReader({
         )}
       </header>
 
+      {view.unavailable.length > 0 && (
+        <p role="status" className="mt-3 rounded-xl border border-border bg-muted px-4 py-3 text-sm">
+          {t("reader.unavailable", { names: view.unavailable.map((e) => localized(e.name, locale)).join(", ") })}
+        </p>
+      )}
+
       <Pagination surah={meta.number} page={page} count={pageCount} from={from} to={to} total={meta.verseCount} />
 
       <div className="overflow-hidden rounded-2xl border border-border bg-card">

@@ -86,11 +86,29 @@ export const DEFAULT_SOURCES: SourceConfig = {
     bn: { translations: ["ben-muhiuddinkhan"], tafsir: "ben-mokhtasar" },
     fr: { translations: ["fra-rashidmaash"], tafsir: "fra-mokhtasar" },
     ru: { translations: ["rus-elmirkuliev"], tafsir: "rus-mokhtasar" },
-    // No Urdu tafsir in our sources: none by default rather than one the reader cannot read.
-    ur: { translations: ["urd-muhammadjunagar"], tafsir: null },
+    // A language with no translation or tafsir of its own falls back to English (the owner's rule, 2026-11-21): Urdu has no
+    // tafsir in our sources, so it reads Al-Mukhtasar in English.
+    ur: { translations: ["urd-muhammadjunagar"], tafsir: "eng-mokhtasar" },
     // An Arabic reader reads the text itself: no translation and no Latin transliteration by default.
     ar: { translations: [], transliteration: null, tafsir: "ara-mokhtasar" },
     fa: { translations: ["fas-islamhousecompe"], tafsir: "fas-mokhtasar" },
+    // No Spanish tafsir in our sources (see quranenc.ts): English, by the same rule.
+    es: { translations: ["spa-isagarcia"], tafsir: "eng-mokhtasar" },
+    bs: { translations: ["bos-rowwad"], tafsir: "bos-mokhtasar" },
+    zh: { translations: ["zho-makin"], tafsir: "zho-mokhtasar" },
+    th: { translations: ["tha-rowwad"], tafsir: "tha-mokhtasar" },
+    uz: { translations: ["uzb-rowwad"], tafsir: "uzb-mokhtasar" },
+    ta: { translations: ["tam-omarsharif"], tafsir: "tam-mokhtasar" },
+    ml: { translations: ["mal-kunhimuhammad"], tafsir: "mal-mokhtasar" },
+    // Wave 4: where QuranEnc has no Al-Mukhtasar (German, Portuguese, Swahili, Hausa) or no translation (Italian), English.
+    de: { translations: ["deu-bubenheim"], tafsir: "eng-mokhtasar" },
+    pt: { translations: ["por-helminasr"], tafsir: "eng-mokhtasar" },
+    it: { translations: ["eng-abdullahyusufal"], tafsir: "ita-mokhtasar" },
+    hi: { translations: ["hin-omari"], tafsir: "hin-mokhtasar" },
+    sw: { translations: ["swa-barwani"], tafsir: "eng-mokhtasar" },
+    ha: { translations: ["hau-gumi"], tafsir: "eng-mokhtasar" },
+    ja: { translations: ["jpn-saeedsato"], tafsir: "jpn-mokhtasar" },
+    vi: { translations: ["vie-rowwad"], tafsir: "vie-mokhtasar" },
   },
 };
 

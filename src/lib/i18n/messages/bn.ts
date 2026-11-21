@@ -173,6 +173,7 @@ export const bn: Messages = {
     verseOption: "আয়াত {number}",
     previousSurah: "আগের সূরা",
     nextSurah: "পরের সূরা",
+    unavailable: "এই মুহূর্তে পাওয়া যাচ্ছে না, পরে আবার চেষ্টা করুন: {names}।",
   },
   pagination: {
     label: "পেজ",

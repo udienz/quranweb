@@ -221,18 +221,35 @@ export function createQuranService(config: QuranConfig) {
     if (!Number.isInteger(number) || number < 1 || number > 114) {
       throw new Error(`Invalid surah number: ${number}`);
     }
-    const selection = resolveSelection(partial, locale);
+    const chosen = resolveSelection(partial, locale);
 
-    const ids = [
-      selection.arabic,
-      ...(selection.transliteration ? [selection.transliteration] : []),
-      ...selection.translations,
-      ...(selection.tafsir ? [selection.tafsir] : []),
-    ];
-    const [list, ...texts] = await Promise.all([
+    // The Arabic text and the transliteration must load; a translation or a tafsir that fails (a source read live may be
+    // down) is left out and reported in `unavailable`, so one missing edition does not take the whole page down.
+    const required = [chosen.arabic, ...(chosen.transliteration ? [chosen.transliteration] : [])];
+    const optional = [...chosen.translations, ...(chosen.tafsir ? [chosen.tafsir] : [])];
+    const [list, requiredTexts, optionalResults] = await Promise.all([
       getSurahList(),
-      ...ids.map((id) => getEditionText(id, number)),
+      Promise.all(required.map((id) => getEditionText(id, number))),
+      Promise.allSettled(optional.map((id) => getEditionText(id, number))),
     ]);
+    const failed = new Set(optional.filter((_, i) => optionalResults[i].status === "rejected"));
+    for (const [i, result] of optionalResults.entries()) {
+      // Next.js prerenders a page first and aborts every fetch still open when that pass ends ("During prerendering,
+      // fetch() rejects ..."); that render is thrown away and the real one loads the edition, so it is not an outage.
+      if (result.status === "rejected" && !String(result.reason).includes("During prerendering")) {
+        console.error(`Left out ${optional[i]} for surah ${number}:`, result.reason);
+      }
+    }
+    const texts = [
+      ...requiredTexts,
+      ...optionalResults.flatMap((r) => (r.status === "fulfilled" ? [r.value] : [])),
+    ];
+    const selection = {
+      ...chosen,
+      translations: chosen.translations.filter((id) => !failed.has(id)),
+      tafsir: chosen.tafsir && !failed.has(chosen.tafsir) ? chosen.tafsir : null,
+    };
+    const ids = [...required, ...optional.filter((id) => !failed.has(id))];
 
     const meta = list.find((s) => s.number === number);
     if (!meta) throw new Error(`Surah ${number} is not in the surah list`);
@@ -267,6 +284,7 @@ export function createQuranService(config: QuranConfig) {
       editions: ids.map((id) => editions.get(id)!.edition),
       qari: qaris.get(selection.qari)!.qari,
       verses,
+      unavailable: [...failed].map((id) => editions.get(id)!.edition),
     };
   }
 

@@ -163,7 +163,7 @@ The hierarchy compresses in dark mode: in light mode, muted text (`#596e73`) on 
 - **Numbers**: no monospace; surah indexes, verse references and percentages use `Plus Jakarta Sans` with `font-variant-numeric: tabular-nums`.
 - **OpenType Features**: none set (`font-feature-settings: normal` everywhere).
 
-All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts. Spacing and borders use logical CSS (`ms-`, `pe-`, `border-s`, `start-`) so a right-to-left interface mirrors the whole layout. None of the fonts has Cyrillic, Bengali or Arabic-script glyphs: the Russian, Bengali, Urdu, Arabic and Persian interfaces (2026-11-21) show their text in the system font from the end of each stack; Amiri stays for the Qur'an text.
+All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts. Spacing and borders use logical CSS (`ms-`, `pe-`, `border-s`, `start-`) so a right-to-left interface mirrors the whole layout. None of the fonts has Cyrillic, Bengali, Arabic-script, Chinese, Thai, Tamil, Malayalam, Devanagari or Japanese glyphs: those interfaces (2026-11-21) show their text in the system font from the end of each stack; Amiri stays for the Qur'an text.
 
 **Why `Space Grotesk` stays** (owner's decision, 2026-11-19, after the UI audit flagged it as a common default for generated sites):
 - It is the typeface of the site's own voice, never of the text being read. It sets the wordmark, page and surah titles and the numerals in the surah badges, and no running paragraph, so it never sits in a line next to the Arabic.
@@ -282,6 +282,10 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Sticky, background `#f5f2eb` at 85% opacity with `backdrop-blur`, bottom border 1px `#e0e8e4`
 - Wordmark 20px `Space Grotesk` 700, -0.5px tracking, in `#176c7d`, next to the book logo
 - Right side: language menu, theme toggle, account menu: 40px round buttons, 1px `#e0e8e4` border on `#ffffff`, hover `#ede9de`
+- Language menu: 240px wide, scrolls inside itself; languages in alphabetical order of their own names, each with a 20×14px
+  flag (inline SVG, 2px radius, a 1px ring at 10% black so white flags stay visible) before the name; a community
+  translation has an asterisk after the name in `#176c7d` (gold `#d7a342` is only 2.3:1 on white), explained by a 12px
+  note in `--muted-foreground` under the list
 - Use: every page
 
 **Surah List (side panel)**

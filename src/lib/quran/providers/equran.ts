@@ -6,6 +6,7 @@
 // are the API's own and are only used inside this file.
 
 import { cache } from "react";
+import { completeEditions } from "../edition-names";
 import type { AudioProvider, TextProvider } from "../provider";
 import { isRemote, loadJson, toFilePath } from "../transport";
 import type { Edition, EditionText, Qari, SourceInfo, SurahMeta } from "../types";
@@ -30,7 +31,7 @@ const SOURCE: SourceInfo = {
   },
 };
 
-export const EQURAN_EDITIONS: Edition[] = [
+export const EQURAN_EDITIONS: Edition[] = completeEditions([
   {
     id: "ara-equran",
     kind: "arabic",
@@ -47,6 +48,13 @@ export const EQURAN_EDITIONS: Edition[] = [
       ur: "عربی متن (EQuran.id)",
       ar: "النص العربي (EQuran.id)",
       fa: "متن عربی (EQuran.id)",
+      es: "Texto árabe (EQuran.id)",
+      bs: "Arapski tekst (EQuran.id)",
+      zh: "阿拉伯语原文 (EQuran.id)",
+      th: "ตัวบทภาษาอาหรับ (EQuran.id)",
+      uz: "Arabcha matn (EQuran.id)",
+      ta: "அரபு மூலம் (EQuran.id)",
+      ml: "അറബി പാഠം (EQuran.id)",
     },
     source: SOURCE,
   },
@@ -66,6 +74,13 @@ export const EQURAN_EDITIONS: Edition[] = [
       ur: "رومن نقل حرفی",
       ar: "الكتابة بالحروف اللاتينية",
       fa: "آوانویسی لاتین",
+      es: "Transliteración latina",
+      bs: "Latinična transliteracija",
+      zh: "拉丁字母转写",
+      th: "การถอดอักษรละติน",
+      uz: "Lotin transliteratsiyasi",
+      ta: "லத்தீன் ஒலிபெயர்ப்பு",
+      ml: "ലാറ്റിൻ ലിപ്യന്തരണം",
     },
     source: SOURCE,
   },
@@ -85,6 +100,13 @@ export const EQURAN_EDITIONS: Edition[] = [
       ur: "انڈونیشیائی ترجمہ (Kemenag)",
       ar: "الترجمة الإندونيسية (Kemenag)",
       fa: "ترجمهٔ اندونزیایی (Kemenag)",
+      es: "Traducción indonesia (Kemenag)",
+      bs: "Indonezijski prijevod (Kemenag)",
+      zh: "印度尼西亚语译本 (Kemenag)",
+      th: "คำแปลภาษาอินโดนีเซีย (Kemenag)",
+      uz: "Indonezcha tarjima (Kemenag)",
+      ta: "இந்தோனேசிய மொழிபெயர்ப்பு (Kemenag)",
+      ml: "ഇന്തോനേഷ്യൻ പരിഭാഷ (Kemenag)",
     },
     author: "Kementerian Agama RI",
     source: SOURCE,
@@ -105,11 +127,18 @@ export const EQURAN_EDITIONS: Edition[] = [
       ur: "تفسیر (Kemenag، انڈونیشیائی)",
       ar: "التفسير (Kemenag، بالإندونيسية)",
       fa: "تفسیر (Kemenag، اندونزیایی)",
+      es: "Tafsir (Kemenag, indonesio)",
+      bs: "Tefsir (Kemenag, indonezijski)",
+      zh: "经注 (Kemenag，印度尼西亚语)",
+      th: "ตัฟซีร (Kemenag, ภาษาอินโดนีเซีย)",
+      uz: "Tafsir (Kemenag, indonezcha)",
+      ta: "தஃப்ஸீர் (Kemenag, இந்தோனேசியம்)",
+      ml: "തഫ്സീർ (Kemenag, ഇന്തോനേഷ്യൻ)",
     },
     author: "Kementerian Agama RI",
     source: SOURCE,
   },
-];
+]);
 
 // The API's reciter keys ("01".."06") map to these folders on its CDN.
 const QARIS = [

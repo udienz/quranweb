@@ -174,6 +174,7 @@ export const fa: Messages = {
     verseOption: "آیهٔ {number}",
     previousSurah: "سورهٔ قبل",
     nextSurah: "سورهٔ بعد",
+    unavailable: "اکنون در دسترس نیست، بعداً دوباره امتحان کنید: {names}.",
   },
   pagination: {
     label: "صفحه‌ها",

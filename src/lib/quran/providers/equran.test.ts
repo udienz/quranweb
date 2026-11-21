@@ -71,7 +71,7 @@ describe("EQuran text provider", () => {
     expect((await p.text("ara-equran-la", 1)).verses[0].text).toBe("Bismillāh.");
     expect((await p.text("ind-kemenag", 1)).verses[1].text).toBe("Segala puji.");
     expect((await p.text("ind-kemenag-tafsir", 1)).verses[0].text).toBe("Tafsir satu");
-    expect(fetchMock).toHaveBeenCalledWith(`${base}/surat/1`);
+    expect(fetchMock.mock.calls.map((c) => String(c[0]))).toContain(`${base}/surat/1`);
   });
 
   it("fetches the surah list", async () => {
