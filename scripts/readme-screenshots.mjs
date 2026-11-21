@@ -145,7 +145,7 @@ for (const lang of ["en", "id"]) {
     await page.getByRole("button", { name: T.nav.language }).first().click();
     await page.waitForTimeout(300);
     return null;
-  }, { height: 420 });
+  }, { height: 600 });
 
   // Theme and text size on the settings page.
   await shoot(lang, "how-display", async (page) => {

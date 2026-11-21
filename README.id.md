@@ -136,7 +136,7 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 ### Mengganti bahasa
 
-![Menu bahasa terbuka di header: English dan Bahasa Indonesia, lalu Türkçe, Bahasa Melayu, বাংলা, Français, dan Русский, masing-masing bertanda Komunitas](docs/screenshots/id/how-language.png)
+![Menu bahasa terbuka di header: English dan Bahasa Indonesia, lalu Türkçe, Bahasa Melayu, বাংলা, Français, Русский, اردو, العربية, dan فارسی, masing-masing bertanda Komunitas](docs/screenshots/id/how-language.png)
 
 Tekan tombol bola dunia di atas (bertuliskan kode bahasa yang sedang dipakai, misalnya ID atau EN) dan pilih bahasa, atau pakai "Bahasa antarmuka" di halaman
 Pengaturan. Ini hanya mengganti menu dan tombol. Terjemahan Al-Qur'an dipilih di Pengaturan bacaan.

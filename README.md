@@ -133,7 +133,7 @@ The picture at the top of this page is the mushaf layout.
 
 ### Change the language
 
-![The language menu open in the header: English and Bahasa Indonesia, then Türkçe, Bahasa Melayu, বাংলা, Français and Русский, each marked Community](docs/screenshots/en/how-language.png)
+![The language menu open in the header: English and Bahasa Indonesia, then Türkçe, Bahasa Melayu, বাংলা, Français, Русский, اردو, العربية and فارسی, each marked Community](docs/screenshots/en/how-language.png)
 
 Press the globe button at the top (it shows the code of the current language, such as EN or FR) and pick a language, or use "Interface language" on the
 Settings page. This changes the menus and buttons only. The translations of the Qur'an are chosen in Reading settings.
