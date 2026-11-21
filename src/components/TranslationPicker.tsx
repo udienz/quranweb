@@ -41,7 +41,7 @@ export default function TranslationPicker({
       <ul className="mb-2 flex flex-wrap gap-1.5" aria-label={t("settings.translation")}>
         {chips.length === 0 && <li className="text-xs text-muted-foreground">{t("settings.noTranslationChosen")}</li>}
         {chips.map((e) => (
-          <li key={e.id} className="flex items-center gap-1 rounded-full border border-border bg-background py-0.5 pl-2.5 pr-1 text-xs">
+          <li key={e.id} className="flex items-center gap-1 rounded-full border border-border bg-background py-0.5 ps-2.5 pe-1 text-xs">
             <span>{nameOf(e)}</span>
             <button
               type="button"

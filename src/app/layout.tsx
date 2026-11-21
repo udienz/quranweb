@@ -13,6 +13,7 @@ import Logo from "@/components/Logo";
 import PrefsProvider from "@/components/PrefsProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import { I18nProvider } from "@/lib/i18n/client";
+import { directionOf } from "@/lib/i18n/config";
 import { MESSAGES } from "@/lib/i18n/messages";
 import { signInEnabled } from "@/lib/auth";
 import { displayScript } from "@/lib/display";
@@ -42,7 +43,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const accounts = signInEnabled();
 
   return (
-    <html lang={locale} className="h-full antialiased" suppressHydrationWarning>
+    <html lang={locale} dir={directionOf(locale)} className="h-full antialiased" suppressHydrationWarning>
       <head>
         {/* Apply the theme and text size before the first paint so the page does not flash. */}
         <script dangerouslySetInnerHTML={{ __html: displayScript }} />

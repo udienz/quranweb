@@ -77,7 +77,7 @@ export default function MyReading({ surahs }: { surahs: SurahMeta[] }) {
               </span>
               <span className="text-xs text-muted-foreground">{date(data.lastRead.at)}</span>
             </span>
-            <span className="text-sm font-medium text-primary">{t("myReading.lastRead.resume")} &rarr;</span>
+            <span className="text-sm font-medium text-primary">{t("myReading.lastRead.resume")} <span aria-hidden className="inline-block rtl:-scale-x-100">&rarr;</span></span>
           </Link>
         ) : (
           <Empty>{t("myReading.lastRead.empty")}</Empty>

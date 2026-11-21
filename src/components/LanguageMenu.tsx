@@ -66,7 +66,7 @@ export default function LanguageMenu() {
       </button>
 
       {open && (
-        <div role="menu" aria-label={t("nav.language")} className="absolute right-0 top-full z-50 mt-2 w-52 rounded-2xl border border-border bg-card p-2 shadow-lg">
+        <div role="menu" aria-label={t("nav.language")} className="absolute end-0 top-full z-50 mt-2 w-52 rounded-2xl border border-border bg-card p-2 shadow-lg">
           {languageOptions.map(({ code, name, community }) => (
             <button
               key={code}
@@ -77,7 +77,7 @@ export default function LanguageMenu() {
                 close();
                 choose(code);
               }}
-              className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background"
+              className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-start text-sm font-medium hover:bg-background"
             >
               {/* The badge goes to a second line when the name and the badge do not fit the menu (Bahasa Melayu with the
                   Russian or French badge); the menu keeps its width so it stays on screen at 320px. */}

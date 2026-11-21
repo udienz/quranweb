@@ -48,7 +48,7 @@ export default function AdminUsers({ users, audit, selfId }: { users: AdminUserR
         {users.length === 0 ? (
           <p className="px-5 py-6 text-sm text-muted-foreground">{t("admin.empty")}</p>
         ) : (
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-start text-sm">
             <thead className="text-muted-foreground">
               <tr>
                 <th className="px-5 py-2 font-medium">{t("admin.columns.account")}</th>

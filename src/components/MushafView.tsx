@@ -30,7 +30,7 @@ export default function MushafView({
   surahNumber: number;
   playingN: number | null;
   onPlay: (verse: VerseView) => void;
-  editions: Record<string, { name: string; language: string }>;
+  editions: Record<string, { name: string; language: string; direction: "ltr" | "rtl" }>;
 }) {
   const { t } = useI18n();
   const { prefs } = usePrefs();
@@ -55,7 +55,7 @@ export default function MushafView({
         <div role="toolbar" aria-label={t("mushaf.selected", { n: current.number })} className="fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl flex-wrap items-center justify-between gap-2 rounded-2xl border border-border bg-card px-4 py-2 shadow-lg">
           <span className="font-medium">
             {t("mushaf.selected", { n: current.number })}
-            <span className="ml-2 tabular-nums text-xs text-muted-foreground">
+            <span className="ms-2 tabular-nums text-xs text-muted-foreground">
               {surahNumber}:{current.number}
             </span>
           </span>
@@ -100,7 +100,7 @@ export default function MushafView({
         )}
 
         {side && (
-          <ol className="space-y-3 lg:order-1 lg:border-r lg:border-border lg:pr-6">
+          <ol className="space-y-3 lg:order-1 lg:border-e lg:border-border lg:pe-6">
             {verses.map((v) => {
               const bookmark = findBookmark(data, surahNumber, v.number);
               const isRead = v.number <= readUpTo;
@@ -109,20 +109,20 @@ export default function MushafView({
                   key={v.number}
                   id={verseId(v.number)}
                   translate="no"
-                  className={`scroll-mt-24 rounded-xl border-l-4 px-3 py-1 text-[length:calc(15px*var(--latin-scale,1))] leading-relaxed ${
+                  className={`scroll-mt-24 rounded-xl border-s-4 px-3 py-1 text-[length:calc(15px*var(--latin-scale,1))] leading-relaxed ${
                     playingN === v.number ? "bg-primary-soft" : ""
-                  } ${isRead ? "border-l-primary/50" : "border-l-transparent"}`}
+                  } ${isRead ? "border-s-primary/50" : "border-s-transparent"}`}
                 >
                   <button
                     type="button"
                     onClick={() => select(v.number)}
                     aria-label={t("mushaf.verseActions", { n: v.number })}
-                    className={`mr-2 font-display text-sm font-bold ${bookmark ? "text-gold" : "text-primary"} hover:underline`}
+                    className={`me-2 font-display text-sm font-bold ${bookmark ? "text-gold" : "text-primary"} hover:underline`}
                   >
                     {v.number}.
                   </button>
                   {prefs.transliteration && v.transliteration && (
-                    <span {...hiding.props("translation", v.number, t("memorize.showVerse", { n: v.number }))} className="italic text-primary">
+                    <span dir="ltr" {...hiding.props("translation", v.number, t("memorize.showVerse", { n: v.number }))} className="italic text-primary">
                       {v.transliteration}{" "}
                     </span>
                   )}
@@ -131,15 +131,16 @@ export default function MushafView({
                       <Fragment key={tr.edition}>
                         <span
                           lang={editions[tr.edition]?.language}
+                          dir={editions[tr.edition]?.direction}
                           {...hiding.props("translation", v.number, t("memorize.showVerse", { n: v.number }))}
                           className={i > 0 ? "mt-1 block" : ""}
                         >
                           {v.translations.length > 1 && (
-                            <span className="mr-1 text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}:</span>
+                            <span className="me-1 text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}:</span>
                           )}
                           {tr.text}
                         </span>
-                        {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} />}
+                        {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} dir={editions[tr.edition]?.direction} />}
                       </Fragment>
                     ))}
                   {bookmark?.note && <span className="mt-1 block whitespace-pre-line text-sm text-muted-foreground">{bookmark.note}</span>}

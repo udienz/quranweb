@@ -169,6 +169,13 @@ Russian (`src/lib/i18n/`).
   in `translate.ts`: Malay reads the Indonesian surah meanings), then English. Surah meanings exist in English and Indonesian
   only, so French, Russian and Bengali show the English one. `editions-i18n.test.ts` checks that every edition has a name and
   a credit in every interface language.
+- **Right to left** (prepared 2026-11-21 for Arabic, Urdu and Persian): `RTL_LOCALES` and `directionOf` in `config.ts`; the root
+  layout sets `<html dir>`. The layout uses **logical** utilities only: `ms-`/`me-`, `ps-`/`pe-`, `start-`/`end-`, `border-s`/`border-e`,
+  `text-start`, `inset-x-0`, so the page mirrors itself; never write `ml-`, `pr-`, `left-`, `right-`, `border-l` or `text-left`
+  for something that follows the reading direction. Arrows and the panel chevron mirror with `rtl:-scale-x-100`. Text keeps its own
+  direction whatever the page: the Arabic is `dir="rtl"`, the transliteration `dir="ltr"`, a translation and its footnotes take
+  the edition's `direction`, and the tafsir `dir="auto"`. Checked by forcing `dir="rtl"` on the Indonesian pages at 320 and
+  1280 px: no page wider than the screen, menus on screen, side panel, read marks and pagination mirrored.
 - **Fonts:** the interface fonts have no Cyrillic or Bengali glyphs, so Russian and Bengali text uses the system font from the
   `--font-sans` stack (`system-ui`). Checked at 320, 390 and 1280 px in all four new languages: no page wider than the screen.
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's

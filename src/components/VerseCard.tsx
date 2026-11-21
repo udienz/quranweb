@@ -112,7 +112,7 @@ export function VerseActions({
 
   return (
     <div className="flex items-center">
-      {copied && <span className="mr-1 text-xs text-primary">{t("verse.copied")}</span>}
+      {copied && <span className="me-1 text-xs text-primary">{t("verse.copied")}</span>}
       <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
         {playing ? (
           <svg {...iconProps}>
@@ -172,7 +172,7 @@ export default function VerseCard({
   playing: boolean;
   onPlay: () => void;
   /** Name and language of each edition in use, for labels and the `lang` attribute. */
-  editions: Record<string, { name: string; language: string }>;
+  editions: Record<string, { name: string; language: string; direction: "ltr" | "rtl" }>;
 }) {
   const { t } = useI18n();
   const { prefs } = usePrefs();
@@ -188,8 +188,8 @@ export default function VerseCard({
   return (
     <article
       id={verseId(n)}
-      className={`scroll-mt-24 border-b border-l-4 border-border px-5 py-6 last:border-b-0 sm:px-8 ${
-        isRead ? "border-l-primary/50" : "border-l-transparent"
+      className={`scroll-mt-24 border-b border-s-4 border-border px-5 py-6 last:border-b-0 sm:px-8 ${
+        isRead ? "border-s-primary/50" : "border-s-transparent"
       }`}
     >
       <div className="mb-5 flex items-center justify-between">
@@ -213,7 +213,7 @@ export default function VerseCard({
             </p>
           )}
           {prefs.transliteration && verse.transliteration && (
-            <p translate="no" {...hiding.props("translation", n, showLabel)} className="mb-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">{verse.transliteration}</p>
+            <p dir="ltr" translate="no" {...hiding.props("translation", n, showLabel)} className="mb-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">{verse.transliteration}</p>
           )}
           {prefs.translation &&
             verse.translations.map((tr) => (
@@ -221,10 +221,10 @@ export default function VerseCard({
                 {verse.translations.length > 1 && (
                   <p className="text-xs font-medium text-muted-foreground">{editions[tr.edition]?.name}</p>
                 )}
-                <p lang={editions[tr.edition]?.language} translate="no" {...hiding.props("translation", n, showLabel)} className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
+                <p lang={editions[tr.edition]?.language} dir={editions[tr.edition]?.direction} translate="no" {...hiding.props("translation", n, showLabel)} className="text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
                   {tr.text}
                 </p>
-                {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} />}
+                {tr.notes && <Footnotes notes={tr.notes} lang={editions[tr.edition]?.language} dir={editions[tr.edition]?.direction} />}
               </div>
             ))}
         </>
@@ -233,7 +233,7 @@ export default function VerseCard({
           <p dir="rtl" lang="ar" translate="no" className="font-arabic mb-4 text-right text-[length:calc(1.5rem*var(--arabic-scale,1))] leading-loose text-muted-foreground">
             {verse.arabic}
           </p>
-          <p translate="no" className="whitespace-pre-line text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
+          <p dir="auto" translate="no" className="whitespace-pre-line text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
             {verse.tafsir ?? t("verse.tafsirNotSelected")}
           </p>
         </>

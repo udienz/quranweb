@@ -19,9 +19,9 @@ const PersonIcon = () => (
   </svg>
 );
 
-const item = "block w-full whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background";
+const item = "block w-full whitespace-nowrap rounded-xl px-3 py-2 text-start text-sm font-medium hover:bg-background";
 /** The two sign-out choices wrap, unlike the other items. */
-const choice = "block w-full rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background";
+const choice = "block w-full rounded-xl px-3 py-2 text-start text-sm font-medium hover:bg-background";
 
 /**
  * The account button in the header and its dropdown: "My reading" (which lives here instead of the main navigation
@@ -75,7 +75,7 @@ export default function AccountMenu() {
           setOpen((o) => !o);
           setAskKeep(false);
         }}
-        className="flex items-center gap-2 rounded-full border border-border bg-card px-1 py-1 font-semibold hover:bg-background sm:pr-3"
+        className="flex items-center gap-2 rounded-full border border-border bg-card px-1 py-1 font-semibold hover:bg-background sm:pe-3"
       >
         <span className="grid h-7 w-7 place-items-center rounded-full bg-background text-muted-foreground">
           <PersonIcon />
@@ -91,7 +91,7 @@ export default function AccountMenu() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-2xl border border-border bg-card p-2 shadow-lg">
+        <div className="absolute end-0 top-full z-50 mt-2 w-64 rounded-2xl border border-border bg-card p-2 shadow-lg">
           {user && (
             <div className="mb-1 border-b border-border px-3 pb-2 pt-1">
               <p className="truncate font-semibold">{t("account.signedInAs", { name: user.name })}</p>

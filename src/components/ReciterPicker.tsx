@@ -45,7 +45,7 @@ export default function ReciterPicker({ qaris, value, onChange }: { qaris: Qari[
         aria-labelledby={labelId}
         aria-describedby={`${labelId}-value`}
         onClick={() => (open ? close() : setOpen(true))}
-        className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-background px-3 py-2 text-left outline-none focus:border-primary"
+        className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-background px-3 py-2 text-start outline-none focus:border-primary"
       >
         <span id={`${labelId}-value`} className="truncate">
           {current?.name ?? value}
@@ -56,7 +56,7 @@ export default function ReciterPicker({ qaris, value, onChange }: { qaris: Qari[
       </button>
 
       {open && (
-        <div role="dialog" aria-label={t("settings.qari")} className="absolute left-0 right-0 top-full z-40 mt-1 rounded-xl border border-border bg-card p-2 shadow-lg">
+        <div role="dialog" aria-label={t("settings.qari")} className="absolute inset-x-0 top-full z-40 mt-1 rounded-xl border border-border bg-card p-2 shadow-lg">
           <input
             type="search"
             autoFocus
@@ -85,7 +85,7 @@ export default function ReciterPicker({ qaris, value, onChange }: { qaris: Qari[
                         type="button"
                         aria-current={q.id === value}
                         onClick={() => choose(q.id)}
-                        className={`flex w-full items-center justify-between gap-3 rounded-lg px-2 py-1.5 text-left hover:bg-background ${
+                        className={`flex w-full items-center justify-between gap-3 rounded-lg px-2 py-1.5 text-start hover:bg-background ${
                           q.id === value ? "font-semibold text-primary" : ""
                         }`}
                       >
