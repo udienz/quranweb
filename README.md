@@ -2,7 +2,7 @@
 
 **English** · [Bahasa Indonesia](README.id.md)
 
-A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish, Malay, Bengali, French, Russian, Urdu, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam and others), recitation
+A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish, Malay, Bengali, French, Russian, Urdu, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam, German, Portuguese, Hindi, Swahili, Hausa, Japanese, Vietnamese and others), recitation
 audio and tafsir. You do not need an account, and there are no ads. Visits are counted with Cloudflare Web Analytics, which,
 according to Cloudflare, sets no cookies and does not identify you (see the privacy policy).
 
@@ -24,17 +24,17 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Memorize**: hear each verse two, three or more times, repeat a range of verses (for example 2:1–5) as many
   times as you like, and blur the Arabic or the translation to test yourself, tapping a verse to check it. ([how](#memorize-a-passage))
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab, Jalalayn or Al-Mukhtasar;
-  Al-Mukhtasar also in Arabic, English, Turkish, Bengali, French, Russian, Persian, Bosnian, Chinese, Thai, Uzbek, Tamil and
-  Malayalam). ([how](#read-the-tafsir))
+  Al-Mukhtasar also in Arabic, English, Turkish, Bengali, French, Russian, Persian, Bosnian, Chinese, Thai, Uzbek, Tamil,
+  Malayalam, Italian, Hindi, Japanese and Vietnamese). ([how](#read-the-tafsir))
 - **Pick up where you stopped** with "continue reading", and mark how far you have read. ([how](#continue-reading-and-mark-your-progress))
 - **Bookmark verses**, add your own notes, and group them into collections. ([how](#bookmarks-notes-and-collections))
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))
-- **Use it in your language**: the interface is in Indonesian and English, and as community translations in Turkish,
-  Malay, Bengali, French, Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil and Malayalam (Urdu,
-  Arabic and Persian right to left). Community translations are not yet checked by a second speaker (Turkish was translated by
-  a reader, the other fourteen are first drafts by Claude, an AI), so each has a link to report a mistake. Each language
-  shows a translation in that language by default. The site follows your browser's language until you pick one in the
-  header or on the Settings page. When you are signed in, your choice follows you. ([how](#change-the-language))
+- **Use it in your language**: the interface is in 25 languages (the list is under [Languages](#languages)); Urdu, Arabic
+  and Persian read right to left. Apart from Indonesian and English they are community translations, not yet checked by a
+  second speaker (Turkish was translated by a reader, the other twenty-two are first drafts by Claude, an AI), so each has a
+  link to report a mistake. Each language shows a translation and a tafsir in that language by default, or in English when
+  our sources have none. The site follows your browser's language until you pick one in the header or on the Settings page.
+  When you are signed in, your choice follows you. ([how](#change-the-language))
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices. ([how](#theme-and-text-size))
 - **Copy a verse**, or a link to it. ([how](#copy-a-verse-or-its-link))
@@ -42,6 +42,42 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
   "Add to Home Screen" in Safari on an iPhone. It still needs an internet connection. ([how](#install-it-as-an-app))
 
 Long surahs are split into pages of 10 verses: a page of Al-Baqarah is about 230 KB instead of about 2 MB for the whole surah.
+
+## Languages
+
+The interface comes in the languages below. Choosing one also sets the translation and tafsir a new reader sees first; you
+can change both in Reading settings, and choose from every translation and tafsir whatever the interface language. Where
+our sources have no translation or no tafsir in a language, the site shows the English one: those cells say "English".
+
+| Interface | Translation shown first | Tafsir shown first |
+|---|---|---|
+| Bahasa Indonesia | Kemenag | Kemenag |
+| English | Yusuf Ali | Al-Mukhtasar |
+| Türkçe (Turkish) | Diyanet İşleri | Al-Mukhtasar |
+| Bahasa Melayu (Malay) | Abdullah Basmeih | Kemenag (Indonesian, which Malay readers follow easily) |
+| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
+| Français (French) | Rachid Maach | Al-Mukhtasar |
+| Русский (Russian) | Elmir Kuliev | Al-Mukhtasar |
+| اردو (Urdu) | Muhammad Junagarhi | English: Al-Mukhtasar |
+| العربية (Arabic) | none (the Arabic text only) | Al-Mukhtasar in Arabic |
+| فارسی (Persian) | Rowwad Translation Center | Al-Mukhtasar |
+| Español (Spanish) | Isa Garcia | English: Al-Mukhtasar |
+| Bosanski (Bosnian) | Rowwad Translation Center | Al-Mukhtasar |
+| 中文 (Chinese) | Ma Jian | Al-Mukhtasar |
+| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
+| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
+| தமிழ் (Tamil) | Omar Sharif | Al-Mukhtasar |
+| മലയാളം (Malayalam) | Abdul Hamid Haidar and Kunhi Muhammad | Al-Mukhtasar |
+| Deutsch (German) | Frank Bubenheim and Nadeem Elyas | English: Al-Mukhtasar |
+| Português (Portuguese) | Helmi Nasr | English: Al-Mukhtasar |
+| Italiano (Italian) | English: Yusuf Ali | Al-Mukhtasar |
+| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
+| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | English: Al-Mukhtasar |
+| Hausa | Abubakar Mahmoud Gumi | English: Al-Mukhtasar |
+| 日本語 (Japanese) | Saeed Sato | Al-Mukhtasar |
+| Tiếng Việt (Vietnamese) | Rowwad Translation Center | Al-Mukhtasar |
+
+Unless the table says otherwise, a translation or tafsir is in the language of its row.
 
 ## How to
 

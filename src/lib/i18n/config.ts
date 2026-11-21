@@ -1,7 +1,7 @@
 // Supported UI languages. Quran content (editions) has its own languages and is
 // chosen separately; this only controls the interface.
 
-export const LOCALES = ["en", "id", "tr", "ms", "bn", "fr", "ru", "ur", "ar", "fa", "es", "bs", "zh", "th", "uz", "ta", "ml"] as const;
+export const LOCALES = ["en", "id", "tr", "ms", "bn", "fr", "ru", "ur", "ar", "fa", "es", "bs", "zh", "th", "uz", "ta", "ml", "de", "pt", "it", "hi", "sw", "ha", "ja", "vi"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /** Used when neither the cookie nor the browser says anything usable. */
@@ -27,17 +27,24 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   uz: "Ўзбекча",
   ta: "தமிழ்",
   ml: "മലയാളം",
+  de: "Deutsch",
+  pt: "Português",
+  it: "Italiano",
+  hi: "हिन्दी",
+  sw: "Kiswahili",
+  ha: "Hausa",
+  ja: "日本語",
+  vi: "Tiếng Việt",
 };
 
 /**
  * Languages published as a **community translation**: not yet reviewed by a speaker of the language, as CONTRIBUTING.md
- * asks. Turkish was translated by a reader; Malay, Bengali, French, Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil
- * and Malayalam are drafts by Claude
+ * asks. Turkish was translated by a reader; every other language is a draft by Claude
  * (the owner's choice, 2026-11-21) waiting for a native speaker. The language menu marks them and offers a link to report a mistake. Remove a
  * language from this list once a second speaker has reviewed it and a language maintainer is in .github/CODEOWNERS.
  * It may name a language before it exists in LOCALES (the label then appears with the language).
  */
-export const COMMUNITY_LOCALES: readonly string[] = ["tr", "ms", "bn", "fr", "ru", "ur", "ar", "fa", "es", "bs", "zh", "th", "uz", "ta", "ml"];
+export const COMMUNITY_LOCALES: readonly string[] = ["tr", "ms", "bn", "fr", "ru", "ur", "ar", "fa", "es", "bs", "zh", "th", "uz", "ta", "ml", "de", "pt", "it", "hi", "sw", "ha", "ja", "vi"];
 
 /**
  * Languages written right to left. The root layout sets `<html dir>` from this, and the layout uses logical CSS (`ms-`,

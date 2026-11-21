@@ -94,6 +94,17 @@ describe("QuranEnc provider", () => {
       ["uzb-mokhtasar", "tafsir", "uz"],
       ["tam-mokhtasar", "tafsir", "ta"],
       ["mal-mokhtasar", "tafsir", "ml"],
+      ["deu-bubenheim", "translation", "de"],
+      ["por-helminasr", "translation", "pt"],
+      ["hin-omari", "translation", "hi"],
+      ["swa-barwani", "translation", "sw"],
+      ["hau-gumi", "translation", "ha"],
+      ["jpn-saeedsato", "translation", "ja"],
+      ["vie-rowwad", "translation", "vi"],
+      ["ita-mokhtasar", "tafsir", "it"],
+      ["hin-mokhtasar", "tafsir", "hi"],
+      ["jpn-mokhtasar", "tafsir", "ja"],
+      ["vie-mokhtasar", "tafsir", "vi"],
     ]);
   });
 

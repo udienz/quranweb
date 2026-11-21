@@ -100,6 +100,15 @@ export const DEFAULT_SOURCES: SourceConfig = {
     uz: { translations: ["uzb-rowwad"], tafsir: "uzb-mokhtasar" },
     ta: { translations: ["tam-omarsharif"], tafsir: "tam-mokhtasar" },
     ml: { translations: ["mal-kunhimuhammad"], tafsir: "mal-mokhtasar" },
+    // Wave 4: where QuranEnc has no Al-Mukhtasar (German, Portuguese, Swahili, Hausa) or no translation (Italian), English.
+    de: { translations: ["deu-bubenheim"], tafsir: "eng-mokhtasar" },
+    pt: { translations: ["por-helminasr"], tafsir: "eng-mokhtasar" },
+    it: { translations: ["eng-abdullahyusufal"], tafsir: "ita-mokhtasar" },
+    hi: { translations: ["hin-omari"], tafsir: "hin-mokhtasar" },
+    sw: { translations: ["swa-barwani"], tafsir: "eng-mokhtasar" },
+    ha: { translations: ["hau-gumi"], tafsir: "eng-mokhtasar" },
+    ja: { translations: ["jpn-saeedsato"], tafsir: "jpn-mokhtasar" },
+    vi: { translations: ["vie-rowwad"], tafsir: "vie-mokhtasar" },
   },
 };
 

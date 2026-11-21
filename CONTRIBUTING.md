@@ -39,8 +39,9 @@ translator of a language only if `.github/CODEOWNERS` names them for it, not for
 
 You can translate QuranWeb's interface (menus, buttons, settings, messages, and the About and privacy pages) into your
 language. The interface is in Indonesian and English, and in Turkish, Malay, Bengali, French, Russian, Urdu, Arabic, Persian, Spanish,
-Bosnian, Chinese, Thai, Uzbek, Tamil and Malayalam as community translations (see Review). Turkish was translated by a reader.
-**The other fourteen are first drafts made by Claude (an AI) at the owner's request**, published as community translations so that speakers can correct them: a review
+Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam, German, Portuguese, Italian, Hindi, Swahili, Hausa, Japanese and Vietnamese
+as community translations (see Review). Turkish was translated by a reader.
+**The other twenty-two are first drafts made by Claude (an AI) at the owner's request**, published as community translations so that speakers can correct them: a review
 of one of them, even of a few messages, is very welcome, and a reviewer can become that language's maintainer.
 
 **Only the interface is translated this way, never the Qur'an.** Translations of the meaning of the Qur'an and tafsir

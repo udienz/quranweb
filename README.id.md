@@ -2,7 +2,7 @@
 
 [English](README.md) · **Bahasa Indonesia**
 
-Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, Malayalam, dan lainnya), audio
+Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, Malayalam, Jerman, Portugis, Hindi, Swahili, Hausa, Jepang, Vietnam, dan lainnya), audio
 murottal, dan tafsir. Anda tidak perlu akun, dan tidak ada iklan. Kunjungan dihitung dengan Cloudflare Web Analytics, yang
 menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan privasi).
 
@@ -25,17 +25,16 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
   yang Anda mau, dan buramkan teks Arab atau terjemahan untuk menguji diri, lalu ketuk ayat untuk mengecek. ([caranya](#menghafal-ayat))
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
   Al-Mukhtasar juga dalam bahasa Arab, Inggris, Turki, Bengali, Prancis, Rusia, Persia, Bosnia, Tionghoa, Thai, Uzbek, Tamil,
-  dan Malayalam). ([caranya](#membaca-tafsir))
+  Malayalam, Italia, Hindi, Jepang, dan Vietnam). ([caranya](#membaca-tafsir))
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca. ([caranya](#melanjutkan-bacaan-dan-menandai-progres))
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi. ([caranya](#penanda-ayat-catatan-dan-koleksi))
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))
-- **Memakai bahasa Anda**: antarmuka tersedia dalam bahasa Indonesia dan Inggris, serta sebagai terjemahan komunitas dalam
-  bahasa Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Arab, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, dan
-  Malayalam (Urdu, Arab, dan Persia dari kanan ke kiri). Terjemahan komunitas belum diperiksa penutur kedua (bahasa Turki
-  diterjemahkan seorang pembaca, empat belas lainnya draf awal oleh Claude, sebuah AI), jadi masing-masing punya tautan untuk
-  melaporkan kesalahan. Setiap bahasa menampilkan terjemahan Al-Qur'an dalam bahasa itu sebagai bawaan. Bahasanya
-  mengikuti browser Anda sampai Anda memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda
-  ikut akun. ([caranya](#mengganti-bahasa))
+- **Memakai bahasa Anda**: antarmuka tersedia dalam 25 bahasa (daftarnya di bagian [Bahasa](#bahasa)); Urdu, Arab, dan
+  Persia dibaca dari kanan ke kiri. Selain bahasa Indonesia dan Inggris, semuanya terjemahan komunitas yang belum diperiksa
+  penutur kedua (bahasa Turki diterjemahkan seorang pembaca, dua puluh dua lainnya draf awal oleh Claude, sebuah AI), jadi
+  masing-masing punya tautan untuk melaporkan kesalahan. Setiap bahasa menampilkan terjemahan dan tafsir dalam bahasa itu
+  sebagai bawaan, atau dalam bahasa Inggris bila sumber kami tidak punya. Bahasanya mengikuti browser Anda sampai Anda
+  memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun. ([caranya](#mengganti-bahasa))
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain. ([caranya](#tema-dan-ukuran-huruf))
 - **Menyalin ayat**, atau tautannya. ([caranya](#menyalin-ayat-atau-tautannya))
@@ -44,6 +43,43 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 
 Surat yang panjang dibagi menjadi halaman berisi 10 ayat: satu halaman Al-Baqarah sekitar 230 KB, dibanding sekitar 2 MB
 untuk seluruh surat.
+
+## Bahasa
+
+Antarmuka tersedia dalam bahasa-bahasa di bawah ini. Memilih salah satunya juga menentukan terjemahan dan tafsir yang
+pertama kali dilihat pembaca baru; keduanya bisa diganti di Pengaturan bacaan, dan semua terjemahan dan tafsir bisa dipilih
+apa pun bahasa antarmukanya. Bila sumber kami tidak punya terjemahan atau tafsir dalam suatu bahasa, situs menampilkan yang
+berbahasa Inggris: sel itu bertuliskan "Inggris".
+
+| Antarmuka | Terjemahan bawaan | Tafsir bawaan |
+|---|---|---|
+| Bahasa Indonesia | Kemenag | Kemenag |
+| English (Inggris) | Yusuf Ali | Al-Mukhtasar |
+| Türkçe (Turki) | Diyanet İşleri | Al-Mukhtasar |
+| Bahasa Melayu | Abdullah Basmeih | Kemenag (bahasa Indonesia, yang mudah diikuti pembaca Melayu) |
+| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
+| Français (Prancis) | Rachid Maach | Al-Mukhtasar |
+| Русский (Rusia) | Elmir Kuliev | Al-Mukhtasar |
+| اردو (Urdu) | Muhammad Junagarhi | Inggris: Al-Mukhtasar |
+| العربية (Arab) | tidak ada (hanya teks Arab) | Al-Mukhtasar berbahasa Arab |
+| فارسی (Persia) | Rowwad Translation Center | Al-Mukhtasar |
+| Español (Spanyol) | Isa Garcia | Inggris: Al-Mukhtasar |
+| Bosanski (Bosnia) | Rowwad Translation Center | Al-Mukhtasar |
+| 中文 (Tionghoa) | Ma Jian | Al-Mukhtasar |
+| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
+| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
+| தமிழ் (Tamil) | Omar Sharif | Al-Mukhtasar |
+| മലയാളം (Malayalam) | Abdul Hamid Haidar dan Kunhi Muhammad | Al-Mukhtasar |
+| Deutsch (Jerman) | Frank Bubenheim dan Nadeem Elyas | Inggris: Al-Mukhtasar |
+| Português (Portugis) | Helmi Nasr | Inggris: Al-Mukhtasar |
+| Italiano (Italia) | Inggris: Yusuf Ali | Al-Mukhtasar |
+| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
+| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | Inggris: Al-Mukhtasar |
+| Hausa | Abubakar Mahmoud Gumi | Inggris: Al-Mukhtasar |
+| 日本語 (Jepang) | Saeed Sato | Al-Mukhtasar |
+| Tiếng Việt (Vietnam) | Rowwad Translation Center | Al-Mukhtasar |
+
+Kecuali tabel menyebut lain, terjemahan atau tafsir itu berbahasa sesuai barisnya.
 
 ## Cara memakai
 

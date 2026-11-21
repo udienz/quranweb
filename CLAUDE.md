@@ -116,7 +116,7 @@ own format.
   surah names have only an Indonesian meaning (the English meanings come from fawazahmed0's
   `info.json`); the Bismillah above every surah except Al-Fatihah and At-Taubah is added by the UI.
 - Edition names and credits are localized (`LocalizedText`, one text per interface language),
-  so a provider must give both `en` and `id`. With seventeen interface languages the rest is filled by `completeEditions`
+  so a provider must give both `en` and `id`. With twenty-five interface languages the rest is filled by `completeEditions`
   (`quran/edition-names.ts`): an edition keeps the names written for it, any other interface language gets "author
   (language)", the language named by `Intl.DisplayNames` ("Isa Garcia (español)"), and the English credit. Write a name out
   only where the generic one reads badly (the EQuran.id editions, which have no author; Al-Mukhtasar, built by `mokhtasar()`).
@@ -153,8 +153,9 @@ own format.
 ### Interface language (i18n)
 
 The interface is available in English and Indonesian, and as community translations in Turkish, Malay, Bengali, French,
-Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil and Malayalam (`src/lib/i18n/`); Urdu, Arabic
-and Persian are right to left.
+Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam, German, Portuguese, Italian, Hindi,
+Swahili, Hausa, Japanese and Vietnamese (`src/lib/i18n/`); Urdu, Arabic and Persian are right to left. Both READMEs list every
+language with its default translation and tafsir (section "Languages"): update that table when a language or a default changes.
 
 - **Which language:** the cookie `qw-lang` (set by the language menu in the header, or the "Interface language" list on
   `/settings`; both use `useLocaleChoice` in `LanguageMenu.tsx`) wins, then the first
@@ -175,17 +176,21 @@ and Persian are right to left.
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With another interface than Indonesian and no saved choice, the default translation is
   one in that language (Yusuf Ali, the Diyanet meal, Basmeih, Muhiuddin Khan, Rachid Maach, Kuliev, Junagarhi, the Rowwad
-  Persian, Isa Garcia, the Rowwad Bosnian, Thai and Uzbek, Ma Jian's Chinese, Omar Sharif's Tamil, Kunhi Muhammad's Malayalam)
+  Persian, Isa Garcia, the Rowwad Bosnian, Thai and Uzbek, Ma Jian's Chinese, Omar Sharif's Tamil, Kunhi Muhammad's Malayalam, Bubenheim and Elyas's German, Helmi Nasr's Portuguese, Al-Omari's Hindi,
+  Al-Barwani's Swahili, Gumi's Hausa, Saeed Sato's Japanese, the Rowwad Vietnamese)
   and the default tafsir is Al-Mukhtasar in that language (`localeDefaults` in the source registry); Indonesian keeps the
   Kemenag tafsir, and Malay, which has no Al-Mukhtasar, keeps it too. **A language with no translation or tafsir of its own falls back
   to English** (the owner's rule, 2026-11-21): Urdu and Spanish read Al-Mukhtasar in English (none in our sources is in Urdu;
   QuranEnc's Spanish Al-Mukhtasar has an empty 59:24, its numbering one verse off from 59:22, so it is left out rather than
-  altered). Malay keeps the Kemenag tafsir, which a Malay reader follows more easily than English. **Arabic** has no translation and no transliteration by default, and the Arabic original of Al-Mukhtasar as
+  altered). Malay keeps the Kemenag tafsir, which a Malay reader follows more easily than English. Wave 4 (2026-11-21): German,
+  Portuguese, Swahili and Hausa read Al-Mukhtasar in English (QuranEnc has none in those languages), and Italian, which has
+  Al-Mukhtasar but no reviewed translation on QuranEnc, reads Yusuf Ali. Every live key of waves 3 and 4 was checked for empty or
+  missing verses before it was added (Spanish Al-Mukhtasar was the only one that failed). **Arabic** has no translation and no transliteration by default, and the Arabic original of Al-Mukhtasar as
   its tafsir; with no translation and no transliteration the mushaf layout drops its numbered column and the Arabic takes
   the whole width.
 - **Plurals:** `Plural` has the CLDR categories `zero`, `one`, `two`, `few`, `many` and `other`; `tn` picks the category of the
   count and falls back to `other`. Russian and Bosnian use three or four (`messages/ru.ts`, `bs.ts`), Arabic all six (`messages/ar.ts`); Chinese, Thai,
-  Persian and Uzbek only `other`; write `other`
+  Persian, Uzbek, Japanese and Vietnamese only `other`; write `other`
   last, because the catalog test compares its placeholders.
 - **Data text in a language we lack** (an edition name, a surah meaning) falls back to a close language first (`CLOSE_LANGUAGE`
   in `translate.ts`: Malay reads the Indonesian surah meanings), then English. Surah meanings exist in English and Indonesian
@@ -198,11 +203,12 @@ and Persian are right to left.
   direction whatever the page: the Arabic is `dir="rtl"`, the transliteration `dir="ltr"`, a translation and its footnotes take
   the edition's `direction`, and the tafsir `dir="auto"`. Checked by forcing `dir="rtl"` on the Indonesian pages at 320 and
   1280 px: no page wider than the screen, menus on screen, side panel, read marks and pagination mirrored.
-- **Fonts:** the interface fonts have no Cyrillic, Bengali, Arabic-script, Chinese, Thai, Tamil or Malayalam glyphs, so those
+- **Fonts:** the interface fonts have no Cyrillic, Bengali, Arabic-script, Chinese, Thai, Tamil, Malayalam, Devanagari or Japanese glyphs, so those
   interfaces use the system font from the `--font-sans` stack (`system-ui`; Amiri stays for the Qur'an text). Checked at
-  320, 390 and 1280 px in all seven new languages: no page wider than the screen, menus on screen.
+  320, 390 and 1280 px in the seven languages of wave 3 and the eight of wave 4: no page wider than the screen, menus on screen
+  (the language menu scrolls inside itself when it is taller than the screen).
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's
-  decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for the fourteen others, first drafts by Claude at
+  decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for the twenty-two others, first drafts by Claude at
   the owner's request) is marked "Community" in the language menu and the settings list, its privacy
   page says that the English and Indonesian versions apply where the translation differs (`privacy.translationNote`), and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
   that language is the current one. `tr` is already listed, so the label appears together with the language. Remove a

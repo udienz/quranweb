@@ -47,7 +47,7 @@ export interface Translator {
   date(value: string | number | Date, options?: Intl.DateTimeFormatOptions): string;
 }
 
-const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR", ms: "ms-MY", bn: "bn-BD", fr: "fr-FR", ru: "ru-RU", ur: "ur-PK", ar: "ar", fa: "fa-IR", es: "es-ES", bs: "bs-BA", zh: "zh-CN", th: "th-TH", uz: "uz-Cyrl-UZ", ta: "ta-IN", ml: "ml-IN" };
+const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR", ms: "ms-MY", bn: "bn-BD", fr: "fr-FR", ru: "ru-RU", ur: "ur-PK", ar: "ar", fa: "fa-IR", es: "es-ES", bs: "bs-BA", zh: "zh-CN", th: "th-TH", uz: "uz-Cyrl-UZ", ta: "ta-IN", ml: "ml-IN", de: "de-DE", pt: "pt-BR", it: "it-IT", hi: "hi-IN", sw: "sw-KE", ha: "ha-NG", ja: "ja-JP", vi: "vi-VN" };
 
 export function createTranslator(locale: Locale, messages: Messages): Translator {
   const rules = new Intl.PluralRules(INTL_LOCALE[locale]);

@@ -11,21 +11,21 @@ describe("negotiateLocale", () => {
 
   it("uses the first supported language the browser lists", () => {
     expect(negotiateLocale(undefined, "en-US,en;q=0.9,id;q=0.8")).toBe("en");
-    expect(negotiateLocale(undefined, "de-DE,id;q=0.8,en;q=0.5")).toBe("id");
+    expect(negotiateLocale(undefined, "ko-KR,id;q=0.8,en;q=0.5")).toBe("id");
     expect(negotiateLocale(undefined, "ru-RU,ru;q=0.9,en;q=0.5")).toBe("ru");
     expect(negotiateLocale(undefined, "ms-MY,en;q=0.5")).toBe("ms");
     expect(negotiateLocale(undefined, "EN-gb")).toBe("en");
   });
 
   it("falls back to the default for an unknown cookie, an unsupported language or no header", () => {
-    expect(negotiateLocale("de", "de-DE,nl;q=0.9")).toBe(DEFAULT_LOCALE);
+    expect(negotiateLocale("ko", "ko-KR,nl;q=0.9")).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale(undefined, null)).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale("", "")).toBe(DEFAULT_LOCALE);
   });
 
   it("isLocale only accepts supported codes", () => {
     expect(LOCALES.every(isLocale)).toBe(true);
-    expect(isLocale("de")).toBe(false);
+    expect(isLocale("ko")).toBe(false);
     expect(isLocale(undefined)).toBe(false);
   });
 });
