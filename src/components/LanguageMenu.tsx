@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useOptimistic, useRef, useState, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
-import { isCommunityLocale, LOCALE_COOKIE, LOCALE_NAMES, LOCALES, reportTranslationUrl, type Locale } from "@/lib/i18n/config";
+import { isCommunityLocale, LOCALE_COOKIE, LOCALE_NAMES, LOCALES_BY_NAME, reportTranslationUrl, type Locale } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/client";
 import { useDismiss } from "@/lib/useDismiss";
+import LanguageFlag from "./LanguageFlag";
 import { userDataActions } from "@/lib/userdata/store";
 
 /**
@@ -31,8 +32,8 @@ export function useLocaleChoice(): { current: Locale; choose: (next: Locale) => 
   return { current, choose };
 }
 
-/** A list of languages by their own names, in the order of LOCALES. */
-const languageOptions = LOCALES.map((code) => ({ code, name: LOCALE_NAMES[code], community: isCommunityLocale(code) }));
+/** A list of languages by their own names, in alphabetical order of those names (LOCALES_BY_NAME). */
+const languageOptions = LOCALES_BY_NAME.map((code) => ({ code, name: LOCALE_NAMES[code], community: isCommunityLocale(code) }));
 
 const GlobeIcon = () => (
   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -66,9 +67,9 @@ export default function LanguageMenu() {
       </button>
 
       {open && (
-        // Seventeen languages are taller than a small phone screen, and the header is sticky, so the page cannot scroll the
+        // Twenty-five languages are taller than a small phone screen, and the header is sticky, so the page cannot scroll the
         // bottom of the menu into view: the menu scrolls inside itself instead.
-        <div role="menu" aria-label={t("nav.language")} className="absolute end-0 top-full z-50 mt-2 max-h-[calc(100dvh-6rem)] w-52 overflow-y-auto overscroll-contain rounded-2xl border border-border bg-card p-2 shadow-lg">
+        <div role="menu" aria-label={t("nav.language")} className="absolute end-0 top-full z-50 mt-2 max-h-[calc(100dvh-6rem)] w-60 overflow-y-auto overscroll-contain rounded-2xl border border-border bg-card p-2 shadow-lg">
           {languageOptions.map(({ code, name, community }) => (
             <button
               key={code}
@@ -83,7 +84,9 @@ export default function LanguageMenu() {
             >
               {/* The badge goes to a second line when the name and the badge do not fit the menu (Bahasa Melayu with the
                   Russian or French badge); the menu keeps its width so it stays on screen at 320px. */}
-              <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+              <span className="flex items-center gap-2.5">
+                <LanguageFlag locale={code} />
+                <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 {/* Only the name is in its own language: the badge is interface text (and `uppercase` follows the lang, so
                     a Turkish lang on the whole item would write "COMMUNİTY"). */}
                 <span lang={code} translate="no" className="whitespace-nowrap">
@@ -97,6 +100,7 @@ export default function LanguageMenu() {
                     {t("nav.communityBadge")}
                   </span>
                 )}
+                </span>
               </span>
               {code === current && (
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-primary">

@@ -168,7 +168,8 @@ language with its default translation and tafsir (section "Languages"): update t
   key does not compile, and a test checks that both catalogs have the same keys and the
   same placeholders. Use `t("area.key", { name })` and, for counts, `tn("common.verses", n)`
   (plural forms by CLDR category). Never write a user-visible string in a component.
-- **Adding a language:** add the code to `LOCALES` in `config.ts`, create the catalog
+- **Adding a language:** add the code to `LOCALES` in `config.ts`, and to `LOCALES_BY_NAME` (the menu order) and
+  `LOCALE_FLAGS` (its flag; add the country to the imports of `LanguageFlag.tsx` if it is new), create the catalog
   (typed as `Messages`), register it in `messages/index.ts`, give every edition name and
   credit a text for it (`LocalizedText`), and add the intl code in `translate.ts`.
   Contributed translations (interface only) follow `CONTRIBUTING.md`, "Translating the
@@ -207,6 +208,15 @@ language with its default translation and tafsir (section "Languages"): update t
   interfaces use the system font from the `--font-sans` stack (`system-ui`; Amiri stays for the Qur'an text). Checked at
   320, 390 and 1280 px in the seven languages of wave 3 and the eight of wave 4: no page wider than the screen, menus on screen
   (the language menu scrolls inside itself when it is taller than the screen).
+- **Language menu order and flags** (the owner's request, 2026-11-21): the menu and the settings list follow `LOCALES_BY_NAME`,
+  alphabetical by each language's own name (`Intl.Collator("und")`: Latin script first, then Cyrillic, Arabic, the Indic
+  scripts, Thai, Chinese and Japanese). It is written out, not sorted at run time, because the server's and the browser's ICU
+  could order it differently and break hydration; `i18n.test.ts` checks it is sorted and complete. The menu shows a flag
+  before each name (`LOCALE_FLAGS`, the country the language is usually shown with: Malay with Malaysia, Urdu with Pakistan,
+  Arabic with Saudi Arabia, Portuguese with Brazil, Swahili with Tanzania, English with the United Kingdom, Tamil, Malayalam
+  and Hindi with India). The flags are inline SVG from `country-flag-icons` (MIT), imported one by one so the bundle carries
+  only those 23; emoji flags were not used because Windows shows them as two letters. The `<select>` on `/settings` has no
+  flags (an `<option>` cannot hold an image).
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's
   decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for the twenty-two others, first drafts by Claude at
   the owner's request) is marked "Community" in the language menu and the settings list, its privacy
@@ -629,6 +639,7 @@ src/
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ContinueReading.tsx, MyReading.tsx
     LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
+    LanguageFlag.tsx           the flag beside each language in the menu (country-flag-icons, only the flags in use)
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)
     AccountSection.tsx         download and delete account, or sign in, on the settings page
     DisplayControls.tsx, DisplaySection.tsx   theme choice and text size controls (hooks on display.ts)

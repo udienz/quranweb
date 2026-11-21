@@ -45,37 +45,38 @@ Long surahs are split into pages of 10 verses: a page of Al-Baqarah is about 230
 
 ## Languages
 
-The interface comes in the languages below. Choosing one also sets the translation and tafsir a new reader sees first; you
+The interface comes in the 25 languages below, listed as the language menu lists them: alphabetically by the language's own
+name, Latin script first, each with a flag. Choosing one also sets the translation and tafsir a new reader sees first; you
 can change both in Reading settings, and choose from every translation and tafsir whatever the interface language. Where
 our sources have no translation or no tafsir in a language, the site shows the English one: those cells say "English".
 
 | Interface | Translation shown first | Tafsir shown first |
 |---|---|---|
 | Bahasa Indonesia | Kemenag | Kemenag |
-| English | Yusuf Ali | Al-Mukhtasar |
-| Türkçe (Turkish) | Diyanet İşleri | Al-Mukhtasar |
 | Bahasa Melayu (Malay) | Abdullah Basmeih | Kemenag (Indonesian, which Malay readers follow easily) |
-| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
+| Bosanski (Bosnian) | Rowwad Translation Center | Al-Mukhtasar |
+| Deutsch (German) | Frank Bubenheim and Nadeem Elyas | English: Al-Mukhtasar |
+| English | Yusuf Ali | Al-Mukhtasar |
+| Español (Spanish) | Isa Garcia | English: Al-Mukhtasar |
 | Français (French) | Rachid Maach | Al-Mukhtasar |
+| Hausa | Abubakar Mahmoud Gumi | English: Al-Mukhtasar |
+| Italiano (Italian) | English: Yusuf Ali | Al-Mukhtasar |
+| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | English: Al-Mukhtasar |
+| Português (Portuguese) | Helmi Nasr | English: Al-Mukhtasar |
+| Tiếng Việt (Vietnamese) | Rowwad Translation Center | Al-Mukhtasar |
+| Türkçe (Turkish) | Diyanet İşleri | Al-Mukhtasar |
 | Русский (Russian) | Elmir Kuliev | Al-Mukhtasar |
+| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
 | اردو (Urdu) | Muhammad Junagarhi | English: Al-Mukhtasar |
 | العربية (Arabic) | none (the Arabic text only) | Al-Mukhtasar in Arabic |
 | فارسی (Persian) | Rowwad Translation Center | Al-Mukhtasar |
-| Español (Spanish) | Isa Garcia | English: Al-Mukhtasar |
-| Bosanski (Bosnian) | Rowwad Translation Center | Al-Mukhtasar |
-| 中文 (Chinese) | Ma Jian | Al-Mukhtasar |
-| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
-| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
+| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
+| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
 | தமிழ் (Tamil) | Omar Sharif | Al-Mukhtasar |
 | മലയാളം (Malayalam) | Abdul Hamid Haidar and Kunhi Muhammad | Al-Mukhtasar |
-| Deutsch (German) | Frank Bubenheim and Nadeem Elyas | English: Al-Mukhtasar |
-| Português (Portuguese) | Helmi Nasr | English: Al-Mukhtasar |
-| Italiano (Italian) | English: Yusuf Ali | Al-Mukhtasar |
-| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
-| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | English: Al-Mukhtasar |
-| Hausa | Abubakar Mahmoud Gumi | English: Al-Mukhtasar |
+| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
+| 中文 (Chinese) | Ma Jian | Al-Mukhtasar |
 | 日本語 (Japanese) | Saeed Sato | Al-Mukhtasar |
-| Tiếng Việt (Vietnamese) | Rowwad Translation Center | Al-Mukhtasar |
 
 Unless the table says otherwise, a translation or tafsir is in the language of its row.
 
@@ -170,10 +171,11 @@ The picture at the top of this page is the mushaf layout.
 
 ### Change the language
 
-![The language menu open in the header: English and Bahasa Indonesia, then Türkçe, Bahasa Melayu, বাংলা, Français, Русский, اردو, العربية and فارسی, each marked Community](docs/screenshots/en/how-language.png)
+![The language menu open in the header: languages in alphabetical order by their own names, each with a flag (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English and more), community translations marked Community](docs/screenshots/en/how-language.png)
 
 Press the globe button at the top (it shows the code of the current language, such as EN or FR) and pick a language, or use "Interface language" on the
-Settings page. This changes the menus and buttons only. The translations of the Qur'an are chosen in Reading settings.
+Settings page. The languages are in alphabetical order of their own names, each with a flag; the menu scrolls when it is
+taller than the screen. This changes the menus and buttons only. The translations of the Qur'an are chosen in Reading settings.
 
 ### Theme and text size
 

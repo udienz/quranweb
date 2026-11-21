@@ -38,6 +38,45 @@ export const LOCALE_NAMES: Record<Locale, string> = {
 };
 
 /**
+ * The order of the language menu and the settings list: alphabetical by the language's own name (`Intl.Collator("und")`),
+ * so the Latin names come first, then the other scripts. Written out rather than sorted at run time, so the server and the
+ * browser cannot order it differently (their ICU data may differ); `i18n.test.ts` checks that it is sorted and complete.
+ */
+export const LOCALES_BY_NAME: readonly Locale[] = ["id", "ms", "bs", "de", "en", "es", "fr", "ha", "it", "sw", "pt", "vi", "tr", "ru", "uz", "ur", "ar", "fa", "hi", "bn", "ta", "ml", "th", "zh", "ja"];
+
+/**
+ * The flag shown beside each language in the menu (ISO 3166 country code, drawn by `LanguageFlag`): the country the language
+ * is most often shown with, the owner's choice (2026-11-21). A flag is a hint for the eye; the name stays the label.
+ */
+export const LOCALE_FLAGS: Record<Locale, string> = {
+  en: "GB",
+  id: "ID",
+  tr: "TR",
+  ms: "MY",
+  bn: "BD",
+  fr: "FR",
+  ru: "RU",
+  ur: "PK",
+  ar: "SA",
+  fa: "IR",
+  es: "ES",
+  bs: "BA",
+  zh: "CN",
+  th: "TH",
+  uz: "UZ",
+  ta: "IN",
+  ml: "IN",
+  de: "DE",
+  pt: "BR",
+  it: "IT",
+  hi: "IN",
+  sw: "TZ",
+  ha: "NG",
+  ja: "JP",
+  vi: "VN",
+};
+
+/**
  * Languages published as a **community translation**: not yet reviewed by a speaker of the language, as CONTRIBUTING.md
  * asks. Turkish was translated by a reader; every other language is a draft by Claude
  * (the owner's choice, 2026-11-21) waiting for a native speaker. The language menu marks them and offers a link to report a mistake. Remove a

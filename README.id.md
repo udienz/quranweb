@@ -46,7 +46,8 @@ untuk seluruh surat.
 
 ## Bahasa
 
-Antarmuka tersedia dalam bahasa-bahasa di bawah ini. Memilih salah satunya juga menentukan terjemahan dan tafsir yang
+Antarmuka tersedia dalam 25 bahasa di bawah ini, diurutkan seperti di menu bahasa: menurut abjad nama bahasa itu sendiri,
+huruf Latin lebih dulu, masing-masing dengan benderanya. Memilih salah satunya juga menentukan terjemahan dan tafsir yang
 pertama kali dilihat pembaca baru; keduanya bisa diganti di Pengaturan bacaan, dan semua terjemahan dan tafsir bisa dipilih
 apa pun bahasa antarmukanya. Bila sumber kami tidak punya terjemahan atau tafsir dalam suatu bahasa, situs menampilkan yang
 berbahasa Inggris: sel itu bertuliskan "Inggris".
@@ -54,30 +55,30 @@ berbahasa Inggris: sel itu bertuliskan "Inggris".
 | Antarmuka | Terjemahan bawaan | Tafsir bawaan |
 |---|---|---|
 | Bahasa Indonesia | Kemenag | Kemenag |
-| English (Inggris) | Yusuf Ali | Al-Mukhtasar |
-| Türkçe (Turki) | Diyanet İşleri | Al-Mukhtasar |
 | Bahasa Melayu | Abdullah Basmeih | Kemenag (bahasa Indonesia, yang mudah diikuti pembaca Melayu) |
-| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
+| Bosanski (Bosnia) | Rowwad Translation Center | Al-Mukhtasar |
+| Deutsch (Jerman) | Frank Bubenheim dan Nadeem Elyas | Inggris: Al-Mukhtasar |
+| English (Inggris) | Yusuf Ali | Al-Mukhtasar |
+| Español (Spanyol) | Isa Garcia | Inggris: Al-Mukhtasar |
 | Français (Prancis) | Rachid Maach | Al-Mukhtasar |
+| Hausa | Abubakar Mahmoud Gumi | Inggris: Al-Mukhtasar |
+| Italiano (Italia) | Inggris: Yusuf Ali | Al-Mukhtasar |
+| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | Inggris: Al-Mukhtasar |
+| Português (Portugis) | Helmi Nasr | Inggris: Al-Mukhtasar |
+| Tiếng Việt (Vietnam) | Rowwad Translation Center | Al-Mukhtasar |
+| Türkçe (Turki) | Diyanet İşleri | Al-Mukhtasar |
 | Русский (Rusia) | Elmir Kuliev | Al-Mukhtasar |
+| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
 | اردو (Urdu) | Muhammad Junagarhi | Inggris: Al-Mukhtasar |
 | العربية (Arab) | tidak ada (hanya teks Arab) | Al-Mukhtasar berbahasa Arab |
 | فارسی (Persia) | Rowwad Translation Center | Al-Mukhtasar |
-| Español (Spanyol) | Isa Garcia | Inggris: Al-Mukhtasar |
-| Bosanski (Bosnia) | Rowwad Translation Center | Al-Mukhtasar |
-| 中文 (Tionghoa) | Ma Jian | Al-Mukhtasar |
-| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
-| Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
+| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
+| বাংলা (Bengali) | Muhiuddin Khan | Al-Mukhtasar |
 | தமிழ் (Tamil) | Omar Sharif | Al-Mukhtasar |
 | മലയാളം (Malayalam) | Abdul Hamid Haidar dan Kunhi Muhammad | Al-Mukhtasar |
-| Deutsch (Jerman) | Frank Bubenheim dan Nadeem Elyas | Inggris: Al-Mukhtasar |
-| Português (Portugis) | Helmi Nasr | Inggris: Al-Mukhtasar |
-| Italiano (Italia) | Inggris: Yusuf Ali | Al-Mukhtasar |
-| हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
-| Kiswahili (Swahili) | Ali Muhsin Al-Barwani | Inggris: Al-Mukhtasar |
-| Hausa | Abubakar Mahmoud Gumi | Inggris: Al-Mukhtasar |
+| ไทย (Thai) | Rowwad Translation Center | Al-Mukhtasar |
+| 中文 (Tionghoa) | Ma Jian | Al-Mukhtasar |
 | 日本語 (Jepang) | Saeed Sato | Al-Mukhtasar |
-| Tiếng Việt (Vietnam) | Rowwad Translation Center | Al-Mukhtasar |
 
 Kecuali tabel menyebut lain, terjemahan atau tafsir itu berbahasa sesuai barisnya.
 
@@ -174,10 +175,11 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 ### Mengganti bahasa
 
-![Menu bahasa terbuka di header: English dan Bahasa Indonesia, lalu Türkçe, Bahasa Melayu, বাংলা, Français, Русский, اردو, العربية, dan فارسی, masing-masing bertanda Komunitas](docs/screenshots/id/how-language.png)
+![Menu bahasa terbuka di header: bahasa diurutkan menurut abjad nama bahasa itu sendiri, masing-masing dengan bendera (Bahasa Indonesia, Bahasa Melayu, Bosanski, Deutsch, English, dan seterusnya), terjemahan komunitas bertanda Komunitas](docs/screenshots/id/how-language.png)
 
 Tekan tombol bola dunia di atas (bertuliskan kode bahasa yang sedang dipakai, misalnya ID atau EN) dan pilih bahasa, atau pakai "Bahasa antarmuka" di halaman
-Pengaturan. Ini hanya mengganti menu dan tombol. Terjemahan Al-Qur'an dipilih di Pengaturan bacaan.
+Pengaturan. Bahasa diurutkan menurut abjad nama bahasa itu sendiri, masing-masing dengan benderanya; menunya bisa digulir
+bila lebih tinggi dari layar. Ini hanya mengganti menu dan tombol. Terjemahan Al-Qur'an dipilih di Pengaturan bacaan.
 
 ### Tema dan ukuran huruf
 

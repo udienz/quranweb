@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COMMUNITY_LOCALES, DEFAULT_LOCALE, directionOf, isCommunityLocale, isLocale, LOCALES, negotiateLocale, reportTranslationUrl } from "./config";
+import { COMMUNITY_LOCALES, DEFAULT_LOCALE, directionOf, isCommunityLocale, isLocale, LOCALE_FLAGS, LOCALE_NAMES, LOCALES, LOCALES_BY_NAME, negotiateLocale, reportTranslationUrl } from "./config";
 import { MESSAGES } from "./messages";
 import { createTranslator, format, localized, type Plural } from "./translate";
 
@@ -176,5 +176,18 @@ describe("text direction of the interface", () => {
   it("is right to left for Arabic, Urdu and Persian, and left to right for the others", () => {
     for (const code of ["ar", "ur", "fa"]) expect(directionOf(code)).toBe("rtl");
     for (const code of LOCALES.filter((c) => !["ar", "ur", "fa"].includes(c))) expect(directionOf(code), code).toBe("ltr");
+  });
+});
+
+describe("language menu order and flags", () => {
+  it("lists every language once, alphabetically by its own name", () => {
+    expect([...LOCALES_BY_NAME].sort()).toEqual([...LOCALES].sort());
+    const collator = new Intl.Collator("und");
+    const names = LOCALES_BY_NAME.map((code) => LOCALE_NAMES[code]);
+    expect(names).toEqual([...names].sort(collator.compare));
+  });
+
+  it("gives every language a two-letter country flag", () => {
+    for (const code of LOCALES) expect(LOCALE_FLAGS[code]).toMatch(/^[A-Z]{2}$/);
   });
 });
