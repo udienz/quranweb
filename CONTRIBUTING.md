@@ -38,7 +38,10 @@ translator of a language only if `.github/CODEOWNERS` names them for it, not for
 ## Translating the interface
 
 You can translate QuranWeb's interface (menus, buttons, settings, messages, and the About and privacy pages) into your
-language. The interface is in Indonesian, English and Turkish today (Turkish as a community translation, see Review).
+language. The interface is in Indonesian and English, and in Turkish, Malay, Bengali, French and Russian as community
+translations (see Review). Turkish was translated by a reader. **Malay, Bengali, French and Russian are first drafts made by
+Claude (an AI) at the owner's request**, published as community translations so that speakers can correct them: a review
+of one of them, even of a few messages, is very welcome, and a reviewer can become that language's maintainer.
 
 **Only the interface is translated this way, never the Qur'an.** Translations of the meaning of the Qur'an and tafsir
 come only from verified, published sources and are chosen by the reader as editions. A pull request that adds or changes
@@ -63,8 +66,8 @@ Improving an existing language is the same, but only the catalog changes.
 
 - **Placeholders** in braces (`{count}`, `{name}`, `{total}`, ...) are filled in by the app. Keep them exactly as they
   are, in the place your grammar needs; do not translate the word inside the braces.
-- **Plurals** use `plural(other, one)`, chosen by the language's CLDR rules. Only the `one` and `other` forms are
-  supported today. If your language needs more forms (`few`, `many`, ...), say so in the pull request.
+- **Plurals** use `plural(other, one)`, chosen by the language's CLDR rules. A language with more forms writes the
+  object itself with `one`, `few`, `many` and `other` (see `messages/ru.ts`); `other` is required and comes last.
 - **Tone:** plain, calm and respectful, addressing the reader politely (in Indonesian, *Anda*). Short labels on buttons.
   Follow the meaning of the English message rather than its words.
 - **Terms kept as they are** (in the spelling usual in your language): Allah, Qur'an, surah, juz, tafsir, khatam,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isCommunityLocale } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
 import { privacyContact } from "@/lib/privacy";
 
@@ -22,12 +23,15 @@ const SECTIONS = [
 ] as const;
 
 export default async function PrivacyPage() {
-  const { t } = await getI18n();
+  const { t, locale } = await getI18n();
   const contact = privacyContact();
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="mb-2 font-display text-2xl font-semibold">{t("privacy.title")}</h1>
       <p className="mb-6 text-muted-foreground">{t("privacy.intro")}</p>
+      {isCommunityLocale(locale) && (
+        <p className="mb-6 rounded-xl border border-border bg-muted px-4 py-3 text-sm">{t("privacy.translationNote")}</p>
+      )}
       {SECTIONS.map(([title, body]) => (
         <section key={title} className="mb-6">
           <h2 className="mb-2 font-display text-lg font-semibold">{t(title)}</h2>

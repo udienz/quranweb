@@ -90,6 +90,7 @@ export const en = {
     contactBy: "This site is run by {name}.",
     contactEmail: "Questions and requests about your data: {email}",
     contactMissing: "The contact for questions about your data has not been set up yet.",
+    translationNote: "This translation of the policy has not yet been checked by a native speaker. Where it differs from the English or the Indonesian version, those versions apply.",
   },
   admin: {
     title: "Accounts",

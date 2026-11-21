@@ -54,6 +54,10 @@ const SOURCE: SourceInfo = {
     en: "EveryAyah recordings, via the AlQuran.cloud CDN (Islamic Network)",
     id: "Rekaman EveryAyah, melalui CDN AlQuran.cloud (Islamic Network)",
     tr: "EveryAyah kayıtları, AlQuran.cloud CDN üzerinden (Islamic Network)",
+    ms: "Rakaman EveryAyah, melalui CDN AlQuran.cloud (Islamic Network)",
+    bn: "EveryAyah-এর রেকর্ডিং, AlQuran.cloud CDN-এর মাধ্যমে (Islamic Network)",
+    fr: "Enregistrements EveryAyah, via le CDN d'AlQuran.cloud (Islamic Network)",
+    ru: "Записи EveryAyah, через CDN AlQuran.cloud (Islamic Network)",
   },
 };
 

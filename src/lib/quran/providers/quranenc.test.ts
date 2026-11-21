@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { LOCALES } from "../../i18n/config";
 import { createQuranEncTextProvider, QURANENC_API_URL, QURANENC_EDITIONS, QURANENC_KEYS } from "./quranenc";
 
 const BASE = "https://mirror.test/quranenc";
@@ -59,17 +60,23 @@ describe("QuranEnc provider", () => {
     for (const e of QURANENC_EDITIONS) {
       expect(QURANENC_KEYS[e.id]).toBeTruthy();
       expect(e.source.url).toBe(`https://quranenc.com/en/browse/${QURANENC_KEYS[e.id]}`);
-      for (const text of [e.source.attribution.en, e.source.attribution.id]) {
-        expect(text).toMatch(/QuranEnc\.com/);
-        expect(text).toMatch(/version 1\.0\.1|versi 1\.0\.1|2026-11-19/);
+      // Every interface language gets a credit with QuranEnc.com and the version (or the date of the copy), and a name.
+      for (const locale of LOCALES) {
+        const text = e.source.attribution[locale];
+        expect(text, `${e.id} ${locale}`).toMatch(/QuranEnc\.com/);
+        expect(text, `${e.id} ${locale}`).toMatch(/1\.0\.1|1\.0\.3|2026-11-19|2026-11-21/);
+        expect(e.name[locale], `${e.id} ${locale}`).toBeTruthy();
       }
-      expect(e.name.en && e.name.id && e.name.tr).toBeTruthy();
     }
     expect(QURANENC_EDITIONS.map((e) => [e.id, e.kind, e.language])).toEqual([
       ["ind-indonesianislam", "translation", "id"],
       ["eng-mokhtasar", "tafsir", "en"],
       ["tur-mokhtasar", "tafsir", "tr"],
       ["ind-mokhtasar", "tafsir", "id"],
+      ["fra-rashidmaash", "translation", "fr"],
+      ["ben-mokhtasar", "tafsir", "bn"],
+      ["fra-mokhtasar", "tafsir", "fr"],
+      ["rus-mokhtasar", "tafsir", "ru"],
     ]);
   });
 });

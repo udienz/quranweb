@@ -47,9 +47,11 @@ own format.
     Indonesian translation (Kemenag), Indonesian tafsir (Kemenag) and six reciters
     (default `misyari-rasyid-al-afasi`). These editions are the defaults.
   - `providers/fawazahmed0.ts`: [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api),
-    text only. Six editions: Arabic Uthmani Hafs, Quraish Shihab
-    (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall, and the Turkish Diyanet İşleri meal
-    (`tur-diyanetisleri`, the default translation with the Turkish interface). They only extend the catalog.
+    text only. Nine editions: Arabic Uthmani Hafs, Quraish Shihab
+    (tafsir), Jalalayn (tafsir), Yusuf Ali, Pickthall, the Turkish Diyanet İşleri meal
+    (`tur-diyanetisleri`, the default translation with the Turkish interface), and since 2026-11-21 the defaults of three
+    new interfaces: Abdullah Basmeih in Malay (`msa-abdullahmuhamma`), Muhiuddin Khan in Bengali (`ben-muhiuddinkhan`) and
+    Elmir Kuliev in Russian (`rus-elmirkuliev`), all through Tanzil. They only extend the catalog.
     Tanzil's terms (four of these editions, and the Turkish one, come through Tanzil): non-commercial use, and a link back
     to https://tanzil.net/trans/ when more than three of its translations are used on a site; the source link of every Tanzil
     edition on the About page goes there (a test checks it).
@@ -82,7 +84,10 @@ own format.
     (`eng-mokhtasar`) and Turkish (`tur-mokhtasar`), the default tafsir with those interfaces, and in Indonesian (`ind-mokhtasar`, a
     short tafsir to choose beside Kemenag, which stays the Indonesian default; added 2026-11-19). The text is passed on unchanged:
     the markers ("[252]") stay in it and the footnotes come with it (`VerseText.notes`, shown folded under the translation by
-    `Footnotes`). QuranEnc's terms: no modification, addition or deletion; name the publisher and QuranEnc.com; give the version;
+    `Footnotes`). Since 2026-11-21 also the French translation of Rachid Maach (`fra-rashidmaash`, version 1.0.3, with
+    footnotes; the default with the French interface) and Al-Mukhtasar in Bengali, French and Russian (`ben-mokhtasar`,
+    `fra-mokhtasar`, `rus-mokhtasar`, the default tafsir with those interfaces). `mokhtasar()` and `translationCredit()` build
+    an edition's name and credit in every interface language. QuranEnc's terms: no modification, addition or deletion; name the publisher and QuranEnc.com; give the version;
     keep it up to date; no inappropriate ads. So each credit names the version (1.0.1 for Kemenag; Al-Mukhtasar has none
     published, so the date of the copy), and the copy is **not** served publicly. Production reads the private copy made by
     `sync-quranenc.mjs` in the data repository (`QURAN_QURANENC_URL=/data/quranenc`); run its `--check` now and then, and when
@@ -134,7 +139,8 @@ own format.
 
 ### Interface language (i18n)
 
-The interface is available in English and Indonesian (`src/lib/i18n/`).
+The interface is available in English and Indonesian, and as community translations in Turkish, Malay, Bengali, French and
+Russian (`src/lib/i18n/`).
 
 - **Which language:** the cookie `qw-lang` (set by the language menu in the header, or the "Interface language" list on
   `/settings`; both use `useLocaleChoice` in `LanguageMenu.tsx`) wins, then the first
@@ -153,12 +159,22 @@ The interface is available in English and Indonesian (`src/lib/i18n/`).
   Contributed translations (interface only) follow `CONTRIBUTING.md`, "Translating the
   interface": pull requests only, reviewed by the language maintainer in `.github/CODEOWNERS`.
 - **Language of the content** is separate: editions have their own language and the reader
-  chooses them (cookie `qw-sel`). With the English or the Turkish interface and no saved choice, the
-  default translation is Yusuf Ali or the Diyanet meal and the default tafsir is Al-Mukhtasar in that language
-  (`localeDefaults` in the source registry); Indonesian keeps the Kemenag tafsir.
-- **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language translated by a reader and not yet reviewed
-  by a second speaker (the owner's decision, 2026-11-18, for Turkish) is marked "Community" in the language menu and the
-  settings list, and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
+  chooses them (cookie `qw-sel`). With another interface than Indonesian and no saved choice, the default translation is
+  one in that language (Yusuf Ali, the Diyanet meal, Basmeih, Muhiuddin Khan, Rachid Maach, Kuliev) and the default tafsir is
+  Al-Mukhtasar in that language (`localeDefaults` in the source registry); Indonesian keeps the Kemenag tafsir, and Malay,
+  which has no Al-Mukhtasar, keeps it too.
+- **Plurals:** `Plural` has `one`, `few`, `many` and `other`; `tn` picks the CLDR category of the count and falls back to
+  `other`. Russian uses all four (`messages/ru.ts`); write `other` last, because the catalog test compares its placeholders.
+- **Data text in a language we lack** (an edition name, a surah meaning) falls back to a close language first (`CLOSE_LANGUAGE`
+  in `translate.ts`: Malay reads the Indonesian surah meanings), then English. Surah meanings exist in English and Indonesian
+  only, so French, Russian and Bengali show the English one. `editions-i18n.test.ts` checks that every edition has a name and
+  a credit in every interface language.
+- **Fonts:** the interface fonts have no Cyrillic or Bengali glyphs, so Russian and Bengali text uses the system font from the
+  `--font-sans` stack (`system-ui`). Checked at 320, 390 and 1280 px in all four new languages: no page wider than the screen.
+- **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's
+  decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for Malay, Bengali, French and Russian, first
+  drafts by Claude at the owner's request) is marked "Community" in the language menu and the settings list, its privacy
+  page says that the English and Indonesian versions apply where the translation differs (`privacy.translationNote`), and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
   that language is the current one. `tr` is already listed, so the label appears together with the language. Remove a
   language from the list once it has been reviewed and has a maintainer in `.github/CODEOWNERS`.
 - **No machine translation of the Qur'an text.** Chrome and other browsers offer to translate a page, and on an Indonesian
