@@ -148,6 +148,9 @@ describe("plural forms", () => {
     expect(en.tn("common.verses", 1)).toBe("1 verse");
     expect(en.tn("common.verses", 3)).toBe("3 verses");
     expect(createTranslator("ms", MESSAGES.ms).tn("common.verses", 1)).toBe("1 ayat");
+    const bs = createTranslator("bs", MESSAGES.bs);
+    expect([1, 3, 5, 21, 22].map((n) => bs.tn("common.verses", n))).toEqual(["1 ajet", "3 ajeta", "5 ajeta", "21 ajet", "22 ajeta"]);
+    expect(createTranslator("zh", MESSAGES.zh).tn("common.verses", 7)).toBe("7 节");
     const ar = createTranslator("ar", MESSAGES.ar);
     expect([0, 1, 2, 3, 11, 100].map((n) => ar.tn("common.verses", n))).toEqual([
       "لا آيات",

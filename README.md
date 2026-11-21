@@ -2,7 +2,7 @@
 
 **English** · [Bahasa Indonesia](README.id.md)
 
-A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish, Malay, Bengali, French, Russian, Urdu, Persian and others), recitation
+A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish, Malay, Bengali, French, Russian, Urdu, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam and others), recitation
 audio and tafsir. You do not need an account, and there are no ads. Visits are counted with Cloudflare Web Analytics, which,
 according to Cloudflare, sets no cookies and does not identify you (see the privacy policy).
 
@@ -24,14 +24,15 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Memorize**: hear each verse two, three or more times, repeat a range of verses (for example 2:1–5) as many
   times as you like, and blur the Arabic or the translation to test yourself, tapping a verse to check it. ([how](#memorize-a-passage))
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab, Jalalayn or Al-Mukhtasar;
-  Al-Mukhtasar also in Arabic, English, Turkish, Bengali, French, Russian and Persian). ([how](#read-the-tafsir))
+  Al-Mukhtasar also in Arabic, English, Turkish, Bengali, French, Russian, Persian, Bosnian, Chinese, Thai, Uzbek, Tamil and
+  Malayalam). ([how](#read-the-tafsir))
 - **Pick up where you stopped** with "continue reading", and mark how far you have read. ([how](#continue-reading-and-mark-your-progress))
 - **Bookmark verses**, add your own notes, and group them into collections. ([how](#bookmarks-notes-and-collections))
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))
 - **Use it in your language**: the interface is in Indonesian and English, and as community translations in Turkish,
-  Malay, Bengali, French, Russian, Urdu, Arabic and Persian (the last three right to left). Community translations are not
-  yet checked by a second speaker (Turkish was translated by a reader, the other seven are first drafts by Claude, an AI), so
-  each has a link to report a mistake. Each language
+  Malay, Bengali, French, Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil and Malayalam (Urdu,
+  Arabic and Persian right to left). Community translations are not yet checked by a second speaker (Turkish was translated by
+  a reader, the other fourteen are first drafts by Claude, an AI), so each has a link to report a mistake. Each language
   shows a translation in that language by default. The site follows your browser's language until you pick one in the
   header or on the Settings page. When you are signed in, your choice follows you. ([how](#change-the-language))
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its

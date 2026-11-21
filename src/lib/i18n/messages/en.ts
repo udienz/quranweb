@@ -172,6 +172,7 @@ export const en = {
     verseOption: "Verse {number}",
     previousSurah: "Previous surah",
     nextSurah: "Next surah",
+    unavailable: "Not available right now, try again later: {names}.",
   },
   pagination: {
     label: "Pages",

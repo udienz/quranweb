@@ -12,6 +12,7 @@
 import { cache } from "react";
 import type { TextProvider } from "../provider";
 import { loadJson } from "../transport";
+import { completeEditions } from "../edition-names";
 import type { Edition, EditionText, JuzRef, MushafPageRef, SourceInfo } from "../types";
 
 export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1";
@@ -51,7 +52,7 @@ const source = (url: string, attribution: SourceInfo["attribution"]): SourceInfo
  * (`{iso3}-{name}`). Enabling another edition = one more entry here, after its
  * licence has been checked.
  */
-export const FAWAZ_EDITIONS: Edition[] = [
+export const FAWAZ_EDITIONS: Edition[] = completeEditions([
   {
     id: "ara-quranuthmanihaf",
     kind: "arabic",
@@ -243,7 +244,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     author: "Elmir Kuliev",
     source: source("https://tanzil.net/trans/", via("Elmir Kuliev through Tanzil", "Elmir Kuliev melalui Tanzil", "Elmir Kuliev, Tanzil")),
   },
-];
+]);
 interface RawChapter {
   chapter: { chapter: number; verse: number; text: string }[];
 }

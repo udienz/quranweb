@@ -130,9 +130,13 @@ describe("EQuran.id + fawazahmed0 in one service", () => {
     expect(view.selection.translations).toEqual(["ind-kemenag"]);
   });
 
-  it("a failing fawazahmed0 edition does not break the defaults", async () => {
+  it("a translation that fails to load is left out and reported, and the page still loads", async () => {
     const svc = service();
-    await expect(svc.getSurahView(1, { translations: ["eng-mohammedmarmadu"] })).rejects.toThrow(/eng-mohammedmarmadu/);
+    const view = await svc.getSurahView(1, { translations: ["eng-mohammedmarmadu", "ind-kemenag"] });
+    expect(view.unavailable.map((e) => e.id)).toEqual(["eng-mohammedmarmadu"]);
+    expect(view.selection.translations).toEqual(["ind-kemenag"]);
+    expect(view.verses[0].translations.map((t) => t.edition)).toEqual(["ind-kemenag"]);
+    expect(view.editions.map((e) => e.id)).not.toContain("eng-mohammedmarmadu");
     await expect(svc.getSurahView(1)).resolves.toBeTruthy();
   });
 

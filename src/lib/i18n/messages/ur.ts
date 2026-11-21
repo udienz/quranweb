@@ -173,6 +173,7 @@ export const ur: Messages = {
     verseOption: "آیت {number}",
     previousSurah: "پچھلی سورت",
     nextSurah: "اگلی سورت",
+    unavailable: "ابھی دستیاب نہیں، بعد میں دوبارہ کوشش کریں: {names}۔",
   },
   pagination: {
     label: "صفحات",

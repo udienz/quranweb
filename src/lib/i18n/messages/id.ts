@@ -172,6 +172,7 @@ export const id: Messages = {
     verseOption: "Ayat {number}",
     previousSurah: "Surat sebelumnya",
     nextSurah: "Surat berikutnya",
+    unavailable: "Sedang tidak tersedia, coba lagi nanti: {names}.",
   },
   pagination: {
     label: "Halaman",

@@ -172,6 +172,7 @@ export const tr: Messages = {
     verseOption: "{number}. ayet",
     previousSurah: "Önceki sure",
     nextSurah: "Sonraki sure",
+    unavailable: "Şu anda kullanılamıyor, daha sonra tekrar deneyin: {names}.",
   },
   pagination: {
     label: "Sayfalar",

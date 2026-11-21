@@ -174,6 +174,7 @@ export const ru: Messages = {
     verseOption: "Аят {number}",
     previousSurah: "Предыдущая сура",
     nextSurah: "Следующая сура",
+    unavailable: "Сейчас недоступно, попробуйте позже: {names}.",
   },
   pagination: {
     label: "Страницы",

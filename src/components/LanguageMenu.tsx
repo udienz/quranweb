@@ -66,7 +66,9 @@ export default function LanguageMenu() {
       </button>
 
       {open && (
-        <div role="menu" aria-label={t("nav.language")} className="absolute end-0 top-full z-50 mt-2 w-52 rounded-2xl border border-border bg-card p-2 shadow-lg">
+        // Seventeen languages are taller than a small phone screen, and the header is sticky, so the page cannot scroll the
+        // bottom of the menu into view: the menu scrolls inside itself instead.
+        <div role="menu" aria-label={t("nav.language")} className="absolute end-0 top-full z-50 mt-2 max-h-[calc(100dvh-6rem)] w-52 overflow-y-auto overscroll-contain rounded-2xl border border-border bg-card p-2 shadow-lg">
           {languageOptions.map(({ code, name, community }) => (
             <button
               key={code}

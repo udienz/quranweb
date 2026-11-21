@@ -2,7 +2,7 @@
 
 [English](README.md) · **Bahasa Indonesia**
 
-Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Persia, dan lainnya), audio
+Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, Malayalam, dan lainnya), audio
 murottal, dan tafsir. Anda tidak perlu akun, dan tidak ada iklan. Kunjungan dihitung dengan Cloudflare Web Analytics, yang
 menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan privasi).
 
@@ -24,14 +24,16 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - **Menghafal**: dengarkan setiap ayat dua, tiga kali, atau lebih, ulangi rentang ayat (misalnya 2:1–5) sebanyak
   yang Anda mau, dan buramkan teks Arab atau terjemahan untuk menguji diri, lalu ketuk ayat untuk mengecek. ([caranya](#menghafal-ayat))
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
-  Al-Mukhtasar juga dalam bahasa Arab, Inggris, Turki, Bengali, Prancis, Rusia, dan Persia). ([caranya](#membaca-tafsir))
+  Al-Mukhtasar juga dalam bahasa Arab, Inggris, Turki, Bengali, Prancis, Rusia, Persia, Bosnia, Tionghoa, Thai, Uzbek, Tamil,
+  dan Malayalam). ([caranya](#membaca-tafsir))
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca. ([caranya](#melanjutkan-bacaan-dan-menandai-progres))
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi. ([caranya](#penanda-ayat-catatan-dan-koleksi))
 - **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))
 - **Memakai bahasa Anda**: antarmuka tersedia dalam bahasa Indonesia dan Inggris, serta sebagai terjemahan komunitas dalam
-  bahasa Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Arab, dan Persia (tiga terakhir dari kanan ke kiri). Terjemahan
-  komunitas belum diperiksa penutur kedua (bahasa Turki diterjemahkan seorang pembaca, tujuh lainnya draf awal oleh Claude,
-  sebuah AI), jadi masing-masing punya tautan untuk melaporkan kesalahan. Setiap bahasa menampilkan terjemahan Al-Qur'an dalam bahasa itu sebagai bawaan. Bahasanya
+  bahasa Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Arab, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, dan
+  Malayalam (Urdu, Arab, dan Persia dari kanan ke kiri). Terjemahan komunitas belum diperiksa penutur kedua (bahasa Turki
+  diterjemahkan seorang pembaca, empat belas lainnya draf awal oleh Claude, sebuah AI), jadi masing-masing punya tautan untuk
+  melaporkan kesalahan. Setiap bahasa menampilkan terjemahan Al-Qur'an dalam bahasa itu sebagai bawaan. Bahasanya
   mengikuti browser Anda sampai Anda memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda
   ikut akun. ([caranya](#mengganti-bahasa))
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau

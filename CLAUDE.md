@@ -94,6 +94,14 @@ own format.
     published, so the date of the copy), and the copy is **not** served publicly. Production reads the private copy made by
     `sync-quranenc.mjs` in the data repository (`QURAN_QURANENC_URL=/data/quranenc`); run its `--check` now and then, and when
     it reports a newer version, fetch again and update the version in the credit.
+- **Not every edition is mirrored** (the owner's choice, 2026-11-21): new translations and tafsir are **not** downloaded or
+  copied to `/srv/quranweb-mirror`. The QuranEnc provider reads the keys in `MIRRORED_KEYS` from the copy and every other key
+  from the live QuranEnc API, also in production. Remote JSON is kept in memory for a day (`transport.ts`: at most 400
+  answers, a failure is not kept, an 8 s timeout), so a source is asked about once per surah and edition per day, not per
+  page view. Because a live source can be down, `getSurahView` treats translations and tafsir as optional: one that fails is
+  left out, logged, and listed in `SurahView.unavailable`, and the reader shows one line naming it (`reader.unavailable`).
+  The Arabic text and the transliteration (both mirrored) still fail the page. Tests start with an empty cache
+  (`vitest.setup.ts`).
 - **Adding a source** = write a provider, add its type to `sources.ts` (parser and
   factory), and record its licence in the source register of the roadmap. No component
   changes.
@@ -108,7 +116,10 @@ own format.
   surah names have only an Indonesian meaning (the English meanings come from fawazahmed0's
   `info.json`); the Bismillah above every surah except Al-Fatihah and At-Taubah is added by the UI.
 - Edition names and credits are localized (`LocalizedText`, one text per interface language),
-  so a provider must give both `en` and `id`.
+  so a provider must give both `en` and `id`. With seventeen interface languages the rest is filled by `completeEditions`
+  (`quran/edition-names.ts`): an edition keeps the names written for it, any other interface language gets "author
+  (language)", the language named by `Intl.DisplayNames` ("Isa Garcia (español)"), and the English credit. Write a name out
+  only where the generic one reads badly (the EQuran.id editions, which have no author; Al-Mukhtasar, built by `mokhtasar()`).
 
 ### Reader choices and user data
 
@@ -142,7 +153,8 @@ own format.
 ### Interface language (i18n)
 
 The interface is available in English and Indonesian, and as community translations in Turkish, Malay, Bengali, French,
-Russian, Urdu, Arabic and Persian (`src/lib/i18n/`); the last three are right to left.
+Russian, Urdu, Arabic, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil and Malayalam (`src/lib/i18n/`); Urdu, Arabic
+and Persian are right to left.
 
 - **Which language:** the cookie `qw-lang` (set by the language menu in the header, or the "Interface language" list on
   `/settings`; both use `useLocaleChoice` in `LanguageMenu.tsx`) wins, then the first
@@ -163,13 +175,17 @@ Russian, Urdu, Arabic and Persian (`src/lib/i18n/`); the last three are right to
 - **Language of the content** is separate: editions have their own language and the reader
   chooses them (cookie `qw-sel`). With another interface than Indonesian and no saved choice, the default translation is
   one in that language (Yusuf Ali, the Diyanet meal, Basmeih, Muhiuddin Khan, Rachid Maach, Kuliev, Junagarhi, the Rowwad
-  Persian) and the default tafsir is Al-Mukhtasar in that language (`localeDefaults` in the source registry); Indonesian keeps
-  the Kemenag tafsir, and Malay, which has no Al-Mukhtasar, keeps it too. Urdu has no tafsir by default (none in our sources
-  is in Urdu). **Arabic** has no translation and no transliteration by default, and the Arabic original of Al-Mukhtasar as
+  Persian, Isa Garcia, the Rowwad Bosnian, Thai and Uzbek, Ma Jian's Chinese, Omar Sharif's Tamil, Kunhi Muhammad's Malayalam)
+  and the default tafsir is Al-Mukhtasar in that language (`localeDefaults` in the source registry); Indonesian keeps the
+  Kemenag tafsir, and Malay, which has no Al-Mukhtasar, keeps it too. **A language with no translation or tafsir of its own falls back
+  to English** (the owner's rule, 2026-11-21): Urdu and Spanish read Al-Mukhtasar in English (none in our sources is in Urdu;
+  QuranEnc's Spanish Al-Mukhtasar has an empty 59:24, its numbering one verse off from 59:22, so it is left out rather than
+  altered). Malay keeps the Kemenag tafsir, which a Malay reader follows more easily than English. **Arabic** has no translation and no transliteration by default, and the Arabic original of Al-Mukhtasar as
   its tafsir; with no translation and no transliteration the mushaf layout drops its numbered column and the Arabic takes
   the whole width.
 - **Plurals:** `Plural` has the CLDR categories `zero`, `one`, `two`, `few`, `many` and `other`; `tn` picks the category of the
-  count and falls back to `other`. Russian uses four (`messages/ru.ts`), Arabic all six (`messages/ar.ts`); write `other`
+  count and falls back to `other`. Russian and Bosnian use three or four (`messages/ru.ts`, `bs.ts`), Arabic all six (`messages/ar.ts`); Chinese, Thai,
+  Persian and Uzbek only `other`; write `other`
   last, because the catalog test compares its placeholders.
 - **Data text in a language we lack** (an edition name, a surah meaning) falls back to a close language first (`CLOSE_LANGUAGE`
   in `translate.ts`: Malay reads the Indonesian surah meanings), then English. Surah meanings exist in English and Indonesian
@@ -182,12 +198,12 @@ Russian, Urdu, Arabic and Persian (`src/lib/i18n/`); the last three are right to
   direction whatever the page: the Arabic is `dir="rtl"`, the transliteration `dir="ltr"`, a translation and its footnotes take
   the edition's `direction`, and the tafsir `dir="auto"`. Checked by forcing `dir="rtl"` on the Indonesian pages at 320 and
   1280 px: no page wider than the screen, menus on screen, side panel, read marks and pagination mirrored.
-- **Fonts:** the interface fonts have no Cyrillic, Bengali or Arabic-script glyphs, so Russian, Bengali, Urdu, Arabic and Persian
-  interface text uses the system font from the `--font-sans` stack (`system-ui`; Amiri stays for the Qur'an text). Checked at
+- **Fonts:** the interface fonts have no Cyrillic, Bengali, Arabic-script, Chinese, Thai, Tamil or Malayalam glyphs, so those
+  interfaces use the system font from the `--font-sans` stack (`system-ui`; Amiri stays for the Qur'an text). Checked at
   320, 390 and 1280 px in all seven new languages: no page wider than the screen, menus on screen.
 - **Community translations** (`COMMUNITY_LOCALES` in `config.ts`): a language not yet reviewed by a speaker (the owner's
-  decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for Malay, Bengali, French, Russian, Urdu, Arabic
-  and Persian, first drafts by Claude at the owner's request) is marked "Community" in the language menu and the settings list, its privacy
+  decision, 2026-11-18, for Turkish, translated by a reader; and 2026-11-21 for the fourteen others, first drafts by Claude at
+  the owner's request) is marked "Community" in the language menu and the settings list, its privacy
   page says that the English and Indonesian versions apply where the translation differs (`privacy.translationNote`), and the menu offers "Report a translation mistake" (a new GitHub issue with the language in the title) while
   that language is the current one. `tr` is already listed, so the label appears together with the language. Remove a
   language from the list once it has been reviewed and has a maintainer in `.github/CODEOWNERS`.

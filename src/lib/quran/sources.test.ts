@@ -250,7 +250,7 @@ describe("the QuranEnc provider in the registry", () => {
     const base = parseSourceConfig(JSON.parse(readFileSync("config/sources.example.json", "utf8")));
     const raw = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
     raw.textProviders = [...raw.textProviders.slice(0, 3), { type: "quranenc", editions: ["eng-mokhtasar", "nope"] }];
-    expect(() => parseSourceConfig(raw)).toThrow(/unknown edition "nope" \(known: ind-indonesianislam, eng-mokhtasar, tur-mokhtasar, ind-mokhtasar, fra-rashidmaash, ben-mokhtasar, fra-mokhtasar, rus-mokhtasar, urd-muhammadjunagar, fas-islamhousecompe, fas-mokhtasar, ara-mokhtasar\)/);
+    expect(() => parseSourceConfig(raw)).toThrow(/unknown edition "nope" \(known: ind-indonesianislam, eng-mokhtasar, tur-mokhtasar, ind-mokhtasar, fra-rashidmaash, ben-mokhtasar, fra-mokhtasar, rus-mokhtasar, urd-muhammadjunagar, fas-islamhousecompe, fas-mokhtasar, ara-mokhtasar, spa-isagarcia, bos-rowwad, zho-makin, tha-rowwad, uzb-rowwad, tam-omarsharif, mal-kunhimuhammad, bos-mokhtasar, zho-mokhtasar, tha-mokhtasar, uzb-mokhtasar, tam-mokhtasar, mal-mokhtasar\)/);
     expect(base.textProviders.find((p) => p.type === "quranenc")?.baseUrl).toBe("/data/quranenc");
     const filled = applyEnv({ ...DEFAULT_SOURCES }, { QURAN_QURANENC_URL: "/data/quranenc", QURAN_FAWAZ_URL: "/data/quran-api" });
     expect(filled.textProviders.find((p) => p.type === "quranenc")?.baseUrl).toBe("/data/quranenc");

@@ -11,6 +11,8 @@
 import { cache } from "react";
 import type { TextProvider } from "../provider";
 import { loadJson } from "../transport";
+import { LOCALES } from "../../i18n/config";
+import { completeEditions, languageIn } from "../edition-names";
 import type { Edition, EditionText, SourceInfo } from "../types";
 
 export const QURANENC_API_URL = "https://quranenc.com/api/v1";
@@ -20,6 +22,9 @@ const credit = (key: string, attribution: SourceInfo["attribution"]): SourceInfo
   url: `https://quranenc.com/en/browse/${key}`,
   attribution,
 });
+
+/** A credit name that reads the same in every language (a person's or a centre's name in Latin letters). */
+const sameEverywhere = (who: string): Record<string, string> => Object.fromEntries(LOCALES.map((ui) => [ui, who]));
 
 /** A translation credit in every interface language: who, through QuranEnc.com, which version. */
 const translationCredit = (key: string, version: string, who: Record<string, string>): SourceInfo =>
@@ -56,7 +61,7 @@ const MOKHTASAR_TITLE: Record<string, string> = { ur: "المختصر فی تف�
  * date of our copy instead.
  */
 function mokhtasar(id: string, language: string, key: string, copied: string, direction: "ltr" | "rtl" = "ltr"): Edition {
-  const names = LANGUAGE_NAMES[language];
+  const names = LANGUAGE_NAMES[language] as Record<string, string> | undefined;
   const latin = "Al-Mukhtasar fi Tafsir al-Qur'an";
   const center = "Tafsir Center for Quranic Studies";
   return {
@@ -65,10 +70,12 @@ function mokhtasar(id: string, language: string, key: string, copied: string, di
     language,
     direction,
     // The Arabic original is named by its title alone.
+    // Every interface language: the written language names first, the platform's for the others.
     name: Object.fromEntries(
-      Object.entries(names).map(([ui, name]) => {
+      LOCALES.map((ui) => {
         const title = MOKHTASAR_TITLE[ui] ?? latin;
-        return [ui, language === "ar" && ui === "ar" ? title : `${title} (${name})`];
+        const languageName = names?.[ui] ?? languageIn(language, ui);
+        return [ui, language === "ar" && ui === "ar" ? title : `${title} (${languageName})`];
       }),
     ),
     author: center,
@@ -93,7 +100,7 @@ function mokhtasar(id: string, language: string, key: string, copied: string, di
  * adding its key to the data repository's sync script. **Update the version in the credit when the copy is refreshed**
  * (`sync-quranenc.mjs --check` reports a newer one).
  */
-export const QURANENC_EDITIONS: Edition[] = [
+export const QURANENC_EDITIONS: Edition[] = completeEditions([
   {
     id: "ind-indonesianislam",
     kind: "translation",
@@ -232,7 +239,100 @@ export const QURANENC_EDITIONS: Edition[] = [
   // The default tafsir with the Persian and Arabic interfaces (2026-11-21); the Arabic one is the original.
   mokhtasar("fas-mokhtasar", "fa", "persian_mokhtasar", "2026-11-21", "rtl"),
   mokhtasar("ara-mokhtasar", "ar", "arabic_mokhtasar", "2026-11-21", "rtl"),
-];
+  // Wave 3 (2026-11-21): each the default translation of its interface; the other interface languages get their names from
+  // completeEditions.
+  {
+    id: "spa-isagarcia",
+    kind: "translation",
+    language: "es",
+    direction: "ltr",
+    name: { en: "Spanish translation by Isa Garcia", id: "Terjemahan Spanyol oleh Isa Garcia", es: "Traducción al español de Isa García" },
+    author: "Isa Garcia",
+    source: translationCredit("spanish_garcia", "1.0.2", sameEverywhere("Isa Garcia")),
+  },
+  {
+    id: "bos-rowwad",
+    kind: "translation",
+    language: "bs",
+    direction: "ltr",
+    name: { en: "Bosnian translation by the Rowwad Translation Center", id: "Terjemahan Bosnia oleh Rowwad Translation Center", bs: "Prijevod na bosanski jezik, Centar za prijevode Ruvvad" },
+    author: "Rowwad Translation Center",
+    source: translationCredit("bosnian_rwwad", "2.0.4", sameEverywhere("Rowwad Translation Center")),
+  },
+  {
+    id: "zho-makin",
+    kind: "translation",
+    language: "zh",
+    direction: "ltr",
+    name: { en: "Chinese translation by Muhammad Makin, reviewed by Muhammad Sulaiman", id: "Terjemahan Tionghoa oleh Muhammad Makin, ditinjau Muhammad Sulaiman", zh: "马坚译本（穆罕默德·苏莱曼审订）" },
+    author: "Muhammad Makin",
+    source: translationCredit("chinese_suliman", "1.0.8", sameEverywhere("Muhammad Makin")),
+  },
+  {
+    id: "tha-rowwad",
+    kind: "translation",
+    language: "th",
+    direction: "ltr",
+    name: { en: "Thai translation by the Rowwad Translation Center", id: "Terjemahan Thai oleh Rowwad Translation Center", th: "คำแปลภาษาไทย ศูนย์แปลรุววาด" },
+    author: "Rowwad Translation Center",
+    source: translationCredit("thai_rwwad", "1.0.1", sameEverywhere("Rowwad Translation Center")),
+  },
+  {
+    id: "uzb-rowwad",
+    kind: "translation",
+    language: "uz",
+    direction: "ltr",
+    name: { en: "Uzbek translation by the Rowwad Translation Center", id: "Terjemahan Uzbek oleh Rowwad Translation Center", uz: "Руввод таржима маркази таржимаси" },
+    author: "Rowwad Translation Center",
+    source: translationCredit("uzbek_rwwad", "1.0.4", sameEverywhere("Rowwad Translation Center")),
+  },
+  {
+    id: "tam-omarsharif",
+    kind: "translation",
+    language: "ta",
+    direction: "ltr",
+    name: { en: "Tamil translation by Omar Sharif", id: "Terjemahan Tamil oleh Omar Sharif", ta: "உமர் ஷரீஃப் தமிழ் மொழிபெயர்ப்பு" },
+    author: "Omar Sharif",
+    source: translationCredit("tamil_omar", "1.0.4", sameEverywhere("Omar Sharif")),
+  },
+  {
+    id: "mal-kunhimuhammad",
+    kind: "translation",
+    language: "ml",
+    direction: "ltr",
+    name: { en: "Malayalam translation by Abdul Hamid Haidar and Kunhi Muhammad", id: "Terjemahan Malayalam oleh Abdul Hamid Haidar dan Kunhi Muhammad", ml: "അബ്ദുൽ ഹമീദ് ഹൈദർ, കുഞ്ഞി മുഹമ്മദ് എന്നിവരുടെ മലയാളം പരിഭാഷ" },
+    author: "Abdul Hamid Haidar and Kunhi Muhammad",
+    source: translationCredit("malayalam_kunhi", "1.0.3", sameEverywhere("Abdul Hamid Haidar and Kunhi Muhammad")),
+  },
+  // No Spanish Al-Mukhtasar: QuranEnc's copy has an empty 59:24 (its numbering is one verse off from 59:22), and the
+  // text is never altered here, so it is left out until QuranEnc fixes it.
+  mokhtasar("bos-mokhtasar", "bs", "bosnian_mokhtasar", "2026-11-21"),
+  mokhtasar("zho-mokhtasar", "zh", "chinese_mokhtasar", "2026-11-21"),
+  mokhtasar("tha-mokhtasar", "th", "thai_mokhtasar", "2026-11-21"),
+  mokhtasar("uzb-mokhtasar", "uz", "uzbek_mokhtasar", "2026-11-21"),
+  mokhtasar("tam-mokhtasar", "ta", "tamil_mokhtasar", "2026-11-21"),
+  mokhtasar("mal-mokhtasar", "ml", "malayalam_mokhtasar", "2026-11-21"),
+]);
+
+/**
+ * The keys our copy holds (`sync-quranenc.mjs` in the data repository). Every other key is read from QuranEnc's live API
+ * even when a copy is configured: since 2026-11-21 new editions are not downloaded or mirrored (the owner's choice), only
+ * kept in memory for a day after the first read (transport.ts).
+ */
+export const MIRRORED_KEYS: ReadonlySet<string> = new Set([
+  "indonesian_affairs",
+  "english_mokhtasar",
+  "turkish_mokhtasar",
+  "indonesian_mokhtasar",
+  "french_rashid",
+  "bengali_mokhtasar",
+  "french_mokhtasar",
+  "russian_mokhtasar",
+  "urdu_junagarhi",
+  "persian_ih",
+  "persian_mokhtasar",
+  "arabic_mokhtasar",
+]);
 
 /** The translation key at QuranEnc of each edition. */
 export const QURANENC_KEYS: Record<string, string> = {
@@ -248,6 +348,19 @@ export const QURANENC_KEYS: Record<string, string> = {
   "fas-islamhousecompe": "persian_ih",
   "fas-mokhtasar": "persian_mokhtasar",
   "ara-mokhtasar": "arabic_mokhtasar",
+  "spa-isagarcia": "spanish_garcia",
+  "bos-rowwad": "bosnian_rwwad",
+  "zho-makin": "chinese_suliman",
+  "tha-rowwad": "thai_rwwad",
+  "uzb-rowwad": "uzbek_rwwad",
+  "tam-omarsharif": "tamil_omar",
+  "mal-kunhimuhammad": "malayalam_kunhi",
+  "bos-mokhtasar": "bosnian_mokhtasar",
+  "zho-mokhtasar": "chinese_mokhtasar",
+  "tha-mokhtasar": "thai_mokhtasar",
+  "uzb-mokhtasar": "uzbek_mokhtasar",
+  "tam-mokhtasar": "tamil_mokhtasar",
+  "mal-mokhtasar": "malayalam_mokhtasar",
 };
 
 interface RawSura {
@@ -294,7 +407,7 @@ export function createQuranEncTextProvider(options: QuranEncOptions = {}): TextP
     async text(edition, surah): Promise<EditionText> {
       const key = byId.has(edition) ? QURANENC_KEYS[edition] : undefined;
       if (!key) throw new Error(`The QuranEnc provider does not serve edition "${edition}"`);
-      const raw = await fetchSura(base, key, surah);
+      const raw = await fetchSura(MIRRORED_KEYS.has(key) ? base : QURANENC_API_URL, key, surah);
       if (!Array.isArray(raw.result) || raw.result.some((v) => Number(v.sura) !== surah)) {
         throw new Error(`The QuranEnc answer for ${key} sura ${surah} has an unexpected format`);
       }

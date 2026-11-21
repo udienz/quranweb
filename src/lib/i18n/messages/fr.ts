@@ -173,6 +173,7 @@ export const fr: Messages = {
     verseOption: "Verset {number}",
     previousSurah: "Sourate précédente",
     nextSurah: "Sourate suivante",
+    unavailable: "Indisponible pour le moment, réessayez plus tard : {names}.",
   },
   pagination: {
     label: "Pages",
