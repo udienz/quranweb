@@ -4,18 +4,27 @@
 import type { Locale } from "./config";
 import type { Messages, PluralKey, StringKey } from "./messages";
 
-/** Plural forms by CLDR category; `other` is required and is the fallback. */
+/**
+ * Plural forms by CLDR category; `other` is required and is the fallback. `few` and `many` are for languages that have them
+ * (Russian: 1 стих, 2 стиха, 5 стихов). Write `other` last: the catalog test compares the last form's placeholders.
+ */
 export interface Plural {
   one?: string;
+  few?: string;
+  many?: string;
   other: string;
 }
 
 /** A text per language, for data that comes from providers (edition names, credits). */
 export type LocalizedText = Record<string, string>;
 
-/** The text for a locale, falling back to English, then to any available language. */
+/** A language whose readers read another one more easily than English: Malay readers read Indonesian. */
+const CLOSE_LANGUAGE: Record<string, string> = { ms: "id" };
+
+/** The text for a locale, falling back to a close language, then English, then any available language. */
 export function localized(text: LocalizedText, locale: Locale | string): string {
-  return text[locale] ?? text.en ?? Object.values(text)[0] ?? "";
+  const close = CLOSE_LANGUAGE[locale];
+  return text[locale] ?? (close ? text[close] : undefined) ?? text.en ?? Object.values(text)[0] ?? "";
 }
 
 export function format(template: string, vars: Record<string, string | number> = {}): string {
@@ -36,7 +45,7 @@ export interface Translator {
   date(value: string | number | Date, options?: Intl.DateTimeFormatOptions): string;
 }
 
-const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR" };
+const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR", ms: "ms-MY", bn: "bn-BD", fr: "fr-FR", ru: "ru-RU" };
 
 export function createTranslator(locale: Locale, messages: Messages): Translator {
   const rules = new Intl.PluralRules(INTL_LOCALE[locale]);
@@ -50,7 +59,8 @@ export function createTranslator(locale: Locale, messages: Messages): Translator
     tn(key, count, vars) {
       const forms = lookup(messages, key) as Plural | undefined;
       if (!forms || typeof forms.other !== "string") throw new Error(`Missing plural message "${key}" for locale "${locale}"`);
-      const template = (rules.select(count) === "one" ? forms.one : undefined) ?? forms.other;
+      const category = rules.select(count);
+      const template = (category === "one" || category === "few" || category === "many" ? forms[category] : undefined) ?? forms.other;
       return format(template, { count, ...vars });
     },
     date: (value, options = { dateStyle: "medium", timeStyle: "short" }) =>

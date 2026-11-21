@@ -20,11 +20,22 @@ export const FAWAZ_API_URL = "https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@
 // editions/ind-indonesianislam/45.min.json). See createFawazTextProvider.
 export const FAWAZ_RAW_URL = "https://raw.githubusercontent.com/fawazahmed0/quran-api/1";
 
-const via = (en: string, id: string, tr: string): SourceInfo["attribution"] => ({
-  en: `${en}, via fawazahmed0/quran-api`,
-  id: `${id}, melalui fawazahmed0/quran-api`,
-  tr: `${tr}, fawazahmed0/quran-api üzerinden`,
-});
+/**
+ * The credit in every interface language. `who` is the source as it reads in any language (a name, "X through Tanzil" is
+ * built from it); the English, Indonesian and Turkish texts are written out because some explain the name.
+ */
+const via = (en: string, id: string, tr: string, who = en.replace(/ through Tanzil$/, "")): SourceInfo["attribution"] => {
+  const tanzil = en.endsWith(" through Tanzil");
+  return {
+    en: `${en}, via fawazahmed0/quran-api`,
+    id: `${id}, melalui fawazahmed0/quran-api`,
+    tr: `${tr}, fawazahmed0/quran-api üzerinden`,
+    ms: `${who}${tanzil ? " melalui Tanzil" : ""}, melalui fawazahmed0/quran-api`,
+    bn: `${who}${tanzil ? ", Tanzil-এর মাধ্যমে" : ""}, fawazahmed0/quran-api-এর মাধ্যমে`,
+    fr: `${who}${tanzil ? " via Tanzil" : ""}, via fawazahmed0/quran-api`,
+    ru: `${who}${tanzil ? " через Tanzil" : ""}, через fawazahmed0/quran-api`,
+  };
+};
 
 const source = (url: string, attribution: SourceInfo["attribution"]): SourceInfo => ({
   name: "fawazahmed0/quran-api",
@@ -43,7 +54,7 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "arabic",
     language: "ar",
     direction: "rtl",
-    name: { en: "Arabic, Uthmani Hafs", id: "Arab Uthmani Hafs", tr: "Arapça, Osmani Hafs" },
+    name: { en: "Arabic, Uthmani Hafs", id: "Arab Uthmani Hafs", tr: "Arapça, Osmani Hafs", ms: "Arab, Uthmani Hafs", bn: "আরবি, উসমানি হাফস", fr: "Arabe, uthmani Hafs", ru: "Арабский, усмани Хафс" },
     author: "King Fahd Quran Complex",
     source: source("https://qurancomplex.gov.sa/", via("King Fahd Quran Complex", "King Fahd Quran Complex", "King Fahd Quran Complex")),
   },
@@ -54,7 +65,15 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: { en: "Tafsir by Quraish Shihab and others (Indonesian)", id: "Tafsir Quraish Shihab dkk.", tr: "Quraish Shihab ve diğerlerinin tefsiri (Endonezce)" },
+    name: {
+      en: "Tafsir by Quraish Shihab and others (Indonesian)",
+      id: "Tafsir Quraish Shihab dkk.",
+      tr: "Quraish Shihab ve diğerlerinin tefsiri (Endonezce)",
+      ms: "Tafsir Quraish Shihab dan lain-lain (bahasa Indonesia)",
+      bn: "কুরাইশ শিহাব প্রমুখের তাফসির (ইন্দোনেশীয়)",
+      fr: "Tafsir de Quraish Shihab et al. (indonésien)",
+      ru: "Тафсир Курайша Шихаба и др. (индонезийский)",
+    },
     author: "Muhammad Quraish Shihab et al.",
     source: source("https://tanzil.net/trans/", via("Muhammad Quraish Shihab et al. through Tanzil", "Muhammad Quraish Shihab dkk. melalui Tanzil", "Muhammad Quraish Shihab ve diğerleri, Tanzil")),
   },
@@ -63,7 +82,15 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "tafsir",
     language: "id",
     direction: "ltr",
-    name: { en: "Tafsir Jalalayn (Indonesian)", id: "Tafsir Jalalayn", tr: "Tafsir Jalalayn (Endonezce)" },
+    name: {
+      en: "Tafsir Jalalayn (Indonesian)",
+      id: "Tafsir Jalalayn",
+      tr: "Tafsir Jalalayn (Endonezce)",
+      ms: "Tafsir Jalalayn (bahasa Indonesia)",
+      bn: "তাফসির জালালাইন (ইন্দোনেশীয়)",
+      fr: "Tafsir Jalalayn (indonésien)",
+      ru: "Тафсир Джалалайн (индонезийский)",
+    },
     author: "Jalaluddin al-Mahalli and Jalaluddin as-Suyuthi",
     source: source(
       "https://tanzil.net/trans/",
@@ -75,7 +102,15 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: { en: "English translation by Yusuf Ali", id: "Terjemahan Inggris oleh Yusuf Ali", tr: "Yusuf Ali'nin İngilizce meali" },
+    name: {
+      en: "English translation by Yusuf Ali",
+      id: "Terjemahan Inggris oleh Yusuf Ali",
+      tr: "Yusuf Ali'nin İngilizce meali",
+      ms: "Terjemahan Inggeris oleh Yusuf Ali",
+      bn: "ইউসুফ আলীর ইংরেজি অনুবাদ",
+      fr: "Traduction anglaise de Yusuf Ali",
+      ru: "Английский перевод Юсуфа Али",
+    },
     author: "Abdullah Yusuf Ali",
     source: source("https://tanzil.net/trans/", via("Abdullah Yusuf Ali through Tanzil", "Abdullah Yusuf Ali melalui Tanzil", "Abdullah Yusuf Ali, Tanzil")),
   },
@@ -84,7 +119,15 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "translation",
     language: "en",
     direction: "ltr",
-    name: { en: "English translation by Pickthall", id: "Terjemahan Inggris oleh Pickthall", tr: "Pickthall'ın İngilizce meali" },
+    name: {
+      en: "English translation by Pickthall",
+      id: "Terjemahan Inggris oleh Pickthall",
+      tr: "Pickthall'ın İngilizce meali",
+      ms: "Terjemahan Inggeris oleh Pickthall",
+      bn: "পিকথলের ইংরেজি অনুবাদ",
+      fr: "Traduction anglaise de Pickthall",
+      ru: "Английский перевод Пиктхолла",
+    },
     author: "Mohammed Marmaduke William Pickthall",
     source: source(
       "https://tanzil.net/trans/",
@@ -99,15 +142,81 @@ export const FAWAZ_EDITIONS: Edition[] = [
     kind: "translation",
     language: "tr",
     direction: "ltr",
-    name: { en: "Turkish translation by Diyanet İşleri", id: "Terjemahan Turki oleh Diyanet İşleri" },
+    name: {
+      en: "Turkish translation by Diyanet İşleri",
+      id: "Terjemahan Turki oleh Diyanet İşleri",
+      tr: "Diyanet İşleri meali",
+      ms: "Terjemahan Turki oleh Diyanet İşleri",
+      bn: "দিয়ানেত ইশলেরির তুর্কি অনুবাদ",
+      fr: "Traduction turque de la Diyanet İşleri",
+      ru: "Турецкий перевод Диянет Ишлери",
+    },
     author: "Diyanet İşleri Başkanlığı",
     source: source(
       "https://tanzil.net/trans/",
-      via("Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil", "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil", "Diyanet İşleri Başkanlığı, Tanzil"),
+      via(
+        "Diyanet İşleri (Presidency of Religious Affairs of Türkiye) through Tanzil",
+        "Diyanet İşleri (Kepresidenan Urusan Agama Turki) melalui Tanzil",
+        "Diyanet İşleri Başkanlığı, Tanzil",
+        "Diyanet İşleri Başkanlığı",
+      ),
     ),
   },
+  {
+    // The default translation with the Malay interface (2026-11-21). Through Tanzil, like the Turkish one.
+    id: "msa-abdullahmuhamma",
+    kind: "translation",
+    language: "ms",
+    direction: "ltr",
+    name: {
+      en: "Malay translation by Abdullah Basmeih",
+      id: "Terjemahan Melayu oleh Abdullah Basmeih",
+      tr: "Abdullah Basmeih'in Malayca meali",
+      ms: "Terjemahan Melayu oleh Abdullah Basmeih",
+      bn: "আবদুল্লাহ বাসমেইহের মালয় অনুবাদ",
+      fr: "Traduction malaise d'Abdullah Basmeih",
+      ru: "Малайский перевод Абдуллаха Басмейха",
+    },
+    author: "Abdullah Muhammad Basmeih",
+    source: source("https://tanzil.net/trans/", via("Abdullah Muhammad Basmeih through Tanzil", "Abdullah Muhammad Basmeih melalui Tanzil", "Abdullah Muhammad Basmeih, Tanzil")),
+  },
+  {
+    // The default translation with the Bengali interface (2026-11-21). Through Tanzil.
+    id: "ben-muhiuddinkhan",
+    kind: "translation",
+    language: "bn",
+    direction: "ltr",
+    name: {
+      en: "Bengali translation by Muhiuddin Khan",
+      id: "Terjemahan Bengali oleh Muhiuddin Khan",
+      tr: "Muhiuddin Khan'ın Bengalce meali",
+      ms: "Terjemahan Bengali oleh Muhiuddin Khan",
+      bn: "মুহিউদ্দীন খানের বাংলা অনুবাদ",
+      fr: "Traduction bengalie de Muhiuddin Khan",
+      ru: "Бенгальский перевод Мухиуддина Хана",
+    },
+    author: "Muhiuddin Khan",
+    source: source("https://tanzil.net/trans/", via("Muhiuddin Khan through Tanzil", "Muhiuddin Khan melalui Tanzil", "Muhiuddin Khan, Tanzil")),
+  },
+  {
+    // The default translation with the Russian interface (2026-11-21). Through Tanzil.
+    id: "rus-elmirkuliev",
+    kind: "translation",
+    language: "ru",
+    direction: "ltr",
+    name: {
+      en: "Russian translation by Elmir Kuliev",
+      id: "Terjemahan Rusia oleh Elmir Kuliev",
+      tr: "Elmir Kuliev'in Rusça meali",
+      ms: "Terjemahan Rusia oleh Elmir Kuliev",
+      bn: "এলমির কুলিয়েভের রুশ অনুবাদ",
+      fr: "Traduction russe d'Elmir Kouliev",
+      ru: "Перевод смыслов Эльмира Кулиева",
+    },
+    author: "Elmir Kuliev",
+    source: source("https://tanzil.net/trans/", via("Elmir Kuliev through Tanzil", "Elmir Kuliev melalui Tanzil", "Elmir Kuliev, Tanzil")),
+  },
 ];
-
 interface RawChapter {
   chapter: { chapter: number; verse: number; text: string }[];
 }

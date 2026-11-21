@@ -90,6 +90,7 @@ export const id: Messages = {
     contactBy: "Situs ini dikelola oleh {name}.",
     contactEmail: "Pertanyaan dan permintaan tentang data Anda: {email}",
     contactMissing: "Kontak untuk pertanyaan tentang data Anda belum disiapkan.",
+    translationNote: "Terjemahan kebijakan ini belum diperiksa oleh penutur asli. Jika ada perbedaan dengan versi bahasa Inggris atau Indonesia, versi itulah yang berlaku.",
   },
   admin: {
     title: "Akun",

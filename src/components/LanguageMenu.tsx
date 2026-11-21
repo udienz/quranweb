@@ -77,18 +77,20 @@ export default function LanguageMenu() {
                 close();
                 choose(code);
               }}
-              className="flex w-full items-center justify-between gap-3 whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background"
+              className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-background"
             >
-              <span className="flex items-center gap-2">
+              {/* The badge goes to a second line when the name and the badge do not fit the menu (Bahasa Melayu with the
+                  Russian or French badge); the menu keeps its width so it stays on screen at 320px. */}
+              <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 {/* Only the name is in its own language: the badge is interface text (and `uppercase` follows the lang, so
                     a Turkish lang on the whole item would write "COMMUNİTY"). */}
-                <span lang={code} translate="no">
+                <span lang={code} translate="no" className="whitespace-nowrap">
                   {name}
                 </span>
                 {community && (
                   <span
                     title={t("nav.communityTranslation")}
-                    className="rounded-full border border-gold/60 px-1.5 text-[10px] font-semibold uppercase leading-4 text-gold"
+                    className="whitespace-nowrap rounded-full border border-gold/60 px-1.5 text-[10px] font-semibold uppercase leading-4 text-gold"
                   >
                     {t("nav.communityBadge")}
                   </span>

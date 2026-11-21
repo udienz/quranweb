@@ -1,7 +1,7 @@
 // Supported UI languages. Quran content (editions) has its own languages and is
 // chosen separately; this only controls the interface.
 
-export const LOCALES = ["en", "id", "tr"] as const;
+export const LOCALES = ["en", "id", "tr", "ms", "bn", "fr", "ru"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /** Used when neither the cookie nor the browser says anything usable. */
@@ -9,15 +9,24 @@ export const DEFAULT_LOCALE: Locale = "id";
 
 export const LOCALE_COOKIE = "qw-lang";
 
-export const LOCALE_NAMES: Record<Locale, string> = { en: "English", id: "Bahasa Indonesia", tr: "Türkçe" };
+export const LOCALE_NAMES: Record<Locale, string> = {
+  en: "English",
+  id: "Bahasa Indonesia",
+  tr: "Türkçe",
+  ms: "Bahasa Melayu",
+  bn: "বাংলা",
+  fr: "Français",
+  ru: "Русский",
+};
 
 /**
- * Languages published as a **community translation**: translated by a reader and not yet reviewed by a second speaker
- * of the language, as CONTRIBUTING.md asks. The language menu marks them and offers a link to report a mistake. Remove a
+ * Languages published as a **community translation**: not yet reviewed by a speaker of the language, as CONTRIBUTING.md
+ * asks. Turkish was translated by a reader; Malay, Bengali, French and Russian are drafts by Claude (the owner's choice,
+ * 2026-11-21) waiting for a native speaker. The language menu marks them and offers a link to report a mistake. Remove a
  * language from this list once a second speaker has reviewed it and a language maintainer is in .github/CODEOWNERS.
  * It may name a language before it exists in LOCALES (the label then appears with the language).
  */
-export const COMMUNITY_LOCALES: readonly string[] = ["tr"];
+export const COMMUNITY_LOCALES: readonly string[] = ["tr", "ms", "bn", "fr", "ru"];
 
 export const isCommunityLocale = (code: string): boolean => COMMUNITY_LOCALES.includes(code);
 

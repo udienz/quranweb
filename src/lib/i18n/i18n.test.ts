@@ -11,19 +11,21 @@ describe("negotiateLocale", () => {
 
   it("uses the first supported language the browser lists", () => {
     expect(negotiateLocale(undefined, "en-US,en;q=0.9,id;q=0.8")).toBe("en");
-    expect(negotiateLocale(undefined, "fr-FR,id;q=0.8,en;q=0.5")).toBe("id");
+    expect(negotiateLocale(undefined, "de-DE,id;q=0.8,en;q=0.5")).toBe("id");
+    expect(negotiateLocale(undefined, "ru-RU,ru;q=0.9,en;q=0.5")).toBe("ru");
+    expect(negotiateLocale(undefined, "ms-MY,en;q=0.5")).toBe("ms");
     expect(negotiateLocale(undefined, "EN-gb")).toBe("en");
   });
 
   it("falls back to the default for an unknown cookie, an unsupported language or no header", () => {
-    expect(negotiateLocale("fr", "de-DE,fr;q=0.9")).toBe(DEFAULT_LOCALE);
+    expect(negotiateLocale("de", "de-DE,nl;q=0.9")).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale(undefined, null)).toBe(DEFAULT_LOCALE);
     expect(negotiateLocale("", "")).toBe(DEFAULT_LOCALE);
   });
 
   it("isLocale only accepts supported codes", () => {
     expect(LOCALES.every(isLocale)).toBe(true);
-    expect(isLocale("fr")).toBe(false);
+    expect(isLocale("de")).toBe(false);
     expect(isLocale(undefined)).toBe(false);
   });
 });
@@ -113,6 +115,7 @@ describe("message catalogs", () => {
 describe("community translations", () => {
   it("names the languages not yet reviewed by a second speaker", () => {
     expect(COMMUNITY_LOCALES).toContain("tr");
+    for (const code of ["ms", "bn", "fr", "ru"]) expect(isCommunityLocale(code), code).toBe(true);
     expect(isCommunityLocale("tr")).toBe(true);
     expect(isCommunityLocale("id")).toBe(false);
     expect(isCommunityLocale("en")).toBe(false); // the source language, and Indonesian, are maintained by the owner
@@ -131,5 +134,28 @@ describe("community translations", () => {
     const hostile = new URL(reportTranslationUrl("x&labels=bug#"));
     expect(hostile.searchParams.get("labels")).toBeNull();
     expect(hostile.hash).toBe("");
+  });
+});
+
+describe("plural forms", () => {
+  it("picks few and many where a language has them, and falls back to other", () => {
+    const ru = createTranslator("ru", MESSAGES.ru);
+    expect(ru.tn("common.verses", 1)).toBe("1 аят");
+    expect(ru.tn("common.verses", 3)).toBe("3 аята");
+    expect(ru.tn("common.verses", 5)).toBe("5 аятов");
+    expect(ru.tn("common.verses", 21)).toBe("21 аят");
+    const en = createTranslator("en", MESSAGES.en);
+    expect(en.tn("common.verses", 1)).toBe("1 verse");
+    expect(en.tn("common.verses", 3)).toBe("3 verses");
+    expect(createTranslator("ms", MESSAGES.ms).tn("common.verses", 1)).toBe("1 ayat");
+  });
+});
+
+describe("localized data text", () => {
+  it("falls back from Malay to Indonesian before English, and from other languages to English", () => {
+    const meaning = { en: "The Opening", id: "Pembukaan" };
+    expect(localized(meaning, "ms")).toBe("Pembukaan");
+    expect(localized(meaning, "fr")).toBe("The Opening");
+    expect(localized({ ...meaning, ms: "Pembuka" }, "ms")).toBe("Pembuka");
   });
 });

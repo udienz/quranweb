@@ -90,6 +90,7 @@ export const tr: Messages = {
     contactBy: "Bu siteyi {name} işletiyor.",
     contactEmail: "Verilerinizle ilgili soru ve talepler: {email}",
     contactMissing: "Verilerinizle ilgili sorular için iletişim bilgisi henüz ayarlanmadı.",
+    translationNote: "Bu politikanın çevirisi henüz anadili konuşan biri tarafından kontrol edilmedi. İngilizce veya Endonezce sürümden farklı olduğu yerde o sürümler geçerlidir.",
   },
   admin: {
     title: "Hesaplar",

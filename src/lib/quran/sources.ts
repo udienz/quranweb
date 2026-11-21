@@ -76,11 +76,16 @@ export const DEFAULT_SOURCES: SourceConfig = {
     tafsir: "ind-kemenag-tafsir",
     qari: "misyari-rasyid-al-afasi",
   },
-  // With the English or the Turkish interface, read a translation and a tafsir in that language unless the reader chose
-  // otherwise (the tafsir: Al-Mukhtasar from QuranEnc; the default one is Indonesian).
+  // With another interface language, read a translation and a tafsir in that language unless the reader chose otherwise
+  // (the tafsir: Al-Mukhtasar from QuranEnc; the default one is Indonesian). Malay has no Al-Mukhtasar, so it keeps the
+  // general tafsir, which a Malay reader can follow.
   localeDefaults: {
     en: { translations: ["eng-abdullahyusufal"], tafsir: "eng-mokhtasar" },
     tr: { translations: ["tur-diyanetisleri"], tafsir: "tur-mokhtasar" },
+    ms: { translations: ["msa-abdullahmuhamma"] },
+    bn: { translations: ["ben-muhiuddinkhan"], tafsir: "ben-mokhtasar" },
+    fr: { translations: ["fra-rashidmaash"], tafsir: "fra-mokhtasar" },
+    ru: { translations: ["rus-elmirkuliev"], tafsir: "rus-mokhtasar" },
   },
 };
 

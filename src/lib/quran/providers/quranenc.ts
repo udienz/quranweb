@@ -15,11 +15,60 @@ import type { Edition, EditionText, SourceInfo } from "../types";
 
 export const QURANENC_API_URL = "https://quranenc.com/api/v1";
 
-const credit = (key: string, en: string, id: string, tr: string): SourceInfo => ({
+const credit = (key: string, attribution: SourceInfo["attribution"]): SourceInfo => ({
   name: "QuranEnc.com",
   url: `https://quranenc.com/en/browse/${key}`,
-  attribution: { en, id, tr },
+  attribution,
 });
+
+/** A translation credit in every interface language: who, through QuranEnc.com, which version. */
+const translationCredit = (key: string, version: string, who: Record<string, string>): SourceInfo =>
+  credit(key, {
+    en: `${who.en}, via QuranEnc.com, version ${version}`,
+    id: `${who.id}, melalui QuranEnc.com, versi ${version}`,
+    tr: `${who.tr}, QuranEnc.com üzerinden, sürüm ${version}`,
+    ms: `${who.ms}, melalui QuranEnc.com, versi ${version}`,
+    bn: `${who.bn}, QuranEnc.com-এর মাধ্যমে, সংস্করণ ${version}`,
+    fr: `${who.fr}, via QuranEnc.com, version ${version}`,
+    ru: `${who.ru}, через QuranEnc.com, версия ${version}`,
+  });
+
+// The name of a language in each interface language, for the names of the Al-Mukhtasar editions.
+const LANGUAGE_NAMES: Record<string, Record<string, string>> = {
+  en: { en: "English", id: "Inggris", tr: "İngilizce", ms: "Inggeris", bn: "ইংরেজি", fr: "anglais", ru: "английский" },
+  tr: { en: "Turkish", id: "Turki", tr: "Türkçe", ms: "Turki", bn: "তুর্কি", fr: "turc", ru: "турецкий" },
+  id: { en: "Indonesian", id: "Indonesia", tr: "Endonezce", ms: "Indonesia", bn: "ইন্দোনেশীয়", fr: "indonésien", ru: "индонезийский" },
+  bn: { en: "Bengali", id: "Bengali", tr: "Bengalce", ms: "Bengali", bn: "বাংলা", fr: "bengali", ru: "бенгальский" },
+  fr: { en: "French", id: "Prancis", tr: "Fransızca", ms: "Perancis", bn: "ফরাসি", fr: "français", ru: "французский" },
+  ru: { en: "Russian", id: "Rusia", tr: "Rusça", ms: "Rusia", bn: "রুশ", fr: "russe", ru: "русский" },
+};
+
+/**
+ * One language of *Al-Mukhtasar fi Tafsir al-Qur'an*. QuranEnc publishes no version number for these, so the credit gives the
+ * date of our copy instead.
+ */
+function mokhtasar(id: string, language: string, key: string, copied: string): Edition {
+  const names = LANGUAGE_NAMES[language];
+  const title = "Al-Mukhtasar fi Tafsir al-Qur'an";
+  const center = "Tafsir Center for Quranic Studies";
+  return {
+    id,
+    kind: "tafsir",
+    language,
+    direction: "ltr",
+    name: Object.fromEntries(Object.entries(names).map(([ui, name]) => [ui, `${title} (${name})`])),
+    author: center,
+    source: credit(key, {
+      en: `${center}, via QuranEnc.com (no version number published; copy of ${copied})`,
+      id: `${center}, melalui QuranEnc.com (nomor versi tidak diterbitkan; salinan ${copied})`,
+      tr: `${center}, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; ${copied} kopyası)`,
+      ms: `${center}, melalui QuranEnc.com (nombor versi tidak diterbitkan; salinan ${copied})`,
+      bn: `${center}, QuranEnc.com-এর মাধ্যমে (সংস্করণ নম্বর প্রকাশিত নয়; ${copied} তারিখের কপি)`,
+      fr: `${center}, via QuranEnc.com (aucun numéro de version publié ; copie du ${copied})`,
+      ru: `${center}, через QuranEnc.com (номер версии не опубликован; копия от ${copied})`,
+    }),
+  };
+}
 
 /**
  * The enabled editions. Their IDs follow the project's scheme (`{iso3}-{name}`); `ind-indonesianislam` keeps the ID it had
@@ -33,58 +82,60 @@ export const QURANENC_EDITIONS: Edition[] = [
     kind: "translation",
     language: "id",
     direction: "ltr",
-    name: { en: "Indonesian translation (Kemenag, QuranEnc)", id: "Terjemahan Kemenag RI (QuranEnc)", tr: "Endonezce meal (Kemenag, QuranEnc)" },
+    name: {
+      en: "Indonesian translation (Kemenag, QuranEnc)",
+      id: "Terjemahan Kemenag RI (QuranEnc)",
+      tr: "Endonezce meal (Kemenag, QuranEnc)",
+      ms: "Terjemahan Indonesia (Kemenag, QuranEnc)",
+      bn: "ইন্দোনেশীয় অনুবাদ (Kemenag, QuranEnc)",
+      fr: "Traduction indonésienne (Kemenag, QuranEnc)",
+      ru: "Индонезийский перевод (Kemenag, QuranEnc)",
+    },
     author: "Kementerian Agama RI",
-    source: credit(
-      "indonesian_affairs",
-      "Indonesian Ministry of Religious Affairs (Kemenag), via QuranEnc.com, version 1.0.1",
-      "Kementerian Agama RI, melalui QuranEnc.com, versi 1.0.1",
-      "Endonezya Din İşleri Bakanlığı (Kemenag), QuranEnc.com üzerinden, sürüm 1.0.1",
-    ),
+    source: translationCredit("indonesian_affairs", "1.0.1", {
+      en: "Indonesian Ministry of Religious Affairs (Kemenag)",
+      id: "Kementerian Agama RI",
+      tr: "Endonezya Din İşleri Bakanlığı (Kemenag)",
+      ms: "Kementerian Hal Ehwal Agama Indonesia (Kemenag)",
+      bn: "ইন্দোনেশিয়ার ধর্ম মন্ত্রণালয় (Kemenag)",
+      fr: "Ministère indonésien des Affaires religieuses (Kemenag)",
+      ru: "Министерство по делам религий Индонезии (Kemenag)",
+    }),
   },
+  mokhtasar("eng-mokhtasar", "en", "english_mokhtasar", "2026-11-19"),
+  mokhtasar("tur-mokhtasar", "tr", "turkish_mokhtasar", "2026-11-19"),
+  // A short tafsir in Indonesian beside the Kemenag one (the Indonesian default stays Kemenag).
+  mokhtasar("ind-mokhtasar", "id", "indonesian_mokhtasar", "2026-11-19"),
   {
-    id: "eng-mokhtasar",
-    kind: "tafsir",
-    language: "en",
+    // The default translation with the French interface (2026-11-21): reviewed, with footnotes.
+    id: "fra-rashidmaash",
+    kind: "translation",
+    language: "fr",
     direction: "ltr",
-    name: { en: "Al-Mukhtasar fi Tafsir al-Qur'an (English)", id: "Al-Mukhtasar fi Tafsir al-Qur'an (Inggris)", tr: "Al-Mukhtasar fi Tafsir al-Qur'an (İngilizce)" },
-    author: "Tafsir Center for Quranic Studies",
-    source: credit(
-      "english_mokhtasar",
-      "Tafsir Center for Quranic Studies, via QuranEnc.com (no version number published; copy of 2026-11-19)",
-      "Tafsir Center for Quranic Studies, melalui QuranEnc.com (nomor versi tidak diterbitkan; salinan 2026-11-19)",
-      "Tafsir Center for Quranic Studies, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; 2026-11-19 kopyası)",
-    ),
+    name: {
+      en: "French translation by Rachid Maach",
+      id: "Terjemahan Prancis oleh Rachid Maach",
+      tr: "Rachid Maach'ın Fransızca meali",
+      ms: "Terjemahan Perancis oleh Rachid Maach",
+      bn: "রশিদ মাশের ফরাসি অনুবাদ",
+      fr: "Traduction française de Rachid Maach",
+      ru: "Французский перевод Рашида Мааша",
+    },
+    author: "Rachid Maach",
+    source: translationCredit("french_rashid", "1.0.3", {
+      en: "Rachid Maach",
+      id: "Rachid Maach",
+      tr: "Rachid Maach",
+      ms: "Rachid Maach",
+      bn: "রশিদ মাশ",
+      fr: "Rachid Maach",
+      ru: "Рашид Маах",
+    }),
   },
-  {
-    id: "tur-mokhtasar",
-    kind: "tafsir",
-    language: "tr",
-    direction: "ltr",
-    name: { en: "Al-Mukhtasar fi Tafsir al-Qur'an (Turkish)", id: "Al-Mukhtasar fi Tafsir al-Qur'an (Turki)", tr: "Al-Mukhtasar fi Tafsir al-Qur'an (Türkçe)" },
-    author: "Tafsir Center for Quranic Studies",
-    source: credit(
-      "turkish_mokhtasar",
-      "Tafsir Center for Quranic Studies, via QuranEnc.com (no version number published; copy of 2026-11-19)",
-      "Tafsir Center for Quranic Studies, melalui QuranEnc.com (nomor versi tidak diterbitkan; salinan 2026-11-19)",
-      "Tafsir Center for Quranic Studies, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; 2026-11-19 kopyası)",
-    ),
-  },
-  {
-    // A short tafsir in Indonesian beside the Kemenag one (the Indonesian default stays Kemenag).
-    id: "ind-mokhtasar",
-    kind: "tafsir",
-    language: "id",
-    direction: "ltr",
-    name: { en: "Al-Mukhtasar fi Tafsir al-Qur'an (Indonesian)", id: "Al-Mukhtasar fi Tafsir al-Qur'an (Indonesia)", tr: "Al-Mukhtasar fi Tafsir al-Qur'an (Endonezce)" },
-    author: "Tafsir Center for Quranic Studies",
-    source: credit(
-      "indonesian_mokhtasar",
-      "Tafsir Center for Quranic Studies, via QuranEnc.com (no version number published; copy of 2026-11-19)",
-      "Tafsir Center for Quranic Studies, melalui QuranEnc.com (nomor versi tidak diterbitkan; salinan 2026-11-19)",
-      "Tafsir Center for Quranic Studies, QuranEnc.com üzerinden (sürüm numarası yayımlanmadı; 2026-11-19 kopyası)",
-    ),
-  },
+  // The default tafsir with the Bengali, French and Russian interfaces (2026-11-21).
+  mokhtasar("ben-mokhtasar", "bn", "bengali_mokhtasar", "2026-11-21"),
+  mokhtasar("fra-mokhtasar", "fr", "french_mokhtasar", "2026-11-21"),
+  mokhtasar("rus-mokhtasar", "ru", "russian_mokhtasar", "2026-11-21"),
 ];
 
 /** The translation key at QuranEnc of each edition. */
@@ -93,6 +144,10 @@ export const QURANENC_KEYS: Record<string, string> = {
   "eng-mokhtasar": "english_mokhtasar",
   "tur-mokhtasar": "turkish_mokhtasar",
   "ind-mokhtasar": "indonesian_mokhtasar",
+  "fra-rashidmaash": "french_rashid",
+  "ben-mokhtasar": "bengali_mokhtasar",
+  "fra-mokhtasar": "french_mokhtasar",
+  "rus-mokhtasar": "russian_mokhtasar",
 };
 
 interface RawSura {

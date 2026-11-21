@@ -141,7 +141,16 @@ describe("fawazahmed0 provider", () => {
 
   it("every Tanzil edition links back to Tanzil's translations page (its terms ask for that when more than three are used)", () => {
     const tanzil = FAWAZ_EDITIONS.filter((e) => /Tanzil/.test(e.source.attribution.en));
-    expect(tanzil.map((e) => e.id).sort()).toEqual(["eng-abdullahyusufal", "eng-mohammedmarmadu", "ind-jalaladdinalmah", "ind-muhammadquraish", "tur-diyanetisleri"]);
+    expect(tanzil.map((e) => e.id).sort()).toEqual([
+      "ben-muhiuddinkhan",
+      "eng-abdullahyusufal",
+      "eng-mohammedmarmadu",
+      "ind-jalaladdinalmah",
+      "ind-muhammadquraish",
+      "msa-abdullahmuhamma",
+      "rus-elmirkuliev",
+      "tur-diyanetisleri",
+    ]);
     for (const e of tanzil) expect(e.source.url).toBe("https://tanzil.net/trans/");
   });
 

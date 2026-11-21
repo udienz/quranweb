@@ -458,7 +458,7 @@ describe("choices (editions, reciter, language)", () => {
     let d = setSelectionChoice(emptyUserData(), { qari: "05", translations: ["ind-kemenag"], bogus: 1 } as never, T1);
     d = setLocaleChoice(d, "en", T2);
     expect(d.choices).toEqual({ selection: { value: { qari: "05", translations: ["ind-kemenag"] }, at: T1 }, locale: { value: "en", at: T2 } });
-    expect(() => setLocaleChoice(d, "fr" as never, T3)).toThrow();
+    expect(() => setLocaleChoice(d, "de" as never, T3)).toThrow();
   });
 
   it("takes the newest choice for each kind on its own", () => {
@@ -478,7 +478,7 @@ describe("choices (editions, reciter, language)", () => {
     const d = setLocaleChoice(setSelectionChoice(emptyUserData(), { arabic: "ara-x", tafsir: null }, T1), "id", T2);
     expect(parseUserData(JSON.parse(JSON.stringify(d)))).toEqual(d);
     const raw = JSON.parse(JSON.stringify(d));
-    expect(() => parseUserData({ ...raw, choices: { locale: { value: "fr", at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { locale: { value: "de", at: T1 } } })).toThrow();
     expect(() => parseUserData({ ...raw, choices: { selection: { value: {}, at: "not a date" } } })).toThrow();
   });
 
