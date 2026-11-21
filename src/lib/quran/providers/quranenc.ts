@@ -31,32 +31,46 @@ const translationCredit = (key: string, version: string, who: Record<string, str
     bn: `${who.bn}, QuranEnc.com-এর মাধ্যমে, সংস্করণ ${version}`,
     fr: `${who.fr}, via QuranEnc.com, version ${version}`,
     ru: `${who.ru}, через QuranEnc.com, версия ${version}`,
+    ur: `${who.ur}، بذریعہ QuranEnc.com، ورژن ${version}`,
+    ar: `${who.ar}، عبر QuranEnc.com، الإصدار ${version}`,
+    fa: `${who.fa}، از طریق QuranEnc.com، نسخهٔ ${version}`,
   });
 
 // The name of a language in each interface language, for the names of the Al-Mukhtasar editions.
 const LANGUAGE_NAMES: Record<string, Record<string, string>> = {
-  en: { en: "English", id: "Inggris", tr: "İngilizce", ms: "Inggeris", bn: "ইংরেজি", fr: "anglais", ru: "английский" },
-  tr: { en: "Turkish", id: "Turki", tr: "Türkçe", ms: "Turki", bn: "তুর্কি", fr: "turc", ru: "турецкий" },
-  id: { en: "Indonesian", id: "Indonesia", tr: "Endonezce", ms: "Indonesia", bn: "ইন্দোনেশীয়", fr: "indonésien", ru: "индонезийский" },
-  bn: { en: "Bengali", id: "Bengali", tr: "Bengalce", ms: "Bengali", bn: "বাংলা", fr: "bengali", ru: "бенгальский" },
-  fr: { en: "French", id: "Prancis", tr: "Fransızca", ms: "Perancis", bn: "ফরাসি", fr: "français", ru: "французский" },
-  ru: { en: "Russian", id: "Rusia", tr: "Rusça", ms: "Rusia", bn: "রুশ", fr: "russe", ru: "русский" },
+  en: { en: "English", id: "Inggris", tr: "İngilizce", ms: "Inggeris", bn: "ইংরেজি", fr: "anglais", ru: "английский", ur: "انگریزی", ar: "الإنجليزية", fa: "انگلیسی" },
+  tr: { en: "Turkish", id: "Turki", tr: "Türkçe", ms: "Turki", bn: "তুর্কি", fr: "turc", ru: "турецкий", ur: "ترکی", ar: "التركية", fa: "ترکی" },
+  id: { en: "Indonesian", id: "Indonesia", tr: "Endonezce", ms: "Indonesia", bn: "ইন্দোনেশীয়", fr: "indonésien", ru: "индонезийский", ur: "انڈونیشیائی", ar: "الإندونيسية", fa: "اندونزیایی" },
+  bn: { en: "Bengali", id: "Bengali", tr: "Bengalce", ms: "Bengali", bn: "বাংলা", fr: "bengali", ru: "бенгальский", ur: "بنگالی", ar: "البنغالية", fa: "بنگالی" },
+  fr: { en: "French", id: "Prancis", tr: "Fransızca", ms: "Perancis", bn: "ফরাসি", fr: "français", ru: "французский", ur: "فرانسیسی", ar: "الفرنسية", fa: "فرانسوی" },
+  ru: { en: "Russian", id: "Rusia", tr: "Rusça", ms: "Rusia", bn: "রুশ", fr: "russe", ru: "русский", ur: "روسی", ar: "الروسية", fa: "روسی" },
+  fa: { en: "Persian", id: "Persia", tr: "Farsça", ms: "Parsi", bn: "ফারসি", fr: "persan", ru: "персидский", ur: "فارسی", ar: "الفارسية", fa: "فارسی" },
+  ar: { en: "Arabic", id: "Arab", tr: "Arapça", ms: "Arab", bn: "আরবি", fr: "arabe", ru: "арабский", ur: "عربی", ar: "العربية", fa: "عربی" },
 };
+
+/** The book's title: its Arabic name for the interfaces in Arabic script, the transliterated one for the others. */
+const MOKHTASAR_TITLE: Record<string, string> = { ur: "المختصر فی تفسیر القرآن", ar: "المختصر في تفسير القرآن الكريم", fa: "المختصر فی تفسیر القرآن" };
 
 /**
  * One language of *Al-Mukhtasar fi Tafsir al-Qur'an*. QuranEnc publishes no version number for these, so the credit gives the
  * date of our copy instead.
  */
-function mokhtasar(id: string, language: string, key: string, copied: string): Edition {
+function mokhtasar(id: string, language: string, key: string, copied: string, direction: "ltr" | "rtl" = "ltr"): Edition {
   const names = LANGUAGE_NAMES[language];
-  const title = "Al-Mukhtasar fi Tafsir al-Qur'an";
+  const latin = "Al-Mukhtasar fi Tafsir al-Qur'an";
   const center = "Tafsir Center for Quranic Studies";
   return {
     id,
     kind: "tafsir",
     language,
-    direction: "ltr",
-    name: Object.fromEntries(Object.entries(names).map(([ui, name]) => [ui, `${title} (${name})`])),
+    direction,
+    // The Arabic original is named by its title alone.
+    name: Object.fromEntries(
+      Object.entries(names).map(([ui, name]) => {
+        const title = MOKHTASAR_TITLE[ui] ?? latin;
+        return [ui, language === "ar" && ui === "ar" ? title : `${title} (${name})`];
+      }),
+    ),
     author: center,
     source: credit(key, {
       en: `${center}, via QuranEnc.com (no version number published; copy of ${copied})`,
@@ -66,6 +80,9 @@ function mokhtasar(id: string, language: string, key: string, copied: string): E
       bn: `${center}, QuranEnc.com-এর মাধ্যমে (সংস্করণ নম্বর প্রকাশিত নয়; ${copied} তারিখের কপি)`,
       fr: `${center}, via QuranEnc.com (aucun numéro de version publié ; copie du ${copied})`,
       ru: `${center}, через QuranEnc.com (номер версии не опубликован; копия от ${copied})`,
+      ur: `${center}، بذریعہ QuranEnc.com (ورژن نمبر شائع نہیں ہوا؛ ${copied} کی نقل)`,
+      ar: `${center}، عبر QuranEnc.com (لم يُنشر رقم إصدار؛ نسخة ${copied})`,
+      fa: `${center}، از طریق QuranEnc.com (شمارهٔ نسخه منتشر نشده؛ رونوشت ${copied})`,
     }),
   };
 }
@@ -90,6 +107,9 @@ export const QURANENC_EDITIONS: Edition[] = [
       bn: "ইন্দোনেশীয় অনুবাদ (Kemenag, QuranEnc)",
       fr: "Traduction indonésienne (Kemenag, QuranEnc)",
       ru: "Индонезийский перевод (Kemenag, QuranEnc)",
+      ur: "انڈونیشیائی ترجمہ (Kemenag، QuranEnc)",
+      ar: "الترجمة الإندونيسية (Kemenag، QuranEnc)",
+      fa: "ترجمهٔ اندونزیایی (Kemenag، QuranEnc)",
     },
     author: "Kementerian Agama RI",
     source: translationCredit("indonesian_affairs", "1.0.1", {
@@ -100,6 +120,9 @@ export const QURANENC_EDITIONS: Edition[] = [
       bn: "ইন্দোনেশিয়ার ধর্ম মন্ত্রণালয় (Kemenag)",
       fr: "Ministère indonésien des Affaires religieuses (Kemenag)",
       ru: "Министерство по делам религий Индонезии (Kemenag)",
+      ur: "انڈونیشیا کی وزارتِ مذہبی امور (Kemenag)",
+      ar: "وزارة الشؤون الدينية الإندونيسية (Kemenag)",
+      fa: "وزارت امور دینی اندونزی (Kemenag)",
     }),
   },
   mokhtasar("eng-mokhtasar", "en", "english_mokhtasar", "2026-11-19"),
@@ -120,6 +143,9 @@ export const QURANENC_EDITIONS: Edition[] = [
       bn: "রশিদ মাশের ফরাসি অনুবাদ",
       fr: "Traduction française de Rachid Maach",
       ru: "Французский перевод Рашида Мааша",
+      ur: "رشید ماش کا فرانسیسی ترجمہ",
+      ar: "ترجمة رشيد معاش الفرنسية",
+      fa: "ترجمهٔ فرانسوی رشید ماش",
     },
     author: "Rachid Maach",
     source: translationCredit("french_rashid", "1.0.3", {
@@ -130,12 +156,82 @@ export const QURANENC_EDITIONS: Edition[] = [
       bn: "রশিদ মাশ",
       fr: "Rachid Maach",
       ru: "Рашид Маах",
+      ur: "رشید ماش",
+      ar: "رشيد معاش",
+      fa: "رشید ماش",
     }),
   },
   // The default tafsir with the Bengali, French and Russian interfaces (2026-11-21).
   mokhtasar("ben-mokhtasar", "bn", "bengali_mokhtasar", "2026-11-21"),
   mokhtasar("fra-mokhtasar", "fr", "french_mokhtasar", "2026-11-21"),
   mokhtasar("rus-mokhtasar", "ru", "russian_mokhtasar", "2026-11-21"),
+  {
+    // The default translation with the Urdu interface (2026-11-21): reviewed by QuranEnc. There is no Urdu Al-Mukhtasar.
+    id: "urd-muhammadjunagar",
+    kind: "translation",
+    language: "ur",
+    direction: "rtl",
+    name: {
+      en: "Urdu translation by Muhammad Junagarhi",
+      id: "Terjemahan Urdu oleh Muhammad Junagarhi",
+      tr: "Muhammad Junagarhi'nin Urduca meali",
+      ms: "Terjemahan Urdu oleh Muhammad Junagarhi",
+      bn: "মুহাম্মদ জুনাগড়ির উর্দু অনুবাদ",
+      fr: "Traduction ourdoue de Muhammad Junagarhi",
+      ru: "Перевод на урду Мухаммада Джунагархи",
+      ur: "محمد جوناگڑھی کا اردو ترجمہ",
+      ar: "ترجمة محمد جوناكري الأردية",
+      fa: "ترجمهٔ اردوی محمد جوناگڑھی",
+    },
+    author: "Muhammad Junagarhi",
+    source: translationCredit("urdu_junagarhi", "1.1.3", {
+      en: "Muhammad Junagarhi",
+      id: "Muhammad Junagarhi",
+      tr: "Muhammad Junagarhi",
+      ms: "Muhammad Junagarhi",
+      bn: "মুহাম্মদ জুনাগড়ি",
+      fr: "Muhammad Junagarhi",
+      ru: "Мухаммад Джунагархи",
+      ur: "محمد جوناگڑھی",
+      ar: "محمد جوناكري",
+      fa: "محمد جوناگڑھی",
+    }),
+  },
+  {
+    // The default translation with the Persian interface (2026-11-21): reviewed by QuranEnc.
+    id: "fas-islamhousecompe",
+    kind: "translation",
+    language: "fa",
+    direction: "rtl",
+    name: {
+      en: "Persian translation by the Rowwad Translation Center",
+      id: "Terjemahan Persia oleh Rowwad Translation Center",
+      tr: "Rowwad Tercüme Merkezi'nin Farsça meali",
+      ms: "Terjemahan Parsi oleh Rowwad Translation Center",
+      bn: "রাওয়াদ অনুবাদ কেন্দ্রের ফারসি অনুবাদ",
+      fr: "Traduction persane du Centre de traduction Rowwad",
+      ru: "Персидский перевод Центра переводов «Руввад»",
+      ur: "رواد ٹرانسلیشن سینٹر کا فارسی ترجمہ",
+      ar: "الترجمة الفارسية لمركز رواد للترجمة",
+      fa: "ترجمهٔ فارسی مرکز ترجمهٔ رواد",
+    },
+    author: "Rowwad Translation Center",
+    source: translationCredit("persian_ih", "1.1.3", {
+      en: "Rowwad Translation Center",
+      id: "Rowwad Translation Center",
+      tr: "Rowwad Tercüme Merkezi",
+      ms: "Rowwad Translation Center",
+      bn: "রাওয়াদ অনুবাদ কেন্দ্র",
+      fr: "Centre de traduction Rowwad",
+      ru: "Центр переводов «Руввад»",
+      ur: "رواد ٹرانسلیشن سینٹر",
+      ar: "مركز رواد للترجمة",
+      fa: "مرکز ترجمهٔ رواد",
+    }),
+  },
+  // The default tafsir with the Persian and Arabic interfaces (2026-11-21); the Arabic one is the original.
+  mokhtasar("fas-mokhtasar", "fa", "persian_mokhtasar", "2026-11-21", "rtl"),
+  mokhtasar("ara-mokhtasar", "ar", "arabic_mokhtasar", "2026-11-21", "rtl"),
 ];
 
 /** The translation key at QuranEnc of each edition. */
@@ -148,6 +244,10 @@ export const QURANENC_KEYS: Record<string, string> = {
   "ben-mokhtasar": "bengali_mokhtasar",
   "fra-mokhtasar": "french_mokhtasar",
   "rus-mokhtasar": "russian_mokhtasar",
+  "urd-muhammadjunagar": "urdu_junagarhi",
+  "fas-islamhousecompe": "persian_ih",
+  "fas-mokhtasar": "persian_mokhtasar",
+  "ara-mokhtasar": "arabic_mokhtasar",
 };
 
 interface RawSura {

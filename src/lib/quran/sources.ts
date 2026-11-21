@@ -86,6 +86,11 @@ export const DEFAULT_SOURCES: SourceConfig = {
     bn: { translations: ["ben-muhiuddinkhan"], tafsir: "ben-mokhtasar" },
     fr: { translations: ["fra-rashidmaash"], tafsir: "fra-mokhtasar" },
     ru: { translations: ["rus-elmirkuliev"], tafsir: "rus-mokhtasar" },
+    // No Urdu tafsir in our sources: none by default rather than one the reader cannot read.
+    ur: { translations: ["urd-muhammadjunagar"], tafsir: null },
+    // An Arabic reader reads the text itself: no translation and no Latin transliteration by default.
+    ar: { translations: [], transliteration: null, tafsir: "ara-mokhtasar" },
+    fa: { translations: ["fas-islamhousecompe"], tafsir: "fas-mokhtasar" },
   },
 };
 

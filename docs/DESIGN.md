@@ -163,7 +163,7 @@ The hierarchy compresses in dark mode: in light mode, muted text (`#596e73`) on 
 - **Numbers**: no monospace; surah indexes, verse references and percentages use `Plus Jakarta Sans` with `font-variant-numeric: tabular-nums`.
 - **OpenType Features**: none set (`font-feature-settings: normal` everywhere).
 
-All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts. Spacing and borders use logical CSS (`ms-`, `pe-`, `border-s`, `start-`) so a right-to-left interface mirrors the whole layout. None of the fonts has Cyrillic or Bengali glyphs: the Russian and Bengali interfaces (2026-11-21) show those scripts in the system font from the end of each stack.
+All three named families are open source (SIL OFL) and self-hosted through `@fontsource`, so no request leaves the site for fonts. Spacing and borders use logical CSS (`ms-`, `pe-`, `border-s`, `start-`) so a right-to-left interface mirrors the whole layout. None of the fonts has Cyrillic, Bengali or Arabic-script glyphs: the Russian, Bengali, Urdu, Arabic and Persian interfaces (2026-11-21) show their text in the system font from the end of each stack; Amiri stays for the Qur'an text.
 
 **Why `Space Grotesk` stays** (owner's decision, 2026-11-19, after the UI audit flagged it as a common default for generated sites):
 - It is the typeface of the site's own voice, never of the text being read. It sets the wordmark, page and surah titles and the numerals in the surah badges, and no running paragraph, so it never sits in a line next to the Arabic.

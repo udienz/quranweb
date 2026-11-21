@@ -6,10 +6,12 @@ import type { Messages, PluralKey, StringKey } from "./messages";
 
 /**
  * Plural forms by CLDR category; `other` is required and is the fallback. `few` and `many` are for languages that have them
- * (Russian: 1 стих, 2 стиха, 5 стихов). Write `other` last: the catalog test compares the last form's placeholders.
+ * (Russian: 1 стих, 2 стиха, 5 стихов; Arabic also has `zero` and `two`). Write `other` last: the catalog test compares the last form's placeholders.
  */
 export interface Plural {
+  zero?: string;
   one?: string;
+  two?: string;
   few?: string;
   many?: string;
   other: string;
@@ -45,7 +47,7 @@ export interface Translator {
   date(value: string | number | Date, options?: Intl.DateTimeFormatOptions): string;
 }
 
-const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR", ms: "ms-MY", bn: "bn-BD", fr: "fr-FR", ru: "ru-RU" };
+const INTL_LOCALE: Record<Locale, string> = { en: "en-US", id: "id-ID", tr: "tr-TR", ms: "ms-MY", bn: "bn-BD", fr: "fr-FR", ru: "ru-RU", ur: "ur-PK", ar: "ar", fa: "fa-IR" };
 
 export function createTranslator(locale: Locale, messages: Messages): Translator {
   const rules = new Intl.PluralRules(INTL_LOCALE[locale]);
@@ -60,7 +62,7 @@ export function createTranslator(locale: Locale, messages: Messages): Translator
       const forms = lookup(messages, key) as Plural | undefined;
       if (!forms || typeof forms.other !== "string") throw new Error(`Missing plural message "${key}" for locale "${locale}"`);
       const category = rules.select(count);
-      const template = (category === "one" || category === "few" || category === "many" ? forms[category] : undefined) ?? forms.other;
+      const template = (category === "other" ? undefined : forms[category]) ?? forms.other;
       return format(template, { count, ...vars });
     },
     date: (value, options = { dateStyle: "medium", timeStyle: "short" }) =>
