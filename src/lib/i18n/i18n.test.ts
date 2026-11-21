@@ -148,6 +148,15 @@ describe("plural forms", () => {
     expect(en.tn("common.verses", 1)).toBe("1 verse");
     expect(en.tn("common.verses", 3)).toBe("3 verses");
     expect(createTranslator("ms", MESSAGES.ms).tn("common.verses", 1)).toBe("1 ayat");
+    const ar = createTranslator("ar", MESSAGES.ar);
+    expect([0, 1, 2, 3, 11, 100].map((n) => ar.tn("common.verses", n))).toEqual([
+      "لا آيات",
+      "آية واحدة",
+      "آيتان",
+      "3 آيات",
+      "11 آية",
+      "100 آية",
+    ]);
   });
 });
 
@@ -161,8 +170,8 @@ describe("localized data text", () => {
 });
 
 describe("text direction of the interface", () => {
-  it("is right to left for Arabic, Urdu and Persian, and left to right for every language we have now", () => {
+  it("is right to left for Arabic, Urdu and Persian, and left to right for the others", () => {
     for (const code of ["ar", "ur", "fa"]) expect(directionOf(code)).toBe("rtl");
-    for (const code of LOCALES) expect(directionOf(code), code).toBe("ltr");
+    for (const code of LOCALES.filter((c) => !["ar", "ur", "fa"].includes(c))) expect(directionOf(code), code).toBe("ltr");
   });
 });

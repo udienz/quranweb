@@ -37,7 +37,10 @@ export default function MushafView({
   const data = useUserData();
   const [selected, setSelected] = useState<number | null>(null);
   const readUpTo = progressOf(data, surahNumber);
-  const side = prefs.translation || prefs.transliteration;
+  // The numbered column only when it has text to show: with no translation chosen and no transliteration (the Arabic
+  // interface's default) the Arabic takes the whole width instead of sitting beside a column of bare numbers.
+  const side =
+    (prefs.translation && verses.some((v) => v.translations.length > 0)) || (prefs.transliteration && verses.some((v) => v.transliteration));
   const current = verses.find((v) => v.number === selected) ?? null;
   const hiding = useHiding(surahNumber);
   const currentBookmark = current ? findBookmark(data, surahNumber, current.number) : undefined;

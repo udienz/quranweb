@@ -64,7 +64,7 @@ describe("QuranEnc provider", () => {
       for (const locale of LOCALES) {
         const text = e.source.attribution[locale];
         expect(text, `${e.id} ${locale}`).toMatch(/QuranEnc\.com/);
-        expect(text, `${e.id} ${locale}`).toMatch(/1\.0\.1|1\.0\.3|2026-11-19|2026-11-21/);
+        expect(text, `${e.id} ${locale}`).toMatch(/1\.0\.1|1\.0\.3|1\.1\.3|2026-11-19|2026-11-21/);
         expect(e.name[locale], `${e.id} ${locale}`).toBeTruthy();
       }
     }
@@ -77,6 +77,10 @@ describe("QuranEnc provider", () => {
       ["ben-mokhtasar", "tafsir", "bn"],
       ["fra-mokhtasar", "tafsir", "fr"],
       ["rus-mokhtasar", "tafsir", "ru"],
+      ["urd-muhammadjunagar", "translation", "ur"],
+      ["fas-islamhousecompe", "translation", "fa"],
+      ["fas-mokhtasar", "tafsir", "fa"],
+      ["ara-mokhtasar", "tafsir", "ar"],
     ]);
   });
 });
