@@ -267,5 +267,7 @@ describe("choices to cookies", () => {
     expect(cookieUpdates({}, "qw-lang=en")).toEqual([]);
     expect(cookieUpdates({ layout: { value: "cards", at: T(1) } }, "qw-layout=mushaf")).toEqual([["qw-layout", "cards"]]);
     expect(cookieUpdates({ layout: { value: "cards", at: T(1) } }, "qw-layout=cards")).toEqual([]);
+    expect(cookieUpdates({ paging: { value: "mushaf", at: T(1) } }, "qw-paging=verses")).toEqual([["qw-paging", "mushaf"]]);
+    expect(cookieUpdates({ paging: { value: "mushaf", at: T(1) } }, "qw-paging=mushaf")).toEqual([]);
   });
 });

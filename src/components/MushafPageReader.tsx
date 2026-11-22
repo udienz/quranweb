@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { mushafHref, mushafVerseId } from "@/lib/anchors";
+import { userDataActions } from "@/lib/userdata/store";
 import { useI18n } from "@/lib/i18n/client";
 import { localized } from "@/lib/i18n/translate";
 import type { Edition, JuzRef, MushafPageRef, SurahMeta, VerseView } from "@/lib/quran";
@@ -68,6 +69,40 @@ export default function MushafPageReader({
     reciter: qari,
     site: t("meta.title"),
   });
+
+  // Record the verse near the top third of the screen as the "last read" position, as the surah reader does. The ids carry the
+  // surah (`verse-112-1`), because a page can hold several. Debounced so that fast scrolling does not write to storage constantly.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const match = /^verse-(\d+)-(\d+)$/.exec(entry.target.id);
+          if (!match) continue;
+          clearTimeout(timer);
+          timer = setTimeout(() => userDataActions.setLastRead(Number(match[1]), Number(match[2])), 700);
+        }
+      },
+      { rootMargin: "-30% 0px -65% 0px" },
+    );
+    document.querySelectorAll("[id^='verse-']").forEach((el) => observer.observe(el));
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [page]);
+  // A link made for the pages of 10 verses ends in "#verse-255": when it brings the reader here (a hard load keeps the hash), show
+  // that verse of the surah of this page that has it.
+  useEffect(() => {
+    const match = /^#verse-(\d+)$/.exec(location.hash);
+    if (!match) return;
+    const verse = Number(match[1]);
+    const segment = segments.find((s) => s.verses.some((v) => v.number === verse));
+    if (segment) document.getElementById(mushafVerseId(segment.meta.number, verse))?.scrollIntoView({ block: "center" });
+    // Only on arrival: the page's own verses decide, not later changes of the segments.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   // The next page is forward in the reading direction of the interface: to the right in a left-to-right one, to the left in a
   // right-to-left one. The arrow keys and a swipe follow it. Ignored while typing in a field and with a modifier key.

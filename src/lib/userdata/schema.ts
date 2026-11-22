@@ -12,6 +12,7 @@ import { isLocale, type Locale } from "../i18n/config";
 import type { Selection } from "../quran/types";
 import { parseSelectionObject } from "../selection";
 import { isLayout, type Layout } from "../layout";
+import { isPaging, type Paging } from "../paging";
 import { isTheme, parseFontSize, type FontSize, type Theme } from "../display";
 import { isPlaybackMode, type PlaybackMode } from "../playback";
 
@@ -75,6 +76,8 @@ export interface Choices {
   locale?: { value: Locale; at: string };
   /** Mushaf or verse-by-verse cards (the `qw-layout` cookie). */
   layout?: { value: Layout; at: string };
+  /** 10-verse pages or the 604 pages of the mushaf (the `qw-paging` cookie). */
+  paging?: { value: Paging; at: string };
   /** Light, dark or auto (local storage `theme`). */
   theme?: { value: Theme; at: string };
   /** Arabic and Latin text size (local storage `quranweb:font-size`). */
@@ -338,6 +341,12 @@ export function setLayoutChoice(data: UserData, value: Layout, at: string): User
   return { ...data, choices: { ...data.choices, layout: { value, at } } };
 }
 
+/** Record an explicit choice of how a surah is cut into pages. */
+export function setPagingChoice(data: UserData, value: Paging, at: string): UserData {
+  if (!isPaging(value)) throw new Error(`Invalid paging: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, paging: { value, at } } };
+}
+
 /** Record an explicit choice of theme. */
 export function setThemeChoice(data: UserData, value: Theme, at: string): UserData {
   if (!isTheme(value)) throw new Error(`Invalid theme: ${String(value)}`);
@@ -463,7 +472,7 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
   const choices: Choices = {};
-  for (const key of ["selection", "locale", "layout", "theme", "fontSize", "playbackMode"] as const) {
+  for (const key of ["selection", "locale", "layout", "paging", "theme", "fontSize", "playbackMode"] as const) {
     const x = a.choices?.[key];
     const y = b.choices?.[key];
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
@@ -582,6 +591,11 @@ export function parseUserData(raw: unknown): UserData {
     const lay = c.layout as Record<string, unknown>;
     if (!isDate(lay.at) || !isLayout(lay.value)) throw invalid("Invalid layout choice");
     choices.layout = { value: lay.value, at: lay.at };
+  }
+  if (c.paging != null) {
+    const pag = c.paging as Record<string, unknown>;
+    if (!isDate(pag.at) || !isPaging(pag.value)) throw invalid("Invalid paging choice");
+    choices.paging = { value: pag.value, at: pag.at };
   }
   if (c.theme != null) {
     const th = c.theme as Record<string, unknown>;

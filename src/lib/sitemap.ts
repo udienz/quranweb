@@ -13,6 +13,11 @@ export function verseEntries(origin: string, counts: readonly { number: number; 
   );
 }
 
+/** The 604 pages of the printed mushaf, `/mushaf/50`. */
+export function mushafEntries(origin: string, pages = 604): SitemapEntry[] {
+  return Array.from({ length: pages }, (_, i) => ({ url: `${origin}/mushaf/${i + 1}`, priority: 0.5 }));
+}
+
 /** The home page, About, Privacy and every surah, as full addresses under `origin`. */
 export function sitemapEntries(origin: string, surahNumbers: readonly number[]): SitemapEntry[] {
   const entry = (path: string, priority: number) => ({ url: `${origin}${path}`, priority });
