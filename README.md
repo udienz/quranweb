@@ -125,7 +125,7 @@ Open **Settings**, and under **Reading settings** choose **Mushaf pages (604)** 
 page of the printed mushaf that has its first verse, and an old link to a page of 10 verses opens the page that has that page's
 first verse. A page can hold the end of one surah and the start of the next (the last page holds three). Turn pages with
 **Previous page** and **Next page**, type a number from 1 to 604 in the box, press the right or left arrow key (the other way round
-in a right-to-left language) or swipe sideways. The page number is shown above and below the page. **Play audio** at the top of the page starts at its first verse and goes on through the verses and pages that follow, with no verse chosen first. Choose **10 verses** to go back to
+in a right-to-left language) or swipe sideways. The page number is shown above and below the page. **Play the surah** under a surah's name plays the whole recording of that surah, with no verse chosen first (for the reciters that have one). Choose **10 verses** to go back to
 pages of 10 verses, which stay the default. The choice follows your account when you are signed in.
 
 ### Listen to a recitation

@@ -176,6 +176,8 @@ export const id: Messages = {
     hidePanel: "Sembunyikan daftar surat dan pengaturan",
     showPanel: "Tampilkan daftar surat dan pengaturan",
     playJuz: "Putar satu juz",
+    playSurah: "Putar surat",
+    pauseSurah: "Jeda surat",
     juzPlaceholder: "Juz…",
     juzOption: "Juz {juz} ({surah}:{verse})",
     playingJuz: "Memutar juz {juz}",

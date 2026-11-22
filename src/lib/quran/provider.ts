@@ -30,6 +30,8 @@ export interface AudioProvider {
   qaris(): Qari[];
   /** Audio URLs of one verse for a reciter, preferred first. */
   urls(qari: string, surah: number, verse: number): string[];
+  /** Audio URLs of the whole surah as one file for a reciter, preferred first. Optional: not every source has them. */
+  surahUrls?(qari: string, surah: number): string[];
   /** The bitrate of one of its URLs in kbps, when the provider knows it (used to order the URLs for data saving). */
   kbps?(url: string): number | undefined;
 }

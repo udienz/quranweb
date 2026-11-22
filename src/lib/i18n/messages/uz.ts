@@ -178,6 +178,8 @@ export const uz: Messages = {
     hidePanel: "Суралар рўйхати ва созламаларни яшириш",
     showPanel: "Суралар рўйхати ва созламаларни кўрсатиш",
     playJuz: "Pора тинглаш",
+    playSurah: "Сурани ижро этиш",
+    pauseSurah: "Сурани тўхтатиш",
     juzPlaceholder: "Pора…",
     juzOption: "{juz}-пора ({surah}:{verse})",
     playingJuz: "{juz}-пора ижро этилмоқда",

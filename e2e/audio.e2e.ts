@@ -107,3 +107,15 @@ test("the lock screen shows the verse and its buttons work", async ({ page, cont
   await press("previoustrack");
   await expect.poll(title).toBe("Al-Baqarah 2:10");
 });
+
+test("a surah plays as one recording, and the playback mode goes on with the next surah's recording", async ({ page, context }) => {
+  await context.addInitScript(() => localStorage.setItem("quranweb:playback-mode", "next"));
+  const urls = await routeAudio(page);
+  await page.goto("/surah/1");
+  await page.getByRole("button", { name: "Putar surat" }).click();
+  await expect.poll(() => urls.filter((u) => /audio-full/.test(u)).length, { timeout: 15_000 }).toBeGreaterThanOrEqual(2);
+  expect(urls[0]).toMatch(/\/audio-full\/[A-Za-z-]+\/001\.mp3$/);
+  expect(urls[1]).toMatch(/\/audio-full\/[A-Za-z-]+\/002\.mp3$/);
+  await expect(page).toHaveURL(/\/surah\/2/);
+  expect(urls.some((u) => /audio-partial/.test(u))).toBe(false);
+});

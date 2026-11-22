@@ -177,6 +177,8 @@ export const ml: Messages = {
     hidePanel: "സൂറത്ത് പട്ടികയും ക്രമീകരണങ്ങളും മറയ്ക്കുക",
     showPanel: "സൂറത്ത് പട്ടികയും ക്രമീകരണങ്ങളും കാണിക്കുക",
     playJuz: "ഒരു ജുസ്ഉ പ്ലേ ചെയ്യുക",
+    playSurah: "സൂറ പ്ലേ ചെയ്യുക",
+    pauseSurah: "സൂറ നിർത്തുക",
     juzPlaceholder: "ജുസ്ഉ…",
     juzOption: "ജുസ്ഉ {juz} ({surah}:{verse})",
     playingJuz: "ജുസ്ഉ {juz} പ്ലേ ചെയ്യുന്നു",

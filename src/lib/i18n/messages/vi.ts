@@ -178,6 +178,8 @@ export const vi: Messages = {
     hidePanel: "Ẩn danh sách chương và cài đặt",
     showPanel: "Hiện danh sách chương và cài đặt",
     playJuz: "Phát một juz",
+    playSurah: "Phát surah",
+    pauseSurah: "Tạm dừng surah",
     juzPlaceholder: "Juz…",
     juzOption: "Juz {juz} ({surah}:{verse})",
     playingJuz: "Đang phát juz {juz}",

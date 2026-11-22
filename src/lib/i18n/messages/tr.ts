@@ -176,6 +176,8 @@ export const tr: Messages = {
     hidePanel: "Sure listesini ve ayarları gizle",
     showPanel: "Sure listesini ve ayarları göster",
     playJuz: "Bir cüz çal",
+    playSurah: "Sureyi oynat",
+    pauseSurah: "Sureyi duraklat",
     juzPlaceholder: "Cüz…",
     juzOption: "{juz}. cüz ({surah}:{verse})",
     playingJuz: "{juz}. cüz çalınıyor",

@@ -178,6 +178,8 @@ export const zh: Messages = {
     hidePanel: "隐藏章节列表和设置",
     showPanel: "显示章节列表和设置",
     playJuz: "播放一卷",
+    playSurah: "播放本章",
+    pauseSurah: "暂停本章",
     juzPlaceholder: "卷…",
     juzOption: "第 {juz} 卷（{surah}:{verse}）",
     playingJuz: "正在播放第 {juz} 卷",

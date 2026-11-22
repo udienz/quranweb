@@ -176,6 +176,8 @@ export const en = {
     hidePanel: "Hide surah list and settings",
     showPanel: "Show surah list and settings",
     playJuz: "Play a juz",
+    playSurah: "Play the surah",
+    pauseSurah: "Pause the surah",
     juzPlaceholder: "Juz…",
     juzOption: "Juz {juz} ({surah}:{verse})",
     playingJuz: "Playing juz {juz}",

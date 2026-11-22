@@ -178,6 +178,8 @@ export const bs: Messages = {
     hidePanel: "Sakrij listu sura i postavke",
     showPanel: "Prikaži listu sura i postavke",
     playJuz: "Pusti džuz",
+    playSurah: "Pusti suru",
+    pauseSurah: "Pauziraj suru",
     juzPlaceholder: "Džuz…",
     juzOption: "Džuz {juz} ({surah}:{verse})",
     playingJuz: "Svira džuz {juz}",

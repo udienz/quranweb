@@ -333,5 +333,15 @@ export function useVersePlayer(options: PlayerOptions) {
     };
   }, []);
 
-  return { playing, togglePlay, goTo, playJuz, startRange, stopRange };
+  /** Stop whatever verse playback there is and forget it (a whole surah is about to play on the same audio element). */
+  function stop() {
+    setJuzScope(null);
+    setRangeLoop(null);
+    pausedVerse.current = null;
+    getAudio().pause();
+    setPlaying(null);
+    clearNowPlaying();
+  }
+
+  return { playing, togglePlay, goTo, playJuz, startRange, stopRange, stop };
 }

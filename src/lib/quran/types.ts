@@ -124,6 +124,8 @@ export interface SurahView {
   editions: Edition[];
   qari: Qari;
   verses: VerseView[];
+  /** The recording of the whole surah as one file for the chosen reciter, preferred first; absent when the reciter has none. */
+  surahAudio?: string[];
   /**
    * Translations and tafsir that were chosen but could not be loaded this time (a source read live was down): left out of
    * `verses` and `selection`, so the page still shows the rest. The Arabic text is never optional.

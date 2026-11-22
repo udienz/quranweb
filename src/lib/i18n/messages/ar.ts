@@ -178,6 +178,8 @@ export const ar: Messages = {
     hidePanel: "إخفاء قائمة السور والإعدادات",
     showPanel: "إظهار قائمة السور والإعدادات",
     playJuz: "تشغيل جزء",
+    playSurah: "تشغيل السورة",
+    pauseSurah: "إيقاف السورة مؤقتًا",
     juzPlaceholder: "الجزء…",
     juzOption: "الجزء {juz} ({surah}:{verse})",
     playingJuz: "يُشغَّل الجزء {juz}",

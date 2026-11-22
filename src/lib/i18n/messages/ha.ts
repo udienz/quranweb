@@ -177,6 +177,8 @@ export const ha: Messages = {
     hidePanel: "Ɓoye jerin surori da saituna",
     showPanel: "Nuna jerin surori da saituna",
     playJuz: "Kunna izu",
+    playSurah: "Kunna sura",
+    pauseSurah: "Dakatar da sura",
     juzPlaceholder: "Izu…",
     juzOption: "Izu {juz} ({surah}:{verse})",
     playingJuz: "Ana kunna izu {juz}",

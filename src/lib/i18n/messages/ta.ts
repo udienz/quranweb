@@ -177,6 +177,8 @@ export const ta: Messages = {
     hidePanel: "சூராப் பட்டியலையும் அமைப்புகளையும் மறை",
     showPanel: "சூராப் பட்டியலையும் அமைப்புகளையும் காட்டு",
     playJuz: "ஒரு ஜுஸ்உ இயக்கு",
+    playSurah: "சூராவை இயக்கு",
+    pauseSurah: "சூராவை இடைநிறுத்து",
     juzPlaceholder: "ஜுஸ்உ…",
     juzOption: "ஜுஸ்உ {juz} ({surah}:{verse})",
     playingJuz: "ஜுஸ்உ {juz} இயங்குகிறது",

@@ -178,6 +178,8 @@ export const ja: Messages = {
     hidePanel: "スーラ一覧と設定を隠す",
     showPanel: "スーラ一覧と設定を表示",
     playJuz: "ジュズを再生",
+    playSurah: "スーラを再生",
+    pauseSurah: "スーラを一時停止",
     juzPlaceholder: "ジュズ…",
     juzOption: "第 {juz} ジュズ（{surah}:{verse}）",
     playingJuz: "第 {juz} ジュズを再生中",

@@ -177,6 +177,8 @@ export const sw: Messages = {
     hidePanel: "Ficha orodha ya sura na mipangilio",
     showPanel: "Onyesha orodha ya sura na mipangilio",
     playJuz: "Cheza juzuu",
+    playSurah: "Cheza sura",
+    pauseSurah: "Simamisha sura",
     juzPlaceholder: "Juzuu…",
     juzOption: "Juzuu {juz} ({surah}:{verse})",
     playingJuz: "Inacheza juzuu {juz}",

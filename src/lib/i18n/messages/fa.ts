@@ -178,6 +178,8 @@ export const fa: Messages = {
     hidePanel: "پنهان کردن فهرست سوره‌ها و تنظیمات",
     showPanel: "نمایش فهرست سوره‌ها و تنظیمات",
     playJuz: "پخش یک جزء",
+    playSurah: "پخش سوره",
+    pauseSurah: "توقف سوره",
     juzPlaceholder: "جزء…",
     juzOption: "جزء {juz} ({surah}:{verse})",
     playingJuz: "در حال پخش جزء {juz}",

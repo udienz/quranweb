@@ -177,6 +177,8 @@ export const pt: Messages = {
     hidePanel: "Ocultar a lista de suratas e as configurações",
     showPanel: "Mostrar a lista de suratas e as configurações",
     playJuz: "Tocar um juz",
+    playSurah: "Reproduzir a sura",
+    pauseSurah: "Pausar a sura",
     juzPlaceholder: "Juz…",
     juzOption: "Juz {juz} ({surah}:{verse})",
     playingJuz: "Tocando o juz {juz}",
