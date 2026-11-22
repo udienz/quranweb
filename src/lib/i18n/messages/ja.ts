@@ -154,6 +154,7 @@ export const ja: Messages = {
     searchPlaceholder: "名前または番号で検索…",
     searchLabel: "スーラを検索",
     noResults: "スーラが見つかりません。",
+    daily: { title: "今日のスーラ", read: "スーラを読む" },
   },
   continueReading: {
     label: "続きを読む",

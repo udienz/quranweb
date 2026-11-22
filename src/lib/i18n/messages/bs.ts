@@ -154,6 +154,7 @@ export const bs: Messages = {
     searchPlaceholder: "Traži po nazivu ili broju…",
     searchLabel: "Traži sure",
     noResults: "Nije pronađena nijedna sura.",
+    daily: { title: "Sura dana", read: "Pročitaj suru" },
   },
   continueReading: {
     label: "Nastavi čitanje",

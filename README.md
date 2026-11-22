@@ -26,6 +26,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Read the tafsir** of a verse in the Tafsir tab (Kemenag, Quraish Shihab, Jalalayn or Al-Mukhtasar;
   Al-Mukhtasar also in Arabic, English, Turkish, Bengali, French, Russian, Persian, Bosnian, Chinese, Thai, Uzbek, Tamil,
   Malayalam, Italian, Hindi, Japanese and Vietnamese). ([how](#read-the-tafsir))
+- **See a surah of the day** on the home page: its name, its meaning and its first verses, with a link to read it. It changes at
+  midnight in Indonesia and goes through all 114 surahs.
 - **Pick up where you stopped** with "continue reading", and mark how far you have read. ([how](#continue-reading-and-mark-your-progress))
 - **Bookmark verses**, add your own notes, and group them into collections. ([how](#bookmarks-notes-and-collections))
 - **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))

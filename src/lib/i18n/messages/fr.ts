@@ -153,6 +153,7 @@ export const fr: Messages = {
     searchPlaceholder: "Rechercher par nom ou numéro…",
     searchLabel: "Rechercher une sourate",
     noResults: "Aucune sourate trouvée.",
+    daily: { title: "Sourate du jour", read: "Lire la sourate" },
   },
   continueReading: {
     label: "Reprendre la lecture",

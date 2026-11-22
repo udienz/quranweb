@@ -154,6 +154,7 @@ export const fa: Messages = {
     searchPlaceholder: "جست‌وجو با نام یا شماره…",
     searchLabel: "جست‌وجوی سوره",
     noResults: "سوره‌ای پیدا نشد.",
+    daily: { title: "سورهٔ امروز", read: "خواندن سوره" },
   },
   continueReading: {
     label: "ادامهٔ خواندن",

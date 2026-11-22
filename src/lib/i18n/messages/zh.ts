@@ -154,6 +154,7 @@ export const zh: Messages = {
     searchPlaceholder: "按名称或编号搜索…",
     searchLabel: "搜索章节",
     noResults: "未找到章节。",
+    daily: { title: "今日章节", read: "阅读本章" },
   },
   continueReading: {
     label: "继续阅读",

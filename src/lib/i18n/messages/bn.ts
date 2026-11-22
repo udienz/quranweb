@@ -153,6 +153,7 @@ export const bn: Messages = {
     searchPlaceholder: "নাম বা নম্বর দিয়ে খুঁজুন…",
     searchLabel: "সূরা খুঁজুন",
     noResults: "কোনো সূরা পাওয়া যায়নি।",
+    daily: { title: "আজকের সূরা", read: "সূরাটি পড়ুন" },
   },
   continueReading: {
     label: "পড়া চালিয়ে যান",

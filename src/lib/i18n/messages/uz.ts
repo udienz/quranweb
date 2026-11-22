@@ -154,6 +154,7 @@ export const uz: Messages = {
     searchPlaceholder: "Nоми ёки рақами бўйича қидириш…",
     searchLabel: "Сураларни қидириш",
     noResults: "Сура топилмади.",
+    daily: { title: "Кунлик сура", read: "Сурани ўқиш" },
   },
   continueReading: {
     label: "Ўқишни давом эттириш",
