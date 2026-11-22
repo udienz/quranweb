@@ -1,10 +1,12 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/client";
-import { goalStreak, localDay, TOTAL_VERSES, versesReadInTotal, versesReadOn, type UserData } from "@/lib/userdata/schema";
+import { goalStreak, localDay, pagesForVerses, TOTAL_VERSES, versesReadInTotal, versesReadOn, type UserData } from "@/lib/userdata/schema";
 import { userDataActions } from "@/lib/userdata/store";
 
 const PRESETS = [5, 10, 20, 50, 100];
+/** 20 pages is a juz a day. */
+const PAGE_PRESETS = [1, 2, 5, 10, 20];
 
 function Bar({ value, max, label }: { value: number; max: number; label: string }) {
   const percent = max > 0 ? Math.min(100, (value / max) * 100) : 0;
@@ -19,8 +21,14 @@ function Bar({ value, max, label }: { value: number; max: number; label: string 
 export default function DailyGoal({ data }: { data: UserData }) {
   const { t, tn, locale } = useI18n();
   const goal = data.goal?.versesPerDay ?? 0;
+  const pages = data.goal?.pages ?? 0;
+  const selected = goal === 0 ? "off" : pages > 0 ? `p${pages}` : `v${goal}`;
   const today = localDay(new Date());
   const done = versesReadOn(data, today);
+  const todayText =
+    pages > 0
+      ? t("myReading.goal.todayPages", { done: Math.min(pagesForVerses(done), 9999).toLocaleString(locale === "id" ? "id-ID" : "en-US"), goal: pages })
+      : t("myReading.goal.today", { done, goal });
   const streak = goalStreak(data, today);
   const total = versesReadInTotal(data);
   const remaining = TOTAL_VERSES - total;
@@ -30,20 +38,32 @@ export default function DailyGoal({ data }: { data: UserData }) {
     <div className="space-y-4 px-5 py-4 text-sm">
       <div className="flex flex-wrap items-center gap-3">
         <label htmlFor="daily-goal" className="font-medium">
-          {t("myReading.goal.label")}
+          {t("myReading.goal.title")}
         </label>
         <select
           id="daily-goal"
-          value={goal}
-          onChange={(e) => userDataActions.setDailyGoal(Number(e.target.value))}
+          value={selected}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === "off") userDataActions.setDailyGoal(0);
+            else if (v.startsWith("p")) userDataActions.setDailyGoalInPages(Number(v.slice(1)));
+            else userDataActions.setDailyGoal(Number(v.slice(1)));
+          }}
           className="rounded-full border border-border bg-background px-3 py-1"
         >
-          <option value={0}>{t("myReading.goal.off")}</option>
-          {[...new Set([...PRESETS, ...(goal > 0 ? [goal] : [])])]
+          <option value="off">{t("myReading.goal.off")}</option>
+          {[...new Set([...PRESETS, ...(goal > 0 && pages === 0 ? [goal] : [])])]
             .sort((a, b) => a - b)
             .map((n) => (
-              <option key={n} value={n}>
+              <option key={`v${n}`} value={`v${n}`}>
                 {tn("myReading.goal.perDay", n)}
+              </option>
+            ))}
+          {[...new Set([...PAGE_PRESETS, ...(pages > 0 ? [pages] : [])])]
+            .sort((a, b) => a - b)
+            .map((n) => (
+              <option key={`p${n}`} value={`p${n}`}>
+                {tn("myReading.goal.perDayPages", n)}
               </option>
             ))}
         </select>
@@ -54,12 +74,12 @@ export default function DailyGoal({ data }: { data: UserData }) {
       ) : (
         <div className="space-y-2">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <span className="font-medium">{t("myReading.goal.today", { done, goal })}</span>
+            <span className="font-medium">{todayText}</span>
             {done >= goal ? (
               <span className="font-medium text-primary">{t("myReading.goal.reached")}</span>
             ) : null}
           </div>
-          <Bar value={done} max={goal} label={t("myReading.goal.today", { done, goal })} />
+          <Bar value={done} max={goal} label={todayText} />
           {streak > 0 && <p className="text-muted-foreground">{tn("myReading.goal.streak", streak)}</p>}
         </div>
       )}

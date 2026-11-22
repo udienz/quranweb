@@ -29,6 +29,13 @@ const MAX_COLLECTION_NAME = 40;
 const COLLECTION_ID = /^[a-z0-9]{8,32}$/;
 export const TOTAL_VERSES = 6236;
 export const MAX_DAILY_GOAL = 1000;
+/** The pages of the printed mushaf, and the most pages a day a goal can ask for. */
+export const MUSHAF_PAGES = 604;
+export const MAX_DAILY_PAGES = 100;
+/** Verses that make up the given pages on average (6,236 verses over 604 pages is about 10.3 a page). */
+export const versesForPages = (pages: number): number => Math.ceil((pages * TOTAL_VERSES) / MUSHAF_PAGES);
+/** The pages that the given verses come to on average, to one decimal. */
+export const pagesForVerses = (verses: number): number => Math.round(((verses * MUSHAF_PAGES) / TOTAL_VERSES) * 10) / 10;
 const ACTIVITY_DAYS = 120; // days of daily counts kept (enough for streaks and a monthly view)
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const DEVICE_ID = /^[a-z0-9]{8,32}$/;
@@ -89,6 +96,8 @@ export interface Choices {
 /** The daily reading goal in verses (0 = off), with the time it was set; the newest setting wins. */
 export interface Goal {
   versesPerDay: number;
+  /** Set when the goal was chosen in pages of the mushaf; `versesPerDay` then holds the equivalent in verses. */
+  pages?: number;
   at: string;
 }
 
@@ -320,6 +329,12 @@ export function removeCollection(data: UserData, id: string, at: string): UserDa
 export function setDailyGoal(data: UserData, versesPerDay: number, at: string): UserData {
   if (!isInt(versesPerDay, 0, MAX_DAILY_GOAL)) throw new Error(`The goal must be 0 to ${MAX_DAILY_GOAL} verses`);
   return { ...data, goal: { versesPerDay, at } };
+}
+
+/** Set the daily goal in pages of the mushaf (20 pages is a juz). It is kept as the equivalent number of verses too. */
+export function setDailyGoalInPages(data: UserData, pages: number, at: string): UserData {
+  if (!isInt(pages, 1, MAX_DAILY_PAGES)) throw new Error(`The goal must be 1 to ${MAX_DAILY_PAGES} pages`);
+  return { ...data, goal: { versesPerDay: versesForPages(pages), pages, at } };
 }
 
 /** Count verses this device marked as read on a day (only ever adds). */
@@ -635,7 +650,8 @@ export function parseUserData(raw: unknown): UserData {
   if (r.goal != null) {
     const g = r.goal as Record<string, unknown>;
     if (!isInt(g.versesPerDay, 0, MAX_DAILY_GOAL) || !isDate(g.at)) throw invalid("Invalid daily goal");
-    goal = { versesPerDay: g.versesPerDay, at: g.at };
+    if (g.pages != null && !isInt(g.pages, 1, MAX_DAILY_PAGES)) throw invalid("Invalid daily goal");
+    goal = { versesPerDay: g.versesPerDay, ...(g.pages != null ? { pages: g.pages } : {}), at: g.at };
   }
   const activity: Activity = {};
   const rawActivity = (r.activity ?? {}) as Record<string, unknown>;

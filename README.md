@@ -36,7 +36,7 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
   midnight in Indonesia and goes through all 114 surahs.
 - **Pick up where you stopped** with "continue reading", and mark how far you have read. ([how](#continue-reading-and-mark-your-progress))
 - **Bookmark verses**, add your own notes, and group them into collections. ([how](#bookmarks-notes-and-collections))
-- **Set a daily goal** (verses a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))
+- **Set a daily goal** (in verses or pages a day), keep a streak going, and see your progress towards a khatam. ([how](#set-a-daily-goal))
 - **Use it in your language**: the interface is in 25 languages (the list is under [Languages](#languages)); Urdu, Arabic
   and Persian read right to left. Apart from Indonesian and English they are community translations, not yet checked by a
   second speaker (Turkish was translated by a reader, the other twenty-two are first drafts by Claude, an AI). The menu
@@ -188,7 +188,7 @@ pages of 10 verses, which stay the default. The choice follows your account when
 
 ![Daily goal on My reading: 10 verses a day, 7 of 10 today, 5 days in a row, and the progress towards a khatam](docs/screenshots/en/how-daily-goal.png)
 
-1. On My reading, under Daily goal, choose how many verses a day.
+1. On My reading, under Daily goal, choose how many verses a day, or how many pages of the mushaf (20 pages a day is a juz a day).
 2. Only verses you mark as read count (see above); reading without marking does not.
 3. The page shows today's count, how many days in a row you reached the goal, and how far you are towards a khatam.
 
