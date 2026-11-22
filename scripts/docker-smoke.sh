@@ -31,10 +31,16 @@ for i in $(seq 1 30); do
 done
 
 fail=0
-for path in /privacy /manifest.webmanifest /favicon.ico /icon.svg /icons/icon-192.png /icons/icon-maskable-512.png /og.png /robots.txt; do
+for path in /privacy /favicon.ico /icon.svg /icons/icon-192.png /icons/icon-maskable-512.png /og.png /robots.txt; do
   code="$(status "$path")"
   if [ "$code" = "200" ]; then echo "ok   $path"; else echo "FAIL $path -> $code"; fail=1; fi
 done
+
+# Only production can be installed: the manifest answers 404 here (a local address) and 200 when the request carries the production Host.
+code="$(status /manifest.webmanifest)"
+if [ "$code" = "404" ]; then echo "ok   /manifest.webmanifest -> 404 off production"; else echo "FAIL /manifest.webmanifest -> $code (want 404 off production)"; fail=1; fi
+code="$(curl -s -o /dev/null -w '%{http_code}' -H 'x-forwarded-host: quranweb.udienz.web.id' -H 'x-forwarded-proto: https' "http://127.0.0.1:$PORT/manifest.webmanifest" || true)"
+if [ "$code" = "200" ]; then echo "ok   /manifest.webmanifest -> 200 as production"; else echo "FAIL /manifest.webmanifest -> $code (want 200 as production)"; fail=1; fi
 
 user="$(docker exec "$NAME" id -u)"
 if [ "$user" = "1001" ]; then echo "ok   runs as uid 1001"; else echo "FAIL runs as uid $user, expected 1001"; fail=1; fi
