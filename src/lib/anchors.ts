@@ -32,6 +32,12 @@ export function verseFromHash(hash: string): number | null {
 /** One page of the printed Madinah mushaf, `/mushaf/50`. A page can hold the end of one surah and the start of the next. */
 export const mushafHref = (page: number) => `/mushaf/${page}`;
 
+/** The surah and verse a link to a verse points to (`/surah/2/page/26#verse-255` is 2:255), or null when it is not one. */
+export function verseOfLink(href: string): { surah: number; verse: number } | null {
+  const match = /^\/surah\/(\d{1,3})(?:\/page\/\d+|\?page=\d+)?#(?:verse|ayat)-(\d+)$/.exec(href);
+  return match ? { surah: Number(match[1]), verse: Number(match[2]) } : null;
+}
+
 /** The element id of a verse on a mushaf page: the number of the verse alone is not enough, a page can hold several surahs. */
 export const mushafVerseId = (surah: number, verse: number) => `verse-${surah}-${verse}`;
 

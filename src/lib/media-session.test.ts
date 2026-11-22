@@ -9,4 +9,8 @@ describe("mediaMetadata", () => {
       album: "QuranWeb",
     });
   });
+
+  it("shows only the name for a whole surah, which has no verse", () => {
+    expect(mediaMetadata({ surahName: "Al-Baqarah", surah: 2, verse: null, reciter: "Misyari Rasyid Al-Afasi", site: "QuranWeb" }).title).toBe("Al-Baqarah");
+  });
 });

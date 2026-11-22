@@ -12,6 +12,7 @@ import { mushafPageOf } from "@/lib/quran/mushaf-pages";
 import { MUSHAF_PAGES, VERSE_COUNTS } from "@/lib/surah-number";
 import { useVersePlayer } from "@/lib/useVersePlayer";
 import { useWholeSurah } from "@/lib/useWholeSurah";
+import { takePendingVerse } from "@/lib/pending-verse";
 import MushafPageNav from "./MushafPageNav";
 import MushafView from "./MushafView";
 import PlaybackModeSelect from "./PlaybackModeSelect";
@@ -79,6 +80,9 @@ export default function MushafPageReader({
     urls: Object.fromEntries(segments.filter((s) => s.surahAudio).map((s) => [s.meta.number, s.surahAudio as string[]])),
     hrefFor: (surah) => pageAddress(surah, 1),
     beforeStart: () => player.stop(),
+    surahName: (surah) => names.get(surah) ?? String(surah),
+    reciter: qari,
+    site: t("meta.title"),
   });
   // The button of a surah plays its recording as one file; a reciter with no such file has the surah played verse by verse from
   // where it starts on this page, or paused where it is.
@@ -121,6 +125,24 @@ export default function MushafPageReader({
     const segment = segments.find((s) => s.verses.some((v) => v.number === verse));
     if (segment) document.getElementById(mushafVerseId(segment.meta.number, verse))?.scrollIntoView({ block: "center" });
     // Only on arrival: the page's own verses decide, not later changes of the segments.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  // A link to a verse that was followed from inside the site: the server has sent it to the mushaf page of the first verse of that page
+  // of 10, and the move dropped the `#verse` part. Put the verse back and show it; when it is on the next page, go there.
+  useEffect(() => {
+    const target = takePendingVerse();
+    if (!target || location.hash) return;
+    const id = mushafVerseId(target.surah, target.verse);
+    const element = document.getElementById(id);
+    if (element) {
+      history.replaceState(null, "", `#${id}`);
+      element.scrollIntoView({ block: "start" });
+      return;
+    }
+    const there = mushafPageOf(pages, target);
+    if (there !== undefined && there !== page) router.replace(`${mushafHref(there)}#${id}`);
+    // Only on arrival of a page.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 

@@ -17,6 +17,7 @@ import { directionOf } from "@/lib/i18n/config";
 import { MESSAGES } from "@/lib/i18n/messages";
 import { signInEnabled } from "@/lib/auth";
 import { displayScript } from "@/lib/display";
+import KeepVerseInView from "@/components/KeepVerseInView";
 import { getI18n } from "@/lib/i18n/server";
 import { shareMetadata } from "@/lib/site";
 import { siteOrigin } from "@/lib/site-origin";
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col">
         <I18nProvider locale={locale} messages={MESSAGES[locale]}>
+          <KeepVerseInView />
           <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
             {/* On phones the navigation takes a second row, so the controls never push the header wider than the screen. */}
             <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-2 gap-y-2 px-4 py-2 sm:h-16 sm:flex-nowrap sm:py-0">

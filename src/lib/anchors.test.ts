@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeHash, pageHref, verseFromHash, verseFromId, verseHref, verseId } from "./anchors";
+import { verseOfLink, normalizeHash, pageHref, verseFromHash, verseFromId, verseHref, verseId } from "./anchors";
 
 describe("verse anchors", () => {
   it("builds IDs and links", () => {
@@ -34,5 +34,18 @@ describe("verse anchors", () => {
     expect(normalizeHash("#verse-12")).toBe("#verse-12");
     expect(normalizeHash("#ayat-x")).toBe("#ayat-x");
     expect(normalizeHash("")).toBe("");
+  });
+});
+
+describe("verseOfLink", () => {
+  it("names the verse a link to a verse points to", () => {
+    expect(verseOfLink("/surah/2/page/26#verse-255")).toEqual({ surah: 2, verse: 255 });
+    expect(verseOfLink("/surah/114#verse-3")).toEqual({ surah: 114, verse: 3 });
+    expect(verseOfLink("/surah/2?page=3#ayat-25")).toEqual({ surah: 2, verse: 25 });
+  });
+  it("is null for anything else", () => {
+    for (const href of ["/surah/2", "/surah/2/page/3", "/mushaf/42#verse-2-1", "/surah/2/255", "https://x.test/surah/2#verse-1", ""]) {
+      expect(verseOfLink(href), href).toBeNull();
+    }
   });
 });

@@ -177,3 +177,18 @@ test("the mushaf pages are in the sitemap and robots names it", async ({ request
   expect(urls).toHaveLength(604);
   expect(urls.every((u) => /\/mushaf\/\d+$/.test(u))).toBe(true);
 });
+
+test("a link to a verse, followed inside the site with the mushaf pages chosen, lands on the verse", async ({ page, context, baseURL }) => {
+  await context.addCookies([{ name: "qw-paging", value: "mushaf", url: baseURL! }]);
+  await page.goto("/surah/2/255", { waitUntil: "networkidle" });
+  await page.getByRole("link", { name: "Baca di surat" }).click();
+  await expect(page).toHaveURL(new RegExp(`/mushaf/${pageOf(2, 255)}#verse-2-255$`));
+  await expect.poll(() => page.evaluate(() => document.getElementById("verse-2-255")?.getBoundingClientRect().top ?? -1)).toBeLessThan(400);
+});
+
+test("a box beside the surah list opens a page of the mushaf", async ({ page }) => {
+  await page.goto("/surah/2", { waitUntil: "networkidle" });
+  await page.getByRole("spinbutton", { name: /halaman/i }).first().fill("42");
+  await page.getByRole("button", { name: "Buka" }).first().click();
+  await expect(page).toHaveURL(/\/mushaf\/42$/);
+});

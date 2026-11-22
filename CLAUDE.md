@@ -370,8 +370,8 @@ on the page). The AlQuran.cloud CDN has `audio-surah/` files only for Alafasy at
 nothing is added from there. **No verse is followed or highlighted**, since there are no verse timings. What follows the end is the reader's
 playback mode: stop, repeat the file, or the next surah (`setPendingSurah`/`takePendingSurah` in `audio.ts` carry it to the page that has the next
 surah, as `setPendingStart` does for verses). Starting a surah stops the verse player first (`useVersePlayer().stop`), and a verse that starts
-afterwards clears the surah's mark (the hook watches the element's `play` event and compares `src`). No lock screen entry and no data-saver
-order for whole surahs yet. The ~150 reciters with whole surahs only (`ROADMAP.md`, "Reciters with whole-surah recordings only") are still not offered: that is a
+afterwards clears the surah's mark (the hook watches the element's `play` event and compares `src`). **The lock screen** shows the surah's name and the reciter with play and pause (no previous or next, `NowPlaying.verse` is null). No data-saver
+order for whole surahs: EQuran.id has one size only. The ~150 reciters with whole surahs only (`ROADMAP.md`, "Reciters with whole-surah recordings only") are still not offered: that is a
 choice of the owner (a separate group in the list, and a fresh check of which editions have all 114 files).
 
 ### Installable app (no offline yet)
@@ -404,10 +404,10 @@ recorded as `choices.paging` in the user data and merged, validated and synced e
 `SettingsPanel`, so on `/settings` and beside a surah). **Not to be confused with the layout** (mushaf block or verse cards). With `mushaf`, the surah
 page redirects before it loads the surah: `/surah/N` to the page that has N:1, and an old `/surah/N?page=K` to the page that has the first
 verse of that page of 10 (`mushafPageOf` on the checked table; without the table the surah shows as usual). Every existing link that
-leads to a surah (the lists, "continue reading", bookmarks, "Read in the surah" on a verse page) therefore works with no change; the cost is
-that such a link lands on the page, not on the verse (a client-side navigation loses the hash; a hard load keeps `#verse-255` and
-`MushafPageReader` scrolls to that verse of the page's surah that has it). The mushaf page records "last read" with its surah (`verse-S-V` ids)
-and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** mushaf pages in the surah sidebar. **Step 6 is in: the daily goal in pages** (`Goal.pages`, `setDailyGoalInPages`, one select in `DailyGoal` with verse and page choices; 1 to 100 pages). A page goal is stored as the equivalent verses too (`versesPerDay = ceil(pages * 6236 / 604)`, about 10.3 a page), so streaks, merge and older clients work unchanged; today's count is shown as pages by the same average, so it is approximate. **Step 4 is in: turning pages**
+leads to a surah (the lists, "continue reading", bookmarks, "Read in the surah" on a verse page) therefore works with no change; a client-side navigation loses the `#verse-255` part, and the page of 10 verses may start on an earlier mushaf page than its verse, so
+`KeepVerseInView` (in the root layout) remembers the verse of the link that was clicked (`lib/pending-verse.ts`, `verseOfLink`) and the mushaf page that arrives
+(`MushafPageReader`) shows it, or moves on to the page that has it with `router.replace`; a hard load keeps the hash and the reader scrolls to the verse. The mushaf page records "last read" with its surah (`verse-S-V` ids)
+and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **A box in the side panel** (`GoToMushafPage`, under the surah list) opens any page from 1 to 604. **Step 6 is in: the daily goal in pages** (`Goal.pages`, `setDailyGoalInPages`, one select in `DailyGoal` with verse and page choices; 1 to 100 pages). A page goal is stored as the equivalent verses too (`versesPerDay = ceil(pages * 6236 / 604)`, about 10.3 a page), so streaks, merge and older clients work unchanged; today's count is shown as pages by the same average, so it is approximate. **Step 4 is in: turning pages**
 (`MushafPageNav`, above and below the page): previous and next page (`pagination.previous`/`next`), the page number as "42 / 604"
 (`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
 swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
@@ -489,7 +489,7 @@ verses (the Arabic text and the reader's first translation; tafsir and translite
 `lib/daily.ts`: the day number in Asia/Jakarta (UTC+7, so it changes at midnight in Indonesia) times 53, modulo 114, plus 1. 53 and
 114 share no factor, so each surah comes once in 114 days, in an order that is not the mushaf order. The home page builds the view
 in `dailyView`, which returns null when the text cannot be read (a source read live was down): the card is then left out and the
-rest of the page works. The strings are `home.daily.*`. The owner asked for a surah, not a verse; a curated verse of the day
+rest of the page works. The strings are `home.daily.*`. When the card cannot be built the error is logged at most once an hour (`errorOncePerHour`, `lib/log-limited.ts`), so the browser tests, whose data has a few surahs, do not flood the log. The owner asked for a surah, not a verse; a curated verse of the day
 stays an open question in `ROADMAP.md`.
 
 ### A page for each verse, and sharing (roadmap phase 6, step 3; 2026-11-22)
