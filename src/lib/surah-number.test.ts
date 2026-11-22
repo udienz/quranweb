@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { mushafPageFromSegment, surahFromSegment, verseFromSegment, VERSE_COUNTS } from "./surah-number";
+import { mushafPageFromSegment, surahFromSegment, surahPageFromSegment, verseFromSegment, VERSE_COUNTS } from "./surah-number";
 
 describe("surahFromSegment", () => {
   it("accepts the 114 surahs, also with leading zeros", () => {
@@ -42,5 +42,19 @@ describe("VERSE_COUNTS and verseFromSegment", () => {
     expect(verseFromSegment(2, "287")).toBeNull();
     expect(verseFromSegment(114, "6")).toBe(6);
     expect(verseFromSegment(114, "7")).toBeNull();
+  });
+});
+
+describe("surahPageFromSegment", () => {
+  it("accepts the pages of 10 verses a surah has", () => {
+    expect(surahPageFromSegment(2, "1")).toBe(1);
+    expect(surahPageFromSegment(2, "29")).toBe(29);
+    expect(surahPageFromSegment(1, "1")).toBe(1);
+    expect(surahPageFromSegment(114, "1")).toBe(1);
+  });
+  it("refuses a page past the end and anything that is not a number", () => {
+    for (const [surah, page] of [[2, "30"], [1, "2"], [114, "2"], [2, "0"], [2, "abc"], [2, "1e1"], [2, "-1"], [2, ""]] as const) {
+      expect(surahPageFromSegment(surah, page), `${surah}/${page}`).toBeNull();
+    }
   });
 });

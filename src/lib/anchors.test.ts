@@ -5,14 +5,14 @@ describe("verse anchors", () => {
   it("builds IDs and links", () => {
     expect(verseId(12)).toBe("verse-12");
     expect(pageHref(2, 1)).toBe("/surah/2");
-    expect(pageHref(2, 3)).toBe("/surah/2?page=3");
+    expect(pageHref(2, 3)).toBe("/surah/2/page/3");
   });
 
   it("a verse link carries the page that contains the verse", () => {
     expect(verseHref(2, 5)).toBe("/surah/2#verse-5");
     expect(verseHref(2, 10)).toBe("/surah/2#verse-10");
-    expect(verseHref(2, 11)).toBe("/surah/2?page=2#verse-11");
-    expect(verseHref(2, 255)).toBe("/surah/2?page=26#verse-255");
+    expect(verseHref(2, 11)).toBe("/surah/2/page/2#verse-11");
+    expect(verseHref(2, 255)).toBe("/surah/2/page/26#verse-255");
   });
 
   it("reads the verse from a location hash, also a legacy one", () => {

@@ -6,8 +6,8 @@ import { pageOf } from "./pagination";
 
 export const verseId = (verse: number) => `verse-${verse}`;
 
-/** The URL of one page of a surah; the first page has no query. */
-export const pageHref = (surah: number, page: number) => `/surah/${surah}${page > 1 ? `?page=${page}` : ""}`;
+/** The URL of one page of 10 verses of a surah, `/surah/2/page/3`; the first page is the surah itself. */
+export const pageHref = (surah: number, page: number) => `/surah/${surah}${page > 1 ? `/page/${page}` : ""}`;
 
 /** The URL of a verse: the page that contains it, then the anchor. */
 export const verseHref = (surah: number, verse: number) => `${pageHref(surah, pageOf(verse))}#${verseId(verse)}`;

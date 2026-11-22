@@ -37,7 +37,7 @@ test("crosses from one 10-verse page to the next", async ({ page }) => {
   await page.goto("/surah/2");
   await playButton(page, 9).click();
   await expect.poll(() => plays(page)).toEqual(expect.arrayContaining(["2:9", "2:10", "2:11"]));
-  await expect(page).toHaveURL(/page=2/);
+  await expect(page).toHaveURL(/\/page\/2/);
 });
 
 test("data saver plays the smallest file first; standard plays EQuran.id", async ({ page, context }) => {
@@ -103,7 +103,7 @@ test("the lock screen shows the verse and its buttons work", async ({ page, cont
   await expect.poll(() => playing(page)).toBe("verse-10");
   await press("nexttrack");
   await expect.poll(title).toBe("Al-Baqarah 2:11");
-  await expect(page).toHaveURL(/page=2/);
+  await expect(page).toHaveURL(/\/page\/2/);
   await press("previoustrack");
   await expect.poll(title).toBe("Al-Baqarah 2:10");
 });

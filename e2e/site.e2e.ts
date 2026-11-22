@@ -8,6 +8,19 @@ test("a surah address that is not one of the 114 answers 404", async ({ request 
   for (const bad of ["0", "115", "abc", "2.5", "1e2"]) expect((await request.get(`/surah/${bad}`)).status(), bad).toBe(404);
 });
 
+test("a page of 10 verses has a clean address, and the old ?page= link and a wrong page are handled", async ({ page, request }) => {
+  expect((await request.get("/surah/2/page/3")).status()).toBe(200);
+  for (const bad of ["/surah/2/page/30", "/surah/2/page/0", "/surah/2/page/abc", "/surah/1/page/2", "/surah/2/page", "/surah/2/page/3/x"]) {
+    expect((await request.get(bad)).status(), bad).toBe(404);
+  }
+  await page.goto("/surah/2?page=3");
+  await expect(page).toHaveURL(/\/surah\/2\/page\/3$/);
+  await page.goto("/surah/2/page/1");
+  await expect(page).toHaveURL(/\/surah\/2$/);
+  // The pagination links use the clean address.
+  await expect(page.getByRole("link", { name: /^(Halaman 2|Page 2)$/ }).first()).toHaveAttribute("href", "/surah/2/page/2");
+});
+
 test("the app can be installed: manifest in the reader's language and its icons", async ({ request }) => {
   const manifest = await (await request.get("/manifest.webmanifest", { headers: { "accept-language": "en-US" } })).json();
   expect(manifest).toMatchObject({ display: "standalone", start_url: "/", lang: "en" });
@@ -27,7 +40,7 @@ test("search engines: robots keep a copy that is not production out, the sitemap
   expect(urls.some((u) => u.includes("?"))).toBe(false);
 
   // What a crawler or a link preview reads: no cookie, Indonesian by default.
-  const html = await (await request.get("/surah/2?page=3")).text();
+  const html = await (await request.get("/surah/2/page/3")).text();
   const meta = (name: string) => html.match(new RegExp(`<meta (?:property|name)="${name}" content="([^"]*)"`))?.[1];
   expect(html).toContain('<link rel="canonical" href="http://127.0.0.1:3100/surah/2"');
   expect(meta("og:title")).toBe("Al-Baqarah (Sapi) | QuranWeb");
@@ -88,7 +101,7 @@ test("a typed reference opens the verse: on the home page and in the side panel"
   await box.fill("baqarah 255");
   await expect(page.getByRole("link", { name: "Buka Al-Baqarah 2:255" })).toBeVisible();
   await box.press("Enter");
-  await expect(page).toHaveURL(/\/surah\/2\?page=26#verse-255$/);
+  await expect(page).toHaveURL(/\/surah\/2\/page\/26#verse-255$/);
 
   // The side panel of a surah has the same box.
   await page.goto("/surah/1");

@@ -34,3 +34,10 @@ export function verseFromSegment(surah: number, segment: string): number | null 
   const n = Number(segment);
   return n >= 1 && n <= (VERSE_COUNTS[surah - 1] ?? 0) ? n : null;
 }
+
+/** The page number in a `/surah/<number>/page/<page>` address (pages of 10 verses), or null when the surah has no such page. */
+export function surahPageFromSegment(surah: number, segment: string): number | null {
+  if (!/^\d{1,4}$/.test(segment)) return null;
+  const n = Number(segment);
+  return n >= 1 && n <= Math.max(1, Math.ceil((VERSE_COUNTS[surah - 1] ?? 0) / 10)) ? n : null;
+}
