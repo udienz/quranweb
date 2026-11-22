@@ -201,6 +201,8 @@ export const de: Messages = {
     selected: "Vers {n}",
     close: "Schließen",
     page: "Mushaf-Seite {page}",
+    goToPage: "Zur Seite",
+    go: "Los",
   },
   verse: {
     play: "Audio abspielen",

@@ -202,6 +202,8 @@ export const uz: Messages = {
     selected: "{n}-оят",
     close: "Ёпиш",
     page: "Мусҳаф {page}-саҳифа",
+    goToPage: "Саҳифага ўтиш",
+    go: "Ўтиш",
   },
   verse: {
     play: "Аудиони ижро этиш",

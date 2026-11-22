@@ -202,6 +202,8 @@ export const ar: Messages = {
     selected: "الآية {n}",
     close: "إغلاق",
     page: "صفحة المصحف {page}",
+    goToPage: "اذهب إلى الصفحة",
+    go: "اذهب",
   },
   verse: {
     play: "تشغيل الصوت",

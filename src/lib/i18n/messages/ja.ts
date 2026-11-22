@@ -202,6 +202,8 @@ export const ja: Messages = {
     selected: "第 {n} 節",
     close: "閉じる",
     page: "ムスハフ {page} ページ",
+    goToPage: "ページへ移動",
+    go: "移動",
   },
   verse: {
     play: "音声を再生",

@@ -202,6 +202,8 @@ export const bs: Messages = {
     selected: "Ajet {n}",
     close: "Zatvori",
     page: "Stranica mushafa {page}",
+    goToPage: "Idi na stranicu",
+    go: "Idi",
   },
   verse: {
     play: "Pusti audio",

@@ -202,6 +202,8 @@ export const th: Messages = {
     selected: "อายะฮ์ที่ {n}",
     close: "ปิด",
     page: "หน้า {page} ของมุศหัฟ",
+    goToPage: "ไปที่หน้า",
+    go: "ไป",
   },
   verse: {
     play: "เล่นเสียง",

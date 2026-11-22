@@ -202,6 +202,8 @@ export const vi: Messages = {
     selected: "Câu {n}",
     close: "Đóng",
     page: "Trang {page} của mushaf",
+    goToPage: "Đến trang",
+    go: "Đi",
   },
   verse: {
     play: "Phát âm thanh",

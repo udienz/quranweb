@@ -201,6 +201,8 @@ export const ha: Messages = {
     selected: "Aya ta {n}",
     close: "Rufe",
     page: "Shafin mushafi {page}",
+    goToPage: "Je shafi",
+    go: "Je",
   },
   verse: {
     play: "Kunna sauti",

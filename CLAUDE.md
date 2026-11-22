@@ -385,9 +385,13 @@ fawazahmed0 has it (`pages.references`, page, first and last verse), the provide
 (`checkRanges` in `quran/ranges.ts`: the right count, numbered in order, starting at 1:1, every range right after the
 previous one, every verse real, ending at the end of surah 114). A page can span surahs (page 604 holds 112 to 114).
 `mushafPageOf` finds the page of a verse (binary search, `rangeOf`). Nothing in the interface uses them yet. Step 2 is in: the audio is
-a hook that does not depend on the 10-verse page (see "Playback"); the surah reader behaves as before. **Step 3 is in: the route
-`/mushaf/N`** (`app/mushaf/[page]/page.tsx`, `MushafPageReader`), **not yet linked from anywhere and not in the sitemap** (navigation is step 4,
-the setting step 5). `mushafPageFromSegment` and `proxy.ts` answer 404 before rendering for anything but 1 to 604 (and for `/mushaf/1/2`).
+a hook that does not depend on the 10-verse page (see "Playback"); the surah reader behaves as before. **Step 4 is in: turning pages**
+(`MushafPageNav`, above and below the page): previous and next page (`pagination.previous`/`next`), the page number as "42 / 604"
+(`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
+swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
+interface, the other way round in a right-to-left one, as in a book of that language. Keys are ignored in a field and with a modifier; a swipe
+needs 80 px, clearly more sideways than vertical, and is ignored while text is selected. The page number is also printed under the page ("— 42 —"). **Step 3 is in: the route
+`/mushaf/N`** (`app/mushaf/[page]/page.tsx`, `MushafPageReader`), **not yet linked from anywhere and not in the sitemap** (the setting is step 5). `mushafPageFromSegment` and `proxy.ts` answer 404 before rendering for anything but 1 to 604 (and for `/mushaf/1/2`).
 The page reads the page's range from `getMushafPages()` and builds one `getSurahView` per surah of it (from one to three; page 604 has
 112, 113 and 114), with the reader's editions and no tafsir, and shows each surah's part with `MushafView`: a surah that starts on the
 page has its name, meaning and the Bismillah, one that goes on from the page before only its name. **Verse ids on this page carry the surah**

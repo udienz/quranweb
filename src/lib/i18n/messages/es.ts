@@ -201,6 +201,8 @@ export const es: Messages = {
     selected: "Aleya {n}",
     close: "Cerrar",
     page: "Página {page} del mushaf",
+    goToPage: "Ir a la página",
+    go: "Ir",
   },
   verse: {
     play: "Reproducir audio",

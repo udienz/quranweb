@@ -202,6 +202,8 @@ export const fa: Messages = {
     selected: "آیهٔ {n}",
     close: "بستن",
     page: "صفحهٔ {page} مصحف",
+    goToPage: "رفتن به صفحه",
+    go: "برو",
   },
   verse: {
     play: "پخش صوت",

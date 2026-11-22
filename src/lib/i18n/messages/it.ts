@@ -201,6 +201,8 @@ export const it: Messages = {
     selected: "Versetto {n}",
     close: "Chiudi",
     page: "Pagina {page} del mushaf",
+    goToPage: "Vai alla pagina",
+    go: "Vai",
   },
   verse: {
     play: "Ascolta l'audio",

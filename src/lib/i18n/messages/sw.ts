@@ -201,6 +201,8 @@ export const sw: Messages = {
     selected: "Aya {n}",
     close: "Funga",
     page: "Ukurasa wa msahafu {page}",
+    goToPage: "Nenda ukurasa",
+    go: "Nenda",
   },
   verse: {
     play: "Cheza sauti",
