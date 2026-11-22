@@ -177,6 +177,8 @@ export const ms: Messages = {
     hidePanel: "Sembunyikan senarai surah dan tetapan",
     showPanel: "Tunjukkan senarai surah dan tetapan",
     playJuz: "Mainkan satu juzuk",
+    playSurah: "Mainkan surah",
+    pauseSurah: "Jeda surah",
     juzPlaceholder: "Juzuk…",
     juzOption: "Juzuk {juz} ({surah}:{verse})",
     playingJuz: "Memainkan juzuk {juz}",

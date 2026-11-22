@@ -26,6 +26,21 @@ export const setPendingStart = (start: PendingStart | null): void => {
   pending = start;
 };
 
+/** The surah whose recording playback is heading for once its page has arrived (the next surah, after a whole surah has ended). */
+let pendingSurah: number | null = null;
+
+export const setPendingSurah = (surah: number | null): void => {
+  pendingSurah = surah;
+};
+
+/** Take the pending surah if this page can play it (it is one of `available`); otherwise it stays for the page it is heading for. */
+export function takePendingSurah(available: readonly number[]): number | null {
+  if (pendingSurah === null || !available.includes(pendingSurah)) return null;
+  const surah = pendingSurah;
+  pendingSurah = null;
+  return surah;
+}
+
 /**
  * Take the pending start if its verse is on the page that has arrived (verses `from` to `to` of this surah): the verse is
  * returned and the start cleared. Otherwise null, and the start stays for the page it is heading for. The verse is not

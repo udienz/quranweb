@@ -64,8 +64,8 @@ own format.
     are whole surahs only, so 19 reciters are listed (`ISLAMIC_NETWORK_RECITERS`, each checked file by file at the chosen
     bitrates; Minshawi's murattal is left out, it misses one verse). Two of them (Alafasy and Sudais) have the EQuran.id
     ids, so the service merges them and the CDN becomes their fallback URL. The API itself is limited to 12 requests a
-    second, so the app never calls it: the list is in the code. Whole-surah recordings would need a playback mode of their
-    own (not built).
+    second, so the app never calls it: the list is in the code. Its whole-surah files (`audio-surah/`) exist for Alafasy at 128 kbps only
+    among these 19 (checked 2026-11-22); the other ~150 reciters with whole surahs only are not in the list (see "Whole surah as one recording").
   - **The reciter list** (`ReciterPicker`, in the side panel and the Audio section) puts the best known first in a fixed
     order (`BEST_KNOWN_RECITERS` in `reciter-order.ts`), then the others by name, with a search box over the Latin and
     Arabic names (`matchesReciter`: no diacritics, any alif, hyphens and spaces optional). A reciter's name is the same in
@@ -360,6 +360,20 @@ language with its default translation and tafsir (section "Languages"): update t
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
 
+### Whole surah as one recording (2026-11-22)
+
+A "Play the surah" button (`PlaySurahButton`) in the surah header and in each surah's part of a mushaf page plays the surah as **one file**
+(`useWholeSurah`, on the same shared `<audio>` element). Only the six EQuran.id reciters have one for now: `AudioProvider.surahUrls` gives
+`cdn.equran.id/audio-full/<folder>/NNN.mp3` (checked: all six answer for surahs 1 and 114), the service puts it in `SurahView.surahAudio`, and the
+button shows only when it is there (on a mushaf page a reciter without it has the button play the surah verse by verse from where it starts
+on the page). The AlQuran.cloud CDN has `audio-surah/` files only for Alafasy at 128 kbps among our 19 reciters (the other editions answer 403), so
+nothing is added from there. **No verse is followed or highlighted**, since there are no verse timings. What follows the end is the reader's
+playback mode: stop, repeat the file, or the next surah (`setPendingSurah`/`takePendingSurah` in `audio.ts` carry it to the page that has the next
+surah, as `setPendingStart` does for verses). Starting a surah stops the verse player first (`useVersePlayer().stop`), and a verse that starts
+afterwards clears the surah's mark (the hook watches the element's `play` event and compares `src`). No lock screen entry and no data-saver
+order for whole surahs yet. The ~150 reciters with whole surahs only (`ROADMAP.md`, "Reciters with whole-surah recordings only") are still not offered: that is a
+choice of the owner (a separate group in the list, and a fresh check of which editions have all 114 files).
+
 ### Installable app (no offline yet)
 
 - **`src/app/manifest.ts`** (served as `/manifest.webmanifest`): name, description and `lang` in the reader's language (per
@@ -398,7 +412,7 @@ and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** mush
 (`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
 swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
 interface, the other way round in a right-to-left one, as in a book of that language. Keys are ignored in a field and with a modifier; a swipe
-needs 80 px, clearly more sideways than vertical, and is ignored while text is selected. The page number is also printed under the page ("— 42 —"). **The header has a play button** (`verse.play`/`verse.pause`): it starts at the page's first verse with no verse chosen first and pauses the verse that plays; the player then goes on over the surahs and pages that follow as usual. A whole-surah recording (one file) is a different thing and is not built (`ROADMAP.md`, "Reciters with whole-surah recordings only"). **Step 3 is in: the route
+needs 80 px, clearly more sideways than vertical, and is ignored while text is selected. The page number is also printed under the page ("— 42 —"). **Each surah on the page has a "Play the surah" button** (`PlaySurahButton`): it plays the whole recording as one file (see "Whole surah as one recording"); for a reciter with no such file it plays the surah verse by verse from where it starts on the page. **Step 3 is in: the route
 `/mushaf/N`** (`app/mushaf/[page]/page.tsx`, `MushafPageReader`), **reached through the setting of step 5**. `mushafPageFromSegment` and `proxy.ts` answer 404 before rendering for anything but 1 to 604 (and for `/mushaf/1/2`).
 The page reads the page's range from `getMushafPages()` and builds one `getSurahView` per surah of it (from one to three; page 604 has
 112, 113 and 114), with the reader's editions and no tafsir, and shows each surah's part with `MushafView`: a surah that starts on the

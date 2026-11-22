@@ -129,7 +129,7 @@ terbuka di halaman mushaf cetak yang memuat ayat pertamanya, dan tautan lama ke 
 memuat ayat pertama halaman itu. Satu halaman bisa memuat akhir satu surat dan awal surat berikutnya (halaman terakhir memuat
 tiga surat). Balik halaman dengan **Halaman sebelumnya** dan **Halaman berikutnya**, ketik angka 1 sampai 604 di kotak, tekan
 panah kanan atau kiri (terbalik pada bahasa dari kanan ke kiri), atau geser ke samping. Nomor halaman tampil di atas dan di
-bawah halaman. **Putar audio** di bagian atas halaman mulai dari ayat pertamanya dan berlanjut ke ayat dan halaman berikutnya, tanpa perlu memilih ayat dulu. Pilih **10 ayat** untuk kembali ke halaman berisi 10 ayat, yang tetap menjadi bawaan. Pilihan ini ikut akun bila
+bawah halaman. **Putar surat** di bawah nama surat memutar seluruh rekaman surat itu, tanpa perlu memilih ayat dulu (untuk qari yang punya rekamannya). Pilih **10 ayat** untuk kembali ke halaman berisi 10 ayat, yang tetap menjadi bawaan. Pilihan ini ikut akun bila
 Anda masuk.
 
 ### Mendengarkan murottal

@@ -178,6 +178,8 @@ export const ru: Messages = {
     hidePanel: "Скрыть список сур и настройки",
     showPanel: "Показать список сур и настройки",
     playJuz: "Слушать джуз",
+    playSurah: "Включить суру",
+    pauseSurah: "Поставить суру на паузу",
     juzPlaceholder: "Джуз…",
     juzOption: "Джуз {juz} ({surah}:{verse})",
     playingJuz: "Звучит джуз {juz}",

@@ -177,6 +177,8 @@ export const bn: Messages = {
     hidePanel: "সূরার তালিকা ও সেটিংস লুকান",
     showPanel: "সূরার তালিকা ও সেটিংস দেখান",
     playJuz: "একটি পারা শুনুন",
+    playSurah: "সূরা চালান",
+    pauseSurah: "সূরা বিরতি দিন",
     juzPlaceholder: "পারা…",
     juzOption: "পারা {juz} ({surah}:{verse})",
     playingJuz: "পারা {juz} বাজছে",

@@ -177,6 +177,8 @@ export const ur: Messages = {
     hidePanel: "سورتوں کی فہرست اور ترتیبات چھپائیں",
     showPanel: "سورتوں کی فہرست اور ترتیبات دکھائیں",
     playJuz: "ایک پارہ سنیں",
+    playSurah: "سورت چلائیں",
+    pauseSurah: "سورت روکیں",
     juzPlaceholder: "پارہ…",
     juzOption: "پارہ {juz} ({surah}:{verse})",
     playingJuz: "پارہ {juz} چل رہا ہے",

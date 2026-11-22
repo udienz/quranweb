@@ -178,6 +178,8 @@ export const th: Messages = {
     hidePanel: "ซ่อนรายชื่อซูเราะฮ์และการตั้งค่า",
     showPanel: "แสดงรายชื่อซูเราะฮ์และการตั้งค่า",
     playJuz: "เล่นหนึ่งญุซอ์",
+    playSurah: "เล่นซูเราะฮ์",
+    pauseSurah: "หยุดซูเราะฮ์ชั่วคราว",
     juzPlaceholder: "ญุซอ์…",
     juzOption: "ญุซอ์ที่ {juz} ({surah}:{verse})",
     playingJuz: "กำลังเล่นญุซอ์ที่ {juz}",

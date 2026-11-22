@@ -118,6 +118,13 @@ describe("EQuran audio provider", () => {
     expect(p.urls("abdurrahman-as-sudais", 114, 6)[0]).toMatch(/Abdurrahman-as-Sudais\/114006\.mp3$/);
   });
 
+  it("builds the URL of a whole surah, and has none for an unknown reciter", () => {
+    const p = createEquranAudioProvider({ audioBaseUrl: "https://audio.test/" });
+    expect(p.surahUrls?.("misyari-rasyid-al-afasi", 2)).toEqual(["https://audio.test/audio-full/Misyari-Rasyid-Al-Afasi/002.mp3"]);
+    expect(p.surahUrls?.("yasser-al-dosari", 114)).toEqual(["https://audio.test/audio-full/Yasser-Al-Dosari/114.mp3"]);
+    expect(p.surahUrls?.("missing", 1)).toEqual([]);
+  });
+
   it("uses the default CDN and rejects an unknown reciter", () => {
     const p = createEquranAudioProvider();
     expect(p.urls("yasser-al-dosari", 1, 1)[0]).toBe("https://cdn.equran.id/audio-partial/Yasser-Al-Dosari/001001.mp3");

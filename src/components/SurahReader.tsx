@@ -13,10 +13,12 @@ import { getJuzScope, subscribeJuzScope } from "@/lib/audio";
 import { getRangeLoop, subscribeRangeLoop } from "@/lib/memorize";
 import { VERSE_COUNTS } from "@/lib/surah-number";
 import { useVersePlayer } from "@/lib/useVersePlayer";
+import { useWholeSurah } from "@/lib/useWholeSurah";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
 import MemorizePanel from "./MemorizePanel";
 import PlaybackModeSelect from "./PlaybackModeSelect";
+import PlaySurahButton from "./PlaySurahButton";
 import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
 import type { Layout } from "@/lib/layout";
@@ -107,6 +109,12 @@ export default function SurahReader({
     site: t("meta.title"),
   });
   const { togglePlay, playJuz, startRange, stopRange } = player;
+  // The whole surah from one recording, for a reciter that has one.
+  const whole = useWholeSurah({
+    urls: view.surahAudio ? { [meta.number]: view.surahAudio } : {},
+    hrefFor: (surah) => `/surah/${surah}`,
+    beforeStart: () => player.stop(),
+  });
   const playingN = player.playing?.surah === meta.number ? player.playing.verse : null;
 
   function jump(n: number) {
@@ -193,6 +201,7 @@ export default function SurahReader({
                 </select>
               </label>
             )}
+            {view.surahAudio && <PlaySurahButton onDark playing={whole.current === meta.number} onToggle={() => whole.toggle(meta.number)} />}
             <PlaybackModeSelect onDark />
             <button
               type="button"

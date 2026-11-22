@@ -11,9 +11,11 @@ import { meaningOf } from "@/lib/quran/labels";
 import { mushafPageOf } from "@/lib/quran/mushaf-pages";
 import { MUSHAF_PAGES, VERSE_COUNTS } from "@/lib/surah-number";
 import { useVersePlayer } from "@/lib/useVersePlayer";
+import { useWholeSurah } from "@/lib/useWholeSurah";
 import MushafPageNav from "./MushafPageNav";
 import MushafView from "./MushafView";
 import PlaybackModeSelect from "./PlaybackModeSelect";
+import PlaySurahButton from "./PlaySurahButton";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
@@ -21,6 +23,8 @@ const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَ
 export interface MushafPageSegment {
   meta: SurahMeta;
   verses: VerseView[];
+  /** The recording of the whole surah as one file, when the reciter has one. */
+  surahAudio?: string[];
 }
 
 /**
@@ -70,9 +74,21 @@ export default function MushafPageReader({
     site: t("meta.title"),
   });
 
-  // The play button of the header starts at the first verse of the page and goes on, over the surahs and pages that follow; while
-  // something plays it pauses that verse.
-  const playingIndex = player.playing ? all.findIndex((v) => v.surah === player.playing?.surah && v.verse === player.playing?.verse) : -1;
+  // The recordings of whole surahs, for the surahs of this page whose reciter has one.
+  const whole = useWholeSurah({
+    urls: Object.fromEntries(segments.filter((s) => s.surahAudio).map((s) => [s.meta.number, s.surahAudio as string[]])),
+    hrefFor: (surah) => pageAddress(surah, 1),
+    beforeStart: () => player.stop(),
+  });
+  // The button of a surah plays its recording as one file; a reciter with no such file has the surah played verse by verse from
+  // where it starts on this page, or paused where it is.
+  const surahButton = (seg: MushafPageSegment) => {
+    const n = seg.meta.number;
+    if (seg.surahAudio) return <PlaySurahButton playing={whole.current === n} onToggle={() => whole.toggle(n)} />;
+    const first = all.findIndex((v) => v.surah === n);
+    const now = player.playing?.surah === n ? all.findIndex((v) => v.surah === n && v.verse === player.playing?.verse) : -1;
+    return <PlaySurahButton playing={now >= 0} onToggle={() => player.togglePlay(now >= 0 ? now : first)} />;
+  };
 
   // Record the verse near the top third of the screen as the "last read" position, as the surah reader does. The ids carry the
   // surah (`verse-112-1`), because a page can hold several. Debounced so that fast scrolling does not write to storage constantly.
@@ -161,20 +177,7 @@ export default function MushafPageReader({
             <h1 className="font-display text-xl font-bold">{t("mushaf.page", { page })}</h1>
             <p className="mt-1 text-sm text-white/75">{segments.map((s) => s.meta.name.latin).join(" · ")}</p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => player.togglePlay(playingIndex >= 0 ? playingIndex : 0)}
-              aria-pressed={playingIndex >= 0}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-3 py-2 text-sm text-gold hover:bg-white/10"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                {playingIndex >= 0 ? <path d="M8 5v14M16 5v14" /> : <path d="M7 4.5v15l12-7.5z" />}
-              </svg>
-              {playingIndex >= 0 ? t("verse.pause") : t("verse.play")}
-            </button>
-            <PlaybackModeSelect onDark />
-          </div>
+          <PlaybackModeSelect onDark />
         </div>
       </header>
 
@@ -202,6 +205,7 @@ export default function MushafPageReader({
                   <p className="text-xs text-muted-foreground">
                     {meaningOf(seg.meta, locale)} · {tn("common.verses", seg.meta.verseCount)} · {t(`revelation.${seg.meta.revelation}`)}
                   </p>
+                  <div className="mt-3 flex justify-center">{surahButton(seg)}</div>
                   {seg.meta.number !== 1 && seg.meta.number !== 9 && (
                     <p dir="rtl" lang="ar" translate="no" className="font-arabic mt-4 text-[length:calc(2rem*var(--arabic-scale,1))] text-primary">
                       {BISMILLAH}
@@ -209,7 +213,10 @@ export default function MushafPageReader({
                   )}
                 </div>
               ) : (
-                <p className="border-b border-border px-5 py-2 text-xs font-medium text-muted-foreground">{seg.meta.name.latin}</p>
+                <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-2">
+                  <p className="text-xs font-medium text-muted-foreground">{seg.meta.name.latin}</p>
+                  {surahButton(seg)}
+                </div>
               )}
               <MushafView
                 verses={seg.verses}

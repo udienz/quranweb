@@ -177,6 +177,8 @@ export const hi: Messages = {
     hidePanel: "सूरह की सूची और सेटिंग्स छिपाएँ",
     showPanel: "सूरह की सूची और सेटिंग्स दिखाएँ",
     playJuz: "एक पारा चलाएँ",
+    playSurah: "सूरह चलाएँ",
+    pauseSurah: "सूरह रोकें",
     juzPlaceholder: "पारा…",
     juzOption: "पारा {juz} ({surah}:{verse})",
     playingJuz: "पारा {juz} चल रहा है",

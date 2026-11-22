@@ -202,6 +202,12 @@ export function createQuranService(config: QuranConfig) {
     return saver.every((url, i) => url === audio[i]) ? { audio } : { audio, audioSaver: saver };
   }
 
+  /** The recording of a whole surah as one file, from the providers that have one for this reciter. */
+  function surahAudioUrls(qari: string, surah: number): string[] {
+    const providers = qaris.get(qari)?.providers ?? [];
+    return [...new Set(providers.flatMap((p) => p.surahUrls?.(qari, surah) ?? []))];
+  }
+
   // Whether data-saver mode changes anything for a reciter: true when its smallest file is not the one played by default.
   for (const [id, entry] of qaris) {
     const { audioSaver } = audioUrls(id, 1, 1);
@@ -277,6 +283,7 @@ export function createQuranService(config: QuranConfig) {
       ...audioUrls(selection.qari, number, i + 1),
     }));
 
+    const surahAudio = surahAudioUrls(selection.qari, number);
     return {
       meta,
       selection,
@@ -284,6 +291,7 @@ export function createQuranService(config: QuranConfig) {
       editions: ids.map((id) => editions.get(id)!.edition),
       qari: qaris.get(selection.qari)!.qari,
       verses,
+      ...(surahAudio.length > 0 ? { surahAudio } : {}),
       unavailable: [...failed].map((id) => editions.get(id)!.edition),
     };
   }

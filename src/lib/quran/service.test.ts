@@ -300,6 +300,12 @@ describe("audio", () => {
     expect(svc.getCatalog().qaris[0].dataSaver).toBe(true);
   });
 
+  it("gives the recording of the whole surah when a provider has one, and none otherwise", async () => {
+    const whole: AudioProvider = { ...audioProvider("a1", "https://a1"), surahUrls: (_q, surah) => [`https://a1/full/${surah}.mp3`] };
+    expect((await createQuranService(config({ audioProviders: [whole] })).getSurahView(1)).surahAudio).toEqual(["https://a1/full/1.mp3"]);
+    expect((await createQuranService(config({ audioProviders: [audioProvider("a1", "https://a1")] })).getSurahView(1)).surahAudio).toBeUndefined();
+  });
+
   it("gives no data-saver order, and no data-saver mark, when the usual file is already the smallest", async () => {
     for (const providers of [[audioProvider("a1", "https://a1")], [sized("https://cdn", [64, 128])], [sized("https://cdn", [64])]]) {
       const svc = createQuranService(config({ audioProviders: providers }));

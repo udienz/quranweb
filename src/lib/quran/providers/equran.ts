@@ -302,5 +302,9 @@ export function createEquranAudioProvider(options: EquranOptions = {}): AudioPro
       if (!found) throw new Error(`The equran-audio provider does not serve reciter "${qari}"`);
       return [`${base}/audio-partial/${found.folder}/${pad(surah)}${pad(verse)}.mp3`];
     },
+    surahUrls(qari, surah) {
+      const found = QARIS.find((q) => q.id === qari);
+      return found ? [`${base}/audio-full/${found.folder}/${pad(surah)}.mp3`] : [];
+    },
   };
 }

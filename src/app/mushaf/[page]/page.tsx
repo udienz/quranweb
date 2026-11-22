@@ -64,7 +64,7 @@ export default async function MushafPage({ params }: { params: Params }) {
   const light = quran.resolveSelection({ ...selection, tafsir: null }, locale);
 
   const views = await Promise.all(parts(ref).map((p) => quran.getSurahView(p.surah, light, locale, { from: p.from, to: p.to })));
-  const segments: MushafPageSegment[] = views.map((v) => ({ meta: v.meta, verses: v.verses }));
+  const segments: MushafPageSegment[] = views.map((v) => ({ meta: v.meta, verses: v.verses, surahAudio: v.surahAudio }));
   const editions = new Map<string, Edition>();
   for (const v of views) for (const e of v.editions) editions.set(e.id, e);
   const unavailable = [...new Map(views.flatMap((v) => v.unavailable).map((e) => [e.id, localized(e.name, locale)])).values()];
