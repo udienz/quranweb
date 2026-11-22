@@ -21,12 +21,14 @@ export const MARK_END = "\u0002";
 /** The most verses one table gives for one search; a search that matches more than this is too general to be of use. */
 const MAX_CANDIDATES = 3000;
 
-/** The kinds of text that are searched: the Arabic, the transliteration and the translations in the mirror. */
-export type SearchSource = "ar" | "translit" | "id" | "en" | "tr" | "ms" | "bn" | "ru";
+/** The kinds of text that are searched: the Arabic, the transliteration, and the translations in the mirror and in the private QuranEnc copy. */
+export type SearchSource = "ar" | "translit" | "id" | "en" | "tr" | "ms" | "bn" | "ru" | "fr" | "ur" | "fa";
 
 /** The FTS5 table of each source. A fixed list: a table name is never taken from a request. */
-const TABLE: Record<SearchSource, string> = { ar: "ar", translit: "translit", id: "t_id", en: "t_en", tr: "t_tr", ms: "t_ms", bn: "t_bn", ru: "t_ru" };
-const OWN_LANGUAGE: readonly string[] = ["tr", "ms", "bn", "ru"];
+const TABLE: Record<SearchSource, string> = {
+  ar: "ar", translit: "translit", id: "t_id", en: "t_en", tr: "t_tr", ms: "t_ms", bn: "t_bn", ru: "t_ru", fr: "t_fr", ur: "t_ur", fa: "t_fa",
+};
+const OWN_LANGUAGE: readonly string[] = ["tr", "ms", "bn", "ru", "fr", "ur", "fa"];
 
 export interface SearchHit {
   surah: number;

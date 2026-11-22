@@ -14,9 +14,10 @@
 // - `translit`, `t_id`, `t_en`, `t_tr`, `t_ms`, `t_bn`, `t_ru` hold the Latin transliteration and the translations as words,
 //   compared without accents.
 //
-// Only the editions in the public mirror are indexed. QuranEnc's editions and everything read live are not (the owner's rule
-// of 2026-11-21: new translations are not downloaded; and QuranEnc's terms allow no copy that changes the text). Tafsir is not
-// indexed.
+// Indexed: the editions in the public mirror, and the translations in our private QuranEnc copy (<dir>/quranenc: French by Rachid
+// Maach, Urdu by Junagarhi and Persian by Rowwad; the owner's answer of 2026-11-22). The text goes in as published, markers of
+// footnotes included, and the index is not served. Not indexed: what is read live from QuranEnc (the owner's rule of 2026-11-21:
+// new translations are not downloaded) and tafsir, Al-Mukhtasar included.
 //
 // The index is written next to the old one and renamed over it, so a running app never reads a half-written file. A surah
 // that is missing from the folder (the e2e fixtures hold only a few) is skipped. Uses node:sqlite (Node.js 24 or later).
@@ -59,6 +60,13 @@ const FAWAZ = [
   { edition: "rus-elmirkuliev", table: "t_ru", column: "text" },
 ];
 
+/** The translations of the private QuranEnc copy that are indexed: <dir>/quranenc/translation/sura/<key>/<surah>.json. */
+const QURANENC = [
+  { key: "french_rashid", table: "t_fr", column: "text" },
+  { key: "urdu_junagarhi", table: "t_ur", column: "text" },
+  { key: "persian_ih", table: "t_fa", column: "text" },
+];
+
 const WORDS = "unicode61 remove_diacritics 2";
 
 async function readJson(path) {
@@ -95,6 +103,9 @@ export async function buildSearchIndex(dir) {
       CREATE VIRTUAL TABLE t_ms USING fts5(text, tokenize = '${WORDS}');
       CREATE VIRTUAL TABLE t_bn USING fts5(text, tokenize = '${WORDS}');
       CREATE VIRTUAL TABLE t_ru USING fts5(text, tokenize = '${WORDS}');
+      CREATE VIRTUAL TABLE t_fr USING fts5(text, tokenize = '${WORDS}');
+      CREATE VIRTUAL TABLE t_ur USING fts5(text, tokenize = '${WORDS}');
+      CREATE VIRTUAL TABLE t_fa USING fts5(text, tokenize = '${WORDS}');
     `);
 
     // One row per verse in every table, so every table can be asked about any verse; a text that is missing stays empty.
@@ -117,6 +128,14 @@ export async function buildSearchIndex(dir) {
           count(edition);
         }
       }
+      for (const { key, table, column } of QURANENC) {
+        const data = await readJson(join(root, "quranenc", "translation", "sura", key, `${surah}.json`));
+        for (const v of data?.result ?? []) {
+          if (Number(v.sura) !== surah) continue;
+          set(table, OFFSETS[surah - 1] + Number(v.aya), column, String(v.translation ?? "").trim());
+          count(key);
+        }
+      }
     }
 
     const columns = {
@@ -128,6 +147,9 @@ export async function buildSearchIndex(dir) {
       t_ms: ["text"],
       t_bn: ["text"],
       t_ru: ["text"],
+      t_fr: ["text"],
+      t_ur: ["text"],
+      t_fa: ["text"],
     };
     db.exec("BEGIN");
     const insertVerse = db.prepare("INSERT INTO verse (ayah, surah, verse) VALUES (?, ?, ?)");

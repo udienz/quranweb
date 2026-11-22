@@ -28,6 +28,14 @@ beforeAll(async () => {
     verse(112, 1, "Say: He is Allah, the One and Only"),
     verse(112, 2, "Allah, the Eternal, Absolute"),
   ] }));
+  // The private QuranEnc copy: a French translation of the first surah, and the same layout as the real one.
+  const french = join(dir, "quranenc", "translation", "sura", "french_rashid");
+  mkdirSync(french, { recursive: true });
+  const enc = (aya: number, translation: string) => ({ sura: "1", aya: String(aya), translation });
+  writeFileSync(join(french, "1.json"), JSON.stringify({ result: [
+    enc(1, "Au nom d'Allah, le Tout Miséricordieux, le Très Miséricordieux."),
+    enc(2, "Louange à Allah, Seigneur de l'univers."),
+  ] }));
   // A computed path: TypeScript has no types for the script, and a script is not part of the app.
   const script = resolve("scripts", "build-search-index.mjs");
   builder = await import(/* @vite-ignore */ script);
@@ -157,6 +165,8 @@ describe("sourcesFor", () => {
     expect(sourcesFor("en", false)).toEqual(["en", "id", "translit"]);
     expect(sourcesFor("ja", false)).toEqual(["en", "id", "translit"]);
     expect(sourcesFor("tr", true)).toEqual(["ar"]);
+    expect(sourcesFor("fr", false)).toEqual(["fr", "id", "en", "translit"]);
+    expect(sourcesFor("ur", false)).toEqual(["ur", "id", "en", "translit"]);
   });
 });
 
@@ -174,5 +184,21 @@ describe("searchIndexPath", () => {
     } finally {
       process.env = before;
     }
+  });
+});
+
+describe("the translations of the private QuranEnc copy", () => {
+  it("are found, shown with the interface language's own text first", () => {
+    const outcome = search({ query: "univers", locale: "fr" }, index);
+    expect(outcome.status).toBe("ok");
+    if (outcome.status !== "ok") return;
+    expect(outcome.hits.map((h) => `${h.surah}:${h.verse}`)).toEqual(["1:2"]);
+    expect(outcome.hits[0].source).toBe("fr");
+    expect(plain(outcome.hits[0].snippet)).toContain("Seigneur de l'univers");
+  });
+
+  it("are not searched in another interface language", () => {
+    const outcome = search({ query: "univers", locale: "en" }, index);
+    expect(outcome.status === "ok" && outcome.total).toBe(0);
   });
 });

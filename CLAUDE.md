@@ -448,11 +448,14 @@ is 29 pages instead of one very long scroll.
 it). The index is a SQLite FTS5 database, `quranweb-search.sqlite`, **built by `scripts/build-search-index.mjs <mirror dir>` and not in
 git**; the app only reads it (`lib/search/search.ts`, `node:sqlite`, read only).
 
-- **What is indexed:** only the editions in the public mirror: the Arabic text of EQuran.id and of fawazahmed0's Uthmani Hafs (table `ar`,
+- **What is indexed:** the editions in the public mirror: the Arabic text of EQuran.id and of fawazahmed0's Uthmani Hafs (table `ar`,
   trigrams of the text without vowel marks, so a word is found with the article or a preposition attached), the transliteration, the
   Indonesian Kemenag text of EQuran.id, Yusuf Ali and Pickthall, and the Turkish, Malay, Bengali and Russian editions (word tables, accents
-  ignored). **Not indexed:** every QuranEnc edition and everything read live, and all tafsir. That follows the owner's rule that new
-  translations are not downloaded (2026-11-21) and QuranEnc's terms; indexing the QuranEnc copy would need the owner's say-so.
+  ignored); and, since the owner's answer of 2026-11-22, the **translations in our private QuranEnc copy**: French (Rachid Maach), Urdu
+  (Junagarhi) and Persian (Rowwad), read by the builder from `<mirror>/quranenc/translation/sura/<key>/<n>.json` (tables `t_fr`, `t_ur`, `t_fa`).
+  The text goes in as published, footnote markers (`[252]`) included, and the index is not served. **Not indexed:** what is read live from
+  QuranEnc (the owner's rule that new translations are not downloaded, 2026-11-21), the QuranEnc Kemenag (the EQuran.id Kemenag is already
+  searched) and all tafsir, Al-Mukhtasar included. Persian and Urdu letters that look alike (ي and ی, ك and ک) are not matched together yet.
 - **Where the index is:** `QURAN_SEARCH_INDEX`, else `<mirror>/quranweb-search.sqlite` (`QURAN_API_URL` is `<mirror>/api/v2`), so on the servers
   `/data/quranweb-search.sqlite`; nginx does not serve it. With the data read from the internet there is no index and the page says
   search is not available. A missing file is looked for again on the next search and a replaced one is reopened (mtime), so a new index
@@ -463,7 +466,7 @@ git**; the app only reads it (`lib/search/search.ts`, `node:sqlite`, read only).
   last may be cut short as it is typed, and a few spellings count as one word (`VARIANTS`: shalat, salat, sholat, solat; zakat, zakah;
   muhammad, muhamad, mohammed). Every word is quoted for FTS5, so AND, NEAR or a symbol is never read as the query language.
 - **Which text a hit shows** (`sourcesFor`): the interface language's own translation first where the index has one (Turkish, Malay,
-  Bengali, Russian), then Indonesian, English and the transliteration; Arabic is searched alone. A verse is listed once, in the order of the
+  Bengali, Russian, French, Urdu, Persian), then Indonesian, English and the transliteration; Arabic is searched alone. A verse is listed once, in the order of the
   Qur'an, 20 to a page; a table gives at most 3,000 verses per search.
 - **A SQLite trap, tested:** `snippet()` with `WHERE t MATCH ? AND rowid = ?` answers with the text of another verse (the equality skips the
   MATCH), so the snippet query uses `rowid BETWEEN ? AND ?`. `search.test.ts` checks every snippet is from its own verse.
