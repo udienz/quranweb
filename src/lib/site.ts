@@ -23,7 +23,7 @@ export function robotsFor(origin: string): MetadataRoute.Robots {
   if (!isIndexed(origin)) return { rules: { userAgent: "*", disallow: "/" } };
   return {
     rules: { userAgent: "*", allow: "/", disallow: [...NOT_FOR_CRAWLERS] },
-    sitemap: [`${origin}/sitemap/0.xml`],
+    sitemap: [`${origin}/sitemap/0.xml`, `${origin}/sitemap/1.xml`],
   };
 }
 

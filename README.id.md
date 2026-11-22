@@ -39,8 +39,9 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
   memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun. ([caranya](#mengganti-bahasa))
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain. ([caranya](#tema-dan-ukuran-huruf))
-- **Menyalin ayat**, atau tautannya. ([caranya](#menyalin-ayat-atau-tautannya)) Tautan ke sebuah surat menampilkan pratinjau berisi namanya,
-  artinya, dan jumlah ayatnya saat ditempel di WhatsApp, Telegram, atau X.
+- **Membagikan ayat**: salin teksnya beserta rujukan dan tautan, salin tautannya saja, buka menu bagikan di ponsel, atau kirim
+  lewat WhatsApp. Tautan ke sebuah ayat, `/surah/2/255`, punya halaman sendiri, dan tautan ke ayat atau surat menampilkan
+  pratinjau berisi rujukan dan teksnya di WhatsApp, Telegram, atau X. ([caranya](#membagikan-ayat))
 - **Memasangnya sebagai aplikasi** di ponsel atau komputer, dengan ikon dan jendela sendiri: "Instal aplikasi" di
   Chrome atau Edge, "Tambahkan ke Layar Utama" di Safari pada iPhone. Tetap butuh koneksi internet. ([caranya](#memasang-sebagai-aplikasi))
 
@@ -199,10 +200,12 @@ bila lebih tinggi dari layar. Ini hanya mengganti menu dan tombol. Terjemahan Al
 2. Untuk tema otomatis, yang mengikuti perangkat Anda, dan untuk ukuran huruf, buka halaman Pengaturan, bagian "Bahasa,
    tema, dan ukuran huruf". Huruf Arab dan huruf Latin punya tombol ukuran masing-masing.
 
-### Menyalin ayat atau tautannya
+### Membagikan ayat
 
-Tekan tombol salin di sebuah ayat untuk menyalin teksnya, atau tombol tautan untuk menyalin tautan langsung ke ayat itu.
-Di tampilan mushaf, ketuk nomor ayat dulu (gambar di bagian "Melanjutkan bacaan dan menandai progres").
+Tekan tombol bagikan di sebuah ayat lalu pilih **Salin ayat** (teks Arab dan terjemahan Anda, rujukan seperti "QS. Al-Baqarah:
+255", dan tautan), **Salin tautan ayat**, **Bagikan…** (menu bagikan ponsel Anda, bila browser punya) atau **WhatsApp**. Di
+tampilan mushaf, ketuk nomor ayat dulu (gambar di bagian "Melanjutkan bacaan dan menandai progres"). Tautannya membuka ayat
+itu di halamannya sendiri, dengan tautan untuk membacanya di dalam surat dan ke ayat sebelum dan sesudahnya.
 
 ### Memasang sebagai aplikasi
 

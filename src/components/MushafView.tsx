@@ -22,12 +22,15 @@ const arabicNumber = (n: number) => String(n).replace(/\d/g, (d) => ARABIC_DIGIT
 export default function MushafView({
   verses,
   surahNumber,
+  surahName,
   playingN,
   onPlay,
   editions,
 }: {
   verses: VerseView[];
   surahNumber: number;
+  /** The Latin name of the surah, for the citation when a verse is shared. */
+  surahName: string;
   playingN: number | null;
   onPlay: (verse: VerseView) => void;
   editions: Record<string, { name: string; language: string; direction: "ltr" | "rtl" }>;
@@ -63,7 +66,7 @@ export default function MushafView({
             </span>
           </span>
           <div className="flex items-center gap-1">
-            <VerseActions verse={current} surahNumber={surahNumber} playing={playingN === current.number} onPlay={() => onPlay(current)} />
+            <VerseActions verse={current} surahNumber={surahNumber} surahName={surahName} playing={playingN === current.number} onPlay={() => onPlay(current)} menuUp />
             <button type="button" onClick={() => setSelected(null)} className="rounded-full px-3 py-1 text-xs text-muted-foreground hover:bg-muted">
               {t("mushaf.close")}
             </button>

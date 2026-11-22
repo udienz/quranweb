@@ -39,8 +39,9 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
   When you are signed in, your choice follows you. ([how](#change-the-language))
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices. ([how](#theme-and-text-size))
-- **Copy a verse**, or a link to it. ([how](#copy-a-verse-or-its-link)) A link to a surah shows a preview with its name, its meaning
-  and its number of verses when you paste it into WhatsApp, Telegram or X.
+- **Share a verse**: copy its text with the reference and a link, copy only the link, open your phone's share sheet or send it by
+  WhatsApp. A link to a verse, `/surah/2/255`, has its own page, and a link to a verse or a surah shows a preview with its
+  reference and its text in WhatsApp, Telegram or X. ([how](#share-a-verse))
 - **Install it as an app** on your phone or computer, with its own icon and window: "Install app" in Chrome or Edge,
   "Add to Home Screen" in Safari on an iPhone. It still needs an internet connection. ([how](#install-it-as-an-app))
 
@@ -194,10 +195,13 @@ taller than the screen. This changes the menus and buttons only. The translation
 2. For the automatic theme, which follows your device, and for the text size, go to the Settings page, section
    "Language, theme and text size". The Arabic and the Latin text each have their own size buttons.
 
-### Copy a verse or its link
+### Share a verse
 
-Press the copy button on a verse for its text, or the link button for a link straight to that verse. In the mushaf
-layout, tap the verse number first (picture under "Continue reading and mark your progress").
+Press the share button on a verse and choose **Copy verse** (the Arabic and your translations, the reference such as
+"Qur'an 2:255 (Al-Baqarah)" and a link), **Copy link to verse**, **Share…** (your phone's own share sheet, where the browser
+has one) or **WhatsApp**. In the mushaf layout, tap the verse number first (picture under "Continue reading and mark your
+progress"). The link opens the verse on a page of its own, with a link to read it in the surah and to the verses before and
+after it.
 
 ### Install it as an app
 

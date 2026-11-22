@@ -28,3 +28,6 @@ export function normalizeHash(hash: string): string {
 export function verseFromHash(hash: string): number | null {
   return verseFromId(normalizeHash(hash).slice(1));
 }
+
+/** The page of one verse, to share: `/surah/2/255`. It has its own preview; "read in the surah" leads on to `verseHref`. */
+export const versePageHref = (surah: number, verse: number) => `/surah/${surah}/${verse}`;
