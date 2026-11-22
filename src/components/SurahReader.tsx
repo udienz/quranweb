@@ -2,18 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { normalizeHash, pageHref, verseFromHash, verseFromId, verseHref, verseId } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import { localized } from "@/lib/i18n/translate";
 import type { JuzRef, SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
-import { getAudio, getJuzScope, setJuzScope, setPendingStart, subscribeJuzScope, takePendingStart } from "@/lib/audio";
-import { audioFor, readAudioQuality } from "@/lib/audio-quality";
-import { clearNowPlaying, showNowPlaying } from "@/lib/media-session";
-import { getRangeLoop, rangeStep, readVerseRepeat, setRangeLoop, subscribeRangeLoop, type RangeLoop } from "@/lib/memorize";
-import { afterJuz, afterSurah, readPlaybackMode } from "@/lib/playback";
+import { getJuzScope, subscribeJuzScope } from "@/lib/audio";
+import { getRangeLoop, subscribeRangeLoop } from "@/lib/memorize";
+import { VERSE_COUNTS } from "@/lib/surah-number";
+import { useVersePlayer } from "@/lib/useVersePlayer";
 import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
 import MemorizePanel from "./MemorizePanel";
@@ -47,25 +46,6 @@ export default function SurahReader({
   const { t, tn, locale } = useI18n();
   const router = useRouter();
   const [mode, setMode] = useState<"reading" | "tafsir">("reading");
-  const [playingN, setPlayingN] = useState<number | null>(null);
-  // Index of the audio URL being tried for the verse that is playing (0 = preferred).
-  const audioIndex = useRef(0);
-  // The URLs being tried for that verse, in the order of the audio quality chosen when it started.
-  const audioUrls = useRef<string[]>([]);
-  // How many more times the verse that is playing is played before moving on (memorization: "play each verse N times").
-  const repeatsLeft = useRef(0);
-  // The verse paused by hand or from the lock screen, so the lock screen's play button can carry on from there.
-  const pausedVerse = useRef<number | null>(null);
-  // Each play() gets a number: when it fails, only the latest one may clear the "playing" mark. Moving on quickly
-  // (N, the lock screen's next button, fast clicks) interrupts the previous play() with an AbortError, which used to
-  // clear the mark of the verse that had just started.
-  const playToken = useRef(0);
-  function play(audio: HTMLAudioElement) {
-    const token = ++playToken.current;
-    audio.play().catch(() => {
-      if (playToken.current === token) setPlayingN(null);
-    });
-  }
   const rangeLoop = useSyncExternalStore(subscribeRangeLoop, getRangeLoop, () => null);
   const [memorizeOpen, setMemorizeOpen] = useState(false);
   const playingJuz = useSyncExternalStore(subscribeJuzScope, getJuzScope, () => null);
@@ -114,258 +94,25 @@ export default function SurahReader({
     }
   }, [meta.number, meta.verseCount, from, to, router]);
 
-  function startVerse(index: number) {
-    const audio = getAudio();
-    const verse = verses[index];
-    if (!verse) return;
-    const urls = audioFor(verse, readAudioQuality());
-    if (!urls[0]) return;
-    audioUrls.current = urls;
-    audioIndex.current = 0;
-    repeatsLeft.current = readVerseRepeat() - 1;
-    audio.src = urls[0];
-    setPlayingN(verse.number);
-    play(audio);
-    document.getElementById(verseId(verse.number))?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  function togglePlay(index: number) {
-    const verse = verses[index];
-    if (!verse) return;
-    if (playingN === verse.number) {
-      getAudio().pause();
-      pausedVerse.current = verse.number;
-      setPlayingN(null);
-    } else {
-      setJuzScope(null); // playing from a verse by hand leaves the juz that was being played
-      // and the range being looped, unless the verse is inside it (pausing and playing again keeps the loop).
-      const loop = getRangeLoop();
-      if (loop && (loop.surah !== meta.number || verse.number < loop.from || verse.number > loop.to)) setRangeLoop(null);
-      startVerse(index);
-    }
-  }
-
-  /** Play from a verse of any surah: here when it is on this page, otherwise on the page that has it. */
-  function goTo(surah: number, verse: number) {
-    if (surah === meta.number && verse >= from && verse <= to) {
-      startVerse(verse - from);
-      return;
-    }
-    setPendingStart({ surah, verse });
-    router.push(verseHref(surah, verse), { scroll: false });
-  }
-
-  /** Play a whole juz: from its first verse, across pages and surahs, to its last. */
-  function playJuz(n: number) {
-    const ref = juzs.find((j) => j.juz === n);
-    if (!ref) return;
-    setRangeLoop(null);
-    setJuzScope(n);
-    goTo(ref.start.surah, ref.start.verse);
-  }
-
-  /** Loop a range of verses of this surah: from its first verse, again after its last, as many rounds as chosen. */
-  function startRange(loop: RangeLoop) {
-    setJuzScope(null);
-    setRangeLoop(loop);
-    goTo(loop.surah, loop.from);
-  }
-
-  function stopRange() {
-    setRangeLoop(null);
-    getAudio().pause();
-    setPlayingN(null);
-  }
-
-  function onEnded() {
-    // The same verse again, as many times as the reader chose for memorizing.
-    if (playingN !== null && repeatsLeft.current > 0) {
-      repeatsLeft.current -= 1;
-      const audio = getAudio();
-      audio.currentTime = 0;
-      play(audio);
-      return;
-    }
-    const idx = verses.findIndex((v) => v.number === playingN);
-    const loop = getRangeLoop();
-    if (idx >= 0 && loop) {
-      const step = rangeStep(loop, meta.number, verses[idx].number);
-      if (step.kind === "stop") {
-        setRangeLoop(null);
-        setPlayingN(null);
-        return;
-      }
-      if (step.kind === "again") {
-        setRangeLoop(step.loop);
-        goTo(loop.surah, loop.from);
-        return;
-      }
-    }
-    const scope = getJuzScope();
-    const juz = scope === null ? undefined : juzs.find((j) => j.juz === scope);
-    if (idx >= 0 && juz && meta.number === juz.end.surah && verses[idx].number === juz.end.verse) {
-      // The last verse of the juz that is being played: what happens is the reader's choice, as at the end of a surah.
-      const after = afterJuz(readPlaybackMode(), juz.juz, juzs.length);
-      const target = after.kind === "start" ? juzs.find((j) => j.juz === after.juz) : undefined;
-      if (!target) {
-        setJuzScope(null);
-        setPlayingN(null);
-      } else {
-        setJuzScope(target.juz);
-        goTo(target.start.surah, target.start.verse);
-      }
-    } else if (idx >= 0 && idx < verses.length - 1) {
-      startVerse(idx + 1);
-    } else if (idx >= 0 && to < meta.verseCount) {
-      // The last verse of the page: continue on the next page. The audio element is shared by
-      // every page, so playback is still allowed when the new verses arrive.
-      setPendingStart({ surah: meta.number, verse: to + 1 });
-      router.push(pageHref(meta.number, pageOf(to + 1)), { scroll: false });
-    } else if (idx >= 0 && juz) {
-      // The end of a surah in the middle of a juz: the juz goes on in the next surah, whatever the playback mode says.
-      goTo(meta.number + 1, 1);
-    } else if (idx >= 0) {
-      // The end of the surah: what happens is the reader's choice.
-      const after = afterSurah(readPlaybackMode(), meta.number);
-      if (after.kind === "stop") {
-        setPlayingN(null);
-      } else if (after.surah === meta.number && from === after.verse) {
-        startVerse(0); // repeating a surah that is a single page
-      } else {
-        setPendingStart(after);
-        router.push(after.surah === meta.number ? pageHref(meta.number, 1) : `/surah/${after.surah}`, { scroll: false });
-      }
-    } else {
-      setPlayingN(null);
-    }
-  }
-
-  // The page the audio was heading for has arrived (the next page, the first page again, the next surah, or where a juz
-  // starts): carry on with the verse it was heading for.
-  useEffect(() => {
-    const start = takePendingStart(meta.number, from, to);
-    // Starting the verse sets the playing verse: that is the point of reacting to the page that has arrived.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (start !== null) startVerse(start - from);
-    // startVerse only reads the audio element and the current verses, which change with the page.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meta.number, from]);
-
-  function onError() {
-    const audio = getAudio();
-    const next = playingN === null ? undefined : audioUrls.current[audioIndex.current + 1];
-    if (next) {
-      audioIndex.current += 1;
-      audio.src = next;
-      play(audio);
-    } else {
-      setPlayingN(null);
-    }
-  }
-
-  // Lock screen and media keys (Media Session): pause, carry on, and the previous or next verse of the surah.
-  function mediaPause() {
-    if (playingN === null) return;
-    pausedVerse.current = playingN;
-    getAudio().pause();
-    setPlayingN(null);
-  }
-  function mediaPlay() {
-    const n = pausedVerse.current;
-    if (n === null || n < from || n > to) return;
-    pausedVerse.current = null;
-    setPlayingN(n);
-    play(getAudio());
-  }
-  function mediaStep(delta: -1 | 1) {
-    const n = playingN ?? pausedVerse.current;
-    if (n === null) return;
-    pausedVerse.current = null;
-    if (n + delta >= 1 && n + delta <= meta.verseCount) goTo(meta.number, n + delta);
-    else if (delta === 1 && meta.number < 114) goTo(meta.number + 1, 1);
-  }
-  const mediaActions = useRef({ mediaPause, mediaPlay, mediaStep });
-  useEffect(() => {
-    mediaActions.current = { mediaPause, mediaPlay, mediaStep };
+  // The audio: which verse plays and what follows it (see useVersePlayer). The verses are this page's, all of this surah.
+  const player = useVersePlayer({
+    verses: verses.map((v) => ({ surah: meta.number, verse: v.number, audio: v.audio, audioSaver: v.audioSaver })),
+    juzs,
+    verseCount: (surah) => VERSE_COUNTS[surah - 1],
+    hrefFor: verseHref,
+    pageHrefFor: (surah, verse) => pageHref(surah, surah === meta.number ? pageOf(verse) : 1),
+    elementId: (v) => verseId(v.verse),
+    surahName: () => meta.name.latin,
+    reciter: view.qari.name,
+    site: t("meta.title"),
   });
-  useEffect(() => {
-    const shown = playingN ?? pausedVerse.current;
-    if (shown === null) return;
-    showNowPlaying(
-      { surahName: meta.name.latin, surah: meta.number, verse: shown, reciter: view.qari.name, site: t("meta.title") },
-      playingN !== null,
-      {
-        play: () => mediaActions.current.mediaPlay(),
-        pause: () => mediaActions.current.mediaPause(),
-        previous: () => mediaActions.current.mediaStep(-1),
-        next: () => mediaActions.current.mediaStep(1),
-      },
-    );
-  }, [playingN, meta.name.latin, meta.number, view.qari.name, t]);
-  useEffect(() => clearNowPlaying, []);
-
-  // Keyboard: Space plays or pauses (with nothing playing or paused, the first verse in view starts), N and P move to the
-  // next and the previous verse. Ignored while typing in a field and with a modifier key, so browser shortcuts still work.
-  function onKey(e: KeyboardEvent) {
-    if (e.altKey || e.ctrlKey || e.metaKey || e.defaultPrevented) return;
-    const target = e.target as HTMLElement | null;
-    if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
-    const key = e.key.toLowerCase();
-    // On a focused button or link, Space already activates it (a play button after a click, for example).
-    if (key === " " && target?.closest("button, a, [role='button']")) return;
-    if (key === " ") {
-      e.preventDefault();
-      if (playingN !== null) mediaPause();
-      else if (pausedVerse.current !== null && pausedVerse.current >= from && pausedVerse.current <= to) mediaPlay();
-      else {
-        const inView = verses.findIndex((v) => {
-          const el = [...document.querySelectorAll<HTMLElement>(`#${verseId(v.number)}`)].find((x) => x.offsetParent !== null);
-          return el ? el.getBoundingClientRect().bottom > 0 : false;
-        });
-        togglePlay(Math.max(0, inView));
-      }
-    } else if (key === "n" || key === "p") {
-      if (playingN === null && pausedVerse.current === null) return;
-      e.preventDefault();
-      mediaStep(key === "n" ? 1 : -1);
-    }
-  }
-  const keyHandler = useRef(onKey);
-  useEffect(() => {
-    keyHandler.current = onKey;
-  });
-  useEffect(() => {
-    const listener = (e: KeyboardEvent) => keyHandler.current(e);
-    window.addEventListener("keydown", listener);
-    return () => window.removeEventListener("keydown", listener);
-  }, []);
+  const { togglePlay, playJuz, startRange, stopRange } = player;
+  const playingN = player.playing?.surah === meta.number ? player.playing.verse : null;
 
   function jump(n: number) {
     if (n >= from && n <= to) document.getElementById(verseId(n))?.scrollIntoView({ behavior: "smooth", block: "start" });
     else router.push(verseHref(meta.number, n));
   }
-
-  // The one audio element reports to whichever page is showing; the handlers are the latest of this render.
-  const handlers = useRef({ onEnded, onError });
-  useEffect(() => {
-    handlers.current = { onEnded, onError };
-  });
-  useEffect(() => {
-    const audio = getAudio();
-    const ended = () => handlers.current.onEnded();
-    const failed = () => handlers.current.onError();
-    audio.addEventListener("ended", ended);
-    audio.addEventListener("error", failed);
-    return () => {
-      audio.removeEventListener("ended", ended);
-      audio.removeEventListener("error", failed);
-      // Leaving the page stops the audio, as when the element belonged to the page. When the page is replaced
-      // on purpose (next surah), the audio has just ended and the next page starts it again. Next keeps a page
-      // that was left (hidden, with its state), so the "playing" mark is cleared too: it would be wrong on return.
-      audio.pause();
-      setPlayingN(null);
-    };
-  }, []);
 
   const tabClass = (active: boolean) =>
     `rounded-full px-5 py-2 text-sm font-semibold transition ${

@@ -41,6 +41,19 @@ export function takePendingStart(surah: number, from: number, to: number): numbe
 }
 
 /**
+ * Take the pending start if its verse is one of the verses a page shows (they may belong to several surahs: a mushaf page can
+ * hold the end of one surah and the start of the next): the index of that verse is returned and the start cleared. Otherwise
+ * null, and the start stays for the page it is heading for.
+ */
+export function takePendingStartAmong(verses: readonly { surah: number; verse: number }[]): number | null {
+  if (!pending) return null;
+  const index = verses.findIndex((v) => v.surah === pending!.surah && v.verse === pending!.verse);
+  if (index < 0) return null;
+  pending = null;
+  return index;
+}
+
+/**
  * Start playing a juz from a page that has no reader (the settings page): remember the juz and the verse to begin with, and
  * return the address of that verse; the reader that opens there starts it, like when it carries on to a next surah.
  */

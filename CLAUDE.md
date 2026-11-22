@@ -295,6 +295,15 @@ language with its default translation and tafsir (section "Languages"): update t
   it does not wrap). `afterSurah` is the pure rule. A selector in the surah header chooses it; it is stored in local storage
   (`quranweb:playback-mode`) and recorded as `choices.playbackMode`, so it follows the account like the theme (applied after a
   sync by `playbackUpdate`, no refresh). A mode that is not one of the three is refused on import and on sync.
+- **The player is a hook, not part of `SurahReader`** (mushaf pages, step 2, 2026-11-22): `useVersePlayer` (`lib/useVersePlayer.ts`) holds
+  everything about playing (the playing verse, the repeats, the lock screen, the keyboard, the audio element's listeners) and knows only
+  the verses a page shows, **each with its own surah** (`PlayerVerse`), plus how to reach a verse on another page (`hrefFor`,
+  `pageHrefFor`), the id of a verse's element and the surah names. A page of 10 verses of one surah uses it today; a page of the mushaf,
+  which can hold the end of one surah and the start of the next, can use it as it is. **What follows a verse that has ended is a pure
+  rule**, `afterVerseEnds` in `playback.ts` (repeat, range loop, end of a juz, next verse, next page, next surah in a juz, the reader's
+  choice), with a table test; the hook only carries out its answer. A pending start is taken with `takePendingStartAmong` (the index
+  among the page's verses, of any surah). The end of the page is `lastOnPage` (the last verse the page shows), not "the end of the 10
+  verses", so a page that ends in the middle of a surah goes on to the verse after it.
 - **One shared `<audio>` element** (`src/lib/audio.ts`), not one per page: moving on to the next surah replaces the page
   component, and on iPhones and in Safari a new element may not start by itself while an element that a tap started may. The
   reader attaches its `ended` and `error` listeners in an effect (to the latest handlers) and pauses the element when it is left.
@@ -322,7 +331,7 @@ language with its default translation and tafsir (section "Languages"): update t
 - **Keyboard** (surah page): Space plays or pauses (with nothing playing or paused, the first verse in view starts), N and P
   go to the next and the previous verse, through the same functions as the lock screen. Ignored in fields and with Alt, Ctrl
   or Meta; Space on a focused button or link is left to the browser. The Audio section of the settings lists the keys.
-- **Every `play()` goes through `play()` in `SurahReader`**, which numbers it: a failure clears the "playing" mark only if it is
+- **Every `play()` goes through `play()` in `useVersePlayer`**, which numbers it: a failure clears the "playing" mark only if it is
   the latest one. Moving on quickly interrupts the previous `play()` with an `AbortError`, which used to clear the mark of the
   verse that had just started (found with the N and P keys, 2026-11-19).
 - **Memorization, step 1** (`src/lib/memorize.ts`, `MemorizePanel` behind the "Memorize" button in the surah header; public
@@ -375,7 +384,8 @@ fawazahmed0 has it (`pages.references`, page, first and last verse), the provide
 `getMushafPages` in the service checks it (`quran/mushaf-pages.ts`) before use. The juz and the pages share one check
 (`checkRanges` in `quran/ranges.ts`: the right count, numbered in order, starting at 1:1, every range right after the
 previous one, every verse real, ending at the end of surah 114). A page can span surahs (page 604 holds 112 to 114).
-`mushafPageOf` finds the page of a verse (binary search, `rangeOf`). Nothing in the interface uses them yet.
+`mushafPageOf` finds the page of a verse (binary search, `rangeOf`). Nothing in the interface uses them yet. Step 2 is in: the audio is
+a hook that does not depend on the 10-verse page (see "Playback"); the surah reader behaves as before.
 
 ### Paging of long surahs
 
@@ -768,7 +778,8 @@ src/
     selection.ts               parse/serialize the selection cookie
     layout.ts                  the layout choice (mushaf or cards, cookie qw-layout)
     display.ts                 theme and text size: steps, storage, the no-flash head script, account updates
-    playback.ts, audio.ts      audio at the end of a surah or a juz (stop, repeat, next); the one shared <audio> element
+    playback.ts, audio.ts      audio at the end of a surah or a juz (stop, repeat, next), `afterVerseEnds`; the one shared <audio> element
+    useVersePlayer.ts          the player hook: the playing verse, what follows it, lock screen, keyboard (used by SurahReader)
     quran/juz.ts               checks the table of the 30 juz that a source gives
     quran/mushaf-pages.ts      checks the table of the 604 mushaf pages; the page of a verse
     quran/ranges.ts            the shared check of a table of verse ranges (juz, pages) and the range of a verse
