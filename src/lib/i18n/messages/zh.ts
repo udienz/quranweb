@@ -157,6 +157,18 @@ export const zh: Messages = {
     goTo: "前往 {reference}",
     daily: { title: "今日章节", read: "阅读本章" },
   },
+  search: {
+    title: "搜索",
+    placeholder: "搜索《古兰经》…",
+    button: "搜索",
+    surah: "章",
+    allSurahs: "全部章节",
+    found: "找到的经文：{count}",
+    none: "未找到经文。",
+    short: "请输入更长的搜索词。",
+    unavailable: "暂时无法搜索。",
+    hint: "搜索阿拉伯语原文和译文，或输入类似 2:255 的出处。",
+  },
   continueReading: {
     label: "继续阅读",
     position: "{surah}，第 {verse} 节",

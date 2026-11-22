@@ -78,6 +78,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 )}
               </nav>
               <div className="flex items-center gap-2">
+                <Link
+                  href="/search"
+                  aria-label={t("search.title")}
+                  title={t("search.title")}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-muted"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                </Link>
                 <LanguageMenu />
                 <ThemeToggle />
                 {accounts && (

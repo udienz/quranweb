@@ -157,6 +157,18 @@ export const vi: Messages = {
     goTo: "Đi đến {reference}",
     daily: { title: "Chương hôm nay", read: "Đọc chương này" },
   },
+  search: {
+    title: "Tìm kiếm",
+    placeholder: "Tìm trong Kinh Qur'an…",
+    button: "Tìm",
+    surah: "Chương",
+    allSurahs: "Tất cả các chương",
+    found: "Số câu tìm thấy: {count}",
+    none: "Không tìm thấy câu nào.",
+    short: "Hãy nhập từ khóa dài hơn.",
+    unavailable: "Hiện chưa thể tìm kiếm.",
+    hint: "Tìm trong văn bản Ả Rập và bản dịch, hoặc nhập tham chiếu như 2:255.",
+  },
   continueReading: {
     label: "Đọc tiếp",
     position: "{surah}, câu {verse}",

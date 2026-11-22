@@ -157,6 +157,18 @@ export const ar: Messages = {
     goTo: "اذهب إلى {reference}",
     daily: { title: "سورة اليوم", read: "اقرأ السورة" },
   },
+  search: {
+    title: "بحث",
+    placeholder: "ابحث في القرآن…",
+    button: "بحث",
+    surah: "السورة",
+    allSurahs: "كل السور",
+    found: "الآيات المعثور عليها: {count}",
+    none: "لم يُعثر على آية.",
+    short: "اكتب كلمة بحث أطول.",
+    unavailable: "البحث غير متاح حاليًا.",
+    hint: "ابحث في النص العربي والترجمات، أو اكتب مرجعًا مثل 2:255.",
+  },
   continueReading: {
     label: "تابع القراءة",
     position: "{surah}، الآية {verse}",

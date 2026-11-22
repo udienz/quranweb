@@ -82,7 +82,7 @@ describe("verseEntries", () => {
 describe("robotsFor", () => {
   it("lets crawlers into production, except the reader's own pages, and names the sitemap", () => {
     const r = robotsFor(PRODUCTION_ORIGIN);
-    expect(r.rules).toEqual({ userAgent: "*", allow: "/", disallow: ["/api/", "/admin", "/my-reading", "/settings"] });
+    expect(r.rules).toEqual({ userAgent: "*", allow: "/", disallow: ["/api/", "/admin", "/my-reading", "/search", "/settings"] });
     expect(r.sitemap).toEqual([`${PRODUCTION_ORIGIN}/sitemap/0.xml`, `${PRODUCTION_ORIGIN}/sitemap/1.xml`]);
   });
 

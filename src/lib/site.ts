@@ -16,7 +16,7 @@ export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: SITE_NA
 export const isIndexed = (origin: string): boolean => origin === PRODUCTION_ORIGIN;
 
 /** The pages with nothing for a search engine: the reader's own data, settings and the API. robots.ts keeps crawlers out. */
-export const NOT_FOR_CRAWLERS = ["/api/", "/admin", "/my-reading", "/settings"] as const;
+export const NOT_FOR_CRAWLERS = ["/api/", "/admin", "/my-reading", "/search", "/settings"] as const;
 
 /** Production: everything may be crawled except the reader's own pages, with the sitemap. Anywhere else: nothing. */
 export function robotsFor(origin: string): MetadataRoute.Robots {

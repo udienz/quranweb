@@ -156,6 +156,18 @@ export const it: Messages = {
     goTo: "Vai a {reference}",
     daily: { title: "Sura del giorno", read: "Leggi la sura" },
   },
+  search: {
+    title: "Cerca",
+    placeholder: "Cerca nel Corano…",
+    button: "Cerca",
+    surah: "Sura",
+    allSurahs: "Tutte le sure",
+    found: "Versetti trovati: {count}",
+    none: "Nessun versetto trovato.",
+    short: "Scrivi una ricerca più lunga.",
+    unavailable: "La ricerca non è disponibile al momento.",
+    hint: "Cerca nel testo arabo e nelle traduzioni, oppure scrivi un riferimento come 2:255.",
+  },
   continueReading: {
     label: "Continua a leggere",
     position: "{surah}, versetto {verse}",

@@ -156,6 +156,18 @@ export const ha: Messages = {
     goTo: "Je zuwa {reference}",
     daily: { title: "Sura ta yau", read: "Karanta surar" },
   },
+  search: {
+    title: "Bincike",
+    placeholder: "Bincika a cikin Alƙur'ani…",
+    button: "Bincika",
+    surah: "Sura",
+    allSurahs: "Duk surori",
+    found: "Ayoyin da aka samu: {count}",
+    none: "Ba a sami aya ba.",
+    short: "Rubuta kalmar bincike mafi tsayi.",
+    unavailable: "Bincike ba ya samuwa yanzu.",
+    hint: "Bincika a rubutun Larabci da fassarori, ko ka rubuta tushe kamar 2:255.",
+  },
   continueReading: {
     label: "Ci gaba da karatu",
     position: "{surah}, aya ta {verse}",

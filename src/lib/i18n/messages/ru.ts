@@ -157,6 +157,18 @@ export const ru: Messages = {
     goTo: "Перейти к {reference}",
     daily: { title: "Сура дня", read: "Читать суру" },
   },
+  search: {
+    title: "Поиск",
+    placeholder: "Поиск по Корану…",
+    button: "Найти",
+    surah: "Сура",
+    allSurahs: "Все суры",
+    found: "Найдено аятов: {count}",
+    none: "Аятов не найдено.",
+    short: "Введите запрос подлиннее.",
+    unavailable: "Поиск сейчас недоступен.",
+    hint: "Ищите по арабскому тексту и переводам или введите ссылку вида 2:255.",
+  },
   continueReading: {
     label: "Продолжить чтение",
     position: "{surah}, аят {verse}",

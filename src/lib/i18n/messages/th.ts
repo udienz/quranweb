@@ -157,6 +157,18 @@ export const th: Messages = {
     goTo: "ไปที่ {reference}",
     daily: { title: "ซูเราะฮ์ประจำวัน", read: "อ่านซูเราะฮ์นี้" },
   },
+  search: {
+    title: "ค้นหา",
+    placeholder: "ค้นหาในอัลกุรอาน…",
+    button: "ค้นหา",
+    surah: "ซูเราะฮ์",
+    allSurahs: "ทุกซูเราะฮ์",
+    found: "อายะฮ์ที่พบ: {count}",
+    none: "ไม่พบอายะฮ์",
+    short: "พิมพ์คำค้นให้ยาวขึ้น",
+    unavailable: "ขณะนี้ยังค้นหาไม่ได้",
+    hint: "ค้นหาในข้อความอาหรับและคำแปล หรือพิมพ์อ้างอิง เช่น 2:255",
+  },
   continueReading: {
     label: "อ่านต่อ",
     position: "{surah} อายะฮ์ที่ {verse}",

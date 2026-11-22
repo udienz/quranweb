@@ -156,6 +156,18 @@ export const ml: Messages = {
     goTo: "{reference} ലേക്ക് പോകുക",
     daily: { title: "ഇന്നത്തെ സൂറത്ത്", read: "സൂറത്ത് വായിക്കുക" },
   },
+  search: {
+    title: "തിരയുക",
+    placeholder: "ഖുർആനിൽ തിരയുക…",
+    button: "തിരയുക",
+    surah: "സൂറത്ത്",
+    allSurahs: "എല്ലാ സൂറത്തുകളും",
+    found: "കണ്ടെത്തിയ ആയത്തുകൾ: {count}",
+    none: "ആയത്തൊന്നും കണ്ടെത്തിയില്ല.",
+    short: "കൂടുതൽ നീളമുള്ള തിരയൽ പദം നൽകുക.",
+    unavailable: "തിരയൽ ഇപ്പോൾ ലഭ്യമല്ല.",
+    hint: "അറബി പാഠത്തിലും പരിഭാഷകളിലും തിരയുക, അല്ലെങ്കിൽ 2:255 പോലൊരു സൂചന നൽകുക.",
+  },
   continueReading: {
     label: "വായന തുടരുക",
     position: "{surah}, ആയത്ത് {verse}",

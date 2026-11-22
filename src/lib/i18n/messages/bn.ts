@@ -156,6 +156,18 @@ export const bn: Messages = {
     goTo: "{reference}-এ যান",
     daily: { title: "আজকের সূরা", read: "সূরাটি পড়ুন" },
   },
+  search: {
+    title: "অনুসন্ধান",
+    placeholder: "কুরআনে খুঁজুন…",
+    button: "খুঁজুন",
+    surah: "সূরা",
+    allSurahs: "সব সূরা",
+    found: "পাওয়া আয়াত: {count}",
+    none: "কোনো আয়াত পাওয়া যায়নি।",
+    short: "আরও লম্বা কিছু লিখুন।",
+    unavailable: "অনুসন্ধান এখন পাওয়া যাচ্ছে না।",
+    hint: "আরবি পাঠ ও অনুবাদে খুঁজুন, অথবা 2:255 এর মতো রেফারেন্স লিখুন।",
+  },
   continueReading: {
     label: "পড়া চালিয়ে যান",
     position: "{surah}, আয়াত {verse}",

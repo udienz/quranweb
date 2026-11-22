@@ -157,6 +157,18 @@ export const uz: Messages = {
     goTo: "{reference}га ўтиш",
     daily: { title: "Кунлик сура", read: "Сурани ўқиш" },
   },
+  search: {
+    title: "Қидирув",
+    placeholder: "Қуръонда қидириш…",
+    button: "Қидириш",
+    surah: "Сура",
+    allSurahs: "Барча сура",
+    found: "Топилган оятлар: {count}",
+    none: "Оят топилмади.",
+    short: "Узунроқ сўров киритинг.",
+    unavailable: "Қидирув ҳозир мавжуд эмас.",
+    hint: "Арабча матн ва таржималардан қидиринг ёки 2:255 каби ҳавола киритинг.",
+  },
   continueReading: {
     label: "Ўқишни давом эттириш",
     position: "{surah}, {verse}-оят",

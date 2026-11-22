@@ -449,7 +449,7 @@ Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og
   they never compete with production as duplicates. **If the app cannot tell its own address, production would answer
   `Disallow: /`**: that is why `BETTER_AUTH_URL` is a fallback; check `/robots.txt` on production after every deploy that touches
   the environment (docs/development.md).
-- **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/settings`) and names
+- **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/search`, `/settings`) and names
   the sitemap. **`sitemap.ts`** (`generateSitemaps`, so the address `/sitemap/0.xml` stays when files are added) lists the home page,
   the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `?page=N` is never listed.
 - **Link previews:** every page that can be shared sets all of its metadata through `shareMetadata({ title, description, path, locale })`:

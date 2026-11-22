@@ -157,6 +157,18 @@ export const fa: Messages = {
     goTo: "رفتن به {reference}",
     daily: { title: "سورهٔ امروز", read: "خواندن سوره" },
   },
+  search: {
+    title: "جست‌وجو",
+    placeholder: "جست‌وجو در قرآن…",
+    button: "جست‌وجو",
+    surah: "سوره",
+    allSurahs: "همهٔ سوره‌ها",
+    found: "آیه‌های یافت‌شده: {count}",
+    none: "آیه‌ای پیدا نشد.",
+    short: "عبارت جست‌وجوی بلندتری بنویسید.",
+    unavailable: "جست‌وجو اکنون در دسترس نیست.",
+    hint: "در متن عربی و ترجمه‌ها جست‌وجو کنید یا نشانی مانند 2:255 بنویسید.",
+  },
   continueReading: {
     label: "ادامهٔ خواندن",
     position: "{surah}، آیهٔ {verse}",

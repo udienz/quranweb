@@ -155,6 +155,18 @@ export const tr: Messages = {
     goTo: "{reference} konumuna git",
     daily: { title: "Günün suresi", read: "Sureyi oku" },
   },
+  search: {
+    title: "Ara",
+    placeholder: "Kur'an'da ara…",
+    button: "Ara",
+    surah: "Sure",
+    allSurahs: "Tüm sureler",
+    found: "Bulunan ayetler: {count}",
+    none: "Ayet bulunamadı.",
+    short: "Daha uzun bir arama yazın.",
+    unavailable: "Arama şu anda kullanılamıyor.",
+    hint: "Arapça metinde ve mealde arayın ya da 2:255 gibi bir kaynak yazın.",
+  },
   continueReading: {
     label: "Okumaya devam et",
     position: "{surah}, {verse}. ayet",

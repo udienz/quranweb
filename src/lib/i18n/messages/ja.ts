@@ -157,6 +157,18 @@ export const ja: Messages = {
     goTo: "{reference} へ移動",
     daily: { title: "今日のスーラ", read: "スーラを読む" },
   },
+  search: {
+    title: "検索",
+    placeholder: "クルアーンを検索…",
+    button: "検索",
+    surah: "スーラ",
+    allSurahs: "すべてのスーラ",
+    found: "見つかった節: {count}",
+    none: "節が見つかりません。",
+    short: "もう少し長い語を入力してください。",
+    unavailable: "現在、検索は利用できません。",
+    hint: "アラビア語の本文と翻訳を検索するか、2:255 のような出典を入力してください。",
+  },
   continueReading: {
     label: "続きを読む",
     position: "{surah}、第 {verse} 節",

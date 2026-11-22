@@ -155,6 +155,18 @@ export const en = {
     goTo: "Go to {reference}",
     daily: { title: "Surah of the day", read: "Read the surah" },
   },
+  search: {
+    title: "Search",
+    placeholder: "Search the Qur'an…",
+    button: "Search",
+    surah: "Surah",
+    allSurahs: "All surahs",
+    found: "Verses found: {count}",
+    none: "No verse found.",
+    short: "Type a longer search.",
+    unavailable: "Search is not available right now.",
+    hint: "Search the Arabic text and the translations, or type a reference such as 2:255.",
+  },
   continueReading: {
     label: "Continue reading",
     position: "{surah}, verse {verse}",

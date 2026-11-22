@@ -156,6 +156,18 @@ export const fr: Messages = {
     goTo: "Aller à {reference}",
     daily: { title: "Sourate du jour", read: "Lire la sourate" },
   },
+  search: {
+    title: "Rechercher",
+    placeholder: "Rechercher dans le Coran…",
+    button: "Rechercher",
+    surah: "Sourate",
+    allSurahs: "Toutes les sourates",
+    found: "Versets trouvés : {count}",
+    none: "Aucun verset trouvé.",
+    short: "Saisissez une recherche plus longue.",
+    unavailable: "La recherche n’est pas disponible pour le moment.",
+    hint: "Cherchez dans le texte arabe et les traductions, ou saisissez une référence comme 2:255.",
+  },
   continueReading: {
     label: "Reprendre la lecture",
     position: "{surah}, verset {verse}",

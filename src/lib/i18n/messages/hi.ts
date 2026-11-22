@@ -156,6 +156,18 @@ export const hi: Messages = {
     goTo: "{reference} पर जाएँ",
     daily: { title: "आज की सूरह", read: "सूरह पढ़ें" },
   },
+  search: {
+    title: "खोजें",
+    placeholder: "क़ुरआन में खोजें…",
+    button: "खोजें",
+    surah: "सूरह",
+    allSurahs: "सभी सूरह",
+    found: "मिली आयतें: {count}",
+    none: "कोई आयत नहीं मिली।",
+    short: "कोई लंबा शब्द लिखें।",
+    unavailable: "खोज अभी उपलब्ध नहीं है।",
+    hint: "अरबी पाठ और अनुवादों में खोजें, या 2:255 जैसा संदर्भ लिखें।",
+  },
   continueReading: {
     label: "पढ़ना जारी रखें",
     position: "{surah}, आयत {verse}",

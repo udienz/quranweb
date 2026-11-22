@@ -157,6 +157,18 @@ export const bs: Messages = {
     goTo: "Idi na {reference}",
     daily: { title: "Sura dana", read: "Pročitaj suru" },
   },
+  search: {
+    title: "Pretraga",
+    placeholder: "Pretraži Kur'an…",
+    button: "Traži",
+    surah: "Sura",
+    allSurahs: "Sve sure",
+    found: "Pronađenih ajeta: {count}",
+    none: "Nije pronađen nijedan ajet.",
+    short: "Unesite duži pojam za pretragu.",
+    unavailable: "Pretraga trenutno nije dostupna.",
+    hint: "Pretražujte arapski tekst i prijevode ili upišite referencu poput 2:255.",
+  },
   continueReading: {
     label: "Nastavi čitanje",
     position: "{surah}, ajet {verse}",

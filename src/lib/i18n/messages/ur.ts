@@ -156,6 +156,18 @@ export const ur: Messages = {
     goTo: "{reference} پر جائیں",
     daily: { title: "آج کی سورت", read: "سورت پڑھیں" },
   },
+  search: {
+    title: "تلاش",
+    placeholder: "قرآن میں تلاش کریں…",
+    button: "تلاش",
+    surah: "سورت",
+    allSurahs: "تمام سورتیں",
+    found: "ملنے والی آیات: {count}",
+    none: "کوئی آیت نہیں ملی۔",
+    short: "کوئی لمبا لفظ لکھیں۔",
+    unavailable: "تلاش ابھی دستیاب نہیں ہے۔",
+    hint: "عربی متن اور تراجم میں تلاش کریں، یا 2:255 جیسا حوالہ لکھیں۔",
+  },
   continueReading: {
     label: "تلاوت جاری رکھیں",
     position: "{surah}، آیت {verse}",

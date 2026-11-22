@@ -155,6 +155,18 @@ export const id: Messages = {
     goTo: "Buka {reference}",
     daily: { title: "Surat hari ini", read: "Baca surat ini" },
   },
+  search: {
+    title: "Cari",
+    placeholder: "Cari di Al-Qur'an…",
+    button: "Cari",
+    surah: "Surat",
+    allSurahs: "Semua surat",
+    found: "Ayat ditemukan: {count}",
+    none: "Tidak ada ayat yang cocok.",
+    short: "Ketik kata pencarian yang lebih panjang.",
+    unavailable: "Pencarian sedang tidak tersedia.",
+    hint: "Cari di teks Arab dan terjemahan, atau ketik rujukan seperti 2:255.",
+  },
   continueReading: {
     label: "Lanjutkan membaca",
     position: "{surah}, ayat {verse}",

@@ -156,6 +156,18 @@ export const pt: Messages = {
     goTo: "Ir para {reference}",
     daily: { title: "Surata do dia", read: "Ler a surata" },
   },
+  search: {
+    title: "Buscar",
+    placeholder: "Buscar no Alcorão…",
+    button: "Buscar",
+    surah: "Surata",
+    allSurahs: "Todas as suratas",
+    found: "Versículos encontrados: {count}",
+    none: "Nenhum versículo encontrado.",
+    short: "Digite uma busca mais longa.",
+    unavailable: "A busca não está disponível agora.",
+    hint: "Busque no texto árabe e nas traduções, ou digite uma referência como 2:255.",
+  },
   continueReading: {
     label: "Continuar lendo",
     position: "{surah}, versículo {verse}",

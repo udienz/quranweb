@@ -156,6 +156,18 @@ export const ms: Messages = {
     goTo: "Pergi ke {reference}",
     daily: { title: "Surah hari ini", read: "Baca surah ini" },
   },
+  search: {
+    title: "Cari",
+    placeholder: "Cari dalam Al-Quran…",
+    button: "Cari",
+    surah: "Surah",
+    allSurahs: "Semua surah",
+    found: "Ayat ditemui: {count}",
+    none: "Tiada ayat yang sepadan.",
+    short: "Taip kata carian yang lebih panjang.",
+    unavailable: "Carian tidak tersedia sekarang.",
+    hint: "Cari dalam teks Arab dan terjemahan, atau taip rujukan seperti 2:255.",
+  },
   continueReading: {
     label: "Sambung membaca",
     position: "{surah}, ayat {verse}",

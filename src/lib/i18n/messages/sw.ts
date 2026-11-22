@@ -156,6 +156,18 @@ export const sw: Messages = {
     goTo: "Nenda kwa {reference}",
     daily: { title: "Sura ya leo", read: "Soma sura" },
   },
+  search: {
+    title: "Tafuta",
+    placeholder: "Tafuta katika Qur'ani…",
+    button: "Tafuta",
+    surah: "Sura",
+    allSurahs: "Sura zote",
+    found: "Aya zilizopatikana: {count}",
+    none: "Hakuna aya iliyopatikana.",
+    short: "Andika neno refu zaidi la kutafuta.",
+    unavailable: "Utafutaji haupatikani sasa.",
+    hint: "Tafuta katika maandishi ya Kiarabu na tafsiri, au andika rejea kama 2:255.",
+  },
   continueReading: {
     label: "Endelea kusoma",
     position: "{surah}, aya {verse}",
