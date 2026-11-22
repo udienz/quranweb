@@ -39,6 +39,44 @@ test("search engines: robots keep a copy that is not production out, the sitemap
   expect(image.headers()["content-type"]).toBe("image/png");
 });
 
+test("a verse has a page of its own: 404 for a wrong one, a preview, the share menu and the way back", async ({ page, request, context }) => {
+  for (const bad of ["/surah/1/0", "/surah/1/8", "/surah/2/abc", "/surah/115/1", "/surah/1/1/x"]) expect((await request.get(bad)).status(), bad).toBe(404);
+  for (const ok of ["/surah/1/7", "/surah/2/255", "/surah/112/1"]) expect((await request.get(ok)).status(), ok).toBe(200);
+
+  // What a link preview reads: no cookie.
+  const html = await (await request.get("/surah/1/2")).text();
+  const meta = (name: string) => html.match(new RegExp(`<meta (?:property|name)="${name}" content="([^"]*)"`))?.[1];
+  expect(html).toContain('<link rel="canonical" href="http://127.0.0.1:3100/surah/1/2"');
+  expect(meta("og:title")).toBe("Al-Fatihah 1:2 | QuranWeb");
+  expect(meta("og:type")).toBe("article");
+  expect(meta("og:description")).toContain("Segala puji bagi Allah");
+
+  // The sitemap of the verses has all 6,236.
+  const sitemap = await (await request.get("/sitemap/1.xml")).text();
+  expect(sitemap.match(/<loc>/g)).toHaveLength(6236);
+
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/surah/1/2");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Al-Fatihah 1:2");
+  await page.getByRole("button", { name: "Bagikan ayat" }).click();
+  await page.getByRole("menuitem", { name: "Salin ayat" }).click();
+  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  expect(copied).toContain("Segala puji bagi Allah");
+  expect(copied).toContain("(QS. Al-Fatihah: 2)");
+  expect(copied).toContain("/surah/1/2");
+
+  await page.getByRole("button", { name: "Bagikan ayat" }).click();
+  await expect(page.getByRole("menuitem", { name: "WhatsApp" })).toHaveAttribute("href", /^https:\/\/wa\.me\/\?text=.*%2Fsurah%2F1%2F2$/);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("menu")).toHaveCount(0);
+
+  // Next verse, and the way back to the surah at that verse.
+  await page.getByRole("link", { name: /Ayat berikutnya/ }).click();
+  await expect(page).toHaveURL(/\/surah\/1\/3$/);
+  await page.getByRole("link", { name: "Baca di surat" }).click();
+  await expect(page).toHaveURL(/\/surah\/1#verse-3$/);
+});
+
 test("the reciter list: best known first, search in Latin and Arabic, a CDN reciter plays from the CDN", async ({ page, context, baseURL }) => {
   const problems = watchConsole(page);
   await cards(context, baseURL!);

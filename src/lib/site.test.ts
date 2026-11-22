@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "./i18n/config";
 import { excerpt, isIndexed, ogLocale, OG_IMAGE, PRODUCTION_ORIGIN, robotsFor, shareMetadata } from "./site";
-import { sitemapEntries } from "./sitemap";
+import { sitemapEntries, verseEntries } from "./sitemap";
 
 describe("isIndexed", () => {
   it("is true only for the production address", () => {
@@ -69,11 +69,21 @@ describe("sitemapEntries", () => {
   });
 });
 
+describe("verseEntries", () => {
+  it("lists every verse of every surah once, as /surah/N/V", () => {
+    const entries = verseEntries(PRODUCTION_ORIGIN, [{ number: 1, verseCount: 7 }, { number: 112, verseCount: 4 }]);
+    expect(entries.map((e) => e.url)).toEqual([
+      ...[1, 2, 3, 4, 5, 6, 7].map((v) => `${PRODUCTION_ORIGIN}/surah/1/${v}`),
+      ...[1, 2, 3, 4].map((v) => `${PRODUCTION_ORIGIN}/surah/112/${v}`),
+    ]);
+  });
+});
+
 describe("robotsFor", () => {
   it("lets crawlers into production, except the reader's own pages, and names the sitemap", () => {
     const r = robotsFor(PRODUCTION_ORIGIN);
     expect(r.rules).toEqual({ userAgent: "*", allow: "/", disallow: ["/api/", "/admin", "/my-reading", "/settings"] });
-    expect(r.sitemap).toEqual([`${PRODUCTION_ORIGIN}/sitemap/0.xml`]);
+    expect(r.sitemap).toEqual([`${PRODUCTION_ORIGIN}/sitemap/0.xml`, `${PRODUCTION_ORIGIN}/sitemap/1.xml`]);
   });
 
   it("keeps crawlers out of QA and of a local copy", () => {

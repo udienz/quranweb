@@ -1,18 +1,20 @@
 import type { MetadataRoute } from "next";
 import { getQuran } from "@/lib/quran";
-import { sitemapEntries } from "@/lib/sitemap";
+import { sitemapEntries, verseEntries } from "@/lib/sitemap";
 import { siteOrigin } from "@/lib/site-origin";
 
 /**
- * Sitemap 0 lists the home page, the surahs and the two information pages. It is numbered, and listed by robots.ts, so
- * that more files (the pages of each verse, the mushaf pages) can be added without changing an address.
+ * Sitemap 0 lists the home page, the surahs and the two information pages; sitemap 1 the page of every verse (6,236 of
+ * them, and one file may hold 50,000). They are numbered, and listed by robots.ts, so that more files (the mushaf pages)
+ * can be added without changing an address.
  */
 export async function generateSitemaps() {
-  return [{ id: 0 }];
+  return [{ id: 0 }, { id: 1 }];
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap(props: { id: Promise<string> }): Promise<MetadataRoute.Sitemap> {
+  const id = Number(await props.id);
   const origin = await siteOrigin();
   const surahs = await getQuran().getSurahList();
-  return sitemapEntries(origin, surahs.map((s) => s.number));
+  return id === 1 ? verseEntries(origin, surahs) : sitemapEntries(origin, surahs.map((s) => s.number));
 }

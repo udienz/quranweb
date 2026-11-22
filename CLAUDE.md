@@ -406,6 +406,28 @@ in `dailyView`, which returns null when the text cannot be read (a source read l
 rest of the page works. The strings are `home.daily.*`. The owner asked for a surah, not a verse; a curated verse of the day
 stays an open question in `ROADMAP.md`.
 
+### A page for each verse, and sharing (roadmap phase 6, step 3; 2026-11-22)
+
+Modelled on hadistweb, which has a page for each hadith (the owner's decision: use that concept for previews).
+
+- **`/surah/2/255`** (`versePageHref`) is the verse's own page, the address that is shared: `app/surah/[number]/[verse]/page.tsx`. It shows the
+  Arabic, the transliteration and every translation the reader has chosen (no tafsir), each with its edition's name and its
+  footnotes, a link "Read in the surah" (`verseHref`, so the right page with the verse in view), a share menu, and the verse
+  before and after (across the edge of a surah). It has no audio and no bookmark; the reader has those. `generateMetadata` gives the
+  title "Al-Baqarah 2:255", the description (the start of the first translation, whole words, about 180 characters; the Arabic
+  when no translation is chosen), the canonical address and type `article`. The footnote markers (`[252]`) are left out of the
+  preview description only; the page shows the text as published.
+- **Wrong addresses are a 404 from `proxy.ts`**, before anything renders: the surah must be 1 to 114 and the verse a number from 1 to
+  the surah's count (`VERSE_COUNTS` in `surah-number.ts`, a table of ours, since the proxy cannot wait for the sources; a test
+  compares it with the surah list). The mushaf pages (`/surah/2/page/3`) will need their own case in the proxy.
+- **The share menu** (`ShareMenu`, in `VerseActions`, so in the card, the mushaf bar and the verse page) replaced the two copy buttons:
+  copy the text, copy the link, the device's share sheet (`navigator.share`, only where the browser has one) and WhatsApp
+  (`wa.me/?text=`, the text encoded). The text is the Arabic and the translations as shown, the citation in brackets and the verse
+  page's address (`shareText`). **The citation** is `QS. Al-Baqarah: 255` in Indonesian and `Qur'an 2:255 (Al-Baqarah)` in every other
+  language (`shareReference`; a citation is a name and numbers, so it is not in the catalogs; add a language's own form there when
+  someone who reads it asks). In the mushaf bar the menu opens upward (`menuUp`).
+- **`sitemap/1.xml`** lists the 6,236 verse pages (`verseEntries`, from the surah list's verse counts, no text); `robots.ts` names it.
+
 ### Being found: robots, sitemap and link previews (roadmap phase 6, step 1; 2026-11-22)
 
 Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og-image.mjs`).
@@ -428,7 +450,7 @@ Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og
   changes). `og:locale` follows the interface language.
 - **Known limit:** one address serves every interface language (the cookie or `Accept-Language` decides), so a crawler without a
   cookie reads Indonesian, and `hreflang` is not possible. Separate language addresses are not planned.
-- The pages of each verse (`/surah/2/255`), with their own previews and sitemap file, are step 3 of phase 6 in `ROADMAP.md`.
+- The page of each verse (`/surah/2/255`), with its own preview and sitemap file, is described in the section above.
 
 ### Sign-in (OIDC)
 
@@ -658,6 +680,7 @@ src/
     robots.ts, sitemap.ts      robots.txt (production only) and the sitemap
     manifest.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
+    surah/[number]/[verse]/page.tsx   one verse on its own page: the address to share, with its own preview
   components/
     SurahReader.tsx            surah header, Reading/Tafsir tabs, jump to verse, audio
                                (one <audio>, auto-advance, falls back through URLs),
@@ -707,6 +730,7 @@ src/
     i18n/                      config.ts (locales, negotiation), translate.ts (t, tn, plurals),
                                server.ts, client.tsx, messages/{en,id,types,index}.ts
     anchors.ts, cookies.ts     verse and page links (incl. legacy #ayat-N), cookie helper
+    share.ts, components/ShareMenu.tsx   citation, text and links of a shared verse; the share menu
     pagination.ts              page size, page of a verse, clamping, which page numbers to show
   **/*.test.ts                 vitest tests, no network
 scripts/
@@ -833,8 +857,8 @@ Keep that footer link: the credit must stay one click away from every reading pa
 
 ### Known limits
 
-- `/surah/<invalid>` answers **404** since 2026-11-19: `src/proxy.ts` checks the number before rendering (`surahFromSegment`,
-  shared with the page) and rewrites anything else to a path that does not exist, so Next.js serves the translated
+- `/surah/<invalid>` and `/surah/<surah>/<invalid verse>` answer **404** since 2026-11-19: `src/proxy.ts` checks the number before rendering (`surahFromSegment`,
+  `verseFromSegment`, shared with the pages) and rewrites anything else to a path that does not exist, so Next.js serves the translated
   not-found page with status 404. Without it the page's own `notFound()` came after streaming had started, with status 200
   (Cache Components does not support `dynamicParams = false`).
 - The surah list is fetched on every request (from our mirror, so it is cheap).

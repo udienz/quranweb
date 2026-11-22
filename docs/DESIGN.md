@@ -296,6 +296,17 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - The name and the meaning are flex items with a gap, so the gap holds right to left
 - Use: the home page only; it is left out when the text cannot be read
 
+**Share menu (verse actions)**
+- A 36px round share button (three joined circles, stroke 1.8) with the other verse actions; it opens a 224px card (`--card`, 1px
+  border, 16px radius, shadow) of text items, 14px weight 500, 40px high: copy the verse, copy the link, "Share…" (only where the
+  browser has a share sheet) and WhatsApp. It opens downward from a card and upward from the bar at the bottom of the mushaf layout;
+  Escape and a click outside close it; "Copied" shows beside the button for a moment
+
+**Verse page (`/surah/2/255`)**
+- A narrow column (768px): a trail "Surahs / Al-Baqarah", the reference as the title (`Space Grotesk` 24px 600), one card with the Arabic
+  (`Amiri`, 36 to 42px), the transliteration, and each translation under a 12px muted edition name, then "Read in the surah" and the
+  share button; previous and next verse as pills under it
+
 **Surah List (side panel)**
 - Rows: index in tabular figures `#596e73`, name 14px weight 500, Arabic name `Amiri` 18px
 - Current surah: background `#e2f0f3`, 2px left edge in `#d7a342`

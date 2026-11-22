@@ -3,12 +3,13 @@
 import { useHiding } from "@/lib/useHiding";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
-import { verseHref, verseId } from "@/lib/anchors";
+import { verseId } from "@/lib/anchors";
 import type { VerseView } from "@/lib/quran";
 import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 import { usePrefs } from "./PrefsProvider";
 import Footnotes from "./Footnotes";
+import ShareMenu from "./ShareMenu";
 
 const iconProps = {
   width: 18,
@@ -80,39 +81,31 @@ export function NoteEditor({ surah, verse, note }: { surah: number; verse: numbe
   );
 }
 
-/** The buttons of one verse: play, bookmark, mark as read, copy text, copy link. Shared by the card and the mushaf view. */
+/** The buttons of one verse: play, bookmark, mark as read, share (copy, link, share sheet, WhatsApp). Shared by the card and the mushaf view. */
 export function VerseActions({
   verse,
   surahNumber,
+  surahName,
   playing,
   onPlay,
+  menuUp = false,
 }: {
   verse: VerseView;
   surahNumber: number;
+  surahName: string;
   playing: boolean;
   onPlay: () => void;
+  /** Open the share menu above its button, for the bar at the bottom of the screen. */
+  menuUp?: boolean;
 }) {
   const { t } = useI18n();
   const data = useUserData();
-  const [copied, setCopied] = useState(false);
   const n = verse.number;
   const bookmark = findBookmark(data, surahNumber, n);
   const readUpTo = progressOf(data, surahNumber);
 
-  async function copy(text: string) {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {}
-  }
-  const copyText = () =>
-    copy(`${verse.arabic}\n\n${verse.translations.map((tr) => tr.text).join("\n\n")}\n\n(QS ${surahNumber}:${n})`);
-  const copyLink = () => copy(`${location.origin}${verseHref(surahNumber, n)}`);
-
   return (
     <div className="flex items-center">
-      {copied && <span className="me-1 text-xs text-primary">{t("verse.copied")}</span>}
       <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
         {playing ? (
           <svg {...iconProps}>
@@ -143,17 +136,14 @@ export function VerseActions({
           <path d="M8 12.5l3 3 5-6" />
         </svg>
       </IconButton>
-      <IconButton label={t("verse.copy")} onClick={copyText}>
-        <svg {...iconProps}>
-          <rect x="9" y="9" width="11" height="11" rx="2" />
-          <path d="M5 15V6a2 2 0 0 1 2-2h9" />
-        </svg>
-      </IconButton>
-      <IconButton label={t("verse.copyLink")} onClick={copyLink}>
-        <svg {...iconProps}>
-          <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
-        </svg>
-      </IconButton>
+      <ShareMenu
+        surah={surahNumber}
+        surahName={surahName}
+        verse={n}
+        arabic={verse.arabic}
+        translations={verse.translations.map((tr) => tr.text)}
+        up={menuUp}
+      />
     </div>
   );
 }
@@ -161,6 +151,7 @@ export function VerseActions({
 export default function VerseCard({
   verse,
   surahNumber,
+  surahName,
   mode,
   playing,
   onPlay,
@@ -168,6 +159,8 @@ export default function VerseCard({
 }: {
   verse: VerseView;
   surahNumber: number;
+  /** The Latin name of the surah, for the citation when the verse is shared. */
+  surahName: string;
   mode: "reading" | "tafsir";
   playing: boolean;
   onPlay: () => void;
@@ -202,7 +195,7 @@ export default function VerseCard({
           </span>
           {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">{t("verse.read")}</span>}
         </div>
-        <VerseActions verse={verse} surahNumber={surahNumber} playing={playing} onPlay={onPlay} />
+        <VerseActions verse={verse} surahNumber={surahNumber} surahName={surahName} playing={playing} onPlay={onPlay} />
       </div>
 
       {mode === "reading" ? (

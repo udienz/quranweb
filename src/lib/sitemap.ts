@@ -6,6 +6,13 @@ export interface SitemapEntry {
   priority: number;
 }
 
+/** The page of every verse, `/surah/2/255`: the surah numbers with their verse counts (the sitemap needs no text). */
+export function verseEntries(origin: string, counts: readonly { number: number; verseCount: number }[]): SitemapEntry[] {
+  return counts.flatMap(({ number, verseCount }) =>
+    Array.from({ length: verseCount }, (_, i) => ({ url: `${origin}/surah/${number}/${i + 1}`, priority: 0.5 })),
+  );
+}
+
 /** The home page, About, Privacy and every surah, as full addresses under `origin`. */
 export function sitemapEntries(origin: string, surahNumbers: readonly number[]): SitemapEntry[] {
   const entry = (path: string, priority: number) => ({ url: `${origin}${path}`, priority });

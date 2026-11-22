@@ -493,6 +493,7 @@ export default function SurahReader({
           <MushafView
             verses={verses}
             surahNumber={meta.number}
+            surahName={meta.name.latin}
             playingN={playingN}
             onPlay={(verse) => togglePlay(verses.indexOf(verse))}
             editions={editionInfo}
@@ -503,6 +504,7 @@ export default function SurahReader({
             key={verse.number}
             verse={verse}
             surahNumber={meta.number}
+            surahName={meta.name.latin}
             mode={mode}
             playing={playingN === verse.number}
             onPlay={() => togglePlay(i)}
