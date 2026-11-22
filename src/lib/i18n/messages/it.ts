@@ -56,7 +56,7 @@ export const it: Messages = {
     sections: {
       reading: {
         title: "Leggere senza account",
-        body: "La tua ultima posizione di lettura, i progressi, i segnalibri, le note e le opzioni di visualizzazione restano nel tuo browser (archiviazione locale) e non ne escono. La scelta di edizioni e recitatore e la lingua dell'interfaccia sono salvate in due piccoli cookie (qw-sel e qw-lang), che servono al sito per mostrarle come le hai scelte.\n\nL'audio della recitazione viene caricato da EQuran.id (cdn.equran.id) oppure, per gli altri recitatori e come riserva, da AlQuran.cloud (cdn.islamic.network), quindi il servizio che fornisce il file vede il tuo indirizzo IP quando ascolti un audio.",
+        body: "La tua ultima posizione di lettura, i progressi, i segnalibri, le note e le opzioni di visualizzazione restano nel tuo browser (archiviazione locale) e non ne escono. La scelta di edizioni e recitatore e la lingua dell'interfaccia sono salvate in due piccoli cookie (qw-sel e qw-lang), che servono al sito per mostrarle come le hai scelte.\n\nL'audio della recitazione viene caricato da EQuran.id (cdn.equran.id) oppure, per gli altri recitatori e come riserva, da AlQuran.cloud (cdn.islamic.network), quindi il servizio che fornisce il file vede il tuo indirizzo IP quando ascolti un audio.\n\nQuando cerchi nel Corano, le parole che scrivi vengono inviate al nostro server per trovare i versetti. Non vengono conservate con il tuo account né usate per altro scopo; come ogni richiesta, possono comparire nei registri del server web e di Cloudflare.",
       },
       account: {
         title: "Se accedi",
@@ -155,6 +155,18 @@ export const it: Messages = {
     noResults: "Nessuna sura trovata.",
     goTo: "Vai a {reference}",
     daily: { title: "Sura del giorno", read: "Leggi la sura" },
+  },
+  search: {
+    title: "Cerca",
+    placeholder: "Cerca nel Corano…",
+    button: "Cerca",
+    surah: "Sura",
+    allSurahs: "Tutte le sure",
+    found: "Versetti trovati: {count}",
+    none: "Nessun versetto trovato.",
+    short: "Scrivi una ricerca più lunga.",
+    unavailable: "La ricerca non è disponibile al momento.",
+    hint: "Cerca nel testo arabo e nelle traduzioni, oppure scrivi un riferimento come 2:255.",
   },
   continueReading: {
     label: "Continua a leggere",

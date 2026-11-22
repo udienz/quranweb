@@ -65,7 +65,20 @@ export default async function Home() {
         </p>
         <h1 className="mt-3 text-center font-display text-2xl font-bold sm:text-3xl">{t("home.title")}</h1>
         <p className="mx-auto mt-1 max-w-xl text-center text-white/75">{t("home.subtitle")}</p>
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+          <form action="/search" method="get" role="search" className="flex gap-2">
+            <input
+              type="search"
+              name="q"
+              maxLength={200}
+              placeholder={t("search.placeholder")}
+              aria-label={t("search.title")}
+              className="w-44 rounded-full border border-white/40 bg-white/10 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/75 focus:border-white sm:w-60"
+            />
+            <button type="submit" className="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10">
+              {t("search.button")}
+            </button>
+          </form>
           <Link href="/surah/1" className="rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-[hsl(190_70%_12%)] hover:opacity-90">
             {t("home.start")}
           </Link>

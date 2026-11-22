@@ -57,7 +57,7 @@ export const bs: Messages = {
     sections: {
       reading: {
         title: "Čitanje bez računa",
-        body: "Vaše posljednje mjesto čitanja, napredak, oznake, bilješke i izbori prikaza čuvaju se u vašem pregledniku (lokalna pohrana) i ne napuštaju ga. Vaš izbor izdanja i učača, te jezik sučelja, čuvaju se u dva mala kolačića (qw-sel i qw-lang) koje stranica treba da bi prikazala stranicu kako ste izabrali.\n\nAudio učenja učitava se s EQuran.id (cdn.equran.id) ili, za ostale učače i kao rezerva, s AlQuran.cloud (cdn.islamic.network), pa servis koji šalje datoteku vidi vašu IP adresu kada pustite audio.",
+        body: "Vaše posljednje mjesto čitanja, napredak, oznake, bilješke i izbori prikaza čuvaju se u vašem pregledniku (lokalna pohrana) i ne napuštaju ga. Vaš izbor izdanja i učača, te jezik sučelja, čuvaju se u dva mala kolačića (qw-sel i qw-lang) koje stranica treba da bi prikazala stranicu kako ste izabrali.\n\nAudio učenja učitava se s EQuran.id (cdn.equran.id) ili, za ostale učače i kao rezerva, s AlQuran.cloud (cdn.islamic.network), pa servis koji šalje datoteku vidi vašu IP adresu kada pustite audio.\n\nKada pretražujete Kur'an, riječi koje upišete šalju se našem serveru kako bi se pronašli ajeti. Ne čuvaju se uz vaš račun niti se koriste za bilo što drugo; kao i svaki zahtjev, mogu se pojaviti u zapisnicima web servera i Cloudflarea.",
       },
       account: {
         title: "Ako se prijavite",
@@ -156,6 +156,18 @@ export const bs: Messages = {
     noResults: "Nije pronađena nijedna sura.",
     goTo: "Idi na {reference}",
     daily: { title: "Sura dana", read: "Pročitaj suru" },
+  },
+  search: {
+    title: "Pretraga",
+    placeholder: "Pretraži Kur'an…",
+    button: "Traži",
+    surah: "Sura",
+    allSurahs: "Sve sure",
+    found: "Pronađenih ajeta: {count}",
+    none: "Nije pronađen nijedan ajet.",
+    short: "Unesite duži pojam za pretragu.",
+    unavailable: "Pretraga trenutno nije dostupna.",
+    hint: "Pretražujte arapski tekst i prijevode ili upišite referencu poput 2:255.",
   },
   continueReading: {
     label: "Nastavi čitanje",

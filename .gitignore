@@ -19,3 +19,6 @@ next-env.d.ts
 # Playwright (browser tests)
 /test-results/
 /playwright-report/
+
+# The search index built from the e2e fixtures (scripts/build-search-index.mjs; playwright.config.ts runs it).
+/e2e/fixtures/quranweb-search.sqlite*

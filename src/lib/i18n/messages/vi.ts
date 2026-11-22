@@ -57,7 +57,7 @@ export const vi: Messages = {
     sections: {
       reading: {
         title: "Đọc không cần tài khoản",
-        body: "Vị trí đọc gần nhất, tiến độ, dấu trang, ghi chú và tùy chọn hiển thị được lưu trong chính trình duyệt của bạn (bộ nhớ cục bộ) và không rời khỏi đó. Lựa chọn ấn bản, người đọc kinh và ngôn ngữ giao diện được lưu trong hai cookie nhỏ (qw-sel và qw-lang), mà trang cần để hiển thị đúng như bạn đã chọn.\n\nÂm thanh đọc kinh được tải từ EQuran.id (cdn.equran.id) hoặc, với những người đọc kinh khác và khi cần dự phòng, từ AlQuran.cloud (cdn.islamic.network), nên dịch vụ cung cấp tệp sẽ thấy địa chỉ IP của bạn khi bạn phát âm thanh.",
+        body: "Vị trí đọc gần nhất, tiến độ, dấu trang, ghi chú và tùy chọn hiển thị được lưu trong chính trình duyệt của bạn (bộ nhớ cục bộ) và không rời khỏi đó. Lựa chọn ấn bản, người đọc kinh và ngôn ngữ giao diện được lưu trong hai cookie nhỏ (qw-sel và qw-lang), mà trang cần để hiển thị đúng như bạn đã chọn.\n\nÂm thanh đọc kinh được tải từ EQuran.id (cdn.equran.id) hoặc, với những người đọc kinh khác và khi cần dự phòng, từ AlQuran.cloud (cdn.islamic.network), nên dịch vụ cung cấp tệp sẽ thấy địa chỉ IP của bạn khi bạn phát âm thanh.\n\nKhi bạn tìm trong Kinh Qur'an, các từ bạn gõ được gửi đến máy chủ của chúng tôi để tìm các câu. Chúng không được lưu cùng tài khoản của bạn và không dùng cho mục đích nào khác; như mọi yêu cầu, chúng có thể xuất hiện trong nhật ký của máy chủ web và của Cloudflare.",
       },
       account: {
         title: "Nếu bạn đăng nhập",
@@ -156,6 +156,18 @@ export const vi: Messages = {
     noResults: "Không tìm thấy chương nào.",
     goTo: "Đi đến {reference}",
     daily: { title: "Chương hôm nay", read: "Đọc chương này" },
+  },
+  search: {
+    title: "Tìm kiếm",
+    placeholder: "Tìm trong Kinh Qur'an…",
+    button: "Tìm",
+    surah: "Chương",
+    allSurahs: "Tất cả các chương",
+    found: "Số câu tìm thấy: {count}",
+    none: "Không tìm thấy câu nào.",
+    short: "Hãy nhập từ khóa dài hơn.",
+    unavailable: "Hiện chưa thể tìm kiếm.",
+    hint: "Tìm trong văn bản Ả Rập và bản dịch, hoặc nhập tham chiếu như 2:255.",
   },
   continueReading: {
     label: "Đọc tiếp",

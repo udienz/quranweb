@@ -56,7 +56,7 @@ export const de: Messages = {
     sections: {
       reading: {
         title: "Lesen ohne Konto",
-        body: "Deine letzte Leseposition, dein Fortschritt, Lesezeichen, Notizen und Anzeigeoptionen werden in deinem eigenen Browser gespeichert (lokaler Speicher) und verlassen ihn nicht. Deine Auswahl an Ausgaben und Rezitator sowie die Sprache der Oberfläche werden in zwei kleinen Cookies (qw-sel und qw-lang) gespeichert, die die Seite braucht, um sie so anzuzeigen, wie du sie gewählt hast.\n\nDas Rezitations-Audio wird von EQuran.id (cdn.equran.id) geladen oder, für die anderen Rezitatoren und als Ausweichquelle, von AlQuran.cloud (cdn.islamic.network). Der Dienst, der die Datei liefert, sieht also deine IP-Adresse, wenn du Audio abspielst.",
+        body: "Deine letzte Leseposition, dein Fortschritt, Lesezeichen, Notizen und Anzeigeoptionen werden in deinem eigenen Browser gespeichert (lokaler Speicher) und verlassen ihn nicht. Deine Auswahl an Ausgaben und Rezitator sowie die Sprache der Oberfläche werden in zwei kleinen Cookies (qw-sel und qw-lang) gespeichert, die die Seite braucht, um sie so anzuzeigen, wie du sie gewählt hast.\n\nDas Rezitations-Audio wird von EQuran.id (cdn.equran.id) geladen oder, für die anderen Rezitatoren und als Ausweichquelle, von AlQuran.cloud (cdn.islamic.network). Der Dienst, der die Datei liefert, sieht also deine IP-Adresse, wenn du Audio abspielst.\n\nWenn du im Koran suchst, werden die Wörter, die du eingibst, an unseren Server gesendet, um die Verse zu finden. Sie werden nicht mit deinem Konto gespeichert und nicht anders verwendet; wie jede Anfrage können sie in den Protokollen des Webservers und von Cloudflare erscheinen.",
       },
       account: {
         title: "Wenn du dich anmeldest",
@@ -155,6 +155,18 @@ export const de: Messages = {
     noResults: "Keine Sure gefunden.",
     goTo: "Gehe zu {reference}",
     daily: { title: "Sure des Tages", read: "Sure lesen" },
+  },
+  search: {
+    title: "Suche",
+    placeholder: "Im Koran suchen…",
+    button: "Suchen",
+    surah: "Sure",
+    allSurahs: "Alle Suren",
+    found: "Gefundene Verse: {count}",
+    none: "Kein Vers gefunden.",
+    short: "Gib einen längeren Suchbegriff ein.",
+    unavailable: "Die Suche ist gerade nicht verfügbar.",
+    hint: "Suche im arabischen Text und in den Übersetzungen oder gib eine Stelle wie 2:255 ein.",
   },
   continueReading: {
     label: "Weiterlesen",

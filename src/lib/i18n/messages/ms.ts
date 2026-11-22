@@ -56,7 +56,7 @@ export const ms: Messages = {
     sections: {
       reading: {
         title: "Membaca tanpa akaun",
-        body: "Kedudukan bacaan terakhir, kemajuan, penanda, nota dan pilihan paparan anda disimpan dalam pelayar anda sendiri (storan setempat) dan tidak keluar daripadanya. Pilihan edisi dan qari, serta bahasa antara muka, disimpan dalam dua kuki kecil (qw-sel dan qw-lang) yang diperlukan oleh laman ini untuk memaparkan halaman mengikut pilihan anda.\n\nAudio bacaan dimuatkan dari EQuran.id (cdn.equran.id) atau, bagi qari lain dan sebagai sandaran, dari AlQuran.cloud (cdn.islamic.network), jadi perkhidmatan yang menghantar fail itu melihat alamat IP anda apabila anda memainkan audio.",
+        body: "Kedudukan bacaan terakhir, kemajuan, penanda, nota dan pilihan paparan anda disimpan dalam pelayar anda sendiri (storan setempat) dan tidak keluar daripadanya. Pilihan edisi dan qari, serta bahasa antara muka, disimpan dalam dua kuki kecil (qw-sel dan qw-lang) yang diperlukan oleh laman ini untuk memaparkan halaman mengikut pilihan anda.\n\nAudio bacaan dimuatkan dari EQuran.id (cdn.equran.id) atau, bagi qari lain dan sebagai sandaran, dari AlQuran.cloud (cdn.islamic.network), jadi perkhidmatan yang menghantar fail itu melihat alamat IP anda apabila anda memainkan audio.\n\nApabila anda mencari dalam Al-Quran, kata yang anda taip dihantar ke pelayan kami untuk mencari ayatnya. Kata itu tidak disimpan bersama akaun anda dan tidak digunakan untuk perkara lain; seperti setiap permintaan, ia boleh muncul dalam log pelayan web dan Cloudflare.",
       },
       account: {
         title: "Jika anda log masuk",
@@ -155,6 +155,18 @@ export const ms: Messages = {
     noResults: "Tiada surah dijumpai.",
     goTo: "Pergi ke {reference}",
     daily: { title: "Surah hari ini", read: "Baca surah ini" },
+  },
+  search: {
+    title: "Cari",
+    placeholder: "Cari dalam Al-Quran…",
+    button: "Cari",
+    surah: "Surah",
+    allSurahs: "Semua surah",
+    found: "Ayat ditemui: {count}",
+    none: "Tiada ayat yang sepadan.",
+    short: "Taip kata carian yang lebih panjang.",
+    unavailable: "Carian tidak tersedia sekarang.",
+    hint: "Cari dalam teks Arab dan terjemahan, atau taip rujukan seperti 2:255.",
   },
   continueReading: {
     label: "Sambung membaca",

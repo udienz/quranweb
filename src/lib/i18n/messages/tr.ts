@@ -55,7 +55,7 @@ export const tr: Messages = {
     sections: {
       reading: {
         title: "Hesap olmadan okuma",
-        body: "Son okuduğunuz yer, ilerlemeniz, yer imleriniz, notlarınız ve görünüm tercihleriniz kendi tarayıcınızda (yerel depolama) tutulur ve tarayıcıdan çıkmaz. Meal ve okuyucu seçiminiz ile arayüz dili, sitenin sayfayı seçtiğiniz şekilde gösterebilmesi için gereken iki küçük çerezde (qw-sel ve qw-lang) tutulur.\n\nSesli okuyuş EQuran.id'den (cdn.equran.id) ya da diğer okuyucular için ve yedek olarak AlQuran.cloud'dan (cdn.islamic.network) yüklenir; bu yüzden ses çaldığınızda dosyayı gönderen hizmet IP adresinizi görür.",
+        body: "Son okuduğunuz yer, ilerlemeniz, yer imleriniz, notlarınız ve görünüm tercihleriniz kendi tarayıcınızda (yerel depolama) tutulur ve tarayıcıdan çıkmaz. Meal ve okuyucu seçiminiz ile arayüz dili, sitenin sayfayı seçtiğiniz şekilde gösterebilmesi için gereken iki küçük çerezde (qw-sel ve qw-lang) tutulur.\n\nSesli okuyuş EQuran.id'den (cdn.equran.id) ya da diğer okuyucular için ve yedek olarak AlQuran.cloud'dan (cdn.islamic.network) yüklenir; bu yüzden ses çaldığınızda dosyayı gönderen hizmet IP adresinizi görür.\n\nKur'an'da arama yaptığınızda yazdığınız sözcükler ayetleri bulmak için sunucumuza gönderilir. Hesabınızla birlikte saklanmaz ve başka bir amaçla kullanılmaz; her istek gibi web sunucusunun ve Cloudflare'ın kayıtlarında görünebilir.",
       },
       account: {
         title: "Giriş yaparsanız",
@@ -154,6 +154,18 @@ export const tr: Messages = {
     noResults: "Sure bulunamadı.",
     goTo: "{reference} konumuna git",
     daily: { title: "Günün suresi", read: "Sureyi oku" },
+  },
+  search: {
+    title: "Ara",
+    placeholder: "Kur'an'da ara…",
+    button: "Ara",
+    surah: "Sure",
+    allSurahs: "Tüm sureler",
+    found: "Bulunan ayetler: {count}",
+    none: "Ayet bulunamadı.",
+    short: "Daha uzun bir arama yazın.",
+    unavailable: "Arama şu anda kullanılamıyor.",
+    hint: "Arapça metinde ve mealde arayın ya da 2:255 gibi bir kaynak yazın.",
   },
   continueReading: {
     label: "Okumaya devam et",

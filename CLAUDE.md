@@ -396,6 +396,36 @@ is 29 pages instead of one very long scroll.
   Tafsir) and the settings also survive a page change.
 - The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
 
+### Search (roadmap phase 6, step 5; 2026-11-22)
+
+`/search?q=…&surah=…&page=…` (`app/search/page.tsx`, a plain GET form; a search icon in the header and a box in the home page's hero lead to
+it). The index is a SQLite FTS5 database, `quranweb-search.sqlite`, **built by `scripts/build-search-index.mjs <mirror dir>` and not in
+git**; the app only reads it (`lib/search/search.ts`, `node:sqlite`, read only).
+
+- **What is indexed:** only the editions in the public mirror: the Arabic text of EQuran.id and of fawazahmed0's Uthmani Hafs (table `ar`,
+  trigrams of the text without vowel marks, so a word is found with the article or a preposition attached), the transliteration, the
+  Indonesian Kemenag text of EQuran.id, Yusuf Ali and Pickthall, and the Turkish, Malay, Bengali and Russian editions (word tables, accents
+  ignored). **Not indexed:** every QuranEnc edition and everything read live, and all tafsir. That follows the owner's rule that new
+  translations are not downloaded (2026-11-21) and QuranEnc's terms; indexing the QuranEnc copy would need the owner's say-so.
+- **Where the index is:** `QURAN_SEARCH_INDEX`, else `<mirror>/quranweb-search.sqlite` (`QURAN_API_URL` is `<mirror>/api/v2`), so on the servers
+  `/data/quranweb-search.sqlite`; nginx does not serve it. With the data read from the internet there is no index and the page says
+  search is not available. A missing file is looked for again on the next search and a replaced one is reopened (mtime), so a new index
+  needs no restart. **After every change of the mirror, or on a new server, run `node scripts/build-search-index.mjs /srv/quranweb-mirror`**
+  (about 2 s, 22 MB); it writes beside the old file and renames over it.
+- **Reading a query** (`lib/search/normalize.ts`, pure, tested): Arabic script is normalized (`normalizeArabic`; the builder has its own
+  copy, and `search.test.ts` checks the two agree) and looked up as one phrase of at least three letters; Latin words must all be found, the
+  last may be cut short as it is typed, and a few spellings count as one word (`VARIANTS`: shalat, salat, sholat, solat; zakat, zakah;
+  muhammad, muhamad, mohammed). Every word is quoted for FTS5, so AND, NEAR or a symbol is never read as the query language.
+- **Which text a hit shows** (`sourcesFor`): the interface language's own translation first where the index has one (Turkish, Malay,
+  Bengali, Russian), then Indonesian, English and the transliteration; Arabic is searched alone. A verse is listed once, in the order of the
+  Qur'an, 20 to a page; a table gives at most 3,000 verses per search.
+- **A SQLite trap, tested:** `snippet()` with `WHERE t MATCH ? AND rowid = ?` answers with the text of another verse (the equality skips the
+  MATCH), so the snippet query uses `rowid BETWEEN ? AND ?`. `search.test.ts` checks every snippet is from its own verse.
+- `/search` is `noindex` and disallowed in `robots.txt`. The privacy page says the words searched are sent to the server and may appear in
+  the logs of the web server and Cloudflare, not stored with the account.
+- The browser tests build the index from `e2e/fixtures` first (`playwright.config.ts`); the fixtures have no fawazahmed0 editions, so only
+  the EQuran.id tables have text there.
+
 ### Typed references (roadmap phase 6, step 4; 2026-11-22)
 
 Typing a verse in either surah search box (`SurahGrid` on the home page, `SurahSidebar` beside a surah) shows a link "Go to Al-Baqarah
@@ -449,7 +479,7 @@ Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og
   they never compete with production as duplicates. **If the app cannot tell its own address, production would answer
   `Disallow: /`**: that is why `BETTER_AUTH_URL` is a fallback; check `/robots.txt` on production after every deploy that touches
   the environment (docs/development.md).
-- **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/settings`) and names
+- **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/search`, `/settings`) and names
   the sitemap. **`sitemap.ts`** (`generateSitemaps`, so the address `/sitemap/0.xml` stays when files are added) lists the home page,
   the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `?page=N` is never listed.
 - **Link previews:** every page that can be shared sets all of its metadata through `shareMetadata({ title, description, path, locale })`:
@@ -670,6 +700,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `SITE_URL` | `BETTER_AUTH_URL`, else the request's Host | Public address of the site, for canonical links, link previews, `robots.txt` and the sitemap; only `https://quranweb.udienz.web.id` is indexed |
 | `ADMIN_EMAILS` | none | Comma-separated emails of the admins (verified sign-in emails); unset = no admin page |
 | `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
+| `QURAN_SEARCH_INDEX` | `<mirror>/quranweb-search.sqlite` | The search index (`scripts/build-search-index.mjs`); without a local mirror there is none and search says it is not available |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
@@ -683,6 +714,7 @@ src/
     page.tsx                   home: hero, "continue reading", grid of 114 surahs
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
     settings/page.tsx          settings: theme and text size, reading settings, account
+    search/page.tsx            full-text search: the form, the results with the words marked, paging
     privacy/page.tsx           privacy policy (English and Indonesian)
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
@@ -728,6 +760,8 @@ src/
     sync/                      account sync: server (merge, store), API handler, engine, browser hook
     account/                   export and deletion of an account (API handler, tests)
     admin/                     admin allowlist, account list, actions and audit log (API handler, tests)
+    search/                    search: normalize.ts (queries, pure), search.ts (reads the index, server only)
+    reference.ts               a typed reference ("2:255", "baqarah 255") read as a verse
     site.ts, site-origin.ts, sitemap.ts   address of the site, robots rules, link-preview metadata, sitemap entries
     privacy.ts                 privacy contact from the environment
     ratelimit.ts               in-memory rate limiter and client address for our own API routes
@@ -751,6 +785,7 @@ scripts/
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
   deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
   og-image.mjs                 draw public/og.png, the link preview image
+  build-search-index.mjs       build the search index from the mirror (`quranweb-search.sqlite`; run after every mirror change)
   readme-screenshots.mjs       take the how-to screenshots of the READMEs (docs/screenshots/<lang>/how-*.png)
   upload-git.sh, upload-git.test.sh   off-server copy of the backups to a private GitHub repository (in use, docs/backup.md)
   update-contributors.mjs, contributors-lib.mjs   write CONTRIBUTORS.md from the GitHub API (the logic is tested in contributors.test.mjs)

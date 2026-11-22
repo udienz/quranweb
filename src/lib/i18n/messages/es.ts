@@ -56,7 +56,7 @@ export const es: Messages = {
     sections: {
       reading: {
         title: "Leer sin cuenta",
-        body: "Tu última posición de lectura, tu progreso, tus marcadores, tus notas y tus opciones de visualización se guardan en tu propio navegador (almacenamiento local) y no salen de él. Tu elección de ediciones y recitador, y el idioma de la interfaz, se guardan en dos pequeñas cookies (qw-sel y qw-lang) que el sitio necesita para mostrar la página como la elegiste.\n\nEl audio de la recitación se carga desde EQuran.id (cdn.equran.id) o, para los demás recitadores y como respaldo, desde AlQuran.cloud (cdn.islamic.network), así que el servicio que entrega el archivo ve tu dirección IP cuando reproduces audio.",
+        body: "Tu última posición de lectura, tu progreso, tus marcadores, tus notas y tus opciones de visualización se guardan en tu propio navegador (almacenamiento local) y no salen de él. Tu elección de ediciones y recitador, y el idioma de la interfaz, se guardan en dos pequeñas cookies (qw-sel y qw-lang) que el sitio necesita para mostrar la página como la elegiste.\n\nEl audio de la recitación se carga desde EQuran.id (cdn.equran.id) o, para los demás recitadores y como respaldo, desde AlQuran.cloud (cdn.islamic.network), así que el servicio que entrega el archivo ve tu dirección IP cuando reproduces audio.\n\nCuando busca en el Corán, las palabras que escribe se envían a nuestro servidor para encontrar las aleyas. No se guardan con su cuenta ni se usan para nada más; como cualquier solicitud, pueden aparecer en los registros del servidor web y de Cloudflare.",
       },
       account: {
         title: "Si inicias sesión",
@@ -155,6 +155,18 @@ export const es: Messages = {
     noResults: "No se encontró ninguna sura.",
     goTo: "Ir a {reference}",
     daily: { title: "Sura del día", read: "Leer la sura" },
+  },
+  search: {
+    title: "Buscar",
+    placeholder: "Buscar en el Corán…",
+    button: "Buscar",
+    surah: "Sura",
+    allSurahs: "Todas las suras",
+    found: "Aleyas encontradas: {count}",
+    none: "No se encontró ninguna aleya.",
+    short: "Escriba una búsqueda más larga.",
+    unavailable: "La búsqueda no está disponible ahora.",
+    hint: "Busque en el texto árabe y en las traducciones, o escriba una referencia como 2:255.",
   },
   continueReading: {
     label: "Seguir leyendo",

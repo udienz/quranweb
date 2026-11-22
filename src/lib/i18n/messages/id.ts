@@ -55,7 +55,7 @@ export const id: Messages = {
     sections: {
       reading: {
         title: "Membaca tanpa akun",
-        body: "Posisi terakhir dibaca, kemajuan, penanda, catatan, dan pilihan tampilan Anda disimpan di peramban Anda sendiri (penyimpanan lokal) dan tidak keluar dari sana. Pilihan edisi dan qari, serta bahasa antarmuka, disimpan di dua kuki kecil (qw-sel dan qw-lang) yang dibutuhkan situs agar halaman tampil sesuai pilihan Anda.\n\nAudio bacaan dimuat dari EQuran.id (cdn.equran.id) atau, untuk qari lainnya dan sebagai cadangan, dari AlQuran.cloud (cdn.islamic.network), sehingga layanan yang mengirim berkas itu melihat alamat IP Anda saat Anda memutar audio.",
+        body: "Posisi terakhir dibaca, kemajuan, penanda, catatan, dan pilihan tampilan Anda disimpan di peramban Anda sendiri (penyimpanan lokal) dan tidak keluar dari sana. Pilihan edisi dan qari, serta bahasa antarmuka, disimpan di dua kuki kecil (qw-sel dan qw-lang) yang dibutuhkan situs agar halaman tampil sesuai pilihan Anda.\n\nAudio bacaan dimuat dari EQuran.id (cdn.equran.id) atau, untuk qari lainnya dan sebagai cadangan, dari AlQuran.cloud (cdn.islamic.network), sehingga layanan yang mengirim berkas itu melihat alamat IP Anda saat Anda memutar audio.\n\nSaat Anda mencari di Al-Qur'an, kata yang Anda ketik dikirim ke server kami untuk mencari ayatnya. Kata itu tidak disimpan bersama akun Anda dan tidak dipakai untuk hal lain; seperti setiap permintaan, kata itu bisa muncul di log server web dan Cloudflare.",
       },
       account: {
         title: "Jika Anda masuk",
@@ -154,6 +154,18 @@ export const id: Messages = {
     noResults: "Surat tidak ditemukan.",
     goTo: "Buka {reference}",
     daily: { title: "Surat hari ini", read: "Baca surat ini" },
+  },
+  search: {
+    title: "Cari",
+    placeholder: "Cari di Al-Qur'an…",
+    button: "Cari",
+    surah: "Surat",
+    allSurahs: "Semua surat",
+    found: "Ayat ditemukan: {count}",
+    none: "Tidak ada ayat yang cocok.",
+    short: "Ketik kata pencarian yang lebih panjang.",
+    unavailable: "Pencarian sedang tidak tersedia.",
+    hint: "Cari di teks Arab dan terjemahan, atau ketik rujukan seperti 2:255.",
   },
   continueReading: {
     label: "Lanjutkan membaca",

@@ -56,7 +56,7 @@ export const sw: Messages = {
     sections: {
       reading: {
         title: "Kusoma bila akaunti",
-        body: "Mahali ulipofikia mwisho, maendeleo yako, alamisho, maelezo na chaguo za mwonekano vinahifadhiwa kwenye kivinjari chako mwenyewe (hifadhi ya ndani) na haviondoki humo. Chaguo lako la matoleo na msomaji, na lugha ya kiolesura, vinahifadhiwa katika vidakuzi viwili vidogo (qw-sel na qw-lang), ambavyo tovuti inavihitaji ili kuvionyesha kama ulivyochagua.\n\nSauti ya kisomo inapakiwa kutoka EQuran.id (cdn.equran.id) au, kwa wasomaji wengine na kama mbadala, kutoka AlQuran.cloud (cdn.islamic.network), kwa hiyo huduma inayotoa faili inaona anwani yako ya IP unapocheza sauti.",
+        body: "Mahali ulipofikia mwisho, maendeleo yako, alamisho, maelezo na chaguo za mwonekano vinahifadhiwa kwenye kivinjari chako mwenyewe (hifadhi ya ndani) na haviondoki humo. Chaguo lako la matoleo na msomaji, na lugha ya kiolesura, vinahifadhiwa katika vidakuzi viwili vidogo (qw-sel na qw-lang), ambavyo tovuti inavihitaji ili kuvionyesha kama ulivyochagua.\n\nSauti ya kisomo inapakiwa kutoka EQuran.id (cdn.equran.id) au, kwa wasomaji wengine na kama mbadala, kutoka AlQuran.cloud (cdn.islamic.network), kwa hiyo huduma inayotoa faili inaona anwani yako ya IP unapocheza sauti.\n\nUnapotafuta katika Qur'ani, maneno unayoandika yanatumwa kwenye seva yetu ili kupata aya. Hayahifadhiwi pamoja na akaunti yako wala hayatumiki kwa jambo jingine; kama ombi lolote, yanaweza kuonekana kwenye kumbukumbu za seva ya wavuti na za Cloudflare.",
       },
       account: {
         title: "Ukiingia",
@@ -155,6 +155,18 @@ export const sw: Messages = {
     noResults: "Hakuna sura iliyopatikana.",
     goTo: "Nenda kwa {reference}",
     daily: { title: "Sura ya leo", read: "Soma sura" },
+  },
+  search: {
+    title: "Tafuta",
+    placeholder: "Tafuta katika Qur'ani…",
+    button: "Tafuta",
+    surah: "Sura",
+    allSurahs: "Sura zote",
+    found: "Aya zilizopatikana: {count}",
+    none: "Hakuna aya iliyopatikana.",
+    short: "Andika neno refu zaidi la kutafuta.",
+    unavailable: "Utafutaji haupatikani sasa.",
+    hint: "Tafuta katika maandishi ya Kiarabu na tafsiri, au andika rejea kama 2:255.",
   },
   continueReading: {
     label: "Endelea kusoma",

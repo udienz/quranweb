@@ -22,7 +22,8 @@ export default defineConfig({
     trace: "off",
   },
   webServer: {
-    command: `npm run start -- -p ${PORT} -H 127.0.0.1`,
+    // The search index is built from the fixtures first (it is not in git).
+    command: `node scripts/build-search-index.mjs e2e/fixtures && npm run start -- -p ${PORT} -H 127.0.0.1`,
     url: `http://127.0.0.1:${PORT}/privacy`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,

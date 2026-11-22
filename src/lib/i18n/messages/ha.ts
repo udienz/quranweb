@@ -56,7 +56,7 @@ export const ha: Messages = {
     sections: {
       reading: {
         title: "Karatu ba tare da asusu ba",
-        body: "Wurin karatunka na ƙarshe, ci gabanka, alamomi, bayanai da zaɓuɓɓukan nuni suna nan a cikin burauzarka (ajiyar gida) kuma ba sa fita daga cikinta. Zaɓinka na bugu da mai karatu, da harshen manhaja, ana ajiye su a cikin ƙananan kukis biyu (qw-sel da qw-lang), waɗanda shafin yake buƙata don nuna su kamar yadda ka zaɓa.\n\nAna loda sautin karatu daga EQuran.id (cdn.equran.id) ko, don sauran masu karatu kuma a matsayin madadin, daga AlQuran.cloud (cdn.islamic.network), don haka sabis ɗin da ke ba da fayil ɗin yana ganin adireshin IP ɗinka idan ka kunna sauti.",
+        body: "Wurin karatunka na ƙarshe, ci gabanka, alamomi, bayanai da zaɓuɓɓukan nuni suna nan a cikin burauzarka (ajiyar gida) kuma ba sa fita daga cikinta. Zaɓinka na bugu da mai karatu, da harshen manhaja, ana ajiye su a cikin ƙananan kukis biyu (qw-sel da qw-lang), waɗanda shafin yake buƙata don nuna su kamar yadda ka zaɓa.\n\nAna loda sautin karatu daga EQuran.id (cdn.equran.id) ko, don sauran masu karatu kuma a matsayin madadin, daga AlQuran.cloud (cdn.islamic.network), don haka sabis ɗin da ke ba da fayil ɗin yana ganin adireshin IP ɗinka idan ka kunna sauti.\n\nIdan ka bincika a Alƙur'ani, ana aika kalmomin da ka rubuta zuwa sabarmu don nemo ayoyin. Ba a ajiye su tare da asusunka ba kuma ba a amfani da su don wani abu dabam; kamar kowace buƙata, suna iya fitowa a cikin bayanan sabar yanar gizo da na Cloudflare.",
       },
       account: {
         title: "Idan ka shiga",
@@ -155,6 +155,18 @@ export const ha: Messages = {
     noResults: "Ba a sami sura ba.",
     goTo: "Je zuwa {reference}",
     daily: { title: "Sura ta yau", read: "Karanta surar" },
+  },
+  search: {
+    title: "Bincike",
+    placeholder: "Bincika a cikin Alƙur'ani…",
+    button: "Bincika",
+    surah: "Sura",
+    allSurahs: "Duk surori",
+    found: "Ayoyin da aka samu: {count}",
+    none: "Ba a sami aya ba.",
+    short: "Rubuta kalmar bincike mafi tsayi.",
+    unavailable: "Bincike ba ya samuwa yanzu.",
+    hint: "Bincika a rubutun Larabci da fassarori, ko ka rubuta tushe kamar 2:255.",
   },
   continueReading: {
     label: "Ci gaba da karatu",

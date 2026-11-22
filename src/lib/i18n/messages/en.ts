@@ -55,7 +55,7 @@ export const en = {
     sections: {
       reading: {
         title: "Reading without an account",
-        body: "Your last read position, progress, bookmarks, notes and display choices are kept in your own browser (local storage) and do not leave it. Your choice of editions and reciter, and the interface language, are kept in two small cookies (qw-sel and qw-lang) that the site needs to show the page the way you chose.\n\nRecitation audio is loaded from EQuran.id (cdn.equran.id) or, for the other reciters and as a fallback, from AlQuran.cloud (cdn.islamic.network), so the service that serves the file sees your IP address when you play audio.",
+        body: "Your last read position, progress, bookmarks, notes and display choices are kept in your own browser (local storage) and do not leave it. Your choice of editions and reciter, and the interface language, are kept in two small cookies (qw-sel and qw-lang) that the site needs to show the page the way you chose.\n\nRecitation audio is loaded from EQuran.id (cdn.equran.id) or, for the other reciters and as a fallback, from AlQuran.cloud (cdn.islamic.network), so the service that serves the file sees your IP address when you play audio.\n\nWhen you search the Qur'an, the words you type are sent to our server to find the verses. They are not kept with your account or used for anything else; like any request, they can appear in the logs of the web server and of Cloudflare.",
       },
       account: {
         title: "If you sign in",
@@ -154,6 +154,18 @@ export const en = {
     noResults: "No surah found.",
     goTo: "Go to {reference}",
     daily: { title: "Surah of the day", read: "Read the surah" },
+  },
+  search: {
+    title: "Search",
+    placeholder: "Search the Qur'an…",
+    button: "Search",
+    surah: "Surah",
+    allSurahs: "All surahs",
+    found: "Verses found: {count}",
+    none: "No verse found.",
+    short: "Type a longer search.",
+    unavailable: "Search is not available right now.",
+    hint: "Search the Arabic text and the translations, or type a reference such as 2:255.",
   },
   continueReading: {
     label: "Continue reading",

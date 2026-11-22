@@ -97,6 +97,50 @@ test("a typed reference opens the verse: on the home page and in the side panel"
   await expect(page).toHaveURL(/\/surah\/112#verse-4$/);
 });
 
+test("search: from the home page, a word, a surah filter, an Arabic word without vowel marks, paging and a reference", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("search").getByRole("searchbox").fill("sabar");
+  await page.getByRole("search").getByRole("button", { name: "Cari" }).click();
+  await expect(page).toHaveURL(/\/search\?q=sabar$/);
+  await expect(page.getByRole("status")).toContainText("Ayat ditemukan:");
+  const first = page.getByRole("listitem").first();
+  await expect(first.getByRole("link")).toHaveText(/^Al-\w+ \d+:\d+$/);
+  await expect(first.locator("mark").first()).toHaveText(/sabar/i);
+
+  // Limited to a surah.
+  await page.goto("/search?q=Allah&surah=112");
+  await expect(page.getByRole("listitem")).toHaveCount(await page.getByRole("listitem").count());
+  for (const link of await page.getByRole("listitem").getByRole("link").allTextContents()) expect(link).toMatch(/ 112:\d+$/);
+
+  // Arabic, without vowel marks and with the article attached.
+  await page.goto("/search?q=" + encodeURIComponent("رحمن"));
+  await expect(page.getByRole("listitem").first().getByRole("link")).toHaveText("Al-Fatihah 1:1");
+  await expect(page.getByRole("listitem").first().locator("mark").first()).toHaveText("رحمن");
+
+  // The same word is spelled in more than one way.
+  await page.goto("/search?q=shalat");
+  const shalat = await page.getByRole("status").textContent();
+  await page.goto("/search?q=sholat");
+  expect(await page.getByRole("status").textContent()).toBe(shalat);
+
+  // A page of results at a time, and the way to the next.
+  await page.goto("/search?q=Allah");
+  await expect(page.getByRole("listitem")).toHaveCount(20);
+  await page.getByRole("link", { name: /berikutnya/i }).click();
+  await expect(page).toHaveURL(/page=2/);
+
+  // A reference is offered as a link; a word that is not there says so; a query that is too short asks for more.
+  await page.goto("/search?q=" + encodeURIComponent("2:255"));
+  await expect(page.getByRole("link", { name: "Buka Al-Baqarah 2:255" })).toBeVisible();
+  await page.goto("/search?q=zzzqqqxxx");
+  await expect(page.getByRole("status")).toHaveText("Tidak ada ayat yang cocok.");
+  await page.goto("/search?q=a");
+  await expect(page.getByText("Ketik kata pencarian yang lebih panjang.")).toBeVisible();
+
+  // Crawlers are kept out of the results pages.
+  expect(await (await page.request.get("/search?q=sabar")).text()).toContain('name="robots" content="noindex');
+});
+
 test("the reciter list: best known first, search in Latin and Arabic, a CDN reciter plays from the CDN", async ({ page, context, baseURL }) => {
   const problems = watchConsole(page);
   await cards(context, baseURL!);
