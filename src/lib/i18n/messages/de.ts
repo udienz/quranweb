@@ -153,6 +153,7 @@ export const de: Messages = {
     searchPlaceholder: "Nach Name oder Nummer suchen…",
     searchLabel: "Suren suchen",
     noResults: "Keine Sure gefunden.",
+    daily: { title: "Sure des Tages", read: "Sure lesen" },
   },
   continueReading: {
     label: "Weiterlesen",

@@ -396,6 +396,16 @@ is 29 pages instead of one very long scroll.
   Tafsir) and the settings also survive a page change.
 - The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
 
+### Surah of the day (roadmap phase 6, step 2; 2026-11-22)
+
+A card on the home page (`DailySurah`, a server component) with the day's surah, its meaning, verse count and first **three**
+verses (the Arabic text and the reader's first translation; tafsir and transliteration are not loaded). `dailySurah(now)` in
+`lib/daily.ts`: the day number in Asia/Jakarta (UTC+7, so it changes at midnight in Indonesia) times 53, modulo 114, plus 1. 53 and
+114 share no factor, so each surah comes once in 114 days, in an order that is not the mushaf order. The home page builds the view
+in `dailyView`, which returns null when the text cannot be read (a source read live was down): the card is then left out and the
+rest of the page works. The strings are `home.daily.*`. The owner asked for a surah, not a verse; a curated verse of the day
+stays an open question in `ROADMAP.md`.
+
 ### Being found: robots, sitemap and link previews (roadmap phase 6, step 1; 2026-11-22)
 
 Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og-image.mjs`).
@@ -665,7 +675,7 @@ src/
     AudioQualitySelect.tsx     standard or data-saver audio (this device only; `lib/audio-quality.ts`)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
-    ContinueReading.tsx, MyReading.tsx
+    ContinueReading.tsx, MyReading.tsx, DailySurah.tsx   (DailySurah: the surah of the day on the home page, `lib/daily.ts`)
     LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
     LanguageFlag.tsx           the flag beside each language in the menu (country-flag-icons, only the flags in use)
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)

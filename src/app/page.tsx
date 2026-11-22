@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllSurah } from "@/lib/quran";
+import { cookies } from "next/headers";
+import { getAllSurah, getQuran } from "@/lib/quran";
+import { todaysSurah } from "@/lib/daily";
+import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import { getI18n } from "@/lib/i18n/server";
 import { shareMetadata } from "@/lib/site";
 import ContinueReading from "@/components/ContinueReading";
+import DailySurah from "@/components/DailySurah";
 import SurahGrid from "@/components/SurahGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,8 +19,39 @@ export async function generateMetadata(): Promise<Metadata> {
 // external sources that must not be needed while `docker build` / `next build` run.
 export const instant = false;
 
+/** The first verses shown in the surah of the day: the Arabic text and the reader's first translation, nothing else. */
+const DAILY_VERSES = 3;
+
+/** The view for the surah of the day, or null when its text cannot be read (the home page works without the card). */
+async function dailyView(locale: string) {
+  try {
+    const quran = getQuran();
+    const surah = todaysSurah();
+    const saved = parseSelectionCookie((await cookies()).get(SELECTION_COOKIE)?.value);
+    let chosen;
+    try {
+      chosen = quran.resolveSelection(saved, locale);
+    } catch {
+      chosen = quran.resolveSelection({}, locale);
+    }
+    // Only what the card shows is loaded: no tafsir, no transliteration, one translation.
+    const light = quran.resolveSelection(
+      { ...chosen, translations: chosen.translations.slice(0, 1), transliteration: null, tafsir: null },
+      locale,
+    );
+    const meta = (await quran.getSurahList()).find((s) => s.number === surah);
+    if (!meta) return null;
+    return await quran.getSurahView(surah, light, locale, { from: 1, to: Math.min(DAILY_VERSES, meta.verseCount) });
+  } catch (error) {
+    console.error("The surah of the day is not available:", error);
+    return null;
+  }
+}
+
 export default async function Home() {
-  const [surahList, { t }] = await Promise.all([getAllSurah(), getI18n()]);
+  const [surahList, i18n] = await Promise.all([getAllSurah(), getI18n()]);
+  const { t, locale } = i18n;
+  const daily = await dailyView(locale);
 
   // The hero stays short so "continue reading", what a returning reader came for, is high on the first screen.
   return (
@@ -37,6 +72,7 @@ export default async function Home() {
         </div>
       </section>
       <ContinueReading surahs={surahList} />
+      {daily && <DailySurah view={daily} />}
       <SurahGrid surahs={surahList} />
     </div>
   );

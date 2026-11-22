@@ -154,6 +154,7 @@ export const ru: Messages = {
     searchPlaceholder: "Поиск по названию или номеру…",
     searchLabel: "Поиск суры",
     noResults: "Сура не найдена.",
+    daily: { title: "Сура дня", read: "Читать суру" },
   },
   continueReading: {
     label: "Продолжить чтение",

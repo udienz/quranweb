@@ -153,6 +153,7 @@ export const ta: Messages = {
     searchPlaceholder: "பெயர் அல்லது எண்ணால் தேடு…",
     searchLabel: "சூராக்களைத் தேடு",
     noResults: "சூரா எதுவும் கிடைக்கவில்லை.",
+    daily: { title: "இன்றைய சூரா", read: "சூராவைப் படிக்கவும்" },
   },
   continueReading: {
     label: "தொடர்ந்து படி",

@@ -153,6 +153,7 @@ export const ur: Messages = {
     searchPlaceholder: "نام یا نمبر سے تلاش کریں…",
     searchLabel: "سورت تلاش کریں",
     noResults: "کوئی سورت نہیں ملی۔",
+    daily: { title: "آج کی سورت", read: "سورت پڑھیں" },
   },
   continueReading: {
     label: "تلاوت جاری رکھیں",

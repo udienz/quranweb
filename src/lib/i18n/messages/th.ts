@@ -154,6 +154,7 @@ export const th: Messages = {
     searchPlaceholder: "ค้นหาด้วยชื่อหรือหมายเลข…",
     searchLabel: "ค้นหาซูเราะฮ์",
     noResults: "ไม่พบซูเราะฮ์",
+    daily: { title: "ซูเราะฮ์ประจำวัน", read: "อ่านซูเราะฮ์นี้" },
   },
   continueReading: {
     label: "อ่านต่อ",

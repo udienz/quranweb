@@ -288,6 +288,14 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   note in `--muted-foreground` under the list
 - Use: every page
 
+**Surah of the day (home page)**
+- A card under "continue reading": white (`--card`) on a 1px border, 16px radius, 20px padding (24px from `sm`)
+- A 14px muted label, the surah's Latin name in `Space Grotesk` 20px 600 with its meaning and verse count in muted 16px, the Arabic name
+  in `Amiri` 24px in the primary colour at the other end; the three first verses (Arabic 24px, translation 16px beside its
+  number); a primary pill "Read the surah" (white text, dark text in dark mode)
+- The name and the meaning are flex items with a gap, so the gap holds right to left
+- Use: the home page only; it is left out when the text cannot be read
+
 **Surah List (side panel)**
 - Rows: index in tabular figures `#596e73`, name 14px weight 500, Arabic name `Amiri` 18px
 - Current surah: background `#e2f0f3`, 2px left edge in `#d7a342`

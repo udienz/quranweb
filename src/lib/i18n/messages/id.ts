@@ -152,6 +152,7 @@ export const id: Messages = {
     searchPlaceholder: "Cari nama atau nomor…",
     searchLabel: "Cari surat",
     noResults: "Surat tidak ditemukan.",
+    daily: { title: "Surat hari ini", read: "Baca surat ini" },
   },
   continueReading: {
     label: "Lanjutkan membaca",
