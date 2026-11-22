@@ -26,7 +26,7 @@ function Snippet({ snippet, source }: { snippet: string; source: SearchSource })
   return (
     <p
       lang={language}
-      dir={arabic ? "rtl" : "ltr"}
+      dir={arabic || source === "ur" || source === "fa" ? "rtl" : "ltr"}
       translate="no"
       className={arabic ? "font-arabic text-right text-2xl leading-loose" : `leading-relaxed ${source === "translit" ? "italic text-primary" : ""}`}
     >
