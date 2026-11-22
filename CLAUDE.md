@@ -396,6 +396,16 @@ is 29 pages instead of one very long scroll.
   Tafsir) and the settings also survive a page change.
 - The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
 
+### Typed references (roadmap phase 6, step 4; 2026-11-22)
+
+Typing a verse in either surah search box (`SurahGrid` on the home page, `SurahSidebar` beside a surah) shows a link "Go to Al-Baqarah
+2:255" above the list, and Enter opens it (`ReferenceLink`: `useReference`, `useEnterToGo`; the link is `verseHref`, the reader at that
+verse). `parseReference` (`lib/reference.ts`, pure, table-tested) reads two numbers as a surah and a verse (`2:255`, `2 255`, `QS. 2: 255`),
+and one number with a surah's name as a verse of it (`baqarah 255`, `Al-Baqarah 2:255`, `Qur'an 2:255 (Al-Baqarah)`, the form the share menu
+writes). A name matches whole, without its article ("Al-Baqarah" is also "baqarah") or as a word of it ("imran" for "Ali 'Imran"), at least
+three letters, and only when it fits one surah; a prefix that fits several is refused rather than guessed. A verse past the end of the
+surah leads to the surah. A number alone is a surah number, which the list's own filter already finds. The text is `home.goTo`.
+
 ### Surah of the day (roadmap phase 6, step 2; 2026-11-22)
 
 A card on the home page (`DailySurah`, a server component) with the day's surah, its meaning, verse count and first **three**
@@ -698,6 +708,7 @@ src/
     AudioQualitySelect.tsx     standard or data-saver audio (this device only; `lib/audio-quality.ts`)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
+    ReferenceLink.tsx          the "Go to Al-Baqarah 2:255" link of the search boxes (`lib/reference.ts`)
     ContinueReading.tsx, MyReading.tsx, DailySurah.tsx   (DailySurah: the surah of the day on the home page, `lib/daily.ts`)
     LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
     LanguageFlag.tsx           the flag beside each language in the menu (country-flag-icons, only the flags in use)

@@ -5,10 +5,14 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
+import ReferenceLink, { useEnterToGo, useReference } from "./ReferenceLink";
 
 export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
   const { t, tn, locale } = useI18n();
   const [q, setQ] = useState("");
+
+  const reference = useReference(q, surahs);
+  const onKeyDown = useEnterToGo(reference);
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
@@ -29,11 +33,18 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onKeyDown={onKeyDown}
           placeholder={t("home.searchPlaceholder")}
           aria-label={t("home.searchLabel")}
           className="w-full rounded-full border border-border bg-card px-4 py-2 text-sm outline-none focus:border-primary sm:w-72"
         />
       </div>
+      {reference && (
+        <ReferenceLink
+          target={reference}
+          className="mb-4 flex rounded-2xl border border-primary/40 bg-primary-soft px-4 py-3 font-medium text-primary hover:border-primary"
+        />
+      )}
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((s) => (
           <li key={s.number}>
@@ -57,7 +68,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
           </li>
         ))}
       </ul>
-      {filtered.length === 0 && <p className="py-10 text-center text-muted-foreground">{t("home.noResults")}</p>}
+      {filtered.length === 0 && !reference && <p className="py-10 text-center text-muted-foreground">{t("home.noResults")}</p>}
     </section>
   );
 }

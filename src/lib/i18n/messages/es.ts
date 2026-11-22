@@ -153,6 +153,7 @@ export const es: Messages = {
     searchPlaceholder: "Buscar por nombre o número…",
     searchLabel: "Buscar suras",
     noResults: "No se encontró ninguna sura.",
+    goTo: "Ir a {reference}",
     daily: { title: "Sura del día", read: "Leer la sura" },
   },
   continueReading: {
