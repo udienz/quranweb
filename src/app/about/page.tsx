@@ -5,10 +5,11 @@ import type { Edition, EditionKind, SourceInfo } from "@/lib/quran/types";
 import { localized } from "@/lib/i18n/translate";
 import { getI18n } from "@/lib/i18n/server";
 import { languageNamer } from "@/lib/i18n/languages";
+import { excerpt, shareMetadata } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getI18n();
-  return { title: `${t("about.title")} | ${t("meta.title")}` };
+  const { t, locale } = await getI18n();
+  return shareMetadata({ title: `${t("about.title")} | ${t("meta.title")}`, description: excerpt(t("about.intro")), path: "/about", locale });
 }
 
 // Rendered per request, like the other pages (the catalog comes from the configured sources).

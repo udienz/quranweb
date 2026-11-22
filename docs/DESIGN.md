@@ -525,6 +525,8 @@ Observed (all pages, both themes): `aria-label` (150), `aria-hidden` (84, decora
 
 - The site has no photographs; the only images are the logo and icons (inline SVG), which scale with their container.
 - App icons for installing: 192px and 512px PNG, plus a full-bleed maskable 512px.
+- The link preview image, `public/og.png` (1200 by 630): the logo and the wordmark in cream on the hero gradient, the Bismillah in gold
+  Amiri, a one-line tagline and the address. Drawn by `scripts/og-image.mjs`; redraw it with the icons if the brand changes.
 - Screenshots in the README are the only raster images in the project.
 
 ## 11. State Matrix
