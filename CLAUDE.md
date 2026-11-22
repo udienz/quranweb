@@ -393,8 +393,7 @@ verse of that page of 10 (`mushafPageOf` on the checked table; without the table
 leads to a surah (the lists, "continue reading", bookmarks, "Read in the surah" on a verse page) therefore works with no change; the cost is
 that such a link lands on the page, not on the verse (a client-side navigation loses the hash; a hard load keeps `#verse-255` and
 `MushafPageReader` scrolls to that verse of the page's surah that has it). The mushaf page records "last read" with its surah (`verse-S-V` ids)
-and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** the 10-verse pages at `/surah/2/page/3` (the owner's decision) with
-a redirect from `?page=3`, mushaf pages in the surah sidebar. **Step 6 is in: the daily goal in pages** (`Goal.pages`, `setDailyGoalInPages`, one select in `DailyGoal` with verse and page choices; 1 to 100 pages). A page goal is stored as the equivalent verses too (`versesPerDay = ceil(pages * 6236 / 604)`, about 10.3 a page), so streaks, merge and older clients work unchanged; today's count is shown as pages by the same average, so it is approximate. **Step 4 is in: turning pages**
+and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** mushaf pages in the surah sidebar. **Step 6 is in: the daily goal in pages** (`Goal.pages`, `setDailyGoalInPages`, one select in `DailyGoal` with verse and page choices; 1 to 100 pages). A page goal is stored as the equivalent verses too (`versesPerDay = ceil(pages * 6236 / 604)`, about 10.3 a page), so streaks, merge and older clients work unchanged; today's count is shown as pages by the same average, so it is approximate. **Step 4 is in: turning pages**
 (`MushafPageNav`, above and below the page): previous and next page (`pagination.previous`/`next`), the page number as "42 / 604"
 (`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
 swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
@@ -415,7 +414,7 @@ table (`scripts/e2e-fixtures.mjs`), and the page's title is `mushaf.page`.
 A surah is shown 10 verses at a time (`PAGE_SIZE` in `src/lib/pagination.ts`), so Al-Baqarah
 is 29 pages instead of one very long scroll.
 
-- **The page is in the URL** (`/surah/2?page=3`): `clampPage` makes anything unusable page 1
+- **The page is in the URL** (`/surah/2/page/3`; page 1 is `/surah/2`; an old `/surah/2?page=3` and `/surah/2/page/1` redirect permanently to the clean address; `proxy.ts` answers 404 for a page the surah does not have, `surahPageFromSegment`; the route shares `SurahScreen.tsx` with `/surah/N`; the canonical address stays `/surah/N`): `clampPage` makes anything unusable page 1
   and anything past the end the last page. The page component builds only that page's verses
   (`getSurahView(..., { from, to })`), so the HTML shrinks from about 2 MB to about 230 KB for
   Al-Baqarah. The providers still return and check the whole surah on the server.
@@ -514,11 +513,11 @@ Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og
   the environment (docs/development.md).
 - **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/search`, `/settings`) and names
   the sitemap. **`sitemap.ts`** (`generateSitemaps`, so the address `/sitemap/0.xml` stays when files are added) lists the home page,
-  the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `?page=N` is never listed.
+  the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `/surah/N/page/P` is never listed.
 - **Link previews:** every page that can be shared sets all of its metadata through `shareMetadata({ title, description, path, locale })`:
   the canonical address, `og:*` and `twitter:*`. Next.js **replaces** the layout's `openGraph` instead of merging it, so a page that
   sets only a title would lose the image; the layout passes `canonical: false`, because a page without its own would otherwise
-  inherit the home page as its canonical address. A surah is `/surah/N` whatever `?page=` says. The image is the same for every
+  inherit the home page as its canonical address. A surah is `/surah/N` whatever page of it is shown. The image is the same for every
   page, `public/og.png` (1200 by 630), drawn by `scripts/og-image.mjs` in the Playwright image (redraw it with the icons when the logo
   changes). `og:locale` follows the interface language.
 - **Known limit:** one address serves every interface language (the cookie or `Accept-Language` decides), so a crawler without a
