@@ -2,6 +2,8 @@
 // or carry on with the next surah. Kept in local storage, and recorded in the user data as a choice so it follows a
 // signed-in reader's account. No React and no "use client": the constants are shared with server code and tests.
 
+import { rangeStep, type RangeLoop } from "./memorize";
+import type { JuzRef } from "./quran/types";
 import type { Choices } from "./userdata/schema";
 
 export const PLAYBACK_MODES = ["stop", "repeat", "next"] as const;
@@ -34,6 +36,68 @@ export function afterJuz(mode: PlaybackMode, juz: number, juzCount = 30): AfterJ
   if (mode === "repeat") return { kind: "start", juz };
   if (mode === "next" && juz < juzCount) return { kind: "start", juz: juz + 1 };
   return { kind: "stop" };
+}
+
+/** What the player does when a verse has ended (see `afterVerseEnds`). */
+export type EndAction =
+  /** The same verse once more (memorization: "play each verse N times"). */
+  | { kind: "repeat" }
+  /** The last round of a range loop is over. */
+  | { kind: "loopEnd" }
+  /** The next round of a range loop: from its first verse again. */
+  | { kind: "loopAgain"; loop: RangeLoop; surah: number; verse: number }
+  /** The last verse of the juz that is being played; another juz (or the same) starts. */
+  | { kind: "juzNext"; juz: JuzRef }
+  /** The last verse of the juz that is being played; nothing follows. */
+  | { kind: "juzEnd" }
+  /** The next verse is on this page. */
+  | { kind: "nextOnPage" }
+  /** The last verse of the page, and the surah goes on: the next page has the verse. */
+  | { kind: "nextPage"; surah: number; verse: number }
+  /** The end of a surah in the middle of a juz: the juz goes on at the first verse of the next surah. */
+  | { kind: "goTo"; surah: number; verse: number }
+  /** The end of a surah: what the reader chose (repeat or next) starts at this verse. */
+  | { kind: "startAt"; surah: number; verse: number }
+  /** The end: nothing follows. */
+  | { kind: "stop" };
+
+/**
+ * What follows a verse that has ended, in this order of precedence: the same verse again (memorization), the next round of a
+ * range loop, the end of the juz that is being played, the next verse of the page, the next page of the surah, the next surah
+ * in the middle of a juz, and last the reader's choice at the end of a surah. `lastOnPage` says the verse is the last one the
+ * page shows (a page of 10 verses, or of the mushaf, which may end in the middle of a surah or hold the end of one).
+ */
+export function afterVerseEnds(state: {
+  verse: { surah: number; verse: number; lastOnPage: boolean };
+  /** How many verses the surah of the verse has. */
+  verseCount: number;
+  repeatsLeft: number;
+  loop: RangeLoop | null;
+  juzScope: number | null;
+  juzs: readonly JuzRef[];
+  mode: PlaybackMode;
+}): EndAction {
+  const { verse, verseCount, repeatsLeft, loop, juzScope, juzs, mode } = state;
+  if (repeatsLeft > 0) return { kind: "repeat" };
+
+  if (loop) {
+    const step = rangeStep(loop, verse.surah, verse.verse);
+    if (step.kind === "stop") return { kind: "loopEnd" };
+    if (step.kind === "again") return { kind: "loopAgain", loop: step.loop, surah: loop.surah, verse: loop.from };
+  }
+
+  const juz = juzScope === null ? undefined : juzs.find((j) => j.juz === juzScope);
+  if (juz && verse.surah === juz.end.surah && verse.verse === juz.end.verse) {
+    // The last verse of the juz that is being played: what happens is the reader's choice, as at the end of a surah.
+    const after = afterJuz(mode, juz.juz, juzs.length);
+    const target = after.kind === "start" ? juzs.find((j) => j.juz === after.juz) : undefined;
+    return target ? { kind: "juzNext", juz: target } : { kind: "juzEnd" };
+  }
+  if (!verse.lastOnPage) return { kind: "nextOnPage" };
+  if (verse.verse < verseCount) return { kind: "nextPage", surah: verse.surah, verse: verse.verse + 1 };
+  if (juz) return { kind: "goTo", surah: verse.surah + 1, verse: 1 };
+  const after = afterSurah(mode, verse.surah);
+  return after.kind === "stop" ? { kind: "stop" } : { kind: "startAt", surah: after.surah, verse: after.verse };
 }
 
 /** The mode from the account when it differs from this browser's, or null. */
