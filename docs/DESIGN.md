@@ -296,6 +296,14 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - The name and the meaning are flex items with a gap, so the gap holds right to left
 - Use: the home page only; it is left out when the text cannot be read
 
+**Search**
+- A 40px round magnifier button (border, `--card`) in the header before the language button; in the home page's hero a pill input
+  (white 10% fill, white 40% border, white 75% placeholder) and a transparent pill "Search", next to the gold start button
+- The results page (768px column): the title, a form row (pill input, a pill surah select, a primary pill button), a muted count, then one
+  card per result (`--card`, 1px border, 16px radius): the verse's name and numbers as a primary link, and the text around the match
+  with each match in gold at 30% (`bg-gold/30`) and the text colour; Arabic results in `Amiri` 24px right to left; previous and next
+  as pills with "page / pages" between them
+
 **Share menu (verse actions)**
 - A 36px round share button (three joined circles, stroke 1.8) with the other verse actions; it opens a 224px card (`--card`, 1px
   border, 16px radius, shadow) of text items, 14px weight 500, 40px high: copy the verse, copy the link, "Share…" (only where the

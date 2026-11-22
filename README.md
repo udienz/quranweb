@@ -14,6 +14,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 
 - **Read all 114 surahs** in the Arabic text (Uthmani Hafs or the EQuran.id text), with a Latin transliteration and one or
   more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others). ([how](#choose-the-text-and-translations))
+- **Search the Qur'an** for a word in the Arabic text (with or without vowel marks) or in a translation, in all surahs or in one,
+  and see the words found marked. *Shalat*, *salat* and *sholat* find each other. ([how](#search-the-quran))
 - **Jump to a verse** by typing its reference in the surah search box: *2:255*, *baqarah 255* or *QS. Al-Baqarah: 255*.
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings. ([how](#switch-between-mushaf-and-verse-by-verse))
@@ -195,6 +197,16 @@ taller than the screen. This changes the menus and buttons only. The translation
 1. The moon or sun button at the top switches between light and dark.
 2. For the automatic theme, which follows your device, and for the text size, go to the Settings page, section
    "Language, theme and text size". The Arabic and the Latin text each have their own size buttons.
+
+### Search the Qur'an
+
+Press the magnifier button at the top, or use the search box on the home page. Type a word and press Search: the verses
+that have it come in the order of the Qur'an, 20 to a page, with the words found marked, and each result opens that verse in
+the surah. Choose a surah next to the box to search only in it. An Arabic word is found with or without its vowel marks, and
+also when the article or a preposition is attached to it. A reference such as *2:255* is offered as a link. The search covers
+the Arabic text, the transliteration, the Indonesian Kemenag translation, the English translations of Yusuf Ali and Pickthall
+and the Turkish, Malay, Bengali and Russian ones; the other translations and the tafsir are not searched. The words you type
+are sent to our server to find the verses and are not kept with your account (see the privacy policy).
 
 ### Share a verse
 

@@ -57,7 +57,7 @@ export const zh: Messages = {
     sections: {
       reading: {
         title: "无账户阅读",
-        body: "您上次的阅读位置、进度、书签、笔记和显示选项保存在您自己的浏览器中（本地存储），不会离开浏览器。您选择的版本和诵读者以及界面语言，保存在两个小 Cookie（qw-sel 和 qw-lang）中，网站需要它们才能按您的选择显示页面。\n\n诵读音频从 EQuran.id（cdn.equran.id）加载，其他诵读者以及备用来源则从 AlQuran.cloud（cdn.islamic.network）加载，因此播放音频时，提供文件的服务会看到您的 IP 地址。",
+        body: "您上次的阅读位置、进度、书签、笔记和显示选项保存在您自己的浏览器中（本地存储），不会离开浏览器。您选择的版本和诵读者以及界面语言，保存在两个小 Cookie（qw-sel 和 qw-lang）中，网站需要它们才能按您的选择显示页面。\n\n诵读音频从 EQuran.id（cdn.equran.id）加载，其他诵读者以及备用来源则从 AlQuran.cloud（cdn.islamic.network）加载，因此播放音频时，提供文件的服务会看到您的 IP 地址。\n\n当您搜索《古兰经》时，您输入的词语会发送到我们的服务器以查找经文。它们不会与您的账户一同保存，也不会用于其他用途；与任何请求一样，它们可能出现在网站服务器和 Cloudflare 的日志中。",
       },
       account: {
         title: "如果您登录",

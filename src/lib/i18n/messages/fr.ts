@@ -56,7 +56,7 @@ export const fr: Messages = {
     sections: {
       reading: {
         title: "Lire sans compte",
-        body: "Votre dernière position de lecture, votre progression, vos signets, vos notes et vos choix d'affichage sont conservés dans votre propre navigateur (stockage local) et n'en sortent pas. Votre choix d'éditions et de récitateur, ainsi que la langue de l'interface, sont conservés dans deux petits cookies (qw-sel et qw-lang) dont le site a besoin pour afficher la page comme vous l'avez choisie.\n\nL'audio des récitations est chargé depuis EQuran.id (cdn.equran.id) ou, pour les autres récitateurs et en secours, depuis AlQuran.cloud (cdn.islamic.network) : le service qui fournit le fichier voit donc votre adresse IP lorsque vous écoutez.",
+        body: "Votre dernière position de lecture, votre progression, vos signets, vos notes et vos choix d'affichage sont conservés dans votre propre navigateur (stockage local) et n'en sortent pas. Votre choix d'éditions et de récitateur, ainsi que la langue de l'interface, sont conservés dans deux petits cookies (qw-sel et qw-lang) dont le site a besoin pour afficher la page comme vous l'avez choisie.\n\nL'audio des récitations est chargé depuis EQuran.id (cdn.equran.id) ou, pour les autres récitateurs et en secours, depuis AlQuran.cloud (cdn.islamic.network) : le service qui fournit le fichier voit donc votre adresse IP lorsque vous écoutez.\n\nLorsque vous cherchez dans le Coran, les mots que vous saisissez sont envoyés à notre serveur pour trouver les versets. Ils ne sont pas conservés avec votre compte ni utilisés à une autre fin ; comme toute requête, ils peuvent apparaître dans les journaux du serveur web et de Cloudflare.",
       },
       account: {
         title: "Si vous vous connectez",

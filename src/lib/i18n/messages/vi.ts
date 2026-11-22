@@ -57,7 +57,7 @@ export const vi: Messages = {
     sections: {
       reading: {
         title: "Đọc không cần tài khoản",
-        body: "Vị trí đọc gần nhất, tiến độ, dấu trang, ghi chú và tùy chọn hiển thị được lưu trong chính trình duyệt của bạn (bộ nhớ cục bộ) và không rời khỏi đó. Lựa chọn ấn bản, người đọc kinh và ngôn ngữ giao diện được lưu trong hai cookie nhỏ (qw-sel và qw-lang), mà trang cần để hiển thị đúng như bạn đã chọn.\n\nÂm thanh đọc kinh được tải từ EQuran.id (cdn.equran.id) hoặc, với những người đọc kinh khác và khi cần dự phòng, từ AlQuran.cloud (cdn.islamic.network), nên dịch vụ cung cấp tệp sẽ thấy địa chỉ IP của bạn khi bạn phát âm thanh.",
+        body: "Vị trí đọc gần nhất, tiến độ, dấu trang, ghi chú và tùy chọn hiển thị được lưu trong chính trình duyệt của bạn (bộ nhớ cục bộ) và không rời khỏi đó. Lựa chọn ấn bản, người đọc kinh và ngôn ngữ giao diện được lưu trong hai cookie nhỏ (qw-sel và qw-lang), mà trang cần để hiển thị đúng như bạn đã chọn.\n\nÂm thanh đọc kinh được tải từ EQuran.id (cdn.equran.id) hoặc, với những người đọc kinh khác và khi cần dự phòng, từ AlQuran.cloud (cdn.islamic.network), nên dịch vụ cung cấp tệp sẽ thấy địa chỉ IP của bạn khi bạn phát âm thanh.\n\nKhi bạn tìm trong Kinh Qur'an, các từ bạn gõ được gửi đến máy chủ của chúng tôi để tìm các câu. Chúng không được lưu cùng tài khoản của bạn và không dùng cho mục đích nào khác; như mọi yêu cầu, chúng có thể xuất hiện trong nhật ký của máy chủ web và của Cloudflare.",
       },
       account: {
         title: "Nếu bạn đăng nhập",

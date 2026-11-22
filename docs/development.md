@@ -73,6 +73,14 @@ They are plain JSON files kept in a separate data repository. Recitation audio i
 
 A base URL can also be a **directory with a local copy of that data** (for example `/data/api/v2`), and then the app makes no HTTP request at all for text: QA and production run this way, with the mirror directory mounted read-only into the container. To change which providers are active, their order, which editions are enabled and the defaults without touching code, point `QURAN_CONFIG` to a JSON file (see `config/sources.example.json`, which reads the local copy first and falls back to EQuran.id). The three variables above only fill in a `baseUrl` that the file leaves out.
 
+**The search index.** Search reads `quranweb-search.sqlite`, a SQLite FTS5 database built from the mirror (the EQuran.id text, and fawazahmed0's Arabic, English, Turkish, Malay, Bengali and Russian editions); it is not in git and nginx must not serve it. Build it where the mirror is, and again after every change of the mirror:
+
+```bash
+node scripts/build-search-index.mjs /srv/quranweb-mirror     # about 2 s, writes /srv/quranweb-mirror/quranweb-search.sqlite
+```
+
+The containers see it as `/data/quranweb-search.sqlite` (the app looks two folders above `QURAN_API_URL`; `QURAN_SEARCH_INDEX` names another file). It is written beside the old file and renamed over it, so a running app is never left with a half-written file, and it is opened again when it changes: no restart. Without it, `/search` says search is not available. The browser tests build their own from `e2e/fixtures`.
+
 **The address of the site** (canonical links, link previews, `robots.txt` and the sitemap) comes from `SITE_URL`, else `BETTER_AUTH_URL` (set on both servers for sign-in), else the request's Host (nginx passes it). Only `https://quranweb.udienz.web.id` is indexed: on QA and on a local run `robots.txt` says `Disallow: /`. After a deploy, check `/robots.txt` and `/sitemap/0.xml` on both sites; if production ever answers `Disallow: /`, the app does not know its own address, so set `SITE_URL` in `/etc/quranweb/prod.env`.
 
 ## Docker

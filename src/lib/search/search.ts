@@ -134,9 +134,11 @@ export function search(
     const source = found.get(ayah)!;
     const table = TABLE[source];
     const where = place.get(ayah) as { surah: number; verse: number };
+    // `rowid BETWEEN ? AND ?`, not `rowid = ?`: with an equality SQLite looks the row up without the MATCH, and snippet() then
+    // answers with the text of another verse.
     const row = db
-      .prepare(`SELECT snippet(${table}, -1, '${MARK_START}', '${MARK_END}', '…', 24) AS snippet FROM ${table} WHERE ${table} MATCH ? AND rowid = ?`)
-      .get(expression, ayah) as { snippet: string } | undefined;
+      .prepare(`SELECT snippet(${table}, -1, '${MARK_START}', '${MARK_END}', '…', 24) AS snippet FROM ${table} WHERE ${table} MATCH ? AND rowid BETWEEN ? AND ?`)
+      .get(expression, ayah, ayah) as { snippet: string } | undefined;
     return { surah: where.surah, verse: where.verse, source, snippet: row?.snippet ?? "" };
   });
   return { status: "ok", total: ayahs.length, page, pages, hits };

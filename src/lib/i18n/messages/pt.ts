@@ -56,7 +56,7 @@ export const pt: Messages = {
     sections: {
       reading: {
         title: "Ler sem conta",
-        body: "Sua última posição de leitura, seu progresso, marcadores, notas e opções de exibição ficam no seu próprio navegador (armazenamento local) e não saem dele. Sua escolha de edições e recitador e o idioma da interface ficam em dois pequenos cookies (qw-sel e qw-lang), de que o site precisa para mostrá-los como você escolheu.\n\nO áudio da recitação é carregado do EQuran.id (cdn.equran.id) ou, para os outros recitadores e como alternativa, do AlQuran.cloud (cdn.islamic.network), então o serviço que entrega o arquivo vê seu endereço IP quando você toca um áudio.",
+        body: "Sua última posição de leitura, seu progresso, marcadores, notas e opções de exibição ficam no seu próprio navegador (armazenamento local) e não saem dele. Sua escolha de edições e recitador e o idioma da interface ficam em dois pequenos cookies (qw-sel e qw-lang), de que o site precisa para mostrá-los como você escolheu.\n\nO áudio da recitação é carregado do EQuran.id (cdn.equran.id) ou, para os outros recitadores e como alternativa, do AlQuran.cloud (cdn.islamic.network), então o serviço que entrega o arquivo vê seu endereço IP quando você toca um áudio.\n\nQuando você busca no Alcorão, as palavras que digita são enviadas ao nosso servidor para encontrar os versículos. Elas não são guardadas com sua conta nem usadas para outro fim; como qualquer requisição, podem aparecer nos registros do servidor web e da Cloudflare.",
       },
       account: {
         title: "Se você entrar",

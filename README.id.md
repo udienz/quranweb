@@ -14,6 +14,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 
 - **Membaca 114 surat** dalam teks Arab (Uthmani Hafs atau teks EQuran.id), dengan transliterasi Latin dan satu atau
   beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya). ([caranya](#memilih-teks-dan-terjemahan))
+- **Mencari di Al-Qur'an**: sebuah kata di teks Arab (dengan atau tanpa harakat) atau di terjemahan, di semua surat atau di satu
+  surat, lalu melihat kata yang ditemukan diberi tanda. *Shalat*, *salat*, dan *sholat* saling menemukan. ([caranya](#mencari-di-al-quran))
 - **Langsung ke sebuah ayat** dengan mengetik rujukannya di kotak cari surat: *2:255*, *baqarah 255*, atau *QS. Al-Baqarah: 255*.
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan. ([caranya](#mengganti-tampilan-mushaf-atau-per-ayat))
@@ -200,6 +202,16 @@ bila lebih tinggi dari layar. Ini hanya mengganti menu dan tombol. Terjemahan Al
 1. Tombol bulan atau matahari di atas berganti antara terang dan gelap.
 2. Untuk tema otomatis, yang mengikuti perangkat Anda, dan untuk ukuran huruf, buka halaman Pengaturan, bagian "Bahasa,
    tema, dan ukuran huruf". Huruf Arab dan huruf Latin punya tombol ukuran masing-masing.
+
+### Mencari di Al-Qur'an
+
+Tekan tombol kaca pembesar di atas, atau pakai kotak cari di beranda. Ketik sebuah kata lalu tekan Cari: ayat yang memuatnya
+muncul menurut urutan Al-Qur'an, 20 per halaman, dengan kata yang ditemukan diberi tanda, dan tiap hasil membuka ayat itu di
+dalam surat. Pilih sebuah surat di samping kotak untuk mencari hanya di dalamnya. Kata Arab ditemukan dengan atau tanpa
+harakat, juga saat kata sandang atau kata depan menempel padanya. Rujukan seperti *2:255* ditawarkan sebagai tautan. Pencarian
+mencakup teks Arab, transliterasi, terjemahan Kemenag, terjemahan Inggris Yusuf Ali dan Pickthall, serta terjemahan Turki,
+Melayu, Bengali, dan Rusia; terjemahan lain dan tafsir tidak ikut dicari. Kata yang Anda ketik dikirim ke server kami untuk
+mencari ayatnya dan tidak disimpan bersama akun Anda (lihat kebijakan privasi).
 
 ### Membagikan ayat
 

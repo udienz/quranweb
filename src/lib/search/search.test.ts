@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -65,6 +65,22 @@ describe("search", () => {
       expect(hit.verse).toBeLessThanOrEqual(VERSE_COUNTS[hit.surah - 1]);
     }
     expect(r.hits.map((h) => [h.surah, h.verse]).slice(0, 2)).toEqual([[2, 45], [2, 153]]);
+  });
+
+  it("shows each hit with the text of its own verse", () => {
+    const equran = (surah: number) =>
+      (JSON.parse(readFileSync(join(fixtures, "api", "v2", "surat", `${surah}.json`), "utf8")).data.ayat as { nomorAyat: number; teksIndonesia: string }[]);
+    const r = search({ query: "sabar", locale: "id" }, index);
+    if (r.status !== "ok") throw new Error("no index");
+    expect(r.hits.length).toBeGreaterThan(3);
+    const snippets = new Set<string>();
+    for (const hit of r.hits) {
+      const verse = equran(hit.surah).find((a) => a.nomorAyat === hit.verse)!;
+      const text = plain(hit.snippet).replace(/^…/, "").replace(/…$/, "");
+      expect(verse.teksIndonesia, `${hit.surah}:${hit.verse}`).toContain(text);
+      snippets.add(hit.snippet);
+    }
+    expect(snippets.size).toBe(r.hits.length);
   });
 
   it("finds the other spellings of a word", () => {
