@@ -200,6 +200,7 @@ export const ur: Messages = {
     verseActions: "آیت {n}: سنیں، بُک مارک، پڑھا ہوا نشان، نقل",
     selected: "آیت {n}",
     close: "بند کریں",
+    page: "مصحف کا صفحہ {page}",
   },
   verse: {
     play: "آڈیو چلائیں",

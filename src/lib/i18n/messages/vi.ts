@@ -201,6 +201,7 @@ export const vi: Messages = {
     verseActions: "Câu {n}: phát, đánh dấu trang, đánh dấu đã đọc, sao chép",
     selected: "Câu {n}",
     close: "Đóng",
+    page: "Trang {page} của mushaf",
   },
   verse: {
     play: "Phát âm thanh",

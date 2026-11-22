@@ -200,6 +200,7 @@ export const ta: Messages = {
     verseActions: "வசனம் {n}: இயக்கு, புத்தகக்குறி, படித்ததாகக் குறி, நகலெடு",
     selected: "வசனம் {n}",
     close: "மூடு",
+    page: "முஸ்ஹஃப் பக்கம் {page}",
   },
   verse: {
     play: "ஒலியை இயக்கு",

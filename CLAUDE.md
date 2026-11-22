@@ -385,7 +385,17 @@ fawazahmed0 has it (`pages.references`, page, first and last verse), the provide
 (`checkRanges` in `quran/ranges.ts`: the right count, numbered in order, starting at 1:1, every range right after the
 previous one, every verse real, ending at the end of surah 114). A page can span surahs (page 604 holds 112 to 114).
 `mushafPageOf` finds the page of a verse (binary search, `rangeOf`). Nothing in the interface uses them yet. Step 2 is in: the audio is
-a hook that does not depend on the 10-verse page (see "Playback"); the surah reader behaves as before.
+a hook that does not depend on the 10-verse page (see "Playback"); the surah reader behaves as before. **Step 3 is in: the route
+`/mushaf/N`** (`app/mushaf/[page]/page.tsx`, `MushafPageReader`), **not yet linked from anywhere and not in the sitemap** (navigation is step 4,
+the setting step 5). `mushafPageFromSegment` and `proxy.ts` answer 404 before rendering for anything but 1 to 604 (and for `/mushaf/1/2`).
+The page reads the page's range from `getMushafPages()` and builds one `getSurahView` per surah of it (from one to three; page 604 has
+112, 113 and 114), with the reader's editions and no tafsir, and shows each surah's part with `MushafView`: a surah that starts on the
+page has its name, meaning and the Bismillah, one that goes on from the page before only its name. **Verse ids on this page carry the surah**
+(`mushafVerseId`: `verse-112-1`), because a verse number alone repeats on a page of several surahs; it also means the "last read"
+tracker (which reads `verse-N`) does not record from this page yet (step 5). `MushafView` gained `idFor` and a controlled
+`selected`/`onSelect`, so a page of several views shows one action bar. The audio is `useVersePlayer` with all the page's verses, so it plays
+on across the surahs of the page and on to the next page (`/mushaf/N+1`, found with `mushafPageOf`). The e2e fixtures now carry the page
+table (`scripts/e2e-fixtures.mjs`), and the page's title is `mushaf.page`.
 
 ### Paging of long surahs
 
@@ -732,6 +742,7 @@ src/
     robots.ts, sitemap.ts      robots.txt (production only) and the sitemap
     manifest.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
+    mushaf/[page]/page.tsx     one of the 604 pages of the printed mushaf (not linked yet)
     surah/[number]/[verse]/page.tsx   one verse on its own page: the address to share, with its own preview
   components/
     SurahReader.tsx            surah header, Reading/Tafsir tabs, jump to verse, audio
@@ -739,6 +750,7 @@ src/
                                last-read tracking, list of sources
     VerseCard.tsx              one verse: text, bookmark, mark as read, note, copy (VerseActions, NoteEditor)
     MushafView.tsx             mushaf layout: running Arabic block, numbered translation column, verse action bar
+    MushafPageReader.tsx       one page of the printed mushaf (`/mushaf/N`): the surahs it holds, each in MushafView, with the shared player
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     ReciterPicker.tsx          the reciter list: best known first, search in Latin and Arabic
@@ -914,7 +926,7 @@ Keep that footer link: the credit must stay one click away from every reading pa
 
 ### Known limits
 
-- `/surah/<invalid>` and `/surah/<surah>/<invalid verse>` answer **404** since 2026-11-19: `src/proxy.ts` checks the number before rendering (`surahFromSegment`,
+- `/surah/<invalid>`, `/surah/<surah>/<invalid verse>` and `/mushaf/<not 1 to 604>` answer **404** since 2026-11-19: `src/proxy.ts` checks the number before rendering (`surahFromSegment`,
   `verseFromSegment`, shared with the pages) and rewrites anything else to a path that does not exist, so Next.js serves the translated
   not-found page with status 404. Without it the page's own `notFound()` came after streaming had started, with status 200
   (Cache Components does not support `dynamicParams = false`).

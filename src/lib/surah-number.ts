@@ -1,3 +1,6 @@
+/** How many pages the printed Madinah mushaf has (the table of them is checked against this in quran/mushaf-pages.ts). */
+export const MUSHAF_PAGES = 604;
+
 /** The surah number in a `/surah/<number>` address, or null when it is not one of the 114 (the page and proxy.ts agree). */
 export function surahFromSegment(segment: string): number | null {
   // Digits only: Number() alone would also take "1e2" (100) and "0x10" (16).
@@ -17,6 +20,13 @@ export const VERSE_COUNTS: readonly number[] = [
   14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21,
   11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6,
 ];
+
+/** The page number in a `/mushaf/<page>` address (1 to 604, of the printed Madinah mushaf), or null. */
+export function mushafPageFromSegment(segment: string): number | null {
+  if (!/^\d{1,4}$/.test(segment)) return null;
+  const n = Number(segment);
+  return n >= 1 && n <= MUSHAF_PAGES ? n : null;
+}
 
 /** The verse number in a `/surah/<number>/<verse>` address, or null when the surah has no such verse. */
 export function verseFromSegment(surah: number, segment: string): number | null {

@@ -201,6 +201,7 @@ export const ar: Messages = {
     verseActions: "الآية {n}: تشغيل، علامة مرجعية، تعليم كمقروءة، نسخ",
     selected: "الآية {n}",
     close: "إغلاق",
+    page: "صفحة المصحف {page}",
   },
   verse: {
     play: "تشغيل الصوت",

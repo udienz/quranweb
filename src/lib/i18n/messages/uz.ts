@@ -201,6 +201,7 @@ export const uz: Messages = {
     verseActions: "{n}-оят: ижро, хатчўп, ўқилди деб белгилаш, нусхалаш",
     selected: "{n}-оят",
     close: "Ёпиш",
+    page: "Мусҳаф {page}-саҳифа",
   },
   verse: {
     play: "Аудиони ижро этиш",

@@ -29,5 +29,11 @@ export function verseFromHash(hash: string): number | null {
   return verseFromId(normalizeHash(hash).slice(1));
 }
 
+/** One page of the printed Madinah mushaf, `/mushaf/50`. A page can hold the end of one surah and the start of the next. */
+export const mushafHref = (page: number) => `/mushaf/${page}`;
+
+/** The element id of a verse on a mushaf page: the number of the verse alone is not enough, a page can hold several surahs. */
+export const mushafVerseId = (surah: number, verse: number) => `verse-${surah}-${verse}`;
+
 /** The page of one verse, to share: `/surah/2/255`. It has its own preview; "read in the surah" leads on to `verseHref`. */
 export const versePageHref = (surah: number, verse: number) => `/surah/${surah}/${verse}`;

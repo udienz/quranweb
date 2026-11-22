@@ -200,6 +200,7 @@ export const pt: Messages = {
     verseActions: "Versículo {n}: tocar, marcar, marcar como lido, copiar",
     selected: "Versículo {n}",
     close: "Fechar",
+    page: "Página {page} do mushaf",
   },
   verse: {
     play: "Tocar áudio",

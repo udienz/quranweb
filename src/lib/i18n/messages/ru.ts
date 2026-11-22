@@ -201,6 +201,7 @@ export const ru: Messages = {
     verseActions: "Аят {n}: слушать, закладка, отметить прочитанным, копировать",
     selected: "Аят {n}",
     close: "Закрыть",
+    page: "Страница {page} мусхафа",
   },
   verse: {
     play: "Слушать",

@@ -201,6 +201,7 @@ export const fa: Messages = {
     verseActions: "آیهٔ {n}: پخش، نشانک، علامت خوانده‌شده، رونوشت",
     selected: "آیهٔ {n}",
     close: "بستن",
+    page: "صفحهٔ {page} مصحف",
   },
   verse: {
     play: "پخش صوت",

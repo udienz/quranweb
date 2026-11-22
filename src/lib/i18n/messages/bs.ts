@@ -201,6 +201,7 @@ export const bs: Messages = {
     verseActions: "Ajet {n}: pusti, oznaka, označi kao pročitano, kopiraj",
     selected: "Ajet {n}",
     close: "Zatvori",
+    page: "Stranica mushafa {page}",
   },
   verse: {
     play: "Pusti audio",

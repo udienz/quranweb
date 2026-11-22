@@ -200,6 +200,7 @@ export const es: Messages = {
     verseActions: "Aleya {n}: escuchar, marcador, marcar como leída, copiar",
     selected: "Aleya {n}",
     close: "Cerrar",
+    page: "Página {page} del mushaf",
   },
   verse: {
     play: "Reproducir audio",
