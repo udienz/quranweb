@@ -109,7 +109,10 @@ export function search(
   if (!expression) return { status: "short" };
 
   const [from, to] = ayahRange(input.surah);
-  const sources = sourcesFor(input.locale, arabic);
+  // An index built before a table existed (the QuranEnc translations came later) lacks it: skip that text, so the other texts are
+  // still searched instead of the whole search failing until the index is rebuilt.
+  const present = new Set((db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all() as { name: string }[]).map((r) => r.name));
+  const sources = sourcesFor(input.locale, arabic).filter((source) => present.has(TABLE[source]));
 
   // Which text each matching verse is shown with: the first source, in order, that matches it.
   const found = new Map<number, SearchSource>();

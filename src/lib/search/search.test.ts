@@ -202,3 +202,20 @@ describe("the translations of the private QuranEnc copy", () => {
     expect(outcome.status === "ok" && outcome.total).toBe(0);
   });
 });
+
+describe("an index built before a table existed", () => {
+  it("still searches the other texts when the interface language's own table is missing", async () => {
+    const old = mkdtempSync(join(tmpdir(), "quranweb-search-old-"));
+    symlinkSync(join(fixtures, "api"), join(old, "api"));
+    await builder.buildSearchIndex(old);
+    const path = join(old, SEARCH_FILE);
+    const { DatabaseSync } = await import("node:sqlite");
+    const db = new DatabaseSync(path);
+    db.exec("DROP TABLE t_fr");
+    db.close();
+    closeSearchIndex();
+    const outcome = search({ query: "Allah", locale: "fr" }, path);
+    expect(outcome.status).toBe("ok");
+    expect(outcome.status === "ok" && outcome.total).toBeGreaterThan(0);
+  });
+});
