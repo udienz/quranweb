@@ -482,15 +482,17 @@ writes). A name matches whole, without its article ("Al-Baqarah" is also "baqara
 three letters, and only when it fits one surah; a prefix that fits several is refused rather than guessed. A verse past the end of the
 surah leads to the surah. A number alone is a surah number, which the list's own filter already finds. The text is `home.goTo`.
 
-### Surah of the day (roadmap phase 6, step 2; 2026-11-22)
+### Verse of the day (roadmap phase 6, step 2; 2026-11-22, a verse since the owner's answer on the same day)
 
-A card on the home page (`DailySurah`, a server component) with the day's surah, its meaning, verse count and first **three**
-verses (the Arabic text and the reader's first translation; tafsir and transliteration are not loaded). `dailySurah(now)` in
-`lib/daily.ts`: the day number in Asia/Jakarta (UTC+7, so it changes at midnight in Indonesia) times 53, modulo 114, plus 1. 53 and
-114 share no factor, so each surah comes once in 114 days, in an order that is not the mushaf order. The home page builds the view
-in `dailyView`, which returns null when the text cannot be read (a source read live was down): the card is then left out and the
-rest of the page works. The strings are `home.daily.*`. When the card cannot be built the error is logged at most once an hour (`errorOncePerHour`, `lib/log-limited.ts`), so the browser tests, whose data has a few surahs, do not flood the log. The owner asked for a surah, not a verse; a curated verse of the day
-stays an open question in `ROADMAP.md`.
+A card on the home page (`DailyVerse`, a server component) with one verse: the Arabic text and the reader's first translation (tafsir and
+transliteration are not loaded), the reference as a link to the verse's own page, and "Read in the surah" (`verse.readInSurah`, `verseHref`).
+The verse comes from `VERSES_OF_THE_DAY` in `lib/daily.ts`, a list chosen by hand (verses that can be read on their own; **the owner reviews
+it**): `dailyVerse(now)` takes the day number in Asia/Jakarta (UTC+7, so it changes at midnight in Indonesia) times `STEP`, modulo the length of
+the list. `STEP` must share no factor with the length, or some verses never come: a test checks that every verse comes once per cycle and that
+each one is a real verse. Add or remove verses in that list only. The home page builds the view in `dailyView`, which returns null when the
+text cannot be read (a source read live was down): the card is then left out and the rest of the page works. The error is logged at most
+once an hour (`errorOncePerHour`, `lib/log-limited.ts`), so the browser tests, whose data has a few surahs, do not flood the log. The string
+is `home.daily.title`.
 
 ### A page for each verse, and sharing (roadmap phase 6, step 3; 2026-11-22)
 
@@ -789,7 +791,7 @@ src/
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ReferenceLink.tsx          the "Go to Al-Baqarah 2:255" link of the search boxes (`lib/reference.ts`)
-    ContinueReading.tsx, MyReading.tsx, DailySurah.tsx   (DailySurah: the surah of the day on the home page, `lib/daily.ts`)
+    ContinueReading.tsx, MyReading.tsx, DailyVerse.tsx   (DailyVerse: the verse of the day on the home page, `lib/daily.ts`)
     LanguageMenu.tsx           language menu in the header and the language list on /settings (cookie qw-lang); useDismiss.ts closes dropdowns
     LanguageFlag.tsx           the flag beside each language in the menu (country-flag-icons, only the flags in use)
     AccountMenu.tsx            account dropdown in the header: My reading, sign in / sign out (only when sign-in is on)

@@ -155,7 +155,7 @@ export const zh: Messages = {
     searchLabel: "搜索章节",
     noResults: "未找到章节。",
     goTo: "前往 {reference}",
-    daily: { title: "今日章节", read: "阅读本章" },
+    daily: { title: "今日经文" },
   },
   search: {
     title: "搜索",

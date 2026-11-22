@@ -153,7 +153,7 @@ export const tr: Messages = {
     searchLabel: "Sure ara",
     noResults: "Sure bulunamadı.",
     goTo: "{reference} konumuna git",
-    daily: { title: "Günün suresi", read: "Sureyi oku" },
+    daily: { title: "Günün ayeti" },
   },
   search: {
     title: "Ara",

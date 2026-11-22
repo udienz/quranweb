@@ -154,7 +154,7 @@ export const pt: Messages = {
     searchLabel: "Buscar suratas",
     noResults: "Nenhuma surata encontrada.",
     goTo: "Ir para {reference}",
-    daily: { title: "Surata do dia", read: "Ler a surata" },
+    daily: { title: "Versículo do dia" },
   },
   search: {
     title: "Buscar",

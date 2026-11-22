@@ -154,7 +154,7 @@ export const ms: Messages = {
     searchLabel: "Cari surah",
     noResults: "Tiada surah dijumpai.",
     goTo: "Pergi ke {reference}",
-    daily: { title: "Surah hari ini", read: "Baca surah ini" },
+    daily: { title: "Ayat hari ini" },
   },
   search: {
     title: "Cari",

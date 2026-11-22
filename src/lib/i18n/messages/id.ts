@@ -153,7 +153,7 @@ export const id: Messages = {
     searchLabel: "Cari surat",
     noResults: "Surat tidak ditemukan.",
     goTo: "Buka {reference}",
-    daily: { title: "Surat hari ini", read: "Baca surat ini" },
+    daily: { title: "Ayat hari ini" },
   },
   search: {
     title: "Cari",

@@ -155,7 +155,7 @@ export const ar: Messages = {
     searchLabel: "البحث عن سورة",
     noResults: "لم يُعثر على سورة.",
     goTo: "اذهب إلى {reference}",
-    daily: { title: "سورة اليوم", read: "اقرأ السورة" },
+    daily: { title: "آية اليوم" },
   },
   search: {
     title: "بحث",

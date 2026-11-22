@@ -155,7 +155,7 @@ export const ru: Messages = {
     searchLabel: "Поиск суры",
     noResults: "Сура не найдена.",
     goTo: "Перейти к {reference}",
-    daily: { title: "Сура дня", read: "Читать суру" },
+    daily: { title: "Аят дня" },
   },
   search: {
     title: "Поиск",

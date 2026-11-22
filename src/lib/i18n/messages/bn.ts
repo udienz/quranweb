@@ -154,7 +154,7 @@ export const bn: Messages = {
     searchLabel: "সূরা খুঁজুন",
     noResults: "কোনো সূরা পাওয়া যায়নি।",
     goTo: "{reference}-এ যান",
-    daily: { title: "আজকের সূরা", read: "সূরাটি পড়ুন" },
+    daily: { title: "আজকের আয়াত" },
   },
   search: {
     title: "অনুসন্ধান",
