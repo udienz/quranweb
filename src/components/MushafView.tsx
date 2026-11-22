@@ -26,6 +26,9 @@ export default function MushafView({
   playingN,
   onPlay,
   editions,
+  idFor = verseId,
+  selected: controlledSelected,
+  onSelect,
 }: {
   verses: VerseView[];
   surahNumber: number;
@@ -34,11 +37,18 @@ export default function MushafView({
   playingN: number | null;
   onPlay: (verse: VerseView) => void;
   editions: Record<string, { name: string; language: string; direction: "ltr" | "rtl" }>;
+  /** The element id of a verse; on a page of the mushaf, which can hold several surahs, it carries the surah too. */
+  idFor?: (verse: number) => string;
+  /** The selected verse, when the page decides it (a page of several views shows one bar for all); alone, the view keeps it. */
+  selected?: number | null;
+  onSelect?: (verse: number | null) => void;
 }) {
   const { t } = useI18n();
   const { prefs } = usePrefs();
   const data = useUserData();
-  const [selected, setSelected] = useState<number | null>(null);
+  const [ownSelected, setOwnSelected] = useState<number | null>(null);
+  const selected = controlledSelected !== undefined ? controlledSelected : ownSelected;
+  const setSelected = onSelect ?? setOwnSelected;
   const readUpTo = progressOf(data, surahNumber);
   // The numbered column only when it has text to show: with no translation chosen and no transliteration (the Arabic
   // interface's default) the Arabic takes the whole width instead of sitting beside a column of bare numbers.
@@ -48,7 +58,7 @@ export default function MushafView({
   const hiding = useHiding(surahNumber);
   const currentBookmark = current ? findBookmark(data, surahNumber, current.number) : undefined;
 
-  const select = (n: number) => setSelected((s) => (s === n ? null : n));
+  const select = (n: number) => setSelected(selected === n ? null : n);
   const markerClass = (n: number) => {
     const bookmarked = !!findBookmark(data, surahNumber, n);
     const state = selected === n || playingN === n ? "bg-primary text-white dark:text-[hsl(192_64%_8%)]" : bookmarked ? "text-gold" : "text-primary";
@@ -85,7 +95,7 @@ export default function MushafView({
             {verses.map((v) => (
               <Fragment key={v.number}>
                 <span
-                  id={side ? undefined : verseId(v.number)}
+                  id={side ? undefined : idFor(v.number)}
                   {...hiding.props("arabic", v.number, t("memorize.showVerse", { n: v.number }))}
                   className={`scroll-mt-24 rounded ${playingN === v.number ? "bg-primary-soft" : ""}`}
                 >
@@ -113,7 +123,7 @@ export default function MushafView({
               return (
                 <li
                   key={v.number}
-                  id={verseId(v.number)}
+                  id={idFor(v.number)}
                   translate="no"
                   className={`scroll-mt-24 rounded-xl border-s-4 px-3 py-1 text-[length:calc(15px*var(--latin-scale,1))] leading-relaxed ${
                     playingN === v.number ? "bg-primary-soft" : ""

@@ -200,6 +200,7 @@ export const fr: Messages = {
     verseActions: "Verset {n} : écouter, signet, marquer comme lu, copier",
     selected: "Verset {n}",
     close: "Fermer",
+    page: "Page {page} du mushaf",
   },
   verse: {
     play: "Écouter",

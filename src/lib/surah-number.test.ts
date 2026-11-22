@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { surahFromSegment, verseFromSegment, VERSE_COUNTS } from "./surah-number";
+import { mushafPageFromSegment, surahFromSegment, verseFromSegment, VERSE_COUNTS } from "./surah-number";
 
 describe("surahFromSegment", () => {
   it("accepts the 114 surahs, also with leading zeros", () => {
@@ -10,6 +10,17 @@ describe("surahFromSegment", () => {
   });
   it("refuses anything else", () => {
     for (const s of ["0", "115", "-1", "2.5", "abc", "", " ", "1e2", "0x10", "Infinity", "+5", "5 "]) expect(surahFromSegment(s)).toBeNull();
+  });
+});
+
+describe("mushafPageFromSegment", () => {
+  it("accepts the 604 pages, also with leading zeros", () => {
+    expect(mushafPageFromSegment("1")).toBe(1);
+    expect(mushafPageFromSegment("604")).toBe(604);
+    expect(mushafPageFromSegment("042")).toBe(42);
+  });
+  it("refuses anything else", () => {
+    for (const s of ["0", "605", "-1", "2.5", "abc", "", " ", "1e2", "0x10", "+5", "99999"]) expect(mushafPageFromSegment(s), s).toBeNull();
   });
 });
 

@@ -199,6 +199,7 @@ export const id: Messages = {
     verseActions: "Ayat {n}: putar, penanda, tandai dibaca, salin",
     selected: "Ayat {n}",
     close: "Tutup",
+    page: "Halaman mushaf {page}",
   },
   verse: {
     play: "Putar audio",

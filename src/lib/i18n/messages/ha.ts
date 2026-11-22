@@ -200,6 +200,7 @@ export const ha: Messages = {
     verseActions: "Aya ta {n}: kunna, alama, sa alamar an karanta, kwafa",
     selected: "Aya ta {n}",
     close: "Rufe",
+    page: "Shafin mushafi {page}",
   },
   verse: {
     play: "Kunna sauti",

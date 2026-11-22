@@ -200,6 +200,7 @@ export const it: Messages = {
     verseActions: "Versetto {n}: ascolta, segnalibro, segna come letto, copia",
     selected: "Versetto {n}",
     close: "Chiudi",
+    page: "Pagina {page} del mushaf",
   },
   verse: {
     play: "Ascolta l'audio",

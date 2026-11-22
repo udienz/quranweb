@@ -201,6 +201,7 @@ export const th: Messages = {
     verseActions: "อายะฮ์ที่ {n}: เล่น บุ๊กมาร์ก ทำเครื่องหมายว่าอ่านแล้ว คัดลอก",
     selected: "อายะฮ์ที่ {n}",
     close: "ปิด",
+    page: "หน้า {page} ของมุศหัฟ",
   },
   verse: {
     play: "เล่นเสียง",

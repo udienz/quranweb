@@ -199,6 +199,7 @@ export const tr: Messages = {
     verseActions: "{n}. ayet: dinle, yer imi ekle, okundu işaretle, kopyala",
     selected: "{n}. ayet",
     close: "Kapat",
+    page: "Mushaf sayfa {page}",
   },
   verse: {
     play: "Sesi çal",

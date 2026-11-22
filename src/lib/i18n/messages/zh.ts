@@ -201,6 +201,7 @@ export const zh: Messages = {
     verseActions: "第 {n} 节：播放、书签、标记已读、复制",
     selected: "第 {n} 节",
     close: "关闭",
+    page: "古兰经书页第 {page} 页",
   },
   verse: {
     play: "播放音频",

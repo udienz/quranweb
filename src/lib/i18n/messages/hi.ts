@@ -200,6 +200,7 @@ export const hi: Messages = {
     verseActions: "आयत {n}: चलाएँ, बुकमार्क, पढ़ी हुई चिह्नित करें, कॉपी करें",
     selected: "आयत {n}",
     close: "बंद करें",
+    page: "मुसहफ़ का पृष्ठ {page}",
   },
   verse: {
     play: "ऑडियो चलाएँ",

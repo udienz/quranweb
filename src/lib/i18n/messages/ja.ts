@@ -201,6 +201,7 @@ export const ja: Messages = {
     verseActions: "第 {n} 節：再生、ブックマーク、読了の印、コピー",
     selected: "第 {n} 節",
     close: "閉じる",
+    page: "ムスハフ {page} ページ",
   },
   verse: {
     play: "音声を再生",

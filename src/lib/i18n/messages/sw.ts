@@ -200,6 +200,7 @@ export const sw: Messages = {
     verseActions: "Aya {n}: cheza, alamisho, weka alama ya kusomwa, nakili",
     selected: "Aya {n}",
     close: "Funga",
+    page: "Ukurasa wa msahafu {page}",
   },
   verse: {
     play: "Cheza sauti",

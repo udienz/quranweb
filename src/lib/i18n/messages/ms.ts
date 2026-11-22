@@ -200,6 +200,7 @@ export const ms: Messages = {
     verseActions: "Ayat {n}: main, penanda, tanda sudah dibaca, salin",
     selected: "Ayat {n}",
     close: "Tutup",
+    page: "Halaman mushaf {page}",
   },
   verse: {
     play: "Mainkan audio",

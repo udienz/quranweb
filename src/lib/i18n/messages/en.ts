@@ -199,6 +199,7 @@ export const en = {
     verseActions: "Verse {n}: play, bookmark, mark as read, copy",
     selected: "Verse {n}",
     close: "Close",
+    page: "Mushaf page {page}",
   },
   verse: {
     play: "Play audio",

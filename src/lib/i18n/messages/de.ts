@@ -200,6 +200,7 @@ export const de: Messages = {
     verseActions: "Vers {n}: abspielen, Lesezeichen, als gelesen markieren, kopieren",
     selected: "Vers {n}",
     close: "Schließen",
+    page: "Mushaf-Seite {page}",
   },
   verse: {
     play: "Audio abspielen",

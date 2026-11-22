@@ -5,7 +5,7 @@
 //   node scripts/e2e-fixtures.mjs [/srv/quranweb-mirror]
 //
 // What is copied: the EQuran.id surah list, the text and tafsir of the surahs the tests use, fawazahmed0's editions.json,
-// and info.json reduced to what the app reads from it (the English surah meanings and the juz boundaries).
+// and info.json reduced to what the app reads from it (the English surah meanings, the juz boundaries and the 604 mushaf pages).
 
 import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -30,6 +30,7 @@ const info = JSON.parse(await readFile(join(MIRROR, "quran-api/info.json"), "utf
 const slim = {
   chapters: info.chapters.map((c) => ({ chapter: c.chapter, englishname: c.englishname })),
   juzs: info.juzs,
+  pages: info.pages,
 };
 await writeFile(join(OUT, "quran-api/info.json"), JSON.stringify(slim));
 // The QuranEnc copy is private and not needed: the tests read no QuranEnc edition. The directory exists so the provider

@@ -200,6 +200,7 @@ export const bn: Messages = {
     verseActions: "আয়াত {n}: শুনুন, বুকমার্ক, পড়া হিসেবে চিহ্নিত, কপি",
     selected: "আয়াত {n}",
     close: "বন্ধ",
+    page: "মুসহাফের পৃষ্ঠা {page}",
   },
   verse: {
     play: "অডিও চালান",
