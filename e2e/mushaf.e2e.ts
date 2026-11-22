@@ -44,6 +44,15 @@ test("the audio plays on across the surahs of the page and stops at the end of t
   await expect.poll(() => playing(page)).toBe("");
 });
 
+test("the play button of the page starts at its first verse, with no verse chosen first", async ({ page }) => {
+  await routeAudio(page);
+  await page.goto("/mushaf/604");
+  await page.getByRole("button", { name: "Putar audio" }).click();
+  await expect.poll(() => plays(page), { timeout: 15_000 }).toEqual([
+    "112:1", "112:2", "112:3", "112:4", "113:1", "113:2", "113:3", "113:4", "113:5", "114:1", "114:2", "114:3", "114:4", "114:5", "114:6",
+  ]);
+});
+
 test("at the end of a page the audio goes on with the verse after it, on the next page", async ({ page, context }) => {
   await context.addInitScript(() => localStorage.setItem("quranweb:playback-mode", "next"));
   await routeAudio(page);
