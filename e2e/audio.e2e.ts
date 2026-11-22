@@ -119,3 +119,27 @@ test("a surah plays as one recording, and the playback mode goes on with the nex
   await expect(page).toHaveURL(/\/surah\/2/);
   expect(urls.some((u) => /audio-partial/.test(u))).toBe(false);
 });
+
+test("the lock screen names a whole surah that plays, and play and pause work", async ({ page, context }) => {
+  await context.addInitScript(() => {
+    const w = window as unknown as { __ms: Record<string, (() => void) | null> };
+    w.__ms = {};
+    const set = navigator.mediaSession.setActionHandler.bind(navigator.mediaSession);
+    navigator.mediaSession.setActionHandler = (action, handler) => {
+      w.__ms[action] = handler as (() => void) | null;
+      return set(action, handler);
+    };
+  });
+  await routeAudio(page, { seconds: 4 });
+  const press = (action: string) => page.evaluate((a) => (window as unknown as { __ms: Record<string, () => void> }).__ms[a]?.(), action);
+  await page.goto("/surah/1");
+  await page.getByRole("button", { name: "Putar surat" }).click();
+  await expect.poll(() => page.evaluate(() => navigator.mediaSession.metadata?.title ?? null)).toBe("Al-Fatihah");
+  expect(await page.evaluate(() => navigator.mediaSession.metadata?.artist)).toBe("Misyari Rasyid Al-Afasi");
+  await press("pause");
+  await expect.poll(() => page.evaluate(() => navigator.mediaSession.playbackState)).toBe("paused");
+  await expect(page.getByRole("button", { name: "Putar surat" })).toHaveAttribute("aria-pressed", "false");
+  await press("play");
+  await expect.poll(() => page.evaluate(() => navigator.mediaSession.playbackState)).toBe("playing");
+  await expect(page.getByRole("button", { name: "Jeda surat" })).toHaveAttribute("aria-pressed", "true");
+});

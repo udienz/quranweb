@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
+import GoToMushafPage from "./GoToMushafPage";
 import ReferenceLink, { useEnterToGo, useReference } from "./ReferenceLink";
 
 export default function SurahSidebar({
@@ -88,6 +89,7 @@ export default function SurahSidebar({
           )}
         </ul>
       </section>
+      <GoToMushafPage />
     </div>
   );
 }

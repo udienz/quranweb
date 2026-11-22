@@ -114,6 +114,9 @@ export default function SurahReader({
     urls: view.surahAudio ? { [meta.number]: view.surahAudio } : {},
     hrefFor: (surah) => `/surah/${surah}`,
     beforeStart: () => player.stop(),
+    surahName: () => meta.name.latin,
+    reciter: view.qari.name,
+    site: t("meta.title"),
   });
   const playingN = player.playing?.surah === meta.number ? player.playing.verse : null;
 

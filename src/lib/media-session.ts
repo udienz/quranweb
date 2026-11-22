@@ -4,21 +4,23 @@
 export interface NowPlaying {
   surahName: string;
   surah: number;
-  verse: number;
+  /** Null for a whole surah, which has no verse to show. */
+  verse: number | null;
   reciter: string;
   site: string;
 }
 
-/** What the lock screen shows: "Al-Baqarah 2:255", the reciter, and the site as the album. */
+/** What the lock screen shows: "Al-Baqarah 2:255" (just the name for a whole surah), the reciter, and the site as the album. */
 export function mediaMetadata(now: NowPlaying): { title: string; artist: string; album: string } {
-  return { title: `${now.surahName} ${now.surah}:${now.verse}`, artist: now.reciter, album: now.site };
+  return { title: now.verse === null ? now.surahName : `${now.surahName} ${now.surah}:${now.verse}`, artist: now.reciter, album: now.site };
 }
 
 export interface MediaActions {
   play: () => void;
   pause: () => void;
-  previous: () => void;
-  next: () => void;
+  /** A whole surah has no previous or next verse: leave them out. */
+  previous?: () => void;
+  next?: () => void;
 }
 
 const supported = () => typeof navigator !== "undefined" && "mediaSession" in navigator;
@@ -44,8 +46,8 @@ export function showNowPlaying(now: NowPlaying, playing: boolean, actions: Media
   };
   set("play", actions.play);
   set("pause", actions.pause);
-  set("previoustrack", actions.previous);
-  set("nexttrack", actions.next);
+  set("previoustrack", actions.previous ?? null);
+  set("nexttrack", actions.next ?? null);
 }
 
 /** Nothing is playing from this page any more. */

@@ -6,6 +6,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { getAudio, setPendingSurah, takePendingSurah } from "./audio";
+import { clearNowPlaying, showNowPlaying } from "./media-session";
 import { readPlaybackMode } from "./playback";
 
 export interface WholeSurahOptions {
@@ -15,6 +16,10 @@ export interface WholeSurahOptions {
   hrefFor: (surah: number) => string;
   /** Called before a surah starts, to stop the verse by verse player that shares the audio element. */
   beforeStart: () => void;
+  /** The Latin name of a surah, the reciter and the site, for the lock screen. */
+  surahName: (surah: number) => string;
+  reciter: string;
+  site: string;
 }
 
 const absolute = (url: string): string => new URL(url, window.location.href).href;
@@ -27,7 +32,8 @@ export function useWholeSurah(options: WholeSurahOptions) {
   useEffect(() => {
     currentRef.current = current;
   }, [current]);
-  const paused = useRef<number | null>(null);
+  // The surah paused by hand or from the lock screen, so play can carry on from there.
+  const [pausedSurah, setPausedSurah] = useState<number | null>(null);
   const tried = useRef(0);
   const latest = useRef(options);
   useEffect(() => {
@@ -40,7 +46,7 @@ export function useWholeSurah(options: WholeSurahOptions) {
     latest.current.beforeStart();
     const audio = getAudio();
     tried.current = 0;
-    paused.current = null;
+    setPausedSurah(null);
     audio.src = list[0];
     setCurrent(surah);
     audio.play().catch(() => setCurrent((c) => (c === surah ? null : c)));
@@ -50,11 +56,11 @@ export function useWholeSurah(options: WholeSurahOptions) {
     const audio = getAudio();
     if (current === surah) {
       audio.pause();
-      paused.current = surah;
+      setPausedSurah(surah);
       setCurrent(null);
-    } else if (paused.current === surah && audio.src === absolute(latest.current.urls[surah]?.[0] ?? "")) {
+    } else if (pausedSurah === surah && audio.src === absolute(latest.current.urls[surah]?.[0] ?? "")) {
       latest.current.beforeStart();
-      paused.current = null;
+      setPausedSurah(null);
       setCurrent(surah);
       audio.play().catch(() => setCurrent((c) => (c === surah ? null : c)));
     } else {
@@ -102,7 +108,10 @@ export function useWholeSurah(options: WholeSurahOptions) {
     const played = () => {
       const surah = currentRef.current;
       if (surah === null) return;
-      if (audio.src !== absolute(latest.current.urls[surah]?.[tried.current] ?? "")) setCurrent(null);
+      if (audio.src !== absolute(latest.current.urls[surah]?.[tried.current] ?? "")) {
+        setCurrent(null);
+        setPausedSurah(null);
+      }
     };
     audio.addEventListener("ended", ended);
     audio.addEventListener("error", failed);
@@ -118,6 +127,30 @@ export function useWholeSurah(options: WholeSurahOptions) {
     // The handlers read the latest values through refs, so they are attached once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Lock screen and media keys: the surah's name and the reciter, with play and pause (no previous or next, as there are no verses).
+  const toggleRef = useRef(toggle);
+  useEffect(() => {
+    toggleRef.current = toggle;
+  });
+  const shown = current ?? pausedSurah;
+  useEffect(() => {
+    if (shown === null) return;
+    showNowPlaying(
+      { surahName: latest.current.surahName(shown), surah: shown, verse: null, reciter: latest.current.reciter, site: latest.current.site },
+      current !== null,
+      {
+        play: () => {
+          if (current === null) toggleRef.current(shown);
+        },
+        pause: () => {
+          if (current !== null) toggleRef.current(shown);
+        },
+      },
+    );
+    // The lock screen only needs telling again when the surah or the state changes.
+  }, [shown, current]);
+  useEffect(() => clearNowPlaying, []);
 
   return { current, toggle };
 }

@@ -9,6 +9,7 @@ import { shareMetadata } from "@/lib/site";
 import ContinueReading from "@/components/ContinueReading";
 import DailySurah from "@/components/DailySurah";
 import SurahGrid from "@/components/SurahGrid";
+import { errorOncePerHour } from "@/lib/log-limited";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t, locale } = await getI18n();
@@ -43,7 +44,7 @@ async function dailyView(locale: string) {
     if (!meta) return null;
     return await quran.getSurahView(surah, light, locale, { from: 1, to: Math.min(DAILY_VERSES, meta.verseCount) });
   } catch (error) {
-    console.error("The surah of the day is not available:", error);
+    errorOncePerHour("daily-surah", "The surah of the day is not available:", error);
     return null;
   }
 }
