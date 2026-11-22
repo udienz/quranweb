@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "./i18n/config";
 import { excerpt, isIndexed, ogLocale, OG_IMAGE, PRODUCTION_ORIGIN, robotsFor, shareMetadata } from "./site";
-import { sitemapEntries, verseEntries } from "./sitemap";
+import { mushafEntries, sitemapEntries, verseEntries } from "./sitemap";
 
 describe("isIndexed", () => {
   it("is true only for the production address", () => {
@@ -79,11 +79,21 @@ describe("verseEntries", () => {
   });
 });
 
+describe("mushafEntries", () => {
+  it("lists the 604 pages once each", () => {
+    const urls = mushafEntries(PRODUCTION_ORIGIN).map((e) => e.url);
+    expect(urls).toHaveLength(604);
+    expect(urls[0]).toBe(`${PRODUCTION_ORIGIN}/mushaf/1`);
+    expect(urls[603]).toBe(`${PRODUCTION_ORIGIN}/mushaf/604`);
+    expect(new Set(urls).size).toBe(604);
+  });
+});
+
 describe("robotsFor", () => {
   it("lets crawlers into production, except the reader's own pages, and names the sitemap", () => {
     const r = robotsFor(PRODUCTION_ORIGIN);
     expect(r.rules).toEqual({ userAgent: "*", allow: "/", disallow: ["/api/", "/admin", "/my-reading", "/search", "/settings"] });
-    expect(r.sitemap).toEqual([`${PRODUCTION_ORIGIN}/sitemap/0.xml`, `${PRODUCTION_ORIGIN}/sitemap/1.xml`]);
+    expect(r.sitemap).toEqual([`${PRODUCTION_ORIGIN}/sitemap/0.xml`, `${PRODUCTION_ORIGIN}/sitemap/1.xml`, `${PRODUCTION_ORIGIN}/sitemap/2.xml`]);
   });
 
   it("keeps crawlers out of QA and of a local copy", () => {

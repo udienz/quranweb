@@ -9,6 +9,7 @@ import { useMemo, useSyncExternalStore } from "react";
 import type { Locale } from "../i18n/config";
 import type { FontSize, Theme } from "../display";
 import type { Layout } from "../layout";
+import type { Paging } from "../paging";
 import type { PlaybackMode } from "../playback";
 import type { Selection } from "../quran/types";
 import {
@@ -25,6 +26,7 @@ import {
   pruneTombstones,
   setLocaleChoice,
   setLayoutChoice,
+  setPagingChoice,
   setThemeChoice,
   setFontSizeChoice,
   setPlaybackModeChoice,
@@ -142,6 +144,7 @@ export const userDataActions = {
   chooseSelection: (selection: Partial<Selection>) => update((d) => setSelectionChoice(d, selection, now())),
   chooseLocale: (locale: Locale) => update((d) => setLocaleChoice(d, locale, now())),
   chooseLayout: (layout: Layout) => update((d) => setLayoutChoice(d, layout, now())),
+  choosePaging: (paging: Paging) => update((d) => setPagingChoice(d, paging, now())),
   chooseTheme: (theme: Theme) => update((d) => setThemeChoice(d, theme, now())),
   chooseFontSize: (size: FontSize) => update((d) => setFontSizeChoice(d, size, now())),
   choosePlaybackMode: (mode: PlaybackMode) => update((d) => setPlaybackModeChoice(d, mode, now())),

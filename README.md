@@ -19,6 +19,9 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Jump to a verse** by typing its reference in the surah search box: *2:255*, *baqarah 255* or *QS. Al-Baqarah: 255*.
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings. ([how](#switch-between-mushaf-and-verse-by-verse))
+- **Read the pages of the printed mushaf**: the 604 pages of the Madinah mushaf, each with the Arabic text as one block and the
+  translation beside it. Turn pages with buttons, a page number, the arrow keys or a swipe; the audio plays on across the surahs
+  of a page and on to the next page. Choose it in Settings. ([how](#read-the-pages-of-the-mushaf))
 - **Listen** to the recitation verse by verse, from 23 reciters. The best known are at the top of the list, and you can
   search by name. Playback moves on to the next verse by itself; at the end of a surah it stops, repeats the surah or goes
   on to the next one, as you choose. You can also **play a whole juz**, across surahs. ([how](#listen-to-a-recitation))
@@ -115,6 +118,15 @@ The picture at the top of this page is the mushaf layout.
 
 1. In Reading settings, under Layout, choose **Mushaf** or **Verse by verse**.
 2. On wide screens, "Hide surah list and settings" above the surah gives the text the whole width.
+
+### Read the pages of the mushaf
+
+Open **Settings**, and under **Reading settings** choose **Mushaf pages (604)** next to "Page division". A surah then opens at the
+page of the printed mushaf that has its first verse, and an old link to a page of 10 verses opens the page that has that page's
+first verse. A page can hold the end of one surah and the start of the next (the last page holds three). Turn pages with
+**Previous page** and **Next page**, type a number from 1 to 604 in the box, press the right or left arrow key (the other way round
+in a right-to-left language) or swipe sideways. The page number is shown above and below the page. Choose **10 verses** to go back to
+pages of 10 verses, which stay the default. The choice follows your account when you are signed in.
 
 ### Listen to a recitation
 

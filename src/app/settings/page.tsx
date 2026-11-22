@@ -7,6 +7,7 @@ import SettingsPanel from "@/components/SettingsPanel";
 import { signInEnabled } from "@/lib/auth";
 import { getI18n } from "@/lib/i18n/server";
 import { LAYOUT_COOKIE, parseLayout } from "@/lib/layout";
+import { PAGING_COOKIE, parsePaging } from "@/lib/paging";
 import { getQuran } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 
@@ -28,6 +29,7 @@ export default async function SettingsPage() {
   const jar = await cookies();
   const saved = parseSelectionCookie(jar.get(SELECTION_COOKIE)?.value);
   const layout = parseLayout(jar.get(LAYOUT_COOKIE)?.value);
+  const paging = parsePaging(jar.get(PAGING_COOKIE)?.value);
   let selection;
   try {
     selection = quran.resolveSelection(saved, locale);
@@ -60,7 +62,7 @@ export default async function SettingsPage() {
       <div className="flex flex-col gap-6">
         <DisplaySection />
         <AudioSection catalog={quran.getCatalog()} selection={selection} juzs={juzs} />
-        <SettingsPanel id="reading" catalog={quran.getCatalog()} selection={selection} layout={layout} showLink={false} showQari={false} />
+        <SettingsPanel id="reading" catalog={quran.getCatalog()} selection={selection} layout={layout} paging={paging} showLink={false} showQari={false} />
         {accounts && (
           <div id="account" className="scroll-mt-24">
             <AccountSection />

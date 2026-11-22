@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setPagingChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -395,6 +395,7 @@ function randomData(next: () => number): UserData {
   if (next() < 0.6) choices.selection = { value: { qari: pick(["a", "b"]), translations: [pick(["ind-x", "eng-y"])] }, at: pick(times) };
   if (next() < 0.6) choices.locale = { value: pick(["en", "id"] as const), at: pick(times) };
   if (next() < 0.5) choices.layout = { value: pick(["mushaf", "cards"] as const), at: pick(times) };
+  if (next() < 0.5) choices.paging = { value: pick(["verses", "mushaf"] as const), at: pick(times) };
   if (next() < 0.5) choices.theme = { value: pick(["light", "dark", "auto"] as const), at: pick(times) };
   if (next() < 0.5) choices.fontSize = { value: { arabic: pick([1, 1.3]), latin: pick([0.85, 1]) }, at: pick(times) };
   if (next() < 0.5) choices.playbackMode = { value: pick(["stop", "repeat", "next"] as const), at: pick(times) };
@@ -632,6 +633,21 @@ describe("layout choice", () => {
     const raw = JSON.parse(JSON.stringify(a));
     expect(parseUserData(raw)).toEqual(a);
     expect(() => parseUserData({ ...raw, choices: { layout: { value: "grid", at: T1 } } })).toThrow();
+  });
+});
+
+describe("paging choice", () => {
+  it("records, merges newest-first, keeps the other choices and validates", () => {
+    const a = setPagingChoice(emptyUserData(), "mushaf", T1);
+    const b = setPagingChoice(emptyUserData(), "verses", T2);
+    expect(mergeUserData(a, b).choices.paging?.value).toBe("verses");
+    expect(mergeUserData(b, a)).toEqual(mergeUserData(a, b));
+    expect(setPagingChoice(setLayoutChoice(emptyUserData(), "cards", T1), "mushaf", T2).choices.layout?.value).toBe("cards");
+    expect(() => setPagingChoice(emptyUserData(), "pages" as never, T1)).toThrow();
+    const raw = JSON.parse(JSON.stringify(a));
+    expect(parseUserData(raw)).toEqual(a);
+    expect(() => parseUserData({ ...raw, choices: { paging: { value: "pages", at: T1 } } })).toThrow();
+    expect(() => parseUserData({ ...raw, choices: { paging: { value: "mushaf", at: "yesterday" } } })).toThrow();
   });
 });
 

@@ -108,3 +108,63 @@ test("turning pages: the buttons, a typed page number, the arrow keys and a swip
   await swipe(120, 10);
   await expect(page).toHaveURL(/\/mushaf\/2$/);
 });
+
+// The page of the mushaf that has a verse, from the fixtures' table (the same one the app reads).
+import { readFileSync } from "node:fs";
+const pageTable = JSON.parse(readFileSync("e2e/fixtures/quran-api/info.json", "utf8")).pages.references as {
+  page: number;
+  start: { chapter: number; verse: number };
+  end: { chapter: number; verse: number };
+}[];
+const pageOf = (surah: number, verse: number) =>
+  pageTable.find((p) => (p.start.chapter < surah || (p.start.chapter === surah && p.start.verse <= verse)) && (p.end.chapter > surah || (p.end.chapter === surah && p.end.verse >= verse)))!.page;
+
+test("the setting 'Halaman mushaf': a surah and an old link to a page of 10 verses lead to the mushaf page", async ({ page, context, baseURL }) => {
+  // By default a surah opens as before.
+  await page.goto("/surah/2");
+  await expect(page).toHaveURL(/\/surah\/2$/);
+
+  // Chosen on the settings page: a button that is pressed, a cookie, and the account's choice recorded.
+  await page.goto("/settings", { waitUntil: "networkidle" });
+  const mushaf = page.getByRole("button", { name: "Halaman mushaf (604)" });
+  await mushaf.click();
+  await expect(mushaf).toHaveAttribute("aria-pressed", "true");
+  expect((await context.cookies(baseURL!)).find((c) => c.name === "qw-paging")?.value).toBe("mushaf");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("quranweb:user") ?? "{}").choices?.paging?.value)).toBe("mushaf");
+
+  // A surah opens at the page that has its first verse; an old link to a page of 10 verses at the page that has that page's first verse.
+  await page.goto("/surah/2");
+  await expect(page).toHaveURL(new RegExp(`/mushaf/${pageOf(2, 1)}$`));
+  await page.goto("/surah/2?page=26");
+  await expect(page).toHaveURL(new RegExp(`/mushaf/${pageOf(2, 251)}$`));
+  await page.goto("/surah/113");
+  await expect(page).toHaveURL(/\/mushaf\/604$/);
+  // The page of a verse (the one to share) and a wrong address are not affected.
+  expect((await page.request.get("/surah/2/255")).status()).toBe(200);
+  expect((await page.request.get("/surah/115")).status()).toBe(404);
+
+  // Back to pages of 10 verses.
+  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "10 ayat" }).click();
+  await page.goto("/surah/2");
+  await expect(page).toHaveURL(/\/surah\/2$/);
+});
+
+test("a reader of the mushaf pages has the last read position recorded, with its surah", async ({ page, context }) => {
+  await context.addCookies([{ name: "qw-paging", value: "mushaf", url: "http://127.0.0.1:3100" }]);
+  await page.goto("/mushaf/604", { waitUntil: "networkidle" });
+  // Put the verse in the band of the screen that counts as "being read".
+  await page.evaluate(() => {
+    const el = document.getElementById("verse-113-3")!;
+    window.scrollBy(0, el.getBoundingClientRect().top - window.innerHeight * 0.32);
+  });
+  await expect
+    .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("quranweb:user") ?? "{}").lastRead), { timeout: 8000 })
+    .toMatchObject({ surah: 113 });
+});
+
+test("the mushaf pages are in the sitemap and robots names it", async ({ request }) => {
+  const urls = [...(await (await request.get("/sitemap/2.xml")).text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  expect(urls).toHaveLength(604);
+  expect(urls.every((u) => /\/mushaf\/\d+$/.test(u))).toBe(true);
+});

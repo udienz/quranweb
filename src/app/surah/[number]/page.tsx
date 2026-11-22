@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { mushafHref } from "@/lib/anchors";
 import { LAYOUT_COOKIE, parseLayout, SIDEBAR_COOKIE } from "@/lib/layout";
+import { PAGING_COOKIE, parsePaging } from "@/lib/paging";
+import { mushafPageOf } from "@/lib/quran/mushaf-pages";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { surahFromSegment } from "@/lib/surah-number";
 import { getI18n, getLocale } from "@/lib/i18n/server";
-import { clampPage, pageCount, pageRange } from "@/lib/pagination";
+import { clampPage, PAGE_SIZE, pageCount, pageRange } from "@/lib/pagination";
 import { getQuran } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { shareMetadata } from "@/lib/site";
@@ -55,6 +58,7 @@ export default async function SurahPage({
   const jar = await cookies();
   const saved = parseSelectionCookie(jar.get(SELECTION_COOKIE)?.value);
   const layout = parseLayout(jar.get(LAYOUT_COOKIE)?.value);
+  const paging = parsePaging(jar.get(PAGING_COOKIE)?.value);
   let selection;
   try {
     selection = quran.resolveSelection(saved, locale);
@@ -68,6 +72,13 @@ export default async function SurahPage({
   if (!meta) notFound();
   const count = pageCount(meta.verseCount);
   const page = clampPage((await searchParams).page, meta.verseCount);
+  // A reader who chose the pages of the mushaf is taken to the page that has this surah's start, or, from an old link to a page
+  // of 10 verses (`?page=3`), the page that has that page's first verse. Without the page table the surah is shown as usual.
+  if (paging === "mushaf") {
+    const pages = await quran.getMushafPages().catch(() => null);
+    const target = pages && mushafPageOf(pages, { surah: surahNumber, verse: Math.min((page - 1) * PAGE_SIZE + 1, meta.verseCount) });
+    if (target) redirect(mushafHref(target));
+  }
   const view = await quran.getSurahView(surahNumber, selection, locale, pageRange(page, meta.verseCount));
   const catalog = quran.getCatalog();
   // Where the juz start and end, for "Play a juz". Without them the rest of the page still works.
@@ -84,7 +95,7 @@ export default async function SurahPage({
         // The column can be taller than the screen; it scrolls on its own so every setting stays reachable.
         <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pe-1">
           <SurahSidebar surahs={surahs} current={surahNumber} />
-          <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
+          <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} />
         </div>
       }
     >
@@ -93,7 +104,7 @@ export default async function SurahPage({
           <summary className="cursor-pointer px-4 py-3 font-display text-sm font-semibold">{t("reader.panel")}</summary>
           <div className="flex flex-col gap-4 px-2 pb-2">
             <SurahSidebar surahs={surahs} current={surahNumber} />
-            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} />
+            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} />
           </div>
         </details>
         <SurahReader

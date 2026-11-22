@@ -1,5 +1,6 @@
 import { isLocale, LOCALE_COOKIE } from "../i18n/config";
 import { isLayout, LAYOUT_COOKIE } from "../layout";
+import { isPaging, PAGING_COOKIE } from "../paging";
 import { parseSelectionCookie, parseSelectionObject, SELECTION_COOKIE, serializeSelection } from "../selection";
 import type { Choices } from "../userdata/schema";
 
@@ -28,6 +29,9 @@ export function cookieUpdates(choices: Choices, cookies: string): [name: string,
   }
   if (choices.layout && isLayout(choices.layout.value) && readCookie(cookies, LAYOUT_COOKIE) !== choices.layout.value) {
     updates.push([LAYOUT_COOKIE, choices.layout.value]);
+  }
+  if (choices.paging && isPaging(choices.paging.value) && readCookie(cookies, PAGING_COOKIE) !== choices.paging.value) {
+    updates.push([PAGING_COOKIE, choices.paging.value]);
   }
   return updates;
 }

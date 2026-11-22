@@ -304,6 +304,17 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   with each match in gold at 30% (`bg-gold/30`) and the text colour; Arabic results in `Amiri` 24px right to left; previous and next
   as pills with "page / pages" between them
 
+**Page division (reading settings)**
+- A second segmented control under "Layout" in the reading settings, the same pill group: two buttons, the pressed one in the
+  primary colour (white text, dark text in dark mode), the other muted: "10 verses" and "Mushaf pages (604)"
+
+**Mushaf page (`/mushaf/N`)**
+- A 1200px column: the dark header (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
+  page", the counter "42 / 604" with a 128px pill number box and a small "Go" pill, pill "Next page") above and below; on a phone the
+  two pills share a row and the box has its own; one card holding each surah's part in the mushaf layout, a surah that starts here with a
+  centred band (Arabic name in `Amiri` 30px, Latin name, meaning, verses, the Bismillah), one that goes on with a 12px muted name; the
+  page number "— 42 —" at the foot of the card
+
 **Share menu (verse actions)**
 - A 36px round share button (three joined circles, stroke 1.8) with the other verse actions; it opens a 224px card (`--card`, 1px
   border, 16px radius, shadow) of text items, 14px weight 500, 40px high: copy the verse, copy the link, "Share…" (only where the

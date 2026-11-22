@@ -19,6 +19,9 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - **Langsung ke sebuah ayat** dengan mengetik rujukannya di kotak cari surat: *2:255*, *baqarah 255*, atau *QS. Al-Baqarah: 255*.
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan. ([caranya](#mengganti-tampilan-mushaf-atau-per-ayat))
+- **Membaca halaman mushaf cetak**: 604 halaman mushaf Madinah, masing-masing dengan teks Arab menyatu dalam satu blok dan
+  terjemahan di sampingnya. Balik halaman dengan tombol, nomor halaman, tombol panah, atau geser; audio berlanjut melewati
+  beberapa surat dalam satu halaman dan ke halaman berikutnya. Pilih di Pengaturan. ([caranya](#membaca-halaman-mushaf))
 - **Mendengarkan** murottal per ayat dari 23 qari. Yang paling dikenal ada di atas daftar, dan Anda bisa mencari namanya.
   Audio lanjut sendiri ke ayat berikutnya; di akhir surat audio berhenti, mengulang surat, atau lanjut ke surat berikutnya,
   sesuai pilihan Anda. Anda juga bisa **memutar satu juz penuh**, menyeberangi surat. ([caranya](#mendengarkan-murottal))
@@ -118,6 +121,16 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 1. Di Pengaturan bacaan, pada Tampilan, pilih **Mushaf** atau **Per ayat**.
 2. Di layar lebar, "Sembunyikan daftar surat dan pengaturan" di atas surat membuat teks memakai seluruh lebar.
+
+### Membaca halaman mushaf
+
+Buka **Pengaturan**, lalu di **Pengaturan bacaan** pilih **Halaman mushaf (604)** pada "Pembagian halaman". Sebuah surat lalu
+terbuka di halaman mushaf cetak yang memuat ayat pertamanya, dan tautan lama ke halaman berisi 10 ayat membuka halaman yang
+memuat ayat pertama halaman itu. Satu halaman bisa memuat akhir satu surat dan awal surat berikutnya (halaman terakhir memuat
+tiga surat). Balik halaman dengan **Halaman sebelumnya** dan **Halaman berikutnya**, ketik angka 1 sampai 604 di kotak, tekan
+panah kanan atau kiri (terbalik pada bahasa dari kanan ke kiri), atau geser ke samping. Nomor halaman tampil di atas dan di
+bawah halaman. Pilih **10 ayat** untuk kembali ke halaman berisi 10 ayat, yang tetap menjadi bawaan. Pilihan ini ikut akun bila
+Anda masuk.
 
 ### Mendengarkan murottal
 
