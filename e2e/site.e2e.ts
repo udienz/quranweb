@@ -18,6 +18,27 @@ test("the app can be installed: manifest in the reader's language and its icons"
   }
 });
 
+test("search engines: robots keep a copy that is not production out, the sitemap lists the surahs, and a page says what it is", async ({ request }) => {
+  // The test server is at 127.0.0.1, not the production address, so it must not be indexed.
+  expect(await (await request.get("/robots.txt")).text()).toMatch(/Disallow: \/\s*$/m);
+
+  const urls = [...(await (await request.get("/sitemap/0.xml")).text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  expect(urls.filter((u) => /\/surah\/\d+$/.test(u))).toHaveLength(114);
+  expect(urls.some((u) => u.includes("?"))).toBe(false);
+
+  // What a crawler or a link preview reads: no cookie, Indonesian by default.
+  const html = await (await request.get("/surah/2?page=3")).text();
+  const meta = (name: string) => html.match(new RegExp(`<meta (?:property|name)="${name}" content="([^"]*)"`))?.[1];
+  expect(html).toContain('<link rel="canonical" href="http://127.0.0.1:3100/surah/2"');
+  expect(meta("og:title")).toBe("Al-Baqarah (Sapi) | QuranWeb");
+  expect(meta("og:description")).toContain("286 ayat");
+  expect(meta("og:image")).toBe("http://127.0.0.1:3100/og.png");
+  expect(meta("twitter:card")).toBe("summary_large_image");
+  const image = await request.get("/og.png");
+  expect(image.status()).toBe(200);
+  expect(image.headers()["content-type"]).toBe("image/png");
+});
+
 test("the reciter list: best known first, search in Latin and Arabic, a CDN reciter plays from the CDN", async ({ page, context, baseURL }) => {
   const problems = watchConsole(page);
   await cards(context, baseURL!);

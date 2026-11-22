@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllSurah } from "@/lib/quran";
 import { getI18n } from "@/lib/i18n/server";
+import { shareMetadata } from "@/lib/site";
 import ContinueReading from "@/components/ContinueReading";
 import SurahGrid from "@/components/SurahGrid";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { t, locale } = await getI18n();
+  return shareMetadata({ title: t("meta.title"), description: t("meta.description"), path: "/", locale });
+}
 
 // Rendered per request instead of prerendered at build time: the data comes from
 // external sources that must not be needed while `docker build` / `next build` run.

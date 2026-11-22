@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { LAYOUT_COOKIE, parseLayout, SIDEBAR_COOKIE } from "@/lib/layout";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
@@ -5,6 +6,8 @@ import { surahFromSegment } from "@/lib/surah-number";
 import { getI18n, getLocale } from "@/lib/i18n/server";
 import { clampPage, pageCount, pageRange } from "@/lib/pagination";
 import { getQuran } from "@/lib/quran";
+import { meaningOf } from "@/lib/quran/labels";
+import { shareMetadata } from "@/lib/site";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import SettingsPanel from "@/components/SettingsPanel";
 import SurahLayout from "@/components/SurahLayout";
@@ -13,6 +16,25 @@ import SurahSidebar from "@/components/SurahSidebar";
 
 // Rendered per request, see the note in app/page.tsx.
 export const instant = false;
+
+/**
+ * What a link to a surah shows in a preview: its name and meaning, then how many verses it has and where it was revealed.
+ * The canonical address is `/surah/N` for every page of it (`?page=2` is the same surah), so the pages do not compete.
+ */
+export async function generateMetadata({ params }: { params: Promise<{ number: string }> }): Promise<Metadata> {
+  const number = surahFromSegment((await params).number);
+  if (number === null) return {};
+  const [{ t, tn, locale }, surahs] = await Promise.all([getI18n(), getQuran().getSurahList()]);
+  const meta = surahs.find((s) => s.number === number);
+  if (!meta) return {};
+  const meaning = meaningOf(meta, locale);
+  return shareMetadata({
+    title: `${meta.name.latin} (${meaning}) | ${t("meta.title")}`,
+    description: `${meaning} · ${tn("common.verses", meta.verseCount)} · ${t(`revelation.${meta.revelation}`)}`,
+    path: `/surah/${number}`,
+    locale,
+  });
+}
 
 export default async function SurahPage({
   params,

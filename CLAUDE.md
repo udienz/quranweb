@@ -396,6 +396,30 @@ is 29 pages instead of one very long scroll.
   Tafsir) and the settings also survive a page change.
 - The Bismillah is shown on page 1 only, and a surah of 10 verses or fewer has no pagination.
 
+### Being found: robots, sitemap and link previews (roadmap phase 6, step 1; 2026-11-22)
+
+Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og-image.mjs`).
+
+- **The site's address** is `siteOrigin()` (`lib/site-origin.ts`, server only): `SITE_URL`, else `BETTER_AUTH_URL`, else the request's
+  `x-forwarded-host` or `host`. The root layout sets `metadataBase` from it, so the relative addresses in the metadata become
+  absolute. Everything pure is in `lib/site.ts` (tested): `isIndexed`, `robotsFor`, `shareMetadata`, `excerpt`, `ogLocale`.
+- **Only production is indexed** (`isIndexed`: exactly `https://quranweb.udienz.web.id`). QA and a local run answer `Disallow: /`, so
+  they never compete with production as duplicates. **If the app cannot tell its own address, production would answer
+  `Disallow: /`**: that is why `BETTER_AUTH_URL` is a fallback; check `/robots.txt` on production after every deploy that touches
+  the environment (docs/development.md).
+- **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/settings`) and names
+  the sitemap. **`sitemap.ts`** (`generateSitemaps`, so the address `/sitemap/0.xml` stays when files are added) lists the home page,
+  the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `?page=N` is never listed.
+- **Link previews:** every page that can be shared sets all of its metadata through `shareMetadata({ title, description, path, locale })`:
+  the canonical address, `og:*` and `twitter:*`. Next.js **replaces** the layout's `openGraph` instead of merging it, so a page that
+  sets only a title would lose the image; the layout passes `canonical: false`, because a page without its own would otherwise
+  inherit the home page as its canonical address. A surah is `/surah/N` whatever `?page=` says. The image is the same for every
+  page, `public/og.png` (1200 by 630), drawn by `scripts/og-image.mjs` in the Playwright image (redraw it with the icons when the logo
+  changes). `og:locale` follows the interface language.
+- **Known limit:** one address serves every interface language (the cookie or `Accept-Language` decides), so a crawler without a
+  cookie reads Indonesian, and `hreflang` is not possible. Separate language addresses are not planned.
+- The pages of each verse (`/surah/2/255`), with their own previews and sitemap file, are step 3 of phase 6 in `ROADMAP.md`.
+
 ### Sign-in (OIDC)
 
 Optional and off by default: reading never needs an account (`src/lib/auth/`, `src/app/api/auth/`).
@@ -601,6 +625,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_FAWAZ_URL` | jsDelivr, then raw GitHub | Base URL (or local directory) of a fawazahmed0-format API (point it to our mirror) |
 | `QURAN_QURANENC_URL` | the live QuranEnc API | Base URL (or local directory) of the QuranEnc copy (`/data/quranenc` on the servers) |
 | `BETTER_AUTH_URL`, `AUTH_ISSUER_URL`, `AUTH_CLIENT_ID`, `AUTH_CLIENT_SECRET`, `BETTER_AUTH_SECRET` | none | Sign-in (all five, plus `QURAN_DB_PATH`, or none). `BETTER_AUTH_SECRET` is at least 32 random characters |
+| `SITE_URL` | `BETTER_AUTH_URL`, else the request's Host | Public address of the site, for canonical links, link previews, `robots.txt` and the sitemap; only `https://quranweb.udienz.web.id` is indexed |
 | `ADMIN_EMAILS` | none | Comma-separated emails of the admins (verified sign-in emails); unset = no admin page |
 | `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
@@ -620,6 +645,7 @@ src/
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
+    robots.ts, sitemap.ts      robots.txt (production only) and the sitemap
     manifest.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
   components/
@@ -658,6 +684,7 @@ src/
     sync/                      account sync: server (merge, store), API handler, engine, browser hook
     account/                   export and deletion of an account (API handler, tests)
     admin/                     admin allowlist, account list, actions and audit log (API handler, tests)
+    site.ts, site-origin.ts, sitemap.ts   address of the site, robots rules, link-preview metadata, sitemap entries
     privacy.ts                 privacy contact from the environment
     ratelimit.ts               in-memory rate limiter and client address for our own API routes
     selection.ts               parse/serialize the selection cookie
@@ -678,6 +705,7 @@ scripts/
   sync-mirror.mjs              copy the EQuran.id text to static JSON
   backup-db.sh, restore-db.sh, db-tool.mjs, backup-db.test.sh   encrypted database backup (docs/backup.md)
   deploy-contact.test.sh, load-test.mjs   test of deploy.sh's contact variables; load check with fake readers
+  og-image.mjs                 draw public/og.png, the link preview image
   readme-screenshots.mjs       take the how-to screenshots of the READMEs (docs/screenshots/<lang>/how-*.png)
   upload-git.sh, upload-git.test.sh   off-server copy of the backups to a private GitHub repository (in use, docs/backup.md)
   update-contributors.mjs, contributors-lib.mjs   write CONTRIBUTORS.md from the GitHub API (the logic is tested in contributors.test.mjs)
@@ -739,7 +767,7 @@ October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (b
 - `.github/workflows/ci.yml`: lint, `npm test` and `npm run build` (which includes the
   type check) on every push to `master` and every PR.
 - **The Docker image is checked in CI** (job "Docker image starts", `scripts/docker-smoke.sh`): it builds the image, starts
-  it as the servers do (runtime user uid 1001), and checks that `/privacy`, the manifest and the icons answer 200 and that the
+  it as the servers do (runtime user uid 1001), and checks that `/privacy`, the manifest, the icons, `/og.png` and `/robots.txt` answer 200 and that the
   log has no error. With `STRICT_PERMISSIONS=1` (CI) it first removes the "others" permission bits from the checkout, like the
   servers' umask 007. A Docker build in CI was dropped on 2026-11-17 (it had never failed) and brought back after a QA deploy
   failed on a `public/` directory the runtime user could not read (PR #71); the script fails on exactly that (checked by

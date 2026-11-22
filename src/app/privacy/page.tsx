@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { isCommunityLocale } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
 import { privacyContact } from "@/lib/privacy";
+import { excerpt, shareMetadata } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getI18n();
-  return { title: `${t("privacy.title")} | ${t("meta.title")}` };
+  const { t, locale } = await getI18n();
+  return shareMetadata({ title: `${t("privacy.title")} | ${t("meta.title")}`, description: excerpt(t("privacy.intro")), path: "/privacy", locale });
 }
 
 // Rendered per request (the language and the contact come from the request and the environment).

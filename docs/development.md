@@ -73,6 +73,8 @@ They are plain JSON files kept in a separate data repository. Recitation audio i
 
 A base URL can also be a **directory with a local copy of that data** (for example `/data/api/v2`), and then the app makes no HTTP request at all for text: QA and production run this way, with the mirror directory mounted read-only into the container. To change which providers are active, their order, which editions are enabled and the defaults without touching code, point `QURAN_CONFIG` to a JSON file (see `config/sources.example.json`, which reads the local copy first and falls back to EQuran.id). The three variables above only fill in a `baseUrl` that the file leaves out.
 
+**The address of the site** (canonical links, link previews, `robots.txt` and the sitemap) comes from `SITE_URL`, else `BETTER_AUTH_URL` (set on both servers for sign-in), else the request's Host (nginx passes it). Only `https://quranweb.udienz.web.id` is indexed: on QA and on a local run `robots.txt` says `Disallow: /`. After a deploy, check `/robots.txt` and `/sitemap/0.xml` on both sites; if production ever answers `Disallow: /`, the app does not know its own address, so set `SITE_URL` in `/etc/quranweb/prod.env`.
+
 ## Docker
 
 There is a `Dockerfile` (multi-stage, using the Next.js [`standalone` output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), final image based on `node:26-alpine`), which is also used for server deployment.

@@ -37,7 +37,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
   When you are signed in, your choice follows you. ([how](#change-the-language))
 - **Make it comfortable**: a light, dark or automatic theme, and larger or smaller Arabic and Latin text, each on its
   own, on the Settings page. When you are signed in, your settings follow you to your other devices. ([how](#theme-and-text-size))
-- **Copy a verse**, or a link to it. ([how](#copy-a-verse-or-its-link))
+- **Copy a verse**, or a link to it. ([how](#copy-a-verse-or-its-link)) A link to a surah shows a preview with its name, its meaning
+  and its number of verses when you paste it into WhatsApp, Telegram or X.
 - **Install it as an app** on your phone or computer, with its own icon and window: "Install app" in Chrome or Edge,
   "Add to Home Screen" in Safari on an iPhone. It still needs an internet connection. ([how](#install-it-as-an-app))
 

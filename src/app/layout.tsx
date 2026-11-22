@@ -18,12 +18,16 @@ import { MESSAGES } from "@/lib/i18n/messages";
 import { signInEnabled } from "@/lib/auth";
 import { displayScript } from "@/lib/display";
 import { getI18n } from "@/lib/i18n/server";
+import { shareMetadata } from "@/lib/site";
+import { siteOrigin } from "@/lib/site-origin";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getI18n();
+  const { t, locale } = await getI18n();
   return {
-    title: t("meta.title"),
-    description: t("meta.description"),
+    // Relative addresses in the metadata (the canonical link, the preview image) are made absolute from this.
+    metadataBase: new URL(await siteOrigin()),
+    // The layout sets the preview data every page falls back on; a page that can be shared sets its own (shareMetadata).
+    ...shareMetadata({ title: t("meta.title"), description: t("meta.description"), path: "/", locale, canonical: false }),
     // On an iPhone, "Add to Home Screen" opens the site in its own window with this name.
     appleWebApp: { capable: true, title: t("meta.title"), statusBarStyle: "default" },
   };

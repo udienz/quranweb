@@ -37,7 +37,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
   memilih sendiri di header atau halaman Pengaturan. Saat Anda masuk, pilihan Anda ikut akun. ([caranya](#mengganti-bahasa))
 - **Membuatnya nyaman dibaca**: tema terang, gelap, atau otomatis, serta huruf Arab dan Latin yang bisa diperbesar atau
   diperkecil masing-masing, di halaman Pengaturan. Saat Anda masuk, pengaturan ikut ke perangkat Anda yang lain. ([caranya](#tema-dan-ukuran-huruf))
-- **Menyalin ayat**, atau tautannya. ([caranya](#menyalin-ayat-atau-tautannya))
+- **Menyalin ayat**, atau tautannya. ([caranya](#menyalin-ayat-atau-tautannya)) Tautan ke sebuah surat menampilkan pratinjau berisi namanya,
+  artinya, dan jumlah ayatnya saat ditempel di WhatsApp, Telegram, atau X.
 - **Memasangnya sebagai aplikasi** di ponsel atau komputer, dengan ikon dan jendela sendiri: "Instal aplikasi" di
   Chrome atau Edge, "Tambahkan ke Layar Utama" di Safari pada iPhone. Tetap butuh koneksi internet. ([caranya](#memasang-sebagai-aplikasi))
 
