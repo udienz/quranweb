@@ -15,6 +15,9 @@ export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: SITE_NA
 
 export const isIndexed = (origin: string): boolean => origin === PRODUCTION_ORIGIN;
 
+/** Whether the site may be installed as an app (the manifest and the iPhone's "Add to Home Screen" data): production only, like indexing. */
+export const isInstallable = (origin: string): boolean => origin === PRODUCTION_ORIGIN;
+
 /** The pages with nothing for a search engine: the reader's own data, settings and the API. robots.ts keeps crawlers out. */
 export const NOT_FOR_CRAWLERS = ["/api/", "/admin", "/my-reading", "/search", "/settings"] as const;
 

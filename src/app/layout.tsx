@@ -19,18 +19,25 @@ import { signInEnabled } from "@/lib/auth";
 import { displayScript } from "@/lib/display";
 import KeepVerseInView from "@/components/KeepVerseInView";
 import { getI18n } from "@/lib/i18n/server";
-import { shareMetadata } from "@/lib/site";
+import { isInstallable, shareMetadata } from "@/lib/site";
 import { siteOrigin } from "@/lib/site-origin";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t, locale } = await getI18n();
+  const origin = await siteOrigin();
   return {
     // Relative addresses in the metadata (the canonical link, the preview image) are made absolute from this.
-    metadataBase: new URL(await siteOrigin()),
+    metadataBase: new URL(origin),
     // The layout sets the preview data every page falls back on; a page that can be shared sets its own (shareMetadata).
     ...shareMetadata({ title: t("meta.title"), description: t("meta.description"), path: "/", locale, canonical: false }),
-    // On an iPhone, "Add to Home Screen" opens the site in its own window with this name.
-    appleWebApp: { capable: true, title: t("meta.title"), statusBarStyle: "default" },
+    // Only production can be installed (see app/manifest.webmanifest/route.ts): QA gets no manifest and no data for "Add to Home Screen".
+    ...(isInstallable(origin)
+      ? {
+          manifest: "/manifest.webmanifest",
+          // On an iPhone, "Add to Home Screen" opens the site in its own window with this name.
+          appleWebApp: { capable: true, title: t("meta.title"), statusBarStyle: "default" as const },
+        }
+      : {}),
   };
 }
 

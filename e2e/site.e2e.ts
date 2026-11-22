@@ -21,8 +21,17 @@ test("a page of 10 verses has a clean address, and the old ?page= link and a wro
   await expect(page.getByRole("link", { name: /^(Halaman 2|Page 2)$/ }).first()).toHaveAttribute("href", "/surah/2/page/2");
 });
 
-test("the app can be installed: manifest in the reader's language and its icons", async ({ request }) => {
-  const manifest = await (await request.get("/manifest.webmanifest", { headers: { "accept-language": "en-US" } })).json();
+test("only production can be installed: the manifest is in the reader's language with its icons there, and absent anywhere else", async ({ request }) => {
+  // The test server is at 127.0.0.1, not the production address: no manifest, no link to one, no "Add to Home Screen" data.
+  expect((await request.get("/manifest.webmanifest")).status()).toBe(404);
+  const html = await (await request.get("/privacy")).text();
+  expect(html).not.toContain('rel="manifest"');
+  expect(html).not.toContain("apple-mobile-web-app");
+  // As nginx passes the Host of the production address, the manifest is served.
+  const production = { "x-forwarded-host": "quranweb.udienz.web.id", "x-forwarded-proto": "https" };
+  const page = await (await request.get("/privacy", { headers: production })).text();
+  expect(page).toContain('rel="manifest"');
+  const manifest = await (await request.get("/manifest.webmanifest", { headers: { ...production, "accept-language": "en-US" } })).json();
   expect(manifest).toMatchObject({ display: "standalone", start_url: "/", lang: "en" });
   for (const icon of manifest.icons) {
     const res = await request.get(icon.src);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES } from "./i18n/config";
-import { excerpt, isIndexed, ogLocale, OG_IMAGE, PRODUCTION_ORIGIN, robotsFor, shareMetadata } from "./site";
+import { excerpt, isIndexed, isInstallable, ogLocale, OG_IMAGE, PRODUCTION_ORIGIN, robotsFor, shareMetadata } from "./site";
 import { mushafEntries, sitemapEntries, verseEntries } from "./sitemap";
 
 describe("isIndexed", () => {
@@ -101,6 +101,15 @@ describe("robotsFor", () => {
       const r = robotsFor(origin);
       expect(r.rules).toEqual({ userAgent: "*", disallow: "/" });
       expect(r.sitemap).toBeUndefined();
+    }
+  });
+});
+
+describe("isInstallable", () => {
+  it("is true only for the production address, as for indexing", () => {
+    expect(isInstallable("https://quranweb.udienz.web.id")).toBe(true);
+    for (const origin of ["https://quranweb-qa.udienz.web.id", "http://localhost:3000", "http://quranweb.udienz.web.id"]) {
+      expect(isInstallable(origin), origin).toBe(false);
     }
   });
 });

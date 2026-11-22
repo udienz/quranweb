@@ -376,7 +376,7 @@ choice of the owner (a separate group in the list, and a fresh check of which ed
 
 ### Installable app (no offline yet)
 
-- **`src/app/manifest.ts`** (served as `/manifest.webmanifest`): name, description and `lang` in the reader's language (per
+- **`src/app/manifest.webmanifest/route.ts`** (served as `/manifest.webmanifest`; a route handler, not the `manifest.ts` convention, so the link to it can be left out): **production only** (`isInstallable`, the same address as indexing): QA and a local run answer 404, the layout leaves the `manifest` link and `appleWebApp` out there, so a browser does not offer to install QA (same name and icon as the real site; the owner's request, 2026-11-22). Name, description and `lang` in the reader's language (per
   request, from Accept-Language; a browser does not always send cookies with it), `display: standalone`, start at `/`, and three
   PNG icons in `public/icons/` (192 and 512 with rounded corners, and a full-bleed maskable 512 with the logo inside the 80 %
   safe zone). The root layout adds `appleWebApp` (iPhone "Add to Home Screen") and a `theme-color` per colour scheme (the
@@ -771,7 +771,7 @@ src/
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
     robots.ts, sitemap.ts      robots.txt (production only) and the sitemap
-    manifest.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
+    manifest.webmanifest/route.ts, favicon.ico, icon.svg, apple-icon.png   installable app: manifest and icons (more sizes in public/icons/)
     surah/[number]/page.tsx    surah list + settings (left) and reader (right)
     mushaf/[page]/page.tsx     one of the 604 pages of the printed mushaf (not linked yet)
     surah/[number]/[verse]/page.tsx   one verse on its own page: the address to share, with its own preview
@@ -902,7 +902,7 @@ October 2026) in the Dockerfile and CI, and `engines` allows Node 24 or newer (b
 - `.github/workflows/ci.yml`: lint, `npm test` and `npm run build` (which includes the
   type check) on every push to `master` and every PR.
 - **The Docker image is checked in CI** (job "Docker image starts", `scripts/docker-smoke.sh`): it builds the image, starts
-  it as the servers do (runtime user uid 1001), and checks that `/privacy`, the manifest, the icons, `/og.png` and `/robots.txt` answer 200 and that the
+  it as the servers do (runtime user uid 1001), and checks that `/privacy`, the icons, `/og.png` and `/robots.txt` answer 200 and that the
   log has no error. With `STRICT_PERMISSIONS=1` (CI) it first removes the "others" permission bits from the checkout, like the
   servers' umask 007. A Docker build in CI was dropped on 2026-11-17 (it had never failed) and brought back after a QA deploy
   failed on a `public/` directory the runtime user could not read (PR #71); the script fails on exactly that (checked by
