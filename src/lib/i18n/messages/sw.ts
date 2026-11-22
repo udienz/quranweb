@@ -154,7 +154,7 @@ export const sw: Messages = {
     searchLabel: "Tafuta sura",
     noResults: "Hakuna sura iliyopatikana.",
     goTo: "Nenda kwa {reference}",
-    daily: { title: "Sura ya leo", read: "Soma sura" },
+    daily: { title: "Aya ya leo" },
   },
   search: {
     title: "Tafuta",

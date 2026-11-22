@@ -155,7 +155,7 @@ export const fa: Messages = {
     searchLabel: "جست‌وجوی سوره",
     noResults: "سوره‌ای پیدا نشد.",
     goTo: "رفتن به {reference}",
-    daily: { title: "سورهٔ امروز", read: "خواندن سوره" },
+    daily: { title: "آیهٔ امروز" },
   },
   search: {
     title: "جست‌وجو",

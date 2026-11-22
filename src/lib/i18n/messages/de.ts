@@ -154,7 +154,7 @@ export const de: Messages = {
     searchLabel: "Suren suchen",
     noResults: "Keine Sure gefunden.",
     goTo: "Gehe zu {reference}",
-    daily: { title: "Sure des Tages", read: "Sure lesen" },
+    daily: { title: "Vers des Tages" },
   },
   search: {
     title: "Suche",

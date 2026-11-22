@@ -155,7 +155,7 @@ export const bs: Messages = {
     searchLabel: "Traži sure",
     noResults: "Nije pronađena nijedna sura.",
     goTo: "Idi na {reference}",
-    daily: { title: "Sura dana", read: "Pročitaj suru" },
+    daily: { title: "Ajet dana" },
   },
   search: {
     title: "Pretraga",

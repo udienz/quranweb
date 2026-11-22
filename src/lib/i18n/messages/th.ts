@@ -155,7 +155,7 @@ export const th: Messages = {
     searchLabel: "ค้นหาซูเราะฮ์",
     noResults: "ไม่พบซูเราะฮ์",
     goTo: "ไปที่ {reference}",
-    daily: { title: "ซูเราะฮ์ประจำวัน", read: "อ่านซูเราะฮ์นี้" },
+    daily: { title: "อายะฮ์ประจำวัน" },
   },
   search: {
     title: "ค้นหา",

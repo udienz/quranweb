@@ -153,7 +153,7 @@ export const en = {
     searchLabel: "Search surahs",
     noResults: "No surah found.",
     goTo: "Go to {reference}",
-    daily: { title: "Surah of the day", read: "Read the surah" },
+    daily: { title: "Verse of the day" },
   },
   search: {
     title: "Search",

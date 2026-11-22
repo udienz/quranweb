@@ -155,7 +155,7 @@ export const vi: Messages = {
     searchLabel: "Tìm chương",
     noResults: "Không tìm thấy chương nào.",
     goTo: "Đi đến {reference}",
-    daily: { title: "Chương hôm nay", read: "Đọc chương này" },
+    daily: { title: "Câu của ngày" },
   },
   search: {
     title: "Tìm kiếm",

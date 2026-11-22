@@ -154,7 +154,7 @@ export const ml: Messages = {
     searchLabel: "സൂറത്തുകൾ തിരയുക",
     noResults: "സൂറത്ത് ഒന്നും കണ്ടെത്തിയില്ല.",
     goTo: "{reference} ലേക്ക് പോകുക",
-    daily: { title: "ഇന്നത്തെ സൂറത്ത്", read: "സൂറത്ത് വായിക്കുക" },
+    daily: { title: "ഇന്നത്തെ ആയത്ത്" },
   },
   search: {
     title: "തിരയുക",

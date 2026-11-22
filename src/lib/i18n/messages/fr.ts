@@ -154,7 +154,7 @@ export const fr: Messages = {
     searchLabel: "Rechercher une sourate",
     noResults: "Aucune sourate trouvée.",
     goTo: "Aller à {reference}",
-    daily: { title: "Sourate du jour", read: "Lire la sourate" },
+    daily: { title: "Verset du jour" },
   },
   search: {
     title: "Rechercher",

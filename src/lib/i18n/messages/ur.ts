@@ -154,7 +154,7 @@ export const ur: Messages = {
     searchLabel: "سورت تلاش کریں",
     noResults: "کوئی سورت نہیں ملی۔",
     goTo: "{reference} پر جائیں",
-    daily: { title: "آج کی سورت", read: "سورت پڑھیں" },
+    daily: { title: "آج کی آیت" },
   },
   search: {
     title: "تلاش",

@@ -155,7 +155,7 @@ export const uz: Messages = {
     searchLabel: "Сураларни қидириш",
     noResults: "Сура топилмади.",
     goTo: "{reference}га ўтиш",
-    daily: { title: "Кунлик сура", read: "Сурани ўқиш" },
+    daily: { title: "Кун ояти" },
   },
   search: {
     title: "Қидирув",

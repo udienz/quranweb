@@ -32,8 +32,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - **Membaca tafsir** sebuah ayat di tab Tafsir (Kemenag, Quraish Shihab, Jalalayn, atau Al-Mukhtasar;
   Al-Mukhtasar juga dalam bahasa Arab, Inggris, Turki, Bengali, Prancis, Rusia, Persia, Bosnia, Tionghoa, Thai, Uzbek, Tamil,
   Malayalam, Italia, Hindi, Jepang, dan Vietnam). ([caranya](#membaca-tafsir))
-- **Melihat surat hari ini** di beranda: namanya, artinya, dan beberapa ayat pertamanya, dengan tautan untuk membacanya. Surat itu
-  berganti tiap tengah malam WIB dan berputar melewati seluruh 114 surat.
+- **Melihat ayat hari ini** di beranda: teks Arabnya dan terjemahan pilihan Anda, dengan tautan untuk membacanya di suratnya. Ayat itu
+  berganti tiap tengah malam WIB dan berputar melewati daftar ayat yang dipilih tangan.
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca. ([caranya](#melanjutkan-bacaan-dan-menandai-progres))
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi. ([caranya](#penanda-ayat-catatan-dan-koleksi))
 - **Memasang target harian** (dalam ayat atau halaman per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))

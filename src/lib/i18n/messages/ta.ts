@@ -154,7 +154,7 @@ export const ta: Messages = {
     searchLabel: "சூராக்களைத் தேடு",
     noResults: "சூரா எதுவும் கிடைக்கவில்லை.",
     goTo: "{reference}க்குச் செல்",
-    daily: { title: "இன்றைய சூரா", read: "சூராவைப் படிக்கவும்" },
+    daily: { title: "இன்றைய வசனம்" },
   },
   search: {
     title: "தேடல்",

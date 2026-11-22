@@ -154,7 +154,7 @@ export const it: Messages = {
     searchLabel: "Cerca le sure",
     noResults: "Nessuna sura trovata.",
     goTo: "Vai a {reference}",
-    daily: { title: "Sura del giorno", read: "Leggi la sura" },
+    daily: { title: "Versetto del giorno" },
   },
   search: {
     title: "Cerca",
