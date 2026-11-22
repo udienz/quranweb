@@ -153,6 +153,7 @@ export const pt: Messages = {
     searchPlaceholder: "Buscar por nome ou número…",
     searchLabel: "Buscar suratas",
     noResults: "Nenhuma surata encontrada.",
+    goTo: "Ir para {reference}",
     daily: { title: "Surata do dia", read: "Ler a surata" },
   },
   continueReading: {

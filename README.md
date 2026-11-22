@@ -14,6 +14,7 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 
 - **Read all 114 surahs** in the Arabic text (Uthmani Hafs or the EQuran.id text), with a Latin transliteration and one or
   more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others). ([how](#choose-the-text-and-translations))
+- **Jump to a verse** by typing its reference in the surah search box: *2:255*, *baqarah 255* or *QS. Al-Baqarah: 255*.
 - **Read like a printed mushaf**: the Arabic text of a page runs as one block, with the translation beside it (below it
   on phones). Prefer one card per verse? Switch it in the settings. ([how](#switch-between-mushaf-and-verse-by-verse))
 - **Listen** to the recitation verse by verse, from 23 reciters. The best known are at the top of the list, and you can

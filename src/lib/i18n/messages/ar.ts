@@ -154,6 +154,7 @@ export const ar: Messages = {
     searchPlaceholder: "ابحث بالاسم أو الرقم…",
     searchLabel: "البحث عن سورة",
     noResults: "لم يُعثر على سورة.",
+    goTo: "اذهب إلى {reference}",
     daily: { title: "سورة اليوم", read: "اقرأ السورة" },
   },
   continueReading: {

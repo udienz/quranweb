@@ -152,6 +152,7 @@ export const en = {
     searchPlaceholder: "Search by name or number…",
     searchLabel: "Search surahs",
     noResults: "No surah found.",
+    goTo: "Go to {reference}",
     daily: { title: "Surah of the day", read: "Read the surah" },
   },
   continueReading: {

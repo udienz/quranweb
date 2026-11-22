@@ -153,6 +153,7 @@ export const ms: Messages = {
     searchPlaceholder: "Cari mengikut nama atau nombor…",
     searchLabel: "Cari surah",
     noResults: "Tiada surah dijumpai.",
+    goTo: "Pergi ke {reference}",
     daily: { title: "Surah hari ini", read: "Baca surah ini" },
   },
   continueReading: {

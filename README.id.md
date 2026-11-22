@@ -14,6 +14,7 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 
 - **Membaca 114 surat** dalam teks Arab (Uthmani Hafs atau teks EQuran.id), dengan transliterasi Latin dan satu atau
   beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya). ([caranya](#memilih-teks-dan-terjemahan))
+- **Langsung ke sebuah ayat** dengan mengetik rujukannya di kotak cari surat: *2:255*, *baqarah 255*, atau *QS. Al-Baqarah: 255*.
 - **Membaca seperti mushaf cetak**: teks Arab satu halaman menyatu dalam satu blok, dengan terjemahan di sampingnya (di
   bawahnya di ponsel). Lebih suka satu kartu per ayat? Ganti di pengaturan. ([caranya](#mengganti-tampilan-mushaf-atau-per-ayat))
 - **Mendengarkan** murottal per ayat dari 23 qari. Yang paling dikenal ada di atas daftar, dan Anda bisa mencari namanya.

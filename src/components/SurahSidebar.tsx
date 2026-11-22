@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
+import ReferenceLink, { useEnterToGo, useReference } from "./ReferenceLink";
 
 export default function SurahSidebar({
   surahs,
@@ -23,6 +24,9 @@ export default function SurahSidebar({
     const active = list?.querySelector<HTMLElement>("[aria-current=page]");
     if (list && active) list.scrollTop = active.offsetTop - list.clientHeight / 2 + active.clientHeight / 2;
   }, []);
+
+  const reference = useReference(q, surahs);
+  const onKeyDown = useEnterToGo(reference);
 
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
@@ -44,11 +48,18 @@ export default function SurahSidebar({
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
+            onKeyDown={onKeyDown}
             placeholder={t("home.searchPlaceholder")}
             aria-label={t("home.searchLabel")}
             className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
           />
         </div>
+        {reference && (
+          <ReferenceLink
+            target={reference}
+            className="mx-4 mb-3 block rounded-xl border border-primary/40 bg-primary-soft px-3 py-2 text-sm font-medium text-primary hover:border-primary"
+          />
+        )}
         <ul ref={listRef} className="thin-scroll relative max-h-[420px] overflow-y-auto border-t border-border">
           {filtered.map((s) => {
             const active = s.number === current;
@@ -72,7 +83,7 @@ export default function SurahSidebar({
               </li>
             );
           })}
-          {filtered.length === 0 && (
+          {filtered.length === 0 && !reference && (
             <li className="px-4 py-6 text-center text-sm text-muted-foreground">{t("home.noResults")}</li>
           )}
         </ul>

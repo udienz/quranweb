@@ -77,6 +77,26 @@ test("a verse has a page of its own: 404 for a wrong one, a preview, the share m
   await expect(page).toHaveURL(/\/surah\/1#verse-3$/);
 });
 
+test("a typed reference opens the verse: on the home page and in the side panel", async ({ page }) => {
+  await page.goto("/");
+  const box = page.getByRole("searchbox", { name: "Cari surat" });
+  await box.fill("2:255");
+  await expect(page.getByRole("link", { name: "Buka Al-Baqarah 2:255" })).toBeVisible();
+  // A plain surah number is not a reference: the list's own filter handles it.
+  await box.fill("2");
+  await expect(page.getByRole("link", { name: /^Buka / })).toHaveCount(0);
+  await box.fill("baqarah 255");
+  await expect(page.getByRole("link", { name: "Buka Al-Baqarah 2:255" })).toBeVisible();
+  await box.press("Enter");
+  await expect(page).toHaveURL(/\/surah\/2\?page=26#verse-255$/);
+
+  // The side panel of a surah has the same box.
+  await page.goto("/surah/1");
+  await page.getByRole("searchbox", { name: "Cari surat" }).last().fill("112 4");
+  await page.getByRole("link", { name: "Buka Al-Ikhlas 112:4" }).click();
+  await expect(page).toHaveURL(/\/surah\/112#verse-4$/);
+});
+
 test("the reciter list: best known first, search in Latin and Arabic, a CDN reciter plays from the CDN", async ({ page, context, baseURL }) => {
   const problems = watchConsole(page);
   await cards(context, baseURL!);
