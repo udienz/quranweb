@@ -398,7 +398,7 @@ and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** mush
 (`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
 swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
 interface, the other way round in a right-to-left one, as in a book of that language. Keys are ignored in a field and with a modifier; a swipe
-needs 80 px, clearly more sideways than vertical, and is ignored while text is selected. The page number is also printed under the page ("— 42 —"). **Step 3 is in: the route
+needs 80 px, clearly more sideways than vertical, and is ignored while text is selected. The page number is also printed under the page ("— 42 —"). **The header has a play button** (`verse.play`/`verse.pause`): it starts at the page's first verse with no verse chosen first and pauses the verse that plays; the player then goes on over the surahs and pages that follow as usual. A whole-surah recording (one file) is a different thing and is not built (`ROADMAP.md`, "Reciters with whole-surah recordings only"). **Step 3 is in: the route
 `/mushaf/N`** (`app/mushaf/[page]/page.tsx`, `MushafPageReader`), **reached through the setting of step 5**. `mushafPageFromSegment` and `proxy.ts` answer 404 before rendering for anything but 1 to 604 (and for `/mushaf/1/2`).
 The page reads the page's range from `getMushafPages()` and builds one `getSurahView` per surah of it (from one to three; page 604 has
 112, 113 and 114), with the reader's editions and no tafsir, and shows each surah's part with `MushafView`: a surah that starts on the
