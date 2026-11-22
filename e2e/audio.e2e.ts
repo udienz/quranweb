@@ -116,7 +116,8 @@ test("a surah plays as one recording, and the playback mode goes on with the nex
   await expect.poll(() => urls.filter((u) => /audio-full/.test(u)).length, { timeout: 15_000 }).toBeGreaterThanOrEqual(2);
   expect(urls[0]).toMatch(/\/audio-full\/[A-Za-z-]+\/001\.mp3$/);
   expect(urls[1]).toMatch(/\/audio-full\/[A-Za-z-]+\/002\.mp3$/);
-  await expect(page).toHaveURL(/\/surah\/2/);
+  // The surah after 2 is not in the test data, so playback may already have moved on to it: only 1 and 2 are checked.
+  await expect.poll(() => page.url()).toMatch(/\/surah\/[23]/);
   expect(urls.some((u) => /audio-partial/.test(u))).toBe(false);
 });
 
