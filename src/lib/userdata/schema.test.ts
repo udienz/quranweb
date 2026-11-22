@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setPagingChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, setDailyGoalInPages, versesForPages, pagesForVerses, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setPagingChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -557,6 +557,18 @@ describe("daily goal and khatam progress", () => {
     expect(setDailyGoal(emptyUserData(), 0, T1).goal?.versesPerDay).toBe(0);
     expect(() => setDailyGoal(emptyUserData(), 1001, T1)).toThrow();
     expect(() => setDailyGoal(emptyUserData(), 2.5, T1)).toThrow();
+  });
+
+  it("sets a goal in pages and keeps the equivalent in verses", () => {
+    const d = setDailyGoalInPages(emptyUserData(), 20, T1);
+    expect(d.goal).toEqual({ versesPerDay: 207, pages: 20, at: T1 });
+    expect(versesForPages(604)).toBe(TOTAL_VERSES);
+    expect(pagesForVerses(TOTAL_VERSES)).toBe(604);
+    expect(() => setDailyGoalInPages(emptyUserData(), 0, T1)).toThrow();
+    expect(() => setDailyGoalInPages(emptyUserData(), 101, T1)).toThrow();
+    expect(setDailyGoal(d, 10, T2).goal).toEqual({ versesPerDay: 10, at: T2 });
+    const back = parseUserData(JSON.parse(JSON.stringify(d)));
+    expect(back.goal?.pages).toBe(20);
   });
 
   it("adds a device's reading for a day, and sums devices", () => {

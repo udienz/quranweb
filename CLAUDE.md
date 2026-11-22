@@ -394,7 +394,7 @@ leads to a surah (the lists, "continue reading", bookmarks, "Read in the surah" 
 that such a link lands on the page, not on the verse (a client-side navigation loses the hash; a hard load keeps `#verse-255` and
 `MushafPageReader` scrolls to that verse of the page's surah that has it). The mushaf page records "last read" with its surah (`verse-S-V` ids)
 and is in the sitemap (`sitemap/2.xml`, `mushafEntries`). **Not done yet:** the 10-verse pages at `/surah/2/page/3` (the owner's decision) with
-a redirect from `?page=3`, mushaf pages in the surah sidebar, and the daily goal in pages (step 6). **Step 4 is in: turning pages**
+a redirect from `?page=3`, mushaf pages in the surah sidebar. **Step 6 is in: the daily goal in pages** (`Goal.pages`, `setDailyGoalInPages`, one select in `DailyGoal` with verse and page choices; 1 to 100 pages). A page goal is stored as the equivalent verses too (`versesPerDay = ceil(pages * 6236 / 604)`, about 10.3 a page), so streaks, merge and older clients work unchanged; today's count is shown as pages by the same average, so it is approximate. **Step 4 is in: turning pages**
 (`MushafPageNav`, above and below the page): previous and next page (`pagination.previous`/`next`), the page number as "42 / 604"
 (`dir="ltr"`, or it reads reversed in right-to-left), and a number box (1 to 604; an out-of-range number does nothing); the arrow keys and a
 swipe turn the page too. **Forward follows the reading direction of the interface**: right arrow and a swipe to the left in a left-to-right
@@ -613,7 +613,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   tombstone; moving a bookmark is a change of that bookmark. Removing a collection keeps its bookmarks, which then show as having no
   collection (`collectionOf` ignores a removed collection), so the merge never has to touch bookmarks. Works without an account too.
 - **Daily goal and khatam progress** (`goal`, `activity`, `DailyGoal` on `/my-reading`): the goal is verses per day (0 = off,
-  newest setting wins). `activity` counts verses marked as read per local day **per device** (`quranweb:device`, a random id);
+  newest setting wins), or pages a day (`goal.pages`, with `versesPerDay` as the average-equivalent). `activity` counts verses marked as read per local day **per device** (`quranweb:device`, a random id);
   each device only raises its own count, so copies merge by the larger count per device and a day's total is the sum over
   devices (a G-counter: reading on two devices adds up, syncing twice never counts twice). Counting happens in
   `userDataActions.toggleReadUpTo` (newly marked verses only; unmarking never subtracts). 120 days are kept. The streak is the

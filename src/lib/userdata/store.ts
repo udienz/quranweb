@@ -36,6 +36,7 @@ import {
   removeCollection,
   setBookmarkCollection,
   setDailyGoal,
+  setDailyGoalInPages,
   recordVersesRead,
   progressOf,
   localDay,
@@ -124,6 +125,7 @@ export const userDataActions = {
       return gained > 0 ? recordVersesRead(next, deviceId(), localDay(new Date()), gained) : next;
     }),
   setDailyGoal: (versesPerDay: number) => update((d) => setDailyGoal(d, versesPerDay, now())),
+  setDailyGoalInPages: (pages: number) => update((d) => setDailyGoalInPages(d, pages, now())),
   clearProgress: (surah: number) => update((d) => clearProgress(d, surah, now())),
   toggleBookmark: (surah: number, verse: number) => update((d) => toggleBookmark(d, surah, verse, now())),
   removeBookmark: (surah: number, verse: number) => update((d) => removeBookmark(d, surah, verse, now())),

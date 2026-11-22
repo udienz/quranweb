@@ -36,7 +36,7 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
   berganti tiap tengah malam WIB dan berputar melewati seluruh 114 surat.
 - **Melanjutkan dari posisi terakhir** dengan "lanjutkan membaca", dan menandai sampai mana Anda sudah membaca. ([caranya](#melanjutkan-bacaan-dan-menandai-progres))
 - **Memberi penanda ayat**, menambahkan catatan sendiri, dan mengelompokkannya ke dalam koleksi. ([caranya](#penanda-ayat-catatan-dan-koleksi))
-- **Memasang target harian** (ayat per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))
+- **Memasang target harian** (dalam ayat atau halaman per hari), menjaga runtutan, dan melihat progres menuju khatam. ([caranya](#memasang-target-harian))
 - **Memakai bahasa Anda**: antarmuka tersedia dalam 25 bahasa (daftarnya di bagian [Bahasa](#bahasa)); Urdu, Arab, dan
   Persia dibaca dari kanan ke kiri. Selain bahasa Indonesia dan Inggris, semuanya terjemahan komunitas yang belum diperiksa
   penutur kedua (bahasa Turki diterjemahkan seorang pembaca, dua puluh dua lainnya draf awal oleh Claude, sebuah AI). Menu
@@ -194,7 +194,7 @@ Anda masuk.
 
 ![Target harian di Bacaan saya: 10 ayat sehari, hari ini 7 dari 10, 5 hari berturut-turut, dan progres menuju khatam](docs/screenshots/id/how-daily-goal.png)
 
-1. Di Bacaan saya, bagian Target harian, pilih berapa ayat per hari.
+1. Di Bacaan saya, bagian Target harian, pilih berapa ayat per hari, atau berapa halaman mushaf (20 halaman sehari sama dengan satu juz sehari).
 2. Yang terhitung hanya ayat yang Anda tandai sudah dibaca (lihat di atas); membaca tanpa menandai tidak dihitung.
 3. Halaman itu menampilkan jumlah hari ini, berapa hari berturut-turut target tercapai, dan seberapa jauh menuju khatam.
 
