@@ -202,6 +202,8 @@ export const zh: Messages = {
     selected: "第 {n} 节",
     close: "关闭",
     page: "古兰经书页第 {page} 页",
+    goToPage: "跳转到页",
+    go: "前往",
   },
   verse: {
     play: "播放音频",

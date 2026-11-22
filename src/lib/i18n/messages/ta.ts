@@ -201,6 +201,8 @@ export const ta: Messages = {
     selected: "வசனம் {n}",
     close: "மூடு",
     page: "முஸ்ஹஃப் பக்கம் {page}",
+    goToPage: "பக்கத்துக்குச் செல்",
+    go: "செல்",
   },
   verse: {
     play: "ஒலியை இயக்கு",

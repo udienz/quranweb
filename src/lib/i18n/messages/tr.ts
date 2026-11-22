@@ -200,6 +200,8 @@ export const tr: Messages = {
     selected: "{n}. ayet",
     close: "Kapat",
     page: "Mushaf sayfa {page}",
+    goToPage: "Sayfaya git",
+    go: "Git",
   },
   verse: {
     play: "Sesi çal",

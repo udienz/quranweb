@@ -202,6 +202,8 @@ export const ru: Messages = {
     selected: "Аят {n}",
     close: "Закрыть",
     page: "Страница {page} мусхафа",
+    goToPage: "Перейти к странице",
+    go: "Перейти",
   },
   verse: {
     play: "Слушать",

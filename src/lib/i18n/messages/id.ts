@@ -200,6 +200,8 @@ export const id: Messages = {
     selected: "Ayat {n}",
     close: "Tutup",
     page: "Halaman mushaf {page}",
+    goToPage: "Ke halaman",
+    go: "Buka",
   },
   verse: {
     play: "Putar audio",

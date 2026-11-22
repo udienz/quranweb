@@ -201,6 +201,8 @@ export const hi: Messages = {
     selected: "आयत {n}",
     close: "बंद करें",
     page: "मुसहफ़ का पृष्ठ {page}",
+    goToPage: "पृष्ठ पर जाएँ",
+    go: "जाएँ",
   },
   verse: {
     play: "ऑडियो चलाएँ",

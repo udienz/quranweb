@@ -201,6 +201,8 @@ export const ur: Messages = {
     selected: "آیت {n}",
     close: "بند کریں",
     page: "مصحف کا صفحہ {page}",
+    goToPage: "صفحے پر جائیں",
+    go: "جائیں",
   },
   verse: {
     play: "آڈیو چلائیں",

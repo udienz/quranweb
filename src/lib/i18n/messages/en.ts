@@ -200,6 +200,8 @@ export const en = {
     selected: "Verse {n}",
     close: "Close",
     page: "Mushaf page {page}",
+    goToPage: "Go to page",
+    go: "Go",
   },
   verse: {
     play: "Play audio",

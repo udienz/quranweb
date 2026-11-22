@@ -201,6 +201,8 @@ export const bn: Messages = {
     selected: "আয়াত {n}",
     close: "বন্ধ",
     page: "মুসহাফের পৃষ্ঠা {page}",
+    goToPage: "পৃষ্ঠায় যান",
+    go: "যান",
   },
   verse: {
     play: "অডিও চালান",

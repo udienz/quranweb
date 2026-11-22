@@ -1,14 +1,16 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { mushafHref, mushafVerseId } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import { localized } from "@/lib/i18n/translate";
 import type { Edition, JuzRef, MushafPageRef, SurahMeta, VerseView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { mushafPageOf } from "@/lib/quran/mushaf-pages";
-import { VERSE_COUNTS } from "@/lib/surah-number";
+import { MUSHAF_PAGES, VERSE_COUNTS } from "@/lib/surah-number";
 import { useVersePlayer } from "@/lib/useVersePlayer";
+import MushafPageNav from "./MushafPageNav";
 import MushafView from "./MushafView";
 import PlaybackModeSelect from "./PlaybackModeSelect";
 
@@ -46,6 +48,7 @@ export default function MushafPageReader({
   unavailable: string[];
 }) {
   const { t, tn, locale } = useI18n();
+  const router = useRouter();
   const [selected, setSelected] = useState<{ surah: number; verse: number } | null>(null);
   const editionInfo = Object.fromEntries(
     editions.map((e) => [e.id, { name: localized(e.name, locale), language: e.language, direction: e.direction }]),
@@ -66,8 +69,50 @@ export default function MushafPageReader({
     site: t("meta.title"),
   });
 
+  // The next page is forward in the reading direction of the interface: to the right in a left-to-right one, to the left in a
+  // right-to-left one. The arrow keys and a swipe follow it. Ignored while typing in a field and with a modifier key.
+  const step = useRef<(delta: -1 | 1) => void>(() => {});
+  useEffect(() => {
+    step.current = (delta) => {
+      const to = page + delta;
+      if (to >= 1 && to <= MUSHAF_PAGES) router.push(mushafHref(to));
+    };
+  });
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
+      if ((e.target as HTMLElement | null)?.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const forward = (e.key === "ArrowRight") !== (document.documentElement.dir === "rtl");
+      e.preventDefault();
+      step.current(forward ? 1 : -1);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  // A swipe across the page turns it: at least 80 px sideways, and clearly more sideways than up or down (so scrolling and
+  // selecting text are left alone). Swiping towards the start of the line turns to the next page, as in a book.
+  const touch = useRef<{ x: number; y: number } | null>(null);
+
   return (
-    <div>
+    <div
+      onTouchStart={(e) => {
+        const p = e.changedTouches[0];
+        touch.current = e.touches.length === 1 ? { x: p.clientX, y: p.clientY } : null;
+      }}
+      onTouchEnd={(e) => {
+        const start = touch.current;
+        touch.current = null;
+        if (!start) return;
+        const p = e.changedTouches[0];
+        const dx = p.clientX - start.x;
+        const dy = p.clientY - start.y;
+        if (Math.abs(dx) < 80 || Math.abs(dx) < Math.abs(dy) * 2) return;
+        if (window.getSelection()?.toString()) return;
+        const towardsStart = dx > 0 === (document.documentElement.dir === "rtl");
+        step.current(towardsStart ? 1 : -1);
+      }}
+    >
       <header
         className="on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
@@ -80,6 +125,10 @@ export default function MushafPageReader({
           <PlaybackModeSelect onDark />
         </div>
       </header>
+
+      <div className="mt-4">
+        <MushafPageNav page={page} />
+      </div>
 
       {unavailable.length > 0 && (
         <p role="status" className="mt-3 rounded-xl border border-border bg-muted px-4 py-3 text-sm">
@@ -124,6 +173,13 @@ export default function MushafPageReader({
             </Fragment>
           );
         })}
+        <p className="border-t border-border py-3 text-center font-display text-sm tabular-nums text-muted-foreground" aria-hidden="true">
+          — {page} —
+        </p>
+      </div>
+
+      <div className="mt-4">
+        <MushafPageNav page={page} />
       </div>
     </div>
   );

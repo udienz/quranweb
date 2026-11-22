@@ -201,6 +201,8 @@ export const ml: Messages = {
     selected: "ആയത്ത് {n}",
     close: "അടയ്ക്കുക",
     page: "മുസ്ഹഫിന്റെ പേജ് {page}",
+    goToPage: "പേജിലേക്ക് പോകുക",
+    go: "പോകുക",
   },
   verse: {
     play: "ശബ്ദം പ്ലേ ചെയ്യുക",
