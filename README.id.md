@@ -19,7 +19,7 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - [Yang bisa Anda lakukan](#yang-bisa-anda-lakukan)
 - [Bahasa](#bahasa)
 - [Cara memakai](#cara-memakai)
-- [Bacaan dan privasi](#bacaan-dan-privasi)
+- [Bacaan dan privasi](#bacaan-dan-privasi-anda)
 - [Sumber dan kredit](#sumber-dan-kredit)
 - [Di ponsel](#di-ponsel)
 - [Masukan dan bantuan](#masukan-dan-bantuan)
