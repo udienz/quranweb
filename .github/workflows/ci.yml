@@ -8,6 +8,7 @@ on:
 # Least privilege for the GITHUB_TOKEN: the jobs only read the code (deploys use SSH secrets, not the token).
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   changes:
