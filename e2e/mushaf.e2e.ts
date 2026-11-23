@@ -92,8 +92,10 @@ test("turning pages: the buttons, a typed page number, the arrow keys and a swip
   await page.goto("/mushaf/2", { waitUntil: "networkidle" });
   await page.keyboard.press("ArrowRight");
   await expect(page).toHaveURL(/\/mushaf\/3$/);
+  await expect(page.getByText("— 3 —")).toBeVisible();
   await page.keyboard.press("ArrowLeft");
   await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expect(page.getByText("— 2 —")).toBeVisible();
   await page.getByRole("spinbutton").first().focus();
   await page.keyboard.press("ArrowRight");
   await expect(page).toHaveURL(/\/mushaf\/2$/);

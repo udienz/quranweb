@@ -151,10 +151,15 @@ export default function MushafPageReader({
   const step = useRef<(delta: -1 | 1) => void>(() => {});
   useEffect(() => {
     step.current = (delta) => {
-      const to = page + delta;
+      // Read the current URL rather than the page prop: a second key press can arrive
+      // after the URL changes but before React commits the next page's render.
+      const match = /^\/mushaf\/(\d+)\/?$/.exec(window.location.pathname);
+      const currentPage = Number(match?.[1]);
+      if (!Number.isInteger(currentPage)) return;
+      const to = currentPage + delta;
       if (to >= 1 && to <= MUSHAF_PAGES) router.push(mushafHref(to));
     };
-  });
+  }, [router]);
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
