@@ -2,6 +2,10 @@
 
 **English** · [Bahasa Indonesia](README.id.md)
 
+An open-source Qur'an reader with multilingual translations, recitations, tafsir, and tools to support your daily reading.
+
+[![CI](https://img.shields.io/github/actions/workflow/status/udienz/quranweb/ci.yml?branch=master&label=CI)](https://github.com/udienz/quranweb/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/udienz/quranweb)](LICENSE) [![Latest release](https://img.shields.io/github/v/release/udienz/quranweb?display_name=tag)](https://github.com/udienz/quranweb/releases) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fquranweb.udienz.web.id)](https://quranweb.udienz.web.id)
+
 A free website for reading the Qur'an: the Arabic text, translations (Indonesian, English, Turkish, Malay, Bengali, French, Russian, Urdu, Persian, Spanish, Bosnian, Chinese, Thai, Uzbek, Tamil, Malayalam, German, Portuguese, Hindi, Swahili, Hausa, Japanese, Vietnamese and others), recitation
 audio and tafsir. You do not need an account, and there are no ads. Visits are counted with Cloudflare Web Analytics, which,
 according to Cloudflare, sets no cookies and does not identify you (see the privacy policy).
@@ -9,6 +13,18 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 **Open it at https://quranweb.udienz.web.id**
 
 ![Reading page in the mushaf layout: surah list on the left, the Arabic text as one block with the numbered translation beside it](docs/screenshots/en/reading.png)
+
+## Contents
+
+- [What you can do](#what-you-can-do)
+- [Languages](#languages)
+- [How to use QuranWeb](#how-to)
+- [Your reading and your privacy](#your-reading-and-your-privacy)
+- [Sources and credits](#sources-and-credits)
+- [On a phone](#on-a-phone)
+- [Feedback and help](#feedback-and-help)
+- [Licence](#licence)
+- [For developers](#for-developers)
 
 ## What you can do
 
@@ -266,8 +282,14 @@ On wide screens the surah list and settings sit beside the surah; on phones they
 Found a mistake, or have an idea? [Open an issue](https://github.com/udienz/quranweb/issues). Thanks to everyone who has
 helped: see [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
-You can also help by translating the interface (menus, buttons, pages) into your language. The Qur'an itself is never
-translated this way. How it works: [CONTRIBUTING.md](CONTRIBUTING.md), section "Translating the interface".
+You can contribute in several ways:
+
+- Review a community interface translation in a language you speak.
+- Improve an existing translation or help add a new interface language.
+- Report bugs, suggest features, or contribute code and tests.
+
+The Qur'an itself is never translated through interface contributions. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
+contribution process and translation guidelines.
 
 ## Licence
 

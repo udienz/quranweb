@@ -2,6 +2,10 @@
 
 [English](README.md) · **Bahasa Indonesia**
 
+Pembaca Al-Qur'an open-source dengan terjemahan multibahasa, murottal, tafsir, dan berbagai fitur untuk mendukung kebiasaan membaca Anda.
+
+[![CI](https://img.shields.io/github/actions/workflow/status/udienz/quranweb/ci.yml?branch=master&label=CI)](https://github.com/udienz/quranweb/actions/workflows/ci.yml) [![Lisensi](https://img.shields.io/github/license/udienz/quranweb)](LICENSE) [![Rilis terbaru](https://img.shields.io/github/v/release/udienz/quranweb?display_name=tag)](https://github.com/udienz/quranweb/releases) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fquranweb.udienz.web.id)](https://quranweb.udienz.web.id)
+
 Website gratis untuk membaca Al-Qur'an: teks Arab, terjemahan (bahasa Indonesia, Inggris, Turki, Melayu, Bengali, Prancis, Rusia, Urdu, Persia, Spanyol, Bosnia, Tionghoa, Thai, Uzbek, Tamil, Malayalam, Jerman, Portugis, Hindi, Swahili, Hausa, Jepang, Vietnam, dan lainnya), audio
 murottal, dan tafsir. Anda tidak perlu akun, dan tidak ada iklan. Kunjungan dihitung dengan Cloudflare Web Analytics, yang
 menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan privasi).
@@ -9,6 +13,18 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 **Buka di https://quranweb.udienz.web.id**
 
 ![Halaman bacaan dalam tampilan mushaf: daftar surat di kiri, teks Arab menyatu dengan terjemahan bernomor di sampingnya](docs/screenshots/id/reading.png)
+
+## Daftar isi
+
+- [Yang bisa Anda lakukan](#yang-bisa-anda-lakukan)
+- [Bahasa](#bahasa)
+- [Cara memakai](#cara-memakai)
+- [Bacaan dan privasi](#bacaan-dan-privasi-anda)
+- [Sumber dan kredit](#sumber-dan-kredit)
+- [Di ponsel](#di-ponsel)
+- [Masukan dan bantuan](#masukan-dan-bantuan)
+- [Lisensi](#lisensi)
+- [Untuk pengembang](#untuk-pengembang)
 
 ## Yang bisa Anda lakukan
 
@@ -271,9 +287,14 @@ Di layar lebar daftar surat dan pengaturan ada di samping surat; di ponsel kedua
 Menemukan kesalahan, atau punya ide? [Buka issue](https://github.com/udienz/quranweb/issues). Terima kasih kepada semua
 yang telah membantu: lihat [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
-Anda juga bisa membantu dengan menerjemahkan antarmuka (menu, tombol, halaman) ke bahasa Anda. Al-Qur'an sendiri tidak
-pernah diterjemahkan dengan cara ini. Caranya: [CONTRIBUTING.md](CONTRIBUTING.md) (dalam bahasa Inggris), bagian
-"Translating the interface".
+Ada beberapa cara untuk berkontribusi:
+
+- Meninjau terjemahan antarmuka komunitas dalam bahasa yang Anda kuasai.
+- Memperbaiki terjemahan yang sudah ada atau membantu menambahkan bahasa antarmuka baru.
+- Melaporkan bug, mengusulkan fitur, atau berkontribusi pada kode dan pengujian.
+
+Kontribusi terjemahan antarmuka tidak pernah mengubah teks Al-Qur'an. Lihat [CONTRIBUTING.md](CONTRIBUTING.md) (dalam
+bahasa Inggris) untuk proses kontribusi dan panduan penerjemahan.
 
 ## Lisensi
 
