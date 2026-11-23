@@ -10,8 +10,33 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Detect code changes
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # paths-filter needs the previous commit when this workflow runs on push.
+          fetch-depth: 0
+
+      - name: Detect code changes
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            code:
+              - '**'
+              - '!**/*.md'
+              - '!docs/**'
+              - '!LICENSE*'
+
   build:
     name: Lint & build (includes typecheck)
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,6 +82,8 @@ jobs:
     # permissions as strict as on the server. This was dropped once (2026-11-17) and brought back after a QA deploy failed
     # on a directory the runtime user could not read (PR #71).
     name: Docker image starts
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,10 +95,10 @@ jobs:
           STRICT_PERMISSIONS: "1"
 
   e2e:
-    # Browser tests (e2e/*.e2e.ts) against the production build, with the small data copy in e2e/fixtures: audio across
-    # pages and surahs, data saver, the fallback server, keyboard, lock screen, memorization, the reciter list, 404s and the
-    # manifest. Every .mp3 is answered with a short WAV, so no network is needed.
+    # Browser tests (e2e/*.e2e.ts) against the production build, with the small data copy in e2e/fixtures: audio across pages and surahs, data saver, the fallback server, keyboard, lock screen, memorization, the reciter list, 404s and the manifest. Every .mp3 is answered with a short WAV, so no network is needed.
     name: Browser tests
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
