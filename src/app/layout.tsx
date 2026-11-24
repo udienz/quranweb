@@ -75,7 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 </span>
                 <span className="hidden font-display text-xl font-bold tracking-tight text-primary min-[480px]:inline">QuranWeb</span>
               </Link>
-              <nav className="order-last flex w-full justify-center text-sm sm:order-none sm:w-auto">
+              <nav className="order-last flex w-full flex-wrap justify-center text-sm sm:order-none sm:w-auto">
                 <NavLink href="/">{t("nav.quran")}</NavLink>
                 <NavLink href="/#surahs">{t("home.listTitle")}</NavLink>
                 <NavLink href="/about">{t("footer.about")}</NavLink>
