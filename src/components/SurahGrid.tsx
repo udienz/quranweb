@@ -26,7 +26,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
   }, [q, surahs, locale]);
 
   return (
-    <section>
+    <section className="home-editorial__surahs">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-display text-xl font-semibold">{t("home.listTitle")}</h2>
         <input
@@ -50,7 +50,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
           <li key={s.number}>
             <Link
               href={`/surah/${s.number}`}
-              className="flex items-center gap-4 rounded-2xl border border-border bg-card px-4 py-3.5 transition hover:border-primary/50 hover:shadow-sm"
+              className="home-editorial__surah flex items-center gap-4 rounded-2xl border border-border bg-card px-4 py-3.5 transition hover:border-primary/50 hover:shadow-sm"
             >
               <span className="flex h-9 w-9 shrink-0 rotate-45 items-center justify-center rounded-md bg-primary-soft text-primary">
                 <span className="-rotate-45 font-display text-xs font-bold">{s.number}</span>

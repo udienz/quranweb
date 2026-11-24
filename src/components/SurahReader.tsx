@@ -139,9 +139,9 @@ export default function SurahReader({
     }`;
 
   return (
-    <div>
+    <div className="quran-reading">
       <header
-        className="on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
+        className="quran-reading__header on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
       >
         <div className="flex items-center justify-between gap-4 border-b border-white/15 pb-4">
@@ -233,7 +233,7 @@ export default function SurahReader({
 
       <Pagination surah={meta.number} page={page} count={pageCount} from={from} to={to} total={meta.verseCount} />
 
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="quran-reading__surface overflow-hidden rounded-2xl border border-border bg-card">
         {mode === "reading" && from === 1 && meta.number !== 1 && meta.number !== 9 && (
           <p dir="rtl" lang="ar" translate="no" className="font-arabic border-b border-border py-8 text-center text-[length:calc(2.25rem*var(--arabic-scale,1))] text-primary">
             {BISMILLAH}

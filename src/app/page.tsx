@@ -53,9 +53,9 @@ export default async function Home() {
 
   // The hero stays short so "continue reading", what a returning reader came for, is high on the first screen.
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-8">
+    <div className="home-editorial mx-auto max-w-[1200px] px-4 py-8">
       <section
-        className="on-dark mb-6 rounded-2xl px-6 py-6 text-white sm:px-10 sm:py-8"
+        className="home-editorial__hero on-dark mb-6 rounded-2xl px-6 py-6 text-white sm:px-10 sm:py-8"
         style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
       >
         <p className="font-arabic text-center text-3xl text-gold sm:text-4xl" dir="rtl" lang="ar" translate="no">
