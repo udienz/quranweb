@@ -621,9 +621,9 @@ Observed (all pages, both themes): `aria-label` (150), `aria-hidden` (84, decora
 
 - The only photograph is the home hero's mushaf (see Home Hero), a CSS background in two WebP sizes; the other images are the logo and icons (inline SVG), which scale with their container.
 - App icons for installing: 192px and 512px PNG, plus a full-bleed maskable 512px.
-- The link preview image, `public/og.png` (1200 by 630): the logo and the wordmark in cream on the hero gradient, the Bismillah in gold
+- The link preview image, `public/og.png` (1200 by 630): the logo and the wordmark in cream on the forest gradient (`#344c3d` to `#2a4033`), the Bismillah in gold `#cdb67f`
   Amiri, a one-line tagline and the address. Drawn by `scripts/og-image.mjs`; redraw it with the icons if the brand changes.
-- Screenshots in the README are the only raster images in the project.
+- Screenshots in the README (retaken 2026-11-24 on QA with `scripts/readme-screenshots.mjs`, which takes `ONLY=<names>` to retake some) and the hero photograph are the only raster images in the project besides `og.png` and the app icons.
 
 ## 11. State Matrix
 
@@ -738,7 +738,7 @@ A visual identity distinct from the familiar EQuran.id-style layout, without reb
 
 - PR #139: the reading surface in the editorial palette; hooks on the reader and verse cards.
 - PR #140: the homepage composition (hero, verse of the day, the indexed surah list).
-- PR #142: the play bar (owner's reference, 2026-11-24: mockup A2 and the phone mockup A, chosen by the owner) with the chips under it; one palette site-wide (the editorial tokens in `:root` and `.dark`, a night-green dark page, forest `--hero-from/to`, the installed app's theme colour); the centred surah heading and control bar on the surah page and on `/mushaf/N` and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
+- PR #142: the README screenshots (English and Indonesian) and `public/og.png`, retaken after the owner's approval; the play bar (owner's reference, 2026-11-24: mockup A2 and the phone mockup A, chosen by the owner) with the chips under it; one palette site-wide (the editorial tokens in `:root` and `.dark`, a night-green dark page, forest `--hero-from/to`, the installed app's theme colour); the centred surah heading and control bar on the surah page and on `/mushaf/N` and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
 
 ### Checked on QA (2026-11-24)
 
@@ -752,7 +752,6 @@ A visual identity distinct from the familiar EQuran.id-style layout, without reb
 
 - Full re-measure with the project's Playwright (computed styles of every visible element, light and dark): refresh the frequencies and the measured pixel values in this file and in `docs/design-tokens.json`, which holds the 2026-11-19 extraction plus an `editorial` group read from the source. The table of section 2 maps the old teal values to the new ones in the meantime.
 - On a 390px phone the play bar (two lines) and the chips (three rows) still push the first verse just below the first screen; the next step would be folding the secondary controls, which needs a new message in 25 catalogs.
-- Re-take the README screenshots (English and Indonesian) and redraw `public/og.png`, which still shows the teal hero gradient (`scripts/og-image.mjs`): both wait for the owner's approval of the design.
 - The "Mushaf digital" tagline of the reference is not built (a new message in 25 catalogs).
 
 ### Acceptance

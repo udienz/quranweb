@@ -171,9 +171,12 @@ Anda masuk.
    atas daftar untuk mencarinya. Kelompok terakhir, **Satu surat penuh saja**, berisi qari dengan satu rekaman per surat:
    untuk mereka hanya ada **Putar surat** (tanpa tombol di ayat, tanpa juz, dan menghafal dengan mendengar tidak tersedia).
 2. Tekan putar di sebuah ayat. Di tampilan mushaf, ketuk nomor ayat dulu: bilah berisi tombol putar muncul di bawah.
-3. Untuk memilih apa yang terjadi di akhir surat, pakai daftar di kepala surat (Berhenti di akhir, Ulangi surat, Putar
+3. Atau tekan tombol emas di bilah putar di bawah nama surat. Kalau qari punya rekaman seluruh surat, bilah itu memutar
+   rekaman tersebut dan Anda bisa menggeser slider untuk berpindah posisi; waktunya tampil di ujung bilah. Kalau qari hanya
+   punya satu berkas per ayat, bilah memutar surat ayat demi ayat mulai dari ayat 1, dan slider berpindah antar ayat.
+4. Untuk memilih apa yang terjadi di akhir surat, pakai daftar di bawah bilah putar (Berhenti di akhir, Ulangi surat, Putar
    surat berikutnya).
-4. Untuk memutar satu juz penuh, pilih di daftar "Juz…" di kepala surat atau di "Putar satu juz" pada halaman Pengaturan.
+5. Untuk memutar satu juz penuh, pilih di daftar "Juz…" di bawah bilah putar atau di "Putar satu juz" pada halaman Pengaturan.
 
 ### Mengendalikan audio
 
