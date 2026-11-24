@@ -41,3 +41,13 @@ test("the verse page shows the tajweed colours too, and the legend says what eac
   await expect(panel.locator("details li")).toHaveCount(13);
   await expect(panel.getByText("Mad thabi'i, 2 harakat")).toBeVisible();
 });
+
+test("the verse page hides the transliteration like the reader, and shows it once it is turned on", async ({ page }) => {
+  await page.goto("/surah/112/1");
+  const latin = page.locator("article p[dir=ltr].italic");
+  await expect(latin).toHaveCount(0);
+  await page.goto("/surah/112");
+  await page.locator("aside").getByRole("switch", { name: "Transliterasi" }).click();
+  await page.goto("/surah/112/1");
+  await expect(latin).toHaveCount(1);
+});
