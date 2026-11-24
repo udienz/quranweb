@@ -323,8 +323,9 @@ language with its default translation and tafsir (section "Languages"): update t
   the last verse of a ruku while "Ruku marks" is on (on by default). Both are display toggles in `PrefsProvider`, per browser.
   There is **no ۩ mark of ours**: EQuran.id, the Uthmani Hafs and the QPC text all have ۩ in the 15 verses of prostration
   already. The rule classes are `tj-<rule>` in `globals.css`, one palette per theme, each colour at least 3:1 against the card
-  and the page at the size of the Arabic text. Not used yet on the verse page and the verse of the day (they show the chosen
-  text).
+  and the page at the size of the Arabic text. The verse page and the verse of the day use `ArabicText` too (issue #134), and
+  `TajweedLegend` (folded under the "Tajweed colours" setting) lists the 13 colours with what each marks (`tajweed.*`
+  messages).
 - **Arabic font:** Amiri (default) or KFGQPC HAFS Uthmanic Script (`public/fonts/UthmanicHafs_V22.woff2`, the King Fahd
   Complex's file, unchanged: its licence, `UthmanicHafs_V22.LICENSE.txt`, allows using and distributing it but not
   modifying it, so never subset or convert it). Like the theme: local storage `quranweb:arabic-font`, the attribute

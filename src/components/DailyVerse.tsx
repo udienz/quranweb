@@ -2,6 +2,7 @@ import Link from "next/link";
 import { verseHref, versePageHref } from "@/lib/anchors";
 import { getI18n } from "@/lib/i18n/server";
 import { meaningOf } from "@/lib/quran/labels";
+import ArabicText, { RukuMark } from "./ArabicText";
 import type { SurahView } from "@/lib/quran/types";
 
 /**
@@ -23,7 +24,8 @@ export default async function DailyVerse({ view }: { view: SurahView }) {
         {t("home.daily.title")}
       </p>
       <p dir="rtl" lang="ar" translate="no" className="font-arabic mt-3 text-right text-[length:calc(1.75rem*var(--arabic-scale,1))] leading-[2.1]">
-        {verse.arabic}
+        <ArabicText verse={verse} />
+        <RukuMark verse={verse} />
       </p>
       {text && (
         <p lang={edition?.language} dir={edition?.direction} translate="no" className="mt-2 text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed text-foreground/85">

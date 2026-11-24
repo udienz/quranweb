@@ -17,6 +17,7 @@ import { groupTranslations } from "@/lib/quran/translation-groups";
 import { userDataActions } from "@/lib/userdata/store";
 import { ArabicFontChoice, FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
+import { TajweedLegend } from "./ArabicText";
 import ReciterPicker from "./ReciterPicker";
 import SearchableSelect, { type ChoiceOption } from "./SearchableSelect";
 import TranslationPicker from "./TranslationPicker";
@@ -170,22 +171,25 @@ export default function SettingsPanel({
 
       <ul className="mb-4 flex flex-col gap-3 border-b border-border pb-4">
         {DISPLAY_TOGGLES.map(({ key, label }) => (
-          <li key={key} className="flex items-center justify-between text-sm">
-            <span id={`pref-${key}`}>{t(label)}</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={prefs[key]}
-              aria-labelledby={`pref-${key}`}
-              onClick={() => toggle(key)}
-              className={`relative h-6 w-11 rounded-full transition ${prefs[key] ? "bg-primary" : "bg-muted"}`}
-            >
-              <span
-                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
-                  prefs[key] ? "start-[22px]" : "start-0.5"
-                }`}
-              />
-            </button>
+          <li key={key} className="flex flex-col gap-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span id={`pref-${key}`}>{t(label)}</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={prefs[key]}
+                aria-labelledby={`pref-${key}`}
+                onClick={() => toggle(key)}
+                className={`relative h-6 w-11 rounded-full transition ${prefs[key] ? "bg-primary" : "bg-muted"}`}
+              >
+                <span
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                    prefs[key] ? "start-[22px]" : "start-0.5"
+                  }`}
+                />
+              </button>
+            </div>
+            {key === "tajweed" && <TajweedLegend />}
           </li>
         ))}
       </ul>
