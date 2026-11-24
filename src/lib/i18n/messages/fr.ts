@@ -129,7 +129,7 @@ export const fr: Messages = {
     unknownLicence: "Voir la source",
     providersTitle: "D'où viennent les données",
     providers:
-      "Le texte provient de trois sources : l'API EQuran.id, la collection fawazahmed0/quran-api et QuranEnc.com. Ce site conserve sa propre copie de chacune et la lit ; les copies d'EQuran.id et de fawazahmed0 sont aussi ouvertes à tous comme miroir. Les récitations proviennent d'EQuran.id et du CDN audio d'AlQuran.cloud.",
+      "Le texte provient de trois sources : l'API EQuran.id, la collection fawazahmed0/quran-api et QuranEnc.com. Ce site conserve sa propre copie de chacune et la lit ; les copies d'EQuran.id et de fawazahmed0 sont aussi ouvertes à tous comme miroir. Les récitations proviennent d'EQuran.id et du CDN audio d'AlQuran.cloud. Le Tafsir Ibn Kathir en ourdou est lu directement depuis l'API de Quran Foundation (Quran.com).",
     codeTitle: "Code source",
     code: "Le code de ce site est ouvert :",
     privacyLink: "Comment vos données sont traitées : la politique de confidentialité.",
@@ -227,6 +227,7 @@ export const fr: Messages = {
     noteLabel: "Note pour ce verset",
     notePlaceholder: "Note personnelle (enregistrée dans ce navigateur)",
     tafsirNotSelected: "Aucun tafsir choisi. Choisissez-en un dans les paramètres de lecture.",
+    tafsirSharedWith: "Ce verset est expliqué avec le verset {verse}",
     footnotes: "Notes de bas de page",
   },
   settings: {

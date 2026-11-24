@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { defaultConfig } from "./index";
 import { mushafPageOf } from "./mushaf-pages";
 import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0";
+import { createQuranFoundationTextProvider, QURAN_FOUNDATION_EDITIONS } from "./providers/quran-foundation";
 import { createQuranService } from "./service";
 
 describe.skipIf(!process.env.LIVE)("real sources", () => {
@@ -62,5 +63,21 @@ describe.skipIf(!process.env.LIVE)("real sources", () => {
       }
     }
     expect(verses).toBe(FAWAZ_EDITIONS.length * 6236);
+  }, 900_000);
+
+  it("every Quran Foundation tafsir covers all 114 surahs, each verse with a passage or a pointer to an earlier one", async () => {
+    // Read live (the API behind Quran.com); one request per surah and edition, sequential.
+    const list = await svc.getSurahList();
+    const provider = createQuranFoundationTextProvider();
+    for (const e of QURAN_FOUNDATION_EDITIONS) {
+      for (const s of list) {
+        const text = await provider.text(e.id, s.number);
+        expect(text.verses, `${e.id} surah ${s.number}`).toHaveLength(s.verseCount);
+        for (const v of text.verses) {
+          if (v.sharedWith) expect(v.sharedWith < v.number && v.text === "", `${e.id} ${s.number}:${v.number}`).toBe(true);
+          else expect(v.text.length, `${e.id} ${s.number}:${v.number}`).toBeGreaterThan(0);
+        }
+      }
+    }
   }, 900_000);
 });

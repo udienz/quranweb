@@ -130,7 +130,7 @@ export const ru: Messages = {
     unknownLicence: "См. источник",
     providersTitle: "Откуда берутся данные",
     providers:
-      "Текст берётся из трёх источников: API EQuran.id, коллекции fawazahmed0/quran-api и QuranEnc.com. Сайт хранит собственную копию каждого и читает из неё; копии EQuran.id и fawazahmed0 также открыты для всех как зеркало. Чтение берётся с EQuran.id и из аудио-CDN AlQuran.cloud.",
+      "Текст берётся из трёх источников: API EQuran.id, коллекции fawazahmed0/quran-api и QuranEnc.com. Сайт хранит собственную копию каждого и читает из неё; копии EQuran.id и fawazahmed0 также открыты для всех как зеркало. Чтение берётся с EQuran.id и из аудио-CDN AlQuran.cloud. Тафсир Ибн Касира на урду загружается напрямую из API Quran Foundation (Quran.com).",
     codeTitle: "Исходный код",
     code: "Код этого сайта открыт:",
     privacyLink: "Как обрабатываются ваши данные: политика конфиденциальности.",
@@ -228,6 +228,7 @@ export const ru: Messages = {
     noteLabel: "Заметка к этому аяту",
     notePlaceholder: "Личная заметка (хранится в этом браузере)",
     tafsirNotSelected: "Тафсир не выбран. Выберите его в настройках чтения.",
+    tafsirSharedWith: "Этот аят разъясняется вместе с аятом {verse}",
     footnotes: "Примечания",
   },
   settings: {

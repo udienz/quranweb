@@ -12,6 +12,7 @@ import type { AudioProvider, TextProvider } from "./provider";
 import { createEquranAudioProvider, createEquranTextProvider } from "./providers/equran";
 import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0";
 import { createQuranEncTextProvider, QURANENC_EDITIONS } from "./providers/quranenc";
+import { createQuranFoundationTextProvider, QURAN_FOUNDATION_EDITIONS } from "./providers/quran-foundation";
 import { createIslamicNetworkAudioProvider } from "./providers/islamic-network";
 import type { QuranConfig } from "./service";
 import type { Selection } from "./types";
@@ -38,6 +39,14 @@ export interface QuranEncTextSource {
   editions?: string[];
 }
 
+export interface QuranFoundationTextSource {
+  type: "quran-foundation";
+  /** An HTTP URL of the API. Default: the unauthenticated v4 API (read live, no copy). */
+  baseUrl?: string;
+  /** Edition IDs to enable. Default: all the editions the adapter knows. */
+  editions?: string[];
+}
+
 export interface EquranAudioSource {
   type: "equran-audio";
   /** Base URL of the audio files. Default: https://cdn.equran.id */
@@ -50,7 +59,7 @@ export interface IslamicNetworkAudioSource {
   baseUrl?: string;
 }
 
-export type TextSourceConfig = EquranTextSource | FawazTextSource | QuranEncTextSource;
+export type TextSourceConfig = EquranTextSource | FawazTextSource | QuranEncTextSource | QuranFoundationTextSource;
 export type AudioSourceConfig = EquranAudioSource | IslamicNetworkAudioSource;
 
 export interface SourceConfig {
@@ -65,7 +74,8 @@ export interface SourceConfig {
 /** The configuration used when no file is given. */
 export const DEFAULT_SOURCES: SourceConfig = {
   // fawazahmed0 only adds editions to the catalog; the defaults still come from EQuran.id.
-  textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }],
+  // Quran Foundation: tafsir in languages the others lack (Urdu), read live.
+  textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }, { type: "quran-foundation" }],
   // EQuran.id first (its reciters and the default), then the AlQuran.cloud CDN: more reciters, and the fallback for the two
   // that both have.
   audioProviders: [{ type: "equran-audio" }, { type: "islamic-network" }],
@@ -86,9 +96,9 @@ export const DEFAULT_SOURCES: SourceConfig = {
     bn: { translations: ["ben-muhiuddinkhan"], tafsir: "ben-mokhtasar" },
     fr: { translations: ["fra-rashidmaash"], tafsir: "fra-mokhtasar" },
     ru: { translations: ["rus-elmirkuliev"], tafsir: "rus-mokhtasar" },
-    // A language with no translation or tafsir of its own falls back to English (the owner's rule, 2026-11-21): Urdu has no
-    // tafsir in our sources, so it reads Al-Mukhtasar in English.
-    ur: { translations: ["urd-muhammadjunagar"], tafsir: "eng-mokhtasar" },
+    // Tafsir Ibn Kathir in Urdu from the Quran Foundation API (the owner's choice, 2026-11-24); until then Urdu read
+    // Al-Mukhtasar in English.
+    ur: { translations: ["urd-muhammadjunagar"], tafsir: "urd-ibnkathir" },
     // An Arabic reader reads the text itself: no translation and no Latin transliteration by default.
     ar: { translations: [], transliteration: null, tafsir: "ara-mokhtasar" },
     fa: { translations: ["fas-islamhousecompe"], tafsir: "fas-mokhtasar" },
@@ -119,7 +129,7 @@ export class SourceConfigError extends Error {
   }
 }
 
-const TEXT_TYPES = ["equran", "fawazahmed0", "quranenc"] as const;
+const TEXT_TYPES = ["equran", "fawazahmed0", "quranenc", "quran-foundation"] as const;
 const AUDIO_TYPES = ["equran-audio", "islamic-network"] as const;
 
 // ---------------------------------------------------------------- validation
@@ -206,7 +216,7 @@ export function parseSourceConfig(raw: unknown): SourceConfig {
     }
     noUnknownKeys(obj, ["type", "baseUrl", "editions"], path);
     const editions = obj.editions === undefined ? undefined : stringList(obj.editions, `${path}.editions`);
-    const known = type === "quranenc" ? QURANENC_EDITIONS : FAWAZ_EDITIONS;
+    const known = type === "quranenc" ? QURANENC_EDITIONS : type === "quran-foundation" ? QURAN_FOUNDATION_EDITIONS : FAWAZ_EDITIONS;
     for (const id of editions ?? []) {
       if (!known.some((e) => e.id === id)) {
         throw new SourceConfigError(
@@ -256,7 +266,9 @@ export function applyEnv(config: SourceConfig, env: Env): SourceConfig {
         ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_API_URL) }
         : p.type === "quranenc"
           ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_QURANENC_URL) }
-          : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
+          : p.type === "quran-foundation"
+            ? p // read live, so no variable
+            : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
     ),
     audioProviders: config.audioProviders.map((p) =>
       p.type === "islamic-network"
@@ -294,7 +306,9 @@ export function toQuranConfig(config: SourceConfig): QuranConfig {
       ? createEquranTextProvider({ baseUrl: c.baseUrl })
       : c.type === "quranenc"
         ? createQuranEncTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
-        : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
+        : c.type === "quran-foundation"
+          ? createQuranFoundationTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
+          : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
   const audio = (c: AudioSourceConfig): AudioProvider =>
     c.type === "islamic-network"
       ? createIslamicNetworkAudioProvider({ baseUrl: c.baseUrl })

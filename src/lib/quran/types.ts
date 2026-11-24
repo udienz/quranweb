@@ -85,6 +85,8 @@ export interface VerseText {
   text: string;
   /** The edition's own footnotes for this verse (QuranEnc), shown as they are published. */
   notes?: string;
+  /** A tafsir passage that explains several verses sits on the first of them: the others have no text and point to it. */
+  sharedWith?: number;
 }
 
 /** The content of one edition for one surah. */
@@ -109,6 +111,8 @@ export interface VerseView {
   transliteration: string | null;
   translations: { edition: string; text: string; notes?: string }[];
   tafsir: string | null;
+  /** The verse whose tafsir passage also explains this one (then `tafsir` is empty); absent when it has its own. */
+  tafsirSharedWith?: number;
   /** Audio URLs in priority order; the first one is tried first. */
   audio: string[];
   /** The same URLs, smallest files first, for data-saver mode; only present when that order differs from `audio`. */

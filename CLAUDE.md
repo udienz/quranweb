@@ -94,6 +94,22 @@ own format.
     published, so the date of the copy), and the copy is **not** served publicly. Production reads the private copy made by
     `sync-quranenc.mjs` in the data repository (`QURAN_QURANENC_URL=/data/quranenc`); run its `--check` now and then, and when
     it reports a newer version, fetch again and update the version in the credit.
+  - `providers/quran-foundation.ts` (2026-11-24): the [Quran Foundation API](https://api-docs.quran.foundation), the API behind
+    Quran.com, for tafsir in languages our other sources lack. One edition: Tafsir Ibn Kathir in Urdu (`urd-ibnkathir`,
+    resource 160), the Urdu default. **Always read live**, from the unauthenticated `https://api.quran.com/api/v4` (the owner's
+    choice; there is no variable and no copy), one request per surah (`/tafsirs/160/by_chapter/{n}?per_page=300`). The
+    registered Content API (OAuth2 client credentials, server side only) has the same paths and answers, so moving to it is a
+    base URL and a token. The Developer Terms: no cache longer than a week, no raw data in a public repository or file, and
+    the credit "Quran data provided by Quran Foundation" with the tafsir's own name. The text is HTML (`div`, `p`, `span`) and
+    `htmlToText` makes it plain. **One passage can explain several verses**: it sits on the first of them and the others have
+    no entry, so the provider gives them an empty text and `sharedWith` (the verse that holds the passage); the service passes
+    it on as `VerseView.tafsirSharedWith`, and the Tafsir tab shows a link to that verse (`verse.tafsirSharedWith`) instead
+    of repeating a long passage. An answer that is not of the surah, out of order, empty or without verse 1 is refused (the
+    edition is then left out like any live source that fails). The other Urdu tafsir of the API are **not** added: Tazkir ul
+    Quran (818) puts a passage on the *last* verse it covers, and Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the
+    covered verses empty without saying which passage covers them. Add an edition only after the 114-surah live test
+    (`npm run test:live`, "every Quran Foundation tafsir") passes for it. QUL (qul.tarteel.ai) lists the same tafsir with the
+    same ids, but its downloads need a login and its licence pages say "We don't have copyright information".
 - **Not every edition is mirrored** (the owner's choice, 2026-11-21): new translations and tafsir are **not** downloaded or
   copied to `/srv/quranweb-mirror`. The QuranEnc provider reads the keys in `MIRRORED_KEYS` from the copy and every other key
   from the live QuranEnc API, also in production. Remote JSON is kept in memory for a day (`transport.ts`: at most 400
@@ -181,9 +197,10 @@ language with its default translation and tafsir (section "Languages"): update t
   Al-Barwani's Swahili, Gumi's Hausa, Saeed Sato's Japanese, the Rowwad Vietnamese)
   and the default tafsir is Al-Mukhtasar in that language (`localeDefaults` in the source registry); Indonesian keeps the
   Kemenag tafsir, and Malay, which has no Al-Mukhtasar, keeps it too. **A language with no translation or tafsir of its own falls back
-  to English** (the owner's rule, 2026-11-21): Urdu and Spanish read Al-Mukhtasar in English (none in our sources is in Urdu;
+  to English** (the owner's rule, 2026-11-21): Spanish reads Al-Mukhtasar in English, because
   QuranEnc's Spanish Al-Mukhtasar has an empty 59:24, its numbering one verse off from 59:22, so it is left out rather than
-  altered). Malay keeps the Kemenag tafsir, which a Malay reader follows more easily than English. Wave 4 (2026-11-21): German,
+  altered (QUL's copy, checked 2026-11-24, has the same shift). Urdu read it too until 2026-11-24, when Tafsir Ibn Kathir in
+  Urdu from the Quran Foundation API became its default. Malay keeps the Kemenag tafsir, which a Malay reader follows more easily than English. Wave 4 (2026-11-21): German,
   Portuguese, Swahili and Hausa read Al-Mukhtasar in English (QuranEnc has none in those languages), and Italian, which has
   Al-Mukhtasar but no reviewed translation on QuranEnc, reads Yusuf Ali. Every live key of waves 3 and 4 was checked for empty or
   missing verses before it was added (Spanish Al-Mukhtasar was the only one that failed). **Arabic** has no translation and no transliteration by default, and the Arabic original of Al-Mukhtasar as
@@ -805,7 +822,8 @@ src/
   lib/
     quran/                     modular data sources (see above)
       types.ts, provider.ts, service.ts, sources.ts, transport.ts, index.ts, labels.ts
-      providers/equran.ts, providers/fawazahmed0.ts, providers/quranenc.ts, providers/islamic-network.ts
+      providers/equran.ts, providers/fawazahmed0.ts, providers/quranenc.ts, providers/quran-foundation.ts,
+      providers/islamic-network.ts
       ayah-number.ts, reciter-order.ts   verse number in the whole Qur'an; order and search of the reciter list
     userdata/schema.ts, store.ts   reading data (pure logic, browser store)
     db/                        SQLite (node:sqlite): open, migrations, tests on temp files

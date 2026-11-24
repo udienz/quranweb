@@ -130,7 +130,7 @@ export const th: Messages = {
     unknownLicence: "ดูที่แหล่งที่มา",
     providersTitle: "ข้อมูลมาจากที่ใด",
     providers:
-      "ข้อความมาจากสามแหล่ง: API ของ EQuran.id คอลเลกชัน fawazahmed0/quran-api และ QuranEnc.com เว็บไซต์นี้เก็บสำเนาของแต่ละแหล่งไว้เองและอ่านจากสำเนานั้น สำเนาของ EQuran.id และ fawazahmed0 ยังเปิดให้ทุกคนใช้เป็นมิเรอร์ เสียงอ่านมาจาก EQuran.id และ CDN เสียงของ AlQuran.cloud",
+      "ข้อความมาจากสามแหล่ง: API ของ EQuran.id คอลเลกชัน fawazahmed0/quran-api และ QuranEnc.com เว็บไซต์นี้เก็บสำเนาของแต่ละแหล่งไว้เองและอ่านจากสำเนานั้น สำเนาของ EQuran.id และ fawazahmed0 ยังเปิดให้ทุกคนใช้เป็นมิเรอร์ เสียงอ่านมาจาก EQuran.id และ CDN เสียงของ AlQuran.cloud ตัฟซีรอิบนุกะษีรภาษาอูรดูอ่านโดยตรงจาก API ของ Quran Foundation (Quran.com)",
     codeTitle: "ซอร์สโค้ด",
     code: "โค้ดของเว็บไซต์นี้เปิดเผย:",
     privacyLink: "วิธีจัดการข้อมูลของคุณ: นโยบายความเป็นส่วนตัว",
@@ -228,6 +228,7 @@ export const th: Messages = {
     noteLabel: "บันทึกสำหรับอายะฮ์นี้",
     notePlaceholder: "บันทึกส่วนตัว (เก็บไว้ในเบราว์เซอร์นี้)",
     tafsirNotSelected: "ยังไม่ได้เลือกตัฟซีร โปรดเลือกในการตั้งค่าการอ่าน",
+    tafsirSharedWith: "อายะฮ์นี้อธิบายรวมกับอายะฮ์ {verse}",
     footnotes: "เชิงอรรถ",
   },
   settings: {

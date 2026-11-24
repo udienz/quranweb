@@ -129,7 +129,7 @@ export const pt: Messages = {
     unknownLicence: "Veja a fonte",
     providersTitle: "De onde vêm os dados",
     providers:
-      "O texto vem de três fontes: a API do EQuran.id, a coleção fawazahmed0/quran-api e o QuranEnc.com. Este site mantém sua própria cópia do EQuran.id e do fawazahmed0 e lê dela; essas cópias também ficam abertas a todos como espelho. As traduções e tafsir mais recentes são lidos diretamente do QuranEnc.com. As recitações vêm do EQuran.id e da CDN de áudio do AlQuran.cloud.",
+      "O texto vem de três fontes: a API do EQuran.id, a coleção fawazahmed0/quran-api e o QuranEnc.com. Este site mantém sua própria cópia do EQuran.id e do fawazahmed0 e lê dela; essas cópias também ficam abertas a todos como espelho. As traduções e tafsir mais recentes são lidos diretamente do QuranEnc.com. As recitações vêm do EQuran.id e da CDN de áudio do AlQuran.cloud. O Tafsir Ibn Kathir em urdu é lido diretamente da API da Quran Foundation (Quran.com).",
     codeTitle: "Código-fonte",
     code: "O código deste site é aberto:",
     privacyLink: "Como seus dados são tratados: a política de privacidade.",
@@ -227,6 +227,7 @@ export const pt: Messages = {
     noteLabel: "Nota deste versículo",
     notePlaceholder: "Nota pessoal (guardada neste navegador)",
     tafsirNotSelected: "Nenhum tafsir escolhido. Escolha um nas configurações de leitura.",
+    tafsirSharedWith: "Este versículo é explicado junto com o versículo {verse}",
     footnotes: "Notas de rodapé",
   },
   settings: {

@@ -129,7 +129,7 @@ export const bn: Messages = {
     unknownLicence: "উৎস দেখুন",
     providersTitle: "ডেটা কোথা থেকে আনা হয়",
     providers:
-      "পাঠ তিনটি উৎস থেকে আসে: EQuran.id API, fawazahmed0/quran-api সংগ্রহ এবং QuranEnc.com। এই সাইট প্রতিটির নিজস্ব কপি রাখে এবং সেখান থেকে পড়ে; EQuran.id ও fawazahmed0-এর কপি মিরর হিসেবে সবার জন্য উন্মুক্তও। তিলাওয়াত আসে EQuran.id এবং AlQuran.cloud-এর অডিও CDN থেকে।",
+      "পাঠ তিনটি উৎস থেকে আসে: EQuran.id API, fawazahmed0/quran-api সংগ্রহ এবং QuranEnc.com। এই সাইট প্রতিটির নিজস্ব কপি রাখে এবং সেখান থেকে পড়ে; EQuran.id ও fawazahmed0-এর কপি মিরর হিসেবে সবার জন্য উন্মুক্তও। তিলাওয়াত আসে EQuran.id এবং AlQuran.cloud-এর অডিও CDN থেকে। উর্দু তাফসির ইবনে কাসির সরাসরি Quran Foundation API (Quran.com) থেকে পড়া হয়।",
     codeTitle: "সোর্স কোড",
     code: "এই সাইটের কোড উন্মুক্ত:",
     privacyLink: "আপনার ডেটা কীভাবে ব্যবহার করা হয়: গোপনীয়তা নীতি।",
@@ -227,6 +227,7 @@ export const bn: Messages = {
     noteLabel: "এই আয়াতের নোট",
     notePlaceholder: "ব্যক্তিগত নোট (এই ব্রাউজারে রাখা হয়)",
     tafsirNotSelected: "কোনো তাফসির বেছে নেওয়া হয়নি। পড়ার সেটিংসে একটি বেছে নিন।",
+    tafsirSharedWith: "এই আয়াতের তাফসির আয়াত {verse}-এর সাথে দেওয়া হয়েছে",
     footnotes: "পাদটীকা",
   },
   settings: {

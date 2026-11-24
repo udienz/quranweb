@@ -130,7 +130,7 @@ export const ar: Messages = {
     unknownLicence: "انظر المصدر",
     providersTitle: "من أين تؤخذ البيانات",
     providers:
-      "يأتي النص من ثلاثة مصادر: واجهة EQuran.id البرمجية، ومجموعة fawazahmed0/quran-api، وQuranEnc.com. يحتفظ هذا الموقع بنسخته الخاصة من كل منها ويقرأ منها؛ ونسختا EQuran.id وfawazahmed0 متاحتان أيضًا للجميع كمرآة. وتأتي التلاوات من EQuran.id ومن شبكة توزيع الصوت في AlQuran.cloud.",
+      "يأتي النص من ثلاثة مصادر: واجهة EQuran.id البرمجية، ومجموعة fawazahmed0/quran-api، وQuranEnc.com. يحتفظ هذا الموقع بنسخته الخاصة من كل منها ويقرأ منها؛ ونسختا EQuran.id وfawazahmed0 متاحتان أيضًا للجميع كمرآة. وتأتي التلاوات من EQuran.id ومن شبكة توزيع الصوت في AlQuran.cloud. يُقرأ تفسير ابن كثير باللغة الأردية مباشرة من واجهة Quran Foundation البرمجية (Quran.com).",
     codeTitle: "الشيفرة المصدرية",
     code: "شيفرة هذا الموقع مفتوحة:",
     privacyLink: "كيف تُعالج بياناتك: سياسة الخصوصية.",
@@ -228,6 +228,7 @@ export const ar: Messages = {
     noteLabel: "ملاحظة لهذه الآية",
     notePlaceholder: "ملاحظة شخصية (تُحفظ في هذا المتصفح)",
     tafsirNotSelected: "لم يُختر تفسير. اختر واحدًا في إعدادات القراءة.",
+    tafsirSharedWith: "تفسير هذه الآية مع الآية {verse}",
     footnotes: "الحواشي",
   },
   settings: {

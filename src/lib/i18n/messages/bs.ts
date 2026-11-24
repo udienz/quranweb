@@ -130,7 +130,7 @@ export const bs: Messages = {
     unknownLicence: "Pogledajte izvor",
     providersTitle: "Odakle se uzimaju podaci",
     providers:
-      "Tekst dolazi iz tri izvora: API-ja EQuran.id, zbirke fawazahmed0/quran-api i QuranEnc.com. Ova stranica čuva vlastitu kopiju svakog i čita iz nje; kopije EQuran.id i fawazahmed0 otvorene su svima i kao ogledalo. Učenja dolaze s EQuran.id i iz audio CDN-a AlQuran.cloud.",
+      "Tekst dolazi iz tri izvora: API-ja EQuran.id, zbirke fawazahmed0/quran-api i QuranEnc.com. Ova stranica čuva vlastitu kopiju svakog i čita iz nje; kopije EQuran.id i fawazahmed0 otvorene su svima i kao ogledalo. Učenja dolaze s EQuran.id i iz audio CDN-a AlQuran.cloud. Tefsir Ibn Kesira na urduu čita se direktno iz API-ja Quran Foundation (Quran.com).",
     codeTitle: "Izvorni kod",
     code: "Kod ove stranice je otvoren:",
     privacyLink: "Kako se postupa s vašim podacima: politika privatnosti.",
@@ -228,6 +228,7 @@ export const bs: Messages = {
     noteLabel: "Bilješka za ovaj ajet",
     notePlaceholder: "Lična bilješka (čuva se u ovom pregledniku)",
     tafsirNotSelected: "Nije izabran tefsir. Izaberite ga u postavkama čitanja.",
+    tafsirSharedWith: "Ovaj ajet je objašnjen zajedno s ajetom {verse}",
     footnotes: "Fusnote",
   },
   settings: {
