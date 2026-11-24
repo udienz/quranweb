@@ -195,6 +195,14 @@ test.describe("on a phone", () => {
   test("the home page does not scroll sideways", async ({ page }) => {
     await page.goto("/");
     await box(page).fill("11");
+    // On failure the list names what sticks out on the right.
+    const wide = await page.evaluate(() =>
+      [...document.querySelectorAll("body *")]
+        .filter((e) => e.getBoundingClientRect().right > window.innerWidth + 0.5)
+        .slice(0, 6)
+        .map((e) => `${e.tagName.toLowerCase()}.${String(e.className).slice(0, 70)} right=${Math.round(e.getBoundingClientRect().right)}`),
+    );
+    expect(wide).toEqual([]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
   });
 });
@@ -227,10 +235,10 @@ test.describe("right to left", () => {
 test("the header says the list's name without a count, in every language, and still goes to the list", async ({ request }) => {
   for (const locale of LOCALES) {
     const html = await (await request.get("/privacy", { headers: { cookie: `qw-lang=${locale}` } })).text();
-    const link = html.match(/<a [^>]*href="\/#surahs"[^>]*>([\s\S]*?)<\/a>/);
+    // The link holds the name and nothing else: no tag inside it (it used to hold a <span> with the count), so the match is text only.
+    const link = html.match(/<a [^>]*href="\/#surahs"[^>]*>([^<]*)<\/a>/);
     expect(link, locale).not.toBeNull();
-    const text = link![1].replace(/<[^>]*>/g, "").replace(/&#x27;|&#39;/g, "'").replace(/&amp;/g, "&").trim();
-    expect(text, locale).toBe(MESSAGES[locale].home.listTitle);
+    expect(link![1].trim(), locale).toBe(MESSAGES[locale].home.listTitle);
     expect(link![1], locale).not.toMatch(/114/);
   }
 });
