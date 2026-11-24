@@ -1,5 +1,5 @@
-<!-- Generated: 2026-11-19 | Source: https://quranweb.udienz.web.id | Pages: 5 | Framework: tailwindcss 4 | Format: v2 -->
-<!-- Values come from the computed styles of every visible element (light and dark) in production and from src/app/globals.css; see docs/design-tokens.json. The UI audit fixes of 2026-11-19 (focus ring, tap areas, tabular figures, no header dot, no uppercase eyebrows) were measured on their build. -->
+<!-- Revised 2026-11-24 for the editorial redesign ("QuranWeb -- A Quiet Place to Read"). This file is the single source of truth for the design: there is no other design document. The redesigned surfaces (the header, the home page, the surah and mushaf pages) were written from src/app/globals.css and the components and checked on QA; the per-element frequencies and pixel measurements of the 2026-11-19 production audit remain only where what they measure did not change. A full re-measure after release is listed in section 14. -->
+<!-- Original extraction: 2026-11-19 | Source: https://quranweb.udienz.web.id | Pages: 5 | Framework: tailwindcss 4 | Format: v2. Values came from the computed styles of every visible element (light and dark) in production and from src/app/globals.css; see docs/design-tokens.json. -->
 <!-- Generated with the design-md-generator method (https://github.com/jasonhnd/design-md-generator), extraction done with the project's own Playwright. -->
 
 # Design System: QuranWeb
@@ -8,21 +8,25 @@
 
 QuranWeb is a free reading site for the Qur'an: Arabic text, transliteration, translations, tafsir and verse-by-verse recitation, with an optional account that syncs reading progress.
 
+**Design direction:** Editorial / Reading Experience, with the line *QuranWeb -- A Quiet Place to Read* (approved by the owner, 2026-11-24): warm paper, deep forest green, restrained muted gold, a calm reading surface, generous whitespace and little ornament. It is meant to look like QuranWeb and not like the familiar EQuran.id-style layout. The decisions and the work still open are in section 14.
+
 Target audience: Indonesian readers first (the interface defaults to Indonesian), then English and Turkish readers. The layout has a phone version for every page. Secondary: people memorizing, who use repetition and hidden text.
 
 **Brand personality:**
 - Devotional (the Arabic text is set in `Amiri` at 36px with a 86.4px line, larger than any Latin headline on the page)
-- Quiet (one chromatic brand colour, teal `#176c7d`, on a cream `#f5f2eb` canvas; gold `#d7a342` appears on 5 elements across the five pages)
+- Quiet (in the editorial scope one brand colour, deep forest `#344c3d`, on parchment `#ede4d2` and soft cream `#f8f2e7`; muted gold `#b49a68` is small and rare; the pages not yet redesigned keep teal `#176c7d` on cream `#f5f2eb`)
 - Bookish (`Space Grotesk` for titles, `Plus Jakarta Sans` for reading and for numbers, set with tabular figures so "036" and "36:1" line up)
 - Patient (every interaction uses one 150ms transition, `cubic-bezier(0.4, 0, 0.2, 1)`; nothing animates on its own)
 
-**Sources referenced:** `/`, `/surah/36`, `/settings`, `/my-reading`, `/about` on https://quranweb.udienz.web.id, in light and dark, desktop (1280px) and phone (390px).
+**Sources referenced:** the 2026-11-19 audit: `/`, `/surah/36`, `/settings`, `/my-reading`, `/about` on https://quranweb.udienz.web.id, in light and dark, desktop (1280px) and phone (390px). The redesign: `/` and `/surah/2` on QA, in light and dark at 1280, 820, 390 and 360px, and in Arabic (right to left).
 
 ## 1. Visual Theme & Atmosphere
 
-QuranWeb's website is a printed mushaf laid on a reading desk -- a cream page and white index cards around one block of Arabic that is bigger and more widely spaced than anything else on screen.
+QuranWeb's website is a printed mushaf on a reading desk in a quiet room: a parchment page, a soft-cream reading surface edged with one thin gold rule, and a block of Arabic bigger and more widely spaced than anything else on screen.
 
-The canvas is warm paper, `#f5f2eb`, never white; white `#ffffff` is reserved for cards and panels that sit on it, so every surface reads as a card placed on a page. Text is a deep green-grey, `#274045`, rather than black, and the only saturated colour is the teal `#176c7d`, used for links, the active page number and the selected layout. The one dark surface is the surah header: a 135-degree gradient from `#104f5b` to `#082026` that frames the surah title like the illuminated head of a chapter.
+In the editorial scope (the header, the home page, the surah and mushaf pages) the canvas is parchment `#ede4d2` around a soft-cream `#f8f2e7` reading surface; the page behind them is still the warm paper `#f5f2eb`, never white. Text is ink brown `#3d3428`. The one interactive colour and the one dark surface are deep forest `#344c3d`: links, the current page number, the selected surah and the control bar under the surah heading (a 135-degree gradient from `#344c3d` to `#2a4033`). Muted gold `#b49a68` appears as a hairline, a small diamond and the rings around verse numbers; it is never text on a light surface (2.42:1). The pages not yet redesigned (Settings, My reading, About, Search, Privacy) keep the earlier teal system of section 2, so the two palettes meet only in the header, which belongs to the editorial scope.
+
+The home hero is parchment with a photograph of an open mushaf: the heading, description and search are real text beside the photograph, never over it and never below a control (section 4, Home Hero).
 
 Typography splits three ways by script and purpose. `Space Grotesk` carries identity (the "QuranWeb" wordmark at 20px weight 700 with -0.5px tracking, page titles at 24px 600). `Plus Jakarta Sans` carries the interface at 14px weight 500 and the translation at 15px with a 24.375px line. `Amiri` carries the revelation itself: 36px with an 86.4px line height (2.4), a ratio no Latin text on the site comes near.
 
@@ -32,28 +36,54 @@ In the mushaf layout the Arabic takes the wider, right-hand column (3 parts to t
 
 **Design Principles:**
 - **Arabic first**: the Arabic text is the largest and most spacious element of every reading view; Latin text yields to it.
-- **Paper and cards**: depth comes from a white card on a cream page and a 1px border, almost never from shadows.
-- **One accent, two jobs**: teal marks what can be acted on; gold marks what matters (verse markers, the current surah, the main call to action).
+- **Paper and frame**: depth comes from cream surfaces on parchment, a 1px warm border and, on the reading surface, a thin inner gold rule; shadows stay small.
+- **One calm colour, one small gold**: forest marks what can be acted on and carries the control bar; gold only decorates (hairlines, diamonds, verse rings) and marks the active tab.
 - **Reader-owned scale**: reading text scales by the reader's choice through CSS variables; chrome does not.
+- **The photograph supports the words**: it sits beside the heading, is never mirrored (the Arabic on its pages would read backwards) and never carries text of ours.
 
 **Key Characteristics:**
-- Warm paper canvas -- `#f5f2eb` body, `#ffffff` only on cards
-- Green-grey ink -- body text `#274045`, secondary `#596e73`
-- A single interactive colour -- teal `#176c7d` for links, active states and focus borders
-- Gold for ornament and for the one main action -- `#d7a342` on verse markers ﴿١﴾, the surah badge ring and the hero button
-- Chapter-head gradient -- `linear-gradient(135deg, #104f5b, #082026)` behind every surah title
+- Parchment and soft cream -- `#ede4d2` around `#f8f2e7`, on the warm paper page `#f5f2eb`
+- Ink brown text -- `#3d3428` (10.96:1 on soft cream); secondary `#72685a` (4.9:1)
+- One interactive colour in the scope -- deep forest `#344c3d` (8.39:1 on soft cream)
+- Control bar -- `linear-gradient(135deg, #344c3d, #2a4033)` under the centred surah heading
 - Arabic set larger than any heading -- `Amiri` 36px, line height 86.4px
 - Translation in a reading measure -- 15px `Plus Jakarta Sans`, line height 24.375px (1.625)
-- Cards drawn with borders -- 1px `#e0e8e4` borders appear 204 times; the only drop shadow appears 14 times
-- Two radii carry most of the shapes -- 16px on cards, fully rounded pills on buttons and chips
+- Verse numbers as thin gold rings, not tilted tiles
+- A frame on the reading surface -- a 1px gold border at 45% and an inset rule at 35%
 - Reader-controlled type -- `--arabic-scale` and `--latin-scale`, five steps from 85% to 150%
 - Every state change in 150ms -- `cubic-bezier(0.4, 0, 0.2, 1)` on colour, background and border
 
 ## 2. Color Palette & Roles
 
-The system defines nine HSL tokens in `src/app/globals.css` (`--background`, `--foreground`, `--card`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-soft`, `--gold`) plus two for the hero gradient. Components use them through Tailwind (`bg-card`, `text-primary`, `border-border`). Frequencies below are counts of visible elements over the five pages in light mode.
+Two palettes share one set of HSL tokens in `src/app/globals.css` (`--background`, `--foreground`, `--card`, `--muted`, `--muted-foreground`, `--border`, `--primary`, `--primary-soft`, `--gold`, plus `--hero-from` and `--hero-to`). The **editorial scope**, the class `.editorial` on the header, on the surah and mushaf pages (`SurahLayout`) and on the home page, re-sets eight of them, so every component that uses a token (`bg-card`, `text-primary`, `border-border`) follows the scope with no colour of its own. Pages outside the scope keep the **interface palette** further down. `--background` is the same in both. A new page joins the scope by carrying `editorial`; nothing else has to change.
 
-### Brand Colors
+### Editorial Palette (approved by the owner)
+
+| Name | Hex | Token (light) | Role |
+|---|---|---|---|
+| Parchment | `#ede4d2` | `--reading-paper` (reader), `--home-paper` (hero) | The area around a reading surface; the hero |
+| Soft Cream | `#f8f2e7` | `--card` `39 55% 94%` | Cards, panels, the reading surface, inputs |
+| Ink Brown | `#3d3428` | `--foreground` `34 21% 20%` (`#3e3428`), `--reading-ink` | Primary text |
+| Deep Forest | `#344c3d` | `--primary` `143 19% 25%` | Links, active page, selected state, the control bar, the main button |
+| Muted Gold | `#b49a68` | `--gold` `39 34% 56%` (`#b59a69`) | Hairlines, diamonds, verse rings, the active tab (never small text on light) |
+| Warm Gray | `#807565` | see below | Secondary text, **adjusted** |
+
+Warm Gray `#807565` is 4.05:1 on soft cream and 3.58:1 on parchment, below AA for small text, so it is not used as text colour. Secondary text in the reader is `#6b6152` (`--reading-muted`: 5.45:1 on soft cream, 4.81:1 on parchment); in the shared token `--muted-foreground` it is `36 12% 40%` (`#72685a`: 4.90:1 on soft cream).
+
+Other editorial tokens: `--muted` `40 43% 88%` (`#eee5d3`, hover fills and tracks), `--border` `37 32% 78%` (`#d9cbb5`, every edge), `--primary-soft` `42 31% 87%` (`#e8e2d4`, the selected surah, the playing verse, chips). Dark values are in section 2.5.
+
+**Control bar and hero**
+- The control bar is `linear-gradient(135deg, #344c3d, #2a4033)`, radius 24px, 1px border of gold at 28%, a small shadow. Inside it (`.quran-reading__bar`) `--gold` is the lighter `44 42% 65%` (`#cdb67f`), so small gold text and the active tab reach 4.73:1 on `#344c3d` and 5.65:1 on `#2a4033`; ink on that tab is `hsl(143 25% 12%)` (7.98:1). Other controls on the bar are cream (white at 90%) with a 1px border of white at 15%.
+- The hero is parchment with a 1px border of gold at 35%; its heading is ink brown, its description `#514536` (7.38:1), its eyebrow deep forest (7.40:1).
+
+### Editorial Color Boundary Rules
+
+- Deep forest is the only colour that means "you can act on this" inside the scope; gold decorates and never fills a button there, except the dark-mode hero button and the verse-of-the-day link.
+- The control bar is the only dark surface in light mode inside the scope. Do not add other dark panels.
+- Colours come from tokens. The values written out in `globals.css` (`.quran-reading`, `.home-editorial`) are the palette's own hexes and belong to those two blocks only.
+- Gold on a light surface is decoration only (2.42:1 on soft cream): no text, no focus ring.
+
+### Interface Palette: Brand Colors (Settings, My reading, About, Search, Privacy)
 
 #### Accent
 
@@ -76,7 +106,7 @@ The system defines nine HSL tokens in `src/app/globals.css` (`--background`, `--
 - **Teal Wash** (`#e2f0f3`): frequency 115. Used as background (115). CSS var: `--primary-soft` (`190 40% 92%`). The current surah in the list, the playing verse, chips, hover fills. A pale blue that marks "selected".
 - **Linen** (`#ede9de`): frequency 1. Used as background (1). CSS var: `--muted` (`44 29% 90%`). Hover fill on secondary buttons and the track of progress bars.
 
-### Color Boundary Rules
+### Color Boundary Rules (interface palette)
 
 - Teal `#176c7d` is the only colour that means "you can act on this". Gold `#d7a342` decorates and marks importance, and is used as a button fill only for the single main action of a view.
 - `bg-red-600` appears only on the account-deletion and admin buttons; it is not part of the reading palette and never appears on reading pages.
@@ -122,6 +152,25 @@ A `dark` class on `<html>` (`@custom-variant dark (&:where(.dark, .dark *))`). T
 #### Unchanged
 
 `--hero-from` (`#104f5b`) and `--hero-to` (`#082026`) are not redefined in `.dark`: the chapter head is the same in both modes.
+
+### Editorial Dark Values
+
+Inside `.dark .editorial` the same eight tokens are set again; the page behind stays the night page `#071b20`.
+
+| Token | Light | Dark | Role |
+|---|---|---|---|
+| `--card` | `#f8f2e7` | `#27352c` (`141 16% 18%`) | Cards, panels, the reading surface |
+| `--muted` | `#eee5d3` | `#304136` | Hover fill, tracks |
+| `--border` | `#d9cbb5` | `#435146` | Edges |
+| `--primary` | `#344c3d` | `#a8c2a9` (`122 17% 71%`) | Links, active page, selected state |
+| `--primary-soft` | `#e8e2d4` | `#344639` | Selected and playing rows |
+| `--foreground` | `#3e3428` | `#eee6d7` | Text |
+| `--muted-foreground` | `#72685a` | `#b7ae9f` | Secondary text |
+| `--gold` | `#b59a69` | `#c8ae79` | Hairlines, rings, the active tab |
+
+The reader's parchment is `#202c25` and its reading surface `#26342b` (`--reading-paper`, `--reading-canvas`); the control bar is `linear-gradient(135deg, #304638, #1d2d23)`. Contrast in the dark scope: text 10.38:1 on the card, secondary text 5.86:1, links 6.71:1 (9.23:1 on the page), gold 6.00:1.
+
+On the home hero the photograph is dimmed: a forest scrim and `brightness(0.62)` on the photo blocks. The hero button becomes gold `#d0ad62` with `#1d2d23` text (6.77:1).
 
 ### Dark Surface Stack
 
@@ -178,10 +227,10 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Features | Notes |
 |---|---|---|---|---|---|---|---|
-| Home Headline | Space Grotesk Variable | 30px (1.88rem) | 700 | 36px | normal | - | "Baca Al-Qur'an"; 24px below 640px |
+| Home Headline | Space Grotesk Variable | 30px (1.88rem), 36px from `sm`, 52px from `lg` | 600 | 1.25 | normal | - | "Baca Al-Qur'an" in the hero |
 | Page Title | Space Grotesk Variable | 24px (1.50rem) | 600 | 32px | normal | - | "Bacaan saya", "Pengaturan" |
 | Wordmark | Space Grotesk Variable | 20px (1.25rem) | 700 | 28px | -0.5px | - | "QuranWeb" in the header |
-| Surah Title | Space Grotesk Variable | 20px (1.25rem) | 700 | 28px | normal | - | "Yasin" in the chapter head |
+| Surah Title | Space Grotesk Variable | `clamp(1.9rem, 4.5vw, 2.75rem)` | 600 | 1.15 | normal | - | "Yasin" in the centred surah heading |
 | Section Heading | Space Grotesk Variable | 18px (1.13rem) | 600 | 28px | normal | - | Settings section titles |
 | Card Heading | Space Grotesk Variable | 16px (1.00rem) | 600 | 24px | normal | - | "Terakhir dibaca", "Target harian" |
 | Badge Numeral | Space Grotesk Variable | 12px (0.75rem) | 700 | 16px | normal | - | Surah numbers in the diamond badges |
@@ -195,9 +244,8 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 | Surah Index | Plus Jakarta Sans Variable | 12px (0.75rem) | 400 | 16px | normal | `tabular-nums` | "036" in the surah list |
 | Mushaf Arabic | Amiri | 36px (2.25rem) | 400 | 86.4px | normal | - | Line height 2.4; scales with `--arabic-scale` |
 | Verse Marker | Amiri | 25.2px (1.58rem) | 400 | 25.2px | normal | - | ﴿١﴾ at 0.7em of the Arabic |
-| Hero Bismillah | Amiri | 36px (2.25rem) | 400 | 40px | normal | - | Home hero, `#d7a342`; 30px below 640px (kept short so "continue reading" stays high) |
 | Bismillah | Amiri | 36px (2.25rem) | 400 | 54px | normal | - | Above every surah but 1 and 9 |
-| Arabic Surah Name | Amiri | 24px (1.50rem) | 400 | 32px | normal | - | Grid cards; 18px/28px in the side list |
+| Arabic Surah Name | Amiri | 24px (1.50rem) | 400 | 32px | normal | - | Home index rows; 18px/28px in the side list; `clamp(2.25rem, 5vw, 3.25rem)` in the surah heading |
 
 ### Named Strategies
 
@@ -217,12 +265,21 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Radius: fully rounded (`rounded-full`)
 - Disabled: opacity 0.5 -- keeps the gold visible so the reader knows what will become available
 - Transition: `color, background-color, border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)`
-- Use: Main call to action ("Mulai dari Al-Fatihah" on the home page and the 404 page, "Mulai" in the Memorize panel)
+- Use: Main call to action ("Mulai" in the Memorize panel, the 404 page, and the verse-of-the-day link). The home hero's main action is the forest pill below in light mode and this gold pill in dark mode.
 
-**Tab (on the chapter head)**
-- Active: background `#d7a342`, text `#092d34`, 14px weight 600, padding 8px 20px, fully rounded
+**Forest Pill (home hero)**
+- Background `#344c3d`, text `#f8f2e7` (8.39:1), 14px weight 600, padding 12px 24px, fully rounded; hover `#405b48`
+- Dark: background `#d0ad62`, text `#1d2d23`; hover `#dfc17e`
+- Use: "Start with Al-Fatihah" on the home hero
+
+**Outline Forest Pill (hero search)**
+- Transparent, 1px `--primary` border, `--primary` text, 14px weight 600, padding 12px 20px; hover `--primary-soft`
+- Use: the "Search" button beside the hero's search field
+
+**Tab (on the control bar)**
+- Active: background `--gold` (on the bar `#cdb67f`), text `hsl(143 25% 12%)`, 14px weight 600, padding 8px 20px, fully rounded
 - Inactive: transparent, 1px border white at 15% opacity, text white at 85%
-- Hover (inactive): background white at 10% -- a lift that stays inside the dark gradient
+- Hover (inactive): background white at 10% -- a lift that stays inside the forest gradient
 - Use: Reading / Tafsir switch ("Bacaan", "Tafsir"), "Hafalan" toggle
 
 **Outline Pill (secondary)**
@@ -255,10 +312,10 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Focus: border becomes `#176c7d` (`focus:border-primary`), and the keyboard ring below appears as well
 - Use: "Cari nama atau nomor...", "Ayat per hari", the translation language list
 
-**Dark Select (on the chapter head)**
-- Transparent background, 1px border white at 15%, text `#d7a342`, radius 12px
+**Dark Select (on the control bar)**
+- Transparent background, 1px border white at 15%, text white at 90% (it was gold until 2026-11-24, when gold was kept for the active tab), radius 12px
 - Options: background `hsl(192 64% 9%)`, white text
-- Use: "Ayat...", "Juz...", "Berhenti di akhir"
+- Use: "Ayat...", "Juz...", "Berhenti di akhir", "Putar surat", "Hafalan"
 
 **Tajweed colours (`tj-<rule>` classes, `globals.css`)**
 - One palette per theme, the usual tajweed colours made darker (light) or lighter (dark) so each keeps 3:1 against the card
@@ -285,35 +342,34 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Padding: 16px to 24px
 - Use: "Terakhir dibaca", "Target harian", every settings section
 
-**Surah Card (home grid)**
-- Background: `#ffffff`; border 1px `#e0e8e4`; radius 16px; padding 14px 16px; 16px gap
-- Left: number in a 36px diamond rotated 45 degrees, radius 6px (background `#e2f0f3`, numeral 12px `Space Grotesk` 700 in `#176c7d`)
-- Middle: surah name 16px weight 600, meta 12px `#596e73`
-- Right: Arabic name, `Amiri` 24px
-- Hover: border becomes `#176c7d` at 50% and the small shadow appears -- the card lifts off the page as the link target
-- Use: the 114 surah links ("Al-Fatihah · Pembukaan · 7 ayat · Mekah")
+**Surah Index (home)** (since PR #140; it replaced the grid of cards)
+- Two columns from `lg`, one below; a row per surah: soft cream `#f8f2e7`, 1px `#dfd3c1` border, hover border `#9b8a68` and a small shadow
+- Left: the number in a chip (`#e4eadf` with a 1px `#cdd8c9` border, forest numeral; dark `#35473a`, border `#50634f`, numeral `#d2dfcb`); middle: Latin name, meaning, verse count and revelation in muted text; right: the Arabic name in `Amiri` in forest, and a gold arrow that shows on hover (always on phones)
+- The search field above the list filters by number, name and meaning, and all 114 links stay
+- Use: the 114 surah links ("Al-Fatihah · The Opening · 7 verses · Mecca")
 
 ### Navigation
 
-**Header**
-- Sticky, background `#f5f2eb` at 85% opacity with `backdrop-blur`, bottom border 1px `#e0e8e4`
-- Wordmark 20px `Space Grotesk` 700, -0.5px tracking, in `#176c7d`, next to the book logo
-- Right side: language menu, theme toggle, account menu: 40px round buttons, 1px `#e0e8e4` border on `#ffffff`, hover `#ede9de`
+**Header** (editorial scope, redesigned 2026-11-24 from the owner's reference)
+- Sticky, background `#f5f2eb` at 85% opacity with `backdrop-blur`, bottom border 1px `--border`
+- Left: a 40px rounded tile (radius 12px, `#344c3d`, dark `#26342b`, a 1px ring of gold at 40%) holding the book logo in cream and gold, then the wordmark "QuranWeb" in `Space Grotesk` 20px 700, -0.5px tracking, in `--primary`; below 480px only the tile shows
+- Centre: text navigation, no pill container (`NavLink`): "Al-Quran" (`nav.quran`), "Surahs" with the surah count 114 in muted tabular figures (`home.listTitle`, links to `/#surahs`), "About" (`footer.about`), and "My reading" and "Settings" when sign-in is off. 14px weight 500 in `--foreground` at 80%, hover `--primary`; the current page is `--primary` with a 2px underline and `aria-current="page"`; every link is 44px high. Below 640px the navigation takes a second row
+- Right: search link, language menu, theme toggle, account menu: 40px round buttons, 1px `--border` on `--card`, hover `--muted`. Their behaviour and place did not change
 - Language menu: 240px wide, scrolls inside itself; languages in alphabetical order of their own names, each with a 20×14px
   flag (inline SVG, 2px radius, a 1px ring at 10% black so white flags stay visible) before the name; a community
-  translation has an asterisk after the name in `#176c7d` (gold `#d7a342` is only 2.3:1 on white), explained by a 12px
-  note in `--muted-foreground` under the list
+  translation has an asterisk after the name in `--primary`, explained by a 12px note in `--muted-foreground` under the list
+- Not built from the reference: the "Mushaf digital" tagline (a new message in 25 catalogs)
 - Use: every page
 
 **Verse of the day (home page)**
-- A card under "continue reading": white (`--card`) on a 1px border, 16px radius, 20px padding (24px from `sm`)
+- A card under "continue reading": soft cream `#f8f2e7` on a 1px `#d9cbb5` border (dark `#26342b` on `#435247`), 16px radius, 20px padding (24px from `sm`)
 - A 14px muted label, the verse in Arabic (`Amiri` 28px, right to left), its first translation at 16px, then the reference ("Al-Baqarah 2:255")
-  as a primary link with the surah's meaning in muted text; a primary pill "Read in the surah" (white text, dark text in dark mode)
+  as a primary link with the surah's meaning in muted text; a gold pill "Read in the surah" (`#d0ad62`, text `#263b30`)
 - Use: the home page only; it is left out when the text cannot be read
 
 **Search**
 - A 40px round magnifier button (border, `--card`) in the header before the language button; in the home page's hero a pill input
-  (white 10% fill, white 40% border, white 75% placeholder) and a transparent pill "Search", next to the gold start button
+  (soft cream at 92% on a 1px `--border`, `--muted-foreground` placeholder, forest border on focus) and the outline forest pill "Search", next to the forest start button
 - The results page (768px column): the title, a form row (pill input, a pill surah select, a primary pill button), a muted count, then one
   card per result (`--card`, 1px border, 16px radius): the verse's name and numbers as a primary link, and the text around the match
   with each match in gold at 30% (`bg-gold/30`) and the text colour; Arabic results in `Amiri` 24px right to left; previous and next
@@ -324,7 +380,7 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   primary colour (white text, dark text in dark mode), the other muted: "10 verses" and "Mushaf pages (604)"
 
 **Mushaf page (`/mushaf/N`)**
-- A 1200px column: the dark header (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
+- A 1200px column: the surah heading and control bar (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
   page", the counter "42 / 604" with a 128px pill number box and a small "Go" pill, pill "Next page") above and below; on a phone the
   two pills share a row and the box has its own; one card holding each surah's part in the mushaf layout, a surah that starts here with a
   centred band (Arabic name in `Amiri` 30px, Latin name, meaning, verses, the Bismillah), one that goes on with a 12px muted name; the
@@ -342,23 +398,33 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   share button; previous and next verse as pills under it
 
 **Surah List (side panel)**
-- Rows: index in tabular figures `#596e73`, name 14px weight 500, Arabic name `Amiri` 18px
-- Current surah: background `#e2f0f3`, 2px left edge in `#d7a342`
+- Rows: index in tabular figures `--muted-foreground`, name 14px weight 500, Arabic name `Amiri` 18px
+- Current surah: background `--primary-soft`, 2px left edge in `--gold`
 - Use: the side panel and the phone panel "Daftar surat dan pengaturan"
 
 ### Distinctive Components
 
-**Chapter Head**
-- Background: `linear-gradient(135deg, #104f5b, #082026)`; radius 16px; padding 20px (24px sides from 640px); the system's small shadow
-- Surah number in a 44px diamond: 1px ring of `#d7a342` at 60% opacity, numeral `#d7a342`
-- Title 20px `Space Grotesk` 700 white; Arabic name `Amiri` 30px in `#d7a342`
-- Use: top of every surah page ("Yasin", "Al-Baqarah")
+**Surah Heading and Control Bar** (redesigned 2026-11-24; it replaced the dark Chapter Head)
+- The heading sits on the parchment, centred: a line "2 · Medina · 286 verses" (13px muted, `tabular-nums`, sentence case), then the Latin name in `Space Grotesk` 600, `clamp(1.9rem, 4.5vw, 2.75rem)`, a 1px gold rule, and the Arabic name in `Amiri` (`clamp(2.25rem, 5vw, 3.25rem)`), both in forest; below them the surah's meaning in italic muted text, then a gold hairline with one small diamond (`quran-reading__ornament`; the only ornament)
+- Under the heading, one forest control bar (section 2): the Reading and Tafsir tabs, "Verse...", "Juz...", "Play the surah", the end-of-surah mode and "Memorize", with the Memorize panel and status lines inside it. Radius 24px, padding 14px 18px
+- On a phone the heading stays one block, the vertical gold rule hides below 480px, and the bar's controls wrap onto several rows
+- Use: top of every surah page and of the mushaf page ("Yasin", "Al-Baqarah")
 
 **Mushaf Block**
-- One justified paragraph of Arabic (`Amiri` 36px, line height 86.4px) with a marker ﴿N﴾ after each verse in `#d7a342`
-- The playing verse gets a `#e2f0f3` background
-- Beside it (from 1024px), a numbered translation column with a 1px `#e0e8e4` rule between them
+- One justified paragraph of Arabic (`Amiri` 36px, line height 86.4px) with a marker ﴿N﴾ after each verse in `--gold`
+- The playing verse gets a `--primary-soft` background
+- The reading surface (`quran-reading__surface`) is soft cream with a 1px gold border at 45% and an inset rule at 35%; each verse number is a thin gold ring (1px), not a tilted tile
+- Beside it (from 1024px), a numbered translation column with a 1px `--border` rule between them
 - Use: the default Reading layout
+
+**Home Hero** (PR #142; the layouts were chosen by the owner from mockups on 2026-11-24)
+- A parchment panel, radius 28px, 1px border of gold at 35%, minimum height `clamp(23rem, 38vw, 30rem)` from `lg`; the heading ("Read the Qur'an", `Space Grotesk` 600, 52px from `lg`), the description (`#514536`), the search form and the forest "Start" pill are real HTML, in that order, with the existing messages (`home.title`, `home.subtitle`, `search.*`, `home.start`)
+- The photograph is a CSS background, so it takes no layout space and cannot shift the page: `public/images/quranweb-hero-mushaf.webp` (1600px, 96KB, from a 2MB PNG) from 1024px and `quranweb-hero-mushaf-sm.webp` (960px, 42KB) below, so a phone downloads only the small one. It is AI-generated (supplied by the owner); the Arabic on its pages is not a Qur'an source and the photograph is never mirrored
+- Desktop, left to right: the photo fills the panel on the right (`cover`, 78% 65%) and a parchment gradient (`#ede4d2` to 92% at 30% to transparent at 62%) fades it into the text side
+- Desktop, right to left: the photo is a block on the left 57% (`cover`, 100% 65%), fading on its right edge over 10%, with the mushaf facing the text, which is on the right; the block is narrower than two thirds so it stays clear of the search form
+- Under 1024px: the photo is a block beside the heading and description, as tall as they are (minimum 14.5rem), 50% wide, bleeding to the panel's edge and fading into the paper on its text side and at the bottom; the text column is 56% wide; the search form and the button sit under both on plain paper. In right to left the block is on the left. From 640px the photo fills its block (`cover`, lantern and window included); below that it is 430px wide, so the whole mushaf shows
+- Dark: the panel is `#1d2d23` with a forest scrim over the photo on desktop and `brightness(0.62)` on the blocks
+- Use: the home page only
 
 **Hidden Text (memorizing)**
 - `filter: blur(0.4em)`, `user-select: none`, `cursor: pointer`
@@ -400,7 +466,8 @@ Base unit 4px (Tailwind's `spacing` scale). Most frequent values (padding, gap a
 - Pill (fully rounded): buttons, chips, the header controls -- 204 occurrences
 - Field (12px): inputs, selects, the reciter picker -- 52 occurrences
 - Small (4px): highlights, the playing-verse mark -- 20 occurrences
-- Medium (8px): the chapter-head diamond -- 2 occurrences
+- Medium (8px): small tiles
+- Hero (28px): the home hero; control bar (24px); the reader's parchment panel (20px); the reading surface (16px, the Card radius); logo tile (12px)
 
 ## 6. Depth & Elevation
 
@@ -411,7 +478,8 @@ Base unit 4px (Tailwind's `spacing` scale). Most frequent values (padding, gap a
 | Flat | none | - | Page, list rows |
 | Card | 1px `#e0e8e4` border on `#ffffff` | 204 | Every card and panel |
 | Lifted | `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px` | 14 | The chapter head at rest; surah and continue-reading cards on hover |
-| Ring | 1px ring of gold at 60% (`ring-1 ring-gold/60`) | 2 | Surah badge on the chapter head |
+| Ring | 1px ring of gold at 60% (`ring-1 ring-gold/60`) | 2 | Gold rings: the logo tile (at 40%) and the verse numbers (a 1px inset ring) |
+| Frame | 1px gold border at 45% and an inset rule at 35%, plus `0 8px 28px` of ink at 5% | 1 | The editorial reading surface |
 
 **Dominant shadow:** `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px` (14 occurrences) -- Tailwind's `shadow-sm`, on the chapter head and on cards while hovered. Things that float above the page (the language and account menus, the reciter list, the mushaf verse bar) use `shadow-lg` when open.
 
@@ -479,19 +547,24 @@ Labels are short, and full sentences appear only where an action needs explainin
 ### Do's
 
 - Set reading text with a scale variable -- `font-size: calc(2rem*var(--arabic-scale,1))` for Arabic, `calc(1rem*var(--latin-scale,1))` for translations; labels keep fixed sizes
-- Put cards on the cream page -- `#ffffff` card, 1px `#e0e8e4` border, 16px radius, on `#f5f2eb`
-- Use teal `#176c7d` for anything clickable that is not the single main action
+- Put cards on the page -- interface scope: `#ffffff` card, 1px `#e0e8e4` border, 16px radius, on `#f5f2eb`; editorial scope: `#f8f2e7` card, 1px `#d9cbb5` border, on parchment `#ede4d2` or the page
+- Use the scope's accent for anything clickable that is not the single main action -- teal `#176c7d` in the interface scope, deep forest `#344c3d` in the editorial scope (through `--primary`; write no colour of your own)
 - Give the main action of a view the gold pill -- `#d7a342` fill, `#092d34` label, fully rounded, 8px 16px
 - Mark selection with the wash -- `#e2f0f3` background (dark: `#153038`), never with bold text alone
 - Keep Arabic in `Amiri` with `dir="rtl" lang="ar" translate="no"` and a line height of at least 2.4 in reading views
 - Use one transition everywhere -- `150ms cubic-bezier(0.4, 0, 0.2, 1)` on colour, background and border
-- Reuse the chapter-head gradient for any dark hero -- `linear-gradient(135deg, #104f5b, #082026)`
+- Reuse the forest bar gradient for a dark panel in the editorial scope -- `linear-gradient(135deg, #344c3d, #2a4033)`; the older `linear-gradient(135deg, #104f5b, #082026)` belongs to the interface scope
+- Put the photograph beside the text, fade it on every edge that touches text, and give a right-to-left page the same photo on the other side, unmirrored
+- Join the editorial scope by adding the class `editorial`, not by writing colours into a component
 - Write tokens as HSL triplets in `globals.css` (`--primary: 190 69% 29%`) so `/60`-style opacity variants keep working
 
 ### Don'ts
 
 - Don't set the Arabic smaller than the translation -- in this system the Arabic is the main text; keep it at 36px against a 15px translation
 - Don't use black ink on cream -- text is `#274045` (9.86:1 on `#f5f2eb`, 11.02:1 on white), already far above AA; black adds contrast nobody needs and breaks the teal family
+- Don't mirror the hero photograph, and don't put text of ours over it -- its Arabic would read backwards, and words over a picture of a page are hard to read
+- Don't use Warm Gray `#807565` as text -- it fails AA on both cream and parchment; use `#6b6152` or `--muted-foreground`
+- Don't put gold in text on a light surface (2.42:1), and don't add ornament beyond the hairline and the one diamond
 - Don't put gold on a button that is not the main action -- gold `#d7a342` is on 5 elements across five pages; more than one gold button per view dilutes it
 - Don't give resting cards a shadow -- depth here is the `#e0e8e4` border; `shadow-sm` (`rgba(0, 0, 0, 0.1) 0px 1px 3px 0px`) is for hover and the chapter head, `shadow-lg` only for things that float (menus, the verse bar)
 - Don't use a white page background -- `#ffffff` is the card colour; a white page erases the card edges
@@ -517,6 +590,19 @@ Labels are short, and full sentences appear only where an action needs explainin
 | White on teal | `#ffffff` | `#176c7d` | 6.04:1 | Yes |
 | Ink on gold | `#092d34` | `#d7a342` | 6.41:1 | Yes |
 | Gold on hero | `#d7a342` | `#104f5b` | 4.02:1 | Large text only |
+| Editorial: body on card | `#3e3428` | `#f8f2e7` | 10.91:1 | Yes |
+| Editorial: secondary on card | `#72685a` | `#f8f2e7` | 4.90:1 | Yes |
+| Editorial: reader metadata on parchment | `#6b6152` | `#ede4d2` | 4.81:1 | Yes |
+| Editorial: link on card | `#344c3d` | `#f8f2e7` | 8.39:1 | Yes |
+| Editorial: link on selected row | `#344c3d` | `#e8e2d4` | 7.24:1 | Yes |
+| Editorial: cream on forest bar | `#f8f2e7` | `#2a4033` | 10.03:1 | Yes |
+| Editorial: gold on forest bar | `#cdb67f` | `#344c3d` | 4.73:1 | Yes |
+| Editorial: ink on active tab | `#17261d` | `#cdb67f` | 7.98:1 | Yes |
+| Editorial: hero description | `#514536` | `#ede4d2` | 7.38:1 | Yes |
+| Editorial: gold on card | `#b59a69` | `#f8f2e7` | 2.42:1 | No (decoration only) |
+| Editorial dark: body on card | `#eee6d7` | `#27352c` | 10.38:1 | Yes |
+| Editorial dark: secondary on card | `#b7ae9f` | `#27352c` | 5.86:1 | Yes |
+| Editorial dark: link on card | `#a8c2a9` | `#27352c` | 6.71:1 | Yes |
 | Dark: body on card | `#e6eff0` | `#0d252b` | 13.65:1 | Yes |
 | Dark: meta on card | `#a0b2b6` | `#0d252b` | 7.24:1 | Yes |
 | Dark: link on card | `#3db8ab` | `#0d252b` | 6.56:1 | Yes |
@@ -526,16 +612,16 @@ Gold on the hero is used for the Arabic surah name (30px) and the badge numeral;
 
 ### Focus Indicators
 
-- Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#176c7d`, dark `#3db8ab`) with a 2px offset. On the dark chapter head and the home hero (`.on-dark`) the ring is gold `#d7a342`.
+- Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#176c7d`, dark `#3db8ab`; in the editorial scope `#344c3d`, dark `#a8c2a9`: 8.39:1 on soft cream, 7.40:1 on parchment) with a 2px offset. On the dark control bar (`.on-dark`) the ring is gold, the lighter `#cdb67f` there.
 - The rule is unlayered in `globals.css`, so a utility such as `outline-none` cannot remove it; inputs also turn their border `#176c7d`.
 - Until 2026-11-19 buttons and links had only the browser's default ring, which was nearly invisible on the chapter head.
 - Ring contrast against what surrounds it (3:1 needed): teal `#176c7d` 5.40:1 on `#f5f2eb`, 6.04:1 on `#ffffff`, 5.17:1 on `#e2f0f3`; dark teal `#3db8ab` 7.28:1 on `#071b20`, 6.56:1 on `#0d252b`; gold `#d7a342` 4.02:1 on `#104f5b` (the weakest pair) and 7.40:1 on `#082026`; dark gold `#dfb85d` 4.87:1 and 8.96:1.
 
 ### Touch/Click Targets
 
-- Header controls: 40px round buttons
+- Header controls: 40px round buttons; header navigation links 44px high
 - Verse action buttons and page numbers: 36px to look at, 44px to tap -- an `::after` layer reaches past the edge (`after:-inset-1`, `after:-inset-1.5` where a 1px border sits inside)
-- Gold pill: 40px high on pages (10px + 20px line + 10px), 36px in panels
+- Gold and forest pills: 40px high on pages (10px + 20px line + 10px), 36px in panels
 - Font-size steppers (ع− ع+ A− A+): 32px to look at, 46px to tap (`after:-inset-2`)
 - Surah list rows: 44px or taller
 
@@ -572,11 +658,13 @@ Observed (all pages, both themes): `aria-label` (150), `aria-hidden` (84, decora
 - Home grid: 3 columns at 1024px -> 2 at 640px -> 1 below
 - Mushaf Arabic: 36px at 640px and up -> 32px below, line height 2.4 kept
 - Header: one row at 640px and up -> navigation moves to a second row below 640px
-- Chapter-head controls: one row at 1024px -> wrap onto two or three rows on phones
+- Control bar: one or two rows at 1024px -> wraps onto several rows on phones (the first verse is then below the first screen on a 390px phone; open)
+- Home hero: photo as the panel's background on the right at 1024px and up (on the left in right to left) -> a block beside the heading below 1024px, with the form and button under both (see Home Hero)
+- Header navigation: a centred text row at 640px and up -> a second row below 640px
 
 ### Image Behavior
 
-- The site has no photographs; the only images are the logo and icons (inline SVG), which scale with their container.
+- The only photograph is the home hero's mushaf (see Home Hero), a CSS background in two WebP sizes; the other images are the logo and icons (inline SVG), which scale with their container.
 - App icons for installing: 192px and 512px PNG, plus a full-bleed maskable 512px.
 - The link preview image, `public/og.png` (1200 by 630): the logo and the wordmark in cream on the hero gradient, the Bismillah in gold
   Amiri, a one-line tagline and the address. Drawn by `scripts/og-image.mjs`; redraw it with the icons if the brand changes.
@@ -629,6 +717,20 @@ The icons match the Lucide style (24px grid, 2px stroke, round caps). For new ic
 
 > **Warning:** Only the colours below are system tokens. Red on account deletion is not a palette colour; do not use it elsewhere.
 
+**Editorial scope (header, home, surah and mushaf pages; add the class `editorial`)**
+
+- Page: `#f5f2eb` (dark `#071b20`); parchment `#ede4d2` (dark `#202c25`)
+- Card and reading surface: `#f8f2e7` (dark `#27352c`)
+- Text: `#3e3428` (dark `#eee6d7`); secondary `#72685a` (dark `#b7ae9f`)
+- Border: `#d9cbb5` (dark `#435146`)
+- Forest (action, control bar): `#344c3d` (dark `#a8c2a9`)
+- Selected: `#e8e2d4` (dark `#344639`)
+- Gold (hairline, rings, active tab): `#b59a69` (dark `#c8ae79`; `#cdb67f` on the bar)
+- Control bar: `#344c3d` to `#2a4033`
+
+**Interface scope (Settings, My reading, About, Search, Privacy)**
+
+
 - Page: `#f5f2eb` (dark `#071b20`)
 - Card: `#ffffff` (dark `#0d252b`)
 - Text: `#274045` (dark `#e6eff0`)
@@ -661,6 +763,7 @@ Every prompt below satisfies:
 
 ### Iteration Guide
 
+0. Pick the scope first: a page in the editorial scope carries `editorial` and uses tokens only; the rest follow steps 1 to 8.
 1. Start every page on `#f5f2eb` and put content in `#ffffff` cards with a 1px `#e0e8e4` border and 16px radius.
 2. Choose the typeface by role: `Space Grotesk Variable` for names and numbers, `Plus Jakarta Sans Variable` for UI and translations, `Amiri` for Arabic.
 3. Make Arabic the largest text in any reading view: 36px with an 86.4px line, `translate="no"`.
@@ -669,3 +772,46 @@ Every prompt below satisfies:
 6. Add `transition: color, background-color, border-color 150ms cubic-bezier(0.4, 0, 0.2, 1)` to interactive elements and nothing else.
 7. Check dark mode by swapping the tokens: page `#071b20`, card `#0d252b`, text `#e6eff0`, teal `#3db8ab`.
 8. Keep the global keyboard ring (2px `#176c7d`, gold `#d7a342` inside `.on-dark`); never hide it with `outline-none` on a new control.
+
+## 14. Redesign Record and Open Work
+
+This section replaces the separate redesign document (`docs/REDESIGN.md`, removed 2026-11-24) so that design lives in one file.
+
+### Intent and boundaries
+
+A visual identity distinct from the familiar EQuran.id-style layout, without rebuilding the application or changing a reading workflow: a calm digital reading room with the Qur'an at the centre. It is a visual redesign, not a product or data-model change.
+
+- Do not change routes, query parameters, cookies, APIs, providers, selection IDs, user data, bookmarks, reading progress, audio, tafsir, search or sharing.
+- Never add a way to edit Qur'an text, translations or tafsir; content comes from the verified providers and their credit paths.
+- Keep all 25 interface languages, locale negotiation, right-to-left layout and the message catalogs; never hard-code a user-visible string.
+- Keep the reader's Arabic and Latin scales, the Arabic font choice (Amiri or KFGQPC), tajweed colours and the light and dark preference.
+- Keep About, Privacy and Terms one click from every page.
+- Use logical CSS properties and test a right-to-left locale.
+- Change fonts only after checking script coverage, licence, self-hosting, performance, Arabic shaping and the reader's font preference. The families did not change.
+
+### Decisions (owner)
+
+- 2026-11-24, direction: Editorial / Reading Experience, the line *QuranWeb -- A Quiet Place to Read*, the palette of section 2.
+- 2026-11-24: the first pass left the header alone; the owner then supplied a reference mockup with a new header and lifted that rule. The header's look changed (section 4); the behaviour of search, language, theme and account did not.
+- 2026-11-24: hero layouts chosen from mockups: desktop left to right and right to left, and phones with the mushaf beside the heading (never under the button). The photograph is not mirrored.
+- 2026-11-24: this file is the single source of truth for design.
+
+### Implemented
+
+- PR #139: the reading surface in the editorial palette; hooks on the reader and verse cards.
+- PR #140: the homepage composition (hero, verse of the day, the indexed surah list).
+- PR #142: the colour scope `.editorial`; the centred surah heading and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
+
+### Open work
+
+- Re-measure the redesigned surfaces with the project's Playwright (computed styles, light and dark) and refresh the frequencies and measured values in this file and in `docs/design-tokens.json`, which still holds the 2026-11-19 extraction plus an `editorial` group of tokens read from the source.
+- Check a right-to-left locale on the surah page and on `/mushaf/N`, a non-Latin locale (Chinese, Thai, Tamil, Malayalam, Hindi, Japanese) and the tablet layout in right to left; the Tafsir tab; the pages with sign-in on.
+- Bring Settings, My reading, About, Search and Privacy into the editorial scope, or decide to keep two palettes.
+- Contrast gap: the home page's own variable `--home-muted` is `#807565` (4.05:1 on soft cream) for the verse-of-the-day label, the surah meta line and the translation reference; change it to `#6b6152`.
+- On a 390px phone the control bar takes several rows and the first verse sits below the first screen.
+- Redraw `public/og.png` and re-take the README screenshots (English and Indonesian) once the design is approved.
+- The "Mushaf digital" tagline of the reference is not built (a new message in 25 catalogs).
+
+### Acceptance
+
+The redesign is done when the home page and the reading pages are visibly distinct from the previous look; nothing in the boundaries above changed; light and dark have intentional, readable contrast; desktop and phone have no horizontal overflow on long Arabic or translated text; Indonesian, English, one right-to-left and one non-Latin locale are checked; and Arabic font, scales, tajweed, anchors, audio, share, bookmark and the sidebar collapse still work.

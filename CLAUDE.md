@@ -289,7 +289,7 @@ language with its default translation and tafsir (section "Languages"): update t
   remove it with `outline-none`. Small round buttons keep their look and get a 44px hit area from an `::after` layer
   (`relative after:absolute after:-inset-1 after:rounded-full`; one step more when the button has a 1px border, because
   the layer is measured from inside it). Numbers use `tabular-nums` in the interface font, not monospace; small labels are
-  sentence case. `docs/DESIGN.md` describes the system: update it with any visible change.
+  sentence case. `docs/DESIGN.md` is the single source of truth for the design (there is no other design document; the redesign record and the open work are in its section 14): update it with any visible change.
 
 ### Long lists, the mushaf side panel and language defaults (2026-11-24, issues #125 to #128)
 
