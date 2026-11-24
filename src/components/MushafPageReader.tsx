@@ -204,8 +204,8 @@ export default function MushafPageReader({
         <span aria-hidden className="quran-reading__ornament" />
       </header>
 
-      <div className="quran-reading__bar on-dark">
-        <PlaybackModeSelect onDark />
+      <div className="quran-reading__chips">
+        <PlaybackModeSelect chip />
       </div>
 
       <div className="mt-4">

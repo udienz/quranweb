@@ -340,7 +340,7 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   primary colour (white text, dark text in dark mode), the other muted: "10 verses" and "Mushaf pages (604)"
 
 **Mushaf page (`/mushaf/N`)**
-- A 1200px column: the surah heading and a forest bar (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
+- A 1200px column: the surah heading and a chip for the end-of-surah mode (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
   page", the counter "42 / 604" with a 128px pill number box and a small "Go" pill, pill "Next page") above and below; on a phone the
   two pills share a row and the box has its own; one card holding each surah's part in the mushaf layout, a surah that starts here with a
   centred band (Arabic name in `Amiri` 30px, Latin name, meaning, verses, the Bismillah), one that goes on with a 12px muted name; the
@@ -368,7 +368,7 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - The heading sits on the parchment, centred: a line "2 · Medina · 286 verses" (13px muted, `tabular-nums`, sentence case), then the Latin name in `Space Grotesk` 600, `clamp(1.9rem, 4.5vw, 2.75rem)`, a 1px gold rule, and the Arabic name in `Amiri` (`clamp(2.25rem, 5vw, 3.25rem)`), both in forest; below them the surah's meaning in italic muted text, then a gold hairline with one small diamond (`quran-reading__ornament`; the only ornament)
 - Under it the play bar, then the chips (centred, wrapping: the tabs, then the lists, the mode and "Memorize"). The Memorize panel, when open, and the playing status ("Playing juz 3", the range being looped) sit in a forest bar (`quran-reading__bar`, radius 24px) under the chips
 - On a phone the heading stays one block and the vertical gold rule hides below 480px; the chips wrap onto several rows (the first verse is still below the first screen)
-- The mushaf page (`/mushaf/N`) has the same heading, with its end-of-surah mode in a forest bar and no play bar of its own (each surah on the page has its "Play the surah" button)
+- The mushaf page (`/mushaf/N`) has the same heading, with its end-of-surah mode as a chip under it and no play bar of its own (each surah on the page has its "Play the surah" button)
 - Use: top of every surah page and of the mushaf page ("Yasin", "Al-Baqarah")
 
 **Mushaf Block**
