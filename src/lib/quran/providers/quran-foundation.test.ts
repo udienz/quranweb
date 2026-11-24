@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { LOCALES } from "../../i18n/config";
+import { clearRemoteCache } from "../transport";
 import {
+  clearQuranFoundationTokens,
   createQuranFoundationTextProvider,
   htmlToText,
   QURAN_FOUNDATION_API_URL,
@@ -100,5 +102,88 @@ describe("Quran Foundation provider", () => {
         expect(e.source.attribution[ui]).toMatch(/Quran Foundation/);
       }
     }
+  });
+});
+
+describe("Quran Foundation Content API", () => {
+  const TOKEN = "https://oauth.test/oauth2/token";
+  const CONTENT = "https://content.test/content/api/v4";
+  const auth = { clientId: "client-1", clientSecret: "s3cret-value", tokenUrl: TOKEN, contentUrl: CONTENT };
+  const path = (surah: number) => `/tafsirs/160/by_chapter/${surah}?per_page=300`;
+
+  /** A fake token endpoint and Content API; `scopes` are the scopes the client holds, `valid` the tokens the API accepts. */
+  function server(opts: { scopes?: string[]; valid?: string[]; contentDown?: boolean } = {}) {
+    const scopes = opts.scopes ?? ["content.tafsirs.read"];
+    let issued = 0;
+    const calls: { url: string; init?: RequestInit }[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+        const url = String(input);
+        calls.push({ url, init });
+        if (url === TOKEN) {
+          const scope = new URLSearchParams(String(init?.body)).get("scope") ?? "";
+          if (!scopes.includes(scope)) return new Response('{"error":"invalid_scope"}', { status: 400 });
+          issued++;
+          return new Response(JSON.stringify({ access_token: `token-${issued}`, token_type: "bearer", expires_in: 3600, scope }));
+        }
+        if (url.startsWith(CONTENT)) {
+          const token = new Headers(init?.headers).get("x-auth-token") ?? "";
+          if (opts.contentDown) return new Response("", { status: 503 });
+          if (!(opts.valid ?? [`token-${issued}`]).includes(token)) return new Response("", { status: 401 });
+          return new Response(JSON.stringify(chapter(1, 1, [[1, "from the Content API"]])));
+        }
+        if (url.startsWith(BASE)) return new Response(JSON.stringify(chapter(1, 1, [[1, "from the v4 API"]])));
+        return new Response("", { status: 404 });
+      }),
+    );
+    return calls;
+  }
+  const provider = () => createQuranFoundationTextProvider({ baseUrl: BASE, auth });
+  afterEach(() => {
+    clearQuranFoundationTokens();
+    clearRemoteCache();
+    vi.restoreAllMocks();
+  });
+
+  it("asks for a token with HTTP Basic and the tafsir scope, then sends it with the client id", async () => {
+    const calls = server();
+    const text = await provider().text("urd-ibnkathir", 1);
+    expect(text.verses[0].text).toBe("from the Content API");
+    const [token, content] = calls;
+    expect(token.url).toBe(TOKEN);
+    expect(new Headers(token.init?.headers).get("authorization")).toBe(`Basic ${Buffer.from("client-1:s3cret-value").toString("base64")}`);
+    expect(String(token.init?.body)).toBe("grant_type=client_credentials&scope=content.tafsirs.read");
+    expect(content.url).toBe(`${CONTENT}${path(1)}`);
+    expect(new Headers(content.init?.headers).get("x-auth-token")).toBe("token-1");
+    expect(new Headers(content.init?.headers).get("x-client-id")).toBe("client-1");
+  });
+
+  it("falls back to the scope `content` for older credentials, and reuses the token", async () => {
+    const calls = server({ scopes: ["content"] });
+    await provider().text("urd-ibnkathir", 1);
+    clearRemoteCache();
+    await provider().text("urd-ibnkathir", 1);
+    const tokenCalls = calls.filter((c) => c.url === TOKEN);
+    expect(tokenCalls.map((c) => new URLSearchParams(String(c.init?.body)).get("scope"))).toEqual(["content.tafsirs.read", "content"]);
+  });
+
+  it("renews the token once when the API answers 401", async () => {
+    const calls = server({ valid: ["token-2"] });
+    expect((await provider().text("urd-ibnkathir", 1)).verses[0].text).toBe("from the Content API");
+    expect(calls.filter((c) => c.url === TOKEN)).toHaveLength(2);
+  });
+
+  it("reads the unauthenticated API when the Content API fails, and never logs the secret", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    server({ contentDown: true });
+    expect((await provider().text("urd-ibnkathir", 1)).verses[0].text).toBe("from the v4 API");
+    expect(JSON.stringify(log.mock.calls)).not.toContain("s3cret-value");
+  });
+
+  it("reads the unauthenticated API when the token is refused", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    server({ scopes: [] });
+    expect((await provider().text("urd-ibnkathir", 1)).verses[0].text).toBe("from the v4 API");
   });
 });

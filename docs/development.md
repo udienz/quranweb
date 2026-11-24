@@ -60,7 +60,7 @@ The app does not depend on any one API's format. Everything is mapped to an **ed
 | [AlQuran.cloud CDN](https://alquran.cloud/cdn) | audio only: 19 more reciters verse by verse (EveryAyah recordings), and a second address for the reciters EQuran.id also has | `QURAN_ISLAMIC_AUDIO_URL` (default `https://cdn.islamic.network`) |
 | [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) | more editions, text only: Arabic Uthmani Hafs, Indonesian tafsir (Quraish Shihab, Jalalayn), English (Yusuf Ali, Pickthall), Turkish (Diyanet İşleri) | `QURAN_FAWAZ_URL` (default jsDelivr with a raw GitHub fallback) |
 | [QuranEnc.com](https://quranenc.com/en/home/api) | the Kemenag translation with its footnotes, and *Al-Mukhtasar* tafsir in Indonesian, English and Turkish | `QURAN_QURANENC_URL` (default the live QuranEnc API; production reads a private copy) |
-| [Quran Foundation API](https://api-docs.quran.foundation) (Quran.com) | tafsir in languages the others lack: Tafsir Ibn Kathir in Urdu | none: always read live from `https://api.quran.com/api/v4`, one request per surah, kept in memory for a day |
+| [Quran Foundation API](https://api-docs.quran.foundation) (Quran.com) | tafsir in languages the others lack: Tafsir Ibn Kathir in Urdu | `QF_CLIENT_ID` and `QF_CLIENT_SECRET` (secrets; with them the Content API with an OAuth2 token, without them the unauthenticated `https://api.quran.com/api/v4`); always read live, one request per surah, kept in memory for a day |
 
 The variables intentionally have no `NEXT_PUBLIC_` prefix: they are read on the server at request time (pages are not prerendered at build), so they can be changed through the platform's environment variables or `docker run -e` without a rebuild. See `.env.example`.
 

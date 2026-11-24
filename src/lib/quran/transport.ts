@@ -21,11 +21,22 @@ const remoteCache = new Map<string, { expires: number; value: unknown }>();
 /** Empty the cache of remote answers (for tests). */
 export const clearRemoteCache = (): void => remoteCache.clear();
 
-async function loadRemote(location: string): Promise<unknown> {
+/** A remote answer that was not 2xx; `status` lets a caller tell, for example, an expired token (401) from an outage. */
+export class HttpError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "HttpError";
+  }
+}
+
+async function loadRemote(location: string, headers?: Record<string, string>): Promise<unknown> {
   const hit = remoteCache.get(location);
   if (hit && hit.expires > Date.now()) return hit.value;
-  const res = await fetch(location, { signal: AbortSignal.timeout(REMOTE_TIMEOUT_MS) });
-  if (!res.ok) throw new Error(`Failed to load ${location} (status ${res.status})`);
+  const res = await fetch(location, { headers, signal: AbortSignal.timeout(REMOTE_TIMEOUT_MS) });
+  if (!res.ok) throw new HttpError(`Failed to load ${location} (status ${res.status})`, res.status);
   const value: unknown = await res.json();
   remoteCache.delete(location);
   remoteCache.set(location, { expires: Date.now() + REMOTE_TTL_MS, value });
@@ -33,9 +44,12 @@ async function loadRemote(location: string): Promise<unknown> {
   return value;
 }
 
-/** Read and parse JSON from a URL or a file path. Errors name the location. */
-export async function loadJson(location: string): Promise<unknown> {
-  if (isRemote(location)) return loadRemote(location);
+/**
+ * Read and parse JSON from a URL or a file path. Errors name the location. `headers` go with a remote request only (an
+ * access token, for example); the cache is keyed by the location, so they must not change what the answer contains.
+ */
+export async function loadJson(location: string, headers?: Record<string, string>): Promise<unknown> {
+  if (isRemote(location)) return loadRemote(location, headers);
 
   const path = toFilePath(location);
   let text: string;

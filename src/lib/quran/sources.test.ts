@@ -257,3 +257,22 @@ describe("the QuranEnc provider in the registry", () => {
     expect(filled.textProviders.find((p) => p.type === "fawazahmed0")?.baseUrl).toBe("/data/quran-api");
   });
 });
+
+describe("the Quran Foundation provider in the registry", () => {
+  const qf = (config: ReturnType<typeof applyEnv>) => config.textProviders.find((p) => p.type === "quran-foundation");
+
+  it("takes the Content API credentials from QF_CLIENT_ID and QF_CLIENT_SECRET, only when both are set", () => {
+    expect(qf(applyEnv({ ...DEFAULT_SOURCES }, { QF_CLIENT_ID: " id ", QF_CLIENT_SECRET: " secret " }))).toMatchObject({
+      auth: { clientId: "id", clientSecret: "secret" },
+    });
+    expect(qf(applyEnv({ ...DEFAULT_SOURCES }, { QF_CLIENT_ID: "id" }))?.auth).toBeUndefined();
+    expect(qf(applyEnv({ ...DEFAULT_SOURCES }, { QF_CLIENT_ID: "id", QF_CLIENT_SECRET: "  " }))?.auth).toBeUndefined();
+    expect(qf(applyEnv({ ...DEFAULT_SOURCES }, { QURAN_FAWAZ_URL: "/data/quran-api" }))?.baseUrl).toBeUndefined();
+  });
+
+  it("refuses credentials in a configuration file", () => {
+    const raw = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
+    raw.textProviders = [...raw.textProviders, { type: "quran-foundation", auth: { clientId: "x", clientSecret: "y" } }];
+    expect(() => parseSourceConfig(raw)).toThrow(/auth/);
+  });
+});

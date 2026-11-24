@@ -55,6 +55,24 @@ if sudo test -f "$ENV_FILE"; then
   DATA_ARGS+=(--env-file "$ENV_FILE")
 fi
 
+# BEGIN quran-foundation
+# Content API credentials of our registered Quran Foundation app (the GitHub secrets QF_CLIENT_ID and QF_CLIENT_SECRET).
+# The workflows put them base64-encoded at the top of this script on stdin (QF_CLIENT_ID_B64, QF_CLIENT_SECRET_B64), so they
+# never appear on a command line (`ps`). They go into an env file readable by the deploy user only, given to docker run after
+# the file above (so they win), and the file is removed when this script ends. Without both, the app reads the
+# unauthenticated Quran Foundation API instead.
+QF_ENV_FILE=""
+qf_id="$(decode_b64 "${QF_CLIENT_ID_B64:-}")"
+qf_secret="$(decode_b64 "${QF_CLIENT_SECRET_B64:-}")"
+if [ -n "$qf_id" ] && [ -n "$qf_secret" ]; then
+  QF_ENV_FILE="$(umask 077 && mktemp)"
+  trap 'rm -f "$QF_ENV_FILE"' EXIT
+  printf 'QF_CLIENT_ID=%s\nQF_CLIENT_SECRET=%s\n' "$qf_id" "$qf_secret" > "$QF_ENV_FILE"
+  DATA_ARGS+=(--env-file "$QF_ENV_FILE")
+fi
+unset qf_id qf_secret
+# END quran-foundation
+
 NAME="quranweb-$ENVIRONMENT"
 IMAGE="quranweb:$ENVIRONMENT"
 DIR="${DEPLOY_DIR:-$HOME/deploy/$NAME}"

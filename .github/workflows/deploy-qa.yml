@@ -44,10 +44,18 @@ jobs:
           # wins, a secret is the fallback (an empty variable is falsy, so `||` moves on to the secret).
           PRIVACY_CONTACT_NAME: ${{ vars.PRIVACY_CONTACT_NAME || secrets.PRIVACY_CONTACT_NAME }}
           PRIVACY_CONTACT_EMAIL: ${{ vars.PRIVACY_CONTACT_EMAIL || secrets.PRIVACY_CONTACT_EMAIL }}
+          # Content API credentials of our Quran Foundation app. Secret, so they go on stdin, not on the ssh command line.
+          QF_CLIENT_ID: ${{ secrets.QF_CLIENT_ID }}
+          QF_CLIENT_SECRET: ${{ secrets.QF_CLIENT_SECRET }}
         run: |
           # Sent base64-encoded so no character in a name can change the ssh command line (see scripts/deploy.sh).
           name_b64="$(printf '%s' "$PRIVACY_CONTACT_NAME" | base64 -w0)"
           email_b64="$(printf '%s' "$PRIVACY_CONTACT_EMAIL" | base64 -w0)"
-          ssh -i ~/.ssh/id_deploy -p "${{ secrets.QA_SSH_PORT }}" \
+          qf_id_b64="$(printf '%s' "$QF_CLIENT_ID" | base64 -w0)"
+          qf_secret_b64="$(printf '%s' "$QF_CLIENT_SECRET" | base64 -w0)"
+          [ -n "$qf_secret_b64" ] && echo "::add-mask::$qf_secret_b64"
+          # The credentials are prepended to the script, which bash reads from stdin (see scripts/deploy.sh).
+          { printf 'QF_CLIENT_ID_B64=%s\nQF_CLIENT_SECRET_B64=%s\n' "$qf_id_b64" "$qf_secret_b64"; cat scripts/deploy.sh; } |
+            ssh -i ~/.ssh/id_deploy -p "${{ secrets.QA_SSH_PORT }}" \
             "${{ secrets.QA_SSH_USER }}@${{ secrets.QA_SSH_HOST }}" \
-            "PRIVACY_CONTACT_NAME_B64=$name_b64 PRIVACY_CONTACT_EMAIL_B64=$email_b64 bash -s -- qa ${{ github.sha }}" < scripts/deploy.sh
+            "PRIVACY_CONTACT_NAME_B64=$name_b64 PRIVACY_CONTACT_EMAIL_B64=$email_b64 bash -s -- qa ${{ github.sha }}"
