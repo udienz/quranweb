@@ -50,11 +50,15 @@ export default async function Home() {
   return (
     <main className="editorial home-editorial mx-auto max-w-[1200px] px-4 pb-16 pt-7 sm:px-6 lg:pt-10">
       <section className="home-editorial__hero mb-8 grid items-center overflow-hidden rounded-[1.75rem] px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12">
-        <div className="home-editorial__intro relative z-10 max-w-[34rem]">
-          <p className="home-editorial__eyebrow mb-4 text-[11px] font-bold uppercase tracking-[0.24em]">{t("meta.title")}</p>
-          <h1 className="max-w-2xl font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-[3.25rem]">{t("home.title")}</h1>
-          <p className="home-editorial__subtitle mt-3 max-w-xl text-sm leading-7 sm:text-base">{t("home.subtitle")}</p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+        <div className="home-editorial__intro relative z-10 lg:max-w-[34rem]">
+          <div className="home-editorial__top">
+            <div className="home-editorial__lead">
+              <p className="home-editorial__eyebrow mb-4 text-[11px] font-bold uppercase tracking-[0.24em]">{t("meta.title")}</p>
+              <h1 className="max-w-2xl font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-[3.25rem]">{t("home.title")}</h1>
+              <p className="home-editorial__subtitle mt-3 max-w-xl text-sm leading-7 sm:text-base">{t("home.subtitle")}</p>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap items-center gap-3 lg:mt-7">
             <form action="/search" method="get" role="search" className="home-editorial__search flex w-full max-w-[28rem] gap-2">
               <input
                 type="search"

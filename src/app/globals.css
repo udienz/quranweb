@@ -362,52 +362,76 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
 .dark .home-editorial__start { color: #1d2d23; background: #d0ad62; }
 .dark .home-editorial__start:hover { background: #dfc17e; }
 
-/* Stacked hero (phones and tablets; and every width in right-to-left, where the text is on the right, over the photo's mushaf,
-   and the photo must not be mirrored: its Arabic would read backwards). The text is on top and the photo is a strip along the
-   bottom, faded into the paper on all sides so no edge shows at any width. */
-@media (max-width: 1023px) {
-  .home-editorial__hero,
-  .dark .home-editorial__hero {
-    min-height: 0;
-    padding-bottom: 18rem;
-    background-image: none;
-  }
-  .home-editorial__hero::before {
-    position: absolute;
-    z-index: -1;
-    inset-inline: 0;
-    bottom: 0;
-    height: 17rem;
-    content: "";
-    background: url("/images/quranweb-hero-mushaf-sm.webp") 100% 78% / cover no-repeat;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%), linear-gradient(to right, transparent, #000 10%, #000 94%, transparent);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to bottom, transparent, #000 40%), linear-gradient(to right, transparent, #000 10%, #000 94%, transparent);
-    mask-composite: intersect;
+/* The photograph's mushaf sits beside the heading at every width, never under the button. The photo is never mirrored (the
+   Arabic on its pages would read backwards), so in right-to-left it is placed on the other side instead, with the mushaf
+   facing the text.
+   - Desktop, left to right: the photo is the hero's background and fades into the paper on the left (rules above).
+   - Desktop, right to left: the photo is a block on the left two thirds, fading into the paper on its right edge.
+   - Under 1024 px: the photo is a block beside the heading and description, as tall as they are and bleeding to the hero's edge;
+     the search form and the button sit under both, on plain paper. */
+.home-editorial__hero {
+  --hero-px: 1.5rem;
+  --hero-py: 2rem;
+}
+@media (min-width: 640px) {
+  .home-editorial__hero {
+    --hero-px: 2.5rem;
+    --hero-py: 2.5rem;
   }
 }
 @media (min-width: 1024px) {
   html[dir="rtl"] .home-editorial__hero,
   html[dir="rtl"].dark .home-editorial__hero {
-    min-height: 0;
-    padding-bottom: 18rem;
     background-image: none;
   }
   html[dir="rtl"] .home-editorial__hero::before {
     position: absolute;
     z-index: -1;
-    inset-inline: 0;
-    bottom: 0;
-    height: 17rem;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 66%;
     content: "";
-    background: url("/images/quranweb-hero-mushaf-sm.webp") 100% 78% / cover no-repeat;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%), linear-gradient(to right, transparent, #000 10%, #000 94%, transparent);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to bottom, transparent, #000 40%), linear-gradient(to right, transparent, #000 10%, #000 94%, transparent);
-    mask-composite: intersect;
+    background: url("/images/quranweb-hero-mushaf.webp") 100% 65% / cover no-repeat;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 16%);
+    mask-image: linear-gradient(to left, transparent, #000 16%);
   }
 }
-.dark .home-editorial__hero::before { filter: brightness(0.62); }
+@media (max-width: 1023px) {
+  .home-editorial__hero,
+  .dark .home-editorial__hero {
+    min-height: 0;
+    background-image: none;
+  }
+  .home-editorial__top {
+    position: relative;
+    min-height: 14.5rem;
+  }
+  .home-editorial__lead { max-width: 56%; }
+  .home-editorial__top::before {
+    position: absolute;
+    z-index: -1;
+    top: calc(var(--hero-py) * -1);
+    inset-inline-end: calc(var(--hero-px) * -1);
+    width: 50%;
+    height: calc(100% + var(--hero-py));
+    content: "";
+    background: url("/images/quranweb-hero-mushaf-sm.webp") 100% 50% / 430px auto no-repeat;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    mask-composite: intersect;
+  }
+  html[dir="rtl"] .home-editorial__top::before {
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    mask-image: linear-gradient(to left, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablets have room: the photo fills its block, lantern and window included. */
+  .home-editorial__top::before { background-size: cover; }
+}
+.dark .home-editorial__hero::before,
+.dark .home-editorial__top::before { filter: brightness(0.62); }
 .dark .home-editorial__daily,
 .dark .home-editorial__surah-search { color: var(--home-ink); background: var(--home-cream); border-color: #435247; }
 .dark .home-editorial__daily-label a,
