@@ -108,6 +108,9 @@ for i in $(seq 1 20); do
   if [ "$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$PORT/")" = "200" ]; then
     echo "deploy $ENVIRONMENT OK: $REF"
     sudo docker image prune -f >/dev/null
+    # Every build leaves its builder stage (about 700 MB) as build cache, and `image prune` does not touch it: 14 GB filled
+    # the disk on 2026-11-24 and the deploy failed. Keep the newest 3 GB so the next build still reuses `npm ci`.
+    sudo docker builder prune -f --keep-storage 3GB >/dev/null || true
     exit 0
   fi
   sleep 2
