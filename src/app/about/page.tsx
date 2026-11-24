@@ -104,6 +104,21 @@ export default async function AboutPage() {
             fawazahmed0/quran-api
           </a>
         </p>
+        {/* The tajweed text and the rukus (a private copy of QUL files) and the KFGQPC font (issues #130 to #132). */}
+        <p className="mt-3 leading-relaxed">
+          {t("about.tajweedCredit")}{" "}
+          <a href="https://qurancomplex.gov.sa/" className="text-primary hover:underline" rel="noopener">
+            qurancomplex.gov.sa
+          </a>{" "}
+          ·{" "}
+          <a href="https://qul.tarteel.ai/" className="text-primary hover:underline" rel="noopener">
+            Quranic Universal Library
+          </a>{" "}
+          ·{" "}
+          <a href="/fonts/UthmanicHafs_V22.LICENSE.txt" className="text-primary hover:underline">
+            {t("about.fontLicence")}
+          </a>
+        </p>
       </section>
 
       <section className="mb-8">

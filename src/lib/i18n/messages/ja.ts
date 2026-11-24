@@ -173,6 +173,8 @@ export const ja: Messages = {
     reciters: "朗誦（音声）",
     columns: { name: "名前", language: "言語", credit: "出典と著者", licence: "ライセンス" },
     unknownLicence: "出典を参照",
+    tajweedCredit: "タジュウィードの色はファハド国王マディーナ・クルアーン印刷所の QPC Hafs テキストを、ルクーの印はそのルクー一覧を使っています。どちらも Quranic Universal Library から取得しています。KFGQPC HAFS Uthmanic Script フォントは同印刷所のもので、ライセンスに従い改変せずに提供しています。",
+    fontLicence: "フォントのライセンス",
     providersTitle: "データの出どころ",
     providers:
       "本文は 3 つの出典から来ています：EQuran.id の API、fawazahmed0/quran-api のコレクション、QuranEnc.com。このサイトは EQuran.id と fawazahmed0 の独自のコピーを持ち、そこから読み込みます。これらのコピーはミラーとして誰にでも公開されています。新しい翻訳とタフスィールは QuranEnc.com から直接読み込みます。朗誦は EQuran.id と AlQuran.cloud の音声 CDN から来ています。ウルドゥー語のイブン・カスィール注釈は Quran Foundation の API（Quran.com）から直接読み込まれます。",
@@ -254,6 +256,9 @@ export const ja: Messages = {
     goToPage: "ページへ移動",
     go: "移動",
   },
+  marks: {
+    ruku: "ルクーの終わり",
+  },
   verse: {
     play: "音声を再生",
     pause: "音声を一時停止",
@@ -301,7 +306,7 @@ export const ja: Messages = {
     savedInBrowser: "選択はこのブラウザに保存されます。",
     useLanguageDefaults: "{language}の翻訳とタフスィールを使う",
     allSettings: "すべての設定",
-    show: { arabic: "アラビア語の本文", transliteration: "翻字", translation: "翻訳" },
+    show: { arabic: "アラビア語の本文", transliteration: "翻字", translation: "翻訳", tajweed: "タジュウィードの色", marks: "ルクーの印 (ع)" },
     languages: { ar: "アラビア語", id: "インドネシア語", en: "英語", tr: "トルコ語" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const ja: Messages = {
     themeDark: "ダーク",
     themeAuto: "自動",
     arabicSize: "アラビア語の文字サイズ",
+    arabicFont: "アラビア文字フォント",
     latinSize: "ラテン文字のサイズ",
     smaller: "小さく：{name}",
     larger: "大きく：{name}",

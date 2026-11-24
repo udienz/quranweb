@@ -166,6 +166,8 @@ export const id: Messages = {
     reciters: "Murotal (audio)",
     columns: { name: "Nama", language: "Bahasa", credit: "Sumber dan kredit", licence: "Lisensi" },
     unknownLicence: "Lihat sumbernya",
+    tajweedCredit: "Warna tajwid memakai teks QPC Hafs dari Kompleks Percetakan Al-Qur'an Raja Fahd, dan tanda ruku memakai daftar rukunya, keduanya dari Quranic Universal Library. Font KFGQPC HAFS Uthmanic Script adalah milik Kompleks itu sendiri, dipakai tanpa diubah sesuai lisensinya.",
+    fontLicence: "Lisensi font",
     providersTitle: "Dari mana data diambil",
     providers:
       "Teks berasal dari tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api, dan QuranEnc.com. Situs ini menyimpan salinan masing-masing dan membacanya dari sana; salinan EQuran.id dan fawazahmed0 juga terbuka untuk siapa saja sebagai mirror. Murotal berasal dari EQuran.id dan dari CDN audio AlQuran.cloud. Tafsir Ibnu Katsir berbahasa Urdu dibaca langsung dari API Quran Foundation (Quran.com).",
@@ -252,6 +254,9 @@ export const id: Messages = {
     goToPage: "Ke halaman",
     go: "Buka",
   },
+  marks: {
+    ruku: "Akhir ruku",
+  },
   verse: {
     play: "Putar audio",
     pause: "Jeda audio",
@@ -299,7 +304,7 @@ export const id: Messages = {
     savedInBrowser: "Pilihan disimpan di browser ini.",
     useLanguageDefaults: "Gunakan terjemahan dan tafsir dalam {language}",
     allSettings: "Semua pengaturan",
-    show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan" },
+    show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan", tajweed: "Warna tajwid", marks: "Tanda ruku (ع)" },
     languages: { ar: "Arab", id: "Indonesia", en: "Inggris", tr: "Turki" },
   },
   settingsPage: {
@@ -346,6 +351,7 @@ export const id: Messages = {
     themeDark: "Gelap",
     themeAuto: "Otomatis",
     arabicSize: "Ukuran huruf Arab",
+    arabicFont: "Font Arab",
     latinSize: "Ukuran huruf Latin",
     smaller: "Perkecil: {name}",
     larger: "Perbesar: {name}",

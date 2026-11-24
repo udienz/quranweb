@@ -10,6 +10,7 @@ import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
 import { usePrefs } from "./PrefsProvider";
 import Footnotes from "./Footnotes";
+import ArabicText, { RukuMark } from "./ArabicText";
 import ShareMenu from "./ShareMenu";
 
 const iconProps = {
@@ -203,7 +204,8 @@ export default function VerseCard({
         <>
           {prefs.arabic && (
             <p dir="rtl" lang="ar" translate="no" {...hiding.props("arabic", n, showLabel)} className="font-arabic mb-4 text-right text-[length:calc(2.25rem*var(--arabic-scale,1))] leading-[2.4] sm:text-[length:calc(2.6rem*var(--arabic-scale,1))]">
-              {verse.arabic}
+              <ArabicText verse={verse} />
+              <RukuMark verse={verse} />
             </p>
           )}
           {prefs.transliteration && verse.transliteration && (
@@ -225,7 +227,7 @@ export default function VerseCard({
       ) : (
         <>
           <p dir="rtl" lang="ar" translate="no" className="font-arabic mb-4 text-right text-[length:calc(1.5rem*var(--arabic-scale,1))] leading-loose text-muted-foreground">
-            {verse.arabic}
+            <ArabicText verse={verse} />
           </p>
           {verse.tafsirSharedWith ? (
             // One passage explains several verses and sits on the first of them (Tafsir Ibn Kathir): point there.

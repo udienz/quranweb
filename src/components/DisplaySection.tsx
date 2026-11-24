@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/client";
-import { FontSizeControls, ThemeChoice } from "./DisplayControls";
+import { ArabicFontChoice, FontSizeControls, ThemeChoice } from "./DisplayControls";
 import { LanguageSelect } from "./LanguageMenu";
 
 /** The Display section of the settings page: interface language, theme and text size. */
@@ -14,6 +14,7 @@ export default function DisplaySection() {
         <LanguageSelect />
         <ThemeChoice />
         <FontSizeControls />
+        <ArabicFontChoice />
         <p className="text-xs text-muted-foreground">{t("display.preview")}</p>
       </div>
     </section>

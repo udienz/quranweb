@@ -172,6 +172,8 @@ export const ur: Messages = {
     reciters: "تلاوتیں (آڈیو)",
     columns: { name: "نام", language: "زبان", credit: "ذریعہ اور اعتراف", licence: "لائسنس" },
     unknownLicence: "ذریعہ دیکھیں",
+    tajweedCredit: "تجوید کے رنگ شاہ فہد قرآن پرنٹنگ کمپلیکس کے QPC Hafs متن سے، اور رکوع کے نشانات اس کی رکوع کی فہرست سے ہیں، دونوں Quranic Universal Library سے۔ KFGQPC HAFS Uthmanic Script فونٹ کمپلیکس ہی کا ہے، جو اس کے لائسنس کے مطابق بغیر تبدیلی کے دیا گیا ہے۔",
+    fontLicence: "فونٹ کا لائسنس",
     providersTitle: "ڈیٹا کہاں سے لیا جاتا ہے",
     providers:
       "متن تین ذرائع سے آتا ہے: EQuran.id API، fawazahmed0/quran-api مجموعہ اور QuranEnc.com۔ یہ سائٹ ہر ایک کی اپنی نقل رکھتی ہے اور اسی سے پڑھتی ہے؛ EQuran.id اور fawazahmed0 کی نقول آئینے کے طور پر سب کے لیے کھلی بھی ہیں۔ تلاوتیں EQuran.id اور AlQuran.cloud کے آڈیو CDN سے آتی ہیں۔ اردو تفسیر ابنِ کثیر براہِ راست Quran Foundation API (Quran.com) سے پڑھی جاتی ہے۔",
@@ -253,6 +255,9 @@ export const ur: Messages = {
     goToPage: "صفحے پر جائیں",
     go: "جائیں",
   },
+  marks: {
+    ruku: "رکوع کا اختتام",
+  },
   verse: {
     play: "آڈیو چلائیں",
     pause: "آڈیو روکیں",
@@ -300,7 +305,7 @@ export const ur: Messages = {
     savedInBrowser: "آپ کے انتخاب اس براؤزر میں محفوظ ہیں۔",
     useLanguageDefaults: "{language} میں ترجمہ اور تفسیر استعمال کریں",
     allSettings: "تمام ترتیبات",
-    show: { arabic: "عربی متن", transliteration: "رومن نقل حرفی", translation: "ترجمہ" },
+    show: { arabic: "عربی متن", transliteration: "رومن نقل حرفی", translation: "ترجمہ", tajweed: "تجوید کے رنگ", marks: "رکوع کے نشانات (ع)" },
     languages: { ar: "عربی", id: "انڈونیشیائی", en: "انگریزی", tr: "ترکی" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const ur: Messages = {
     themeDark: "تاریک",
     themeAuto: "خودکار",
     arabicSize: "عربی متن کا سائز",
+    arabicFont: "عربی فونٹ",
     latinSize: "لاطینی متن کا سائز",
     smaller: "چھوٹا: {name}",
     larger: "بڑا: {name}",

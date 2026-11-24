@@ -173,6 +173,8 @@ export const vi: Messages = {
     reciters: "Đọc kinh (âm thanh)",
     columns: { name: "Tên", language: "Ngôn ngữ", credit: "Nguồn và tác giả", licence: "Giấy phép" },
     unknownLicence: "Xem nguồn",
+    tajweedCredit: "Màu tajwid dùng văn bản QPC Hafs của Trung tâm In Kinh Qur'an Vua Fahd, và dấu ruku dùng danh sách ruku của trung tâm, cả hai lấy từ Quranic Universal Library. Phông chữ KFGQPC HAFS Uthmanic Script thuộc về trung tâm, được cung cấp nguyên vẹn theo giấy phép của nó.",
+    fontLicence: "Giấy phép phông chữ",
     providersTitle: "Dữ liệu đến từ đâu",
     providers:
       "Văn bản đến từ ba nguồn: API của EQuran.id, bộ sưu tập fawazahmed0/quran-api và QuranEnc.com. Trang này giữ bản sao riêng của EQuran.id và fawazahmed0 và đọc từ đó; các bản sao này cũng mở cho mọi người như một bản phản chiếu. Các bản dịch và tafsir mới hơn được đọc trực tiếp từ QuranEnc.com. Âm thanh đọc kinh đến từ EQuran.id và CDN âm thanh của AlQuran.cloud. Tafsir Ibn Kathir tiếng Urdu được đọc trực tiếp từ API của Quran Foundation (Quran.com).",
@@ -254,6 +256,9 @@ export const vi: Messages = {
     goToPage: "Đến trang",
     go: "Đi",
   },
+  marks: {
+    ruku: "Cuối một ruku",
+  },
   verse: {
     play: "Phát âm thanh",
     pause: "Tạm dừng âm thanh",
@@ -301,7 +306,7 @@ export const vi: Messages = {
     savedInBrowser: "Lựa chọn của bạn được lưu trong trình duyệt này.",
     useLanguageDefaults: "Dùng bản dịch và tafsir bằng {language}",
     allSettings: "Tất cả cài đặt",
-    show: { arabic: "Văn bản tiếng Ả Rập", transliteration: "Phiên âm", translation: "Bản dịch" },
+    show: { arabic: "Văn bản tiếng Ả Rập", transliteration: "Phiên âm", translation: "Bản dịch", tajweed: "Màu tajwid", marks: "Dấu ruku (ع)" },
     languages: { ar: "Tiếng Ả Rập", id: "Tiếng Indonesia", en: "Tiếng Anh", tr: "Tiếng Thổ Nhĩ Kỳ" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const vi: Messages = {
     themeDark: "Tối",
     themeAuto: "Tự động",
     arabicSize: "Cỡ chữ tiếng Ả Rập",
+    arabicFont: "Phông chữ Ả Rập",
     latinSize: "Cỡ chữ Latinh",
     smaller: "Nhỏ hơn: {name}",
     larger: "Lớn hơn: {name}",

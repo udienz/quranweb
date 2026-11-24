@@ -173,6 +173,8 @@ export const ru: Messages = {
     reciters: "Чтение (аудио)",
     columns: { name: "Название", language: "Язык", credit: "Источник и авторство", licence: "Лицензия" },
     unknownLicence: "См. источник",
+    tajweedCredit: "Цвета таджвида используют текст QPC Hafs Комплекса короля Фахда по печати Корана, а знаки руку — его список руку; оба взяты из Quranic Universal Library. Шрифт KFGQPC HAFS Uthmanic Script принадлежит Комплексу и используется без изменений по его лицензии.",
+    fontLicence: "Лицензия шрифта",
     providersTitle: "Откуда берутся данные",
     providers:
       "Текст берётся из трёх источников: API EQuran.id, коллекции fawazahmed0/quran-api и QuranEnc.com. Сайт хранит собственную копию каждого и читает из неё; копии EQuran.id и fawazahmed0 также открыты для всех как зеркало. Чтение берётся с EQuran.id и из аудио-CDN AlQuran.cloud. Тафсир Ибн Касира на урду загружается напрямую из API Quran Foundation (Quran.com).",
@@ -254,6 +256,9 @@ export const ru: Messages = {
     goToPage: "Перейти к странице",
     go: "Перейти",
   },
+  marks: {
+    ruku: "Конец руку",
+  },
   verse: {
     play: "Слушать",
     pause: "Пауза",
@@ -301,7 +306,7 @@ export const ru: Messages = {
     savedInBrowser: "Ваш выбор сохраняется в этом браузере.",
     useLanguageDefaults: "Использовать перевод и тафсир на языке: {language}",
     allSettings: "Все настройки",
-    show: { arabic: "Арабский текст", transliteration: "Транслитерация", translation: "Перевод" },
+    show: { arabic: "Арабский текст", transliteration: "Транслитерация", translation: "Перевод", tajweed: "Цвета таджвида", marks: "Знаки руку (ع)" },
     languages: { ar: "Арабский", id: "Индонезийский", en: "Английский", tr: "Турецкий" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const ru: Messages = {
     themeDark: "Тёмная",
     themeAuto: "Авто",
     arabicSize: "Размер арабского текста",
+    arabicFont: "Арабский шрифт",
     latinSize: "Размер латинского текста",
     smaller: "Меньше: {name}",
     larger: "Больше: {name}",

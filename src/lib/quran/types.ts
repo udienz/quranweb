@@ -72,6 +72,16 @@ export interface JuzRef {
   end: VerseRef;
 }
 
+/** One ruku: the first and the last verse of a section of a surah (the Indo-Pak mushaf marks its end with ع). */
+export interface RukuRef {
+  ruku: number;
+  start: VerseRef;
+  end: VerseRef;
+}
+
+/** A run of the tajweed text (QPC Hafs, from QUL): its letters, and the tajweed rule they show, if any. */
+export type TajweedRun = [text: string] | [text: string, rule: string];
+
 /** One of the 604 pages of the printed Madinah mushaf: the first and the last verse (a page can span surahs). */
 export interface MushafPageRef {
   page: number;
@@ -113,6 +123,10 @@ export interface VerseView {
   tafsir: string | null;
   /** The verse whose tafsir passage also explains this one (then `tafsir` is empty); absent when it has its own. */
   tafsirSharedWith?: number;
+  /** The verse in the QPC Hafs text with its tajweed marks, shown instead of `arabic` while tajweed colours are on. */
+  tajweed?: TajweedRun[];
+  /** The last verse of a ruku (ع after it). */
+  rukuEnd?: boolean;
   /** Audio URLs in priority order; the first one is tried first. */
   audio: string[];
   /** The same URLs, smallest files first, for data-saver mode; only present when that order differs from `audio`. */

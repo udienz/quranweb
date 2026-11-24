@@ -260,6 +260,12 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Options: background `hsl(192 64% 9%)`, white text
 - Use: "Ayat...", "Juz...", "Berhenti di akhir"
 
+**Tajweed colours (`tj-<rule>` classes, `globals.css`)**
+- One palette per theme, the usual tajweed colours made darker (light) or lighter (dark) so each keeps 3:1 against the card
+  and the page at the Arabic text's size: silent letters grey (#8a8a8a / #9aa7aa), the kinds of madd blue, qalqalah red,
+  ikhfa purple, idgham green, iqlab light blue, ghunnah orange.
+- The ruku mark ع is gold, smaller and raised, after the verse; the ۩ of a sajdah is part of the text itself.
+
 **Searchable list (`SearchableSelect`, more than 10 options)**
 - Closed: looks like the select it replaces (the same classes, light or dark), with a chevron; the value is truncated.
 - Open: a card under it (`bg-card`, 1px border, radius 12px, `shadow-lg`, at least 256px wide) with a search field on top

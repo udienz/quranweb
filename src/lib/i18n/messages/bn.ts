@@ -172,6 +172,8 @@ export const bn: Messages = {
     reciters: "তিলাওয়াত (অডিও)",
     columns: { name: "নাম", language: "ভাষা", credit: "উৎস ও কৃতিত্ব", licence: "লাইসেন্স" },
     unknownLicence: "উৎস দেখুন",
+    tajweedCredit: "তাজবিদের রং বাদশাহ ফাহাদ কুরআন মুদ্রণ কমপ্লেক্সের QPC Hafs পাঠ ব্যবহার করে, আর রুকুর চিহ্ন তার রুকুর তালিকা; দুটোই Quranic Universal Library থেকে। KFGQPC HAFS Uthmanic Script ফন্টটি কমপ্লেক্সেরই, তার লাইসেন্স অনুযায়ী অপরিবর্তিত রূপে দেওয়া হয়েছে।",
+    fontLicence: "ফন্টের লাইসেন্স",
     providersTitle: "ডেটা কোথা থেকে আনা হয়",
     providers:
       "পাঠ তিনটি উৎস থেকে আসে: EQuran.id API, fawazahmed0/quran-api সংগ্রহ এবং QuranEnc.com। এই সাইট প্রতিটির নিজস্ব কপি রাখে এবং সেখান থেকে পড়ে; EQuran.id ও fawazahmed0-এর কপি মিরর হিসেবে সবার জন্য উন্মুক্তও। তিলাওয়াত আসে EQuran.id এবং AlQuran.cloud-এর অডিও CDN থেকে। উর্দু তাফসির ইবনে কাসির সরাসরি Quran Foundation API (Quran.com) থেকে পড়া হয়।",
@@ -253,6 +255,9 @@ export const bn: Messages = {
     goToPage: "পৃষ্ঠায় যান",
     go: "যান",
   },
+  marks: {
+    ruku: "রুকুর শেষ",
+  },
   verse: {
     play: "অডিও চালান",
     pause: "অডিও থামান",
@@ -300,7 +305,7 @@ export const bn: Messages = {
     savedInBrowser: "আপনার পছন্দগুলো এই ব্রাউজারে রাখা হয়।",
     useLanguageDefaults: "{language} ভাষার অনুবাদ ও তাফসির ব্যবহার করুন",
     allSettings: "সব সেটিংস",
-    show: { arabic: "আরবি পাঠ", transliteration: "প্রতিবর্ণীকরণ", translation: "অনুবাদ" },
+    show: { arabic: "আরবি পাঠ", transliteration: "প্রতিবর্ণীকরণ", translation: "অনুবাদ", tajweed: "তাজবিদের রং", marks: "রুকুর চিহ্ন (ع)" },
     languages: { ar: "আরবি", id: "ইন্দোনেশীয়", en: "ইংরেজি", tr: "তুর্কি" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const bn: Messages = {
     themeDark: "ডার্ক",
     themeAuto: "স্বয়ংক্রিয়",
     arabicSize: "আরবি লেখার আকার",
+    arabicFont: "আরবি ফন্ট",
     latinSize: "লাতিন লেখার আকার",
     smaller: "ছোট: {name}",
     larger: "বড়: {name}",

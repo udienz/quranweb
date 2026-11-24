@@ -7,7 +7,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import type { Locale } from "../i18n/config";
-import type { FontSize, Theme } from "../display";
+import type { ArabicFont, FontSize, Theme } from "../display";
 import type { Layout } from "../layout";
 import type { Paging } from "../paging";
 import type { PlaybackMode } from "../playback";
@@ -29,6 +29,7 @@ import {
   setPagingChoice,
   setThemeChoice,
   setFontSizeChoice,
+  setArabicFontChoice,
   setPlaybackModeChoice,
   setSelectionChoice,
   createCollection,
@@ -149,6 +150,7 @@ export const userDataActions = {
   choosePaging: (paging: Paging) => update((d) => setPagingChoice(d, paging, now())),
   chooseTheme: (theme: Theme) => update((d) => setThemeChoice(d, theme, now())),
   chooseFontSize: (size: FontSize) => update((d) => setFontSizeChoice(d, size, now())),
+  chooseArabicFont: (font: ArabicFont) => update((d) => setArabicFontChoice(d, font, now())),
   choosePlaybackMode: (mode: PlaybackMode) => update((d) => setPlaybackModeChoice(d, mode, now())),
   /** The current data, for export. */
   current: (): UserData => parseOrEmpty(readRaw()),

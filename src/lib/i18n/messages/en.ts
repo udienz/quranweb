@@ -171,6 +171,8 @@ export const en = {
     reciters: "Recitations (audio)",
     columns: { name: "Name", language: "Language", credit: "Source and credit", licence: "Licence" },
     unknownLicence: "See the source",
+    tajweedCredit: "The tajweed colours use the QPC Hafs text of the King Fahd Glorious Quran Printing Complex, and the ruku marks its ruku list, both from the Quranic Universal Library. The KFGQPC HAFS Uthmanic Script font is the Complex's own, served unchanged under its licence.",
+    fontLicence: "Font licence",
     providersTitle: "Where the data is fetched from",
     providers:
       "The text comes from three sources: the EQuran.id API, the fawazahmed0/quran-api collection and QuranEnc.com. This site keeps its own copy of each and reads from it; the EQuran.id and fawazahmed0 copies are also open to anyone as a mirror. Recitations come from EQuran.id and from the AlQuran.cloud audio CDN. The Urdu Tafsir Ibn Kathir is read directly from the Quran Foundation API (Quran.com).",
@@ -252,6 +254,9 @@ export const en = {
     goToPage: "Go to page",
     go: "Go",
   },
+  marks: {
+    ruku: "End of a ruku",
+  },
   verse: {
     play: "Play audio",
     pause: "Pause audio",
@@ -299,7 +304,7 @@ export const en = {
     savedInBrowser: "Your choices are saved in this browser.",
     useLanguageDefaults: "Use the translation and tafsir in {language}",
     allSettings: "All settings",
-    show: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translation" },
+    show: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translation", tajweed: "Tajweed colours", marks: "Ruku marks (ع)" },
     languages: { ar: "Arabic", id: "Indonesian", en: "English", tr: "Turkish" },
   },
   settingsPage: {
@@ -346,6 +351,7 @@ export const en = {
     themeDark: "Dark",
     themeAuto: "Auto",
     arabicSize: "Arabic text size",
+    arabicFont: "Arabic font",
     latinSize: "Latin text size",
     smaller: "Smaller: {name}",
     larger: "Larger: {name}",

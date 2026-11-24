@@ -13,7 +13,7 @@ import type { Selection } from "../quran/types";
 import { parseSelectionObject } from "../selection";
 import { isLayout, type Layout } from "../layout";
 import { isPaging, type Paging } from "../paging";
-import { isTheme, parseFontSize, type FontSize, type Theme } from "../display";
+import { isArabicFont, isTheme, parseFontSize, type ArabicFont, type FontSize, type Theme } from "../display";
 import { isPlaybackMode, type PlaybackMode } from "../playback";
 
 export const USER_DATA_VERSION = 2;
@@ -89,6 +89,8 @@ export interface Choices {
   theme?: { value: Theme; at: string };
   /** Arabic and Latin text size (local storage `quranweb:font-size`). */
   fontSize?: { value: FontSize; at: string };
+  /** The Arabic font (local storage `quranweb:arabic-font`, issue #131). */
+  arabicFont?: { value: ArabicFont; at: string };
   /** What audio does at the end of a surah: stop, repeat or continue (local storage `quranweb:playback-mode`). */
   playbackMode?: { value: PlaybackMode; at: string };
 }
@@ -381,6 +383,12 @@ export function setFontSizeChoice(data: UserData, value: FontSize, at: string): 
   return { ...data, choices: { ...data.choices, fontSize: { value: size, at } } };
 }
 
+/** Record an explicit choice of Arabic font. */
+export function setArabicFontChoice(data: UserData, value: ArabicFont, at: string): UserData {
+  if (!isArabicFont(value)) throw new Error(`Invalid Arabic font: ${String(value)}`);
+  return { ...data, choices: { ...data.choices, arabicFont: { value, at } } };
+}
+
 /** Record an explicit choice of interface language. */
 export function setLocaleChoice(data: UserData, value: Locale, at: string): UserData {
   if (!isLocale(value)) throw new Error(`Invalid locale: ${String(value)}`);
@@ -487,7 +495,7 @@ export function mergeUserData(a: UserData, b: UserData): UserData {
     byKey.set(key, known ? newer(known, bookmark, (x) => x.updatedAt) : bookmark);
   }
   const choices: Choices = {};
-  for (const key of ["selection", "locale", "layout", "paging", "theme", "fontSize", "playbackMode"] as const) {
+  for (const key of ["selection", "locale", "layout", "paging", "theme", "fontSize", "arabicFont", "playbackMode"] as const) {
     const x = a.choices?.[key];
     const y = b.choices?.[key];
     const pick = x && y ? newer(x, y, (c) => c.at) : (x ?? y);
@@ -622,6 +630,11 @@ export function parseUserData(raw: unknown): UserData {
     const size = parseFontSize(fs.value);
     if (!isDate(fs.at) || !size) throw invalid("Invalid font size choice");
     choices.fontSize = { value: size, at: fs.at };
+  }
+  if (c.arabicFont != null) {
+    const af = c.arabicFont as Record<string, unknown>;
+    if (!isDate(af.at) || !isArabicFont(af.value)) throw invalid("Invalid Arabic font choice");
+    choices.arabicFont = { value: af.value, at: af.at };
   }
   if (c.playbackMode != null) {
     const pm = c.playbackMode as Record<string, unknown>;

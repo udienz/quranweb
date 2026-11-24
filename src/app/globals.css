@@ -61,6 +61,71 @@ body {
   font-family: var(--font-arabic);
 }
 
+/* The second Arabic font (issue #131): the King Fahd Complex's own, served unchanged as its licence asks
+   (public/fonts/UthmanicHafs_V22.LICENSE.txt). The reader's choice is a data attribute on <html>, set before the first
+   paint (display.ts). */
+@font-face {
+  font-family: "KFGQPC HAFS Uthmanic Script";
+  src: url("/fonts/UthmanicHafs_V22.woff2") format("woff2");
+  font-display: swap;
+}
+html[data-arabic-font="kfgqpc"] .font-arabic {
+  font-family: "KFGQPC HAFS Uthmanic Script", var(--font-arabic);
+}
+
+/* Tajweed colours (issue #130), the usual tajweed palette, darkened (light theme) or lightened (dark theme) so that each
+   keeps at least 3:1 against the card and the page at the size of the Arabic text. Silent letters stay a quiet grey. */
+:root {
+  --tj-silent: #8a8a8a;
+  --tj-madd-normal: #3a66e0;
+  --tj-madd-permissible: #3b47e0;
+  --tj-madd-necessary: #000eb0;
+  --tj-madd-obligatory: #1f3fb8;
+  --tj-qalqalah: #c8000a;
+  --tj-ikhfa-shafawi: #b8009e;
+  --tj-ikhfa: #8a009c;
+  --tj-idgham-shafawi: #3f8a00;
+  --tj-iqlab: #0084b8;
+  --tj-idgham-ghunnah: #13806a;
+  --tj-idgham-no-ghunnah: #1d7f00;
+  --tj-ghunnah: #c85a00;
+}
+.dark {
+  --tj-silent: #9aa7aa;
+  --tj-madd-normal: #7f9dff;
+  --tj-madd-permissible: #8f97ff;
+  --tj-madd-necessary: #a3abff;
+  --tj-madd-obligatory: #6f8cff;
+  --tj-qalqalah: #ff6b70;
+  --tj-ikhfa-shafawi: #ff75e6;
+  --tj-ikhfa: #d58bff;
+  --tj-idgham-shafawi: #8fd65a;
+  --tj-iqlab: #5ccbff;
+  --tj-idgham-ghunnah: #4fd1b0;
+  --tj-idgham-no-ghunnah: #7fd04f;
+  --tj-ghunnah: #ffa25a;
+}
+.tj-ham_wasl,
+.tj-laam_shamsiyah,
+.tj-slnt,
+.tj-idgham_mutajanisayn,
+.tj-idgham_mutaqaribayn {
+  color: var(--tj-silent);
+}
+.tj-madda_normal { color: var(--tj-madd-normal); }
+.tj-madda_permissible { color: var(--tj-madd-permissible); }
+.tj-madda_necessary { color: var(--tj-madd-necessary); }
+.tj-madda_obligatory_mottasel,
+.tj-madda_obligatory_monfasel { color: var(--tj-madd-obligatory); }
+.tj-qalaqah { color: var(--tj-qalqalah); }
+.tj-ikhafa_shafawi { color: var(--tj-ikhfa-shafawi); }
+.tj-ikhafa { color: var(--tj-ikhfa); }
+.tj-idgham_shafawi { color: var(--tj-idgham-shafawi); }
+.tj-iqlab { color: var(--tj-iqlab); }
+.tj-idgham_ghunnah { color: var(--tj-idgham-ghunnah); }
+.tj-idgham_wo_ghunnah { color: var(--tj-idgham-no-ghunnah); }
+.tj-ghunnah { color: var(--tj-ghunnah); }
+
 /* Thin scrollbar for the surah list. */
 .thin-scroll {
   scrollbar-width: thin;

@@ -173,6 +173,8 @@ export const th: Messages = {
     reciters: "เสียงอ่าน (ออดิโอ)",
     columns: { name: "ชื่อ", language: "ภาษา", credit: "แหล่งที่มาและเครดิต", licence: "สัญญาอนุญาต" },
     unknownLicence: "ดูที่แหล่งที่มา",
+    tajweedCredit: "สีตัจวีดใช้ตัวบท QPC Hafs ของศูนย์การพิมพ์อัลกุรอานกษัตริย์ฟะฮัด และเครื่องหมายรุกูอ์ใช้รายการรุกูอ์ของศูนย์ ทั้งสองมาจาก Quranic Universal Library แบบอักษร KFGQPC HAFS Uthmanic Script เป็นของศูนย์เอง ใช้โดยไม่ดัดแปลงตามสัญญาอนุญาต",
+    fontLicence: "สัญญาอนุญาตแบบอักษร",
     providersTitle: "ข้อมูลมาจากที่ใด",
     providers:
       "ข้อความมาจากสามแหล่ง: API ของ EQuran.id คอลเลกชัน fawazahmed0/quran-api และ QuranEnc.com เว็บไซต์นี้เก็บสำเนาของแต่ละแหล่งไว้เองและอ่านจากสำเนานั้น สำเนาของ EQuran.id และ fawazahmed0 ยังเปิดให้ทุกคนใช้เป็นมิเรอร์ เสียงอ่านมาจาก EQuran.id และ CDN เสียงของ AlQuran.cloud ตัฟซีรอิบนุกะษีรภาษาอูรดูอ่านโดยตรงจาก API ของ Quran Foundation (Quran.com)",
@@ -254,6 +256,9 @@ export const th: Messages = {
     goToPage: "ไปที่หน้า",
     go: "ไป",
   },
+  marks: {
+    ruku: "สิ้นสุดรุกูอ์",
+  },
   verse: {
     play: "เล่นเสียง",
     pause: "หยุดเสียงชั่วคราว",
@@ -301,7 +306,7 @@ export const th: Messages = {
     savedInBrowser: "ตัวเลือกของคุณเก็บไว้ในเบราว์เซอร์นี้",
     useLanguageDefaults: "ใช้คำแปลและตัฟซีรภาษา{language}",
     allSettings: "การตั้งค่าทั้งหมด",
-    show: { arabic: "ตัวบทภาษาอาหรับ", transliteration: "การถอดอักษร", translation: "คำแปล" },
+    show: { arabic: "ตัวบทภาษาอาหรับ", transliteration: "การถอดอักษร", translation: "คำแปล", tajweed: "สีตัจวีด", marks: "เครื่องหมายรุกูอ์ (ع)" },
     languages: { ar: "อาหรับ", id: "อินโดนีเซีย", en: "อังกฤษ", tr: "ตุรกี" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const th: Messages = {
     themeDark: "มืด",
     themeAuto: "อัตโนมัติ",
     arabicSize: "ขนาดตัวอักษรอาหรับ",
+    arabicFont: "แบบอักษรอาหรับ",
     latinSize: "ขนาดตัวอักษรละติน",
     smaller: "เล็กลง: {name}",
     larger: "ใหญ่ขึ้น: {name}",

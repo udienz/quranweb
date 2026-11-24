@@ -27,7 +27,7 @@ const parse = (mutate: (c: Loose) => void) => {
 
 describe("parseSourceConfig", () => {
   it("accepts the built-in configuration and the example file", () => {
-    expect(parseSourceConfig(valid())).toMatchObject({ textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }, { type: "quran-foundation" }] });
+    expect(parseSourceConfig(valid())).toMatchObject({ textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }, { type: "quran-foundation" }, { type: "qul" }] });
     const example = JSON.parse(readFileSync("config/sources.example.json", "utf8"));
     expect(parseSourceConfig(example).textProviders).toHaveLength(4);
     expect(parseSourceConfig(example).localeDefaults?.tr?.translations).toEqual(["tur-diyanetisleri"]); // Turkish by default, like the built-in registry
@@ -44,7 +44,7 @@ describe("parseSourceConfig", () => {
 
   it("rejects empty or unknown providers and names the allowed types", () => {
     expect(parse((c) => (c.textProviders = []))).toThrow(/textProviders must be a non-empty list/);
-    expect(parse((c) => (c.textProviders[1].type = "nope"))).toThrow(/textProviders\[1\]\.type must be one of: equran, fawazahmed0, quranenc, quran-foundation \(got "nope"\)/);
+    expect(parse((c) => (c.textProviders[1].type = "nope"))).toThrow(/textProviders\[1\]\.type must be one of: equran, fawazahmed0, quranenc, quran-foundation, qul \(got "nope"\)/);
     expect(parse((c) => (c.audioProviders = []))).toThrow(/audioProviders must be a non-empty list/);
     expect(parse((c) => (c.audioProviders[0].type = "mp3"))).toThrow(/audioProviders\[0\]\.type/);
   });

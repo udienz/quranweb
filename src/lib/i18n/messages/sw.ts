@@ -172,6 +172,8 @@ export const sw: Messages = {
     reciters: "Kisomo (sauti)",
     columns: { name: "Jina", language: "Lugha", credit: "Chanzo na mwandishi", licence: "Leseni" },
     unknownLicence: "Tazama chanzo",
+    tajweedCredit: "Rangi za tajwidi zinatumia maandiko ya QPC Hafs ya Kituo cha Mfalme Fahd cha Uchapishaji wa Qur'ani, na alama za ruku orodha yake ya ruku, vyote kutoka Quranic Universal Library. Fonti ya KFGQPC HAFS Uthmanic Script ni ya Kituo hicho, inatolewa bila kubadilishwa kwa mujibu wa leseni yake.",
+    fontLicence: "Leseni ya fonti",
     providersTitle: "Data inatoka wapi",
     providers:
       "Maandishi yanatoka vyanzo vitatu: API ya EQuran.id, mkusanyiko wa fawazahmed0/quran-api, na QuranEnc.com. Tovuti hii ina nakala yake ya EQuran.id na fawazahmed0 na inasoma kutoka humo; nakala hizo pia ziko wazi kwa kila mtu kama kioo. Tafsiri na tafsir mpya zaidi zinasomwa moja kwa moja kutoka QuranEnc.com. Kisomo kinatoka EQuran.id na CDN ya sauti ya AlQuran.cloud. Tafsiri ya Ibn Kathir kwa Kiurdu inasomwa moja kwa moja kutoka API ya Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const sw: Messages = {
     goToPage: "Nenda ukurasa",
     go: "Nenda",
   },
+  marks: {
+    ruku: "Mwisho wa ruku",
+  },
   verse: {
     play: "Cheza sauti",
     pause: "Sitisha sauti",
@@ -300,7 +305,7 @@ export const sw: Messages = {
     savedInBrowser: "Chaguo zako zinahifadhiwa kwenye kivinjari hiki.",
     useLanguageDefaults: "Tumia tafsiri na tafsir kwa {language}",
     allSettings: "Mipangilio yote",
-    show: { arabic: "Maandishi ya Kiarabu", transliteration: "Unukuzi", translation: "Tafsiri" },
+    show: { arabic: "Maandishi ya Kiarabu", transliteration: "Unukuzi", translation: "Tafsiri", tajweed: "Rangi za tajwidi", marks: "Alama za ruku (ع)" },
     languages: { ar: "Kiarabu", id: "Kiindonesia", en: "Kiingereza", tr: "Kituruki" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const sw: Messages = {
     themeDark: "Giza",
     themeAuto: "Otomatiki",
     arabicSize: "Ukubwa wa maandishi ya Kiarabu",
+    arabicFont: "Fonti ya Kiarabu",
     latinSize: "Ukubwa wa maandishi ya Kilatini",
     smaller: "Ndogo zaidi: {name}",
     larger: "Kubwa zaidi: {name}",

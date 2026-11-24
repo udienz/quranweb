@@ -25,6 +25,9 @@ if [ ! -d "$MIRROR_DIR/api/v2" ] || [ ! -d "$MIRROR_DIR/quran-api" ] || [ ! -d "
   exit 2
 fi
 DATA_ARGS=(-v "$MIRROR_DIR:/data:ro" -e QURAN_API_URL=/data/api/v2 -e QURAN_FAWAZ_URL=/data/quran-api -e QURAN_QURANENC_URL=/data/quranenc)
+# The QUL copy (tajweed text and rukus, private, from the data repository's convert-qul.mjs) is optional: without it the
+# pages have no tajweed colours and no ruku marks, and the deploy still goes on.
+if [ -d "$MIRROR_DIR/qul" ]; then DATA_ARGS+=(-e QURAN_QUL_URL=/data/qul); fi
 
 # The account database (SQLite) lives in its own directory per environment, mounted read-write at
 # /db. It is created if missing and NEVER replaced or emptied by a deploy. The app opens it and

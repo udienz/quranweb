@@ -2,6 +2,12 @@
 
 import { useSyncExternalStore } from "react";
 import {
+  applyArabicFont,
+  ARABIC_FONT_KEY,
+  ARABIC_FONTS,
+  DEFAULT_ARABIC_FONT,
+  isArabicFont,
+  type ArabicFont,
   applyFontSize,
   applyTheme,
   DEFAULT_FONT_SIZE,
@@ -128,6 +134,40 @@ export function FontSizeControls() {
     <div className="flex flex-col gap-3">
       <SizeRow kind="arabic" />
       <SizeRow kind="latin" />
+    </div>
+  );
+}
+
+const ARABIC_FONT_NAMES: Record<ArabicFont, string> = { amiri: "Amiri", kfgqpc: "KFGQPC Uthmanic Hafs" };
+
+function rawArabicFont(): string {
+  try {
+    return localStorage.getItem(ARABIC_FONT_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+/** Amiri or the King Fahd Complex's font (issue #131): shown at once, kept here, and recorded so it follows the account. */
+export function ArabicFontChoice() {
+  const { t } = useI18n();
+  const raw = useSyncExternalStore(subscribeDisplay, rawArabicFont, () => "");
+  const font = isArabicFont(raw) ? raw : DEFAULT_ARABIC_FONT;
+  const choose = (next: ArabicFont) => {
+    applyArabicFont(next);
+    userDataActions.chooseArabicFont(next);
+  };
+  return (
+    <div role="group" aria-label={t("display.arabicFont")} className="flex flex-col gap-1 text-sm">
+      <span className="font-medium">{t("display.arabicFont")}</span>
+      <div className="flex rounded-full border border-border bg-background p-0.5 text-xs font-semibold">
+        {ARABIC_FONTS.map((value) => (
+          // A font's name is the same in every language.
+          <button key={value} type="button" aria-pressed={font === value} onClick={() => choose(value)} className={segment(font === value)} translate="no">
+            {ARABIC_FONT_NAMES[value]}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

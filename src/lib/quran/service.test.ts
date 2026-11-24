@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { AudioProvider, TextProvider } from "./provider";
 import { createQuranService, type QuranConfig } from "./service";
-import type { Edition, Qari, SurahMeta } from "./types";
+import type { Edition, Qari, RukuRef, SurahMeta } from "./types";
 
 const source = { name: "Test", attribution: { en: "Test source" } };
 const edition = (id: string, kind: Edition["kind"]): Edition => ({
@@ -385,5 +385,40 @@ describe("a tafsir passage that explains several verses", () => {
     const view = await createQuranService(config({ textProviders: [grouped] })).getSurahView(1);
     expect(view.verses.map((v) => [v.tafsir, v.tafsirSharedWith])).toEqual([["one and two", undefined], ["", 1]]);
     expect("tafsirSharedWith" in view.verses[0]).toBe(false);
+  });
+});
+
+describe("tajweed text and ruku marks", () => {
+  const extras = (opts: { tajweedFails?: boolean; rukus?: RukuRef[] } = {}): TextProvider => ({
+    id: "extras",
+    editions: () => [],
+    async text() {
+      throw new Error("no edition");
+    },
+    async tajweed() {
+      if (opts.tajweedFails) throw new Error("down");
+      return [[["one", "ghunnah"]], [["two"]]];
+    },
+    async rukus() {
+      return opts.rukus ?? [{ ruku: 1, start: { surah: 1, verse: 1 }, end: { surah: 1, verse: 2 } }];
+    },
+  });
+
+  it("gives each verse its tajweed runs, and marks the end of a ruku", async () => {
+    const view = await createQuranService(config({ textProviders: [textProvider("p1", EDITIONS), extras()] })).getSurahView(1);
+    expect(view.verses[0]).toMatchObject({ tajweed: [["one", "ghunnah"]] });
+    expect(view.verses[0].rukuEnd).toBeUndefined();
+    expect(view.verses[1]).toMatchObject({ tajweed: [["two"]], rukuEnd: true });
+  });
+
+  it("shows the page without them when they fail or the ruku table is wrong", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const broken = extras({ tajweedFails: true, rukus: [{ ruku: 1, start: { surah: 1, verse: 2 }, end: { surah: 1, verse: 2 } }] });
+    const view = await createQuranService(config({ textProviders: [textProvider("p1", EDITIONS), broken] })).getSurahView(1);
+    expect(view.verses.map((v) => [v.tajweed, v.rukuEnd])).toEqual([
+      [undefined, undefined],
+      [undefined, undefined],
+    ]);
+    vi.restoreAllMocks();
   });
 });

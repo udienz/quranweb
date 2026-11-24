@@ -172,6 +172,8 @@ export const it: Messages = {
     reciters: "Recitazioni (audio)",
     columns: { name: "Nome", language: "Lingua", credit: "Fonte e autore", licence: "Licenza" },
     unknownLicence: "Vedi la fonte",
+    tajweedCredit: "I colori del tajwid usano il testo QPC Hafs del Complesso Re Fahd per la stampa del Corano, e i segni di rukuʿ il suo elenco dei rukuʿ, entrambi dalla Quranic Universal Library. Il carattere KFGQPC HAFS Uthmanic Script appartiene al Complesso ed è servito senza modifiche secondo la sua licenza.",
+    fontLicence: "Licenza del carattere",
     providersTitle: "Da dove vengono i dati",
     providers:
       "Il testo proviene da tre fonti: l'API di EQuran.id, la raccolta fawazahmed0/quran-api e QuranEnc.com. Questo sito tiene una propria copia di EQuran.id e di fawazahmed0 e legge da lì; quelle copie sono aperte a tutti anche come mirror. Le traduzioni e i tafsir più recenti sono letti direttamente da QuranEnc.com. Le recitazioni vengono da EQuran.id e dalla CDN audio di AlQuran.cloud. Il Tafsir Ibn Kathir in urdu viene letto direttamente dall'API della Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const it: Messages = {
     goToPage: "Vai alla pagina",
     go: "Vai",
   },
+  marks: {
+    ruku: "Fine di un rukuʿ",
+  },
   verse: {
     play: "Ascolta l'audio",
     pause: "Metti in pausa l'audio",
@@ -300,7 +305,7 @@ export const it: Messages = {
     savedInBrowser: "Le tue scelte sono salvate in questo browser.",
     useLanguageDefaults: "Usa la traduzione e il tafsir in {language}",
     allSettings: "Tutte le impostazioni",
-    show: { arabic: "Testo arabo", transliteration: "Traslitterazione", translation: "Traduzione" },
+    show: { arabic: "Testo arabo", transliteration: "Traslitterazione", translation: "Traduzione", tajweed: "Colori del tajwid", marks: "Segni di rukuʿ (ع)" },
     languages: { ar: "Arabo", id: "Indonesiano", en: "Inglese", tr: "Turco" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const it: Messages = {
     themeDark: "Scuro",
     themeAuto: "Automatico",
     arabicSize: "Dimensione del testo arabo",
+    arabicFont: "Carattere arabo",
     latinSize: "Dimensione del testo latino",
     smaller: "Più piccolo: {name}",
     larger: "Più grande: {name}",

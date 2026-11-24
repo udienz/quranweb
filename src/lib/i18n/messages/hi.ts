@@ -172,6 +172,8 @@ export const hi: Messages = {
     reciters: "तिलावत (ऑडियो)",
     columns: { name: "नाम", language: "भाषा", credit: "स्रोत और लेखक", licence: "लाइसेंस" },
     unknownLicence: "स्रोत देखें",
+    tajweedCredit: "तजवीद के रंग शाह फ़हद क़ुरआन मुद्रण परिसर के QPC Hafs पाठ से, और रुकू के निशान उसकी रुकू सूची से हैं; दोनों Quranic Universal Library से। KFGQPC HAFS Uthmanic Script फ़ॉन्ट परिसर का अपना है, जो उसके लाइसेंस के अनुसार बिना बदलाव के दिया गया है।",
+    fontLicence: "फ़ॉन्ट लाइसेंस",
     providersTitle: "डेटा कहाँ से आता है",
     providers:
       "पाठ तीन स्रोतों से आता है: EQuran.id का API, fawazahmed0/quran-api संग्रह और QuranEnc.com। यह साइट EQuran.id और fawazahmed0 की अपनी कॉपी रखती है और उसी से पढ़ती है; वे कॉपियाँ सबके लिए मिरर के रूप में भी खुली हैं। नए अनुवाद और तफ़सीर सीधे QuranEnc.com से पढ़े जाते हैं। तिलावत EQuran.id और AlQuran.cloud के ऑडियो CDN से आती है। उर्दू तफ़सीर इब्ने कसीर सीधे Quran Foundation API (Quran.com) से पढ़ी जाती है।",
@@ -253,6 +255,9 @@ export const hi: Messages = {
     goToPage: "पृष्ठ पर जाएँ",
     go: "जाएँ",
   },
+  marks: {
+    ruku: "रुकू का अंत",
+  },
   verse: {
     play: "ऑडियो चलाएँ",
     pause: "ऑडियो रोकें",
@@ -300,7 +305,7 @@ export const hi: Messages = {
     savedInBrowser: "आपकी पसंद इस ब्राउज़र में रखी जाती है।",
     useLanguageDefaults: "{language} में अनुवाद और तफ़सीर इस्तेमाल करें",
     allSettings: "सभी सेटिंग्स",
-    show: { arabic: "अरबी पाठ", transliteration: "लिप्यंतरण", translation: "अनुवाद" },
+    show: { arabic: "अरबी पाठ", transliteration: "लिप्यंतरण", translation: "अनुवाद", tajweed: "तजवीद के रंग", marks: "रुकू के निशान (ع)" },
     languages: { ar: "अरबी", id: "इंडोनेशियाई", en: "अंग्रेज़ी", tr: "तुर्की" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const hi: Messages = {
     themeDark: "गहरी",
     themeAuto: "स्वचालित",
     arabicSize: "अरबी पाठ का आकार",
+    arabicFont: "अरबी फ़ॉन्ट",
     latinSize: "लैटिन पाठ का आकार",
     smaller: "छोटा: {name}",
     larger: "बड़ा: {name}",

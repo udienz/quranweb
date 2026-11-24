@@ -172,6 +172,8 @@ export const ml: Messages = {
     reciters: "പാരായണങ്ങൾ (ശബ്ദം)",
     columns: { name: "പേര്", language: "ഭാഷ", credit: "സ്രോതസ്സും കടപ്പാടും", licence: "ലൈസൻസ്" },
     unknownLicence: "സ്രോതസ്സ് കാണുക",
+    tajweedCredit: "തജ്‌വീദ് നിറങ്ങൾ ഫഹദ് രാജാവ് ഖുർആൻ അച്ചടി സമുച്ചയത്തിന്റെ QPC Hafs പാഠവും, റുകൂഅ് അടയാളങ്ങൾ അതിന്റെ റുകൂഅ് പട്ടികയും ഉപയോഗിക്കുന്നു; രണ്ടും Quranic Universal Library-ൽ നിന്ന്. KFGQPC HAFS Uthmanic Script ഫോണ്ട് സമുച്ചയത്തിന്റേതാണ്, അതിന്റെ ലൈസൻസ് പ്രകാരം മാറ്റമില്ലാതെ നൽകുന്നു.",
+    fontLicence: "ഫോണ്ട് ലൈസൻസ്",
     providersTitle: "ഡാറ്റ എവിടെ നിന്ന് എടുക്കുന്നു",
     providers:
       "പാഠം മൂന്ന് സ്രോതസ്സുകളിൽ നിന്ന് വരുന്നു: EQuran.id API, fawazahmed0/quran-api ശേഖരം, QuranEnc.com. ഈ സൈറ്റ് ഓരോന്നിന്റെയും സ്വന്തം പകർപ്പ് സൂക്ഷിച്ച് അതിൽ നിന്ന് വായിക്കുന്നു; EQuran.id, fawazahmed0 പകർപ്പുകൾ മിററായി എല്ലാവർക്കും തുറന്നിരിക്കുന്നു. പാരായണങ്ങൾ EQuran.id ൽ നിന്നും AlQuran.cloud ന്റെ ഓഡിയോ CDN ൽ നിന്നും വരുന്നു. ഉർദു തഫ്സീർ ഇബ്നു കസീർ നേരിട്ട് Quran Foundation API (Quran.com) ൽ നിന്ന് വായിക്കുന്നു.",
@@ -253,6 +255,9 @@ export const ml: Messages = {
     goToPage: "പേജിലേക്ക് പോകുക",
     go: "പോകുക",
   },
+  marks: {
+    ruku: "റുകൂഇന്റെ അവസാനം",
+  },
   verse: {
     play: "ശബ്ദം പ്ലേ ചെയ്യുക",
     pause: "ശബ്ദം താൽക്കാലികമായി നിർത്തുക",
@@ -300,7 +305,7 @@ export const ml: Messages = {
     savedInBrowser: "നിങ്ങളുടെ തിരഞ്ഞെടുപ്പുകൾ ഈ ബ്രൗസറിൽ സൂക്ഷിക്കുന്നു.",
     useLanguageDefaults: "{language} വിവർത്തനവും തഫ്സീറും ഉപയോഗിക്കുക",
     allSettings: "എല്ലാ ക്രമീകരണങ്ങളും",
-    show: { arabic: "അറബി മൂലം", transliteration: "ലിപ്യന്തരണം", translation: "പരിഭാഷ" },
+    show: { arabic: "അറബി മൂലം", transliteration: "ലിപ്യന്തരണം", translation: "പരിഭാഷ", tajweed: "തജ്‌വീദ് നിറങ്ങൾ", marks: "റുകൂഅ് അടയാളങ്ങൾ (ع)" },
     languages: { ar: "അറബി", id: "ഇന്തോനേഷ്യൻ", en: "ഇംഗ്ലീഷ്", tr: "ടർക്കിഷ്" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const ml: Messages = {
     themeDark: "ഡാർക്ക്",
     themeAuto: "സ്വയമേവ",
     arabicSize: "അറബി അക്ഷര വലുപ്പം",
+    arabicFont: "അറബി ഫോണ്ട്",
     latinSize: "ലാറ്റിൻ അക്ഷര വലുപ്പം",
     smaller: "ചെറുത്: {name}",
     larger: "വലുത്: {name}",

@@ -1,4 +1,4 @@
-import type { Edition, EditionText, JuzRef, MushafPageRef, Qari, SurahMeta } from "./types";
+import type { Edition, EditionText, JuzRef, MushafPageRef, Qari, RukuRef, SurahMeta, TajweedRun } from "./types";
 
 /**
  * A text source. A provider serves one or more editions and maps its source's
@@ -20,6 +20,10 @@ export interface TextProvider {
   juzs?(): Promise<JuzRef[]>;
   /** Where each of the 604 pages of the printed mushaf starts and ends. Optional; the service checks it like the juz. */
   mushafPages?(): Promise<MushafPageRef[]>;
+  /** The tajweed text of a surah, one list of runs per verse. Optional (the QUL copy). */
+  tajweed?(surah: number): Promise<TajweedRun[][]>;
+  /** Where each ruku starts and ends. Optional; the service checks it like the juz. */
+  rukus?(): Promise<RukuRef[]>;
   /** The content of one edition for one surah. Throws on failure. */
   text(edition: string, surah: number): Promise<EditionText>;
 }

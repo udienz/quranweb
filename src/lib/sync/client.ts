@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { writeCookie } from "../cookies";
-import { applyFontSize, applyTheme, displayUpdates, readFontSize, readTheme } from "../display";
+import { applyArabicFont, applyFontSize, applyTheme, displayUpdates, readArabicFont, readFontSize, readTheme } from "../display";
 import { applyPlaybackMode, playbackUpdate, readPlaybackMode } from "../playback";
 import { userDataSync } from "../userdata/store";
 import { parseUserData, type UserData } from "../userdata/schema";
@@ -78,9 +78,10 @@ export function useAccountSync(userId: string | null): SyncStatus {
           router.refresh();
         }
         // Theme and text size live in local storage: apply them here, no page refresh needed.
-        const display = displayUpdates(merged.choices, { theme: readTheme(), fontSize: readFontSize() });
+        const display = displayUpdates(merged.choices, { theme: readTheme(), fontSize: readFontSize(), arabicFont: readArabicFont() });
         if (display.theme && !stopped) applyTheme(display.theme);
         if (display.fontSize && !stopped) applyFontSize(display.fontSize);
+        if (display.arabicFont && !stopped) applyArabicFont(display.arabicFont);
         const playback = playbackUpdate(merged.choices, readPlaybackMode());
         if (playback && !stopped) applyPlaybackMode(playback);
         if (!stopped) setStatus("idle");

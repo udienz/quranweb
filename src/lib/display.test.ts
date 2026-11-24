@@ -36,3 +36,12 @@ describe("display choices", () => {
     expect(() => new Function(displayScript)).not.toThrow();
   });
 });
+
+describe("the Arabic font", () => {
+  it("comes from the account only when it differs, and the head script applies the stored one", () => {
+    const local = { theme: "auto" as const, fontSize: DEFAULT_FONT_SIZE, arabicFont: "amiri" as const };
+    expect(displayUpdates({ arabicFont: { value: "kfgqpc", at: "2026-11-24T00:00:00.000Z" } }, local)).toEqual({ arabicFont: "kfgqpc" });
+    expect(displayUpdates({ arabicFont: { value: "amiri", at: "2026-11-24T00:00:00.000Z" } }, local)).toEqual({});
+    expect(displayScript).toContain('setAttribute("data-arabic-font"');
+  });
+});

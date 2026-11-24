@@ -172,6 +172,8 @@ export const ha: Messages = {
     reciters: "Karatu (sauti)",
     columns: { name: "Suna", language: "Harshe", credit: "Tushe da marubuci", licence: "Lasisi" },
     unknownLicence: "Duba tushen",
+    tajweedCredit: "Launukan tajwidi suna amfani da rubutun QPC Hafs na Cibiyar Sarki Fahd ta Buga Alƙur'ani, alamomin ruku'u kuma jerin ruku'unta, duka daga Quranic Universal Library. Rubutun KFGQPC HAFS Uthmanic Script na Cibiyar ne, ana bayar da shi ba tare da canji ba bisa lasisinsa.",
+    fontLicence: "Lasisin rubutu",
     providersTitle: "Daga ina bayanai suke fitowa",
     providers:
       "Rubutun yana fitowa daga tushe uku: API na EQuran.id, tarin fawazahmed0/quran-api, da QuranEnc.com. Wannan shafin yana da kwafinsa na EQuran.id da fawazahmed0 kuma yana karantawa daga gare su; waɗannan kwafin a buɗe suke ga kowa a matsayin madubi. Ana karanta sababbin fassarori da tafsiri kai tsaye daga QuranEnc.com. Karatun yana fitowa daga EQuran.id da CDN na sauti na AlQuran.cloud. Ana karanta Tafsirin Ibn Kathir na Urdu kai tsaye daga API na Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const ha: Messages = {
     goToPage: "Je shafi",
     go: "Je",
   },
+  marks: {
+    ruku: "Ƙarshen ruku'u",
+  },
   verse: {
     play: "Kunna sauti",
     pause: "Dakatar da sauti",
@@ -300,7 +305,7 @@ export const ha: Messages = {
     savedInBrowser: "Ana ajiye zaɓuɓɓukanka a wannan burauzar.",
     useLanguageDefaults: "Yi amfani da fassara da tafsiri a {language}",
     allSettings: "Duk saituna",
-    show: { arabic: "Rubutun Larabci", transliteration: "Rubutun Latin", translation: "Fassara" },
+    show: { arabic: "Rubutun Larabci", transliteration: "Rubutun Latin", translation: "Fassara", tajweed: "Launukan tajwidi", marks: "Alamomin ruku'u (ع)" },
     languages: { ar: "Larabci", id: "Indonesiyanci", en: "Turanci", tr: "Turkanci" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const ha: Messages = {
     themeDark: "Duhu",
     themeAuto: "Kai tsaye",
     arabicSize: "Girman rubutun Larabci",
+    arabicFont: "Rubutun Larabci",
     latinSize: "Girman rubutun Latin",
     smaller: "Ƙarami: {name}",
     larger: "Babba: {name}",
