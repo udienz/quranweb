@@ -151,3 +151,124 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
 .on-dark :focus-visible {
   outline-color: hsl(var(--gold));
 }
+
+
+/* Editorial reading surface: deliberately scoped so the global header, menus and settings keep their current theme. */
+.quran-reading {
+  --reading-paper: #ede4d2;
+  --reading-canvas: #f8f2e7;
+  --reading-ink: #3d3428;
+  --reading-forest: #344c3d;
+  --reading-gold: #b49a68;
+  --reading-muted: #807565;
+  --reading-line: #e5dac8;
+  color: var(--reading-ink);
+  border-radius: 1.25rem;
+  padding: clamp(0.65rem, 2vw, 1.25rem);
+  background: var(--reading-paper);
+}
+.quran-reading__header {
+  background: linear-gradient(135deg, #405b48, #263b30) !important;
+  border: 1px solid rgb(180 154 104 / 28%);
+  box-shadow: 0 12px 30px rgb(61 52 40 / 9%);
+}
+.quran-reading__surface {
+  background: var(--reading-canvas) !important;
+  border-color: #d9cbb5 !important;
+  box-shadow: 0 8px 28px rgb(61 52 40 / 5%);
+}
+.quran-reading__verse {
+  border-bottom-color: var(--reading-line) !important;
+}
+.quran-reading__verse p[dir="rtl"],
+.quran-reading__surface > p[dir="rtl"] {
+  color: var(--reading-ink);
+}
+.quran-reading__verse p[dir="ltr"],
+.quran-reading__verse p[dir="auto"],
+.quran-reading__verse p:not([dir]) {
+  color: var(--reading-ink);
+}
+.quran-reading__verse .text-muted-foreground {
+  color: var(--reading-muted);
+}
+.quran-reading__verse .text-primary {
+  color: var(--reading-forest);
+}
+.quran-reading__verse .bg-primary-soft {
+  background-color: #e9e3d5;
+}
+.quran-reading__verse .border-s-primary\/50 {
+  border-inline-start-color: var(--reading-gold);
+}
+.quran-reading__surface .font-arabic {
+  color: var(--reading-ink);
+}
+.dark .quran-reading {
+  --reading-paper: #202c25;
+  --reading-canvas: #26342b;
+  --reading-ink: #eee5d6;
+  --reading-forest: #a9c2aa;
+  --reading-gold: #c8ad78;
+  --reading-muted: #b6ad9e;
+  --reading-line: #3c4a3f;
+}
+.dark .quran-reading__header {
+  background: linear-gradient(135deg, #304638, #1d2d23) !important;
+  border-color: rgb(200 173 120 / 25%);
+}
+.dark .quran-reading__surface {
+  background: var(--reading-canvas) !important;
+  border-color: #435247 !important;
+}
+.dark .quran-reading__verse {
+  border-bottom-color: var(--reading-line) !important;
+}
+.dark .quran-reading__verse .text-primary {
+  color: var(--reading-forest);
+}
+.dark .quran-reading__verse .bg-primary-soft {
+  background-color: #35473a;
+}
+.dark .quran-reading__surface .font-arabic,
+.dark .quran-reading__verse p[dir="rtl"],
+.dark .quran-reading__verse p[dir="ltr"],
+.dark .quran-reading__verse p[dir="auto"],
+.dark .quran-reading__verse p:not([dir]) {
+  color: var(--reading-ink);
+}
+
+
+/* Homepage editorial treatment: content only; search, links, filtering and navigation stay as implemented. */
+.home-editorial__hero {
+  background: linear-gradient(135deg, #405b48, #263b30) !important;
+  border: 1px solid rgb(180 154 104 / 28%);
+  box-shadow: 0 14px 34px rgb(61 52 40 / 10%);
+}
+.home-editorial__daily {
+  background: #f8f2e7 !important;
+  border-color: #d9cbb5 !important;
+  box-shadow: 0 8px 26px rgb(61 52 40 / 5%);
+}
+.home-editorial__daily [dir="rtl"] { color: #3d3428; }
+.home-editorial__daily [dir="ltr"] { color: #514536; }
+.home-editorial__surah {
+  background: #f8f2e7 !important;
+  border-color: #dfd3c1 !important;
+}
+.home-editorial__surah:hover {
+  border-color: #9b8a68 !important;
+  box-shadow: 0 5px 16px rgb(61 52 40 / 7%);
+}
+.home-editorial__surah .font-arabic { color: #344c3d; }
+.dark .home-editorial__hero {
+  background: linear-gradient(135deg, #304638, #1d2d23) !important;
+}
+.dark .home-editorial__daily,
+.dark .home-editorial__surah {
+  background: #26342b !important;
+  border-color: #435247 !important;
+}
+.dark .home-editorial__daily [dir="rtl"],
+.dark .home-editorial__daily [dir="ltr"] { color: #eee5d6; }
+.dark .home-editorial__surah .font-arabic { color: #b5c9b0; }

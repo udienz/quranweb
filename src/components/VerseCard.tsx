@@ -198,7 +198,7 @@ export default function VerseCard({
   return (
     <article
       id={verseId(n)}
-      className={`scroll-mt-24 border-b border-s-4 border-border px-5 py-6 last:border-b-0 sm:px-8 ${
+      className={`quran-reading__verse scroll-mt-24 border-b border-s-4 border-border px-5 py-6 last:border-b-0 sm:px-8 ${
         isRead ? "border-s-primary/50" : "border-s-transparent"
       }`}
     >

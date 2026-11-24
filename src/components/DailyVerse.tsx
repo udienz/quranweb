@@ -19,7 +19,7 @@ export default async function DailyVerse({ view }: { view: SurahView }) {
   const text = verse.translations.find((x) => x.edition === translation)?.text;
 
   return (
-    <section aria-labelledby="daily-verse" className="mb-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
+    <section aria-labelledby="daily-verse" className="home-editorial__daily mb-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
       <p id="daily-verse" className="text-sm font-medium text-muted-foreground">
         {t("home.daily.title")}
       </p>
