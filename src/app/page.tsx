@@ -81,7 +81,7 @@ export default async function Home() {
 
       <ContinueReading surahs={surahList} />
       {daily && <DailyVerse view={daily} />}
-      <SurahGrid surahs={surahList} />
+      <SurahGrid surahs={surahList} mode="home" />
     </main>
   );
 }

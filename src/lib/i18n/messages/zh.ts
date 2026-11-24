@@ -204,6 +204,7 @@ export const zh: Messages = {
     searchPlaceholder: "按名称或编号搜索…",
     searchLabel: "搜索章节",
     noResults: "未找到章节。",
+    viewAll: "查看全部章节",
     goTo: "前往 {reference}",
     daily: { title: "今日经文" },
   },

@@ -202,6 +202,7 @@ export const en = {
     searchPlaceholder: "Search by name or number…",
     searchLabel: "Search surahs",
     noResults: "No surah found.",
+    viewAll: "View all surahs",
     goTo: "Go to {reference}",
     daily: { title: "Verse of the day" },
   },

@@ -18,11 +18,12 @@ export function mushafEntries(origin: string, pages = 604): SitemapEntry[] {
   return Array.from({ length: pages }, (_, i) => ({ url: `${origin}/mushaf/${i + 1}`, priority: 0.5 }));
 }
 
-/** The home page, About, Privacy, Terms and every surah, as full addresses under `origin`. */
+/** The home page, the list of surahs, About, Privacy, Terms and every surah, as full addresses under `origin`. */
 export function sitemapEntries(origin: string, surahNumbers: readonly number[]): SitemapEntry[] {
   const entry = (path: string, priority: number) => ({ url: `${origin}${path}`, priority });
   return [
     entry("/", 1),
+    entry("/surahs", 0.8),
     ...surahNumbers.map((n) => entry(`/surah/${n}`, 0.9)),
     entry("/about", 0.3),
     entry("/privacy", 0.2),

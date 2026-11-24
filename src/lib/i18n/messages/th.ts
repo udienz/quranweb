@@ -204,6 +204,7 @@ export const th: Messages = {
     searchPlaceholder: "ค้นหาด้วยชื่อหรือหมายเลข…",
     searchLabel: "ค้นหาซูเราะฮ์",
     noResults: "ไม่พบซูเราะฮ์",
+    viewAll: "ดูซูเราะฮ์ทั้งหมด",
     goTo: "ไปที่ {reference}",
     daily: { title: "อายะฮ์ประจำวัน" },
   },

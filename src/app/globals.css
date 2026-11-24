@@ -668,3 +668,70 @@ html[dir="rtl"] .surah-player__range { --end: left; }
   .quran-reading__chips { gap: 0.5rem; }
   .quran-chip { font-size: 0.8125rem; }
 }
+
+/* The home page's surah search suggestions (SurahSearchBox): a card that floats under the search box, on the box's end edge, wider than
+   the box from `sm`. It uses tokens only, so light, dark and right to left follow. A suggestion is at least 44px high. */
+.home-editorial__suggest {
+  position: absolute;
+  z-index: 40;
+  inset-inline-end: 0;
+  top: calc(100% + 0.5rem);
+  width: 100%;
+  max-height: min(22rem, 60vh);
+  overflow-y: auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  background: hsl(var(--card));
+  box-shadow: 0 12px 28px rgb(61 52 40 / 14%);
+}
+@media (min-width: 640px) {
+  .home-editorial__suggest { width: 24rem; }
+}
+.home-editorial__suggest ul { margin: 0; padding: 0.35rem; list-style: none; }
+.home-editorial__suggest-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.65rem;
+  color: hsl(var(--foreground));
+  cursor: pointer;
+}
+.home-editorial__suggest-option[data-active="true"] { background: hsl(var(--primary-soft)); }
+.home-editorial__suggest-number {
+  flex: none;
+  width: 2rem;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+}
+.home-editorial__suggest-latin {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-editorial__suggest-arabic { flex: none; font-size: 1.3rem; color: hsl(var(--primary)); }
+.home-editorial__suggest-empty {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+/* "View all surahs" under the six on the home page: a text link, not another button. */
+.home-editorial__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: hsl(var(--primary));
+}
+.home-editorial__view-all:hover { text-decoration: underline; text-underline-offset: 4px; }

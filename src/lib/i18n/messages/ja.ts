@@ -204,6 +204,7 @@ export const ja: Messages = {
     searchPlaceholder: "名前または番号で検索…",
     searchLabel: "スーラを検索",
     noResults: "スーラが見つかりません。",
+    viewAll: "すべてのスーラを見る",
     goTo: "{reference} へ移動",
     daily: { title: "今日の節" },
   },

@@ -203,6 +203,7 @@ export const ml: Messages = {
     searchPlaceholder: "പേരോ നമ്പറോ ഉപയോഗിച്ച് തിരയുക…",
     searchLabel: "സൂറത്തുകൾ തിരയുക",
     noResults: "സൂറത്ത് ഒന്നും കണ്ടെത്തിയില്ല.",
+    viewAll: "എല്ലാ സൂറത്തുകളും കാണുക",
     goTo: "{reference} ലേക്ക് പോകുക",
     daily: { title: "ഇന്നത്തെ ആയത്ത്" },
   },
