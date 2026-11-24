@@ -28,8 +28,10 @@ const CREDIT_EN = "Quran data provided by Quran Foundation (Quran.com)";
 /**
  * The enabled editions. Enabling another one = an entry here and its id in QURAN_FOUNDATION_IDS, after checking all 114
  * surahs: every surah's first verse has an entry and no entry is empty. Tafsir Ibn Kathir in Urdu passed on 2026-11-24. The
- * other Urdu tafsir did not: Tazkir ul Quran (818) puts a passage on the last verse it covers, and Bayan ul Quran (159) and
- * Fi Zilal al-Quran (157) leave the covered verses empty, without saying which passage covers them.
+ * other Urdu tafsir did not. Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the covered verses empty, without saying
+ * which passage covers them. Tazkir ul Quran (818) puts a passage on the last verse it covers, but its data is broken
+ * (checked 2026-11-24): surahs 82 to 101 have no entry by chapter, `by_ayah` answers 89:1 with the passage of 84:1-10 and
+ * 101:1 with that of 100:1-10, and passages cross surahs (34:51-35:2, 62:9-63:3, 63:9-64:4).
  */
 export const QURAN_FOUNDATION_EDITIONS: Edition[] = completeEditions([
   {

@@ -107,7 +107,8 @@ own format.
     it on as `VerseView.tafsirSharedWith`, and the Tafsir tab shows a link to that verse (`verse.tafsirSharedWith`) instead
     of repeating a long passage. An answer that is not of the surah, out of order, empty or without verse 1 is refused (the
     edition is then left out like any live source that fails). The other Urdu tafsir of the API are **not** added: Tazkir ul
-    Quran (818) puts a passage on the *last* verse it covers, and Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the
+    Quran (818) puts a passage on the *last* verse it covers and its data is broken (surahs 82 to 101 empty by chapter, passages
+    of the wrong surah by verse, passages across surahs; checked 2026-11-24), and Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the
     covered verses empty without saying which passage covers them. Add an edition only after the 114-surah live test
     (`npm run test:live`, "every Quran Foundation tafsir") passes for it. QUL (qul.tarteel.ai) lists the same tafsir with the
     same ids, but its downloads need a login and its licence pages say "We don't have copyright information".
