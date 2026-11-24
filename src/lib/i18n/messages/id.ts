@@ -92,6 +92,50 @@ export const id: Messages = {
     contactMissing: "Kontak untuk pertanyaan tentang data Anda belum disiapkan.",
     translationNote: "Terjemahan kebijakan ini belum diperiksa oleh penutur asli. Jika ada perbedaan dengan versi bahasa Inggris atau Indonesia, versi itulah yang berlaku.",
   },
+  terms: {
+    title: "Ketentuan penggunaan",
+    intro: "QuranWeb adalah situs gratis untuk membaca Al-Qur'an, tanpa iklan dan tanpa biaya. Ketentuan ini berlaku saat Anda memakainya. Cara data Anda ditangani dijelaskan di kebijakan privasi.",
+    updated: "Terakhir diperbarui: {date}",
+    sections: {
+      use: {
+        title: "Memakai situs ini",
+        body: "Anda bisa membaca semua isi situs ini secara gratis dan tanpa akun. Anda boleh membagikan tautan ke halaman mana pun dan mengutip ayat, dengan menyebut edisi yang Anda kutip.",
+      },
+      content: {
+        title: "Teks Al-Qur'an, terjemahan, dan tafsir",
+        body: "Teks Arab, terjemahan, tafsir, dan murottal berasal dari sumber terbitan yang disebut di halaman Tentang, dan masing-masing tetap tunduk pada ketentuan sumbernya. Kami menampilkannya sebagaimana diterbitkan dan tidak mengubahnya. Terjemahan menyampaikan makna Al-Qur'an menurut pemahaman penerjemahnya, dan tafsir adalah penjelasan penulisnya; keduanya tidak menggantikan teks Arab.\n\nSitus ini tidak memberi fatwa. Untuk pertanyaan tentang amalan, tanyakan kepada ustaz atau ulama yang Anda percayai.\n\nKalau Anda menemukan kesalahan dalam teks, beri tahu kami (lihat Kontak di bawah) agar bisa diperbaiki di sumbernya.",
+      },
+      account: {
+        title: "Akun Anda",
+        body: "Masuk ke akun tidak wajib. Anda masuk dengan akun Google, dan menjaga keamanan akun itu adalah tanggung jawab Anda. Catatan Anda disimpan di server kami sebagai teks biasa, jadi jangan menulis hal yang tidak ingin Anda simpan di sana.\n\nKami bisa menonaktifkan atau menghapus akun yang dipakai untuk merugikan situs atau orang lain. Anda bisa menghapus akun Anda sendiri kapan saja di halaman Pengaturan.",
+      },
+      conduct: {
+        title: "Yang tidak diperbolehkan",
+        body: "Jangan mencoba membobol situs, akun, atau servernya, dan jangan membebaninya secara berlebihan, misalnya dengan mengunduh halaman atau datanya secara massal memakai program. Beberapa sumber kami tidak mengizinkan datanya disalin lalu diedarkan sebagai data, jadi jangan memakai situs ini untuk mengumpulkannya. Kalau Anda menemukan masalah keamanan, laporkan secara tertutup lewat GitHub (kode sumbernya ditautkan di halaman Tentang).",
+      },
+      code: {
+        title: "Kode sumber",
+        body: "Kode situs ini terbuka dengan lisensi MIT. Lisensi itu hanya berlaku untuk kode, tidak untuk teks Al-Qur'an, terjemahan, tafsir, atau murottal.",
+      },
+      warranty: {
+        title: "Tanpa jaminan",
+        body: "Situs ini disediakan apa adanya dan gratis. Kami berusaha menampilkan teks dengan benar dan menjaga situs tetap berjalan, tetapi kami tidak bisa menjanjikan situs ini selalu tersedia atau bebas kesalahan. Sebagian teks dibaca langsung dari sumbernya, jadi sebuah teks bisa hilang sementara saat sumbernya sedang tidak bisa diakses. Sejauh diizinkan hukum, kami tidak bertanggung jawab atas kerugian yang timbul dari pemakaian situs ini.",
+      },
+      changes: {
+        title: "Perubahan ketentuan",
+        body: "Kami bisa mengubah ketentuan ini. Tanggal di bagian atas halaman ini menunjukkan perubahan terakhir.",
+      },
+      law: {
+        title: "Hukum yang berlaku",
+        body: "Ketentuan ini tunduk pada hukum Republik Indonesia.",
+      },
+    },
+    contactTitle: "Kontak",
+    contactBy: "Situs ini dikelola oleh {name}.",
+    contactEmail: "Pertanyaan tentang ketentuan ini: {email}",
+    contactMissing: "Kontak untuk pertanyaan tentang ketentuan ini belum diatur.",
+    translationNote: "Terjemahan ketentuan ini belum diperiksa oleh penutur asli. Jika berbeda dari versi bahasa Inggris atau Indonesia, versi itulah yang berlaku.",
+  },
   admin: {
     title: "Akun",
     subtitle: "Hanya data akun. Data bacaan dan isi Al-Qur'an tidak ditampilkan atau bisa diubah di sini.",
@@ -131,6 +175,7 @@ export const id: Messages = {
   },
   footer: {
     privacy: "Privasi",
+    terms: "Ketentuan",
     about: "Tentang",
   },
   notFound: {

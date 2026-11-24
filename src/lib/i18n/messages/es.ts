@@ -93,6 +93,50 @@ export const es: Messages = {
     contactMissing: "Aún no se ha configurado el contacto para preguntas sobre tus datos.",
     translationNote: "Esta traducción de la política aún no la ha revisado un hablante nativo. Donde difiera de la versión inglesa o indonesia, se aplican esas versiones.",
   },
+  terms: {
+    title: "Condiciones de uso",
+    intro: "QuranWeb es un sitio gratuito para leer el Corán, sin publicidad y sin pagos. Estas condiciones se aplican cuando lo usas. La forma en que se tratan tus datos se describe en la política de privacidad.",
+    updated: "Última actualización: {date}",
+    sections: {
+      use: {
+        title: "Uso del sitio",
+        body: "Puedes leer todo lo que hay en este sitio gratis y sin cuenta. Puedes compartir el enlace de cualquier página y citar versículos, indicando la edición que citas.",
+      },
+      content: {
+        title: "El texto del Corán, las traducciones y los tafsires",
+        body: "El texto árabe, las traducciones, los tafsires y las recitaciones proceden de las fuentes publicadas que se nombran en la página Acerca de, y cada uno mantiene las condiciones de su fuente. Los mostramos tal como se publicaron y no los modificamos. Una traducción transmite el significado del Corán tal como lo entendió su traductor, y un tafsir es la explicación de su autor; ninguno sustituye al texto árabe.\n\nEste sitio no emite dictámenes religiosos (fetuas). Para una cuestión de práctica, consulta a un sabio de tu confianza.\n\nSi encuentras un error en un texto, avísanos (consulta Contacto más abajo) para que pueda corregirse en su fuente.",
+      },
+      account: {
+        title: "Tu cuenta",
+        body: "Iniciar sesión es opcional. Inicias sesión con tu cuenta de Google, y mantenerla segura es responsabilidad tuya. Tus notas se guardan en nuestro servidor como texto plano, así que no escribas en ellas nada que no quieras que se guarde allí.\n\nPodemos desactivar o eliminar una cuenta que se use para dañar el sitio o a otras personas. Puedes eliminar tu propia cuenta en cualquier momento desde la página Ajustes.",
+      },
+      conduct: {
+        title: "Lo que no está permitido",
+        body: "No intentes entrar sin permiso en el sitio, sus cuentas o su servidor, ni le impongas una carga excesiva, por ejemplo descargando en masa sus páginas o datos con un programa. Varias de nuestras fuentes no permiten que sus datos se copien y se redistribuyan como datos, así que no uses este sitio para recopilarlos. Si encuentras un problema de seguridad, infórmalo de forma privada a través de GitHub (el código fuente está enlazado en la página Acerca de).",
+      },
+      code: {
+        title: "Código fuente",
+        body: "El código de este sitio es abierto bajo la licencia MIT. Esa licencia cubre solo el código, no el texto del Corán, las traducciones, los tafsires ni las recitaciones.",
+      },
+      warranty: {
+        title: "Sin garantía",
+        body: "El sitio se ofrece tal cual y de forma gratuita. Ponemos cuidado en mostrar bien los textos y en mantener el sitio en marcha, pero no podemos prometer que esté siempre disponible ni libre de errores. Algunos textos se leen directamente de su fuente, por lo que uno puede faltar durante un tiempo si su fuente no está disponible. En la medida en que la ley lo permita, no somos responsables de los perjuicios derivados del uso del sitio.",
+      },
+      changes: {
+        title: "Cambios en estas condiciones",
+        body: "Podemos cambiar estas condiciones. La fecha en la parte superior de esta página indica el último cambio.",
+      },
+      law: {
+        title: "Ley aplicable",
+        body: "Estas condiciones se rigen por la ley de la República de Indonesia.",
+      },
+    },
+    contactTitle: "Contacto",
+    contactBy: "Este sitio lo gestiona {name}.",
+    contactEmail: "Preguntas sobre estas condiciones: {email}",
+    contactMissing: "Todavía no se ha configurado el contacto para preguntas sobre estas condiciones.",
+    translationNote: "Esta traducción de las condiciones aún no ha sido revisada por un hablante nativo. Donde difiera de la versión en inglés o en indonesio, se aplican esas versiones.",
+  },
   admin: {
     title: "Cuentas",
     subtitle: "Solo datos de las cuentas. Aquí no se muestran ni se pueden editar los datos de lectura ni el contenido del Corán.",
@@ -115,6 +159,7 @@ export const es: Messages = {
   },
   footer: {
     privacy: "Privacidad",
+    terms: "Condiciones",
     about: "Acerca de",
   },
   about: {

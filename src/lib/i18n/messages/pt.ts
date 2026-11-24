@@ -93,6 +93,50 @@ export const pt: Messages = {
     contactMissing: "O contato para perguntas sobre seus dados ainda não foi configurado.",
     translationNote: "Esta tradução da política ainda não foi revisada por um falante nativo. Onde ela diferir das versões em inglês ou indonésio, valem essas versões.",
   },
+  terms: {
+    title: "Termos de uso",
+    intro: "O QuranWeb é um site gratuito para ler o Alcorão, sem anúncios e sem pagamento. Estes termos se aplicam quando você o usa. A forma como seus dados são tratados está descrita na política de privacidade.",
+    updated: "Última atualização: {date}",
+    sections: {
+      use: {
+        title: "Uso do site",
+        body: "Você pode ler tudo neste site gratuitamente e sem conta. Você pode compartilhar o link de qualquer página e citar versículos, indicando a edição que cita.",
+      },
+      content: {
+        title: "O texto do Alcorão, as traduções e os tafsires",
+        body: "O texto árabe, as traduções, os tafsires e as recitações vêm das fontes publicadas citadas na página Sobre, e cada um segue os termos da sua fonte. Nós os mostramos como foram publicados, sem alterá-los. Uma tradução transmite o sentido do Alcorão como o tradutor o entendeu, e um tafsir é a explicação do seu autor; nenhum dos dois substitui o texto árabe.\n\nEste site não emite pareceres religiosos (fatwas). Para uma questão de prática, consulte um estudioso de sua confiança.\n\nSe encontrar um erro em um texto, avise-nos (veja Contato abaixo) para que ele possa ser corrigido na fonte.",
+      },
+      account: {
+        title: "Sua conta",
+        body: "Entrar é opcional. Você entra com sua conta do Google, e manter essa conta segura é responsabilidade sua. Suas notas ficam guardadas em nosso servidor como texto simples, então não escreva nelas nada que não queira guardado lá.\n\nPodemos desativar ou excluir uma conta usada para prejudicar o site ou outras pessoas. Você pode excluir sua própria conta a qualquer momento na página Configurações.",
+      },
+      conduct: {
+        title: "O que não é permitido",
+        body: "Não tente invadir o site, suas contas ou seu servidor, e não o sobrecarregue, por exemplo baixando em massa suas páginas ou dados com um programa. Várias das nossas fontes não permitem que seus dados sejam copiados e repassados como dados, então não use este site para coletá-los. Se encontrar um problema de segurança, informe-o de forma privada pelo GitHub (o código-fonte está no link da página Sobre).",
+      },
+      code: {
+        title: "Código-fonte",
+        body: "O código deste site é aberto sob a licença MIT. Essa licença cobre apenas o código, não o texto do Alcorão, as traduções, os tafsires nem as recitações.",
+      },
+      warranty: {
+        title: "Sem garantia",
+        body: "O site é oferecido como está, gratuitamente. Cuidamos para mostrar os textos corretamente e manter o site no ar, mas não podemos prometer que ele esteja sempre disponível ou livre de erros. Alguns textos são lidos diretamente da fonte, então um deles pode faltar por algum tempo quando a fonte estiver fora do ar. Na medida permitida pela lei, não nos responsabilizamos por perdas decorrentes do uso do site.",
+      },
+      changes: {
+        title: "Mudanças nestes termos",
+        body: "Podemos mudar estes termos. A data no topo desta página mostra a última mudança.",
+      },
+      law: {
+        title: "Lei aplicável",
+        body: "Estes termos são regidos pela lei da República da Indonésia.",
+      },
+    },
+    contactTitle: "Contato",
+    contactBy: "Este site é mantido por {name}.",
+    contactEmail: "Dúvidas sobre estes termos: {email}",
+    contactMissing: "O contato para dúvidas sobre estes termos ainda não foi configurado.",
+    translationNote: "Esta tradução dos termos ainda não foi revisada por um falante nativo. Onde ela diferir da versão em inglês ou em indonésio, valem essas versões.",
+  },
   admin: {
     title: "Contas",
     subtitle: "Apenas dados de conta. Dados de leitura e conteúdo do Alcorão não são mostrados nem editados aqui.",
@@ -115,6 +159,7 @@ export const pt: Messages = {
   },
   footer: {
     privacy: "Privacidade",
+    terms: "Termos",
     about: "Sobre",
   },
   about: {

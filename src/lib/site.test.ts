@@ -50,15 +50,16 @@ describe("sitemapEntries", () => {
   const numbers = Array.from({ length: 114 }, (_, i) => i + 1);
   const entries = sitemapEntries(PRODUCTION_ORIGIN, numbers);
 
-  it("lists the home page, every surah, About and Privacy, each once", () => {
+  it("lists the home page, every surah, About, Privacy and Terms, each once", () => {
     const urls = entries.map((e) => e.url);
-    expect(urls).toHaveLength(114 + 3);
+    expect(urls).toHaveLength(114 + 4);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toContain(`${PRODUCTION_ORIGIN}/`);
     expect(urls).toContain(`${PRODUCTION_ORIGIN}/surah/1`);
     expect(urls).toContain(`${PRODUCTION_ORIGIN}/surah/114`);
     expect(urls).toContain(`${PRODUCTION_ORIGIN}/about`);
     expect(urls).toContain(`${PRODUCTION_ORIGIN}/privacy`);
+    expect(urls).toContain(`${PRODUCTION_ORIGIN}/terms`);
   });
 
   it("lists no page of a surah and none of the reader's own pages", () => {

@@ -93,6 +93,50 @@ export const fr: Messages = {
     contactMissing: "Le contact pour les questions sur vos données n'a pas encore été configuré.",
     translationNote: "Cette traduction de la politique n'a pas encore été relue par un locuteur natif. En cas de différence avec la version anglaise ou indonésienne, ce sont ces versions qui s'appliquent.",
   },
+  terms: {
+    title: "Conditions d'utilisation",
+    intro: "QuranWeb est un site gratuit pour lire le Coran, sans publicité et sans paiement. Ces conditions s'appliquent lorsque vous l'utilisez. La manière dont vos données sont traitées est décrite dans la politique de confidentialité.",
+    updated: "Dernière mise à jour : {date}",
+    sections: {
+      use: {
+        title: "Utiliser le site",
+        body: "Vous pouvez tout lire sur ce site gratuitement et sans compte. Vous pouvez partager le lien de n'importe quelle page et citer des versets en indiquant l'édition citée.",
+      },
+      content: {
+        title: "Le texte du Coran, les traductions et les tafsirs",
+        body: "Le texte arabe, les traductions, les tafsirs et les récitations proviennent des sources publiées nommées sur la page À propos, et chacun reste soumis aux conditions de sa source. Nous les affichons tels qu'ils sont publiés, sans les modifier. Une traduction rend le sens du Coran tel que son traducteur l'a compris, et un tafsir est l'explication de son auteur ; aucun des deux ne remplace le texte arabe.\n\nCe site ne délivre pas d'avis religieux (fatwas). Pour une question de pratique, adressez-vous à un savant en qui vous avez confiance.\n\nSi vous trouvez une erreur dans un texte, signalez-la-nous (voir Contact ci-dessous) afin qu'elle puisse être corrigée à la source.",
+      },
+      account: {
+        title: "Votre compte",
+        body: "La connexion est facultative. Vous vous connectez avec votre compte Google, dont la sécurité relève de vous. Vos notes sont enregistrées sur notre serveur en texte brut : n'y écrivez rien que vous ne voudriez pas y voir stocké.\n\nNous pouvons désactiver ou supprimer un compte utilisé pour nuire au site ou à d'autres personnes. Vous pouvez supprimer votre propre compte à tout moment depuis la page Paramètres.",
+      },
+      conduct: {
+        title: "Ce qui est interdit",
+        body: "N'essayez pas de pénétrer dans le site, ses comptes ou son serveur, et ne lui imposez pas une charge excessive, par exemple en téléchargeant en masse ses pages ou ses données avec un programme. Plusieurs de nos sources n'autorisent pas la copie et la redistribution de leurs données en tant que données : n'utilisez pas ce site pour les collecter. Si vous découvrez un problème de sécurité, signalez-le de façon confidentielle via GitHub (le code source est lié depuis la page À propos).",
+      },
+      code: {
+        title: "Code source",
+        body: "Le code de ce site est ouvert sous licence MIT. Cette licence ne couvre que le code, pas le texte du Coran, les traductions, les tafsirs ni les récitations.",
+      },
+      warranty: {
+        title: "Aucune garantie",
+        body: "Le site est fourni tel quel, gratuitement. Nous veillons à afficher les textes correctement et à maintenir le site en service, mais nous ne pouvons pas promettre qu'il soit toujours disponible ou exempt d'erreurs. Certains textes sont lus directement depuis leur source : l'un d'eux peut donc manquer un moment lorsque sa source est indisponible. Dans la mesure permise par la loi, nous ne sommes pas responsables des pertes liées à l'utilisation du site.",
+      },
+      changes: {
+        title: "Modification de ces conditions",
+        body: "Nous pouvons modifier ces conditions. La date en haut de cette page indique la dernière modification.",
+      },
+      law: {
+        title: "Droit applicable",
+        body: "Ces conditions sont régies par le droit de la République d'Indonésie.",
+      },
+    },
+    contactTitle: "Contact",
+    contactBy: "Ce site est géré par {name}.",
+    contactEmail: "Questions sur ces conditions : {email}",
+    contactMissing: "Le contact pour les questions sur ces conditions n'a pas encore été configuré.",
+    translationNote: "Cette traduction des conditions n'a pas encore été vérifiée par un locuteur natif. En cas de différence avec la version anglaise ou indonésienne, ce sont ces versions qui s'appliquent.",
+  },
   admin: {
     title: "Comptes",
     subtitle: "Informations de compte uniquement. Les données de lecture et le contenu du Coran ne sont ni affichés ni modifiables ici.",
@@ -115,6 +159,7 @@ export const fr: Messages = {
   },
   footer: {
     privacy: "Confidentialité",
+    terms: "Conditions",
     about: "À propos",
   },
   about: {

@@ -107,7 +107,8 @@ own format.
     it on as `VerseView.tafsirSharedWith`, and the Tafsir tab shows a link to that verse (`verse.tafsirSharedWith`) instead
     of repeating a long passage. An answer that is not of the surah, out of order, empty or without verse 1 is refused (the
     edition is then left out like any live source that fails). The other Urdu tafsir of the API are **not** added: Tazkir ul
-    Quran (818) puts a passage on the *last* verse it covers, and Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the
+    Quran (818) puts a passage on the *last* verse it covers and its data is broken (surahs 82 to 101 empty by chapter, passages
+    of the wrong surah by verse, passages across surahs; checked 2026-11-24), and Bayan ul Quran (159) and Fi Zilal al-Quran (157) leave the
     covered verses empty without saying which passage covers them. Add an edition only after the 114-surah live test
     (`npm run test:live`, "every Quran Foundation tafsir") passes for it. QUL (qul.tarteel.ai) lists the same tafsir with the
     same ids, but its downloads need a login and its licence pages say "We don't have copyright information".
@@ -689,6 +690,12 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   base64-encoded to `scripts/deploy.sh` (`PRIVACY_CONTACT_*_B64`), which decodes it and gives it to `docker run -e`, so no
   character in a name can change the ssh command line (`scripts/deploy-contact.test.sh` checks that, CI runs it). A value
   in `/etc/quranweb/<env>.env` is overridden by them. Without them the page says the contact is not set up yet.
+- **Terms of use** (`/terms`, 2026-11-24, `terms.*` messages in every language, linked from the footer and the sitemap): free
+  and non-commercial use, the content keeps its sources' terms and is shown unedited, no religious rulings, accounts can be
+  disabled for abuse, no bulk downloading (several sources, Quran Foundation among them, forbid passing their data on), MIT
+  covers the code only, no guarantee, Indonesian law, and the same contact as the privacy page. A first draft by Claude at
+  the owner's request, not checked by a lawyer. Keep it true to what the code does, and update `TERMS_UPDATED` in the page
+  with every change of the text.
 - When the policy text changes, change both languages in the same commit and check it still matches what the code does
   (what is stored, cookies, recipients, retention).
 
@@ -784,7 +791,8 @@ src/
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
     settings/page.tsx          settings: theme and text size, reading settings, account
     search/page.tsx            full-text search: the form, the results with the words marked, paging
-    privacy/page.tsx           privacy policy (English and Indonesian)
+    privacy/page.tsx           privacy policy (every interface language)
+    terms/page.tsx             terms of use (every interface language; `TERMS_UPDATED` is the date shown, change it with the text)
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
@@ -972,7 +980,7 @@ audio comes from `cdn.equran.id` and `cdn.islamic.network` (the CSP allows any h
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
 sources of each edition are credited in the UI: the About page (`/about`) lists the source, credit and licence of every
-edition and reciter in the catalog, and the footer of every page (About · Privacy) links to it.
+edition and reciter in the catalog, and the footer of every page (About · Privacy · Terms) links to it.
 Keep that footer link: the credit must stay one click away from every reading page.
 
 ### Known limits

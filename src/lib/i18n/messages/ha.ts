@@ -93,6 +93,50 @@ export const ha: Messages = {
     contactMissing: "Ba a riga an saita hanyar tuntuɓa don tambayoyi game da bayananka ba.",
     translationNote: "Mai harshen bai riga ya duba wannan fassarar manufar ba. Inda ta bambanta da sigar Turanci ko ta Indonesiya, waɗannan sigogin ne ke aiki.",
   },
+  terms: {
+    title: "Sharuɗɗan amfani",
+    intro: "QuranWeb shafi ne kyauta don karanta Alƙur'ani, ba tare da talla ba kuma ba tare da biya ba. Waɗannan sharuɗɗa suna aiki idan kana amfani da shi. Yadda ake sarrafa bayananka an bayyana shi a manufar sirri.",
+    updated: "Sabuntawa ta ƙarshe: {date}",
+    sections: {
+      use: {
+        title: "Amfani da shafin",
+        body: "Za ka iya karanta komai a wannan shafi kyauta kuma ba tare da asusu ba. Za ka iya raba hanyar haɗi zuwa kowane shafi kuma ka kawo ayoyi, tare da ambaton bugun da ka kawo.",
+      },
+      content: {
+        title: "Rubutun Alƙur'ani, fassarori da tafsiri",
+        body: "Rubutun Larabci, fassarori, tafsiri da karatuttuka sun fito ne daga tushen da aka wallafa waɗanda aka ambata a shafin Game da mu, kuma kowanne yana bin sharuɗɗan tushensa. Muna nuna su kamar yadda aka wallafa su, ba ma canza su. Fassara tana bayyana ma'anar Alƙur'ani kamar yadda mai fassara ya fahimta, tafsiri kuma bayanin marubucinsa ne; babu ɗayansu da ke maye gurbin rubutun Larabci.\n\nWannan shafi ba ya bayar da fatawa. Don tambaya game da ibada, tambayi malamin da ka amince da shi.\n\nIdan ka sami kuskure a rubutu, sanar da mu (duba Tuntuɓa a ƙasa) domin a gyara shi a tushensa.",
+      },
+      account: {
+        title: "Asusunka",
+        body: "Shiga ba dole ba ne. Kana shiga da asusunka na Google, kuma kiyaye tsaron wannan asusu naka ne. Ana adana bayanan kula naka a sabarmu a matsayin rubutu na yau da kullum, don haka kada ka rubuta abin da ba ka so a adana a can.\n\nZa mu iya kashe ko share asusun da ake amfani da shi don cutar da shafin ko wasu mutane. Za ka iya share asusunka da kanka a kowane lokaci a shafin Saituna.",
+      },
+      conduct: {
+        title: "Abubuwan da ba a yarda da su ba",
+        body: "Kada ka yi ƙoƙarin kutsawa cikin shafin, asusunsa ko sabarsa, kuma kada ka ɗora masa nauyi mai yawa, misali ta hanyar sauke shafukansa ko bayanansa da yawa da wata manhaja. Wasu daga cikin tushenmu ba su yarda a kwafi bayanansu a raba su a matsayin bayanai ba, don haka kada ka yi amfani da wannan shafi don tattara su. Idan ka sami matsalar tsaro, ka sanar da ita a ɓoye ta GitHub (an haɗa lambar tushe a shafin Game da mu).",
+      },
+      code: {
+        title: "Lambar tushe",
+        body: "Lambar wannan shafi a buɗe take ƙarƙashin lasisin MIT. Lasisin ya shafi lambar kawai, ba rubutun Alƙur'ani, fassarori, tafsiri ko karatuttuka ba.",
+      },
+      warranty: {
+        title: "Babu tabbaci",
+        body: "Ana bayar da shafin kamar yadda yake, kyauta. Muna ƙoƙarin nuna rubutun daidai da kuma kiyaye shafin yana aiki, amma ba za mu iya alƙawarin cewa koyaushe zai kasance a buɗe ko ba shi da kuskure ba. Ana karanta wasu rubutun kai tsaye daga tushensu, don haka wani rubutu zai iya ɓacewa na ɗan lokaci idan tushensa ba ya aiki. Gwargwadon abin da doka ta yarda, ba mu da alhakin asarar da ta samo asali daga amfani da shafin.",
+      },
+      changes: {
+        title: "Canje-canje ga waɗannan sharuɗɗa",
+        body: "Za mu iya canza waɗannan sharuɗɗa. Kwanan watan da ke saman wannan shafi yana nuna canji na ƙarshe.",
+      },
+      law: {
+        title: "Dokar da ke aiki",
+        body: "Waɗannan sharuɗɗa suna ƙarƙashin dokar Jamhuriyar Indonesiya.",
+      },
+    },
+    contactTitle: "Tuntuɓa",
+    contactBy: "{name} ne ke gudanar da wannan shafi.",
+    contactEmail: "Tambayoyi game da waɗannan sharuɗɗa: {email}",
+    contactMissing: "Har yanzu ba a saita hanyar tuntuɓa don tambayoyi game da waɗannan sharuɗɗa ba.",
+    translationNote: "Har yanzu mai magana da harshen bai duba wannan fassarar sharuɗɗan ba. Inda ta bambanta da sigar Turanci ko ta Indonesiya, waɗannan sigogin ne ke aiki.",
+  },
   admin: {
     title: "Asusu",
     subtitle: "Bayanan asusu kawai. Ba a nuna ko gyara bayanan karatu da abun cikin Alƙur'ani a nan.",
@@ -115,6 +159,7 @@ export const ha: Messages = {
   },
   footer: {
     privacy: "Sirri",
+    terms: "Sharuɗɗa",
     about: "Game da mu",
   },
   about: {

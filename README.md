@@ -137,6 +137,10 @@ The picture at the top of this page is the mushaf layout.
 
 ### Read the pages of the mushaf
 
+![The last page of the mushaf, page 604: Al-Ikhlas and Al-Falaq, each with its name, a Play the surah button and the Bismillah, the Arabic text as one block with the numbered translation beside it](docs/screenshots/en/how-mushaf-page.png)
+
+![Page division in the reading settings, with Mushaf pages (604) chosen](docs/screenshots/en/how-page-division.png)
+
 Open **Settings**, and under **Reading settings** choose **Mushaf pages (604)** next to "Page division". A surah then opens at the
 page of the printed mushaf that has its first verse, and an old link to a page of 10 verses opens the page that has that page's
 first verse. A page can hold the end of one surah and the start of the next (the last page holds three). Turn pages with
@@ -202,7 +206,7 @@ pages of 10 verses, which stay the default. The choice follows your account when
 
 ### Set a daily goal
 
-![Daily goal on My reading: 10 verses a day, 7 of 10 today, 5 days in a row, and the progress towards a khatam](docs/screenshots/en/how-daily-goal.png)
+![Daily goal on My reading: 2 pages a day, 1.4 of 2 pages today, 5 days in a row, and the progress towards a khatam](docs/screenshots/en/how-daily-goal.png)
 
 1. On My reading, under Daily goal, choose how many verses a day, or how many pages of the mushaf (20 pages a day is a juz a day).
 2. Only verses you mark as read count (see above); reading without marking does not.
@@ -258,7 +262,7 @@ device. From "My reading" you can save it to a file and import it again, on the 
 
 If you want the same reading on your phone and your computer, you can sign in with your Google account. It is optional.
 You can download everything kept with your account, or delete the account, at any time. What is kept and why is in the
-privacy policy: https://quranweb.udienz.web.id/privacy.
+privacy policy: https://quranweb.udienz.web.id/privacy. The terms of use are at https://quranweb.udienz.web.id/terms.
 
 ## Sources and credits
 

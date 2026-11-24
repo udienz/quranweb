@@ -27,7 +27,8 @@ function sampleData(lang) {
     id: { morning: "Pagi", kursi: "Dibaca sebelum tidur", yasin: "Malam Jumat" },
   }[lang];
   const activity = {};
-  for (let i = 0; i < 6; i++) activity[day(i)] = { sample01: i === 0 ? 7 : 12 };
+  // About 1.4 pages today and 2 pages or more on the five days before, so the streak shows with the 2-page goal below.
+  for (let i = 0; i < 6; i++) activity[day(i)] = { sample01: i === 0 ? 14 : 22 };
   return {
     version: 2,
     lastRead: { surah: 2, verse: 255, at },
@@ -43,7 +44,8 @@ function sampleData(lang) {
     ],
     choices: {},
     collections: [{ id: "morning01", name: text.morning, createdAt: at, updatedAt: at }],
-    goal: { versesPerDay: 10, at },
+    // A goal chosen in pages of the mushaf: 2 pages a day, kept as the equivalent verses (versesForPages in the schema).
+    goal: { versesPerDay: 21, pages: 2, at },
     activity,
   };
 }
@@ -77,9 +79,12 @@ const selection = (value) => encodeURIComponent(JSON.stringify(value));
 async function shoot(lang, name, fn, options) {
   const { context, page } = await open(lang, options);
   try {
+    // fn returns what to photograph: an element, nothing (the whole viewport) or { clip } (an area of the page).
     const target = (await fn(page)) ?? page;
     await page.waitForTimeout(400);
-    await target.screenshot({ path: `${OUT}${lang}/${name}.png`, animations: "disabled" });
+    const path = `${OUT}${lang}/${name}.png`;
+    if (target.clip) await page.screenshot({ path, animations: "disabled", clip: target.clip });
+    else await target.screenshot({ path, animations: "disabled" });
     console.log(`${lang}/${name}.png`);
   } finally {
     await context.close();
@@ -94,6 +99,22 @@ const go = async (page, path) => {
 for (const lang of ["en", "id"]) {
   mkdirSync(`${OUT}${lang}`, { recursive: true });
   const T = (await import(`../src/lib/i18n/messages/${lang}.ts`))[lang];
+
+  // The last page of the printed mushaf: three surahs, each with its own "Play the surah" button.
+  await shoot(lang, "how-mushaf-page", async (page) => {
+    await go(page, "/mushaf/604");
+    return null; // the viewport from the top, so the sticky header does not cover the page's title
+  }, { height: 1100 });
+
+  // "Page division" on the settings page, with the pages of the mushaf chosen.
+  await shoot(lang, "how-page-division", async (page) => {
+    await go(page, "/settings");
+    const group = page.getByRole("group", { name: T.settings.paging });
+    await group.scrollIntoViewIfNeeded();
+    const box = await group.boundingBox();
+    // A little space around the group, but not into the controls above and below it.
+    return { clip: { x: box.x - 24, y: box.y - 12, width: box.width + 48, height: box.height + 12 } };
+  }, { cookies: { "qw-paging": "mushaf" } });
 
   // Several translations side by side, verse by verse.
   await shoot(lang, "how-translations", async (page) => {

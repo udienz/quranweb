@@ -94,6 +94,50 @@ export const bs: Messages = {
     contactMissing: "Kontakt za pitanja o vašim podacima još nije postavljen.",
     translationNote: "Ovaj prijevod politike još nije pregledao izvorni govornik. Gdje se razlikuje od engleske ili indonezijske verzije, vrijede te verzije.",
   },
+  terms: {
+    title: "Uslovi korištenja",
+    intro: "QuranWeb je besplatna stranica za čitanje Kur'ana, bez reklama i bez plaćanja. Ovi uslovi važe kada je koristite. Kako se postupa s vašim podacima opisano je u politici privatnosti.",
+    updated: "Posljednja izmjena: {date}",
+    sections: {
+      use: {
+        title: "Korištenje stranice",
+        body: "Sve na ovoj stranici možete čitati besplatno i bez računa. Možete dijeliti link na bilo koju stranicu i citirati ajete, navodeći izdanje koje citirate.",
+      },
+      content: {
+        title: "Tekst Kur'ana, prijevodi i tefsiri",
+        body: "Arapski tekst, prijevodi, tefsiri i učenja potiču iz objavljenih izvora navedenih na stranici O stranici, i za svaki važe uslovi njegovog izvora. Prikazujemo ih onako kako su objavljeni i ne mijenjamo ih. Prijevod prenosi značenje Kur'ana onako kako ga je prevodilac razumio, a tefsir je objašnjenje njegovog autora; nijedno ne zamjenjuje arapski tekst.\n\nOva stranica ne izdaje vjerske fetve. Za pitanje prakse obratite se učenjaku kojem vjerujete.\n\nAko pronađete grešku u tekstu, javite nam (vidi Kontakt ispod) kako bi se mogla ispraviti na izvoru.",
+      },
+      account: {
+        title: "Vaš račun",
+        body: "Prijava nije obavezna. Prijavljujete se svojim Google računom, a za njegovu sigurnost ste odgovorni vi. Vaše bilješke se čuvaju na našem serveru kao običan tekst, zato u njih ne pišite ništa što ne biste željeli da se tamo čuva.\n\nMožemo deaktivirati ili izbrisati račun koji se koristi da bi se naštetilo stranici ili drugim ljudima. Svoj račun možete izbrisati u bilo kojem trenutku na stranici Postavke.",
+      },
+      conduct: {
+        title: "Šta nije dozvoljeno",
+        body: "Ne pokušavajte provaliti u stranicu, njene račune ili server, i ne opterećujte je pretjerano, na primjer masovnim preuzimanjem stranica ili podataka pomoću programa. Nekoliko naših izvora ne dozvoljava da se njihovi podaci kopiraju i dalje dijele kao podaci, zato ovu stranicu ne koristite za njihovo prikupljanje. Ako pronađete sigurnosni problem, prijavite ga povjerljivo putem GitHuba (izvorni kod je povezan na stranici O stranici).",
+      },
+      code: {
+        title: "Izvorni kod",
+        body: "Kod ove stranice je otvoren pod MIT licencom. Ta licenca pokriva samo kod, a ne tekst Kur'ana, prijevode, tefsire ili učenja.",
+      },
+      warranty: {
+        title: "Bez garancije",
+        body: "Stranica se nudi takva kakva jeste, besplatno. Trudimo se da tekstove prikažemo ispravno i da stranica radi, ali ne možemo obećati da će uvijek biti dostupna ili bez grešaka. Neki tekstovi se čitaju direktno iz izvora, pa neki tekst može neko vrijeme nedostajati kada izvor nije dostupan. U mjeri u kojoj zakon dozvoljava, ne odgovaramo za štetu nastalu korištenjem stranice.",
+      },
+      changes: {
+        title: "Izmjene ovih uslova",
+        body: "Možemo izmijeniti ove uslove. Datum na vrhu ove stranice pokazuje posljednju izmjenu.",
+      },
+      law: {
+        title: "Mjerodavno pravo",
+        body: "Na ove uslove primjenjuje se pravo Republike Indonezije.",
+      },
+    },
+    contactTitle: "Kontakt",
+    contactBy: "Ovu stranicu vodi {name}.",
+    contactEmail: "Pitanja o ovim uslovima: {email}",
+    contactMissing: "Kontakt za pitanja o ovim uslovima još nije postavljen.",
+    translationNote: "Ovaj prijevod uslova još nije provjerio izvorni govornik. Gdje se razlikuje od engleske ili indonežanske verzije, važe te verzije.",
+  },
   admin: {
     title: "Računi",
     subtitle: "Samo podaci o računima. Podaci o čitanju i sadržaj Kur'ana ovdje se ne prikazuju niti mijenjaju.",
@@ -116,6 +160,7 @@ export const bs: Messages = {
   },
   footer: {
     privacy: "Privatnost",
+    terms: "Uslovi",
     about: "O stranici",
   },
   about: {

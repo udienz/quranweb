@@ -140,6 +140,10 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 ### Membaca halaman mushaf
 
+![Halaman terakhir mushaf, halaman 604: Al-Ikhlas dan Al-Falaq, masing-masing dengan nama surat, tombol Putar surat, dan basmalah, teks Arab sebagai satu blok dengan terjemahan bernomor di sampingnya](docs/screenshots/id/how-mushaf-page.png)
+
+![Pembagian halaman di pengaturan bacaan, dengan Halaman mushaf (604) dipilih](docs/screenshots/id/how-page-division.png)
+
 Buka **Pengaturan**, lalu di **Pengaturan bacaan** pilih **Halaman mushaf (604)** pada "Pembagian halaman". Sebuah surat lalu
 terbuka di halaman mushaf cetak yang memuat ayat pertamanya, dan tautan lama ke halaman berisi 10 ayat membuka halaman yang
 memuat ayat pertama halaman itu. Satu halaman bisa memuat akhir satu surat dan awal surat berikutnya (halaman terakhir memuat
@@ -208,7 +212,7 @@ Anda masuk.
 
 ### Memasang target harian
 
-![Target harian di Bacaan saya: 10 ayat sehari, hari ini 7 dari 10, 5 hari berturut-turut, dan progres menuju khatam](docs/screenshots/id/how-daily-goal.png)
+![Target harian di Bacaan saya: 2 halaman sehari, hari ini 1,4 dari 2 halaman, 5 hari berturut-turut, dan progres menuju khatam](docs/screenshots/id/how-daily-goal.png)
 
 1. Di Bacaan saya, bagian Target harian, pilih berapa ayat per hari, atau berapa halaman mushaf (20 halaman sehari sama dengan satu juz sehari).
 2. Yang terhitung hanya ayat yang Anda tandai sudah dibaca (lihat di atas); membaca tanpa menandai tidak dihitung.
@@ -263,7 +267,7 @@ itu. Dari "Bacaan saya" Anda bisa menyimpannya ke berkas dan mengimpornya lagi, 
 
 Kalau ingin bacaan yang sama di ponsel dan komputer, Anda bisa masuk dengan akun Google. Ini opsional. Anda bisa
 mengunduh semua yang tersimpan di akun, atau menghapus akun, kapan saja. Apa yang disimpan dan alasannya ada di kebijakan
-privasi: https://quranweb.udienz.web.id/privacy.
+privasi: https://quranweb.udienz.web.id/privacy. Ketentuan penggunaannya ada di https://quranweb.udienz.web.id/terms.
 
 ## Sumber dan kredit
 

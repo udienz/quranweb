@@ -92,6 +92,50 @@ export const en = {
     contactMissing: "The contact for questions about your data has not been set up yet.",
     translationNote: "This translation of the policy has not yet been checked by a native speaker. Where it differs from the English or the Indonesian version, those versions apply.",
   },
+  terms: {
+    title: "Terms of use",
+    intro: "QuranWeb is a free site for reading the Qur'an, with no advertising and no payment. These terms apply when you use it. How your data is handled is described in the privacy policy.",
+    updated: "Last updated: {date}",
+    sections: {
+      use: {
+        title: "Using the site",
+        body: "You can read everything on this site free of charge and without an account. You may share links to any page and quote verses, naming the edition you quote.",
+      },
+      content: {
+        title: "The Qur'an text, translations and tafsir",
+        body: "The Arabic text, the translations, the tafsir and the recitations come from the published sources named on the About page, and each keeps the terms of its source. We show them as published and do not edit them. A translation gives the meaning of the Qur'an as its translator understood it, and a tafsir is its author's explanation; neither takes the place of the Arabic text.\n\nThis site does not give religious rulings. For a question of practice, ask a scholar you trust.\n\nIf you find a mistake in a text, tell us (see Contact below), so that it can be corrected at its source.",
+      },
+      account: {
+        title: "Your account",
+        body: "Signing in is optional. You sign in with your Google account, and keeping that account safe is up to you. Your notes are stored on our server as plain text, so do not write anything in them that you would not want stored there.\n\nWe may disable or delete an account that is used to harm the site or other people. You can delete your own account at any time on the Settings page.",
+      },
+      conduct: {
+        title: "What is not allowed",
+        body: "Do not try to break into the site, its accounts or its server, and do not put a heavy load on it, for example by downloading its pages or data in bulk with a program. Several of our sources do not allow their data to be copied and passed on as data, so do not use this site to collect it. If you find a security problem, report it privately through GitHub (the source code is linked on the About page).",
+      },
+      code: {
+        title: "Source code",
+        body: "The code of this site is open under the MIT licence. That licence covers the code only, not the Qur'an text, the translations, the tafsir or the recitations.",
+      },
+      warranty: {
+        title: "No guarantee",
+        body: "The site is provided as it is, free of charge. We take care to show the texts correctly and to keep the site running, but we cannot promise that it is always available or free of errors. Some texts are read live from their sources, so one can be missing for a while when its source is down. As far as the law allows, we are not liable for loss that comes from using the site.",
+      },
+      changes: {
+        title: "Changes to these terms",
+        body: "We may change these terms. The date at the top of this page shows the last change.",
+      },
+      law: {
+        title: "Applicable law",
+        body: "These terms are governed by the law of the Republic of Indonesia.",
+      },
+    },
+    contactTitle: "Contact",
+    contactBy: "This site is run by {name}.",
+    contactEmail: "Questions about these terms: {email}",
+    contactMissing: "The contact for questions about these terms has not been set up yet.",
+    translationNote: "This translation of the terms has not yet been checked by a native speaker. Where it differs from the English or the Indonesian version, those versions apply.",
+  },
   admin: {
     title: "Accounts",
     subtitle: "Account details only. Reading data and Qur'an content are not shown or editable here.",
@@ -114,6 +158,7 @@ export const en = {
   },
   footer: {
     privacy: "Privacy",
+    terms: "Terms",
     about: "About",
   },
   about: {

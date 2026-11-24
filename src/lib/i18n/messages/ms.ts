@@ -93,6 +93,50 @@ export const ms: Messages = {
     contactMissing: "Hubungan untuk soalan tentang data anda belum disediakan.",
     translationNote: "Terjemahan dasar ini belum disemak oleh penutur asli. Jika terdapat perbezaan dengan versi bahasa Inggeris atau Indonesia, versi tersebut yang terpakai.",
   },
+  terms: {
+    title: "Terma penggunaan",
+    intro: "QuranWeb ialah laman percuma untuk membaca al-Quran, tanpa iklan dan tanpa bayaran. Terma ini terpakai apabila anda menggunakannya. Cara data anda dikendalikan diterangkan dalam dasar privasi.",
+    updated: "Kemas kini terakhir: {date}",
+    sections: {
+      use: {
+        title: "Menggunakan laman ini",
+        body: "Anda boleh membaca semua kandungan laman ini secara percuma dan tanpa akaun. Anda boleh berkongsi pautan ke mana-mana halaman dan memetik ayat, dengan menyebut edisi yang anda petik.",
+      },
+      content: {
+        title: "Teks al-Quran, terjemahan dan tafsir",
+        body: "Teks Arab, terjemahan, tafsir dan bacaan datang daripada sumber terbitan yang dinamakan di halaman Perihal, dan setiap satunya tertakluk kepada terma sumbernya. Kami memaparkannya seperti yang diterbitkan dan tidak mengubahnya. Terjemahan menyampaikan makna al-Quran mengikut kefahaman penterjemahnya, dan tafsir ialah penjelasan penulisnya; kedua-duanya tidak menggantikan teks Arab.\n\nLaman ini tidak mengeluarkan fatwa. Untuk soalan tentang amalan, rujuk ustaz atau ulama yang anda percayai.\n\nJika anda menemui kesilapan dalam teks, maklumkan kepada kami (lihat Hubungi di bawah) supaya ia boleh dibetulkan di sumbernya.",
+      },
+      account: {
+        title: "Akaun anda",
+        body: "Log masuk adalah pilihan. Anda log masuk dengan akaun Google anda, dan menjaga keselamatan akaun itu ialah tanggungjawab anda. Nota anda disimpan di pelayan kami sebagai teks biasa, jadi jangan tulis apa-apa yang anda tidak mahu disimpan di sana.\n\nKami boleh menyahaktifkan atau memadam akaun yang digunakan untuk merosakkan laman ini atau orang lain. Anda boleh memadam akaun anda sendiri pada bila-bila masa di halaman Tetapan.",
+      },
+      conduct: {
+        title: "Perkara yang tidak dibenarkan",
+        body: "Jangan cuba menceroboh laman ini, akaunnya atau pelayannya, dan jangan membebankannya, contohnya dengan memuat turun halaman atau datanya secara pukal menggunakan program. Beberapa sumber kami tidak membenarkan data mereka disalin dan diedarkan sebagai data, jadi jangan gunakan laman ini untuk mengumpulnya. Jika anda menemui masalah keselamatan, laporkannya secara sulit melalui GitHub (kod sumber dipautkan di halaman Perihal).",
+      },
+      code: {
+        title: "Kod sumber",
+        body: "Kod laman ini terbuka di bawah lesen MIT. Lesen itu meliputi kod sahaja, bukan teks al-Quran, terjemahan, tafsir atau bacaan.",
+      },
+      warranty: {
+        title: "Tiada jaminan",
+        body: "Laman ini disediakan seadanya dan secara percuma. Kami berusaha memaparkan teks dengan betul dan memastikan laman ini terus berjalan, tetapi kami tidak dapat menjanjikan laman ini sentiasa tersedia atau bebas daripada kesilapan. Sesetengah teks dibaca terus daripada sumbernya, jadi sesuatu teks boleh hilang buat sementara apabila sumbernya tidak dapat dicapai. Setakat yang dibenarkan oleh undang-undang, kami tidak bertanggungjawab atas kerugian yang timbul daripada penggunaan laman ini.",
+      },
+      changes: {
+        title: "Perubahan terma",
+        body: "Kami boleh mengubah terma ini. Tarikh di bahagian atas halaman ini menunjukkan perubahan terakhir.",
+      },
+      law: {
+        title: "Undang-undang yang terpakai",
+        body: "Terma ini tertakluk kepada undang-undang Republik Indonesia.",
+      },
+    },
+    contactTitle: "Hubungi",
+    contactBy: "Laman ini dikendalikan oleh {name}.",
+    contactEmail: "Soalan tentang terma ini: {email}",
+    contactMissing: "Hubungan untuk soalan tentang terma ini belum disediakan.",
+    translationNote: "Terjemahan terma ini belum disemak oleh penutur asli. Jika ia berbeza daripada versi bahasa Inggeris atau Indonesia, versi itulah yang terpakai.",
+  },
   admin: {
     title: "Akaun",
     subtitle: "Butiran akaun sahaja. Data bacaan dan kandungan al-Quran tidak dipaparkan atau boleh diubah di sini.",
@@ -115,6 +159,7 @@ export const ms: Messages = {
   },
   footer: {
     privacy: "Privasi",
+    terms: "Terma",
     about: "Perihal",
   },
   about: {

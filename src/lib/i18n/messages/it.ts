@@ -93,6 +93,50 @@ export const it: Messages = {
     contactMissing: "Il contatto per le domande sui tuoi dati non è ancora stato configurato.",
     translationNote: "Questa traduzione dell'informativa non è ancora stata rivista da un madrelingua. Dove differisce dalla versione inglese o indonesiana, valgono queste ultime.",
   },
+  terms: {
+    title: "Condizioni d'uso",
+    intro: "QuranWeb è un sito gratuito per leggere il Corano, senza pubblicità e senza pagamenti. Queste condizioni valgono quando lo usi. Il modo in cui sono trattati i tuoi dati è descritto nell'informativa sulla privacy.",
+    updated: "Ultimo aggiornamento: {date}",
+    sections: {
+      use: {
+        title: "Uso del sito",
+        body: "Puoi leggere tutto su questo sito gratuitamente e senza account. Puoi condividere il link di qualsiasi pagina e citare versetti, indicando l'edizione che citi.",
+      },
+      content: {
+        title: "Il testo del Corano, le traduzioni e i tafsir",
+        body: "Il testo arabo, le traduzioni, i tafsir e le recitazioni provengono dalle fonti pubblicate indicate nella pagina Informazioni, e ognuno resta soggetto alle condizioni della sua fonte. Li mostriamo come sono stati pubblicati, senza modificarli. Una traduzione rende il significato del Corano come lo ha inteso il traduttore, e un tafsir è la spiegazione del suo autore; nessuno dei due sostituisce il testo arabo.\n\nQuesto sito non emette pareri religiosi (fatwa). Per una questione di pratica, rivolgiti a un sapiente di cui ti fidi.\n\nSe trovi un errore in un testo, segnalacelo (vedi Contatti qui sotto) perché possa essere corretto alla fonte.",
+      },
+      account: {
+        title: "Il tuo account",
+        body: "L'accesso è facoltativo. Accedi con il tuo account Google, e mantenerlo sicuro spetta a te. Le tue note sono salvate sul nostro server come testo semplice, quindi non scriverci nulla che non vorresti fosse conservato lì.\n\nPossiamo disattivare o eliminare un account usato per danneggiare il sito o altre persone. Puoi eliminare il tuo account in qualsiasi momento dalla pagina Impostazioni.",
+      },
+      conduct: {
+        title: "Cosa non è consentito",
+        body: "Non cercare di entrare senza permesso nel sito, nei suoi account o nel suo server, e non sovraccaricarlo, per esempio scaricando in massa pagine o dati con un programma. Diverse nostre fonti non consentono che i loro dati vengano copiati e ridistribuiti come dati, quindi non usare questo sito per raccoglierli. Se trovi un problema di sicurezza, segnalalo in modo riservato tramite GitHub (il codice sorgente è collegato dalla pagina Informazioni).",
+      },
+      code: {
+        title: "Codice sorgente",
+        body: "Il codice di questo sito è aperto con licenza MIT. La licenza copre solo il codice, non il testo del Corano, le traduzioni, i tafsir o le recitazioni.",
+      },
+      warranty: {
+        title: "Nessuna garanzia",
+        body: "Il sito è fornito così com'è, gratuitamente. Ci impegniamo a mostrare correttamente i testi e a mantenere il sito attivo, ma non possiamo promettere che sia sempre disponibile o privo di errori. Alcuni testi vengono letti direttamente dalla loro fonte, quindi uno di essi può mancare per un po' quando la fonte non è raggiungibile. Nei limiti consentiti dalla legge, non siamo responsabili delle perdite derivanti dall'uso del sito.",
+      },
+      changes: {
+        title: "Modifiche a queste condizioni",
+        body: "Possiamo modificare queste condizioni. La data in cima a questa pagina indica l'ultima modifica.",
+      },
+      law: {
+        title: "Legge applicabile",
+        body: "Queste condizioni sono regolate dalla legge della Repubblica di Indonesia.",
+      },
+    },
+    contactTitle: "Contatti",
+    contactBy: "Questo sito è gestito da {name}.",
+    contactEmail: "Domande su queste condizioni: {email}",
+    contactMissing: "Il contatto per le domande su queste condizioni non è ancora stato configurato.",
+    translationNote: "Questa traduzione delle condizioni non è ancora stata verificata da un madrelingua. Dove differisce dalla versione inglese o indonesiana, valgono quelle versioni.",
+  },
   admin: {
     title: "Account",
     subtitle: "Solo dati degli account. I dati di lettura e il contenuto del Corano non sono mostrati né modificati qui.",
@@ -115,6 +159,7 @@ export const it: Messages = {
   },
   footer: {
     privacy: "Privacy",
+    terms: "Condizioni",
     about: "Informazioni",
   },
   about: {

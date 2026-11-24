@@ -94,6 +94,50 @@ export const vi: Messages = {
     contactMissing: "Thông tin liên hệ cho các câu hỏi về dữ liệu của bạn chưa được thiết lập.",
     translationNote: "Bản dịch chính sách này chưa được người bản ngữ kiểm tra. Ở chỗ nào khác với bản tiếng Anh hoặc tiếng Indonesia, các bản đó được áp dụng.",
   },
+  terms: {
+    title: "Điều khoản sử dụng",
+    intro: "QuranWeb là trang web miễn phí để đọc Qur'an, không quảng cáo và không thu phí. Các điều khoản này áp dụng khi bạn sử dụng trang. Cách dữ liệu của bạn được xử lý được mô tả trong chính sách quyền riêng tư.",
+    updated: "Cập nhật lần cuối: {date}",
+    sections: {
+      use: {
+        title: "Sử dụng trang web",
+        body: "Bạn có thể đọc mọi thứ trên trang này miễn phí và không cần tài khoản. Bạn có thể chia sẻ liên kết đến bất kỳ trang nào và trích dẫn các câu kinh, kèm tên ấn bản bạn trích dẫn.",
+      },
+      content: {
+        title: "Văn bản Qur'an, bản dịch và tafsir",
+        body: "Văn bản tiếng Ả Rập, các bản dịch, tafsir và các bản đọc tụng đến từ những nguồn đã xuất bản được nêu tên trên trang Giới thiệu, và mỗi nguồn giữ điều khoản riêng của mình. Chúng tôi hiển thị chúng đúng như đã xuất bản và không chỉnh sửa. Bản dịch truyền đạt ý nghĩa của Qur'an theo cách người dịch hiểu, còn tafsir là lời giải thích của tác giả; không cái nào thay thế được văn bản tiếng Ả Rập.\n\nTrang này không đưa ra phán quyết tôn giáo (fatwa). Với câu hỏi về thực hành, hãy hỏi một học giả mà bạn tin tưởng.\n\nNếu bạn thấy lỗi trong một văn bản, hãy báo cho chúng tôi (xem Liên hệ bên dưới) để có thể sửa tại nguồn.",
+      },
+      account: {
+        title: "Tài khoản của bạn",
+        body: "Đăng nhập là không bắt buộc. Bạn đăng nhập bằng tài khoản Google, và việc giữ an toàn cho tài khoản đó là trách nhiệm của bạn. Ghi chú của bạn được lưu trên máy chủ của chúng tôi dưới dạng văn bản thường, vì vậy đừng viết vào đó điều gì bạn không muốn được lưu ở đó.\n\nChúng tôi có thể vô hiệu hóa hoặc xóa tài khoản được dùng để gây hại cho trang hoặc người khác. Bạn có thể tự xóa tài khoản của mình bất cứ lúc nào trên trang Cài đặt.",
+      },
+      conduct: {
+        title: "Những điều không được phép",
+        body: "Đừng cố xâm nhập trang web, các tài khoản hay máy chủ của nó, và đừng gây tải nặng cho trang, ví dụ như dùng chương trình để tải hàng loạt các trang hoặc dữ liệu. Một số nguồn của chúng tôi không cho phép sao chép và phân phối lại dữ liệu của họ dưới dạng dữ liệu, vì vậy đừng dùng trang này để thu thập chúng. Nếu bạn phát hiện vấn đề bảo mật, hãy báo riêng qua GitHub (mã nguồn được liên kết trên trang Giới thiệu).",
+      },
+      code: {
+        title: "Mã nguồn",
+        body: "Mã của trang này được mở theo giấy phép MIT. Giấy phép đó chỉ áp dụng cho mã, không áp dụng cho văn bản Qur'an, các bản dịch, tafsir hay các bản đọc tụng.",
+      },
+      warranty: {
+        title: "Không bảo đảm",
+        body: "Trang web được cung cấp nguyên trạng và miễn phí. Chúng tôi cố gắng hiển thị văn bản chính xác và giữ cho trang hoạt động, nhưng không thể hứa rằng trang luôn truy cập được hoặc không có lỗi. Một số văn bản được đọc trực tiếp từ nguồn, nên một văn bản có thể tạm thời không hiển thị khi nguồn của nó gặp sự cố. Trong phạm vi pháp luật cho phép, chúng tôi không chịu trách nhiệm về tổn thất phát sinh từ việc sử dụng trang.",
+      },
+      changes: {
+        title: "Thay đổi điều khoản",
+        body: "Chúng tôi có thể thay đổi các điều khoản này. Ngày ở đầu trang cho biết lần thay đổi gần nhất.",
+      },
+      law: {
+        title: "Luật áp dụng",
+        body: "Các điều khoản này chịu sự điều chỉnh của pháp luật nước Cộng hòa Indonesia.",
+      },
+    },
+    contactTitle: "Liên hệ",
+    contactBy: "Trang này do {name} vận hành.",
+    contactEmail: "Câu hỏi về các điều khoản này: {email}",
+    contactMissing: "Thông tin liên hệ cho câu hỏi về các điều khoản này chưa được thiết lập.",
+    translationNote: "Bản dịch điều khoản này chưa được người bản ngữ kiểm tra. Nếu có khác biệt với bản tiếng Anh hoặc tiếng Indonesia, các bản đó được áp dụng.",
+  },
   admin: {
     title: "Tài khoản",
     subtitle: "Chỉ dữ liệu tài khoản. Dữ liệu đọc và nội dung Kinh Qur'an không được hiển thị hay chỉnh sửa ở đây.",
@@ -116,6 +160,7 @@ export const vi: Messages = {
   },
   footer: {
     privacy: "Quyền riêng tư",
+    terms: "Điều khoản",
     about: "Giới thiệu",
   },
   about: {
