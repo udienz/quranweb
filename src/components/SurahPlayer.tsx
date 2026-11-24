@@ -11,7 +11,19 @@ interface Shell {
   reciter: string;
   /** The surah's name, which names the slider for a screen reader. */
   surahName: string;
-  slider: { value: number; max: number; disabled: boolean; valueText: string; onInput: (value: number) => void; onCommit: () => void };
+  slider: {
+    value: number;
+    max: number;
+    /** 1 for verses (one verse a step); "any" for time, which moves smoothly. */
+    step: number | "any";
+    disabled: boolean;
+    valueText: string;
+    onInput: (value: number) => void;
+    /** The pointer was let go. */
+    onCommit: () => void;
+    /** A key was let go (the verse slider waits a moment, so several presses start one verse). */
+    onKeyCommit: () => void;
+  };
   /** The text at the end of the bar: the time, or the verse. */
   end: string;
 }
@@ -40,7 +52,7 @@ function PlayerShell({ playing, onToggle, reciter, surahName, slider, end }: She
         className="surah-player__range"
         min={0}
         max={slider.max > 0 ? slider.max : 1}
-        step="any"
+        step={slider.step}
         value={slider.value}
         disabled={slider.disabled}
         aria-label={surahName}
@@ -48,7 +60,7 @@ function PlayerShell({ playing, onToggle, reciter, surahName, slider, end }: She
         style={{ "--pct": `${pct}%` } as React.CSSProperties}
         onChange={(e) => slider.onInput(Number(e.target.value))}
         onPointerUp={slider.onCommit}
-        onKeyUp={slider.onCommit}
+        onKeyUp={slider.onKeyCommit}
       />
       <span className="surah-player__end" dir="ltr">
         {end}
@@ -99,6 +111,7 @@ export function WholeSurahPlayer({
       slider={{
         value: progress.time,
         max: progress.duration,
+        step: "any",
         disabled: !known,
         valueText: end,
         onInput: (value) => {
@@ -106,6 +119,7 @@ export function WholeSurahPlayer({
           setProgress((p) => ({ ...p, time: value }));
         },
         onCommit: () => {},
+        onKeyCommit: () => {},
       }}
     />
   );
@@ -133,6 +147,20 @@ export function VerseSurahPlayer({
   const { t, tn } = useI18n();
   // While the slider is dragged it shows where it is; the verse starts when it is let go (starting one per step would restart the audio).
   const [dragging, setDragging] = useState<number | null>(null);
+  const draggingRef = useRef<number | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const latest = useRef({ verse, onGoTo });
+  useEffect(() => {
+    latest.current = { verse, onGoTo };
+  });
+  useEffect(() => () => clearTimeout(timer.current), []);
+  function commit() {
+    clearTimeout(timer.current);
+    const picked = draggingRef.current;
+    draggingRef.current = null;
+    setDragging(null);
+    if (picked !== null && picked !== latest.current.verse) latest.current.onGoTo(picked);
+  }
   const shown = dragging ?? verse ?? 1;
   const end = verse === null && dragging === null ? tn("common.verses", verseCount) : `${t("reader.verseOption", { number: Math.round(shown) })} / ${verseCount}`;
   return (
@@ -145,12 +173,18 @@ export function VerseSurahPlayer({
       slider={{
         value: shown,
         max: verseCount,
+        step: 1,
         disabled: false,
         valueText: end,
-        onInput: (value) => setDragging(Math.max(1, Math.round(value))),
-        onCommit: () => {
-          if (dragging !== null && dragging !== verse) onGoTo(dragging);
-          setDragging(null);
+        onInput: (value) => {
+          const picked = Math.max(1, Math.min(verseCount, Math.round(value)));
+          draggingRef.current = picked;
+          setDragging(picked);
+        },
+        onCommit: commit,
+        onKeyCommit: () => {
+          clearTimeout(timer.current);
+          timer.current = setTimeout(commit, 400);
         },
       }}
     />
