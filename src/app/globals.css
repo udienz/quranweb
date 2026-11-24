@@ -160,22 +160,21 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --reading-ink: #3d3428;
   --reading-forest: #344c3d;
   --reading-gold: #b49a68;
-  --reading-muted: #807565;
+  --reading-muted: #6b6152;
   --reading-line: #e5dac8;
   color: var(--reading-ink);
   border-radius: 1.25rem;
   padding: clamp(0.65rem, 2vw, 1.25rem);
   background: var(--reading-paper);
 }
-.quran-reading__header {
-  background: linear-gradient(135deg, #405b48, #263b30) !important;
-  border: 1px solid rgb(180 154 104 / 28%);
-  box-shadow: 0 12px 30px rgb(61 52 40 / 9%);
-}
 .quran-reading__surface {
   background: var(--reading-canvas) !important;
-  border-color: #d9cbb5 !important;
-  box-shadow: 0 8px 28px rgb(61 52 40 / 5%);
+  border-color: rgb(180 154 104 / 45%) !important;
+  /* A thin inner rule in gold, like the frame of a printed page; nothing else is drawn. */
+  box-shadow:
+    inset 0 0 0 5px var(--reading-canvas),
+    inset 0 0 0 6px rgb(180 154 104 / 35%),
+    0 8px 28px rgb(61 52 40 / 5%);
 }
 .quran-reading__verse {
   border-bottom-color: var(--reading-line) !important;
@@ -213,13 +212,12 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --reading-muted: #b6ad9e;
   --reading-line: #3c4a3f;
 }
-.dark .quran-reading__header {
-  background: linear-gradient(135deg, #304638, #1d2d23) !important;
-  border-color: rgb(200 173 120 / 25%);
-}
 .dark .quran-reading__surface {
   background: var(--reading-canvas) !important;
-  border-color: #435247 !important;
+  border-color: rgb(200 173 120 / 35%) !important;
+  box-shadow:
+    inset 0 0 0 5px var(--reading-canvas),
+    inset 0 0 0 6px rgb(200 173 120 / 25%);
 }
 .dark .quran-reading__verse {
   border-bottom-color: var(--reading-line) !important;
@@ -388,3 +386,122 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   .home-editorial__halo { width: 10rem; height: 10rem; }
   .home-editorial__surah-arrow { opacity: 1; }
 }
+
+
+/* Editorial colour scope (the header and the reading pages): the same tokens the rest of the app uses, set to the approved
+   palette (parchment, soft cream, ink brown, deep forest, muted gold, warm gray), so sidebar, pagination, inputs and links
+   follow it with no per-component rule. Pages outside it (settings, my reading, about) keep the teal theme. */
+.editorial {
+  --card: 39 55% 94%;
+  --muted: 40 43% 88%;
+  --border: 37 32% 78%;
+  --primary: 143 19% 25%;
+  --primary-soft: 42 31% 87%;
+  --foreground: 34 21% 20%;
+  --muted-foreground: 36 12% 40%;
+  --gold: 39 34% 56%;
+}
+.dark .editorial {
+  --card: 141 16% 18%;
+  --muted: 142 15% 22%;
+  --border: 136 10% 29%;
+  --primary: 122 17% 71%;
+  --primary-soft: 137 15% 24%;
+  --foreground: 38 41% 89%;
+  --muted-foreground: 38 14% 67%;
+  --gold: 40 42% 63%;
+}
+
+/* The surah heading sits on the paper, centred; the controls are one forest bar under it. */
+.quran-reading__header {
+  text-align: center;
+  padding: clamp(1rem, 3vw, 1.75rem) 0.5rem 0.25rem;
+}
+.quran-reading__eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--reading-muted);
+}
+.quran-reading__title {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  color: var(--reading-forest);
+}
+.quran-reading__title h1 {
+  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+.quran-reading__title p {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.4;
+}
+.quran-reading__title-rule {
+  align-self: stretch;
+  width: 1px;
+  min-height: 2rem;
+  background: var(--reading-gold);
+  opacity: 0.6;
+}
+@media (max-width: 30rem) {
+  .quran-reading__title-rule { display: none; }
+}
+.quran-reading__meaning {
+  margin-top: 0.25rem;
+  color: var(--reading-muted);
+  font-style: italic;
+}
+.quran-reading__ornament {
+  position: relative;
+  display: block;
+  height: 1rem;
+  max-width: 28rem;
+  margin: 0.9rem auto 0;
+}
+.quran-reading__ornament::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--reading-gold), transparent);
+}
+.quran-reading__ornament::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--reading-gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 0 5px var(--reading-paper);
+}
+.quran-reading__bar {
+  margin-top: 0.75rem;
+  border-radius: 1.5rem;
+  padding: 0.85rem 1.1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #344c3d, #2a4033);
+  border: 1px solid rgb(180 154 104 / 28%);
+  box-shadow: 0 8px 20px rgb(61 52 40 / 10%);
+}
+.quran-reading__bar > * + * { margin-top: 0.75rem; }
+/* Gold text and the active tab on the forest bar: a lighter gold than the palette's, to reach 4.5:1 for small text. */
+.quran-reading__bar { --gold: 44 42% 65%; }
+.dark .quran-reading__bar {
+  background: linear-gradient(135deg, #304638, #1d2d23);
+  border-color: rgb(200 173 120 / 25%);
+}
+/* Verse number: a thin gold ring instead of a tilted tile. */
+.quran-reading__verse span.rotate-45 {
+  rotate: none;
+  border-radius: 9999px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--reading-gold);
+}
+.quran-reading__verse span.-rotate-45 { rotate: none; }

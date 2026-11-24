@@ -28,8 +28,8 @@ const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَ
 
 // The lists in the dark surah header (jump to a verse, play a juz): gold text on the header, as before.
 const DARK_SELECT =
-  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
-const DARK_TRIGGER = "flex min-w-36 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-gold outline-none";
+  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
+const DARK_TRIGGER = "flex min-w-36 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-white/90 outline-none";
 
 export default function SurahReader({
   view,
@@ -135,33 +135,28 @@ export default function SurahReader({
 
   const tabClass = (active: boolean) =>
     `rounded-full px-5 py-2 text-sm font-semibold transition ${
-      active ? "bg-gold text-[hsl(190_70%_12%)]" : "border border-white/15 text-white/85 hover:bg-white/10"
+      active ? "bg-gold text-[hsl(143_25%_12%)]" : "border border-white/15 text-white/85 hover:bg-white/10"
     }`;
 
   return (
     <div className="quran-reading">
-      <header
-        className="quran-reading__header on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
-        style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
-      >
-        <div className="flex items-center justify-between gap-4 border-b border-white/15 pb-4">
-          <div className="flex items-center gap-4">
-            <span className="flex h-11 w-11 shrink-0 rotate-45 items-center justify-center rounded-lg bg-white/10 ring-1 ring-gold/60">
-              <span className="-rotate-45 font-display text-sm font-bold text-gold">{meta.number}</span>
-            </span>
-            <div>
-              <h1 className="font-display text-xl font-bold">{meta.name.latin}</h1>
-              <p className="tabular-nums text-xs text-white/70">
-                {tn("common.verses", meta.verseCount)} · {t(`revelation.${meta.revelation}`)}
-              </p>
-            </div>
-          </div>
-          <p className="font-arabic text-3xl text-gold" dir="rtl" lang="ar" translate="no">
+      <header className="quran-reading__header">
+        <p className="quran-reading__eyebrow tabular-nums">
+          {meta.number} · {t(`revelation.${meta.revelation}`)} · {tn("common.verses", meta.verseCount)}
+        </p>
+        <div className="quran-reading__title">
+          <h1 className="font-display">{meta.name.latin}</h1>
+          <span aria-hidden className="quran-reading__title-rule" />
+          <p className="font-arabic" dir="rtl" lang="ar" translate="no">
             {meta.name.arabic}
           </p>
         </div>
-        <p className="mt-3 text-sm text-white/75">{meaningOf(meta, locale)}</p>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="quran-reading__meaning">{meaningOf(meta, locale)}</p>
+        <span aria-hidden className="quran-reading__ornament" />
+      </header>
+
+      <div className="quran-reading__bar on-dark">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex gap-2">
             <button type="button" className={tabClass(mode === "reading")} onClick={() => setMode("reading")}>
               {t("common.reading")}
@@ -223,7 +218,7 @@ export default function SurahReader({
             {t("reader.playingJuz", { juz: playingJuz })}
           </p>
         )}
-      </header>
+      </div>
 
       {view.unavailable.length > 0 && (
         <p role="status" className="mt-3 rounded-xl border border-border bg-muted px-4 py-3 text-sm">

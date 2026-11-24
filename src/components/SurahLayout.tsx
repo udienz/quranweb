@@ -36,7 +36,7 @@ export default function SurahLayout({
   }
 
   return (
-    <div className={`mx-auto grid max-w-[1200px] gap-6 px-4 py-6 ${collapsed ? "" : "lg:grid-cols-[320px_1fr]"}`}>
+    <div className={`editorial mx-auto grid max-w-[1200px] gap-6 px-4 py-6 ${collapsed ? "" : "lg:grid-cols-[320px_1fr]"}`}>
       {!collapsed && <aside className="hidden lg:block">{side}</aside>}
       <div className="min-w-0">
         <button

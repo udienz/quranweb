@@ -22,9 +22,9 @@ import {
 import SearchableSelect from "./SearchableSelect";
 
 const selectClass =
-  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
+  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
 // A long surah's verse list (more than 10) opens a search box: the same look as the select it replaces.
-const TRIGGER_CLASS = "flex min-w-20 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-gold outline-none";
+const TRIGGER_CLASS = "flex min-w-20 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-white/90 outline-none";
 
 /**
  * Memorization controls in the surah header: how many times each verse is played, and a range of verses of this surah to

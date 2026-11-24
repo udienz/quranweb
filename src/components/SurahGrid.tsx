@@ -25,7 +25,7 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
   }, [q, surahs, locale]);
 
   return (
-    <section className="home-editorial__surahs">
+    <section id="surahs" className="home-editorial__surahs scroll-mt-20">
       <div className="home-editorial__section-head mb-5 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="home-editorial__eyebrow mb-2 text-[10px] font-bold uppercase tracking-[0.2em]">{t("meta.title")}</p>

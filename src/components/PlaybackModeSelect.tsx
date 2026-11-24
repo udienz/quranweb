@@ -23,7 +23,7 @@ export default function PlaybackModeSelect({ onDark = false }: { onDark?: boolea
       title={t("reader.whenEnds")}
       className={
         onDark
-          ? "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
+          ? "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
           : "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
       }
     >

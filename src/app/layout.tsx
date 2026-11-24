@@ -9,6 +9,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import AccountMenu from "@/components/AccountMenu";
 import LanguageMenu from "@/components/LanguageMenu";
+import NavLink from "@/components/NavLink";
 import Logo from "@/components/Logo";
 import PrefsProvider from "@/components/PrefsProvider";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -63,26 +64,28 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <I18nProvider locale={locale} messages={MESSAGES[locale]}>
           <KeepVerseInView />
-          <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
+          <header className="editorial sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
             {/* On phones the navigation takes a second row, so the controls never push the header wider than the screen. */}
-            <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-2 gap-y-2 px-4 py-2 sm:h-16 sm:flex-nowrap sm:py-0">
+            <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-2 gap-y-1 px-4 py-2 sm:h-16 sm:flex-nowrap sm:py-0">
               <Link href="/" className="flex items-center gap-2.5">
-                <Logo />
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#344c3d] ring-1 ring-gold/40 dark:bg-[#26342b]">
+                  <span className="flex [--primary:43_45%_82%] [--gold:42_55%_66%]">
+                    <Logo size={26} />
+                  </span>
+                </span>
                 <span className="hidden font-display text-xl font-bold tracking-tight text-primary min-[480px]:inline">QuranWeb</span>
               </Link>
-              <nav className="order-last flex w-full justify-center rounded-full border border-border bg-card p-1 text-xs sm:order-none sm:w-auto sm:text-sm">
-                <Link href="/" className="flex items-center gap-2 whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                  {t("nav.quran")}
-                </Link>
+              <nav className="order-last flex w-full justify-center text-sm sm:order-none sm:w-auto">
+                <NavLink href="/">{t("nav.quran")}</NavLink>
+                <NavLink href="/#surahs">
+                  {t("home.listTitle")} <span className="text-xs tabular-nums text-muted-foreground">114</span>
+                </NavLink>
+                <NavLink href="/about">{t("footer.about")}</NavLink>
                 {/* With sign-in on, "My reading" and "Settings" live in the account menu; without it, they stay here. */}
                 {!accounts && (
                   <>
-                    <Link href="/my-reading" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                      {t("nav.myReading")}
-                    </Link>
-                    <Link href="/settings" className="whitespace-nowrap rounded-full px-2.5 py-1.5 font-medium hover:bg-background sm:px-4">
-                      {t("nav.settings")}
-                    </Link>
+                    <NavLink href="/my-reading">{t("nav.myReading")}</NavLink>
+                    <NavLink href="/settings">{t("nav.settings")}</NavLink>
                   </>
                 )}
               </nav>

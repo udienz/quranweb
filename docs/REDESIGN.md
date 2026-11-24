@@ -16,7 +16,7 @@ This is a visual redesign, not a product or data-model redesign.
 
 - Preserve routes, query parameters, cookies, APIs, providers, selection IDs, user data, bookmarks, reading progress, audio behavior, tafsir, search and sharing behavior.
 - Do not add any facility to edit Qur'an text, translations or tafsir. Content continues to come from the verified providers and their existing licence/credit paths.
-- Do not change the global application shell or header navigation as part of the first visual pass. In particular, leave `LanguageMenu`, `ThemeToggle`, `AccountMenu`, and the header search/navigation behavior untouched.
+- The global shell was out of scope in the first visual pass. The owner lifted that on 2026-11-24 (a reference mockup with a new header): the header's look (logo tile, wordmark, text navigation with an underline on the current page) may change, but `LanguageMenu`, `ThemeToggle`, `AccountMenu` and the search link keep their behaviour and their place.
 - The interface already supports Indonesian, English and community translations in 25 locales. Preserve locale negotiation, RTL layout, message catalogs and translation behavior. Never replace localized UI strings with hard-coded copy.
 - Preserve reader-controlled Arabic and Latin scale variables, the reader's Arabic font choice (Amiri or KFGQPC), tajweed colors, and the existing light/dark preference.
 - Keep About, Privacy and Terms links available from every page; content credits must remain one click away.
@@ -74,6 +74,10 @@ Typography is open for exploration. Do not assume the current families are locke
 - Added explicit styling hooks to the reader and verse cards. No routes, translations, data providers, reader state, audio logic or interaction handlers were changed.
 - Global shell tokens remain unchanged. Arabic font families and scale variables remain untouched.
 - Automated checks and visual review across themes, screen sizes and locales are still pending; this is not ready to merge.
+
+- Reader polish (2026-11-24, after the QA review of PR #140): the surah heading is centred on the paper (number, revelation and verse count; Latin and Arabic names; meaning; a thin gold rule with one diamond), and every control sits in one deep-forest bar under it. The reading surface has a thin inner gold rule. Verse numbers are rings, not tilted tiles.
+- Colour scope: `.editorial` (the header and the surah and mushaf pages) re-sets the shared tokens (`--card`, `--muted`, `--border`, `--primary`, `--primary-soft`, `--foreground`, `--muted-foreground`, `--gold`) to the palette, so the sidebar, pagination and inputs follow it without per-component rules; the old white panels, blue selected row and teal page numbers are gone there. Settings, My reading and About keep the teal theme for now. Warm Gray `#807565` is 4.05:1 on Soft Cream, so secondary text in the reader uses `#6b6152` (5.45:1) and the interface token is `hsl(36 12% 40%)`; gold text on the forest bar uses a lighter gold (4.7:1 or more).
+- Header: a logo tile in deep forest, the wordmark, and text navigation (Al-Quran, Surahs with the surah count, About, and My reading and Settings when sign-in is off) with an underline on the current page (`NavLink`). The tagline and the mosque backdrop of the mockup are not built: a tagline needs a message in 25 catalogs, and the backdrop is the ornament the brief says to avoid.
 
 ## Implementation sequence
 
