@@ -123,7 +123,9 @@ top right (it reads "Sign in" until you sign in) and choose Settings.
 
 ![Al-Fatihah verse by verse, with the Yusuf Ali and Pickthall translations under each verse](docs/screenshots/en/how-translations.png)
 
-1. Open a surah from the home page, or type its name or number in the search box above the surah list.
+1. Open a surah from the home page (it lists the first six; **View all surahs** opens the full list), or type a name, in
+   Latin or Arabic, or a number in the search box above them: suggestions from all 114 surahs appear as you type, and the
+   arrow keys and Enter pick one.
 2. In Reading settings, pick the Arabic text, then a language under Translation and one or more translations in it. Each
    one you add appears under the verse; remove one with the cross on its label.
 3. Turn the Arabic text, the transliteration or the translation on or off in the same panel. The transliteration is off

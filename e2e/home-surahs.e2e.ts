@@ -7,8 +7,9 @@ import { LOCALES } from "../src/lib/i18n/config";
 
 const SIX = ["Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am"];
 
-const rows = (page: Page): Locator => page.locator("#surahs ul.home-editorial__surah-list > li > a");
-const box = (page: Page): Locator => page.locator("#surahs input[role=combobox]");
+// Next keeps the page that was left, hidden, so only what is visible counts (the home page stays behind /surahs).
+const rows = (page: Page): Locator => page.locator("section#surahs:visible ul.home-editorial__surah-list > li > a");
+const box = (page: Page): Locator => page.locator("section#surahs:visible input[role=combobox]");
 const options = (page: Page): Locator => page.getByRole("option");
 const option = (page: Page, name: string | RegExp): Locator => page.getByRole("option", { name });
 
@@ -114,7 +115,7 @@ test.describe("suggestions in the home page's search box", () => {
     await box(page).press("ArrowUp");
     await box(page).press("ArrowUp");
     await box(page).press("ArrowUp");
-    await expect(option(page, /An-Nas$/)).toHaveAttribute("aria-selected", "true");
+    await expect(option(page, /An-Nas(?!r)/)).toHaveAttribute("aria-selected", "true");
     // Escape closes the list and keeps what was typed; Arrow Down opens it again.
     await box(page).press("Escape");
     await expect(options(page)).toHaveCount(0);

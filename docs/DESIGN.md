@@ -305,15 +305,23 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 **Surah Index (home)** (since PR #140; it replaced the grid of cards)
 - Two columns from `lg`, one below; a row per surah: soft cream `#f8f2e7`, 1px `#dfd3c1` border, hover border `#9b8a68` and a small shadow
 - Left: the number in a chip (`#e4eadf` with a 1px `#cdd8c9` border, forest numeral; dark `#35473a`, border `#50634f`, numeral `#d2dfcb`); middle: Latin name, meaning, verse count and revelation in muted text; right: the Arabic name in `Amiri` in forest, and a gold arrow that shows on hover (always on phones)
-- The search field above the list filters by number, name and meaning, and all 114 links stay
-- Use: the 114 surah links ("Al-Fatihah · The Opening · 7 verses · Mecca")
+- On the home page the index shows the first six surahs, and a text link "View all surahs" under them (14.9px weight 600, `--primary`, 44px high, an arrow that mirrors in right to left; underline on hover) opens `/surahs`, which shows all 114 in the same rows with an `h1`
+- On `/surahs` the search field above the list filters by number, name and meaning; on the home page the same field suggests (see Surah Search Suggestions) and the six rows stay
+- Use: the surah links ("Al-Fatihah · The Opening · 7 verses · Mecca")
+
+**Surah Search Suggestions** (home page; 2026-11-24)
+- The field keeps its place and look (pill, 288px from `sm`, full width below). Under it, on the field's end edge, floats a card: `--card`, 1px `--border`, radius 16px, shadow `0 12px 28px` of ink at 14%, 384px wide from `sm` (the field's width on a phone), at most `min(22rem, 60vh)` high and scrolling, never clipped by the page
+- A row is at least 44px high, padding 6px 12px, radius 10px: the number in 12px tabular figures (`--muted-foreground`), the Latin name (14.4px weight 500, truncated), the Arabic name (`Amiri` 20.8px, `--primary`, `dir=rtl lang=ar translate=no`); the highlighted row (arrow keys or hover) is `--primary-soft`
+- Empty result: one centred sentence, 14px `--muted-foreground` (`home.noResults`); nothing is shown for an empty field
+- Keyboard: Arrow Down and Up (they wrap), Enter, Escape; a combobox with a listbox of options for screen readers
+- Use: the home page only
 
 ### Navigation
 
 **Header** (redesigned 2026-11-24 from the owner's reference)
 - Sticky, background `#f5f2eb` at 85% opacity with `backdrop-blur`, bottom border 1px `--border`
 - Left: a 40px rounded tile (radius 12px, `#344c3d`, dark `#26342b`, a 1px ring of gold at 40%) holding the book logo in cream and gold, then the wordmark "QuranWeb" in `Space Grotesk` 20px 700, -0.5px tracking, in `--primary`; below 480px only the tile shows
-- Centre: text navigation, no pill container (`NavLink`): "Al-Quran" (`nav.quran`), "Surahs" with the surah count 114 in muted tabular figures (`home.listTitle`, links to `/#surahs`), "About" (`footer.about`), and "My reading" and "Settings" when sign-in is off. 14px weight 500 in `--foreground` at 80%, hover `--primary`; the current page is `--primary` with a 2px underline and `aria-current="page"`; every link is 44px high. Below 640px the navigation takes a second row
+- Centre: text navigation, no pill container (`NavLink`): "Al-Quran" (`nav.quran`), "Surahs" (`home.listTitle`, links to `/#surahs`; the count 114 it showed from 2026-11-24 was removed the same day, by the owner), "About" (`footer.about`), and "My reading" and "Settings" when sign-in is off. 14px weight 500 in `--foreground` at 80%, hover `--primary`; the current page is `--primary` with a 2px underline and `aria-current="page"`; every link is 44px high. Below 640px the navigation takes a second row
 - Right: search link, language menu, theme toggle, account menu: 40px round buttons, 1px `--border` on `--card`, hover `--muted`. Their behaviour and place did not change
 - Language menu: 240px wide, scrolls inside itself; languages in alphabetical order of their own names, each with a 20×14px
   flag (inline SVG, 2px radius, a 1px ring at 10% black so white flags stay visible) before the name; a community
@@ -738,6 +746,7 @@ A visual identity distinct from the familiar EQuran.id-style layout, without reb
 
 - PR #139: the reading surface in the editorial palette; hooks on the reader and verse cards.
 - PR #140: the homepage composition (hero, verse of the day, the indexed surah list).
+- The home page lists six surahs with suggestions from all 114 and a link to `/surahs` (2026-11-24); the header's "Surahs" lost its count.
 - PR #142: the README screenshots (English and Indonesian) and `public/og.png`, retaken after the owner's approval; the play bar (owner's reference, 2026-11-24: mockup A2 and the phone mockup A, chosen by the owner) with the chips under it; one palette site-wide (the editorial tokens in `:root` and `.dark`, a night-green dark page, forest `--hero-from/to`, the installed app's theme colour); the centred surah heading and control bar on the surah page and on `/mushaf/N` and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
 
 ### Checked on QA (2026-11-24)

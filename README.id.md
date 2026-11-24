@@ -127,7 +127,9 @@ di kanan atas (bertuliskan "Masuk" selama Anda belum masuk), lalu pilih Pengatur
 
 ![Al-Fatihah per ayat, dengan terjemahan Kemenag dan Yusuf Ali di bawah setiap ayat](docs/screenshots/id/how-translations.png)
 
-1. Buka surat dari beranda, atau ketik nama atau nomornya di kotak pencarian di atas daftar surat.
+1. Buka surat dari beranda (yang menampilkan enam surat pertama; **Lihat semua surat** membuka daftar lengkap), atau ketik
+   nama, dalam huruf Latin atau Arab, atau nomor di kotak pencarian di atasnya: saran dari ke-114 surat muncul saat Anda
+   mengetik, dan tombol panah serta Enter memilih salah satunya.
 2. Di Pengaturan bacaan, pilih teks Arab, lalu bahasa di bagian Terjemahan dan satu atau beberapa terjemahan dalam bahasa
    itu. Setiap terjemahan yang ditambahkan muncul di bawah ayat; hapus dengan tanda silang di labelnya.
 3. Nyalakan atau matikan teks Arab, transliterasi, atau terjemahan di panel yang sama. Transliterasi mati sampai Anda
