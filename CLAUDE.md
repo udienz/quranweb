@@ -1083,8 +1083,11 @@ Keep that footer link: the credit must stay one click away from every reading pa
   language (English README and Indonesian README respectively); retake both sets when the
   UI changes noticeably. The `how-*.png` pictures of the "How to" section come from
   `node scripts/readme-screenshots.mjs [base URL]` (production by default; sample reading data in local storage, nothing
-  of a real reader). It needs a Chromium that Playwright can start: on a machine without one, run it in the Playwright
-  image of the pinned version, as for the browser tests. The other pictures are still taken by hand. When a step in the
+  of a real reader). It takes **every** picture of the READMEs (reading page, dark theme, tafsir, home, the two phone
+  pictures and all the how-to ones), so none is taken by hand any more (2026-11-24). Give it the QA address
+  (`https://quranweb-qa.udienz.web.id`) to show what is merged but not yet released, and run it after a change that shows,
+  such as a new default; a few minutes on QA before the release avoids a second pass. It needs a Chromium that Playwright can
+  start: on a machine without one, run it in the Playwright image of the pinned version, as for the browser tests. When a step in the
   "How to" section changes (a label, where a setting lives), change it in both READMEs.
 - **Language of the repository.** Everything is in English: code, identifiers, comments,
   error messages and logs, test names, scripts, workflows, configuration and documentation.

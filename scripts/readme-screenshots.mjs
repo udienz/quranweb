@@ -1,8 +1,9 @@
-// Take the "What you can do" screenshots of the READMEs, in English and Indonesian.
+// Take every screenshot of the READMEs, in English and Indonesian: the reading page, dark theme, tafsir, home and phone
+// pictures at the top and bottom, and the how-to pictures.
 //
 //   node scripts/readme-screenshots.mjs [base URL]
 //
-// The base URL defaults to production. Each picture starts from a fresh browser with sample reading data (bookmarks,
+// The base URL defaults to production; QA (https://quranweb-qa.udienz.web.id) shows what is merged but not yet released. Each picture starts from a fresh browser with sample reading data (bookmarks,
 // a goal, progress) written into local storage, so nothing of a real reader is used or changed. Output goes to
 // docs/screenshots/<en|id>/how-*.png. Set PW_CHROMIUM to a Chromium binary when the one Playwright expects is missing.
 
@@ -99,6 +100,44 @@ const go = async (page, path) => {
 for (const lang of ["en", "id"]) {
   mkdirSync(`${OUT}${lang}`, { recursive: true });
   const T = (await import(`../src/lib/i18n/messages/${lang}.ts`))[lang];
+
+  // The reading page at the top of the README: Yasin in the mushaf layout, the surah list and settings beside it.
+  await shoot(lang, "reading", async (page) => {
+    await go(page, "/surah/36");
+    return null;
+  });
+
+  // The same in the dark theme.
+  await shoot(lang, "reading-dark", async (page) => {
+    await go(page, "/surah/36");
+    return null;
+  }, { storage: { theme: "dark" } });
+
+  // The Tafsir tab of Yasin, with the interface language's default tafsir.
+  await shoot(lang, "tafsir", async (page) => {
+    await go(page, "/surah/36");
+    await page.getByRole("button", { name: T.common.tafsir, exact: true }).first().click();
+    await page.waitForTimeout(300);
+    return null;
+  }, { data: true });
+
+  // The home page with "continue reading" (sample reading data).
+  await shoot(lang, "home", async (page) => {
+    await go(page, "/");
+    return null;
+  }, { data: true });
+
+  // A phone: the reading page, and the folded surah list and settings opened.
+  await shoot(lang, "mobile", async (page) => {
+    await go(page, "/surah/36");
+    return null;
+  }, { width: 390, height: 844 });
+  await shoot(lang, "mobile-settings", async (page) => {
+    await go(page, "/surah/36");
+    await page.locator("summary", { hasText: T.reader.panel }).click();
+    await page.waitForTimeout(300);
+    return null;
+  }, { width: 390, height: 844 });
 
   // The last page of the printed mushaf: three surahs, each with its own "Play the surah" button.
   await shoot(lang, "how-mushaf-page", async (page) => {

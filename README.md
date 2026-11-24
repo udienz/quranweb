@@ -12,7 +12,7 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 
 **Open it at https://quranweb.udienz.web.id**
 
-![Reading page in the mushaf layout: surah list on the left, the Arabic text as one block with the numbered translation beside it](docs/screenshots/en/reading.png)
+![Reading page in the mushaf layout: surah list on the left, the Arabic text in tajweed colours as one block with the numbered translation beside it](docs/screenshots/en/reading.png)
 
 ## Contents
 
@@ -189,7 +189,7 @@ pages of 10 verses, which stay the default. The choice follows your account when
 
 ### Read the tafsir
 
-![Tafsir tab with Tafsir Jalalayn](docs/screenshots/en/tafsir.png)
+![Tafsir tab with Al-Mukhtasar fi Tafsir al-Qur'an in English, the default tafsir of the English interface](docs/screenshots/en/tafsir.png)
 
 1. Open the **Tafsir** tab in the surah header.
 2. Choose the tafsir in Reading settings, under Tafsir.

@@ -12,7 +12,7 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 
 **Buka di https://quranweb.udienz.web.id**
 
-![Halaman bacaan dalam tampilan mushaf: daftar surat di kiri, teks Arab menyatu dengan terjemahan bernomor di sampingnya](docs/screenshots/id/reading.png)
+![Halaman bacaan dalam tampilan mushaf: daftar surat di kiri, teks Arab berwarna tajwid menyatu dengan terjemahan bernomor di sampingnya](docs/screenshots/id/reading.png)
 
 ## Daftar isi
 
@@ -194,7 +194,7 @@ Anda masuk.
 
 ### Membaca tafsir
 
-![Tab Tafsir dengan Tafsir Jalalayn](docs/screenshots/id/tafsir.png)
+![Tab Tafsir dengan tafsir Kemenag, tafsir bawaan antarmuka Indonesia](docs/screenshots/id/tafsir.png)
 
 1. Buka tab **Tafsir** di kepala surat.
 2. Pilih tafsirnya di Pengaturan bacaan, bagian Tafsir.
