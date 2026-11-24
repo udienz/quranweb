@@ -48,7 +48,7 @@ docker run --rm --network host -v "$PWD":/app -w /app mcr.microsoft.com/playwrig
 | **QA** | https://quranweb-qa.udienz.web.id | testing before release | by hand from `master` (`deploy-qa.yml`, Run workflow) | own mirrors on its own domain |
 | Local | http://localhost:3000 | development | `npm run dev` | EQuran.id and fawazahmed0 directly (default) |
 
-Both run on the same VM: Docker containers (`quranweb-prod` and `quranweb-qa`) behind nginx with Let's Encrypt certificates (certbot), with DNS through Cloudflare. Deployment uses SSH and `scripts/deploy.sh`, which builds the image on the server and rolls back to the previous image if the new app does not respond. First release: `v2.0.0` (2026-11-17).
+Both run on the same VM: Docker containers (`quranweb-prod` and `quranweb-qa`) behind nginx with Let's Encrypt certificates (certbot), with DNS through Cloudflare. Deployment uses SSH and `scripts/deploy.sh`, which builds the image on the server and rolls back to the previous image if the new app does not respond. To deploy from the server itself, without GitHub Actions, run `scripts/deploy-local.sh <qa|prod> [branch-or-commit]`: it resolves the branch on GitHub and runs `scripts/deploy.sh` here. The privacy contact and the Quran Foundation credentials, which the workflows take from GitHub secrets, are read from `~/.config/quranweb/deploy-<env>.env` (mode 600, not in git). First release: `v2.0.0` (2026-11-17).
 
 ## Data sources
 
