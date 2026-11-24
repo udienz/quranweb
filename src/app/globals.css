@@ -555,3 +555,116 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   .quran-reading__bar [role="combobox"] { font-size: 0.8125rem; padding: 0.4rem 0.65rem; }
   .quran-reading__bar > * + * { margin-top: 0.5rem; }
 }
+
+/* The play bar of a surah (SurahPlayer): a forest pill with a round gold button, what it plays, a slider and the time or the verse.
+   It stands alone under the surah heading; the other controls are chips on the paper under it. */
+.surah-player {
+  --gold: 44 42% 65%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4rem;
+  max-width: 52rem;
+  margin: 1.1rem auto 0;
+  padding: 0.6rem 1.6rem 0.6rem 0.6rem;
+  border: 1px solid rgb(180 154 104 / 35%);
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, #344c3d, #2a4033);
+  box-shadow: 0 10px 24px rgb(61 52 40 / 16%);
+}
+.dark .surah-player {
+  border-color: rgb(200 173 120 / 30%);
+  background: linear-gradient(135deg, #304638, #1d2d23);
+}
+.surah-player__button {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  color: #17261d;
+  background: radial-gradient(circle at 35% 30%, #dcc690, #cdb67f 60%, #b99f6a);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 35%), 0 2px 6px rgb(0 0 0 / 25%);
+}
+.surah-player__label {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.25;
+}
+.surah-player__label span:first-child { font-size: 0.9375rem; font-weight: 600; }
+.surah-player__label span:last-child { font-size: 0.78rem; color: rgb(255 255 255 / 72%); }
+.surah-player__end {
+  flex: none;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 85%);
+}
+/* The slider: a 4px track that fills with gold up to --pct, a cream thumb, and a 44px hit area that does not grow the bar. */
+.surah-player__range {
+  --end: right;
+  flex: 1 1 6rem;
+  min-width: 5rem;
+  height: 2.75rem;
+  margin-block: -0.6rem;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+html[dir="rtl"] .surah-player__range { --end: left; }
+.surah-player__range:disabled { cursor: default; }
+.surah-player__range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9px;
+  background: linear-gradient(to var(--end), hsl(var(--gold)) var(--pct, 0%), rgb(255 255 255 / 22%) var(--pct, 0%));
+}
+.surah-player__range::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: #f8f2e7;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.surah-player__range::-moz-range-track { height: 4px; border-radius: 9px; background: rgb(255 255 255 / 22%); }
+.surah-player__range::-moz-range-progress { height: 4px; border-radius: 9px; background: hsl(var(--gold)); }
+.surah-player__range::-moz-range-thumb { width: 15px; height: 15px; border: 0; border-radius: 50%; background: #f8f2e7; box-shadow: 0 1px 4px rgb(0 0 0 / 40%); }
+.surah-player__range:disabled::-webkit-slider-thumb { opacity: 0.45; }
+@media (max-width: 639px) {
+  .surah-player { flex-wrap: wrap; gap: 0.55rem 0.75rem; padding: 0.6rem 0.9rem 0.5rem 0.6rem; border-radius: 1.75rem; }
+  .surah-player__end { margin-inline-start: auto; }
+  .surah-player__range { order: 5; flex: 1 1 100%; margin-block: -0.7rem 0; }
+}
+
+/* The controls under the play bar: chips on the paper. The border is the accent at 60% (the label carries the contrast). */
+.quran-reading__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 1.25rem;
+  margin-top: 1rem;
+}
+.quran-chip {
+  border: 1px solid hsl(var(--primary) / 0.6);
+  background: hsl(var(--card) / 0.7);
+  color: hsl(var(--primary));
+}
+.quran-chip:hover { background: hsl(var(--card)); }
+.quran-chip--on,
+.quran-chip--on:hover {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary));
+  color: hsl(var(--card));
+}
+@media (max-width: 639px) {
+  .quran-reading__chips { gap: 0.5rem; }
+  .quran-chip { font-size: 0.8125rem; }
+}

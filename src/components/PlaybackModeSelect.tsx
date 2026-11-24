@@ -7,9 +7,9 @@ import { userDataActions } from "@/lib/userdata/store";
 
 /**
  * What the audio does at the end of a surah or a juz: stop, repeat, or go on. Kept in this browser and recorded so it follows
- * the account. Used in the surah header (`onDark`) and in the Audio section of the settings page.
+ * the account. Used in the surah header (`chip`, a chip on the paper; `onDark` on the forest bar) and in the Audio section of the settings page.
  */
-export default function PlaybackModeSelect({ onDark = false }: { onDark?: boolean }) {
+export default function PlaybackModeSelect({ onDark = false, chip = false }: { onDark?: boolean; chip?: boolean }) {
   const { t } = useI18n();
   const mode = useSyncExternalStore(subscribePlayback, readPlaybackMode, () => DEFAULT_PLAYBACK_MODE);
   const select = (
@@ -22,7 +22,9 @@ export default function PlaybackModeSelect({ onDark = false }: { onDark?: boolea
       }}
       title={t("reader.whenEnds")}
       className={
-        onDark
+        chip
+          ? "quran-chip rounded-xl px-3.5 py-2 text-sm font-medium outline-none"
+          : onDark
           ? "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
           : "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
       }
@@ -34,7 +36,7 @@ export default function PlaybackModeSelect({ onDark = false }: { onDark?: boolea
       ))}
     </select>
   );
-  return onDark ? (
+  return onDark || chip ? (
     <label className="flex items-center gap-2 text-sm text-white/85">
       <span className="sr-only">{t("reader.whenEnds")}</span>
       {select}

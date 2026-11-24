@@ -9,8 +9,8 @@ import { localized } from "@/lib/i18n/translate";
 import type { JuzRef, SurahView } from "@/lib/quran";
 import { meaningOf } from "@/lib/quran/labels";
 import { pageOf } from "@/lib/pagination";
-import { getJuzScope, subscribeJuzScope } from "@/lib/audio";
-import { getRangeLoop, subscribeRangeLoop } from "@/lib/memorize";
+import { getJuzScope, setJuzScope, subscribeJuzScope } from "@/lib/audio";
+import { getRangeLoop, setRangeLoop, subscribeRangeLoop } from "@/lib/memorize";
 import { VERSE_COUNTS } from "@/lib/surah-number";
 import { useVersePlayer } from "@/lib/useVersePlayer";
 import { useWholeSurah } from "@/lib/useWholeSurah";
@@ -18,7 +18,7 @@ import { userDataActions } from "@/lib/userdata/store";
 import Pagination from "./Pagination";
 import MemorizePanel from "./MemorizePanel";
 import PlaybackModeSelect from "./PlaybackModeSelect";
-import PlaySurahButton from "./PlaySurahButton";
+import { VerseSurahPlayer, WholeSurahPlayer } from "./SurahPlayer";
 import SearchableSelect from "./SearchableSelect";
 import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
@@ -26,10 +26,11 @@ import type { Layout } from "@/lib/layout";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 
-// The lists in the dark surah header (jump to a verse, play a juz): gold text on the header, as before.
-const DARK_SELECT =
-  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
-const DARK_TRIGGER = "flex min-w-0 flex-1 items-center sm:min-w-36 sm:flex-none justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-white/90 outline-none";
+// The controls under the surah heading are chips on the paper (the `quran-chip` rule in globals.css); only the Memorize panel
+// and the playing status keep the dark forest bar.
+const CHIP_SELECT = "quran-chip rounded-xl px-3.5 py-2 text-sm font-medium outline-none";
+const CHIP_TRIGGER =
+  "quran-chip flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl px-3.5 py-2 text-start text-sm font-medium outline-none sm:min-w-36 sm:flex-none";
 
 export default function SurahReader({
   view,
@@ -133,10 +134,22 @@ export default function SurahReader({
     else router.push(verseHref(meta.number, n));
   }
 
-  const tabClass = (active: boolean) =>
-    `rounded-full px-5 py-2 text-sm font-semibold transition ${
-      active ? "bg-gold text-[hsl(143_25%_12%)]" : "border border-white/15 text-white/85 hover:bg-white/10"
-    }`;
+  const tabClass = (active: boolean) => `quran-chip rounded-full px-5 py-2 text-sm font-semibold transition ${active ? "quran-chip--on" : ""}`;
+
+  // Playing from a verse by hand (the play bar, or its slider) leaves the juz and the range that were being played, as a verse button does.
+  function playFrom(n: number) {
+    setJuzScope(null);
+    const loop = getRangeLoop();
+    if (loop && (loop.surah !== meta.number || n < loop.from || n > loop.to)) setRangeLoop(null);
+    player.goTo(meta.number, n);
+  }
+  const pausedHere = player.paused?.surah === meta.number ? player.paused.verse : null;
+  function toggleVerses() {
+    if (player.playing !== null) player.pause();
+    else if (pausedHere !== null) player.resume();
+    else playFrom(1);
+  }
+  const showPlayer = Boolean(view.surahAudio) || verseAudio;
 
   return (
     <div className="quran-reading">
@@ -155,70 +168,92 @@ export default function SurahReader({
         <span aria-hidden className="quran-reading__ornament" />
       </header>
 
-      <div className="quran-reading__bar on-dark">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex gap-2">
-            <button type="button" className={tabClass(mode === "reading")} onClick={() => setMode("reading")}>
-              {t("common.reading")}
-            </button>
-            <button type="button" className={tabClass(mode === "tafsir")} onClick={() => setMode("tafsir")}>
-              {t("common.tafsir")}
-            </button>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <SearchableSelect
-              label={t("reader.jumpToVerse")}
-              labelHidden
-              placeholder={t("reader.jumpPlaceholder")}
-              value=""
-              onChange={(v) => v && jump(Number(v))}
-              options={Array.from({ length: meta.verseCount }, (_, i) => ({ value: String(i + 1), label: t("reader.verseOption", { number: i + 1 }) }))}
-              selectClassName={DARK_SELECT}
-              triggerClassName={DARK_TRIGGER}
-            />
-            {verseAudio && juzs.length > 0 && (
-              // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
-              <SearchableSelect
-                label={t("reader.playJuz")}
-                labelHidden
-                placeholder={t("reader.juzPlaceholder")}
-                value=""
-                onChange={(v) => v && playJuz(Number(v))}
-                options={juzs.map((j) => ({ value: String(j.juz), label: t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse }) }))}
-                selectClassName={DARK_SELECT}
-                triggerClassName={DARK_TRIGGER}
-              />
-            )}
-            {view.surahAudio && <PlaySurahButton onDark playing={whole.current === meta.number} onToggle={() => whole.toggle(meta.number)} />}
-            <PlaybackModeSelect onDark />
-            <button
-              type="button"
-              aria-expanded={memorizeOpen}
-              onClick={() => setMemorizeOpen((o) => !o)}
-              className={`rounded-xl border px-3 py-2 text-sm ${memorizeOpen ? "border-gold text-gold" : "border-white/15 text-white/85 hover:bg-white/10"}`}
-            >
-              {t("memorize.button")}
-            </button>
-          </div>
+      {showPlayer &&
+        (view.surahAudio?.[0] ? (
+          <WholeSurahPlayer
+            url={view.surahAudio[0]}
+            playing={whole.current === meta.number}
+            onToggle={() => whole.toggle(meta.number)}
+            reciter={view.qari.name}
+            surahName={meta.name.latin}
+          />
+        ) : (
+          <VerseSurahPlayer
+            verse={playingN ?? pausedHere}
+            verseCount={meta.verseCount}
+            playing={playingN !== null}
+            onToggle={toggleVerses}
+            onGoTo={playFrom}
+            reciter={view.qari.name}
+            surahName={meta.name.latin}
+          />
+        ))}
+
+      <div className="quran-reading__chips">
+        <div className="flex flex-wrap justify-center gap-2">
+          <button type="button" aria-pressed={mode === "reading"} className={tabClass(mode === "reading")} onClick={() => setMode("reading")}>
+            {t("common.reading")}
+          </button>
+          <button type="button" aria-pressed={mode === "tafsir"} className={tabClass(mode === "tafsir")} onClick={() => setMode("tafsir")}>
+            {t("common.tafsir")}
+          </button>
         </div>
-        {view.qari.wholeSurahOnly && <p className="mt-3 text-xs text-white/70">{t("reader.surahOnlyHint")}</p>}
-        {memorizeOpen && <MemorizePanel surah={meta.number} verseCount={meta.verseCount} first={from} onStart={startRange} withAudio={verseAudio} />}
-        {rangeLoop !== null && rangeLoop.surah === meta.number && playingN !== null && (
-          <p role="status" className="mt-3 flex flex-wrap items-center gap-3 text-sm text-gold">
-            {rangeLoop.times === 0
-              ? t("memorize.playingEndless", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round })
-              : t("memorize.playing", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round, times: rangeLoop.times })}
-            <button type="button" onClick={stopRange} className="rounded-full border border-gold/60 px-3 py-1 text-xs hover:bg-white/10">
-              {t("memorize.stop")}
-            </button>
-          </p>
-        )}
-        {playingJuz !== null && playingN !== null && (
-          <p role="status" className="mt-3 text-sm text-gold">
-            {t("reader.playingJuz", { juz: playingJuz })}
-          </p>
-        )}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <SearchableSelect
+            label={t("reader.jumpToVerse")}
+            labelHidden
+            placeholder={t("reader.jumpPlaceholder")}
+            value=""
+            onChange={(v) => v && jump(Number(v))}
+            options={Array.from({ length: meta.verseCount }, (_, i) => ({ value: String(i + 1), label: t("reader.verseOption", { number: i + 1 }) }))}
+            selectClassName={CHIP_SELECT}
+            triggerClassName={CHIP_TRIGGER}
+          />
+          {verseAudio && juzs.length > 0 && (
+            // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
+            <SearchableSelect
+              label={t("reader.playJuz")}
+              labelHidden
+              placeholder={t("reader.juzPlaceholder")}
+              value=""
+              onChange={(v) => v && playJuz(Number(v))}
+              options={juzs.map((j) => ({ value: String(j.juz), label: t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse }) }))}
+              selectClassName={CHIP_SELECT}
+              triggerClassName={CHIP_TRIGGER}
+            />
+          )}
+          <PlaybackModeSelect chip />
+          <button
+            type="button"
+            aria-expanded={memorizeOpen}
+            onClick={() => setMemorizeOpen((o) => !o)}
+            className={`quran-chip rounded-xl px-3.5 py-2 text-sm font-medium ${memorizeOpen ? "quran-chip--on" : ""}`}
+          >
+            {t("memorize.button")}
+          </button>
+        </div>
       </div>
+      {view.qari.wholeSurahOnly && <p className="mt-3 text-center text-xs text-muted-foreground">{t("reader.surahOnlyHint")}</p>}
+      {(memorizeOpen || (rangeLoop !== null && rangeLoop.surah === meta.number && playingN !== null) || (playingJuz !== null && playingN !== null)) && (
+        <div className="quran-reading__bar on-dark">
+          {memorizeOpen && <MemorizePanel surah={meta.number} verseCount={meta.verseCount} first={from} onStart={startRange} withAudio={verseAudio} />}
+          {rangeLoop !== null && rangeLoop.surah === meta.number && playingN !== null && (
+            <p role="status" className="flex flex-wrap items-center gap-3 text-sm text-gold">
+              {rangeLoop.times === 0
+                ? t("memorize.playingEndless", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round })
+                : t("memorize.playing", { from: rangeLoop.from, to: rangeLoop.to, round: rangeLoop.round, times: rangeLoop.times })}
+              <button type="button" onClick={stopRange} className="rounded-full border border-gold/60 px-3 py-1 text-xs hover:bg-white/10">
+                {t("memorize.stop")}
+              </button>
+            </p>
+          )}
+          {playingJuz !== null && playingN !== null && (
+            <p role="status" className="text-sm text-gold">
+              {t("reader.playingJuz", { juz: playingJuz })}
+            </p>
+          )}
+        </div>
+      )}
 
       {view.unavailable.length > 0 && (
         <p role="status" className="mt-3 rounded-xl border border-border bg-muted px-4 py-3 text-sm">
