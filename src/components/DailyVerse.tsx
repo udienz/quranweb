@@ -5,10 +5,6 @@ import { meaningOf } from "@/lib/quran/labels";
 import ArabicText, { RukuMark } from "./ArabicText";
 import type { SurahView } from "@/lib/quran/types";
 
-/**
- * The verse of the day: the Arabic text and the reader's first translation, the reference as a link to the verse's own page, and a
- * link to read it in the surah. Only shows text a source gave, as it gave it.
- */
 export default async function DailyVerse({ view }: { view: SurahView }) {
   const { t, locale } = await getI18n();
   const { meta, verses, editions } = view;
@@ -19,32 +15,33 @@ export default async function DailyVerse({ view }: { view: SurahView }) {
   const text = verse.translations.find((x) => x.edition === translation)?.text;
 
   return (
-    <section aria-labelledby="daily-verse" className="home-editorial__daily mb-6 rounded-2xl border border-border bg-card p-5 sm:p-6">
-      <p id="daily-verse" className="text-sm font-medium text-muted-foreground">
-        {t("home.daily.title")}
-      </p>
-      <p dir="rtl" lang="ar" translate="no" className="font-arabic mt-3 text-right text-[length:calc(1.75rem*var(--arabic-scale,1))] leading-[2.1]">
-        <ArabicText verse={verse} />
-        <RukuMark verse={verse} />
-      </p>
-      {text && (
-        <p lang={edition?.language} dir={edition?.direction} translate="no" className="mt-2 text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed text-foreground/85">
-          {text}
-        </p>
-      )}
-      <p className="mt-3 text-sm text-muted-foreground">
-        <Link href={versePageHref(meta.number, verse.number)} className="font-medium text-primary hover:underline">
+    <section aria-labelledby="daily-verse" className="home-editorial__daily mb-12 overflow-hidden rounded-[1.5rem]">
+      <div className="home-editorial__daily-label flex items-center justify-between gap-3 px-5 py-4 sm:px-8">
+        <p id="daily-verse" className="text-xs font-bold uppercase tracking-[0.18em]">{t("home.daily.title")}</p>
+        <span className="home-editorial__daily-rule h-px flex-1" aria-hidden />
+        <Link href={versePageHref(meta.number, verse.number)} className="text-xs font-semibold hover:underline">
           {meta.name.latin} {meta.number}:{verse.number}
         </Link>
-        <span aria-hidden> · </span>
-        <span>{meaningOf(meta, locale)}</span>
-      </p>
-      <Link
-        href={verseHref(meta.number, verse.number)}
-        className="mt-5 inline-flex rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white hover:opacity-90 dark:text-[hsl(192_64%_8%)]"
-      >
-        {t("verse.readInSurah")}
-      </Link>
+      </div>
+      <div className="grid gap-5 px-5 pb-6 pt-2 sm:px-8 sm:pb-8 lg:grid-cols-[minmax(0,1.55fr)_minmax(220px,0.7fr)] lg:gap-10 lg:px-10">
+        <div className="flex min-w-0 flex-col justify-center">
+          <p dir="rtl" lang="ar" translate="no" className="font-arabic text-right text-[length:calc(2rem*var(--arabic-scale,1))] leading-[2.15] sm:text-[length:calc(2.45rem*var(--arabic-scale,1))]">
+            <ArabicText verse={verse} />
+            <RukuMark verse={verse} />
+          </p>
+        </div>
+        <div className="home-editorial__translation flex flex-col justify-center border-t pt-5 lg:border-s lg:border-t-0 lg:ps-8 lg:pt-0">
+          {text && (
+            <p lang={edition?.language} dir={edition?.direction} translate="no" className="text-[length:calc(1rem*var(--latin-scale,1))] leading-[1.9]">
+              {text}
+            </p>
+          )}
+          <p className="mt-5 text-xs">{meaningOf(meta, locale)}</p>
+          <Link href={verseHref(meta.number, verse.number)} className="home-editorial__verse-link mt-4 inline-flex w-fit items-center rounded-full px-5 py-2.5 text-sm font-semibold transition">
+            {t("verse.readInSurah")} <span aria-hidden className="ms-2">↗</span>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }

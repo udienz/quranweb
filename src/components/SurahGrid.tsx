@@ -10,7 +10,6 @@ import ReferenceLink, { useEnterToGo, useReference } from "./ReferenceLink";
 export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
   const { t, tn, locale } = useI18n();
   const [q, setQ] = useState("");
-
   const reference = useReference(q, surahs);
   const onKeyDown = useEnterToGo(reference);
 
@@ -27,8 +26,11 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
 
   return (
     <section className="home-editorial__surahs">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="font-display text-xl font-semibold">{t("home.listTitle")}</h2>
+      <div className="home-editorial__section-head mb-5 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="home-editorial__eyebrow mb-2 text-[10px] font-bold uppercase tracking-[0.2em]">{t("meta.title")}</p>
+          <h2 className="font-display text-2xl font-semibold sm:text-3xl">{t("home.listTitle")}</h2>
+        </div>
         <input
           type="search"
           value={q}
@@ -36,34 +38,28 @@ export default function SurahGrid({ surahs }: { surahs: SurahMeta[] }) {
           onKeyDown={onKeyDown}
           placeholder={t("home.searchPlaceholder")}
           aria-label={t("home.searchLabel")}
-          className="w-full rounded-full border border-border bg-card px-4 py-2 text-sm outline-none focus:border-primary sm:w-72"
+          className="home-editorial__surah-search w-full rounded-full border px-5 py-3 text-sm outline-none transition sm:w-72"
         />
       </div>
       {reference && (
         <ReferenceLink
           target={reference}
-          className="mb-4 flex rounded-2xl border border-primary/40 bg-primary-soft px-4 py-3 font-medium text-primary hover:border-primary"
+          className="mb-4 flex rounded-xl border border-primary/40 bg-primary-soft px-4 py-3 font-medium text-primary hover:border-primary"
         />
       )}
-      <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="home-editorial__surah-list grid grid-cols-1 gap-x-8 sm:grid-cols-2">
         {filtered.map((s) => (
           <li key={s.number}>
-            <Link
-              href={`/surah/${s.number}`}
-              className="home-editorial__surah flex items-center gap-4 rounded-2xl border border-border bg-card px-4 py-3.5 transition hover:border-primary/50 hover:shadow-sm"
-            >
-              <span className="flex h-9 w-9 shrink-0 rotate-45 items-center justify-center rounded-md bg-primary-soft text-primary">
-                <span className="-rotate-45 font-display text-xs font-bold">{s.number}</span>
-              </span>
+            <Link href={`/surah/${s.number}`} className="home-editorial__surah group flex min-h-[5.25rem] items-center gap-4 border-b px-1 py-3 transition">
+              <span className="home-editorial__surah-number flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums">{String(s.number).padStart(2, "0")}</span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate font-semibold">{s.name.latin}</span>
-                <span className="block truncate text-xs text-muted-foreground">
-                  {meaningOf(s, locale)} · {tn("common.verses", s.verseCount)} · {t(`revelation.${s.revelation}`)}
+                <span className="block truncate font-display text-[15px] font-semibold">{s.name.latin}</span>
+                <span className="home-editorial__surah-meta mt-1 block truncate text-xs">
+                  {meaningOf(s, locale)} <span aria-hidden>·</span> {tn("common.verses", s.verseCount)} <span aria-hidden>·</span> {t(`revelation.${s.revelation}`)}
                 </span>
               </span>
-              <span className="font-arabic text-2xl text-primary" dir="rtl" lang="ar" translate="no">
-                {s.name.arabic}
-              </span>
+              <span className="home-editorial__surah-arabic font-arabic text-[1.8rem]" dir="rtl" lang="ar" translate="no">{s.name.arabic}</span>
+              <span className="home-editorial__surah-arrow ms-1 text-sm transition group-hover:translate-x-1" aria-hidden>↗</span>
             </Link>
           </li>
         ))}
