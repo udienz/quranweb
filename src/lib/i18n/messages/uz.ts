@@ -186,6 +186,8 @@ export const uz: Messages = {
     home: "Бош саҳифага қайтиш",
   },
   common: {
+    search: "Қидириш",
+    noMatches: "Ҳеч нарса топилмади.",
     verses: plural("{count} оят"),
     reading: "Ўқиш",
     tafsir: "Тафсир",
@@ -297,6 +299,7 @@ export const uz: Messages = {
     pagingMushaf: "Мусҳаф саҳифалари (604)",
     noTafsir: "Тафсирсиз",
     savedInBrowser: "Танловларингиз бу браузерда сақланади.",
+    useLanguageDefaults: "{language} тилидаги таржима ва тафсирдан фойдаланиш",
     allSettings: "Барча созламалар",
     show: { arabic: "Арабча матн", transliteration: "Транслитерация", translation: "Таржима" },
     languages: { ar: "Арабча", id: "Индонезча", en: "Инглизча", tr: "Туркча" },

@@ -6,6 +6,7 @@ import { verseHref } from "@/lib/anchors";
 import { useI18n } from "@/lib/i18n/client";
 import type { SurahMeta } from "@/lib/quran";
 import { collectionOf, liveBookmarks, liveCollections, type UserData } from "@/lib/userdata/schema";
+import SearchableSelect from "./SearchableSelect";
 import { userDataActions } from "@/lib/userdata/store";
 
 type Filter = { kind: "all" } | { kind: "none" } | { kind: "collection"; id: string };
@@ -172,19 +173,15 @@ export default function BookmarkList({ data, meta }: { data: UserData; meta: (n:
                   {b.note && <span className="block whitespace-pre-line text-sm text-muted-foreground">{b.note}</span>}
                 </Link>
                 {collections.length > 0 && (
-                  <select
+                  <SearchableSelect
+                    label={`${t("myReading.bookmarks.collection")}: ${label}`}
+                    labelHidden
                     value={collectionOf(data, b) ?? ""}
-                    onChange={(e) => userDataActions.setBookmarkCollection(b.surah, b.verse, e.target.value || null)}
-                    aria-label={`${t("myReading.bookmarks.collection")}: ${label}`}
-                    className="max-w-[10rem] rounded-full border border-border bg-background px-2 py-1 text-xs"
-                  >
-                    <option value="">{t("myReading.bookmarks.none")}</option>
-                    {collections.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(v) => userDataActions.setBookmarkCollection(b.surah, b.verse, v || null)}
+                    options={[{ value: "", label: t("myReading.bookmarks.none") }, ...collections.map((c) => ({ value: c.id, label: c.name }))]}
+                    selectClassName="max-w-[10rem] rounded-full border border-border bg-background px-2 py-1 text-xs"
+                    triggerClassName="flex max-w-[10rem] items-center justify-between gap-1 rounded-full border border-border bg-background px-2 py-1 text-start text-xs"
+                  />
                 )}
                 <button
                   type="button"

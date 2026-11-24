@@ -185,6 +185,8 @@ export const ta: Messages = {
     home: "முகப்புப் பக்கத்திற்குத் திரும்பு",
   },
   common: {
+    search: "தேடு",
+    noMatches: "எதுவும் பொருந்தவில்லை.",
     verses: plural("{count} வசனங்கள்", "{count} வசனம்"),
     reading: "வாசிப்பு",
     tafsir: "தஃப்ஸீர்",
@@ -296,6 +298,7 @@ export const ta: Messages = {
     pagingMushaf: "முஸ்ஹஃப் பக்கங்கள் (604)",
     noTafsir: "தஃப்ஸீர் இல்லை",
     savedInBrowser: "உங்கள் தேர்வுகள் இந்த உலாவியில் சேமிக்கப்படுகின்றன.",
+    useLanguageDefaults: "{language} மொழிபெயர்ப்பையும் தஃப்ஸீரையும் பயன்படுத்து",
     allSettings: "அனைத்து அமைப்புகளும்",
     show: { arabic: "அரபு மூலம்", transliteration: "ஒலிபெயர்ப்பு", translation: "மொழிபெயர்ப்பு" },
     languages: { ar: "அரபு", id: "இந்தோனேசியம்", en: "ஆங்கிலம்", tr: "துருக்கியம்" },

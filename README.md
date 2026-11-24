@@ -28,8 +28,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 
 ## What you can do
 
-- **Read all 114 surahs** in the Arabic text (Uthmani Hafs or the EQuran.id text), with a Latin transliteration and one or
-  more translations side by side (Indonesian Kemenag, Yusuf Ali, Pickthall and others). ([how](#choose-the-text-and-translations))
+- **Read all 114 surahs** in the Arabic text (Uthmani Hafs or the EQuran.id text), with one or more translations side by side
+  and a Latin transliteration you can turn on (Indonesian Kemenag, Yusuf Ali, Pickthall and others). ([how](#choose-the-text-and-translations))
 - **Search the Qur'an** for a word in the Arabic text (with or without vowel marks) or in a translation, in all surahs or in one,
   and see the words found marked. *Shalat*, *salat* and *sholat* find each other. ([how](#search-the-quran))
 - **Jump to a verse** by typing its reference in the surah search box: *2:255*, *baqarah 255* or *QS. Al-Baqarah: 255*.
@@ -126,7 +126,12 @@ top right (it reads "Sign in" until you sign in) and choose Settings.
 1. Open a surah from the home page, or type its name or number in the search box above the surah list.
 2. In Reading settings, pick the Arabic text, then a language under Translation and one or more translations in it. Each
    one you add appears under the verse; remove one with the cross on its label.
-3. Turn the Arabic text, the transliteration or the translation on or off in the same panel.
+3. Turn the Arabic text, the transliteration or the translation on or off in the same panel. The transliteration is off
+   until you turn it on.
+4. Changed the interface language? Your translations and tafsir stay as they were. **Use the translation and tafsir in …**
+   switches them to the ones of the new language. The tafsir list starts with the interface language.
+5. A list with more than 10 choices (translation languages, tafsir, verses, juz, interface languages) has a search box: type a
+   few letters, then pick with the arrow keys and Enter, or tap.
 
 ### Switch between mushaf and verse by verse
 
@@ -141,7 +146,9 @@ The picture at the top of this page is the mushaf layout.
 
 ![Page division in the reading settings, with Mushaf pages (604) chosen](docs/screenshots/en/how-page-division.png)
 
-Open **Settings**, and under **Reading settings** choose **Mushaf pages (604)** next to "Page division". A surah then opens at the
+Open **Settings**, and under **Reading settings** choose **Mushaf pages (604)** next to "Page division". A page of the mushaf
+has the surah list and the reading settings beside it (folded above it on a phone), so you can go back to **10 verses** from
+there. A surah then opens at the
 page of the printed mushaf that has its first verse, and an old link to a page of 10 verses opens the page that has that page's
 first verse. A page can hold the end of one surah and the start of the next (the last page holds three). Turn pages with
 **Previous page** and **Next page**, type a number from 1 to 604 in the box, press the right or left arrow key (the other way round

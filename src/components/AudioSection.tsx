@@ -8,8 +8,8 @@ import { useSelectionChoice } from "@/lib/useSelectionChoice";
 import AudioQualitySelect from "./AudioQualitySelect";
 import PlaybackModeSelect from "./PlaybackModeSelect";
 import ReciterPicker from "./ReciterPicker";
+import SearchableSelect from "./SearchableSelect";
 
-const selectClass = "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
 
 /**
  * The Audio section of the settings page: the reciter, the audio quality (data saver), what happens at the end of a surah or a juz, and starting a whole juz.
@@ -31,27 +31,17 @@ export default function AudioSection({ catalog, selection: saved, juzs }: { cata
         <PlaybackModeSelect />
 
         {juzs.length > 0 && (
-          <label className="flex flex-col gap-1 text-sm">
-            <span className="font-medium">{t("reader.playJuz")}</span>
-            <select
-              defaultValue=""
-              className={selectClass}
-              onChange={(e) => {
-                const juz = juzs.find((j) => j.juz === Number(e.target.value));
-                e.target.value = ""; // back to the prompt, so the same juz can be chosen again
-                if (juz) router.push(beginJuz(juz.juz, juz.start));
-              }}
-            >
-              <option value="" disabled>
-                {t("reader.juzPlaceholder")}
-              </option>
-              {juzs.map((j) => (
-                <option key={j.juz} value={j.juz}>
-                  {t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse })}
-                </option>
-              ))}
-            </select>
-          </label>
+          // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
+          <SearchableSelect
+            label={t("reader.playJuz")}
+            placeholder={t("reader.juzPlaceholder")}
+            value=""
+            onChange={(v) => {
+              const juz = juzs.find((j) => j.juz === Number(v));
+              if (juz) router.push(beginJuz(juz.juz, juz.start));
+            }}
+            options={juzs.map((j) => ({ value: String(j.juz), label: t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse }) }))}
+          />
         )}
         <p className="text-xs text-muted-foreground">{t("audio.hint")}</p>
         <p className="text-xs text-muted-foreground">{t("audio.keys")}</p>

@@ -19,11 +19,17 @@ import Pagination from "./Pagination";
 import MemorizePanel from "./MemorizePanel";
 import PlaybackModeSelect from "./PlaybackModeSelect";
 import PlaySurahButton from "./PlaySurahButton";
+import SearchableSelect from "./SearchableSelect";
 import MushafView from "./MushafView";
 import VerseCard from "./VerseCard";
 import type { Layout } from "@/lib/layout";
 
 const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+
+// The lists in the dark surah header (jump to a verse, play a juz): gold text on the header, as before.
+const DARK_SELECT =
+  "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
+const DARK_TRIGGER = "flex min-w-36 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-gold outline-none";
 
 export default function SurahReader({
   view,
@@ -163,46 +169,28 @@ export default function SurahReader({
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <label className="flex items-center gap-2 text-sm text-white/85">
-              <span className="sr-only">{t("reader.jumpToVerse")}</span>
-              <select
-                defaultValue=""
-                onChange={(e) => e.target.value && jump(Number(e.target.value))}
-                className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
-              >
-                <option value="" disabled>
-                  {t("reader.jumpPlaceholder")}
-                </option>
-                {Array.from({ length: meta.verseCount }, (_, i) => i + 1).map((n) => (
-                  <option key={n} value={n}>
-                    {t("reader.verseOption", { number: n })}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <SearchableSelect
+              label={t("reader.jumpToVerse")}
+              labelHidden
+              placeholder={t("reader.jumpPlaceholder")}
+              value=""
+              onChange={(v) => v && jump(Number(v))}
+              options={Array.from({ length: meta.verseCount }, (_, i) => ({ value: String(i + 1), label: t("reader.verseOption", { number: i + 1 }) }))}
+              selectClassName={DARK_SELECT}
+              triggerClassName={DARK_TRIGGER}
+            />
             {juzs.length > 0 && (
-              <label className="flex items-center gap-2 text-sm text-white/85">
-                <span className="sr-only">{t("reader.playJuz")}</span>
-                <select
-                  defaultValue=""
-                  onChange={(e) => {
-                    const n = Number(e.target.value);
-                    e.target.value = ""; // back to the prompt, so the same juz can be chosen again
-                    if (n) playJuz(n);
-                  }}
-                  title={t("reader.playJuz")}
-                  className="rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-gold outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white"
-                >
-                  <option value="" disabled>
-                    {t("reader.juzPlaceholder")}
-                  </option>
-                  {juzs.map((j) => (
-                    <option key={j.juz} value={j.juz}>
-                      {t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse })}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
+              <SearchableSelect
+                label={t("reader.playJuz")}
+                labelHidden
+                placeholder={t("reader.juzPlaceholder")}
+                value=""
+                onChange={(v) => v && playJuz(Number(v))}
+                options={juzs.map((j) => ({ value: String(j.juz), label: t("reader.juzOption", { juz: j.juz, surah: j.start.surah, verse: j.start.verse }) }))}
+                selectClassName={DARK_SELECT}
+                triggerClassName={DARK_TRIGGER}
+              />
             )}
             {view.surahAudio && <PlaySurahButton onDark playing={whole.current === meta.number} onToggle={() => whole.toggle(meta.number)} />}
             <PlaybackModeSelect onDark />

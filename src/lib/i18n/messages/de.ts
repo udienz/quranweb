@@ -185,6 +185,8 @@ export const de: Messages = {
     home: "Zurück zur Startseite",
   },
   common: {
+    search: "Suchen",
+    noMatches: "Keine Treffer.",
     verses: plural("{count} Verse", "{count} Vers"),
     reading: "Lesen",
     tafsir: "Tafsir",
@@ -296,6 +298,7 @@ export const de: Messages = {
     pagingMushaf: "Mushaf-Seiten (604)",
     noTafsir: "Kein Tafsir",
     savedInBrowser: "Deine Auswahl wird in diesem Browser gespeichert.",
+    useLanguageDefaults: "Übersetzung und Tafsir auf {language} verwenden",
     allSettings: "Alle Einstellungen",
     show: { arabic: "Arabischer Text", transliteration: "Umschrift", translation: "Übersetzung" },
     languages: { ar: "Arabisch", id: "Indonesisch", en: "Englisch", tr: "Türkisch" },

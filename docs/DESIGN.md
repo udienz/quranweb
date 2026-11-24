@@ -260,6 +260,15 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Options: background `hsl(192 64% 9%)`, white text
 - Use: "Ayat...", "Juz...", "Berhenti di akhir"
 
+**Searchable list (`SearchableSelect`, more than 10 options)**
+- Closed: looks like the select it replaces (the same classes, light or dark), with a chevron; the value is truncated.
+- Open: a card under it (`bg-card`, 1px border, radius 12px, `shadow-lg`, at least 256px wide) with a search field on top
+  and the options below (max 288px, scrolls); group labels in 12px semibold muted text; rows at least 44px, the active row on
+  `bg-background`, the chosen one in primary semibold with a check.
+- Empty result: "Tidak ada yang cocok." in muted text.
+- Use: translation languages, tafsir, "Ayat...", "Juz..." (also on the dark chapter head), the interface language on Settings,
+  the surah filter on Search
+
 ### Cards
 
 **Section Card**

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { verseHref } from "@/lib/anchors";
 import { getI18n } from "@/lib/i18n/server";
+import FormChoice from "@/components/FormChoice";
 import { getQuran } from "@/lib/quran";
+import { meaningOf } from "@/lib/quran/labels";
 import { parseReference } from "@/lib/reference";
 import { MARK_END, MARK_START, search, type SearchSource } from "@/lib/search/search";
 import { surahFromSegment } from "@/lib/surah-number";
@@ -77,19 +79,18 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           aria-label={t("search.title")}
           className="min-w-0 flex-1 basis-56 rounded-full border border-border bg-card px-4 py-2 text-sm outline-none focus:border-primary"
         />
-        <select
+        <FormChoice
           name="surah"
           defaultValue={surah ? String(surah) : ""}
-          aria-label={t("search.surah")}
-          className="max-w-full rounded-full border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-        >
-          <option value="">{t("search.allSurahs")}</option>
-          {surahs.map((s) => (
-            <option key={s.number} value={s.number}>
-              {s.number}. {s.name.latin}
-            </option>
-          ))}
-        </select>
+          label={t("search.surah")}
+          labelHidden
+          options={[
+            { value: "", label: t("search.allSurahs") },
+            ...surahs.map((s) => ({ value: String(s.number), label: `${s.number}. ${s.name.latin}`, keywords: `${meaningOf(s, locale)} ${s.name.arabic}` })),
+          ]}
+          selectClassName="max-w-full rounded-full border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+          triggerClassName="flex min-w-48 max-w-full items-center justify-between gap-2 rounded-full border border-border bg-card px-3 py-2 text-start text-sm outline-none focus:border-primary"
+        />
         <button type="submit" className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white hover:opacity-90 dark:text-[hsl(192_64%_8%)]">
           {t("search.button")}
         </button>

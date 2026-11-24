@@ -185,6 +185,8 @@ export const sw: Messages = {
     home: "Rudi mwanzo",
   },
   common: {
+    search: "Tafuta",
+    noMatches: "Hakuna kinacholingana.",
     verses: plural("aya {count}", "aya {count}"),
     reading: "Kusoma",
     tafsir: "Tafsir",
@@ -296,6 +298,7 @@ export const sw: Messages = {
     pagingMushaf: "Kurasa za msahafu (604)",
     noTafsir: "Hakuna tafsir",
     savedInBrowser: "Chaguo zako zinahifadhiwa kwenye kivinjari hiki.",
+    useLanguageDefaults: "Tumia tafsiri na tafsir kwa {language}",
     allSettings: "Mipangilio yote",
     show: { arabic: "Maandishi ya Kiarabu", transliteration: "Unukuzi", translation: "Tafsiri" },
     languages: { ar: "Kiarabu", id: "Kiindonesia", en: "Kiingereza", tr: "Kituruki" },

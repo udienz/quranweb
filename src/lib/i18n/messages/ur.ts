@@ -185,6 +185,8 @@ export const ur: Messages = {
     home: "ہوم پیج پر واپس جائیں",
   },
   common: {
+    search: "تلاش کریں",
+    noMatches: "کچھ نہیں ملا۔",
     verses: plural("{count} آیات", "{count} آیت"),
     reading: "تلاوت",
     tafsir: "تفسیر",
@@ -296,6 +298,7 @@ export const ur: Messages = {
     pagingMushaf: "مصحف کے صفحات (604)",
     noTafsir: "تفسیر کے بغیر",
     savedInBrowser: "آپ کے انتخاب اس براؤزر میں محفوظ ہیں۔",
+    useLanguageDefaults: "{language} میں ترجمہ اور تفسیر استعمال کریں",
     allSettings: "تمام ترتیبات",
     show: { arabic: "عربی متن", transliteration: "رومن نقل حرفی", translation: "ترجمہ" },
     languages: { ar: "عربی", id: "انڈونیشیائی", en: "انگریزی", tr: "ترکی" },

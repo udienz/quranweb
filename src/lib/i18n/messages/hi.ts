@@ -185,6 +185,8 @@ export const hi: Messages = {
     home: "मुखपृष्ठ पर जाएँ",
   },
   common: {
+    search: "खोजें",
+    noMatches: "कुछ नहीं मिला।",
     verses: plural("{count} आयतें", "{count} आयत"),
     reading: "पाठ",
     tafsir: "तफ़सीर",
@@ -296,6 +298,7 @@ export const hi: Messages = {
     pagingMushaf: "मुसहफ़ के पृष्ठ (604)",
     noTafsir: "कोई तफ़सीर नहीं",
     savedInBrowser: "आपकी पसंद इस ब्राउज़र में रखी जाती है।",
+    useLanguageDefaults: "{language} में अनुवाद और तफ़सीर इस्तेमाल करें",
     allSettings: "सभी सेटिंग्स",
     show: { arabic: "अरबी पाठ", transliteration: "लिप्यंतरण", translation: "अनुवाद" },
     languages: { ar: "अरबी", id: "इंडोनेशियाई", en: "अंग्रेज़ी", tr: "तुर्की" },

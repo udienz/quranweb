@@ -28,8 +28,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 
 ## Yang bisa Anda lakukan
 
-- **Membaca 114 surat** dalam teks Arab (Uthmani Hafs atau teks EQuran.id), dengan transliterasi Latin dan satu atau
-  beberapa terjemahan berdampingan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya). ([caranya](#memilih-teks-dan-terjemahan))
+- **Membaca 114 surat** dalam teks Arab (Uthmani Hafs atau teks EQuran.id), dengan satu atau beberapa terjemahan
+  berdampingan dan transliterasi Latin yang bisa dinyalakan (Kemenag Indonesia, Yusuf Ali, Pickthall, dan lainnya). ([caranya](#memilih-teks-dan-terjemahan))
 - **Mencari di Al-Qur'an**: sebuah kata di teks Arab (dengan atau tanpa harakat) atau di terjemahan, di semua surat atau di satu
   surat, lalu melihat kata yang ditemukan diberi tanda. *Shalat*, *salat*, dan *sholat* saling menemukan. ([caranya](#mencari-di-al-quran))
 - **Langsung ke sebuah ayat** dengan mengetik rujukannya di kotak cari surat: *2:255*, *baqarah 255*, atau *QS. Al-Baqarah: 255*.
@@ -129,7 +129,12 @@ di kanan atas (bertuliskan "Masuk" selama Anda belum masuk), lalu pilih Pengatur
 1. Buka surat dari beranda, atau ketik nama atau nomornya di kotak pencarian di atas daftar surat.
 2. Di Pengaturan bacaan, pilih teks Arab, lalu bahasa di bagian Terjemahan dan satu atau beberapa terjemahan dalam bahasa
    itu. Setiap terjemahan yang ditambahkan muncul di bawah ayat; hapus dengan tanda silang di labelnya.
-3. Nyalakan atau matikan teks Arab, transliterasi, atau terjemahan di panel yang sama.
+3. Nyalakan atau matikan teks Arab, transliterasi, atau terjemahan di panel yang sama. Transliterasi mati sampai Anda
+   menyalakannya.
+4. Mengganti bahasa antarmuka? Terjemahan dan tafsir pilihan Anda tidak berubah. **Gunakan terjemahan dan tafsir dalam …**
+   menggantinya dengan pilihan bawaan bahasa yang baru. Daftar tafsir diawali dengan bahasa antarmuka.
+5. Daftar yang berisi lebih dari 10 pilihan (bahasa terjemahan, tafsir, ayat, juz, bahasa antarmuka) punya kotak pencarian:
+   ketik beberapa huruf, lalu pilih dengan tombol panah dan Enter, atau ketuk.
 
 ### Mengganti tampilan mushaf atau per ayat
 
@@ -144,7 +149,9 @@ Gambar di bagian atas halaman ini adalah tampilan mushaf.
 
 ![Pembagian halaman di pengaturan bacaan, dengan Halaman mushaf (604) dipilih](docs/screenshots/id/how-page-division.png)
 
-Buka **Pengaturan**, lalu di **Pengaturan bacaan** pilih **Halaman mushaf (604)** pada "Pembagian halaman". Sebuah surat lalu
+Buka **Pengaturan**, lalu di **Pengaturan bacaan** pilih **Halaman mushaf (604)** pada "Pembagian halaman". Halaman mushaf
+punya daftar surat dan pengaturan bacaan di sampingnya (dilipat di atasnya pada ponsel), jadi Anda bisa kembali ke **10 ayat**
+dari sana. Sebuah surat lalu
 terbuka di halaman mushaf cetak yang memuat ayat pertamanya, dan tautan lama ke halaman berisi 10 ayat membuka halaman yang
 memuat ayat pertama halaman itu. Satu halaman bisa memuat akhir satu surat dan awal surat berikutnya (halaman terakhir memuat
 tiga surat). Balik halaman dengan **Halaman sebelumnya** dan **Halaman berikutnya**, ketik angka 1 sampai 604 di kotak, tekan

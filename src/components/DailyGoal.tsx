@@ -2,6 +2,7 @@
 
 import { useI18n } from "@/lib/i18n/client";
 import { goalStreak, localDay, pagesForVerses, TOTAL_VERSES, versesReadInTotal, versesReadOn, type UserData } from "@/lib/userdata/schema";
+import SearchableSelect from "./SearchableSelect";
 import { userDataActions } from "@/lib/userdata/store";
 
 const PRESETS = [5, 10, 20, 50, 100];
@@ -37,36 +38,27 @@ export default function DailyGoal({ data }: { data: UserData }) {
   return (
     <div className="space-y-4 px-5 py-4 text-sm">
       <div className="flex flex-wrap items-center gap-3">
-        <label htmlFor="daily-goal" className="font-medium">
-          {t("myReading.goal.title")}
-        </label>
-        <select
-          id="daily-goal"
+        <SearchableSelect
+          label={t("myReading.goal.title")}
+          labelClassName="font-medium"
           value={selected}
-          onChange={(e) => {
-            const v = e.target.value;
+          onChange={(v) => {
             if (v === "off") userDataActions.setDailyGoal(0);
             else if (v.startsWith("p")) userDataActions.setDailyGoalInPages(Number(v.slice(1)));
             else userDataActions.setDailyGoal(Number(v.slice(1)));
           }}
-          className="rounded-full border border-border bg-background px-3 py-1"
-        >
-          <option value="off">{t("myReading.goal.off")}</option>
-          {[...new Set([...PRESETS, ...(goal > 0 && pages === 0 ? [goal] : [])])]
-            .sort((a, b) => a - b)
-            .map((n) => (
-              <option key={`v${n}`} value={`v${n}`}>
-                {tn("myReading.goal.perDay", n)}
-              </option>
-            ))}
-          {[...new Set([...PAGE_PRESETS, ...(pages > 0 ? [pages] : [])])]
-            .sort((a, b) => a - b)
-            .map((n) => (
-              <option key={`p${n}`} value={`p${n}`}>
-                {tn("myReading.goal.perDayPages", n)}
-              </option>
-            ))}
-        </select>
+          options={[
+            { value: "off", label: t("myReading.goal.off") },
+            ...[...new Set([...PRESETS, ...(goal > 0 && pages === 0 ? [goal] : [])])]
+              .sort((a, b) => a - b)
+              .map((n) => ({ value: `v${n}`, label: tn("myReading.goal.perDay", n) })),
+            ...[...new Set([...PAGE_PRESETS, ...(pages > 0 ? [pages] : [])])]
+              .sort((a, b) => a - b)
+              .map((n) => ({ value: `p${n}`, label: tn("myReading.goal.perDayPages", n) })),
+          ]}
+          selectClassName="ms-3 rounded-full border border-border bg-background px-3 py-1"
+          triggerClassName="ms-3 inline-flex min-w-40 items-center justify-between gap-2 rounded-full border border-border bg-background px-3 py-1 text-start"
+        />
       </div>
 
       {goal === 0 ? (

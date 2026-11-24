@@ -184,6 +184,8 @@ export const id: Messages = {
     home: "Kembali ke beranda",
   },
   common: {
+    search: "Cari",
+    noMatches: "Tidak ada yang cocok.",
     verses: plural("{count} ayat"),
     reading: "Bacaan",
     tafsir: "Tafsir",
@@ -295,6 +297,7 @@ export const id: Messages = {
     pagingMushaf: "Halaman mushaf (604)",
     noTafsir: "Tanpa tafsir",
     savedInBrowser: "Pilihan disimpan di browser ini.",
+    useLanguageDefaults: "Gunakan terjemahan dan tafsir dalam {language}",
     allSettings: "Semua pengaturan",
     show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan" },
     languages: { ar: "Arab", id: "Indonesia", en: "Inggris", tr: "Turki" },

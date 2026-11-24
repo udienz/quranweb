@@ -186,6 +186,8 @@ export const th: Messages = {
     home: "กลับหน้าแรก",
   },
   common: {
+    search: "ค้นหา",
+    noMatches: "ไม่พบรายการที่ตรงกัน",
     verses: plural("{count} อายะฮ์"),
     reading: "การอ่าน",
     tafsir: "ตัฟซีร",
@@ -297,6 +299,7 @@ export const th: Messages = {
     pagingMushaf: "หน้ามุศหัฟ (604)",
     noTafsir: "ไม่มีตัฟซีร",
     savedInBrowser: "ตัวเลือกของคุณเก็บไว้ในเบราว์เซอร์นี้",
+    useLanguageDefaults: "ใช้คำแปลและตัฟซีรภาษา{language}",
     allSettings: "การตั้งค่าทั้งหมด",
     show: { arabic: "ตัวบทภาษาอาหรับ", transliteration: "การถอดอักษร", translation: "คำแปล" },
     languages: { ar: "อาหรับ", id: "อินโดนีเซีย", en: "อังกฤษ", tr: "ตุรกี" },

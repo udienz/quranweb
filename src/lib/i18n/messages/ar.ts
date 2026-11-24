@@ -186,6 +186,8 @@ export const ar: Messages = {
     home: "العودة إلى الصفحة الرئيسية",
   },
   common: {
+    search: "ابحث",
+    noMatches: "لا توجد نتائج.",
     verses: plural("لا آيات", "آية واحدة", "آيتان", "{count} آيات", "{count} آية", "{count} آية"),
     reading: "القراءة",
     tafsir: "التفسير",
@@ -297,6 +299,7 @@ export const ar: Messages = {
     pagingMushaf: "صفحات المصحف (604)",
     noTafsir: "بلا تفسير",
     savedInBrowser: "تُحفظ اختياراتك في هذا المتصفح.",
+    useLanguageDefaults: "استخدم الترجمة والتفسير بلغة {language}",
     allSettings: "كل الإعدادات",
     show: { arabic: "النص العربي", transliteration: "الكتابة اللاتينية", translation: "الترجمة" },
     languages: { ar: "العربية", id: "الإندونيسية", en: "الإنجليزية", tr: "التركية" },

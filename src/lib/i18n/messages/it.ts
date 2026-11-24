@@ -185,6 +185,8 @@ export const it: Messages = {
     home: "Torna alla home",
   },
   common: {
+    search: "Cerca",
+    noMatches: "Nessun risultato.",
     verses: plural("{count} versetti", "{count} versetto"),
     reading: "Lettura",
     tafsir: "Tafsir",
@@ -296,6 +298,7 @@ export const it: Messages = {
     pagingMushaf: "Pagine del mushaf (604)",
     noTafsir: "Nessun tafsir",
     savedInBrowser: "Le tue scelte sono salvate in questo browser.",
+    useLanguageDefaults: "Usa la traduzione e il tafsir in {language}",
     allSettings: "Tutte le impostazioni",
     show: { arabic: "Testo arabo", transliteration: "Traslitterazione", translation: "Traduzione" },
     languages: { ar: "Arabo", id: "Indonesiano", en: "Inglese", tr: "Turco" },

@@ -6,15 +6,19 @@ import { useOptimistic, useTransition } from "react";
 import { writeCookie } from "@/lib/cookies";
 import { useSelectionChoice } from "@/lib/useSelectionChoice";
 import { useI18n } from "@/lib/i18n/client";
+import { LOCALE_NAMES } from "@/lib/i18n/config";
+import { languageNamer } from "@/lib/i18n/languages";
 import type { StringKey } from "@/lib/i18n/messages";
 import { localized } from "@/lib/i18n/translate";
 import type { Catalog, Edition, Selection } from "@/lib/quran";
 import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { PAGING_COOKIE, type Paging } from "@/lib/paging";
+import { groupTranslations } from "@/lib/quran/translation-groups";
 import { userDataActions } from "@/lib/userdata/store";
 import { FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 import ReciterPicker from "./ReciterPicker";
+import SearchableSelect, { type ChoiceOption } from "./SearchableSelect";
 import TranslationPicker from "./TranslationPicker";
 
 const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
@@ -22,18 +26,6 @@ const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
   { key: "transliteration", label: "settings.show.transliteration" },
   { key: "translation", label: "settings.show.translation" },
 ];
-
-const selectClass =
-  "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block text-sm">
-      <span className="mb-1 block font-medium">{label}</span>
-      {children}
-    </label>
-  );
-}
 
 /** Display toggles (kept in the browser) and the edition and reciter choice (kept in a cookie the server reads). */
 export default function SettingsPanel({
@@ -45,6 +37,8 @@ export default function SettingsPanel({
   id,
   showLink = true,
   showQari = true,
+  languageDefaults,
+  versesHref,
 }: {
   catalog: Catalog;
   selection: Selection;
@@ -60,6 +54,16 @@ export default function SettingsPanel({
   showLink?: boolean;
   /** The reciter list; the settings page leaves it out because its Audio section has it. */
   showQari?: boolean;
+  /**
+   * The translations and tafsir of the interface language (its defaults). Changing the language never changes the reader's
+   * choice (we decided, issue #127); a button offers these when they differ.
+   */
+  languageDefaults?: { translations: string[]; tafsir: string | null };
+  /**
+   * Where to go when the reader picks pages of 10 verses on a page of the mushaf, which does not follow that setting: the
+   * surah page that has the mushaf page's first verse. Elsewhere the page just refreshes.
+   */
+  versesHref?: string;
 }) {
   const { t, locale } = useI18n();
   const router = useRouter();
@@ -73,6 +77,24 @@ export default function SettingsPanel({
 
   const ofKind = (kind: Edition["kind"]) => catalog.editions.filter((e) => e.kind === kind);
   const nameOf = (e: Edition) => localized(e.name, locale);
+  const namer = languageNamer(t, locale);
+
+  // The tafsir by language: the interface language first (or, when it has none, the language of its default tafsir), then
+  // the others by name.
+  const tafsirs = ofKind("tafsir");
+  const defaultTafsirLanguage = tafsirs.find((e) => e.id === languageDefaults?.tafsir)?.language;
+  const firstLanguage = tafsirs.some((e) => e.language === locale) ? locale : (defaultTafsirLanguage ?? locale);
+  const tafsirOptions: ChoiceOption[] = [
+    { value: "", label: t("settings.noTafsir") },
+    ...groupTranslations(tafsirs, firstLanguage, namer).flatMap((g) =>
+      g.editions.map((e) => ({ value: e.id, label: nameOf(e), group: g.label, keywords: e.language })),
+    ),
+  ];
+  const differsFromLanguage =
+    !!languageDefaults &&
+    (languageDefaults.tafsir !== selection.tafsir ||
+      languageDefaults.translations.length !== selection.translations.length ||
+      languageDefaults.translations.some((id, i) => selection.translations[i] !== id));
 
   function saveLayout(next: Layout) {
     if (next === layout) return;
@@ -90,7 +112,8 @@ export default function SettingsPanel({
     userDataActions.choosePaging(next);
     startTransition(() => {
       setOptimisticPaging(next);
-      router.refresh();
+      if (next === "verses" && versesHref) router.push(versesHref);
+      else router.refresh();
     });
   }
 
@@ -165,19 +188,22 @@ export default function SettingsPanel({
       </ul>
 
       <div className="flex flex-col gap-4">
-        <Field label={t("settings.arabic")}>
-          <select
-            className={selectClass}
-            value={selection.arabic}
-            onChange={(e) => save({ ...selection, arabic: e.target.value })}
+        <SearchableSelect
+          label={t("settings.arabic")}
+          options={ofKind("arabic").map((e) => ({ value: e.id, label: nameOf(e) }))}
+          value={selection.arabic}
+          onChange={(arabic) => save({ ...selection, arabic })}
+        />
+
+        {differsFromLanguage && languageDefaults && (
+          <button
+            type="button"
+            onClick={() => save({ ...selection, translations: languageDefaults.translations, tafsir: languageDefaults.tafsir })}
+            className="self-start text-start text-sm font-medium text-primary hover:underline"
           >
-            {ofKind("arabic").map((e) => (
-              <option key={e.id} value={e.id}>
-                {nameOf(e)}
-              </option>
-            ))}
-          </select>
-        </Field>
+            {t("settings.useLanguageDefaults", { language: LOCALE_NAMES[locale] })}
+          </button>
+        )}
 
         <TranslationPicker
           editions={ofKind("translation")}
@@ -186,20 +212,12 @@ export default function SettingsPanel({
           nameOf={nameOf}
         />
 
-        <Field label={t("settings.tafsir")}>
-          <select
-            className={selectClass}
-            value={selection.tafsir ?? ""}
-            onChange={(e) => save({ ...selection, tafsir: e.target.value || null })}
-          >
-            <option value="">{t("settings.noTafsir")}</option>
-            {ofKind("tafsir").map((e) => (
-              <option key={e.id} value={e.id}>
-                {nameOf(e)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <SearchableSelect
+          label={t("settings.tafsir")}
+          options={tafsirOptions}
+          value={selection.tafsir ?? ""}
+          onChange={(tafsir) => save({ ...selection, tafsir: tafsir || null })}
+        />
 
         {showQari && (
           <ReciterPicker qaris={catalog.qaris} value={selection.qari} onChange={(qari) => save({ ...selection, qari })} />

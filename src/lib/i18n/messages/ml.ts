@@ -185,6 +185,8 @@ export const ml: Messages = {
     home: "ഹോം പേജിലേക്ക് മടങ്ങുക",
   },
   common: {
+    search: "തിരയുക",
+    noMatches: "ഒന്നും പൊരുത്തപ്പെടുന്നില്ല.",
     verses: plural("{count} ആയത്തുകൾ", "{count} ആയത്ത്"),
     reading: "വായന",
     tafsir: "തഫ്സീർ",
@@ -296,6 +298,7 @@ export const ml: Messages = {
     pagingMushaf: "മുസ്ഹഫ് പേജുകൾ (604)",
     noTafsir: "തഫ്സീർ ഇല്ല",
     savedInBrowser: "നിങ്ങളുടെ തിരഞ്ഞെടുപ്പുകൾ ഈ ബ്രൗസറിൽ സൂക്ഷിക്കുന്നു.",
+    useLanguageDefaults: "{language} വിവർത്തനവും തഫ്സീറും ഉപയോഗിക്കുക",
     allSettings: "എല്ലാ ക്രമീകരണങ്ങളും",
     show: { arabic: "അറബി മൂലം", transliteration: "ലിപ്യന്തരണം", translation: "പരിഭാഷ" },
     languages: { ar: "അറബി", id: "ഇന്തോനേഷ്യൻ", en: "ഇംഗ്ലീഷ്", tr: "ടർക്കിഷ്" },
