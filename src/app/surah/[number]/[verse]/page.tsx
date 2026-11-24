@@ -10,6 +10,7 @@ import { localized } from "@/lib/i18n/translate";
 import { getQuran } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import { excerpt, shareMetadata } from "@/lib/site";
+import ArabicText, { RukuMark } from "@/components/ArabicText";
 import { surahFromSegment, VERSE_COUNTS, verseFromSegment } from "@/lib/surah-number";
 
 // Rendered per request, like the surah page (the text comes from the sources, and the reader's choices from a cookie).
@@ -103,7 +104,8 @@ export default async function VersePage({ params }: { params: Params }) {
 
       <article className="rounded-2xl border border-border bg-card p-5 sm:p-6">
         <p dir="rtl" lang="ar" translate="no" className="font-arabic text-right text-[length:calc(2.25rem*var(--arabic-scale,1))] leading-[2.4] sm:text-[length:calc(2.6rem*var(--arabic-scale,1))]">
-          {verse.arabic}
+          <ArabicText verse={verse} />
+          <RukuMark verse={verse} />
         </p>
         {verse.transliteration && (
           <p dir="ltr" translate="no" className="mt-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">

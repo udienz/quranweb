@@ -30,3 +30,14 @@ test("the Arabic font can be the King Fahd Complex's, and stays after a reload",
   const family = await page.locator(".font-arabic").first().evaluate((el) => getComputedStyle(el).fontFamily);
   expect(family).toContain("KFGQPC HAFS Uthmanic Script");
 });
+
+test("the verse page shows the tajweed colours too, and the legend says what each colour means", async ({ page }) => {
+  await page.goto("/surah/112/1");
+  await expect(page.locator(".tj-ghunnah").first()).toBeVisible();
+
+  await page.goto("/surah/112");
+  const panel = page.locator("aside");
+  await panel.getByText("Arti warna tajwid").click();
+  await expect(panel.locator("details li")).toHaveCount(13);
+  await expect(panel.getByText("Mad thabi'i, 2 harakat")).toBeVisible();
+});

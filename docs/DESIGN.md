@@ -265,6 +265,8 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   and the page at the Arabic text's size: silent letters grey (#8a8a8a / #9aa7aa), the kinds of madd blue, qalqalah red,
   ikhfa purple, idgham green, iqlab light blue, ghunnah orange.
 - The ruku mark ع is gold, smaller and raised, after the verse; the ۩ of a sajdah is part of the text itself.
+- Legend (`TajweedLegend`): a `<details>` under the setting, 12px primary summary; each row a 12px rounded square in the
+  rule's colour and its name (the colour is never the only signal: the name says what it marks).
 
 **Searchable list (`SearchableSelect`, more than 10 options)**
 - Closed: looks like the select it replaces (the same classes, light or dark), with a chevron; the value is truncated.
