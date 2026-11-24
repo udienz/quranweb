@@ -366,7 +366,7 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
    Arabic on its pages would read backwards), so in right-to-left it is placed on the other side instead, with the mushaf
    facing the text.
    - Desktop, left to right: the photo is the hero's background and fades into the paper on the left (rules above).
-   - Desktop, right to left: the photo is a block on the left two thirds, fading into the paper on its right edge.
+   - Desktop, right to left: the photo is a block on the left 57%, fading into the paper on its right edge, so it stays clear of the search form.
    - Under 1024 px: the photo is a block beside the heading and description, as tall as they are and bleeding to the hero's edge;
      the search form and the button sit under both, on plain paper. */
 .home-editorial__hero {
@@ -389,11 +389,11 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
     z-index: -1;
     inset-block: 0;
     inset-inline-end: 0;
-    width: 66%;
+    width: 57%;
     content: "";
     background: url("/images/quranweb-hero-mushaf.webp") 100% 65% / cover no-repeat;
-    -webkit-mask-image: linear-gradient(to left, transparent, #000 16%);
-    mask-image: linear-gradient(to left, transparent, #000 16%);
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 10%);
+    mask-image: linear-gradient(to left, transparent, #000 10%);
   }
 }
 @media (max-width: 1023px) {
