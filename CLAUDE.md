@@ -101,7 +101,8 @@ own format.
     registered Content API (OAuth2 client credentials, server side only) has the same paths and answers, so moving to it is a
     base URL and a token. The Developer Terms: no cache longer than a week, no raw data in a public repository or file, and
     the credit "Quran data provided by Quran Foundation" with the tafsir's own name. The text is HTML (`div`, `p`, `span`) and
-    `htmlToText` makes it plain. **One passage can explain several verses**: it sits on the first of them and the others have
+    `htmlToText` makes it plain (it removes tags until none is left: a single pass failed CodeQL's
+    "incomplete multi-character sanitization" on PR #121, since `<scr<script>ipt>` leaves a tag; do the same in any new tag stripper). **One passage can explain several verses**: it sits on the first of them and the others have
     no entry, so the provider gives them an empty text and `sharedWith` (the verse that holds the passage); the service passes
     it on as `VerseView.tafsirSharedWith`, and the Tafsir tab shows a link to that verse (`verse.tafsirSharedWith`) instead
     of repeating a long passage. An answer that is not of the surah, out of order, empty or without verse 1 is refused (the
