@@ -181,6 +181,21 @@ describe("Quran Foundation Content API", () => {
     expect(JSON.stringify(log.mock.calls)).not.toContain("s3cret-value");
   });
 
+  it("lets the abort of a thrown-away prerender through, without logging it as a Content API failure", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    // Only the Content API side is aborted: without the check, the provider would fall back and answer from the v4 API.
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL | Request) =>
+        String(input).startsWith(BASE)
+          ? new Response(JSON.stringify(chapter(1, 1, [[1, "from the v4 API"]])))
+          : Promise.reject(new Error("During prerendering, fetch() rejects when the prerender is complete.")),
+      ),
+    );
+    await expect(provider().text("urd-ibnkathir", 1)).rejects.toThrow(/During prerendering/);
+    expect(log).not.toHaveBeenCalled();
+  });
+
   it("reads the unauthenticated API when the token is refused", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     server({ scopes: [] });

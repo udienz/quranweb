@@ -178,6 +178,9 @@ async function loadChapter(base: string, id: number, surah: number, auth?: Quran
     if (mayLog("quran-foundation-content-api-ok", Date.now(), 24 * 60 * 60 * 1000)) console.log("Quran Foundation: tafsir read through the Content API");
     return raw as RawChapter;
   } catch (err) {
+    // Next.js aborts every fetch still open when its first, thrown-away render ends (see service.ts): not an outage, and
+    // logging it would hide a real failure for an hour.
+    if (String(err).includes("During prerendering")) throw err;
     errorOncePerHour("quran-foundation-content-api", "Quran Foundation Content API failed, reading the unauthenticated API instead:", err instanceof Error ? err.message : String(err));
     return (await loadJson(`${base}${path}`)) as RawChapter;
   }
