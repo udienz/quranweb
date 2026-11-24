@@ -70,13 +70,20 @@ export interface QuranFoundationOptions {
   editions?: string[];
 }
 
-/** The passage as plain text: paragraphs and blocks become blank lines, every other tag goes, entities are decoded. */
+/**
+ * The passage as plain text: paragraphs and blocks become blank lines, every other tag goes, entities are decoded. React
+ * shows the result as text, never as HTML; the tags are still removed until none is left, so that a nested one such as
+ * `<scr<script>ipt>` cannot leave a tag behind.
+ */
 export function htmlToText(html: string): string {
   const entities: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
-  return html
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/?(?:p|div|h[1-6]|li|ul|ol|blockquote)\b[^>]*>/gi, "\n\n")
-    .replace(/<[^>]*>/g, "")
+  let text = html.replace(/<br\s*\/?>/gi, "\n").replace(/<\/?(?:p|div|h[1-6]|li|ul|ol|blockquote)\b[^>]*>/gi, "\n\n");
+  let previous;
+  do {
+    previous = text;
+    text = text.replace(/<[^>]*>/g, "");
+  } while (text !== previous);
+  return text
     .replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z]+);/gi, (whole, code: string) => {
       if (code[0] !== "#") return entities[code.toLowerCase()] ?? whole;
       const n = code[1] === "x" || code[1] === "X" ? parseInt(code.slice(2), 16) : parseInt(code.slice(1), 10);

@@ -33,6 +33,10 @@ describe("htmlToText", () => {
     ).toBe("سورہ فاتحہ کے نام:\n\nاس سورت کا نام سورۂ  «فاتحہ»  ہے۔\n\nدوسرا");
   });
 
+  it("leaves no tag behind when tags are nested", () => {
+    expect(htmlToText("a<scr<script>ipt>alert(1)</scr</script>ipt>b")).toBe("aipt>alert(1)ipt>b");
+  });
+
   it("decodes entities and line breaks", () => {
     expect(htmlToText("a &amp; b&nbsp;c<br>d &#1575; &#x627; &lt;x&gt; &unknown;")).toBe("a & b c\nd ا ا <x> &unknown;");
   });
