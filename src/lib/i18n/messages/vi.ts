@@ -204,6 +204,7 @@ export const vi: Messages = {
     searchPlaceholder: "Tìm theo tên hoặc số…",
     searchLabel: "Tìm chương",
     noResults: "Không tìm thấy chương nào.",
+    viewAll: "Xem tất cả các chương",
     goTo: "Đi đến {reference}",
     daily: { title: "Câu của ngày" },
   },

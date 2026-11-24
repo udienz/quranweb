@@ -101,7 +101,8 @@ test("a verse has a page of its own: 404 for a wrong one, a preview, the share m
 
 test("a typed reference opens the verse: on the home page and in the side panel", async ({ page }) => {
   await page.goto("/");
-  const box = page.getByRole("searchbox", { name: "Cari surat" });
+  // The home page's box is a combobox (it suggests surahs while you type); the side panel's is still a search box.
+  const box = page.getByRole("combobox", { name: "Cari surat" });
   await box.fill("2:255");
   await expect(page.getByRole("link", { name: "Buka Al-Baqarah 2:255" })).toBeVisible();
   // A plain surah number is not a reference: the list's own filter handles it.

@@ -204,6 +204,7 @@ export const ar: Messages = {
     searchPlaceholder: "ابحث بالاسم أو الرقم…",
     searchLabel: "البحث عن سورة",
     noResults: "لم يُعثر على سورة.",
+    viewAll: "عرض كل السور",
     goTo: "اذهب إلى {reference}",
     daily: { title: "آية اليوم" },
   },

@@ -202,6 +202,7 @@ export const tr: Messages = {
     searchPlaceholder: "Ada veya numaraya göre ara…",
     searchLabel: "Sure ara",
     noResults: "Sure bulunamadı.",
+    viewAll: "Tüm sureleri gör",
     goTo: "{reference} konumuna git",
     daily: { title: "Günün ayeti" },
   },

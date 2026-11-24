@@ -204,6 +204,7 @@ export const fa: Messages = {
     searchPlaceholder: "جست‌وجو با نام یا شماره…",
     searchLabel: "جست‌وجوی سوره",
     noResults: "سوره‌ای پیدا نشد.",
+    viewAll: "دیدن همهٔ سوره‌ها",
     goTo: "رفتن به {reference}",
     daily: { title: "آیهٔ امروز" },
   },

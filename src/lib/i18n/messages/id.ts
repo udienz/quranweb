@@ -202,6 +202,7 @@ export const id: Messages = {
     searchPlaceholder: "Cari nama atau nomor…",
     searchLabel: "Cari surat",
     noResults: "Surat tidak ditemukan.",
+    viewAll: "Lihat semua surat",
     goTo: "Buka {reference}",
     daily: { title: "Ayat hari ini" },
   },

@@ -204,6 +204,7 @@ export const ru: Messages = {
     searchPlaceholder: "Поиск по названию или номеру…",
     searchLabel: "Поиск суры",
     noResults: "Сура не найдена.",
+    viewAll: "Показать все суры",
     goTo: "Перейти к {reference}",
     daily: { title: "Аят дня" },
   },

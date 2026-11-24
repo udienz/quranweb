@@ -203,6 +203,7 @@ export const de: Messages = {
     searchPlaceholder: "Nach Name oder Nummer suchen…",
     searchLabel: "Suren suchen",
     noResults: "Keine Sure gefunden.",
+    viewAll: "Alle Suren anzeigen",
     goTo: "Gehe zu {reference}",
     daily: { title: "Vers des Tages" },
   },

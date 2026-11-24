@@ -203,6 +203,7 @@ export const sw: Messages = {
     searchPlaceholder: "Tafuta kwa jina au namba…",
     searchLabel: "Tafuta sura",
     noResults: "Hakuna sura iliyopatikana.",
+    viewAll: "Tazama sura zote",
     goTo: "Nenda kwa {reference}",
     daily: { title: "Aya ya leo" },
   },

@@ -203,6 +203,7 @@ export const ta: Messages = {
     searchPlaceholder: "பெயர் அல்லது எண்ணால் தேடு…",
     searchLabel: "சூராக்களைத் தேடு",
     noResults: "சூரா எதுவும் கிடைக்கவில்லை.",
+    viewAll: "எல்லா சூராக்களையும் காண்க",
     goTo: "{reference}க்குச் செல்",
     daily: { title: "இன்றைய வசனம்" },
   },

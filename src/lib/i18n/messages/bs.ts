@@ -204,6 +204,7 @@ export const bs: Messages = {
     searchPlaceholder: "Traži po nazivu ili broju…",
     searchLabel: "Traži sure",
     noResults: "Nije pronađena nijedna sura.",
+    viewAll: "Prikaži sve sure",
     goTo: "Idi na {reference}",
     daily: { title: "Ajet dana" },
   },

@@ -203,6 +203,7 @@ export const hi: Messages = {
     searchPlaceholder: "नाम या नंबर से खोजें…",
     searchLabel: "सूरह खोजें",
     noResults: "कोई सूरह नहीं मिली।",
+    viewAll: "सभी सूरह देखें",
     goTo: "{reference} पर जाएँ",
     daily: { title: "आज की आयत" },
   },

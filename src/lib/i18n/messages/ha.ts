@@ -203,6 +203,7 @@ export const ha: Messages = {
     searchPlaceholder: "Nema da suna ko lamba…",
     searchLabel: "Nemi surori",
     noResults: "Ba a sami sura ba.",
+    viewAll: "Duba dukkan surori",
     goTo: "Je zuwa {reference}",
     daily: { title: "Aya ta yau" },
   },

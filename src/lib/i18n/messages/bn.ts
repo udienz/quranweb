@@ -203,6 +203,7 @@ export const bn: Messages = {
     searchPlaceholder: "নাম বা নম্বর দিয়ে খুঁজুন…",
     searchLabel: "সূরা খুঁজুন",
     noResults: "কোনো সূরা পাওয়া যায়নি।",
+    viewAll: "সব সূরা দেখুন",
     goTo: "{reference}-এ যান",
     daily: { title: "আজকের আয়াত" },
   },

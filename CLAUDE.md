@@ -569,6 +569,29 @@ writes). A name matches whole, without its article ("Al-Baqarah" is also "baqara
 three letters, and only when it fits one surah; a prefix that fits several is refused rather than guessed. A verse past the end of the
 surah leads to the surah. A number alone is a surah number, which the list's own filter already finds. The text is `home.goTo`.
 
+### The home page's surah list and its suggestions (2026-11-24)
+
+The home page lists **six** surahs (the first six, `HOME_SURAH_COUNT` in `SurahGrid.tsx`, sorted by number from the surah list: no metadata is
+written out) and a link "View all surahs" (`home.viewAll`) to **`/surahs`**, a page that did not exist before: `SurahGrid` in `all` mode, all
+114 rows, the same filter box as before (it narrows the list, no suggestions) and the `h1` "Surahs". The owner's brief called it "the existing
+full directory"; there was none, the home page was it. The header's "Surahs" link still goes to `/#surahs` (the owner asked that the route
+stay), and `/surahs` is in the sitemap (`sitemapEntries`).
+
+The search box beside the heading on the home page (`SurahSearchBox`) suggests from **all 114** while you type: `searchSurahs`
+(`lib/surah-search.ts`, pure, table-tested) ranks a surah number (exact first, then numbers that start with the digits; Arabic-Indic and
+Persian digits and leading zeros read), a Latin name or part of it (accents, hyphens, apostrophes and spaces do not count; a word of the name
+counts as the name: "baqarah", "imran", "maidah"; a letter alone only matches the start of a name), an Arabic name (`normalizeArabic`: no
+vowel marks, one form of alif, ya and ha; with or without "ال") and last the meaning of the name in the interface language. At most 8
+suggestions, each with the number, the Latin name and the Arabic name. It is an ARIA combobox: `role="combobox"` on the input with
+`aria-expanded`, `aria-controls`, `aria-activedescendant` and `aria-autocomplete="list"`, a `role="listbox"` of `role="option"` rows (44px
+high), a `role="status"` "No surah found." when nothing matches; Arrow Down and Arrow Up move (and wrap), Enter opens the highlighted
+surah (the first one is highlighted when the list opens), Escape closes the list and keeps the text, a press outside closes it, and a
+mouse hover highlights. The list floats under the box on its end edge (`inset-inline-end`, 24rem wide from `sm`, the box's width below), so it
+mirrors in right to left and is not clipped by the page; the input has `dir="auto"` for Arabic. The six rows below do not change while you
+type. A typed verse ("2:255", "baqarah 255") still shows its "Go to" link and Enter opens it, before any suggestion
+(see "Typed references"); `SurahSidebar` and the hero's search box are unchanged (the hero has no suggestions). The browser tests are
+`e2e/home-surahs.e2e.ts`; Next keeps the page that was left, hidden, so a test counts what is `:visible`.
+
 ### Verse of the day (roadmap phase 6, step 2; 2026-11-22, a verse since the owner's answer on the same day)
 
 A card on the home page (`DailyVerse`, a server component) with one verse: the Arabic text and the reader's first translation (tafsir and
@@ -623,7 +646,7 @@ Modelled on hadistweb (`src/lib/site.ts`, `robots.ts`, `sitemap.ts`, `scripts/og
   the environment (docs/development.md).
 - **`robots.ts`** allows everything in production except `NOT_FOR_CRAWLERS` (`/api/`, `/admin`, `/my-reading`, `/search`, `/settings`) and names
   the sitemap. **`sitemap.ts`** (`generateSitemaps`, so the address `/sitemap/0.xml` stays when files are added) lists the home page,
-  the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `/surah/N/page/P` is never listed.
+  the list of surahs (`/surahs`), the 114 surahs, About and Privacy through `sitemapEntries`. One address per page: `/surah/N/page/P` is never listed.
 - **Link previews:** every page that can be shared sets all of its metadata through `shareMetadata({ title, description, path, locale })`:
   the canonical address, `og:*` and `twitter:*`. Next.js **replaces** the layout's `openGraph` instead of merging it, so a page that
   sets only a title would lose the image; the layout passes `canonical: false`, because a page without its own would otherwise
@@ -861,7 +884,8 @@ src/
   app/
     layout.tsx                 shell: header, theme, fonts (@fontsource), footer
     globals.css                colour tokens (light/dark), Amiri font for Arabic
-    page.tsx                   home: hero, "continue reading", grid of 114 surahs
+    page.tsx                   home: hero, "continue reading", the first six surahs with a search box that suggests from all 114
+    surahs/page.tsx            the full list of the 114 surahs (`SurahGrid` in `all` mode)
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
     settings/page.tsx          settings: theme and text size, reading settings, account
     search/page.tsx            full-text search: the form, the results with the words marked, paging
@@ -895,6 +919,7 @@ src/
     MemorizePanel.tsx          memorization: play each verse N times, loop a range of verses (`lib/memorize.ts`)
     AudioQualitySelect.tsx     standard or data-saver audio (this device only; `lib/audio-quality.ts`)
     SurahSidebar.tsx, SurahGrid.tsx   surah list and search
+    SurahSearchBox.tsx         the home page's search box with suggestions (combobox; `lib/surah-search.ts`)
     Pagination.tsx             page links and "Verses 11-20 of 286"
     ReferenceLink.tsx          the "Go to Al-Baqarah 2:255" link of the search boxes (`lib/reference.ts`)
     ContinueReading.tsx, MyReading.tsx, DailyVerse.tsx   (DailyVerse: the verse of the day on the home page, `lib/daily.ts`)

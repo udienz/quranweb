@@ -203,6 +203,7 @@ export const pt: Messages = {
     searchPlaceholder: "Buscar por nome ou número…",
     searchLabel: "Buscar suratas",
     noResults: "Nenhuma surata encontrada.",
+    viewAll: "Ver todas as suratas",
     goTo: "Ir para {reference}",
     daily: { title: "Versículo do dia" },
   },

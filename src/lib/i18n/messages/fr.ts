@@ -203,6 +203,7 @@ export const fr: Messages = {
     searchPlaceholder: "Rechercher par nom ou numéro…",
     searchLabel: "Rechercher une sourate",
     noResults: "Aucune sourate trouvée.",
+    viewAll: "Voir toutes les sourates",
     goTo: "Aller à {reference}",
     daily: { title: "Verset du jour" },
   },
