@@ -59,6 +59,12 @@ export function useVersePlayer(options: PlayerOptions) {
   const repeatsLeft = useRef(0);
   // The verse paused by hand or from the lock screen, so the lock screen's play button can carry on from there.
   const pausedVerse = useRef<Playing | null>(null);
+  // The same verse as state, so a player bar can show where a paused surah stopped and carry on from there.
+  const [pausedState, setPausedState] = useState<Playing | null>(null);
+  function rememberPaused(verse: Playing | null) {
+    pausedVerse.current = verse;
+    setPausedState(verse);
+  }
   // Each play() gets a number: when it fails, only the latest one may clear the "playing" mark. Moving on quickly
   // (N, the lock screen's next button, fast clicks) interrupts the previous play() with an AbortError, which used to
   // clear the mark of the verse that had just started.
@@ -92,7 +98,7 @@ export function useVersePlayer(options: PlayerOptions) {
     if (!verse) return;
     if (same(playing, verse)) {
       getAudio().pause();
-      pausedVerse.current = { surah: verse.surah, verse: verse.verse };
+      rememberPaused({ surah: verse.surah, verse: verse.verse });
       setPlaying(null);
     } else {
       setJuzScope(null); // playing from a verse by hand leaves the juz that was being played
@@ -234,21 +240,21 @@ export function useVersePlayer(options: PlayerOptions) {
   // Lock screen and media keys (Media Session): pause, carry on, and the previous or next verse of the surah.
   function mediaPause() {
     if (playing === null) return;
-    pausedVerse.current = playing;
+    rememberPaused(playing);
     getAudio().pause();
     setPlaying(null);
   }
   function mediaPlay() {
     const paused = pausedVerse.current;
     if (paused === null || indexOf(paused) < 0) return;
-    pausedVerse.current = null;
+    rememberPaused(null);
     setPlaying(paused);
     play(getAudio());
   }
   function mediaStep(delta: -1 | 1) {
     const current = playing ?? pausedVerse.current;
     if (current === null) return;
-    pausedVerse.current = null;
+    rememberPaused(null);
     const n = current.verse + delta;
     if (n >= 1 && n <= options.verseCount(current.surah)) goTo(current.surah, n);
     else if (delta === 1 && current.surah < 114) goTo(current.surah + 1, 1);
@@ -337,11 +343,11 @@ export function useVersePlayer(options: PlayerOptions) {
   function stop() {
     setJuzScope(null);
     setRangeLoop(null);
-    pausedVerse.current = null;
+    rememberPaused(null);
     getAudio().pause();
     setPlaying(null);
     clearNowPlaying();
   }
 
-  return { playing, togglePlay, goTo, playJuz, startRange, stopRange, stop };
+  return { playing, paused: pausedState, pause: mediaPause, resume: mediaPlay, togglePlay, goTo, playJuz, startRange, stopRange, stop };
 }

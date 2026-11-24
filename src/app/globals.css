@@ -2,31 +2,31 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Palette: deep teal, gold accent, cream background (light) / dark teal (dark). */
+/* Palette: deep forest, muted gold, ink brown on cream (light); the same family on a night green (dark). The page itself is a warm paper (light) and a night green (dark). */
 :root {
   --background: 42 33% 94%;
-  --foreground: 190 28% 21%;
-  --card: 0 0% 100%;
-  --muted: 44 29% 90%;
-  --muted-foreground: 191 13% 40%;
-  --border: 146 14% 89.5%;
-  --primary: 190 69% 29%;
-  --primary-soft: 190 40% 92%;
-  --gold: 39 65% 55%;
-  --hero-from: 190 70% 21%;
-  --hero-to: 192 64% 9%;
+  --foreground: 34 21% 20%;
+  --card: 39 55% 94%;
+  --muted: 40 43% 88%;
+  --muted-foreground: 36 12% 40%;
+  --border: 37 32% 78%;
+  --primary: 143 19% 25%;
+  --primary-soft: 42 31% 87%;
+  --gold: 39 34% 56%;
+  --hero-from: 143 19% 25%;
+  --hero-to: 146 21% 20%;
 }
 
 .dark {
-  --background: 192 64% 7.6%;
-  --foreground: 186 25% 92%;
-  --card: 192 54% 11%;
-  --muted: 193 46% 15%;
-  --muted-foreground: 191 13% 67%;
-  --border: 190 28% 17%;
-  --primary: 174 50% 48%;
-  --primary-soft: 193 46% 15%;
-  --gold: 42 67% 62%;
+  --background: 143 17% 9.5%;
+  --foreground: 38 41% 89%;
+  --card: 141 16% 18%;
+  --muted: 142 15% 22%;
+  --muted-foreground: 38 14% 67%;
+  --border: 136 10% 29%;
+  --primary: 122 17% 71%;
+  --primary-soft: 137 15% 24%;
+  --gold: 40 42% 63%;
 }
 
 @theme inline {
@@ -160,22 +160,21 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --reading-ink: #3d3428;
   --reading-forest: #344c3d;
   --reading-gold: #b49a68;
-  --reading-muted: #807565;
+  --reading-muted: #6b6152;
   --reading-line: #e5dac8;
   color: var(--reading-ink);
   border-radius: 1.25rem;
   padding: clamp(0.65rem, 2vw, 1.25rem);
   background: var(--reading-paper);
 }
-.quran-reading__header {
-  background: linear-gradient(135deg, #405b48, #263b30) !important;
-  border: 1px solid rgb(180 154 104 / 28%);
-  box-shadow: 0 12px 30px rgb(61 52 40 / 9%);
-}
 .quran-reading__surface {
   background: var(--reading-canvas) !important;
-  border-color: #d9cbb5 !important;
-  box-shadow: 0 8px 28px rgb(61 52 40 / 5%);
+  border-color: rgb(180 154 104 / 45%) !important;
+  /* A thin inner rule in gold, like the frame of a printed page; nothing else is drawn. */
+  box-shadow:
+    inset 0 0 0 5px var(--reading-canvas),
+    inset 0 0 0 6px rgb(180 154 104 / 35%),
+    0 8px 28px rgb(61 52 40 / 5%);
 }
 .quran-reading__verse {
   border-bottom-color: var(--reading-line) !important;
@@ -213,13 +212,12 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --reading-muted: #b6ad9e;
   --reading-line: #3c4a3f;
 }
-.dark .quran-reading__header {
-  background: linear-gradient(135deg, #304638, #1d2d23) !important;
-  border-color: rgb(200 173 120 / 25%);
-}
 .dark .quran-reading__surface {
   background: var(--reading-canvas) !important;
-  border-color: #435247 !important;
+  border-color: rgb(200 173 120 / 35%) !important;
+  box-shadow:
+    inset 0 0 0 5px var(--reading-canvas),
+    inset 0 0 0 6px rgb(200 173 120 / 25%);
 }
 .dark .quran-reading__verse {
   border-bottom-color: var(--reading-line) !important;
@@ -240,11 +238,6 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
 
 
 /* Homepage editorial treatment: content only; search, links, filtering and navigation stay as implemented. */
-.home-editorial__hero {
-  background: linear-gradient(135deg, #405b48, #263b30) !important;
-  border: 1px solid rgb(180 154 104 / 28%);
-  box-shadow: 0 14px 34px rgb(61 52 40 / 10%);
-}
 .home-editorial__daily {
   background: #f8f2e7 !important;
   border-color: #d9cbb5 !important;
@@ -261,9 +254,6 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   box-shadow: 0 5px 16px rgb(61 52 40 / 7%);
 }
 .home-editorial__surah .font-arabic { color: #344c3d; }
-.dark .home-editorial__hero {
-  background: linear-gradient(135deg, #304638, #1d2d23) !important;
-}
 .dark .home-editorial__daily,
 .dark .home-editorial__surah {
   background: #26342b !important;
@@ -281,51 +271,38 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --home-ink: #3d3428;
   --home-forest: #344c3d;
   --home-gold: #b49a68;
-  --home-muted: #807565;
+  --home-muted: #6b6152;
 }
+/* The hero is a photograph of an open mushaf (public/images/quranweb-hero-mushaf*.webp) on the right, with the heading, search
+   and button as real text on the left. A parchment gradient blends the photo's pale wall into the page, so the text sits on
+   a flat colour. A background image takes no layout space, so nothing shifts while it loads. */
 .home-editorial__hero {
   position: relative;
   isolation: isolate;
-  color: #f8f2e7;
-  background: linear-gradient(112deg, #344c3d 0%, #405b48 56%, #263b30 100%);
+  min-height: clamp(23rem, 38vw, 30rem);
+  color: var(--home-ink);
+  background-color: var(--home-paper);
+  background-image:
+    linear-gradient(90deg, var(--home-paper) 0%, rgb(237 228 210 / 92%) 30%, rgb(237 228 210 / 0%) 62%),
+    url("/images/quranweb-hero-mushaf.webp");
+  background-repeat: no-repeat;
+  background-size: auto, cover;
+  background-position: 0 0, 78% 65%;
   border: 1px solid rgb(180 154 104 / 35%);
-  box-shadow: 0 20px 48px rgb(61 52 40 / 12%);
+  box-shadow: 0 20px 48px rgb(61 52 40 / 10%);
 }
-.home-editorial__hero::before,
-.home-editorial__hero::after {
-  position: absolute;
-  z-index: -1;
-  content: "";
-  pointer-events: none;
+.home-editorial__eyebrow { color: var(--home-forest); }
+.home-editorial__subtitle { color: #514536; }
+.home-editorial__input { background: rgb(248 242 231 / 92%); }
+.home-editorial__start {
+  color: #f8f2e7;
+  background: var(--home-forest);
 }
-.home-editorial__hero::before {
-  inset: 12px;
-  border: 1px solid rgb(248 242 231 / 13%);
-  border-radius: 1.2rem;
-}
-.home-editorial__hero::after {
-  width: 24rem;
-  height: 24rem;
-  top: -17rem;
-  left: 42%;
-  border: 1px solid rgb(248 242 231 / 9%);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2rem rgb(248 242 231 / 2%), 0 0 0 4rem rgb(248 242 231 / 2%);
-}
-.home-editorial__eyebrow { color: var(--home-gold); }
-.home-editorial__subtitle { color: rgb(248 242 231 / 75%); }
-.home-editorial__calligraphy { color: #d2b77d; }
-.home-editorial__halo {
-  border: 1px solid rgb(210 183 125 / 32%);
-  box-shadow: 0 0 0 1.2rem rgb(210 183 125 / 5%), 0 0 0 2.4rem rgb(210 183 125 / 4%);
-}
-.home-editorial__ornament { background: rgb(210 183 125 / 65%); }
-.home-editorial__start,
+.home-editorial__start:hover { background: #405b48; }
 .home-editorial__verse-link {
   color: #263b30;
   background: #d0ad62;
 }
-.home-editorial__start:hover,
 .home-editorial__verse-link:hover { background: #dfc17e; }
 .home-editorial__daily {
   color: var(--home-ink);
@@ -368,7 +345,93 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --home-gold: #c8ad78;
   --home-muted: #b6ad9e;
 }
-.dark .home-editorial__hero { background: linear-gradient(112deg, #304638, #1d2d23); }
+.dark .home-editorial__hero {
+  color: #eee5d6;
+  background-color: #1d2d23;
+  background-image:
+    linear-gradient(90deg, #1d2d23 0%, rgb(29 45 35 / 94%) 30%, rgb(29 45 35 / 30%) 70%),
+    linear-gradient(rgb(20 32 25 / 40%), rgb(20 32 25 / 40%)),
+    url("/images/quranweb-hero-mushaf.webp");
+  background-size: auto, auto, cover;
+  background-position: 0 0, 0 0, 78% 65%;
+  border-color: rgb(200 173 120 / 25%);
+}
+.dark .home-editorial__eyebrow { color: #c8ad78; }
+.dark .home-editorial__subtitle { color: rgb(238 229 214 / 82%); }
+.dark .home-editorial__input { background: rgb(29 45 35 / 85%); }
+.dark .home-editorial__start { color: #1d2d23; background: #d0ad62; }
+.dark .home-editorial__start:hover { background: #dfc17e; }
+
+/* The photograph's mushaf sits beside the heading at every width, never under the button. The photo is never mirrored (the
+   Arabic on its pages would read backwards), so in right-to-left it is placed on the other side instead, with the mushaf
+   facing the text.
+   - Desktop, left to right: the photo is the hero's background and fades into the paper on the left (rules above).
+   - Desktop, right to left: the photo is a block on the left 57%, fading into the paper on its right edge, so it stays clear of the search form.
+   - Under 1024 px: the photo is a block beside the heading and description, as tall as they are and bleeding to the hero's edge;
+     the search form and the button sit under both, on plain paper. */
+.home-editorial__hero {
+  --hero-px: 1.5rem;
+  --hero-py: 2rem;
+}
+@media (min-width: 640px) {
+  .home-editorial__hero {
+    --hero-px: 2.5rem;
+    --hero-py: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  html[dir="rtl"] .home-editorial__hero,
+  html[dir="rtl"].dark .home-editorial__hero {
+    background-image: none;
+  }
+  html[dir="rtl"] .home-editorial__hero::before {
+    position: absolute;
+    z-index: -1;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 57%;
+    content: "";
+    background: url("/images/quranweb-hero-mushaf.webp") 100% 65% / cover no-repeat;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 10%);
+    mask-image: linear-gradient(to left, transparent, #000 10%);
+  }
+}
+@media (max-width: 1023px) {
+  .home-editorial__hero,
+  .dark .home-editorial__hero {
+    min-height: 0;
+    background-image: none;
+  }
+  .home-editorial__top {
+    position: relative;
+    min-height: 14.5rem;
+  }
+  .home-editorial__lead { max-width: 56%; }
+  .home-editorial__top::before {
+    position: absolute;
+    z-index: -1;
+    top: calc(var(--hero-py) * -1);
+    inset-inline-end: calc(var(--hero-px) * -1);
+    width: 50%;
+    height: calc(100% + var(--hero-py));
+    content: "";
+    background: url("/images/quranweb-hero-mushaf-sm.webp") 100% 50% / 430px auto no-repeat;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    mask-composite: intersect;
+  }
+  html[dir="rtl"] .home-editorial__top::before {
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+    mask-image: linear-gradient(to left, transparent, #000 34%), linear-gradient(to bottom, #000 80%, transparent);
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablets have room: the photo fills its block, lantern and window included. */
+  .home-editorial__top::before { background-size: cover; }
+}
+.dark .home-editorial__hero::before,
+.dark .home-editorial__top::before { filter: brightness(0.62); }
 .dark .home-editorial__daily,
 .dark .home-editorial__surah-search { color: var(--home-ink); background: var(--home-cream); border-color: #435247; }
 .dark .home-editorial__daily-label a,
@@ -383,8 +446,225 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
 .dark .home-editorial__surah-meta,
 .dark .home-editorial__translation > p:nth-last-child(2) { color: var(--home-muted); }
 @media (max-width: 639px) {
-  .home-editorial__hero::before { inset: 8px; }
-  .home-editorial__calligraphy { min-height: 9rem; }
-  .home-editorial__halo { width: 10rem; height: 10rem; }
   .home-editorial__surah-arrow { opacity: 1; }
+}
+
+
+/* One palette for the whole site (the editorial palette: parchment, soft cream, ink brown, deep forest, muted gold). The tokens
+   are set once, in :root and .dark above; a component that uses a token follows with no colour of its own. */
+
+/* The surah heading sits on the paper, centred; the controls are one forest bar under it. */
+.quran-reading__header {
+  text-align: center;
+  padding: clamp(1rem, 3vw, 1.75rem) 0.5rem 0.25rem;
+}
+.quran-reading__eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--reading-muted);
+}
+.quran-reading__title {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  color: var(--reading-forest);
+}
+.quran-reading__title h1 {
+  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+.quran-reading__title p {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.4;
+}
+.quran-reading__title-rule {
+  align-self: stretch;
+  width: 1px;
+  min-height: 2rem;
+  background: var(--reading-gold);
+  opacity: 0.6;
+}
+@media (max-width: 30rem) {
+  .quran-reading__title-rule { display: none; }
+}
+.quran-reading__meaning {
+  margin-top: 0.25rem;
+  color: var(--reading-muted);
+  font-style: italic;
+}
+.quran-reading__ornament {
+  position: relative;
+  display: block;
+  height: 1rem;
+  max-width: 28rem;
+  margin: 0.9rem auto 0;
+}
+.quran-reading__ornament::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--reading-gold), transparent);
+}
+.quran-reading__ornament::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--reading-gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 0 5px var(--reading-paper);
+}
+.quran-reading__bar {
+  margin-top: 0.75rem;
+  border-radius: 1.5rem;
+  padding: 0.85rem 1.1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #344c3d, #2a4033);
+  border: 1px solid rgb(180 154 104 / 28%);
+  box-shadow: 0 8px 20px rgb(61 52 40 / 10%);
+}
+.quran-reading__bar > * + * { margin-top: 0.75rem; }
+/* Gold text and the active tab on the forest bar: a lighter gold than the palette's, to reach 4.5:1 for small text. */
+.quran-reading__bar { --gold: 44 42% 65%; }
+.dark .quran-reading__bar {
+  background: linear-gradient(135deg, #304638, #1d2d23);
+  border-color: rgb(200 173 120 / 25%);
+}
+/* Verse number: a thin gold ring instead of a tilted tile. */
+.quran-reading__verse span.rotate-45 {
+  rotate: none;
+  border-radius: 9999px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--reading-gold);
+}
+.quran-reading__verse span.-rotate-45 { rotate: none; }
+
+/* Phones: the control bar takes fewer rows (selects and buttons share a row), so the first verse is not pushed further down. */
+@media (max-width: 639px) {
+  .quran-reading__bar { padding: 0.7rem 0.8rem; border-radius: 1.25rem; }
+  .quran-reading__bar button,
+  .quran-reading__bar select,
+  .quran-reading__bar [role="combobox"] { font-size: 0.8125rem; padding: 0.4rem 0.65rem; }
+  .quran-reading__bar > * + * { margin-top: 0.5rem; }
+}
+
+/* The play bar of a surah (SurahPlayer): a forest pill with a round gold button, what it plays, a slider and the time or the verse.
+   It stands alone under the surah heading; the other controls are chips on the paper under it. */
+.surah-player {
+  --gold: 44 42% 65%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4rem;
+  max-width: 52rem;
+  margin: 1.1rem auto 0;
+  padding: 0.6rem 1.6rem 0.6rem 0.6rem;
+  border: 1px solid rgb(180 154 104 / 35%);
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, #344c3d, #2a4033);
+  box-shadow: 0 10px 24px rgb(61 52 40 / 16%);
+}
+.dark .surah-player {
+  border-color: rgb(200 173 120 / 30%);
+  background: linear-gradient(135deg, #304638, #1d2d23);
+}
+.surah-player__button {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  color: #17261d;
+  background: radial-gradient(circle at 35% 30%, #dcc690, #cdb67f 60%, #b99f6a);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 35%), 0 2px 6px rgb(0 0 0 / 25%);
+}
+.surah-player__label {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.25;
+}
+.surah-player__label span:first-child { font-size: 0.9375rem; font-weight: 600; }
+.surah-player__label span:last-child { font-size: 0.78rem; color: rgb(255 255 255 / 72%); }
+.surah-player__end {
+  flex: none;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 85%);
+}
+/* The slider: a 4px track that fills with gold up to --pct, a cream thumb, and a 44px hit area that does not grow the bar. */
+.surah-player__range {
+  --end: right;
+  flex: 1 1 6rem;
+  min-width: 5rem;
+  height: 2.75rem;
+  margin-block: -0.6rem;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+html[dir="rtl"] .surah-player__range { --end: left; }
+.surah-player__range:disabled { cursor: default; }
+.surah-player__range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9px;
+  background: linear-gradient(to var(--end), hsl(var(--gold)) var(--pct, 0%), rgb(255 255 255 / 22%) var(--pct, 0%));
+}
+.surah-player__range::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: #f8f2e7;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.surah-player__range::-moz-range-track { height: 4px; border-radius: 9px; background: rgb(255 255 255 / 22%); }
+.surah-player__range::-moz-range-progress { height: 4px; border-radius: 9px; background: hsl(var(--gold)); }
+.surah-player__range::-moz-range-thumb { width: 15px; height: 15px; border: 0; border-radius: 50%; background: #f8f2e7; box-shadow: 0 1px 4px rgb(0 0 0 / 40%); }
+.surah-player__range:disabled::-webkit-slider-thumb { opacity: 0.45; }
+@media (max-width: 639px) {
+  .surah-player { flex-wrap: wrap; gap: 0.55rem 0.75rem; padding: 0.6rem 0.9rem 0.5rem 0.6rem; border-radius: 1.75rem; }
+  .surah-player__end { margin-inline-start: auto; }
+  .surah-player__range { order: 5; flex: 1 1 100%; margin-block: -0.7rem 0; }
+}
+
+/* The controls under the play bar: chips on the paper. The border is the accent at 60% (the label carries the contrast). */
+.quran-reading__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 1.25rem;
+  margin-top: 1rem;
+}
+.quran-chip {
+  border: 1px solid hsl(var(--primary) / 0.6);
+  background: hsl(var(--card) / 0.7);
+  color: hsl(var(--primary));
+}
+.quran-chip:hover { background: hsl(var(--card)); }
+.quran-chip--on,
+.quran-chip--on:hover {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary));
+  color: hsl(var(--card));
+}
+@media (max-width: 639px) {
+  .quran-reading__chips { gap: 0.5rem; }
+  .quran-chip { font-size: 0.8125rem; }
 }

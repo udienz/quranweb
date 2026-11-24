@@ -11,7 +11,7 @@ export default function PlaySurahButton({ playing, onToggle, onDark = false }: {
       onClick={onToggle}
       aria-pressed={playing}
       className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm ${
-        onDark ? "border-white/15 text-gold hover:bg-white/10" : "border-border text-primary hover:bg-muted"
+        onDark ? "border-white/15 text-white/90 hover:bg-white/10" : "border-border text-primary hover:bg-muted"
       }`}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
