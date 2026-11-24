@@ -11,6 +11,7 @@ import { getQuran } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import { excerpt, shareMetadata } from "@/lib/site";
 import ArabicText, { RukuMark } from "@/components/ArabicText";
+import PrefGate from "@/components/PrefGate";
 import { surahFromSegment, VERSE_COUNTS, verseFromSegment } from "@/lib/surah-number";
 
 // Rendered per request, like the surah page (the text comes from the sources, and the reader's choices from a cookie).
@@ -26,7 +27,7 @@ function parse({ number, verse }: { number: string; verse: string }): { surah: n
   return v === null ? null : { surah, verse: v };
 }
 
-/** One verse as the reader has chosen to see it (no tafsir): the Arabic, the transliteration and the translations. */
+/** One verse as the reader has chosen to see it (no tafsir): the Arabic, the transliteration (while it is on) and the translations. */
 async function loadVerse(surah: number, verse: number, locale: string) {
   const quran = getQuran();
   const saved = parseSelectionCookie((await cookies()).get(SELECTION_COOKIE)?.value);
@@ -108,9 +109,12 @@ export default async function VersePage({ params }: { params: Params }) {
           <RukuMark verse={verse} />
         </p>
         {verse.transliteration && (
-          <p dir="ltr" translate="no" className="mt-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">
-            {verse.transliteration}
-          </p>
+          // Like the reader: hidden until the reader turns the transliteration on (issue #126).
+          <PrefGate pref="transliteration">
+            <p dir="ltr" translate="no" className="mt-3 text-[length:calc(15px*var(--latin-scale,1))] italic leading-relaxed text-primary">
+              {verse.transliteration}
+            </p>
+          </PrefGate>
         )}
         {verse.translations.map((tr) => {
           const edition = editions.get(tr.edition);

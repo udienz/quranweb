@@ -171,7 +171,8 @@ own format.
   `progress` directly. Version 1 data (and backup files) is migrated when read; the stored
   copy becomes version 2 at the next change. The backup envelope stays `format: 1`.
 - **Display toggles** (Arabic, transliteration, translation) are browser-only (`PrefsProvider`). The transliteration is
-  off by default since 2026-11-24 (we decided, issue #126); a reader's saved toggles are kept as they were. The theme and text
+  off by default since 2026-11-24 (we decided, issue #126); a reader's saved toggles are kept as they were. The verse page
+  (`/surah/2/255`) follows the same toggle (`PrefGate`), so it too hides the transliteration until it is turned on. The theme and text
   size are kept in the browser too and also follow the account (see "Settings page, theme and text size").
 - This schema is designed to move to accounts later (roadmap phase 3).
 
