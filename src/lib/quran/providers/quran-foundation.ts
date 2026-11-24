@@ -1,7 +1,12 @@
 // Adapter for the Quran Foundation API (the API behind Quran.com, https://api-docs.quran.foundation): tafsir in languages
-// that QuranEnc and our other sources do not cover. Read live, like every new edition (the owner's rule of 2026-11-21),
-// through the unauthenticated v4 API (the owner's choice of 2026-11-24). The registered Content API has the same paths and
-// answers under another base URL with OAuth2 client credentials, so moving to it later changes the base URL and adds a token.
+// that QuranEnc and our other sources do not cover. Read live, like every new edition (our rule of 2026-11-21).
+//
+// Two ways in, with the same paths and answers. With QF_CLIENT_ID and QF_CLIENT_SECRET (our registered app, 2026-11-24) it
+// reads the Content API: an OAuth2 client-credentials token from oauth2.quran.foundation (HTTP Basic, scope
+// content.tafsirs.read, or `content` for older credentials), kept until 30 s before it expires, sent as `x-auth-token` with
+// `x-client-id`. A 401 renews the token once. Without the variables, or when the Content API fails, it reads the older
+// unauthenticated v4 API (api.quran.com), and the failure is logged once an hour. The secret stays on the server: it is only
+// sent to the token endpoint and never logged.
 //
 // The Developer Terms (2026-11-20): display is allowed; nothing is kept longer than a week (transport.ts keeps an answer for
 // a day, in memory); no raw data in a public repository or download; credit "Quran data provided by Quran Foundation" and
@@ -16,12 +21,23 @@
 
 import { cache } from "react";
 import type { TextProvider } from "../provider";
-import { loadJson } from "../transport";
+import { HttpError, loadJson } from "../transport";
+import { errorOncePerHour, mayLog } from "../../log-limited";
 import { LOCALES } from "../../i18n/config";
 import { completeEditions, languageIn } from "../edition-names";
 import type { Edition, EditionText, VerseText } from "../types";
 
 export const QURAN_FOUNDATION_API_URL = "https://api.quran.com/api/v4";
+export const QURAN_FOUNDATION_CONTENT_URL = "https://apis.quran.foundation/content/api/v4";
+export const QURAN_FOUNDATION_TOKEN_URL = "https://oauth2.quran.foundation/oauth2/token";
+
+/** The registered app's credentials (server only), and for tests the addresses to use instead of the real ones. */
+export interface QuranFoundationAuth {
+  clientId: string;
+  clientSecret: string;
+  tokenUrl?: string;
+  contentUrl?: string;
+}
 
 const CREDIT_EN = "Quran data provided by Quran Foundation (Quran.com)";
 
@@ -66,8 +82,10 @@ interface RawChapter {
 }
 
 export interface QuranFoundationOptions {
-  /** An HTTP URL of the API. Default: the unauthenticated v4 API. */
+  /** An HTTP URL of the unauthenticated API. Default: the v4 API at api.quran.com. */
   baseUrl?: string;
+  /** Credentials for the Content API; without them only the unauthenticated API is read. */
+  auth?: QuranFoundationAuth;
   /** IDs of the editions to enable. Empty = all the editions listed above. */
   editions?: string[];
 }
@@ -97,10 +115,73 @@ export function htmlToText(html: string): string {
     .trim();
 }
 
-// One fetch per surah and edition per page render.
-const fetchChapter = cache(async (base: string, id: number, surah: number): Promise<RawChapter> => {
-  return (await loadJson(`${base}/tafsirs/${id}/by_chapter/${surah}?per_page=300`)) as RawChapter;
-});
+const USER_AGENT = "QuranWeb (https://quranweb.udienz.web.id)";
+const TOKEN_TIMEOUT_MS = 8000;
+/** Renew a token this long before it expires, as the docs advise. */
+const TOKEN_MARGIN_MS = 30_000;
+/** Newer credentials hold granular scopes and refuse `content` (invalid_scope); older ones hold `content` only. */
+const SCOPES = ["content.tafsirs.read", "content"];
+
+const tokens = new Map<string, { promise: Promise<{ token: string; expires: number }>; expires?: number }>();
+
+/** Empty the token cache (for tests). */
+export const clearQuranFoundationTokens = (): void => tokens.clear();
+
+async function requestToken(auth: QuranFoundationAuth): Promise<{ token: string; expires: number }> {
+  const basic = Buffer.from(`${auth.clientId}:${auth.clientSecret}`).toString("base64");
+  let status = 0;
+  for (const scope of SCOPES) {
+    const res = await fetch(auth.tokenUrl ?? QURAN_FOUNDATION_TOKEN_URL, {
+      method: "POST",
+      headers: { Authorization: `Basic ${basic}`, "Content-Type": "application/x-www-form-urlencoded", "User-Agent": USER_AGENT },
+      body: new URLSearchParams({ grant_type: "client_credentials", scope }),
+      signal: AbortSignal.timeout(TOKEN_TIMEOUT_MS),
+    });
+    if (res.ok) {
+      const body = (await res.json()) as { access_token?: unknown; expires_in?: unknown };
+      if (typeof body.access_token !== "string" || !body.access_token) throw new Error("The Quran Foundation token answer has no access_token");
+      const seconds = typeof body.expires_in === "number" && body.expires_in > 0 ? body.expires_in : 3600;
+      return { token: body.access_token, expires: Date.now() + seconds * 1000 - TOKEN_MARGIN_MS };
+    }
+    status = res.status;
+    if (status !== 400) break; // only a refused scope is worth another try
+  }
+  throw new HttpError(`The Quran Foundation token request failed (status ${status})`, status);
+}
+
+/** A valid access token: the cached one, the request already under way, or a new one (`renew` forces a new one). */
+async function accessToken(auth: QuranFoundationAuth, renew = false): Promise<string> {
+  const known = tokens.get(auth.clientId);
+  if (known && !renew && (known.expires === undefined || known.expires > Date.now())) return (await known.promise).token;
+  const entry: { promise: Promise<{ token: string; expires: number }>; expires?: number } = { promise: requestToken(auth) };
+  tokens.set(auth.clientId, entry);
+  entry.promise.then(
+    (t) => (entry.expires = t.expires),
+    () => tokens.get(auth.clientId) === entry && tokens.delete(auth.clientId),
+  );
+  return (await entry.promise).token;
+}
+
+async function loadChapter(base: string, id: number, surah: number, auth?: QuranFoundationAuth): Promise<RawChapter> {
+  const path = `/tafsirs/${id}/by_chapter/${surah}?per_page=300`;
+  if (!auth) return (await loadJson(`${base}${path}`)) as RawChapter;
+  const url = `${(auth.contentUrl ?? QURAN_FOUNDATION_CONTENT_URL).replace(/\/$/, "")}${path}`;
+  const headers = async (renew: boolean) => ({ "x-auth-token": await accessToken(auth, renew), "x-client-id": auth.clientId, "User-Agent": USER_AGENT });
+  try {
+    let raw: unknown;
+    try {
+      raw = await loadJson(url, await headers(false));
+    } catch (err) {
+      if (!(err instanceof HttpError && err.status === 401)) throw err;
+      raw = await loadJson(url, await headers(true));
+    }
+    if (mayLog("quran-foundation-content-api-ok", Date.now(), 24 * 60 * 60 * 1000)) console.log("Quran Foundation: tafsir read through the Content API");
+    return raw as RawChapter;
+  } catch (err) {
+    errorOncePerHour("quran-foundation-content-api", "Quran Foundation Content API failed, reading the unauthenticated API instead:", err instanceof Error ? err.message : String(err));
+    return (await loadJson(`${base}${path}`)) as RawChapter;
+  }
+}
 
 export function createQuranFoundationTextProvider(options: QuranFoundationOptions = {}): TextProvider {
   const base = (options.baseUrl ?? QURAN_FOUNDATION_API_URL).replace(/\/$/, "");
@@ -112,6 +193,8 @@ export function createQuranFoundationTextProvider(options: QuranFoundationOption
       })
     : QURAN_FOUNDATION_EDITIONS;
   const byId = new Map(enabled.map((e) => [e.id, e]));
+  // One fetch per surah and edition per page render.
+  const fetchChapter = cache((id: number, surah: number) => loadChapter(base, id, surah, options.auth));
 
   return {
     id: "quran-foundation",
@@ -120,7 +203,7 @@ export function createQuranFoundationTextProvider(options: QuranFoundationOption
     async text(edition, surah): Promise<EditionText> {
       const resource = byId.has(edition) ? QURAN_FOUNDATION_IDS[edition] : undefined;
       if (!resource) throw new Error(`The Quran Foundation provider does not serve edition "${edition}"`);
-      const raw = await fetchChapter(base, resource, surah);
+      const raw = await fetchChapter(resource, surah);
       const bad = (why: string) => new Error(`The Quran Foundation answer for tafsir ${resource} surah ${surah} ${why}`);
       const count = raw?.pagination?.total_records;
       if (!Array.isArray(raw?.tafsirs) || !Number.isInteger(count) || count < 1) throw bad("has an unexpected format");

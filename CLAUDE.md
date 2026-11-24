@@ -96,10 +96,16 @@ own format.
     it reports a newer version, fetch again and update the version in the credit.
   - `providers/quran-foundation.ts` (2026-11-24): the [Quran Foundation API](https://api-docs.quran.foundation), the API behind
     Quran.com, for tafsir in languages our other sources lack. One edition: Tafsir Ibn Kathir in Urdu (`urd-ibnkathir`,
-    resource 160), the Urdu default. **Always read live**, from the unauthenticated `https://api.quran.com/api/v4` (the owner's
-    choice; there is no variable and no copy), one request per surah (`/tafsirs/160/by_chapter/{n}?per_page=300`). The
-    registered Content API (OAuth2 client credentials, server side only) has the same paths and answers, so moving to it is a
-    base URL and a token. The Developer Terms: no cache longer than a week, no raw data in a public repository or file, and
+    resource 160), the Urdu default. **Always read live** (no copy), one request per surah
+    (`/tafsirs/160/by_chapter/{n}?per_page=300`). With `QF_CLIENT_ID` and `QF_CLIENT_SECRET` (our registered app, 2026-11-24;
+    GitHub secrets) it reads the **Content API** (`apis.quran.foundation/content/api/v4`): a client-credentials token from
+    `oauth2.quran.foundation` (HTTP Basic, scope `content.tafsirs.read`, or `content` for older credentials), kept in memory
+    until 30 s before it expires and sent as `x-auth-token` with `x-client-id`; a 401 renews it once. Without them, or when
+    the Content API fails (logged once an hour), it reads the older unauthenticated `api.quran.com/api/v4`, which has the same
+    paths and answers. The secret is server-only: it goes to the token endpoint and nowhere else, and is never logged. The
+    deploy workflows send both secrets on stdin, prepended to `deploy.sh` (never on the ssh command line), and `deploy.sh`
+    puts them in an env file of mode 600 for `docker run --env-file` and removes it at the end (`deploy-contact.test.sh`
+    checks that block). The container log says "Quran Foundation: tafsir read through the Content API" once a day when it works. The Developer Terms: no cache longer than a week, no raw data in a public repository or file, and
     the credit "Quran data provided by Quran Foundation" with the tafsir's own name. The text is HTML (`div`, `p`, `span`) and
     `htmlToText` makes it plain (it removes tags until none is left: a single pass failed CodeQL's
     "incomplete multi-character sanitization" on PR #121, since `<scr<script>ipt>` leaves a tag; do the same in any new tag stripper). **One passage can explain several verses**: it sits on the first of them and the others have
@@ -778,6 +784,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `PRIVACY_CONTACT_NAME`, `PRIVACY_CONTACT_EMAIL` | none | Shown on the privacy page as the contact for questions about personal data |
 | `QURAN_SEARCH_INDEX` | `<mirror>/quranweb-search.sqlite` | The search index (`scripts/build-search-index.mjs`); without a local mirror there is none and search says it is not available |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
+| `QF_CLIENT_ID`, `QF_CLIENT_SECRET` | none | Content API credentials of our Quran Foundation app (GitHub secrets, passed by the deploy workflows); without them the Urdu tafsir is read from the unauthenticated API |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
 ## Project structure

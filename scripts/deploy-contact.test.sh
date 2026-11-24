@@ -23,3 +23,29 @@ expect "$(run '' 'only@example.test')" $'-e\nPRIVACY_CONTACT_EMAIL=only@example.
 expect "$(run '' '')" ''
 expect "$(run $'two\nlines' 'x@y.test')" $'-e\nPRIVACY_CONTACT_NAME=twolines\n-e\nPRIVACY_CONTACT_EMAIL=x@y.test'
 echo "deploy contact test OK"
+
+# The Quran Foundation block (between "BEGIN quran-foundation" and "END quran-foundation"): both credentials go into an env
+# file readable by the owner only, passed with --env-file; with one missing nothing is passed. Run in a subshell each time,
+# because the block sets an EXIT trap that removes the file.
+qf_snippet="$(sed -n '/^# BEGIN quran-foundation/,/^# END quran-foundation/p' "$here/deploy.sh")"
+[ -n "$qf_snippet" ] || { echo "quran-foundation block not found in deploy.sh" >&2; exit 1; }
+decode_b64() { [ -n "${1:-}" ] && printf '%s' "$1" | base64 -d 2>/dev/null | tr -d '\r\n' || true; }
+qf() { # id secret -> the docker arguments, the file's mode and its contents
+  (
+    DATA_ARGS=()
+    QF_CLIENT_ID_B64="${1:+$(printf '%s' "$1" | base64 -w0)}"
+    QF_CLIENT_SECRET_B64="${2:+$(printf '%s' "$2" | base64 -w0)}"
+    eval "$qf_snippet"
+    if [ -n "$QF_ENV_FILE" ]; then
+      [ "${DATA_ARGS[*]}" = "--env-file $QF_ENV_FILE" ] || { echo "FAIL: arguments [${DATA_ARGS[*]}]" >&2; exit 1; }
+      stat -c %a "$QF_ENV_FILE"
+      cat "$QF_ENV_FILE"
+    else
+      printf '%s' "${DATA_ARGS[*]-}"
+    fi
+  )
+}
+expect "$(qf 'client-1' 'se cr$et"x')" $'600\nQF_CLIENT_ID=client-1\nQF_CLIENT_SECRET=se cr$et"x'
+expect "$(qf 'client-1' '')" ''
+expect "$(qf '' 'secret')" ''
+echo "deploy quran-foundation test OK"

@@ -12,7 +12,7 @@ import type { AudioProvider, TextProvider } from "./provider";
 import { createEquranAudioProvider, createEquranTextProvider } from "./providers/equran";
 import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0";
 import { createQuranEncTextProvider, QURANENC_EDITIONS } from "./providers/quranenc";
-import { createQuranFoundationTextProvider, QURAN_FOUNDATION_EDITIONS } from "./providers/quran-foundation";
+import { createQuranFoundationTextProvider, QURAN_FOUNDATION_EDITIONS, type QuranFoundationAuth } from "./providers/quran-foundation";
 import { createIslamicNetworkAudioProvider } from "./providers/islamic-network";
 import type { QuranConfig } from "./service";
 import type { Selection } from "./types";
@@ -41,10 +41,15 @@ export interface QuranEncTextSource {
 
 export interface QuranFoundationTextSource {
   type: "quran-foundation";
-  /** An HTTP URL of the API. Default: the unauthenticated v4 API (read live, no copy). */
+  /** An HTTP URL of the unauthenticated API. Default: the v4 API at api.quran.com (read live, no copy). */
   baseUrl?: string;
   /** Edition IDs to enable. Default: all the editions the adapter knows. */
   editions?: string[];
+  /**
+   * Content API credentials. Only ever from the environment (QF_CLIENT_ID and QF_CLIENT_SECRET, see applyEnv), never from a
+   * configuration file: the parser refuses the key.
+   */
+  auth?: QuranFoundationAuth;
 }
 
 export interface EquranAudioSource {
@@ -256,7 +261,14 @@ export function parseSourceConfig(raw: unknown): SourceConfig {
 
 export type Env = Record<string, string | undefined>;
 
-/** Fill in the base URLs from the environment where the configuration leaves them out. */
+/** The Content API credentials from the environment, when both are set. */
+function quranFoundationAuth(env: Env): QuranFoundationAuth | undefined {
+  const clientId = env.QF_CLIENT_ID?.trim();
+  const clientSecret = env.QF_CLIENT_SECRET?.trim();
+  return clientId && clientSecret ? { clientId, clientSecret } : undefined;
+}
+
+/** Fill in the base URLs (and the Quran Foundation credentials) from the environment where the configuration leaves them out. */
 export function applyEnv(config: SourceConfig, env: Env): SourceConfig {
   const fill = (baseUrl: string | undefined, value: string | undefined) => baseUrl ?? (value?.trim() || undefined);
   return {
@@ -267,7 +279,7 @@ export function applyEnv(config: SourceConfig, env: Env): SourceConfig {
         : p.type === "quranenc"
           ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_QURANENC_URL) }
           : p.type === "quran-foundation"
-            ? p // read live, so no variable
+            ? { ...p, auth: p.auth ?? quranFoundationAuth(env) } // read live: no base URL variable, only the credentials
             : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
     ),
     audioProviders: config.audioProviders.map((p) =>
@@ -307,7 +319,7 @@ export function toQuranConfig(config: SourceConfig): QuranConfig {
       : c.type === "quranenc"
         ? createQuranEncTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
         : c.type === "quran-foundation"
-          ? createQuranFoundationTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
+          ? createQuranFoundationTextProvider({ baseUrl: c.baseUrl, editions: c.editions, auth: c.auth })
           : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
   const audio = (c: AudioSourceConfig): AudioProvider =>
     c.type === "islamic-network"
