@@ -178,6 +178,7 @@ export default function MushafPageReader({
 
   return (
     <div
+      className="quran-reading"
       onTouchStart={(e) => {
         const p = e.changedTouches[0];
         touch.current = e.touches.length === 1 ? { x: p.clientX, y: p.clientY } : null;
@@ -195,18 +196,17 @@ export default function MushafPageReader({
         step.current(towardsStart ? 1 : -1);
       }}
     >
-      <header
-        className="on-dark rounded-2xl p-5 text-white shadow-sm sm:px-6"
-        style={{ background: "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-to)))" }}
-      >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="font-display text-xl font-bold">{t("mushaf.page", { page })}</h1>
-            <p className="mt-1 text-sm text-white/75">{segments.map((s) => s.meta.name.latin).join(" · ")}</p>
-          </div>
-          <PlaybackModeSelect onDark />
+      <header className="quran-reading__header">
+        <p className="quran-reading__eyebrow">{segments.map((s) => s.meta.name.latin).join(" · ")}</p>
+        <div className="quran-reading__title">
+          <h1 className="font-display">{t("mushaf.page", { page })}</h1>
         </div>
+        <span aria-hidden className="quran-reading__ornament" />
       </header>
+
+      <div className="quran-reading__chips">
+        <PlaybackModeSelect chip />
+      </div>
 
       <div className="mt-4">
         <MushafPageNav page={page} />
@@ -218,7 +218,7 @@ export default function MushafPageReader({
         </p>
       )}
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="quran-reading__surface mt-4 overflow-hidden rounded-2xl border border-border bg-card">
         {segments.map((seg) => {
           const starts = seg.verses[0]?.number === 1;
           return (

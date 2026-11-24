@@ -167,9 +167,12 @@ pages of 10 verses, which stay the default. The choice follows your account when
    for them only **Play the surah** is there (no button on a verse, no juz, and memorizing by ear is left out).
 2. Press play on a verse. In the mushaf layout, tap the verse number first: a bar with the play button opens at the
    bottom.
-3. To choose what happens at the end of the surah, use the list in the surah header (Stop at the end, Repeat the surah,
+3. Or press the gold button in the play bar under the surah's name. If the reciter has a recording of the whole surah, it
+   plays that recording and you can drag the slider to move in it; the time is shown at the end of the bar. If the reciter
+   has only a file per verse, the bar plays the surah verse by verse from verse 1, and the slider moves between verses.
+4. To choose what happens at the end of the surah, use the list under the play bar (Stop at the end, Repeat the surah,
    Play the next surah).
-4. To play a whole juz, pick it in the "Juz…" list in the surah header or under "Play a juz" on the Settings page.
+5. To play a whole juz, pick it in the "Juz…" list under the play bar or under "Play a juz" on the Settings page.
 
 ### Control the audio
 

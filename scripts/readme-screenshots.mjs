@@ -1,7 +1,7 @@
 // Take every screenshot of the READMEs, in English and Indonesian: the reading page, dark theme, tafsir, home and phone
 // pictures at the top and bottom, and the how-to pictures.
 //
-//   node scripts/readme-screenshots.mjs [base URL]
+//   [ONLY=name,name] node scripts/readme-screenshots.mjs [base URL]
 //
 // The base URL defaults to production; QA (https://quranweb-qa.udienz.web.id) shows what is merged but not yet released. Each picture starts from a fresh browser with sample reading data (bookmarks,
 // a goal, progress) written into local storage, so nothing of a real reader is used or changed. Output goes to
@@ -77,7 +77,11 @@ async function open(lang, { cookies = {}, storage = {}, data = false, width = 12
 
 const selection = (value) => encodeURIComponent(JSON.stringify(value));
 
+// ONLY=how-mushaf-page,home retakes just those pictures (names without the language or the extension).
+const only = process.env.ONLY ? process.env.ONLY.split(",") : null;
+
 async function shoot(lang, name, fn, options) {
+  if (only && !only.includes(name)) return;
   const { context, page } = await open(lang, options);
   try {
     // fn returns what to photograph: an element, nothing (the whole viewport) or { clip } (an area of the page).
