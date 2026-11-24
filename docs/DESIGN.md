@@ -24,7 +24,7 @@ Target audience: Indonesian readers first (the interface defaults to Indonesian)
 
 QuranWeb's website is a printed mushaf on a reading desk in a quiet room: a parchment page, a soft-cream reading surface edged with one thin gold rule, and a block of Arabic bigger and more widely spaced than anything else on screen.
 
-The canvas of a reading page is parchment `#ede4d2` around a soft-cream `#f8f2e7` reading surface; the page behind is the warm paper `#f5f2eb`, never white (in dark mode a night green, `#141c17`). Text is ink brown `#3d3428`. The one interactive colour and the one dark surface are deep forest `#344c3d`: links, the current page number, the selected surah and the control bar under the surah heading (a 135-degree gradient from `#344c3d` to `#2a4033`). Muted gold `#b49a68` appears as a hairline, a small diamond and the rings around verse numbers; it is never text on a light surface (2.42:1)., and the same palette runs through every page, Settings, My reading, About, Search and Privacy included.
+The canvas of a reading page is parchment `#ede4d2` around a soft-cream `#f8f2e7` reading surface; the page behind is the warm paper `#f5f2eb`, never white (in dark mode a night green, `#141c17`). Text is ink brown `#3d3428`. The one interactive colour and the one dark surface are deep forest `#344c3d`: links, the current page number, the selected surah and the play bar under the surah heading (a 135-degree gradient from `#344c3d` to `#2a4033`). Muted gold `#b49a68` appears as a hairline, a small diamond and the rings around verse numbers; it is never text on a light surface (2.42:1)., and the same palette runs through every page, Settings, My reading, About, Search and Privacy included.
 
 The home hero is parchment with a photograph of an open mushaf: the heading, description and search are real text beside the photograph, never over it and never below a control (section 4, Home Hero).
 
@@ -37,7 +37,7 @@ In the mushaf layout the Arabic takes the wider, right-hand column (3 parts to t
 **Design Principles:**
 - **Arabic first**: the Arabic text is the largest and most spacious element of every reading view; Latin text yields to it.
 - **Paper and frame**: depth comes from cream surfaces on parchment, a 1px warm border and, on the reading surface, a thin inner gold rule; shadows stay small.
-- **One calm colour, one small gold**: forest marks what can be acted on and carries the control bar; gold only decorates (hairlines, diamonds, verse rings) and marks the active tab.
+- **One calm colour, one small gold**: forest marks what can be acted on and carries the play bar; gold only decorates (hairlines, diamonds, verse rings) and marks the active tab.
 - **Reader-owned scale**: reading text scales by the reader's choice through CSS variables; chrome does not.
 - **The photograph supports the words**: it sits beside the heading, is never mirrored (the Arabic on its pages would read backwards) and never carries text of ours.
 
@@ -45,7 +45,7 @@ In the mushaf layout the Arabic takes the wider, right-hand column (3 parts to t
 - Parchment and soft cream -- `#ede4d2` around `#f8f2e7`, on the warm paper page `#f5f2eb`
 - Ink brown text -- `#3d3428` (10.96:1 on soft cream); secondary `#72685a` (4.9:1)
 - One interactive colour in the scope -- deep forest `#344c3d` (8.39:1 on soft cream)
-- Control bar -- `linear-gradient(135deg, #344c3d, #2a4033)` under the centred surah heading
+- Play bar -- a forest pill (`linear-gradient(135deg, #344c3d, #2a4033)`) with a round gold button under the centred surah heading; the other controls are chips on the paper
 - Arabic set larger than any heading -- `Amiri` 36px, line height 86.4px
 - Translation in a reading measure -- 15px `Plus Jakarta Sans`, line height 24.375px (1.625)
 - Verse numbers as thin gold rings, not tilted tiles
@@ -64,7 +64,7 @@ One palette, set once in `:root` and `.dark` of `src/app/globals.css`, as HSL to
 | Parchment | `#ede4d2` | `--reading-paper` (reader), `--home-paper` (hero) | The area around a reading surface; the hero |
 | Soft Cream | `#f8f2e7` | `--card` `39 55% 94%` | Cards, panels, the reading surface, inputs |
 | Ink Brown | `#3d3428` | `--foreground` `34 21% 20%` (`#3e3428`), `--reading-ink` | Primary text |
-| Deep Forest | `#344c3d` | `--primary` `143 19% 25%` | Links, active page, selected state, the control bar, the main button |
+| Deep Forest | `#344c3d` | `--primary` `143 19% 25%` | Links, active page, selected state, the play bar, the main button |
 | Muted Gold | `#b49a68` | `--gold` `39 34% 56%` (`#b59a69`) | Hairlines, diamonds, verse rings, the active tab (never small text on light) |
 | Warm Gray | `#807565` | see below | Secondary text, **adjusted** |
 
@@ -72,14 +72,14 @@ Warm Gray `#807565` is 4.05:1 on soft cream and 3.58:1 on parchment, below AA fo
 
 Other tokens: `--muted` `40 43% 88%` (`#eee5d3`, hover fills and tracks), `--border` `37 32% 78%` (`#d9cbb5`, every edge), `--primary-soft` `42 31% 87%` (`#e8e2d4`, the selected surah, the playing verse, chips). Dark values are in section 2.5. `--background` stays the warm paper `#f5f2eb` in light mode and is a night green, `#141c17`, in dark mode.
 
-**Control bar and hero**
-- The control bar is `linear-gradient(135deg, #344c3d, #2a4033)`, radius 24px, 1px border of gold at 28%, a small shadow. Inside it (`.quran-reading__bar`) `--gold` is the lighter `44 42% 65%` (`#cdb67f`), so small gold text and the active tab reach 4.73:1 on `#344c3d` and 5.65:1 on `#2a4033`; ink on that tab is `hsl(143 25% 12%)` (7.98:1). Other controls on the bar are cream (white at 90%) with a 1px border of white at 15%.
+**Play bar, forest bar and hero**
+- The play bar (`.surah-player`) and the forest bar (`.quran-reading__bar`, which holds the Memorize panel and the playing status) are `linear-gradient(135deg, #344c3d, #2a4033)`; the play bar is a pill with a 1px border of gold at 35% and a shadow of ink at 16%, the forest bar has a 24px radius and a gold border at 28%. Inside both `--gold` is the lighter `44 42% 65%` (`#cdb67f`), so small gold text and the active tab reach 4.73:1 on `#344c3d` and 5.65:1 on `#2a4033`; ink on the gold play button is `#17261d`. Other text on the bars is cream (white at 85% to 90%) with a 1px border of white at 15%.
 - The hero is parchment with a 1px border of gold at 35%; its heading is ink brown, its description `#514536` (7.38:1), its eyebrow deep forest (7.40:1).
 
 ### Color Boundary Rules
 
 - Deep forest is the only colour that means "you can act on this"; gold decorates and never fills a button there, except the dark-mode hero button and the verse-of-the-day link.
-- The control bar is the only dark surface in light mode. Do not add other dark panels.
+- The play bar and the forest bar are the only dark surfaces in light mode. Do not add other dark panels.
 - Colours come from tokens. The values written out in `globals.css` (`.quran-reading`, `.home-editorial`) are the palette's own hexes and belong to those two blocks only.
 - Gold on a light surface is decoration only (2.42:1 on soft cream): no text, no focus ring.
 
@@ -122,7 +122,7 @@ A `dark` class on `<html>` (`@custom-variant dark (&:where(.dark, .dark *))`). T
 | `--gold` | `#b59a69` | `#c8ae79` | Hairlines, rings, the active tab |
 | `--border` | `#d9cbb5` | `#435146` | Edges, dividers, input borders |
 
-The reader's parchment is `#ede4d2` (dark `#202c25`) and its reading surface `#f8f2e7` (dark `#26342b`); the control bar is `linear-gradient(135deg, #344c3d, #2a4033)` (dark `linear-gradient(135deg, #304638, #1d2d23)`). `--hero-from` and `--hero-to` are not redefined in `.dark`.
+The reader's parchment is `#ede4d2` (dark `#202c25`) and its reading surface `#f8f2e7` (dark `#26342b`); the play bar and the forest bar are `linear-gradient(135deg, #344c3d, #2a4033)` (dark `linear-gradient(135deg, #304638, #1d2d23)`). `--hero-from` and `--hero-to` are not redefined in `.dark`.
 
 ### Dark Surface Stack
 
@@ -228,11 +228,24 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Transparent, 1px `--primary` border, `--primary` text, 14px weight 600, padding 12px 20px; hover `--primary-soft`
 - Use: the "Search" button beside the hero's search field
 
-**Tab (on the control bar)**
-- Active: background `--gold` (on the bar `#cdb67f`), text `hsl(143 25% 12%)`, 14px weight 600, padding 8px 20px, fully rounded
-- Inactive: transparent, 1px border white at 15% opacity, text white at 85%
-- Hover (inactive): background white at 10% -- a lift that stays inside the forest gradient
-- Use: Reading / Tafsir switch ("Bacaan", "Tafsir"), "Hafalan" toggle
+**Chip (the controls under the play bar)** (`.quran-chip`)
+- Background `--card` at 70%, 1px border `--primary` at 60%, text `--primary`, 14px weight 500 (600 on the tabs), padding 8px 14px, radius 12px (tabs: fully rounded); hover `--card`
+- Selected (`.quran-chip--on`): background `--primary`, text `--card` (cream on forest 8.39:1; dark: sage with night-green text); used by the active tab and by "Memorize" while its panel is open
+- Use: the Reading / Tafsir switch, "Ayat...", "Juz...", the end-of-surah mode and "Hafalan" under the play bar; their lists open as the usual cards
+
+**Play Bar (surah)** (`SurahPlayer`; redesigned 2026-11-24 from the owner's reference)
+- A pill, `linear-gradient(135deg, #344c3d, #2a4033)` (dark `#304638` to `#1d2d23`), minimum height 64px, at most 832px wide, centred under the heading; padding 10px 26px 10px 10px; 1px border of gold at 35%; shadow `0 10px 24px` of ink at 16%
+- Left to right (mirrored in right to left): a 44px round gold button (`radial-gradient` from `#dcc690` to `#b99f6a`, icon `#17261d`; `aria-pressed`, named "Play the surah" or "Pause the surah"), the label (15px weight 600, the same words) over the reciter in 12.5px white at 72%, a slider, and the time or the verse in 13px tabular figures
+- The slider: a 4px track that fills with gold `#cdb67f` up to the position, a 15px cream thumb, a 44px hit area that does not make the bar taller; a native `<input type="range">`, so the keyboard and screen readers work; named by the surah's name, with `aria-valuetext` carrying the time or the verse
+- One recording of the whole surah (EQuran.id's six reciters, Alafasy and the others that have one): the slider seeks in it and the end reads "18:12 / 42:18" ("00:00 / --:--" until the length is known; the slider is disabled until then). A reciter with a file per verse and none for the whole surah: the button plays verse by verse from verse 1, pauses and carries on where it stopped; the slider runs over the verses (one verse a step, the verse starts when the pointer is let go or 0.4s after the last key); the end reads "286 verses" before anything plays and "Verse 12 / 286" after. A reciter with neither has no play bar
+- It adds no way to play: the whole-surah recording and the verse player are the ones that already existed, so the mode at the end of a surah, the juz, memorization, the lock screen and the keys behave as before. Playing from the bar leaves a juz or a memorization range, as a verse button does
+- Phones: two lines, the button, the label and the time first, the slider across the full width under them; the pill's radius becomes 28px
+- Use: every surah page whose reciter has audio
+
+**Dark Select (on the forest bar, in the Memorize panel)**
+- Transparent background, 1px border white at 15%, text white at 90% (it was gold until 2026-11-24, when gold was kept for the active tab), radius 12px
+- Options: background `hsl(192 64% 9%)`, white text
+- Use: the lists inside the Memorize panel
 
 **Outline Pill (secondary)**
 - Background: transparent; border 1px `#d9cbb5`
@@ -263,11 +276,6 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 - Text: 14px `#3e3428`; padding 8px 12px
 - Focus: border becomes `#344c3d` (`focus:border-primary`), and the keyboard ring below appears as well
 - Use: "Cari nama atau nomor...", "Ayat per hari", the translation language list
-
-**Dark Select (on the control bar)**
-- Transparent background, 1px border white at 15%, text white at 90% (it was gold until 2026-11-24, when gold was kept for the active tab), radius 12px
-- Options: background `hsl(192 64% 9%)`, white text
-- Use: "Ayat...", "Juz...", "Berhenti di akhir", "Putar surat", "Hafalan"
 
 **Tajweed colours (`tj-<rule>` classes, `globals.css`)**
 - One palette per theme, the usual tajweed colours made darker (light) or lighter (dark) so each keeps 3:1 against the card
@@ -332,7 +340,7 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
   primary colour (white text, dark text in dark mode), the other muted: "10 verses" and "Mushaf pages (604)"
 
 **Mushaf page (`/mushaf/N`)**
-- A 1200px column: the surah heading and control bar (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
+- A 1200px column: the surah heading and a forest bar (page title, the surahs of the page, the end-of-surah mode); the navigation row (pill "Previous
   page", the counter "42 / 604" with a 128px pill number box and a small "Go" pill, pill "Next page") above and below; on a phone the
   two pills share a row and the box has its own; one card holding each surah's part in the mushaf layout, a surah that starts here with a
   centred band (Arabic name in `Amiri` 30px, Latin name, meaning, verses, the Bismillah), one that goes on with a 12px muted name; the
@@ -356,10 +364,11 @@ Changing it would be a redesign of every title and badge, with new screenshots, 
 
 ### Distinctive Components
 
-**Surah Heading and Control Bar** (redesigned 2026-11-24; it replaced the dark Chapter Head)
+**Surah Heading** (redesigned 2026-11-24; it replaced the dark Chapter Head)
 - The heading sits on the parchment, centred: a line "2 · Medina · 286 verses" (13px muted, `tabular-nums`, sentence case), then the Latin name in `Space Grotesk` 600, `clamp(1.9rem, 4.5vw, 2.75rem)`, a 1px gold rule, and the Arabic name in `Amiri` (`clamp(2.25rem, 5vw, 3.25rem)`), both in forest; below them the surah's meaning in italic muted text, then a gold hairline with one small diamond (`quran-reading__ornament`; the only ornament)
-- Under the heading, one forest control bar (section 2): the Reading and Tafsir tabs, "Verse...", "Juz...", "Play the surah", the end-of-surah mode and "Memorize", with the Memorize panel and status lines inside it. Radius 24px, padding 14px 18px
-- On a phone the heading stays one block, the vertical gold rule hides below 480px, and the bar's controls wrap onto several rows
+- Under it the play bar, then the chips (centred, wrapping: the tabs, then the lists, the mode and "Memorize"). The Memorize panel, when open, and the playing status ("Playing juz 3", the range being looped) sit in a forest bar (`quran-reading__bar`, radius 24px) under the chips
+- On a phone the heading stays one block and the vertical gold rule hides below 480px; the chips wrap onto several rows (the first verse is still below the first screen)
+- The mushaf page (`/mushaf/N`) has the same heading, with its end-of-surah mode in a forest bar and no play bar of its own (each surah on the page has its "Play the surah" button)
 - Use: top of every surah page and of the mushaf page ("Yasin", "Al-Baqarah")
 
 **Mushaf Block**
@@ -419,7 +428,7 @@ Base unit 4px (Tailwind's `spacing` scale). Most frequent values (padding, gap a
 - Field (12px): inputs, selects, the reciter picker -- 52 occurrences
 - Small (4px): highlights, the playing-verse mark -- 20 occurrences
 - Medium (8px): small tiles
-- Hero (28px): the home hero; control bar (24px); the reader's parchment panel (20px); the reading surface (16px, the Card radius); logo tile (12px)
+- Hero (28px): the home hero; play bar (a pill) and forest bar (24px); the reader's parchment panel (20px); the reading surface (16px, the Card radius); logo tile (12px)
 
 ## 6. Depth & Elevation
 
@@ -559,7 +568,7 @@ Gold on a light surface is never text and never a focus ring.
 
 ### Focus Indicators
 
-- Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#344c3d`, dark `#a8c2a9`) with a 2px offset. On the control bar (`.on-dark`) the ring is gold, the lighter `#cdb67f` there.
+- Every control, on keyboard focus (`:focus-visible`): `outline: 2px solid` in `--primary` (`#344c3d`, dark `#a8c2a9`) with a 2px offset. On the play bar and the forest bar (`.on-dark`) the ring is gold, the lighter `#cdb67f` there.
 - The rule is unlayered in `globals.css`, so a utility such as `outline-none` cannot remove it; inputs also turn their border `--primary`.
 - Ring contrast against what surrounds it (3:1 needed): forest 8.36:1 on the page, 8.39:1 on soft cream, 7.40:1 on parchment, 7.24:1 on the selected row; dark sage 9.07:1 on the page and 6.71:1 on cards; gold `#cdb67f` 4.71:1 on `#344c3d` and 5.64:1 on `#2a4033`.
 
@@ -604,7 +613,7 @@ Observed (all pages, both themes): `aria-label` (150), `aria-hidden` (84, decora
 - Home grid: 3 columns at 1024px -> 2 at 640px -> 1 below
 - Mushaf Arabic: 36px at 640px and up -> 32px below, line height 2.4 kept
 - Header: one row at 640px and up -> navigation moves to a second row below 640px
-- Control bar: one or two rows at 1024px -> wraps onto several rows on phones (the first verse is then below the first screen on a 390px phone; open)
+- Play bar and chips: a pill and one or two rows of chips at 1024px -> on a phone the pill takes two lines and the chips wrap onto three rows (the first verse is then below the first screen on a 390px phone; open)
 - Home hero: photo as the panel's background on the right at 1024px and up (on the left in right to left) -> a block beside the heading below 1024px, with the form and button under both (see Home Hero)
 - Header navigation: a centred text row at 640px and up -> a second row below 640px
 
@@ -667,10 +676,10 @@ The icons match the Lucide style (24px grid, 2px stroke, round caps). For new ic
 - Card and reading surface: `#f8f2e7` (dark `#27352c`)
 - Text: `#3e3428` (dark `#eee6d7`); secondary `#72685a` (dark `#b7ae9f`)
 - Border: `#d9cbb5` (dark `#435146`)
-- Forest (action, control bar): `#344c3d` (dark `#a8c2a9`)
+- Forest (action, play bar): `#344c3d` (dark `#a8c2a9`)
 - Selected: `#e8e2d4` (dark `#344639`)
 - Gold (hairline, rings, active tab): `#b59a69` (dark `#c8ae79`; `#cdb67f` on the bar)
-- Control bar: `linear-gradient(135deg, #344c3d, #2a4033)` (dark `#304638` to `#1d2d23`)
+- Play bar and forest bar: `linear-gradient(135deg, #344c3d, #2a4033)` (dark `#304638` to `#1d2d23`)
 - Ink on gold: `#17261d`
 
 ### Self-Containment Checklist
@@ -685,7 +694,7 @@ Every prompt below satisfies:
 
 ### Example Component Prompts
 
-- "Build a surah heading on parchment `#ede4d2`, centred. A line '2 · Medina · 286 verses' in `Plus Jakarta Sans Variable` 13px with `tabular-nums`, colour `#6b6152`. Then the Latin name in `Space Grotesk Variable` 44px weight 600, line height 1.15, colour `#344c3d`, a 1px vertical rule of `#b59a69` at 60%, and the Arabic name in `Amiri` 52px, `dir=rtl lang=ar translate=no`, colour `#344c3d`. Below, the meaning in italic `#6b6152`, then a 1px hairline fading to transparent at both ends with a 8px diamond of `#b59a69` in the middle. Under it a control bar: `linear-gradient(135deg, #344c3d, #2a4033)`, radius 24px, padding 14px 18px, 1px border of `#b59a69` at 28%, shadow `0 8px 20px rgba(61, 52, 40, 0.10)`; inside, pill tabs (padding 8px 20px, 14px weight 600) -- active `#cdb67f` fill with `#17261d` text, inactive transparent with a 1px border of white at 15% and white text at 85% -- and selects with a 1px border of white at 15%, white text at 90%, radius 12px. Transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
+- "Build a surah heading on parchment `#ede4d2`, centred. A line '2 · Medina · 286 verses' in `Plus Jakarta Sans Variable` 13px with `tabular-nums`, colour `#6b6152`. Then the Latin name in `Space Grotesk Variable` 44px weight 600, line height 1.15, colour `#344c3d`, a 1px vertical rule of `#b59a69` at 60%, and the Arabic name in `Amiri` 52px, `dir=rtl lang=ar translate=no`, colour `#344c3d`. Below, the meaning in italic `#6b6152`, then a 1px hairline fading to transparent at both ends with a 8px diamond of `#b59a69` in the middle. Under it a play bar: a pill, `linear-gradient(135deg, #344c3d, #2a4033)`, minimum height 64px, max width 832px, padding 10px 26px 10px 10px, 1px border of `#b59a69` at 35%, shadow `0 10px 24px rgba(61, 52, 40, 0.16)`; inside, a 44px round gold button (`#cdb67f`, icon `#17261d`), the label 'Play the surah' (15px weight 600, white) over the reciter (12.5px, white at 72%), a slider (4px track, gold fill `#cdb67f`, 15px cream thumb) and the time '18:12 / 42:18' in 13px tabular figures. Under the bar, centred chips: background `#f8f2e7` at 70%, 1px border `#344c3d` at 60%, text `#344c3d`, 14px weight 500, padding 8px 14px, radius 12px; the selected one `#344c3d` with `#f8f2e7` text. Transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
 - "Build a section card on a `#f5f2eb` page: background `#f8f2e7`, 1px border `#d9cbb5`, radius 16px, no shadow. Header row: title in `Space Grotesk Variable` 16px weight 600, line height 24px, colour `#3e3428`, padding 16px 24px, separated from the body by a 1px `#d9cbb5` rule. Body: padding 16px 24px, text `Plus Jakarta Sans Variable` 14px weight 400 line height 20px `#3e3428`, secondary lines 12px `#72685a`. An empty state is one sentence in 14px `#72685a` that names the action that fills the card."
 - "Build a surah index row: `#f8f2e7`, 1px `#dfd3c1` border, radius 16px, padding 14px 16px, flex row with 16px gap. Left: a number chip (`#e4eadf`, 1px `#cdd8c9`, numeral `Space Grotesk Variable` 12px weight 700 `#344c3d`). Middle: name in `Plus Jakarta Sans Variable` 16px weight 600 `#3e3428`, meta below in 12px `#6b6152`. Right: Arabic name in `Amiri` 24px `#344c3d`, `dir=rtl lang=ar translate=no`, and a gold arrow `#b59a69` that shows on hover. Hover: border `#9b8a68` and shadow `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px`, transition 150ms `cubic-bezier(0.4, 0, 0.2, 1)`."
 - "Build a home hero: parchment `#ede4d2`, radius 28px, 1px border of `#b49a68` at 35%, padding 48px 56px, minimum height 480px. Text on the left (max width 34rem): eyebrow in 11px weight 700 with 0.24em tracking `#344c3d`, heading in `Space Grotesk Variable` 52px weight 600 `#3e3428`, description 16px line height 1.75 `#514536`, a search field (`#f8f2e7` at 92%, 1px `#d9cbb5`, pill) with an outline forest pill button, and a forest pill `#344c3d` with `#f8f2e7` text. The photograph is a CSS background on the right (`cover`, 78% 65%), faded into the parchment by a 90-degree gradient from `#ede4d2` to transparent at 62%. Below 1024px the photo is a block beside the heading and description and the form sits under both; in right to left it is on the left. Never put text over the photo and never mirror it."
@@ -729,19 +738,20 @@ A visual identity distinct from the familiar EQuran.id-style layout, without reb
 
 - PR #139: the reading surface in the editorial palette; hooks on the reader and verse cards.
 - PR #140: the homepage composition (hero, verse of the day, the indexed surah list).
-- PR #142: one palette site-wide (the editorial tokens in `:root` and `.dark`, a night-green dark page, forest `--hero-from/to`, the installed app's theme colour); the centred surah heading and control bar on the surah page and on `/mushaf/N` and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
+- PR #142: the play bar (owner's reference, 2026-11-24: mockup A2 and the phone mockup A, chosen by the owner) with the chips under it; one palette site-wide (the editorial tokens in `:root` and `.dark`, a night-green dark page, forest `--hero-from/to`, the installed app's theme colour); the centred surah heading and control bar on the surah page and on `/mushaf/N` and the forest control bar; the thin gold frame and the verse rings; the new header and `NavLink`; the hero photograph with its layouts; WebP assets.
 
 ### Checked on QA (2026-11-24)
 
 - 80 page loads: English, Indonesian, Arabic, Urdu, Chinese, Thai, Japanese and Hindi, on `/`, `/surah/2`, `/mushaf/604`, `/settings` and `/about`, at 390px and 1280px: all answer 200 with an `h1`, no horizontal overflow, no console or network errors.
 - By eye (light and dark where noted): the home page at 1280, 820, 390 and 360px, in English and Arabic; the surah page in English (light, dark) and Arabic (desktop, tablet, phone); the Tafsir tab; `/mushaf/604`; Settings (light, dark phone); My reading; Search; Privacy.
-- Computed styles on `/surah/2` against this file: page, text, reading surface, control bar, parchment panel, heading, eyebrow and logo tile match the values written here.
+- Computed styles on `/surah/2` against this file: page, text, reading surface, parchment panel, heading, eyebrow and logo tile match the values written here (measured before the play bar replaced the control bar; the bar's own values are the CSS's).
+- The play bar, tested on QA in a browser with a silent audio file: it plays and pauses one recording, its time and slider move, the keyboard moves the slider; a reciter with a file per verse starts at verse 1, shows "Verse 1 / 286", and moving the slider to 5 starts verse 5 ("Verse 5 / 286"), pausing keeps the verse; the Memorize panel opens under the chips; light, dark, phone and Arabic have no overflow and no errors.
 - Not checked: the pages with sign-in signed in (the account menu), a non-Latin locale beyond the matrix on the surah page by eye (Tamil, Malayalam), and the print and installed-app views.
 
 ### Open work
 
 - Full re-measure with the project's Playwright (computed styles of every visible element, light and dark): refresh the frequencies and the measured pixel values in this file and in `docs/design-tokens.json`, which holds the 2026-11-19 extraction plus an `editorial` group read from the source. The table of section 2 maps the old teal values to the new ones in the meantime.
-- On a 390px phone the control bar now takes three rows (it took five), and the first verse is still just below the first screen; the next step would be folding the secondary controls, which needs a new message in 25 catalogs.
+- On a 390px phone the play bar (two lines) and the chips (three rows) still push the first verse just below the first screen; the next step would be folding the secondary controls, which needs a new message in 25 catalogs.
 - Re-take the README screenshots (English and Indonesian) and redraw `public/og.png`, which still shows the teal hero gradient (`scripts/og-image.mjs`): both wait for the owner's approval of the design.
 - The "Mushaf digital" tagline of the reference is not built (a new message in 25 catalogs).
 
