@@ -48,7 +48,7 @@ export default async function Home() {
   const daily = await dailyView(locale);
 
   return (
-    <main className="editorial home-editorial mx-auto max-w-[1200px] px-4 pb-16 pt-7 sm:px-6 lg:pt-10">
+    <main className="home-editorial mx-auto max-w-[1200px] px-4 pb-16 pt-7 sm:px-6 lg:pt-10">
       <section className="home-editorial__hero mb-8 grid items-center overflow-hidden rounded-[1.75rem] px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12">
         <div className="home-editorial__intro relative z-10 lg:max-w-[34rem]">
           <div className="home-editorial__top">

@@ -105,7 +105,7 @@ export default function MemorizePanel({
               type="button"
               disabled={!range}
               onClick={() => range && onStart(range)}
-              className="rounded-full bg-gold px-4 py-2 font-semibold text-[hsl(190_70%_12%)] disabled:opacity-50"
+              className="rounded-full bg-gold px-4 py-2 font-semibold text-[hsl(143_25%_12%)] disabled:opacity-50"
             >
               {t("memorize.start")}
             </button>

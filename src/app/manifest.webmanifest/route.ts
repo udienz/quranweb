@@ -25,7 +25,7 @@ export async function GET() {
     display: "standalone",
     // The light theme's background (the splash screen) and primary colour (the logo's background).
     background_color: "#f5f2eb",
-    theme_color: "#176c7d",
+    theme_color: "#344c3d",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },

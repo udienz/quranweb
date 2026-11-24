@@ -2,31 +2,31 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Palette: deep teal, gold accent, cream background (light) / dark teal (dark). */
+/* Palette: deep forest, muted gold, ink brown on cream (light); the same family on a night green (dark). The page itself is a warm paper (light) and a night green (dark). */
 :root {
   --background: 42 33% 94%;
-  --foreground: 190 28% 21%;
-  --card: 0 0% 100%;
-  --muted: 44 29% 90%;
-  --muted-foreground: 191 13% 40%;
-  --border: 146 14% 89.5%;
-  --primary: 190 69% 29%;
-  --primary-soft: 190 40% 92%;
-  --gold: 39 65% 55%;
-  --hero-from: 190 70% 21%;
-  --hero-to: 192 64% 9%;
+  --foreground: 34 21% 20%;
+  --card: 39 55% 94%;
+  --muted: 40 43% 88%;
+  --muted-foreground: 36 12% 40%;
+  --border: 37 32% 78%;
+  --primary: 143 19% 25%;
+  --primary-soft: 42 31% 87%;
+  --gold: 39 34% 56%;
+  --hero-from: 143 19% 25%;
+  --hero-to: 146 21% 20%;
 }
 
 .dark {
-  --background: 192 64% 7.6%;
-  --foreground: 186 25% 92%;
-  --card: 192 54% 11%;
-  --muted: 193 46% 15%;
-  --muted-foreground: 191 13% 67%;
-  --border: 190 28% 17%;
-  --primary: 174 50% 48%;
-  --primary-soft: 193 46% 15%;
-  --gold: 42 67% 62%;
+  --background: 143 17% 9.5%;
+  --foreground: 38 41% 89%;
+  --card: 141 16% 18%;
+  --muted: 142 15% 22%;
+  --muted-foreground: 38 14% 67%;
+  --border: 136 10% 29%;
+  --primary: 122 17% 71%;
+  --primary-soft: 137 15% 24%;
+  --gold: 40 42% 63%;
 }
 
 @theme inline {
@@ -271,7 +271,7 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   --home-ink: #3d3428;
   --home-forest: #344c3d;
   --home-gold: #b49a68;
-  --home-muted: #807565;
+  --home-muted: #6b6152;
 }
 /* The hero is a photograph of an open mushaf (public/images/quranweb-hero-mushaf*.webp) on the right, with the heading, search
    and button as real text on the left. A parchment gradient blends the photo's pale wall into the page, so the text sits on
@@ -450,29 +450,8 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
 }
 
 
-/* Editorial colour scope (the header and the reading pages): the same tokens the rest of the app uses, set to the approved
-   palette (parchment, soft cream, ink brown, deep forest, muted gold, warm gray), so sidebar, pagination, inputs and links
-   follow it with no per-component rule. Pages outside it (settings, my reading, about) keep the teal theme. */
-.editorial {
-  --card: 39 55% 94%;
-  --muted: 40 43% 88%;
-  --border: 37 32% 78%;
-  --primary: 143 19% 25%;
-  --primary-soft: 42 31% 87%;
-  --foreground: 34 21% 20%;
-  --muted-foreground: 36 12% 40%;
-  --gold: 39 34% 56%;
-}
-.dark .editorial {
-  --card: 141 16% 18%;
-  --muted: 142 15% 22%;
-  --border: 136 10% 29%;
-  --primary: 122 17% 71%;
-  --primary-soft: 137 15% 24%;
-  --foreground: 38 41% 89%;
-  --muted-foreground: 38 14% 67%;
-  --gold: 40 42% 63%;
-}
+/* One palette for the whole site (the editorial palette: parchment, soft cream, ink brown, deep forest, muted gold). The tokens
+   are set once, in :root and .dark above; a component that uses a token follows with no colour of its own. */
 
 /* The surah heading sits on the paper, centred; the controls are one forest bar under it. */
 .quran-reading__header {
@@ -567,3 +546,12 @@ html[data-arabic-font="kfgqpc"] .font-arabic {
   box-shadow: inset 0 0 0 1px var(--reading-gold);
 }
 .quran-reading__verse span.-rotate-45 { rotate: none; }
+
+/* Phones: the control bar takes fewer rows (selects and buttons share a row), so the first verse is not pushed further down. */
+@media (max-width: 639px) {
+  .quran-reading__bar { padding: 0.7rem 0.8rem; border-radius: 1.25rem; }
+  .quran-reading__bar button,
+  .quran-reading__bar select,
+  .quran-reading__bar [role="combobox"] { font-size: 0.8125rem; padding: 0.4rem 0.65rem; }
+  .quran-reading__bar > * + * { margin-top: 0.5rem; }
+}

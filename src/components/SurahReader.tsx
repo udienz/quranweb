@@ -29,7 +29,7 @@ const BISMILLAH = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَ
 // The lists in the dark surah header (jump to a verse, play a juz): gold text on the header, as before.
 const DARK_SELECT =
   "rounded-xl border border-white/15 bg-transparent px-3 py-2 text-sm text-white/90 outline-none [&>option]:bg-[hsl(192_64%_9%)] [&>option]:text-white";
-const DARK_TRIGGER = "flex min-w-36 items-center justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-white/90 outline-none";
+const DARK_TRIGGER = "flex min-w-0 flex-1 items-center sm:min-w-36 sm:flex-none justify-between gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-start text-sm text-white/90 outline-none";
 
 export default function SurahReader({
   view,

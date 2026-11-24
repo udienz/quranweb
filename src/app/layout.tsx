@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f5f2eb" },
-    { media: "(prefers-color-scheme: dark)", color: "#071b20" },
+    { media: "(prefers-color-scheme: dark)", color: "#141c17" },
   ],
 };
 
@@ -64,7 +64,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <I18nProvider locale={locale} messages={MESSAGES[locale]}>
           <KeepVerseInView />
-          <header className="editorial sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
+          <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
             {/* On phones the navigation takes a second row, so the controls never push the header wider than the screen. */}
             <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-2 gap-y-1 px-4 py-2 sm:h-16 sm:flex-nowrap sm:py-0">
               <Link href="/" className="flex items-center gap-2.5">
