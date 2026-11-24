@@ -10,7 +10,7 @@
   ],
   "extractedAt": "2026-11-19T08:37:52.976Z",
   "method": "computed styles of every visible element (Playwright 1.65.1), light and dark",
-  "revision": "2026-11-24: the \"editorial\" group was added by hand from src/app/globals.css for the editorial redesign; every other group is still the 2026-11-19 production extraction and is refreshed by the re-measure listed in docs/DESIGN.md, section 14."
+  "revision": "2026-11-24: the \"editorial\" group was added by hand from src/app/globals.css; every other group is the 2026-11-19 extraction of the teal palette, to be refreshed by the full re-measure listed in docs/DESIGN.md, section 14."
  },
  "colorTokens": [
   {
@@ -1190,7 +1190,7 @@
   }
  },
  "editorial": {
-  "scope": ".editorial (the header, SurahLayout pages, the home page); the tokens below re-set the shared HSL tokens",
+  "scope": "the whole site since 2026-11-24: these values are the tokens in :root and .dark of src/app/globals.css (the colorTokens and darkColorTokens groups below are the earlier teal extraction)",
   "palette": {
    "parchment": "#ede4d2",
    "softCream": "#f8f2e7",
@@ -1208,7 +1208,8 @@
    "--primary-soft": "42 31% 87%",
    "--foreground": "34 21% 20%",
    "--muted-foreground": "36 12% 40%",
-   "--gold": "39 34% 56%"
+   "--gold": "39 34% 56%",
+   "--background": "42 33% 94%"
   },
   "dark": {
    "--card": "141 16% 18%",
@@ -1218,7 +1219,8 @@
    "--primary-soft": "137 15% 24%",
    "--foreground": "38 41% 89%",
    "--muted-foreground": "38 14% 67%",
-   "--gold": "40 42% 63%"
+   "--gold": "40 42% 63%",
+   "--background": "143 17% 9.5%"
   },
   "reader": {
    "light": {
