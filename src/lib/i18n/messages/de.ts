@@ -93,6 +93,50 @@ export const de: Messages = {
     contactMissing: "Der Kontakt für Fragen zu deinen Daten ist noch nicht eingerichtet.",
     translationNote: "Diese Übersetzung der Erklärung wurde noch nicht von einer Person mit dieser Muttersprache geprüft. Wo sie von der englischen oder indonesischen Fassung abweicht, gelten diese Fassungen.",
   },
+  terms: {
+    title: "Nutzungsbedingungen",
+    intro: "QuranWeb ist eine kostenlose Seite zum Lesen des Korans, ohne Werbung und ohne Bezahlung. Diese Bedingungen gelten, wenn du sie nutzt. Wie deine Daten verarbeitet werden, steht in der Datenschutzerklärung.",
+    updated: "Zuletzt aktualisiert: {date}",
+    sections: {
+      use: {
+        title: "Nutzung der Seite",
+        body: "Du kannst alles auf dieser Seite kostenlos und ohne Konto lesen. Du darfst Links zu jeder Seite teilen und Verse zitieren, wenn du die zitierte Ausgabe angibst.",
+      },
+      content: {
+        title: "Korantext, Übersetzungen und Tafsir",
+        body: "Der arabische Text, die Übersetzungen, die Tafsire und die Rezitationen stammen aus den veröffentlichten Quellen, die auf der Seite Über genannt sind, und für jede gelten die Bedingungen ihrer Quelle. Wir zeigen sie so, wie sie veröffentlicht wurden, und verändern sie nicht. Eine Übersetzung gibt die Bedeutung des Korans so wieder, wie ihr Übersetzer sie verstanden hat, und ein Tafsir ist die Erklärung seines Verfassers; keines von beiden ersetzt den arabischen Text.\n\nDiese Seite erteilt keine religiösen Rechtsgutachten (Fatwas). Wende dich mit Fragen der Praxis an einen Gelehrten, dem du vertraust.\n\nWenn du einen Fehler in einem Text findest, sag uns Bescheid (siehe Kontakt unten), damit er an der Quelle berichtigt werden kann.",
+      },
+      account: {
+        title: "Dein Konto",
+        body: "Die Anmeldung ist freiwillig. Du meldest dich mit deinem Google-Konto an und bist selbst dafür verantwortlich, dieses Konto zu schützen. Deine Notizen werden als Klartext auf unserem Server gespeichert; schreib also nichts hinein, was dort nicht gespeichert werden soll.\n\nWir können ein Konto sperren oder löschen, das dazu benutzt wird, der Seite oder anderen Menschen zu schaden. Dein eigenes Konto kannst du jederzeit auf der Seite Einstellungen löschen.",
+      },
+      conduct: {
+        title: "Was nicht erlaubt ist",
+        body: "Versuche nicht, in die Seite, ihre Konten oder ihren Server einzudringen, und belaste sie nicht übermäßig, zum Beispiel indem du ihre Seiten oder Daten mit einem Programm massenhaft herunterlädst. Mehrere unserer Quellen erlauben nicht, dass ihre Daten kopiert und als Daten weitergegeben werden; nutze diese Seite also nicht, um sie zu sammeln. Ein Sicherheitsproblem melde bitte vertraulich über GitHub (der Quellcode ist auf der Seite Über verlinkt).",
+      },
+      code: {
+        title: "Quellcode",
+        body: "Der Code dieser Seite ist unter der MIT-Lizenz offen. Diese Lizenz gilt nur für den Code, nicht für den Korantext, die Übersetzungen, die Tafsire oder die Rezitationen.",
+      },
+      warranty: {
+        title: "Keine Gewähr",
+        body: "Die Seite wird so, wie sie ist, und kostenlos angeboten. Wir achten darauf, die Texte richtig anzuzeigen und die Seite in Betrieb zu halten, können aber nicht versprechen, dass sie immer erreichbar oder fehlerfrei ist. Manche Texte werden direkt bei ihrer Quelle abgerufen; ist die Quelle nicht erreichbar, kann ein Text eine Weile fehlen. Soweit das Gesetz es zulässt, haften wir nicht für Schäden, die aus der Nutzung der Seite entstehen.",
+      },
+      changes: {
+        title: "Änderungen dieser Bedingungen",
+        body: "Wir können diese Bedingungen ändern. Das Datum oben auf dieser Seite zeigt die letzte Änderung.",
+      },
+      law: {
+        title: "Anwendbares Recht",
+        body: "Für diese Bedingungen gilt das Recht der Republik Indonesien.",
+      },
+    },
+    contactTitle: "Kontakt",
+    contactBy: "Diese Seite wird von {name} betrieben.",
+    contactEmail: "Fragen zu diesen Bedingungen: {email}",
+    contactMissing: "Der Kontakt für Fragen zu diesen Bedingungen ist noch nicht eingerichtet.",
+    translationNote: "Diese Übersetzung der Bedingungen wurde noch nicht von einem Muttersprachler geprüft. Wo sie von der englischen oder indonesischen Fassung abweicht, gelten diese Fassungen.",
+  },
   admin: {
     title: "Konten",
     subtitle: "Nur Kontodaten. Lesedaten und Koraninhalte werden hier weder angezeigt noch bearbeitet.",
@@ -115,6 +159,7 @@ export const de: Messages = {
   },
   footer: {
     privacy: "Datenschutz",
+    terms: "Nutzungsbedingungen",
     about: "Über",
   },
   about: {

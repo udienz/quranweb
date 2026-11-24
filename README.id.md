@@ -263,7 +263,7 @@ itu. Dari "Bacaan saya" Anda bisa menyimpannya ke berkas dan mengimpornya lagi, 
 
 Kalau ingin bacaan yang sama di ponsel dan komputer, Anda bisa masuk dengan akun Google. Ini opsional. Anda bisa
 mengunduh semua yang tersimpan di akun, atau menghapus akun, kapan saja. Apa yang disimpan dan alasannya ada di kebijakan
-privasi: https://quranweb.udienz.web.id/privacy.
+privasi: https://quranweb.udienz.web.id/privacy. Ketentuan penggunaannya ada di https://quranweb.udienz.web.id/terms.
 
 ## Sumber dan kredit
 

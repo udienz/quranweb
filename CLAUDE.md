@@ -689,6 +689,12 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
   base64-encoded to `scripts/deploy.sh` (`PRIVACY_CONTACT_*_B64`), which decodes it and gives it to `docker run -e`, so no
   character in a name can change the ssh command line (`scripts/deploy-contact.test.sh` checks that, CI runs it). A value
   in `/etc/quranweb/<env>.env` is overridden by them. Without them the page says the contact is not set up yet.
+- **Terms of use** (`/terms`, 2026-11-24, `terms.*` messages in every language, linked from the footer and the sitemap): free
+  and non-commercial use, the content keeps its sources' terms and is shown unedited, no religious rulings, accounts can be
+  disabled for abuse, no bulk downloading (several sources, Quran Foundation among them, forbid passing their data on), MIT
+  covers the code only, no guarantee, Indonesian law, and the same contact as the privacy page. A first draft by Claude at
+  the owner's request, not checked by a lawyer. Keep it true to what the code does, and update `TERMS_UPDATED` in the page
+  with every change of the text.
 - When the policy text changes, change both languages in the same commit and check it still matches what the code does
   (what is stored, cookies, recipients, retention).
 
@@ -784,7 +790,8 @@ src/
     my-reading/page.tsx        "My reading": last read, progress, bookmarks, backup
     settings/page.tsx          settings: theme and text size, reading settings, account
     search/page.tsx            full-text search: the form, the results with the words marked, paging
-    privacy/page.tsx           privacy policy (English and Indonesian)
+    privacy/page.tsx           privacy policy (every interface language)
+    terms/page.tsx             terms of use (every interface language; `TERMS_UPDATED` is the date shown, change it with the text)
     about/page.tsx             about the site, and the sources, credits and licences of every edition and reciter
     admin/page.tsx             admin: accounts and audit log (404 for everyone else)
     not-found.tsx              404 page (translated)
@@ -972,7 +979,7 @@ audio comes from `cdn.equran.id` and `cdn.islamic.network` (the CSP allows any h
 
 Use is non-commercial: the data is not sold and EQuran.id, Kemenag RI and the original
 sources of each edition are credited in the UI: the About page (`/about`) lists the source, credit and licence of every
-edition and reciter in the catalog, and the footer of every page (About · Privacy) links to it.
+edition and reciter in the catalog, and the footer of every page (About · Privacy · Terms) links to it.
 Keep that footer link: the credit must stay one click away from every reading page.
 
 ### Known limits

@@ -92,6 +92,50 @@ export const tr: Messages = {
     contactMissing: "Verilerinizle ilgili sorular için iletişim bilgisi henüz ayarlanmadı.",
     translationNote: "Bu politikanın çevirisi henüz anadili konuşan biri tarafından kontrol edilmedi. İngilizce veya Endonezce sürümden farklı olduğu yerde o sürümler geçerlidir.",
   },
+  terms: {
+    title: "Kullanım koşulları",
+    intro: "QuranWeb, Kur'an okumak için reklamsız ve ücretsiz bir sitedir. Bu koşullar siteyi kullandığınızda geçerlidir. Verilerinizin nasıl işlendiği gizlilik politikasında anlatılır.",
+    updated: "Son güncelleme: {date}",
+    sections: {
+      use: {
+        title: "Sitenin kullanımı",
+        body: "Bu sitedeki her şeyi ücretsiz ve hesap açmadan okuyabilirsiniz. Herhangi bir sayfanın bağlantısını paylaşabilir ve alıntıladığınız baskıyı belirterek ayet alıntılayabilirsiniz.",
+      },
+      content: {
+        title: "Kur'an metni, mealler ve tefsirler",
+        body: "Arapça metin, mealler, tefsirler ve tilavetler Hakkında sayfasında adı geçen yayımlanmış kaynaklardan gelir ve her biri kaynağının koşullarına tabidir. Bunları yayımlandığı gibi gösteririz, üzerinde değişiklik yapmayız. Bir meal, Kur'an'ın anlamını mütercimin anladığı şekilde aktarır; tefsir ise yazarının açıklamasıdır. Hiçbiri Arapça metnin yerini tutmaz.\n\nBu site dinî hüküm (fetva) vermez. İbadetle ilgili bir soru için güvendiğiniz bir âlime danışın.\n\nBir metinde hata bulursanız, kaynağında düzeltilebilmesi için bize bildirin (aşağıdaki İletişim bölümüne bakın).",
+      },
+      account: {
+        title: "Hesabınız",
+        body: "Giriş yapmak isteğe bağlıdır. Google hesabınızla giriş yaparsınız ve o hesabın güvenliği sizin sorumluluğunuzdadır. Notlarınız sunucumuzda düz metin olarak saklanır; orada saklanmasını istemeyeceğiniz bir şey yazmayın.\n\nSiteye veya başkalarına zarar vermek için kullanılan bir hesabı devre dışı bırakabilir ya da silebiliriz. Kendi hesabınızı Ayarlar sayfasından istediğiniz zaman silebilirsiniz.",
+      },
+      conduct: {
+        title: "İzin verilmeyenler",
+        body: "Siteye, hesaplarına veya sunucusuna izinsiz girmeye çalışmayın ve siteye ağır yük bindirmeyin; örneğin sayfalarını veya verilerini bir programla toplu hâlde indirmeyin. Kaynaklarımızın birçoğu verilerinin kopyalanıp veri olarak başkalarına aktarılmasına izin vermez; bu siteyi bu verileri toplamak için kullanmayın. Bir güvenlik sorunu bulursanız GitHub üzerinden gizli olarak bildirin (kaynak kodun bağlantısı Hakkında sayfasındadır).",
+      },
+      code: {
+        title: "Kaynak kod",
+        body: "Bu sitenin kodu MIT lisansıyla açıktır. Bu lisans yalnızca kodu kapsar; Kur'an metnini, mealleri, tefsirleri veya tilavetleri kapsamaz.",
+      },
+      warranty: {
+        title: "Garanti yoktur",
+        body: "Site olduğu gibi ve ücretsiz sunulur. Metinleri doğru göstermeye ve siteyi çalışır tutmaya özen gösteririz, ancak sitenin her zaman erişilebilir ya da hatasız olacağını vaat edemeyiz. Bazı metinler doğrudan kaynaklarından okunur; bu yüzden kaynağı erişilemez olduğunda bir metin bir süre görünmeyebilir. Yasanın izin verdiği ölçüde, sitenin kullanımından doğan zararlardan sorumlu değiliz.",
+      },
+      changes: {
+        title: "Koşullardaki değişiklikler",
+        body: "Bu koşulları değiştirebiliriz. Bu sayfanın başındaki tarih son değişikliği gösterir.",
+      },
+      law: {
+        title: "Uygulanacak hukuk",
+        body: "Bu koşullar Endonezya Cumhuriyeti hukukuna tabidir.",
+      },
+    },
+    contactTitle: "İletişim",
+    contactBy: "Bu site {name} tarafından yürütülür.",
+    contactEmail: "Bu koşullarla ilgili sorular: {email}",
+    contactMissing: "Bu koşullarla ilgili sorular için iletişim bilgisi henüz ayarlanmadı.",
+    translationNote: "Koşulların bu çevirisi henüz anadili Türkçe olan biri tarafından kontrol edilmedi. İngilizce veya Endonezce sürümden farklı olduğu yerlerde o sürümler geçerlidir.",
+  },
   admin: {
     title: "Hesaplar",
     subtitle: "Yalnızca hesap bilgileri. Okuma verileri ve Kur'an içeriği burada gösterilmez ve düzenlenemez.",
@@ -114,6 +158,7 @@ export const tr: Messages = {
   },
   footer: {
     privacy: "Gizlilik",
+    terms: "Koşullar",
     about: "Hakkında",
   },
   about: {

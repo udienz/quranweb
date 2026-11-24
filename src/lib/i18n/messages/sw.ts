@@ -93,6 +93,50 @@ export const sw: Messages = {
     contactMissing: "Mawasiliano ya maswali kuhusu data yako bado hayajawekwa.",
     translationNote: "Tafsiri hii ya sera bado haijakaguliwa na mzungumzaji wa lugha hii. Pale inapotofautiana na toleo la Kiingereza au la Kiindonesia, matoleo hayo ndiyo yanayotumika.",
   },
+  terms: {
+    title: "Masharti ya matumizi",
+    intro: "QuranWeb ni tovuti ya bure ya kusoma Qur'ani, bila matangazo na bila malipo. Masharti haya yanatumika unapoitumia. Jinsi data yako inavyoshughulikiwa imeelezwa katika sera ya faragha.",
+    updated: "Ilisasishwa mwisho: {date}",
+    sections: {
+      use: {
+        title: "Kutumia tovuti",
+        body: "Unaweza kusoma kila kitu kwenye tovuti hii bure na bila akaunti. Unaweza kushiriki kiungo cha ukurasa wowote na kunukuu aya, ukitaja toleo unalonukuu.",
+      },
+      content: {
+        title: "Maandiko ya Qur'ani, tafsiri na tafsiri za maelezo",
+        body: "Maandiko ya Kiarabu, tafsiri, tafsiri za maelezo (tafsir) na visomo vinatoka kwenye vyanzo vilivyochapishwa vilivyotajwa kwenye ukurasa wa Kuhusu, na kila kimoja kinafuata masharti ya chanzo chake. Tunavionyesha kama vilivyochapishwa na hatuvibadilishi. Tafsiri inaeleza maana ya Qur'ani kama mtafsiri alivyoielewa, na tafsir ni maelezo ya mwandishi wake; hakuna kati yao kinachochukua nafasi ya maandiko ya Kiarabu.\n\nTovuti hii haitoi fatwa. Kwa swali la ibada, muulize mwanachuoni unayemwamini.\n\nUkipata kosa katika maandiko, tujulishe (tazama Mawasiliano hapa chini) ili lirekebishwe kwenye chanzo chake.",
+      },
+      account: {
+        title: "Akaunti yako",
+        body: "Kuingia ni hiari. Unaingia kwa akaunti yako ya Google, na kuilinda akaunti hiyo ni jukumu lako. Maelezo yako yanahifadhiwa kwenye seva yetu kama maandishi ya kawaida, kwa hiyo usiandike humo chochote usichotaka kihifadhiwe huko.\n\nTunaweza kuzima au kufuta akaunti inayotumiwa kudhuru tovuti au watu wengine. Unaweza kufuta akaunti yako mwenyewe wakati wowote kwenye ukurasa wa Mipangilio.",
+      },
+      conduct: {
+        title: "Yasiyoruhusiwa",
+        body: "Usijaribu kuingia kinyume cha ruhusa kwenye tovuti, akaunti zake au seva yake, na usiibebeshe mzigo mkubwa, kwa mfano kwa kupakua kurasa au data zake kwa wingi kwa kutumia programu. Vyanzo vyetu kadhaa haviruhusu data yao kunakiliwa na kusambazwa kama data, kwa hiyo usitumie tovuti hii kuikusanya. Ukipata tatizo la usalama, liripoti kwa siri kupitia GitHub (msimbo chanzo umeunganishwa kwenye ukurasa wa Kuhusu).",
+      },
+      code: {
+        title: "Msimbo chanzo",
+        body: "Msimbo wa tovuti hii uko wazi chini ya leseni ya MIT. Leseni hiyo inahusu msimbo tu, si maandiko ya Qur'ani, tafsiri, tafsir wala visomo.",
+      },
+      warranty: {
+        title: "Hakuna dhamana",
+        body: "Tovuti inatolewa kama ilivyo, bure. Tunajitahidi kuonyesha maandiko kwa usahihi na kuiweka tovuti ikifanya kazi, lakini hatuwezi kuahidi kwamba itapatikana kila wakati au haitakuwa na makosa. Baadhi ya maandiko yanasomwa moja kwa moja kutoka kwenye vyanzo vyake, kwa hiyo andiko moja linaweza kukosekana kwa muda chanzo chake kisipopatikana. Kwa kadiri sheria inavyoruhusu, hatuwajibiki kwa hasara inayotokana na kutumia tovuti.",
+      },
+      changes: {
+        title: "Mabadiliko ya masharti haya",
+        body: "Tunaweza kubadilisha masharti haya. Tarehe iliyo juu ya ukurasa huu inaonyesha badiliko la mwisho.",
+      },
+      law: {
+        title: "Sheria inayotumika",
+        body: "Masharti haya yanaongozwa na sheria ya Jamhuri ya Indonesia.",
+      },
+    },
+    contactTitle: "Mawasiliano",
+    contactBy: "Tovuti hii inaendeshwa na {name}.",
+    contactEmail: "Maswali kuhusu masharti haya: {email}",
+    contactMissing: "Mawasiliano kwa maswali kuhusu masharti haya bado hayajawekwa.",
+    translationNote: "Tafsiri hii ya masharti bado haijakaguliwa na mzungumzaji wa asili. Pale inapotofautiana na toleo la Kiingereza au la Kiindonesia, matoleo hayo ndiyo yanayotumika.",
+  },
   admin: {
     title: "Akaunti",
     subtitle: "Data ya akaunti tu. Data ya usomaji na maudhui ya Qur'ani hayaonyeshwi wala hayahaririwi hapa.",
@@ -115,6 +159,7 @@ export const sw: Messages = {
   },
   footer: {
     privacy: "Faragha",
+    terms: "Masharti",
     about: "Kuhusu",
   },
   about: {

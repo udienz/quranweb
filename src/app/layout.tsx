@@ -120,6 +120,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/privacy" className="text-primary hover:underline">
               {t("footer.privacy")}
             </Link>
+            {" · "}
+            <Link href="/terms" className="text-primary hover:underline">
+              {t("footer.terms")}
+            </Link>
           </footer>
         </I18nProvider>
       </body>

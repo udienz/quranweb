@@ -31,7 +31,7 @@ for i in $(seq 1 30); do
 done
 
 fail=0
-for path in /privacy /favicon.ico /icon.svg /icons/icon-192.png /icons/icon-maskable-512.png /og.png /robots.txt; do
+for path in /privacy /terms /favicon.ico /icon.svg /icons/icon-192.png /icons/icon-maskable-512.png /og.png /robots.txt; do
   code="$(status "$path")"
   if [ "$code" = "200" ]; then echo "ok   $path"; else echo "FAIL $path -> $code"; fail=1; fi
 done

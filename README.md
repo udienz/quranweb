@@ -258,7 +258,7 @@ device. From "My reading" you can save it to a file and import it again, on the 
 
 If you want the same reading on your phone and your computer, you can sign in with your Google account. It is optional.
 You can download everything kept with your account, or delete the account, at any time. What is kept and why is in the
-privacy policy: https://quranweb.udienz.web.id/privacy.
+privacy policy: https://quranweb.udienz.web.id/privacy. The terms of use are at https://quranweb.udienz.web.id/terms.
 
 ## Sources and credits
 
