@@ -6,6 +6,7 @@
 //
 // What is copied: the EQuran.id surah list, the text and tafsir of the surahs the tests use, fawazahmed0's editions.json,
 // and info.json reduced to what the app reads from it (the English surah meanings, the juz boundaries and the 604 mushaf pages).
+// And a made-up QUL copy (see below).
 
 import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -37,4 +38,19 @@ await writeFile(join(OUT, "quran-api/info.json"), JSON.stringify(slim));
 // reads files (and finds none) instead of calling the live API.
 await mkdir(join(OUT, "quranenc"), { recursive: true });
 await writeFile(join(OUT, "quranenc/README"), "Empty on purpose: the browser tests use no QuranEnc edition.\n");
+// The QUL copy is private (QUL publishes no licence), so it is not copied into this public repository. A made-up one in its
+// format stands in: the tajweed "text" is the EQuran.id Arabic of the fixture surahs with its first word marked `ghunnah`,
+// and every surah is one ruku. Enough to test that the colours, the ع mark and their settings work.
+const surahList = JSON.parse(await readFile(join(MIRROR, "api/v2/surat.json"), "utf8")).data;
+await mkdir(join(OUT, "qul/tajweed"), { recursive: true });
+for (const n of SURAHS) {
+  const surah = JSON.parse(await readFile(join(MIRROR, `api/v2/surat/${n}.json`), "utf8")).data;
+  const verses = surah.ayat.map((a) => {
+    const [first, ...rest] = a.teksArab.split(" ");
+    return { verse: a.nomorAyat, runs: rest.length ? [[first, "ghunnah"], [` ${rest.join(" ")}`]] : [[first, "ghunnah"]] };
+  });
+  await writeFile(join(OUT, `qul/tajweed/${n}.json`), JSON.stringify({ surah: n, verses }));
+}
+const rukus = surahList.map((s) => ({ ruku: s.nomor, start: { chapter: s.nomor, verse: 1 }, end: { chapter: s.nomor, verse: s.jumlahAyat } }));
+await writeFile(join(OUT, "qul/ruku.json"), JSON.stringify({ count: rukus.length, references: rukus }));
 console.log(`fixtures written to ${OUT}`);

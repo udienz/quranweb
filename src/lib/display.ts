@@ -32,9 +32,19 @@ export function stepFontScale(current: number, direction: 1 | -1): number {
   return FONT_SCALES[Math.min(FONT_SCALES.length - 1, Math.max(0, index + direction))];
 }
 
+/** The font of the Arabic text (issue #131): Amiri, or the King Fahd Complex's KFGQPC HAFS Uthmanic Script. */
+export const ARABIC_FONTS = ["amiri", "kfgqpc"] as const;
+export type ArabicFont = (typeof ARABIC_FONTS)[number];
+export const DEFAULT_ARABIC_FONT: ArabicFont = "amiri";
+export const isArabicFont = (value: unknown): value is ArabicFont =>
+  typeof value === "string" && (ARABIC_FONTS as readonly string[]).includes(value);
+
 /** Local storage keys. "theme" predates this module and keeps its name (values "light" and "dark", now also "auto"). */
 export const THEME_KEY = "theme";
 export const FONT_SIZE_KEY = "quranweb:font-size";
+export const ARABIC_FONT_KEY = "quranweb:arabic-font";
+/** The attribute on <html> that globals.css reads to switch the Arabic font. */
+export const ARABIC_FONT_ATTR = "data-arabic-font";
 /** CSS variables on <html> that the reading text multiplies its size by. */
 export const ARABIC_SCALE_VAR = "--arabic-scale";
 export const LATIN_SCALE_VAR = "--latin-scale";
@@ -45,11 +55,15 @@ export const DISPLAY_EVENT = "quranweb:display";
  * Inline script for <head>: applies the stored theme and text size before the first paint, so the page does not
  * flash. Kept small and self-contained (it runs before any bundle).
  */
-export const displayScript = `try{var t=localStorage.getItem("${THEME_KEY}");if(t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark");var f=JSON.parse(localStorage.getItem("${FONT_SIZE_KEY}")||"null");if(f){var s=document.documentElement.style;if(typeof f.arabic==="number")s.setProperty("${ARABIC_SCALE_VAR}",f.arabic);if(typeof f.latin==="number")s.setProperty("${LATIN_SCALE_VAR}",f.latin)}}catch(e){}`;
+export const displayScript = `try{var t=localStorage.getItem("${THEME_KEY}");if(t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark");var f=JSON.parse(localStorage.getItem("${FONT_SIZE_KEY}")||"null");if(f){var s=document.documentElement.style;if(typeof f.arabic==="number")s.setProperty("${ARABIC_SCALE_VAR}",f.arabic);if(typeof f.latin==="number")s.setProperty("${LATIN_SCALE_VAR}",f.latin)}var a=localStorage.getItem("${ARABIC_FONT_KEY}");if(a==="kfgqpc")document.documentElement.setAttribute("${ARABIC_FONT_ATTR}",a)}catch(e){}`;
 
 /** What the account's choices change in this browser: only what differs from the local values. */
-export function displayUpdates(choices: Choices, local: { theme: Theme; fontSize: FontSize }): { theme?: Theme; fontSize?: FontSize } {
-  const updates: { theme?: Theme; fontSize?: FontSize } = {};
+export function displayUpdates(
+  choices: Choices,
+  local: { theme: Theme; fontSize: FontSize; arabicFont?: ArabicFont },
+): { theme?: Theme; fontSize?: FontSize; arabicFont?: ArabicFont } {
+  const updates: { theme?: Theme; fontSize?: FontSize; arabicFont?: ArabicFont } = {};
+  if (choices.arabicFont && local.arabicFont !== undefined && choices.arabicFont.value !== local.arabicFont) updates.arabicFont = choices.arabicFont.value;
   if (choices.theme && choices.theme.value !== local.theme) updates.theme = choices.theme.value;
   const size = choices.fontSize?.value;
   if (size && (size.arabic !== local.fontSize.arabic || size.latin !== local.fontSize.latin)) updates.fontSize = size;
@@ -73,6 +87,30 @@ export function readFontSize(): FontSize {
   } catch {
     return DEFAULT_FONT_SIZE;
   }
+}
+
+export function readArabicFont(): ArabicFont {
+  try {
+    const value = localStorage.getItem(ARABIC_FONT_KEY);
+    return isArabicFont(value) ? value : DEFAULT_ARABIC_FONT;
+  } catch {
+    return DEFAULT_ARABIC_FONT;
+  }
+}
+
+/** Show an Arabic font: the attribute globals.css reads (none for the default). */
+function showArabicFont(font: ArabicFont): void {
+  if (font === DEFAULT_ARABIC_FONT) document.documentElement.removeAttribute(ARABIC_FONT_ATTR);
+  else document.documentElement.setAttribute(ARABIC_FONT_ATTR, font);
+}
+
+/** Store an Arabic font in this browser and show it. */
+export function applyArabicFont(font: ArabicFont): void {
+  try {
+    localStorage.setItem(ARABIC_FONT_KEY, font);
+  } catch {}
+  showArabicFont(font);
+  window.dispatchEvent(new Event(DISPLAY_EVENT));
 }
 
 /** Whether the page should be dark now for a theme ("auto" asks the device). */
@@ -103,7 +141,8 @@ export function applyFontSize(size: FontSize): void {
 /** Subscribe to theme and text size changes from this tab or another one (for useSyncExternalStore). */
 export function subscribeDisplay(callback: () => void): () => void {
   const onStorage = (event: StorageEvent) => {
-    if (event.key !== THEME_KEY && event.key !== FONT_SIZE_KEY) return;
+    if (event.key !== THEME_KEY && event.key !== FONT_SIZE_KEY && event.key !== ARABIC_FONT_KEY) return;
+    showArabicFont(readArabicFont());
     // Another tab changed it: show it here too.
     document.documentElement.classList.toggle("dark", isDark(readTheme()));
     const size = readFontSize();

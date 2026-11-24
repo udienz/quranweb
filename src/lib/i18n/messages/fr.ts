@@ -172,6 +172,8 @@ export const fr: Messages = {
     reciters: "Récitations (audio)",
     columns: { name: "Nom", language: "Langue", credit: "Source et crédit", licence: "Licence" },
     unknownLicence: "Voir la source",
+    tajweedCredit: "Les couleurs du tajwid utilisent le texte QPC Hafs du Complexe du Roi Fahd pour l'impression du Saint Coran, et les marques de rukuʿ sa liste des rukuʿ, tous deux issus de la Quranic Universal Library. La police KFGQPC HAFS Uthmanic Script appartient au Complexe et est servie sans modification, selon sa licence.",
+    fontLicence: "Licence de la police",
     providersTitle: "D'où viennent les données",
     providers:
       "Le texte provient de trois sources : l'API EQuran.id, la collection fawazahmed0/quran-api et QuranEnc.com. Ce site conserve sa propre copie de chacune et la lit ; les copies d'EQuran.id et de fawazahmed0 sont aussi ouvertes à tous comme miroir. Les récitations proviennent d'EQuran.id et du CDN audio d'AlQuran.cloud. Le Tafsir Ibn Kathir en ourdou est lu directement depuis l'API de Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const fr: Messages = {
     goToPage: "Aller à la page",
     go: "Aller",
   },
+  marks: {
+    ruku: "Fin d'un rukuʿ",
+  },
   verse: {
     play: "Écouter",
     pause: "Mettre en pause",
@@ -300,7 +305,7 @@ export const fr: Messages = {
     savedInBrowser: "Vos choix sont enregistrés dans ce navigateur.",
     useLanguageDefaults: "Utiliser la traduction et le tafsir en {language}",
     allSettings: "Tous les paramètres",
-    show: { arabic: "Texte arabe", transliteration: "Translittération", translation: "Traduction" },
+    show: { arabic: "Texte arabe", transliteration: "Translittération", translation: "Traduction", tajweed: "Couleurs du tajwid", marks: "Marques de rukuʿ (ع)" },
     languages: { ar: "Arabe", id: "Indonésien", en: "Anglais", tr: "Turc" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const fr: Messages = {
     themeDark: "Sombre",
     themeAuto: "Auto",
     arabicSize: "Taille du texte arabe",
+    arabicFont: "Police arabe",
     latinSize: "Taille du texte latin",
     smaller: "Plus petit : {name}",
     larger: "Plus grand : {name}",

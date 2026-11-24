@@ -6,10 +6,15 @@ export interface Prefs {
   arabic: boolean;
   transliteration: boolean;
   translation: boolean;
+  /** Tajweed colours (issue #130). */
+  tajweed: boolean;
+  /** The ع mark at the end of a ruku (issue #132). */
+  marks: boolean;
 }
 
 // The transliteration is hidden until a reader turns it on (we decided, issue #126); a saved choice is kept.
-const DEFAULTS: Prefs = { arabic: true, transliteration: false, translation: true };
+// Tajweed colours and the ruku marks are on by default (we decided, issues #130 and #132).
+const DEFAULTS: Prefs = { arabic: true, transliteration: false, translation: true, tajweed: true, marks: true };
 const KEY = "reading-prefs";
 
 const PrefsContext = createContext<{
@@ -36,6 +41,8 @@ export default function PrefsProvider({ children }: { children: React.ReactNode 
           arabic: parsed.arabic ?? parsed.arab ?? true,
           transliteration: parsed.transliteration ?? parsed.latin ?? DEFAULTS.transliteration,
           translation: parsed.translation ?? parsed.terjemahan ?? true,
+          tajweed: parsed.tajweed ?? DEFAULTS.tajweed,
+          marks: parsed.marks ?? DEFAULTS.marks,
         });
       }
     } catch {}

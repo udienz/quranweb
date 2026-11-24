@@ -171,6 +171,8 @@ export const tr: Messages = {
     reciters: "Sesli okuyuşlar",
     columns: { name: "Ad", language: "Dil", credit: "Kaynak ve katkı", licence: "Lisans" },
     unknownLicence: "Kaynağa bakın",
+    tajweedCredit: "Tecvid renkleri Kral Fahd Kur'an Basım Kompleksi'nin QPC Hafs metnini, rükû işaretleri ise rükû listesini kullanır; ikisi de Quranic Universal Library'den gelir. KFGQPC HAFS Uthmanic Script yazı tipi Kompleks'e aittir ve lisansı gereği değiştirilmeden sunulur.",
+    fontLicence: "Yazı tipi lisansı",
     providersTitle: "Verilerin alındığı yerler",
     providers:
       "Metin üç kaynaktan gelir: EQuran.id API'si, fawazahmed0/quran-api koleksiyonu ve QuranEnc.com. Bu site her birinin kendi kopyasını tutar ve metni oradan okur; EQuran.id ve fawazahmed0 kopyaları ayrıca herkese açık bir ayna olarak sunulur. Sesli okuyuşlar EQuran.id'den ve AlQuran.cloud ses CDN'inden gelir. Urduca İbn Kesir tefsiri doğrudan Quran Foundation API'sinden (Quran.com) okunur.",
@@ -252,6 +254,9 @@ export const tr: Messages = {
     goToPage: "Sayfaya git",
     go: "Git",
   },
+  marks: {
+    ruku: "Rükûnun sonu",
+  },
   verse: {
     play: "Sesi çal",
     pause: "Sesi duraklat",
@@ -299,7 +304,7 @@ export const tr: Messages = {
     savedInBrowser: "Seçimleriniz bu tarayıcıda saklanır.",
     useLanguageDefaults: "{language} meal ve tefsiri kullan",
     allSettings: "Tüm ayarlar",
-    show: { arabic: "Arapça metin", transliteration: "Okunuş", translation: "Meal" },
+    show: { arabic: "Arapça metin", transliteration: "Okunuş", translation: "Meal", tajweed: "Tecvid renkleri", marks: "Rükû işaretleri (ع)" },
     languages: { ar: "Arapça", id: "Endonezce", en: "İngilizce", tr: "Türkçe" },
   },
   settingsPage: {
@@ -346,6 +351,7 @@ export const tr: Messages = {
     themeDark: "Koyu",
     themeAuto: "Otomatik",
     arabicSize: "Arapça yazı boyutu",
+    arabicFont: "Arapça yazı tipi",
     latinSize: "Latin yazı boyutu",
     smaller: "Küçült: {name}",
     larger: "Büyüt: {name}",

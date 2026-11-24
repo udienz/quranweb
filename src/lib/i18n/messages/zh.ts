@@ -173,6 +173,8 @@ export const zh: Messages = {
     reciters: "诵读（音频）",
     columns: { name: "名称", language: "语言", credit: "来源与致谢", licence: "许可" },
     unknownLicence: "见来源",
+    tajweedCredit: "泰吉威德颜色使用法赫德国王古兰经印刷厂的 QPC Hafs 文本，鲁库标记使用其鲁库列表，两者均来自 Quranic Universal Library。KFGQPC HAFS Uthmanic Script 字体属于该印刷厂，按其许可原样提供。",
+    fontLicence: "字体许可",
     providersTitle: "数据从哪里获取",
     providers:
       "文本来自三个来源：EQuran.id API、fawazahmed0/quran-api 合集和 QuranEnc.com。本网站为每个来源保存自己的副本并从中读取；EQuran.id 和 fawazahmed0 的副本也作为镜像向所有人开放。诵读来自 EQuran.id 和 AlQuran.cloud 的音频 CDN。乌尔都语《伊本·凯西尔经注》直接读取自 Quran Foundation API（Quran.com）。",
@@ -254,6 +256,9 @@ export const zh: Messages = {
     goToPage: "跳转到页",
     go: "前往",
   },
+  marks: {
+    ruku: "鲁库结束",
+  },
   verse: {
     play: "播放音频",
     pause: "暂停音频",
@@ -301,7 +306,7 @@ export const zh: Messages = {
     savedInBrowser: "您的选择保存在本浏览器中。",
     useLanguageDefaults: "使用{language}的译本和经注",
     allSettings: "所有设置",
-    show: { arabic: "阿拉伯语原文", transliteration: "转写", translation: "译本" },
+    show: { arabic: "阿拉伯语原文", transliteration: "转写", translation: "译本", tajweed: "泰吉威德颜色", marks: "鲁库标记 (ع)" },
     languages: { ar: "阿拉伯语", id: "印度尼西亚语", en: "英语", tr: "土耳其语" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const zh: Messages = {
     themeDark: "深色",
     themeAuto: "自动",
     arabicSize: "阿拉伯语字号",
+    arabicFont: "阿拉伯文字体",
     latinSize: "拉丁字母字号",
     smaller: "缩小：{name}",
     larger: "放大：{name}",

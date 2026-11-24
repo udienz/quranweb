@@ -173,6 +173,8 @@ export const fa: Messages = {
     reciters: "تلاوت‌ها (صوتی)",
     columns: { name: "نام", language: "زبان", credit: "منبع و اعتبار", licence: "مجوز" },
     unknownLicence: "منبع را ببینید",
+    tajweedCredit: "رنگ‌های تجوید از متن QPC Hafs مجتمع ملک فهد برای چاپ قرآن و نشانه‌های رکوع از فهرست رکوع آن استفاده می‌کنند؛ هر دو از Quranic Universal Library. قلم KFGQPC HAFS Uthmanic Script متعلق به خود مجتمع است و طبق مجوزش بدون تغییر ارائه می‌شود.",
+    fontLicence: "مجوز قلم",
     providersTitle: "داده‌ها از کجا گرفته می‌شوند",
     providers:
       "متن از سه منبع می‌آید: API سایت EQuran.id، مجموعهٔ fawazahmed0/quran-api و QuranEnc.com. این سایت نسخهٔ خودش از هرکدام را نگه می‌دارد و از آن می‌خواند؛ نسخه‌های EQuran.id و fawazahmed0 به‌عنوان آینه برای همه هم باز است. تلاوت‌ها از EQuran.id و از CDN صوتی AlQuran.cloud می‌آیند. تفسیر ابن کثیر به زبان اردو مستقیماً از API بنیاد Quran Foundation (Quran.com) خوانده می‌شود.",
@@ -254,6 +256,9 @@ export const fa: Messages = {
     goToPage: "رفتن به صفحه",
     go: "برو",
   },
+  marks: {
+    ruku: "پایان رکوع",
+  },
   verse: {
     play: "پخش صوت",
     pause: "توقف صوت",
@@ -301,7 +306,7 @@ export const fa: Messages = {
     savedInBrowser: "انتخاب‌های شما در این مرورگر ذخیره می‌شوند.",
     useLanguageDefaults: "از ترجمه و تفسیر به زبان {language} استفاده کنید",
     allSettings: "همهٔ تنظیمات",
-    show: { arabic: "متن عربی", transliteration: "آوانویسی", translation: "ترجمه" },
+    show: { arabic: "متن عربی", transliteration: "آوانویسی", translation: "ترجمه", tajweed: "رنگ‌های تجوید", marks: "نشانه‌های رکوع (ع)" },
     languages: { ar: "عربی", id: "اندونزیایی", en: "انگلیسی", tr: "ترکی" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const fa: Messages = {
     themeDark: "تیره",
     themeAuto: "خودکار",
     arabicSize: "اندازهٔ متن عربی",
+    arabicFont: "قلم عربی",
     latinSize: "اندازهٔ متن لاتین",
     smaller: "کوچک‌تر: {name}",
     larger: "بزرگ‌تر: {name}",

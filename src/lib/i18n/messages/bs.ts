@@ -173,6 +173,8 @@ export const bs: Messages = {
     reciters: "Učenja (audio)",
     columns: { name: "Naziv", language: "Jezik", credit: "Izvor i zasluga", licence: "Licenca" },
     unknownLicence: "Pogledajte izvor",
+    tajweedCredit: "Boje tedžvida koriste QPC Hafs tekst Kompleksa kralja Fahda za štampanje Kur'ana, a oznake ruku'a njegov popis ruku'a, oboje iz Quranic Universal Library. Font KFGQPC HAFS Uthmanic Script pripada samom Kompleksu i koristi se bez izmjena prema njegovoj licenci.",
+    fontLicence: "Licenca fonta",
     providersTitle: "Odakle se uzimaju podaci",
     providers:
       "Tekst dolazi iz tri izvora: API-ja EQuran.id, zbirke fawazahmed0/quran-api i QuranEnc.com. Ova stranica čuva vlastitu kopiju svakog i čita iz nje; kopije EQuran.id i fawazahmed0 otvorene su svima i kao ogledalo. Učenja dolaze s EQuran.id i iz audio CDN-a AlQuran.cloud. Tefsir Ibn Kesira na urduu čita se direktno iz API-ja Quran Foundation (Quran.com).",
@@ -254,6 +256,9 @@ export const bs: Messages = {
     goToPage: "Idi na stranicu",
     go: "Idi",
   },
+  marks: {
+    ruku: "Kraj ruku'a",
+  },
   verse: {
     play: "Pusti audio",
     pause: "Pauziraj audio",
@@ -301,7 +306,7 @@ export const bs: Messages = {
     savedInBrowser: "Vaši izbori se čuvaju u ovom pregledniku.",
     useLanguageDefaults: "Koristi prijevod i tefsir na jeziku: {language}",
     allSettings: "Sve postavke",
-    show: { arabic: "Arapski tekst", transliteration: "Transliteracija", translation: "Prijevod" },
+    show: { arabic: "Arapski tekst", transliteration: "Transliteracija", translation: "Prijevod", tajweed: "Boje tedžvida", marks: "Oznake ruku'a (ع)" },
     languages: { ar: "Arapski", id: "Indonezijski", en: "Engleski", tr: "Turski" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const bs: Messages = {
     themeDark: "Tamna",
     themeAuto: "Automatski",
     arabicSize: "Veličina arapskog teksta",
+    arabicFont: "Arapski font",
     latinSize: "Veličina latiničnog teksta",
     smaller: "Manje: {name}",
     larger: "Veće: {name}",

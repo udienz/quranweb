@@ -9,6 +9,7 @@ import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { useUserData } from "@/lib/userdata/store";
 import Footnotes from "./Footnotes";
 import { usePrefs } from "./PrefsProvider";
+import ArabicText, { RukuMark } from "./ArabicText";
 import { NoteEditor, VerseActions } from "./VerseCard";
 
 const ARABIC_DIGITS = "٠١٢٣٤٥٦٧٨٩";
@@ -99,7 +100,7 @@ export default function MushafView({
                   {...hiding.props("arabic", v.number, t("memorize.showVerse", { n: v.number }))}
                   className={`scroll-mt-24 rounded ${playingN === v.number ? "bg-primary-soft" : ""}`}
                 >
-                  {v.arabic}
+                  <ArabicText verse={v} />
                 </span>
                 <button
                   type="button"
@@ -109,7 +110,8 @@ export default function MushafView({
                   className={markerClass(v.number)}
                 >
                   ﴿{arabicNumber(v.number)}﴾
-                </button>{" "}
+                </button>
+                <RukuMark verse={v} />{" "}
               </Fragment>
             ))}
           </p>

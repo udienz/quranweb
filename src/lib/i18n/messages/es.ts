@@ -172,6 +172,8 @@ export const es: Messages = {
     reciters: "Recitaciones (audio)",
     columns: { name: "Nombre", language: "Idioma", credit: "Fuente y crédito", licence: "Licencia" },
     unknownLicence: "Ver la fuente",
+    tajweedCredit: "Los colores del tajwid usan el texto QPC Hafs del Complejo Rey Fahd para la Impresión del Sagrado Corán, y las marcas de rukuʿ su lista de rukuʿ, ambos de la Quranic Universal Library. La fuente KFGQPC HAFS Uthmanic Script es del propio Complejo y se sirve sin cambios según su licencia.",
+    fontLicence: "Licencia de la fuente",
     providersTitle: "De dónde se obtienen los datos",
     providers:
       "El texto viene de tres fuentes: la API de EQuran.id, la colección fawazahmed0/quran-api y QuranEnc.com. Este sitio guarda su propia copia de cada una y lee de ella; las copias de EQuran.id y fawazahmed0 también están abiertas a todos como espejo. Las recitaciones vienen de EQuran.id y de la CDN de audio de AlQuran.cloud. El Tafsir Ibn Kathir en urdu se lee directamente de la API de Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const es: Messages = {
     goToPage: "Ir a la página",
     go: "Ir",
   },
+  marks: {
+    ruku: "Fin de un rukuʿ",
+  },
   verse: {
     play: "Reproducir audio",
     pause: "Pausar audio",
@@ -300,7 +305,7 @@ export const es: Messages = {
     savedInBrowser: "Tus elecciones se guardan en este navegador.",
     useLanguageDefaults: "Usar la traducción y el tafsir en {language}",
     allSettings: "Todos los ajustes",
-    show: { arabic: "Texto árabe", transliteration: "Transliteración", translation: "Traducción" },
+    show: { arabic: "Texto árabe", transliteration: "Transliteración", translation: "Traducción", tajweed: "Colores del tajwid", marks: "Marcas de rukuʿ (ع)" },
     languages: { ar: "Árabe", id: "Indonesio", en: "Inglés", tr: "Turco" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const es: Messages = {
     themeDark: "Oscuro",
     themeAuto: "Automático",
     arabicSize: "Tamaño del texto árabe",
+    arabicFont: "Fuente árabe",
     latinSize: "Tamaño del texto latino",
     smaller: "Más pequeño: {name}",
     larger: "Más grande: {name}",

@@ -15,7 +15,7 @@ import { LAYOUT_COOKIE, type Layout } from "@/lib/layout";
 import { PAGING_COOKIE, type Paging } from "@/lib/paging";
 import { groupTranslations } from "@/lib/quran/translation-groups";
 import { userDataActions } from "@/lib/userdata/store";
-import { FontSizeControls } from "./DisplayControls";
+import { ArabicFontChoice, FontSizeControls } from "./DisplayControls";
 import { usePrefs, type Prefs } from "./PrefsProvider";
 import ReciterPicker from "./ReciterPicker";
 import SearchableSelect, { type ChoiceOption } from "./SearchableSelect";
@@ -25,6 +25,8 @@ const DISPLAY_TOGGLES: { key: keyof Prefs; label: StringKey }[] = [
   { key: "arabic", label: "settings.show.arabic" },
   { key: "transliteration", label: "settings.show.transliteration" },
   { key: "translation", label: "settings.show.translation" },
+  { key: "tajweed", label: "settings.show.tajweed" },
+  { key: "marks", label: "settings.show.marks" },
 ];
 
 /** Display toggles (kept in the browser) and the edition and reciter choice (kept in a cookie the server reads). */
@@ -160,8 +162,9 @@ export default function SettingsPanel({
       </div>
 
       {showLink && (
-        <div className="mb-4 border-b border-border pb-4">
+        <div className="mb-4 flex flex-col gap-3 border-b border-border pb-4">
           <FontSizeControls />
+          <ArabicFontChoice />
         </div>
       )}
 

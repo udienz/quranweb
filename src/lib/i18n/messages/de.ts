@@ -172,6 +172,8 @@ export const de: Messages = {
     reciters: "Rezitationen (Audio)",
     columns: { name: "Name", language: "Sprache", credit: "Quelle und Urheber", licence: "Lizenz" },
     unknownLicence: "Siehe Quelle",
+    tajweedCredit: "Die Tadschwid-Farben nutzen den QPC-Hafs-Text des König-Fahd-Komplexes für den Druck des Korans, die Ruku-Zeichen seine Ruku-Liste, beides aus der Quranic Universal Library. Die Schrift KFGQPC HAFS Uthmanic Script stammt vom Komplex selbst und wird gemäß ihrer Lizenz unverändert ausgeliefert.",
+    fontLicence: "Schriftlizenz",
     providersTitle: "Woher die Daten kommen",
     providers:
       "Der Text stammt aus drei Quellen: der API von EQuran.id, der Sammlung fawazahmed0/quran-api und QuranEnc.com. Diese Seite hält eine eigene Kopie von EQuran.id und fawazahmed0 und liest daraus; diese Kopien sind auch für alle als Spiegel offen. Neuere Übersetzungen und Tafsir liest sie direkt von QuranEnc.com. Die Rezitationen kommen von EQuran.id und vom Audio-CDN von AlQuran.cloud. Der Tafsir Ibn Kathir auf Urdu wird direkt aus der API der Quran Foundation (Quran.com) gelesen.",
@@ -253,6 +255,9 @@ export const de: Messages = {
     goToPage: "Zur Seite",
     go: "Los",
   },
+  marks: {
+    ruku: "Ende eines Ruku",
+  },
   verse: {
     play: "Audio abspielen",
     pause: "Audio pausieren",
@@ -300,7 +305,7 @@ export const de: Messages = {
     savedInBrowser: "Deine Auswahl wird in diesem Browser gespeichert.",
     useLanguageDefaults: "Übersetzung und Tafsir auf {language} verwenden",
     allSettings: "Alle Einstellungen",
-    show: { arabic: "Arabischer Text", transliteration: "Umschrift", translation: "Übersetzung" },
+    show: { arabic: "Arabischer Text", transliteration: "Umschrift", translation: "Übersetzung", tajweed: "Tadschwid-Farben", marks: "Ruku-Zeichen (ع)" },
     languages: { ar: "Arabisch", id: "Indonesisch", en: "Englisch", tr: "Türkisch" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const de: Messages = {
     themeDark: "Dunkel",
     themeAuto: "Automatisch",
     arabicSize: "Größe des arabischen Textes",
+    arabicFont: "Arabische Schrift",
     latinSize: "Größe des lateinischen Textes",
     smaller: "Kleiner: {name}",
     larger: "Größer: {name}",

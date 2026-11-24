@@ -7,6 +7,7 @@
 //   QURAN_ISLAMIC_AUDIO_URL  base URL of the AlQuran.cloud audio CDN (default https://cdn.islamic.network)
 //   QURAN_FAWAZ_URL  base URL of fawazahmed0/quran-api (default jsDelivr; point it to our own mirror)
 //   QURAN_QURANENC_URL  base URL of QuranEnc (default the live API; point it to the private copy, /data/quranenc)
+//   QURAN_QUL_URL    directory of our private QUL copy (tajweed text, rukus); unset = no tajweed colours or ruku marks
 //   QURAN_CONFIG     path of a JSON file that replaces the built-in source registry (see sources.ts)
 //
 // Each base URL can also be a directory with a local copy of the mirror (no HTTP needed).

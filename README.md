@@ -127,7 +127,9 @@ top right (it reads "Sign in" until you sign in) and choose Settings.
 2. In Reading settings, pick the Arabic text, then a language under Translation and one or more translations in it. Each
    one you add appears under the verse; remove one with the cross on its label.
 3. Turn the Arabic text, the transliteration or the translation on or off in the same panel. The transliteration is off
-   until you turn it on.
+   until you turn it on. **Tajweed colours** (on by default) colour the Arabic text by its tajweed rules; turn them off to
+   read your chosen Arabic text. **Ruku marks** put ع at the end of each ruku.
+   The **Arabic font** can be Amiri or the King Fahd Complex's own Uthmanic Hafs font (in the panel and on Settings).
 4. Changed the interface language? Your translations and tafsir stay as they were. **Use the translation and tafsir in …**
    switches them to the ones of the new language. The tafsir list starts with the interface language.
 5. A list with more than 10 choices (translation languages, tafsir, verses, juz, interface languages) has a search box: type a

@@ -14,6 +14,7 @@ import { createFawazTextProvider, FAWAZ_EDITIONS } from "./providers/fawazahmed0
 import { createQuranEncTextProvider, QURANENC_EDITIONS } from "./providers/quranenc";
 import { createQuranFoundationTextProvider, QURAN_FOUNDATION_EDITIONS, type QuranFoundationAuth } from "./providers/quran-foundation";
 import { createIslamicNetworkAudioProvider } from "./providers/islamic-network";
+import { createQulProvider } from "./providers/qul";
 import type { QuranConfig } from "./service";
 import type { Selection } from "./types";
 
@@ -52,6 +53,12 @@ export interface QuranFoundationTextSource {
   auth?: QuranFoundationAuth;
 }
 
+export interface QulTextSource {
+  type: "qul";
+  /** A directory (or URL) with our private QUL copy: the tajweed text and the rukus. None = no tajweed colours, no ruku marks. */
+  baseUrl?: string;
+}
+
 export interface EquranAudioSource {
   type: "equran-audio";
   /** Base URL of the audio files. Default: https://cdn.equran.id */
@@ -64,7 +71,7 @@ export interface IslamicNetworkAudioSource {
   baseUrl?: string;
 }
 
-export type TextSourceConfig = EquranTextSource | FawazTextSource | QuranEncTextSource | QuranFoundationTextSource;
+export type TextSourceConfig = EquranTextSource | FawazTextSource | QuranEncTextSource | QuranFoundationTextSource | QulTextSource;
 export type AudioSourceConfig = EquranAudioSource | IslamicNetworkAudioSource;
 
 export interface SourceConfig {
@@ -80,7 +87,8 @@ export interface SourceConfig {
 export const DEFAULT_SOURCES: SourceConfig = {
   // fawazahmed0 only adds editions to the catalog; the defaults still come from EQuran.id.
   // Quran Foundation: tafsir in languages the others lack (Urdu), read live.
-  textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }, { type: "quran-foundation" }],
+  // QUL: the tajweed text and the rukus, from our private copy (QURAN_QUL_URL); without it the page simply has neither.
+  textProviders: [{ type: "equran" }, { type: "fawazahmed0" }, { type: "quranenc" }, { type: "quran-foundation" }, { type: "qul" }],
   // EQuran.id first (its reciters and the default), then the AlQuran.cloud CDN: more reciters, and the fallback for the two
   // that both have.
   audioProviders: [{ type: "equran-audio" }, { type: "islamic-network" }],
@@ -134,7 +142,7 @@ export class SourceConfigError extends Error {
   }
 }
 
-const TEXT_TYPES = ["equran", "fawazahmed0", "quranenc", "quran-foundation"] as const;
+const TEXT_TYPES = ["equran", "fawazahmed0", "quranenc", "quran-foundation", "qul"] as const;
 const AUDIO_TYPES = ["equran-audio", "islamic-network"] as const;
 
 // ---------------------------------------------------------------- validation
@@ -215,7 +223,7 @@ export function parseSourceConfig(raw: unknown): SourceConfig {
     const path = `textProviders[${i}]`;
     const obj = asObject(item, path);
     const type = oneOf(obj.type, TEXT_TYPES, `${path}.type`);
-    if (type === "equran") {
+    if (type === "equran" || type === "qul") {
       noUnknownKeys(obj, ["type", "baseUrl"], path);
       return { type, baseUrl: optionalString(obj, "baseUrl", path) };
     }
@@ -280,7 +288,9 @@ export function applyEnv(config: SourceConfig, env: Env): SourceConfig {
           ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_QURANENC_URL) }
           : p.type === "quran-foundation"
             ? { ...p, auth: p.auth ?? quranFoundationAuth(env) } // read live: no base URL variable, only the credentials
-            : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
+            : p.type === "qul"
+              ? { ...p, baseUrl: fill(p.baseUrl, env.QURAN_QUL_URL) }
+              : { ...p, baseUrl: fill(p.baseUrl, env.QURAN_FAWAZ_URL) },
     ),
     audioProviders: config.audioProviders.map((p) =>
       p.type === "islamic-network"
@@ -320,7 +330,9 @@ export function toQuranConfig(config: SourceConfig): QuranConfig {
         ? createQuranEncTextProvider({ baseUrl: c.baseUrl, editions: c.editions })
         : c.type === "quran-foundation"
           ? createQuranFoundationTextProvider({ baseUrl: c.baseUrl, editions: c.editions, auth: c.auth })
-          : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
+          : c.type === "qul"
+            ? createQulProvider({ baseUrl: c.baseUrl })
+            : createFawazTextProvider({ baseUrl: c.baseUrl, editions: c.editions });
   const audio = (c: AudioSourceConfig): AudioProvider =>
     c.type === "islamic-network"
       ? createIslamicNetworkAudioProvider({ baseUrl: c.baseUrl })

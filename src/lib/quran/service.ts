@@ -3,6 +3,8 @@
 
 import { checkJuzList } from "./juz";
 import { checkMushafPages } from "./mushaf-pages";
+import { checkRanges } from "./ranges";
+import { errorOncePerHour } from "../log-limited";
 import type { AudioProvider, TextProvider } from "./provider";
 import type {
   Catalog,
@@ -12,6 +14,7 @@ import type {
   JuzRef,
   MushafPageRef,
   Qari,
+  RukuRef,
   Selection,
   SurahMeta,
   SurahView,
@@ -167,6 +170,44 @@ export function createQuranService(config: QuranConfig) {
     return list;
   }
 
+  /**
+   * The verses that end a ruku, as "surah:verse" keys, for the ع mark. (The ۩ of a verse of prostration is already in every
+   * Arabic text we show.) Checked once and kept for the life of the process (the data changes only with a deploy); a source
+   * that fails or gives a wrong table only loses the marks, and is tried again on the next page.
+   */
+  let rukuEnds: Promise<Set<string>> | undefined;
+  function getRukuEnds() {
+    rukuEnds ??= (async () => {
+      const ends = new Set<string>();
+      const provider = config.textProviders.find((p) => p.rukus);
+      if (provider?.rukus) {
+        const list: RukuRef[] = await provider.rukus();
+        checkRanges(list, await getSurahList(), { count: list.length, number: (r) => r.ruku, one: "ruku", many: "rukus" });
+        for (const r of list) ends.add(`${r.end.surah}:${r.end.verse}`);
+      }
+      return ends;
+    })();
+    return rukuEnds.catch((err) => {
+      rukuEnds = undefined;
+      errorOncePerHour("quran-rukus", "The ruku marks are not available:", err);
+      return new Set<string>();
+    });
+  }
+
+  /** The tajweed text of a surah, one list of runs per verse, or null (no source, or it failed: the plain text is shown). */
+  async function getTajweed(surah: number, verseCount: number) {
+    const provider = config.textProviders.find((p) => p.tajweed);
+    if (!provider?.tajweed) return null;
+    try {
+      const verses = await provider.tajweed(surah);
+      if (verses.length !== verseCount) throw new Error(`${verses.length} verses, expected ${verseCount}`);
+      return verses;
+    } catch (err) {
+      if (!String(err).includes("During prerendering")) errorOncePerHour(`quran-tajweed-${surah}`, `The tajweed text of surah ${surah} is not available:`, err);
+      return null;
+    }
+  }
+
   async function getEditionText(edition: string, surah: number): Promise<EditionText> {
     const entry = editions.get(edition);
     if (!entry) throw new Error(`Edition "${edition}" is not in the catalog`);
@@ -267,6 +308,7 @@ export function createQuranService(config: QuranConfig) {
       throw new Error(`Invalid verse range ${from}-${to} for surah ${number} (${meta.verseCount} verses)`);
     }
 
+    const [tajweed, rukuEnds] = await Promise.all([getTajweed(number, meta.verseCount), getRukuEnds()]);
     const byEdition = new Map(texts.map((t) => [t.edition, t]));
     const textOf = (id: string, i: number) => byEdition.get(id)!.verses[i].text;
     const notesOf = (id: string, i: number) => byEdition.get(id)!.verses[i].notes;
@@ -284,6 +326,8 @@ export function createQuranService(config: QuranConfig) {
         }),
         tafsir: selection.tafsir ? textOf(selection.tafsir, i) : null,
         ...(tafsirSharedWith ? { tafsirSharedWith } : {}),
+        ...(tajweed ? { tajweed: tajweed[i] } : {}),
+        ...(rukuEnds.has(`${number}:${i + 1}`) ? { rukuEnd: true } : {}),
         ...audioUrls(selection.qari, number, i + 1),
       };
     });

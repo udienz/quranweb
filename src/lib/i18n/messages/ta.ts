@@ -172,6 +172,8 @@ export const ta: Messages = {
     reciters: "ஓதல்கள் (ஒலி)",
     columns: { name: "பெயர்", language: "மொழி", credit: "மூலமும் நன்றியும்", licence: "உரிமம்" },
     unknownLicence: "மூலத்தைப் பார்க்கவும்",
+    tajweedCredit: "தஜ்வீத் வண்ணங்கள் மன்னர் ஃபஹ்த் குர்ஆன் அச்சக வளாகத்தின் QPC Hafs உரையையும், ருகூ குறிகள் அதன் ருகூ பட்டியலையும் பயன்படுத்துகின்றன; இரண்டும் Quranic Universal Library இலிருந்து. KFGQPC HAFS Uthmanic Script எழுத்துரு அந்த வளாகத்தினுடையது; அதன் உரிமப்படி மாற்றமின்றி வழங்கப்படுகிறது.",
+    fontLicence: "எழுத்துரு உரிமம்",
     providersTitle: "தரவு எங்கிருந்து பெறப்படுகிறது",
     providers:
       "உரை மூன்று மூலங்களிலிருந்து வருகிறது: EQuran.id API, fawazahmed0/quran-api தொகுப்பு, QuranEnc.com. இந்தத் தளம் ஒவ்வொன்றின் சொந்த நகலை வைத்திருந்து அதிலிருந்து படிக்கிறது; EQuran.id, fawazahmed0 நகல்கள் கண்ணாடியாக அனைவருக்கும் திறந்திருக்கின்றன. ஓதல்கள் EQuran.id இலிருந்தும் AlQuran.cloud இன் ஒலி CDN இலிருந்தும் வருகின்றன. உருது இப்னு கஸீர் தஃப்ஸீர் நேரடியாக Quran Foundation API (Quran.com) இலிருந்து படிக்கப்படுகிறது.",
@@ -253,6 +255,9 @@ export const ta: Messages = {
     goToPage: "பக்கத்துக்குச் செல்",
     go: "செல்",
   },
+  marks: {
+    ruku: "ருகூவின் முடிவு",
+  },
   verse: {
     play: "ஒலியை இயக்கு",
     pause: "ஒலியை இடைநிறுத்து",
@@ -300,7 +305,7 @@ export const ta: Messages = {
     savedInBrowser: "உங்கள் தேர்வுகள் இந்த உலாவியில் சேமிக்கப்படுகின்றன.",
     useLanguageDefaults: "{language} மொழிபெயர்ப்பையும் தஃப்ஸீரையும் பயன்படுத்து",
     allSettings: "அனைத்து அமைப்புகளும்",
-    show: { arabic: "அரபு மூலம்", transliteration: "ஒலிபெயர்ப்பு", translation: "மொழிபெயர்ப்பு" },
+    show: { arabic: "அரபு மூலம்", transliteration: "ஒலிபெயர்ப்பு", translation: "மொழிபெயர்ப்பு", tajweed: "தஜ்வீத் வண்ணங்கள்", marks: "ருகூ குறிகள் (ع)" },
     languages: { ar: "அரபு", id: "இந்தோனேசியம்", en: "ஆங்கிலம்", tr: "துருக்கியம்" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const ta: Messages = {
     themeDark: "இருள்",
     themeAuto: "தானியங்கி",
     arabicSize: "அரபு எழுத்து அளவு",
+    arabicFont: "அரபு எழுத்துரு",
     latinSize: "லத்தீன் எழுத்து அளவு",
     smaller: "சிறியது: {name}",
     larger: "பெரியது: {name}",

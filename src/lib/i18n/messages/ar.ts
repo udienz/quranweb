@@ -173,6 +173,8 @@ export const ar: Messages = {
     reciters: "التلاوات (صوت)",
     columns: { name: "الاسم", language: "اللغة", credit: "المصدر والنسبة", licence: "الترخيص" },
     unknownLicence: "انظر المصدر",
+    tajweedCredit: "تعتمد ألوان التجويد على نص QPC Hafs من مجمع الملك فهد لطباعة المصحف الشريف، وتعتمد علامات الركوع على قائمة الركوع فيه، وكلاهما من Quranic Universal Library. خط KFGQPC HAFS Uthmanic Script هو خط المجمع نفسه، ويُقدَّم دون تعديل وفق ترخيصه.",
+    fontLicence: "ترخيص الخط",
     providersTitle: "من أين تؤخذ البيانات",
     providers:
       "يأتي النص من ثلاثة مصادر: واجهة EQuran.id البرمجية، ومجموعة fawazahmed0/quran-api، وQuranEnc.com. يحتفظ هذا الموقع بنسخته الخاصة من كل منها ويقرأ منها؛ ونسختا EQuran.id وfawazahmed0 متاحتان أيضًا للجميع كمرآة. وتأتي التلاوات من EQuran.id ومن شبكة توزيع الصوت في AlQuran.cloud. يُقرأ تفسير ابن كثير باللغة الأردية مباشرة من واجهة Quran Foundation البرمجية (Quran.com).",
@@ -254,6 +256,9 @@ export const ar: Messages = {
     goToPage: "اذهب إلى الصفحة",
     go: "اذهب",
   },
+  marks: {
+    ruku: "نهاية ركوع",
+  },
   verse: {
     play: "تشغيل الصوت",
     pause: "إيقاف الصوت مؤقتًا",
@@ -301,7 +306,7 @@ export const ar: Messages = {
     savedInBrowser: "تُحفظ اختياراتك في هذا المتصفح.",
     useLanguageDefaults: "استخدم الترجمة والتفسير بلغة {language}",
     allSettings: "كل الإعدادات",
-    show: { arabic: "النص العربي", transliteration: "الكتابة اللاتينية", translation: "الترجمة" },
+    show: { arabic: "النص العربي", transliteration: "الكتابة اللاتينية", translation: "الترجمة", tajweed: "ألوان التجويد", marks: "علامات الركوع (ع)" },
     languages: { ar: "العربية", id: "الإندونيسية", en: "الإنجليزية", tr: "التركية" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const ar: Messages = {
     themeDark: "داكن",
     themeAuto: "تلقائي",
     arabicSize: "حجم النص العربي",
+    arabicFont: "الخط العربي",
     latinSize: "حجم النص اللاتيني",
     smaller: "أصغر: {name}",
     larger: "أكبر: {name}",

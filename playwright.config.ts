@@ -31,6 +31,7 @@ export default defineConfig({
       QURAN_API_URL: `${fixtures}/api/v2`,
       QURAN_FAWAZ_URL: `${fixtures}/quran-api`,
       QURAN_QURANENC_URL: `${fixtures}/quranenc`,
+      QURAN_QUL_URL: `${fixtures}/qul`,
     },
   },
 });

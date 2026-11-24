@@ -172,6 +172,8 @@ export const ms: Messages = {
     reciters: "Bacaan (audio)",
     columns: { name: "Nama", language: "Bahasa", credit: "Sumber dan kredit", licence: "Lesen" },
     unknownLicence: "Lihat sumbernya",
+    tajweedCredit: "Warna tajwid menggunakan teks QPC Hafs daripada Kompleks Percetakan Al-Quran Raja Fahd, dan tanda rukuk menggunakan senarai rukuknya, kedua-duanya daripada Quranic Universal Library. Fon KFGQPC HAFS Uthmanic Script milik Kompleks itu sendiri, digunakan tanpa diubah mengikut lesennya.",
+    fontLicence: "Lesen fon",
     providersTitle: "Dari mana data diambil",
     providers:
       "Teks datang daripada tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api dan QuranEnc.com. Laman ini menyimpan salinannya sendiri bagi setiap sumber dan membaca daripadanya; salinan EQuran.id dan fawazahmed0 juga terbuka kepada sesiapa sahaja sebagai cermin. Bacaan datang daripada EQuran.id dan daripada CDN audio AlQuran.cloud. Tafsir Ibnu Kathir dalam bahasa Urdu dibaca terus daripada API Quran Foundation (Quran.com).",
@@ -253,6 +255,9 @@ export const ms: Messages = {
     goToPage: "Pergi ke halaman",
     go: "Pergi",
   },
+  marks: {
+    ruku: "Akhir rukuk",
+  },
   verse: {
     play: "Mainkan audio",
     pause: "Jeda audio",
@@ -300,7 +305,7 @@ export const ms: Messages = {
     savedInBrowser: "Pilihan anda disimpan dalam pelayar ini.",
     useLanguageDefaults: "Gunakan terjemahan dan tafsir dalam {language}",
     allSettings: "Semua tetapan",
-    show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan" },
+    show: { arabic: "Teks Arab", transliteration: "Transliterasi", translation: "Terjemahan", tajweed: "Warna tajwid", marks: "Tanda rukuk (ع)" },
     languages: { ar: "Arab", id: "Indonesia", en: "Inggeris", tr: "Turki" },
   },
   settingsPage: {
@@ -347,6 +352,7 @@ export const ms: Messages = {
     themeDark: "Gelap",
     themeAuto: "Automatik",
     arabicSize: "Saiz teks Arab",
+    arabicFont: "Fon Arab",
     latinSize: "Saiz teks Latin",
     smaller: "Lebih kecil: {name}",
     larger: "Lebih besar: {name}",

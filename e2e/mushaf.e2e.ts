@@ -64,6 +64,8 @@ test("at the end of a page the audio goes on with the verse after it, on the nex
 });
 
 test("turning pages: the buttons, a typed page number, the arrow keys and a swipe, and the page number on the page", async ({ page }) => {
+  // With the side panel (issue #125) a page takes longer to render; under two parallel workers 5 s was sometimes short.
+  const expectUrl = expect.configure({ timeout: 10_000 });
   await page.goto("/mushaf/2");
   await expect(page.getByText("— 2 —")).toBeVisible();
   // The first page has no previous page, the last no next one.
@@ -74,31 +76,32 @@ test("turning pages: the buttons, a typed page number, the arrow keys and a swip
 
   await page.goto("/mushaf/2");
   await page.getByRole("link", { name: /berikutnya/i }).first().click();
-  await expect(page).toHaveURL(/\/mushaf\/3$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/3$/);
   await expect(page.getByText("— 3 —")).toBeVisible();
   await page.getByRole("link", { name: /sebelumnya/i }).first().click();
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
 
-  // A page number typed in the box (1 to 604); one out of range does nothing.
-  const box = page.getByRole("spinbutton").first();
+  // A page number typed in the box (1 to 604); one out of range does nothing. The box of the page itself, not the one in the
+  // side panel (which has "(1–604)" in its placeholder).
+  const box = page.getByPlaceholder("Ke halaman", { exact: true }).first();
   await box.fill("700");
   await box.press("Enter");
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
   await box.fill("604");
   await box.press("Enter");
-  await expect(page).toHaveURL(/\/mushaf\/604$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/604$/);
 
   // Arrow keys turn the page (to the right is forward in this left-to-right interface), but not while typing in the box.
   await page.goto("/mushaf/2", { waitUntil: "networkidle" });
   await page.keyboard.press("ArrowRight");
-  await expect(page).toHaveURL(/\/mushaf\/3$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/3$/);
   await expect(page.getByText("— 3 —")).toBeVisible();
   await page.keyboard.press("ArrowLeft");
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
   await expect(page.getByText("— 2 —")).toBeVisible();
-  await page.getByRole("spinbutton").first().focus();
+  await page.getByPlaceholder("Ke halaman", { exact: true }).first().focus();
   await page.keyboard.press("ArrowRight");
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
 
   // A swipe towards the start of the line (to the left here) turns to the next page; a short or a mostly vertical one does not.
   const swipe = (dx: number, dy: number) =>
@@ -113,11 +116,11 @@ test("turning pages: the buttons, a typed page number, the arrow keys and a swip
   await page.waitForLoadState("networkidle");
   await swipe(-30, 0);
   await swipe(-120, 200);
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
   await swipe(-120, 10);
-  await expect(page).toHaveURL(/\/mushaf\/3$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/3$/);
   await swipe(120, 10);
-  await expect(page).toHaveURL(/\/mushaf\/2$/);
+  await expectUrl(page).toHaveURL(/\/mushaf\/2$/);
 });
 
 // The page of the mushaf that has a verse, from the fixtures' table (the same one the app reads).

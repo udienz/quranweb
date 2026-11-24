@@ -18,7 +18,7 @@ import {
   toggleReadUpTo,
   UserDataError,
   type Bookmark,
-  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, setDailyGoalInPages, versesForPages, pagesForVerses, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setPagingChoice, setThemeChoice, setFontSizeChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
+  type UserData, setSelectionChoice, setLocaleChoice, createCollection, renameCollection, removeCollection, setBookmarkCollection, liveCollections, collectionOf, setDailyGoal, setDailyGoalInPages, versesForPages, pagesForVerses, recordVersesRead, versesReadOn, goalStreak, versesReadInTotal, TOTAL_VERSES, setLayoutChoice, setPagingChoice, setThemeChoice, setFontSizeChoice, setArabicFontChoice, setPlaybackModeChoice, clampFutureTimes } from "./schema";
 
 const T1 = "2026-11-17T10:00:00.000Z";
 const T2 = "2026-11-18T10:00:00.000Z";
@@ -710,5 +710,18 @@ describe("playback mode choice", () => {
     const d = setPlaybackModeChoice(setThemeChoice(emptyUserData(), "dark", T1), "next", T2);
     expect(d.choices.theme).toEqual({ value: "dark", at: T1 });
     expect(d.choices.playbackMode).toEqual({ value: "next", at: T2 });
+  });
+});
+
+describe("the Arabic font choice", () => {
+  it("is recorded, merged by time, and refused when unknown", () => {
+    const a = setArabicFontChoice(emptyUserData(), "kfgqpc", "2026-11-24T08:00:00.000Z");
+    const b = setArabicFontChoice(emptyUserData(), "amiri", "2026-11-24T09:00:00.000Z");
+    expect(mergeUserData(a, b).choices.arabicFont).toEqual({ value: "amiri", at: "2026-11-24T09:00:00.000Z" });
+    expect(parseUserData(JSON.parse(JSON.stringify(a))).choices.arabicFont?.value).toBe("kfgqpc");
+    expect(() => setArabicFontChoice(emptyUserData(), "comic" as never, "2026-11-24T08:00:00.000Z")).toThrow();
+    const bad = JSON.parse(JSON.stringify(a));
+    bad.choices.arabicFont.value = "comic";
+    expect(() => parseUserData(bad)).toThrow(/Arabic font/);
   });
 });

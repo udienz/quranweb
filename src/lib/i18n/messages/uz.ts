@@ -173,6 +173,8 @@ export const uz: Messages = {
     reciters: "Тиловатлар (аудио)",
     columns: { name: "Nоми", language: "Тил", credit: "Манба ва муаллиф", licence: "Лицензия" },
     unknownLicence: "Манбага қаранг",
+    tajweedCredit: "Тажвид ранглари Қирол Фаҳд Қуръон босмахонасининг QPC Hafs матнидан, руку белгилари эса унинг руку рўйхатидан фойдаланади; иккаласи ҳам Quranic Universal Library'дан. KFGQPC HAFS Uthmanic Script шрифти босмахонанинг ўзиники бўлиб, лицензиясига кўра ўзгаришсиз берилади.",
+    fontLicence: "Шрифт лицензияси",
     providersTitle: "Маълумотлар қаердан олинади",
     providers:
       "Матн учта манбадан олинади: EQuran.id API, fawazahmed0/quran-api тўплами ва QuranEnc.com. Бу сайт ҳар бирининг ўз нусхасини сақлайди ва ундан ўқийди; EQuran.id ва fawazahmed0 нусхалари кўзгу сифатида ҳаммага очиқ. Тиловатлар EQuran.id ва AlQuran.cloud аудио CDN дан олинади. Урду тилидаги Ибн Касир тафсири тўғридан-тўғри Quran Foundation API (Quran.com) дан ўқилади.",
@@ -254,6 +256,9 @@ export const uz: Messages = {
     goToPage: "Саҳифага ўтиш",
     go: "Ўтиш",
   },
+  marks: {
+    ruku: "Рукунинг охири",
+  },
   verse: {
     play: "Аудиони ижро этиш",
     pause: "Аудиони тўхтатиб туриш",
@@ -301,7 +306,7 @@ export const uz: Messages = {
     savedInBrowser: "Танловларингиз бу браузерда сақланади.",
     useLanguageDefaults: "{language} тилидаги таржима ва тафсирдан фойдаланиш",
     allSettings: "Барча созламалар",
-    show: { arabic: "Арабча матн", transliteration: "Транслитерация", translation: "Таржима" },
+    show: { arabic: "Арабча матн", transliteration: "Транслитерация", translation: "Таржима", tajweed: "Тажвид ранглари", marks: "Руку белгилари (ع)" },
     languages: { ar: "Арабча", id: "Индонезча", en: "Инглизча", tr: "Туркча" },
   },
   settingsPage: {
@@ -348,6 +353,7 @@ export const uz: Messages = {
     themeDark: "Қоронғи",
     themeAuto: "Автоматик",
     arabicSize: "Арабча матн ўлчами",
+    arabicFont: "Араб шрифти",
     latinSize: "Лотин матни ўлчами",
     smaller: "Кичикроқ: {name}",
     larger: "Каттароқ: {name}",

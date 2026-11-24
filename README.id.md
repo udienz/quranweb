@@ -130,7 +130,9 @@ di kanan atas (bertuliskan "Masuk" selama Anda belum masuk), lalu pilih Pengatur
 2. Di Pengaturan bacaan, pilih teks Arab, lalu bahasa di bagian Terjemahan dan satu atau beberapa terjemahan dalam bahasa
    itu. Setiap terjemahan yang ditambahkan muncul di bawah ayat; hapus dengan tanda silang di labelnya.
 3. Nyalakan atau matikan teks Arab, transliterasi, atau terjemahan di panel yang sama. Transliterasi mati sampai Anda
-   menyalakannya.
+   menyalakannya. **Warna tajwid** (menyala secara bawaan) mewarnai teks Arab menurut hukum tajwidnya; matikan untuk membaca
+   teks Arab pilihan Anda. **Tanda ruku** menaruh ع di akhir setiap ruku.
+   **Font Arab** bisa Amiri atau font Uthmani Hafs milik Kompleks Raja Fahd (di panel dan di Pengaturan).
 4. Mengganti bahasa antarmuka? Terjemahan dan tafsir pilihan Anda tidak berubah. **Gunakan terjemahan dan tafsir dalam …**
    menggantinya dengan pilihan bawaan bahasa yang baru. Daftar tafsir diawali dengan bahasa antarmuka.
 5. Daftar yang berisi lebih dari 10 pilihan (bahasa terjemahan, tafsir, ayat, juz, bahasa antarmuka) punya kotak pencarian:

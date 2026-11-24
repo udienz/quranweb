@@ -308,6 +308,31 @@ language with its default translation and tafsir (section "Languages"): update t
   tafsir in …" while the choice differs. The tafsir list is grouped by language with `groupTranslations`, the interface
   language first (or, when it has no tafsir, the language of its default tafsir).
 
+### Tajweed colours, ruku marks and the Arabic font (2026-11-24, issues #130 to #132)
+
+- **Data:** our private QUL copy (`providers/qul.ts`, `QURAN_QUL_URL=/data/qul`; made by `scripts/convert-qul.mjs` in the data
+  repository from files downloaded by hand; QUL publishes no licence, so nginx does not serve it). `tajweed/<surah>.json` is
+  the QPC Hafs text of the King Fahd Complex as runs `[text]` or `[text, rule]` (18 rules, no HTML, the verse number left out);
+  `ruku.json` the 558 rukus (we chose QUL's over Tanzil's and `info.json`'s 556). Without the copy (development, a server that
+  lacks it) the provider has no methods and the pages have neither; `deploy.sh` passes the variable only when `qul/` exists.
+- **Service:** `getSurahView` adds `tajweed` (the runs) and `rukuEnd` to each verse. Both are optional: a missing or wrong
+  tajweed file, or a ruku table that fails `checkRanges`, only loses them (logged once an hour). The ruku ends are checked once
+  per process.
+- **Display:** `ArabicText` shows the tajweed runs instead of the chosen Arabic text while the toggle "Tajweed colours" is on
+  (on by default, we decided: so the QPC Hafs text is what readers see unless they turn it off), and `RukuMark` puts ع after
+  the last verse of a ruku while "Ruku marks" is on (on by default). Both are display toggles in `PrefsProvider`, per browser.
+  There is **no ۩ mark of ours**: EQuran.id, the Uthmani Hafs and the QPC text all have ۩ in the 15 verses of prostration
+  already. The rule classes are `tj-<rule>` in `globals.css`, one palette per theme, each colour at least 3:1 against the card
+  and the page at the size of the Arabic text. Not used yet on the verse page and the verse of the day (they show the chosen
+  text).
+- **Arabic font:** Amiri (default) or KFGQPC HAFS Uthmanic Script (`public/fonts/UthmanicHafs_V22.woff2`, the King Fahd
+  Complex's file, unchanged: its licence, `UthmanicHafs_V22.LICENSE.txt`, allows using and distributing it but not
+  modifying it, so never subset or convert it). Like the theme: local storage `quranweb:arabic-font`, the attribute
+  `data-arabic-font` on `<html>` set by `displayScript` before the first paint, and `choices.arabicFont` so it follows the
+  account (`ArabicFontChoice` in `DisplayControls.tsx`, on Settings and in the side panel).
+- **Browser tests:** the fixtures' QUL copy is made up by `scripts/e2e-fixtures.mjs` (the QUL data must not go into this
+  public repository): the first word of every fixture verse is marked `ghunnah`, and each surah is one ruku.
+
 ### Settings page, theme and text size
 
 - **`/settings`** holds every setting of the reader, in sections linked at the top: language, theme and text size
@@ -804,6 +829,7 @@ Local first: the browser copy is always usable, and signing in only adds a copy 
 | `QURAN_SEARCH_INDEX` | `<mirror>/quranweb-search.sqlite` | The search index (`scripts/build-search-index.mjs`); without a local mirror there is none and search says it is not available |
 | `QURAN_DB_PATH` | none | SQLite file of the account database (`/db/quranweb.db` on the servers); unset = no database |
 | `QF_CLIENT_ID`, `QF_CLIENT_SECRET` | none | Content API credentials of our Quran Foundation app (GitHub secrets, passed by the deploy workflows); without them the Urdu tafsir is read from the unauthenticated API |
+| `QURAN_QUL_URL` | none | Directory of our private QUL copy (tajweed text, rukus; `/data/qul` on the servers); unset = no tajweed colours or ruku marks |
 | `QURAN_CONFIG` | none | Path of a JSON file that replaces the built-in source registry (must be readable by the container user, uid 1001) |
 
 ## Project structure
@@ -837,6 +863,7 @@ src/
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     ReciterPicker.tsx          the reciter list: best known first, search in Latin and Arabic
+    ArabicText.tsx             the Arabic of a verse: tajweed runs or the chosen text, and the ع ruku mark
     SearchableSelect.tsx       every choice list: a plain select up to 10 options, a search box over a longer list (combobox);
                                FormChoice.tsx wraps it for a GET form on a server page (`lib/search-text.ts` matches)
     TranslationPicker.tsx      the translations: chosen ones as removable labels, a language list, that language's editions
