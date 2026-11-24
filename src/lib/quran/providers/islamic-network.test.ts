@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createIslamicNetworkAudioProvider, ISLAMIC_NETWORK_RECITERS } from "./islamic-network";
+import { createIslamicNetworkAudioProvider, ISLAMIC_NETWORK_RECITERS, ISLAMIC_NETWORK_SURAH_ONLY } from "./islamic-network";
 
 describe("AlQuran.cloud CDN audio", () => {
   it("builds one URL per bitrate from the ayah's number in the whole Qur'an", () => {
@@ -27,9 +27,26 @@ describe("AlQuran.cloud CDN audio", () => {
     expect(createIslamicNetworkAudioProvider().urls("nobody", 1, 1)).toEqual([]);
   });
 
+  it("has whole-surah files for a few of the verse-by-verse reciters, and for the 145 that have nothing else", () => {
+    const p = createIslamicNetworkAudioProvider({ baseUrl: "https://cdn.test" });
+    expect(p.surahUrls?.("misyari-rasyid-al-afasi", 36)).toEqual(["https://cdn.test/quran/audio-surah/128/ar.alafasy/36.mp3"]);
+    expect(p.surahUrls?.("maher-al-muaiqly", 36)).toEqual([]); // the CDN has no whole-surah file for him
+    expect(ISLAMIC_NETWORK_SURAH_ONLY).toHaveLength(145);
+    const only = p.qaris().filter((q) => q.wholeSurahOnly);
+    expect(only).toHaveLength(145);
+    for (const q of only) {
+      expect(q.id).toMatch(/^surah-[a-z0-9]+$/);
+      expect(p.urls(q.id, 1, 1)).toEqual([]); // no verse files
+      expect(p.surahUrls?.(q.id, 114)?.[0]).toMatch(/^https:\/\/cdn\.test\/quran\/audio-surah\/128\/ar\.[a-z0-9]+\/114\.mp3$/);
+    }
+    // No whole-surah-only reciter shares an id with a verse-by-verse one.
+    const ids = new Set(ISLAMIC_NETWORK_RECITERS.map((r) => r.id));
+    expect(only.some((q) => ids.has(q.id))).toBe(false);
+  });
+
   it("lists every reciter once, with Latin and Arabic names and the AlQuran.cloud credit", () => {
     const qaris = createIslamicNetworkAudioProvider().qaris();
-    expect(qaris).toHaveLength(ISLAMIC_NETWORK_RECITERS.length);
+    expect(qaris).toHaveLength(ISLAMIC_NETWORK_RECITERS.length + ISLAMIC_NETWORK_SURAH_ONLY.length);
     expect(new Set(qaris.map((q) => q.id)).size).toBe(qaris.length);
     for (const q of qaris) {
       expect(q.name).toBeTruthy();

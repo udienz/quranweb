@@ -38,7 +38,8 @@ menurut Cloudflare tidak memasang kuki dan tidak mengenali Anda (lihat kebijakan
 - **Membaca halaman mushaf cetak**: 604 halaman mushaf Madinah, masing-masing dengan teks Arab menyatu dalam satu blok dan
   terjemahan di sampingnya. Balik halaman dengan tombol, nomor halaman, tombol panah, atau geser; audio berlanjut melewati
   beberapa surat dalam satu halaman dan ke halaman berikutnya. Pilih di Pengaturan. ([caranya](#membaca-halaman-mushaf))
-- **Mendengarkan** murottal per ayat dari 23 qari. Yang paling dikenal ada di atas daftar, dan Anda bisa mencari namanya.
+- **Mendengarkan** murottal per ayat dari 23 qari, atau satu surat penuh dari 145 qari lainnya. Yang paling dikenal ada di
+  atas daftar, dan Anda bisa mencari namanya.
   Audio lanjut sendiri ke ayat berikutnya; di akhir surat audio berhenti, mengulang surat, atau lanjut ke surat berikutnya,
   sesuai pilihan Anda. Anda juga bisa **memutar satu juz penuh**, menyeberangi surat. ([caranya](#mendengarkan-murottal))
 - **Mengendalikan audio** dari layar kunci ponsel (jeda, ayat berikutnya), atau di komputer dengan Spasi (putar atau jeda)
@@ -167,7 +168,8 @@ Anda masuk.
 ![Bagian Audio di halaman Pengaturan: qari, kualitas audio, apa yang terjadi saat surat selesai, dan daftar untuk memutar satu juz](docs/screenshots/id/how-listen.png)
 
 1. Pilih qari di Pengaturan bacaan atau di bagian Audio halaman Pengaturan. Ketik sebagian nama di kotak pencarian di
-   atas daftar untuk mencarinya.
+   atas daftar untuk mencarinya. Kelompok terakhir, **Satu surat penuh saja**, berisi qari dengan satu rekaman per surat:
+   untuk mereka hanya ada **Putar surat** (tanpa tombol di ayat, tanpa juz, dan menghafal dengan mendengar tidak tersedia).
 2. Tekan putar di sebuah ayat. Di tampilan mushaf, ketuk nomor ayat dulu: bilah berisi tombol putar muncul di bawah.
 3. Untuk memilih apa yang terjadi di akhir surat, pakai daftar di kepala surat (Berhenti di akhir, Ulangi surat, Putar
    surat berikutnya).
@@ -259,8 +261,9 @@ mencari ayatnya dan tidak disimpan bersama akun Anda (lihat kebijakan privasi).
 ### Membagikan ayat
 
 Tekan tombol bagikan di sebuah ayat lalu pilih **Salin ayat** (teks Arab dan terjemahan Anda, rujukan seperti "QS. Al-Baqarah:
-255", dan tautan), **Salin tautan ayat**, **Bagikan…** (menu bagikan ponsel Anda, bila browser punya) atau **WhatsApp**. Di
-tampilan mushaf, ketuk nomor ayat dulu (gambar di bagian "Melanjutkan bacaan dan menandai progres"). Tautannya membuka ayat
+255", dan tautan), **Salin tautan ayat**, **Bagikan…** (menu bagikan ponsel Anda, bila browser punya), **Bagikan sebagai gambar** atau **WhatsApp**. Gambarnya berupa kartu berisi teks Arab, terjemahan pertama
+Anda, rujukan, kredit terjemahan, dan alamat situs; bila browser Anda tidak bisa membagikan berkas, gambar disimpan ke
+perangkat. Di tampilan mushaf, ketuk nomor ayat dulu (gambar di bagian "Melanjutkan bacaan dan menandai progres"). Tautannya membuka ayat
 itu di halamannya sendiri, dengan tautan untuk membacanya di dalam surat dan ke ayat sebelum dan sesudahnya.
 
 ### Memasang sebagai aplikasi

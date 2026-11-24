@@ -422,3 +422,20 @@ describe("tajweed text and ruku marks", () => {
     vi.restoreAllMocks();
   });
 });
+
+describe("a reciter with whole surahs only", () => {
+  it("has no audio for a verse, the whole surah's file, and is not marked for the data saver", async () => {
+    const surahOnly: AudioProvider = {
+      id: "whole",
+      qaris: () => [{ id: "qari-b", name: "Qari B", source, wholeSurahOnly: true }],
+      urls: () => [],
+      surahUrls: (_q, surah) => [`https://whole.test/${surah}.mp3`],
+    };
+    const svc = createQuranService(config({ audioProviders: [audioProvider("a1", "https://a1"), surahOnly] }));
+    const view = await svc.getSurahView(1, { qari: "qari-b" });
+    expect(view.qari.wholeSurahOnly).toBe(true);
+    expect(view.verses.every((v) => v.audio.length === 0 && v.audioSaver === undefined)).toBe(true);
+    expect(view.surahAudio).toEqual(["https://whole.test/1.mp3"]);
+    expect(svc.getCatalog().qaris.find((q) => q.id === "qari-b")?.dataSaver).toBeUndefined();
+  });
+});

@@ -33,6 +33,7 @@ export default async function AboutPage() {
   const quran = getQuran();
   await quran.getSurahList();
   const catalog = quran.getCatalog();
+  const surahOnly = catalog.qaris.filter((q) => q.wholeSurahOnly);
   const byKind = (kind: EditionKind): Edition[] => catalog.editions.filter((e) => e.kind === kind);
   const language = languageNamer(t, locale);
   const head = (
@@ -80,7 +81,7 @@ export default async function AboutPage() {
           <table className="w-full text-sm">
             {head}
             <tbody className="divide-y divide-border">
-              {catalog.qaris.map((q) => (
+              {catalog.qaris.filter((q) => !q.wholeSurahOnly).map((q) => (
                 <tr key={q.id}>
                   <td className="px-3 py-2 font-medium">{q.name}</td>
                   <td className="px-3 py-2">{language("ar")}</td>
@@ -90,6 +91,22 @@ export default async function AboutPage() {
             </tbody>
           </table>
         </div>
+        {/* The reciters with one recording per surah are many (issue #111): folded, with the same columns. */}
+        <details className="mb-5 overflow-x-auto rounded-2xl border border-border bg-card">
+          <summary className="cursor-pointer px-3 py-2 font-semibold">{t("about.recitersSurahOnly", { count: surahOnly.length })}</summary>
+          <table className="w-full border-t border-border text-sm">
+            {head}
+            <tbody className="divide-y divide-border">
+              {surahOnly.map((q) => (
+                <tr key={q.id}>
+                  <td className="px-3 py-2 font-medium">{q.name}</td>
+                  <td className="px-3 py-2">{language("ar")}</td>
+                  <Credit source={q.source} locale={locale} unknown={t("about.unknownLicence")} />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
       </section>
 
       <section className="mb-8">

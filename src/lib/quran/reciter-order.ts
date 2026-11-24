@@ -19,11 +19,17 @@ export const BEST_KNOWN_RECITERS = [
   "muhammad-ayyub",
 ];
 
-export function orderReciters(qaris: Qari[]): { bestKnown: Qari[]; others: Qari[] } {
+/** The reciters in three groups: the best known, the others by name, and (last) those with whole surahs only, by name. */
+export function orderReciters(qaris: Qari[]): { bestKnown: Qari[]; others: Qari[]; surahOnly: Qari[] } {
   const byId = new Map(qaris.map((q) => [q.id, q]));
-  const bestKnown = BEST_KNOWN_RECITERS.map((id) => byId.get(id)).filter((q): q is Qari => !!q);
-  const others = qaris.filter((q) => !BEST_KNOWN_RECITERS.includes(q.id)).sort((a, b) => a.name.localeCompare(b.name, "en"));
-  return { bestKnown, others };
+  const bestKnown = BEST_KNOWN_RECITERS.map((id) => byId.get(id)).filter((q): q is Qari => !!q && !q.wholeSurahOnly);
+  const byName = (a: Qari, b: Qari) => a.name.localeCompare(b.name, "en");
+  const rest = qaris.filter((q) => !bestKnown.includes(q));
+  return {
+    bestKnown,
+    others: rest.filter((q) => !q.wholeSurahOnly).sort(byName),
+    surahOnly: rest.filter((q) => q.wholeSurahOnly).sort(byName),
+  };
 }
 
 /** Lower case, without diacritics (Latin and Arabic) and without hyphens, apostrophes or extra spaces. */

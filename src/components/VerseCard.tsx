@@ -90,6 +90,7 @@ export function VerseActions({
   surahName,
   playing,
   onPlay,
+  editions,
   menuUp = false,
 }: {
   verse: VerseView;
@@ -97,6 +98,8 @@ export function VerseActions({
   surahName: string;
   playing: boolean;
   onPlay: () => void;
+  /** Name and direction of each edition in use, for the credit on the picture. */
+  editions?: Record<string, { name: string; language: string; direction: "ltr" | "rtl" }>;
   /** Open the share menu above its button, for the bar at the bottom of the screen. */
   menuUp?: boolean;
 }) {
@@ -108,17 +111,20 @@ export function VerseActions({
 
   return (
     <div className="flex items-center">
-      <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
-        {playing ? (
-          <svg {...iconProps}>
-            <path d="M8 5v14M16 5v14" />
-          </svg>
-        ) : (
-          <svg {...iconProps}>
-            <path d="M7 4.5v15l12-7.5z" />
-          </svg>
-        )}
-      </IconButton>
+      {/* A reciter with whole surahs only has no file for a single verse (issue #111): no play button for it. */}
+      {verse.audio.length > 0 && (
+        <IconButton label={playing ? t("verse.pause") : t("verse.play")} onClick={onPlay} active={playing}>
+          {playing ? (
+            <svg {...iconProps}>
+              <path d="M8 5v14M16 5v14" />
+            </svg>
+          ) : (
+            <svg {...iconProps}>
+              <path d="M7 4.5v15l12-7.5z" />
+            </svg>
+          )}
+        </IconButton>
+      )}
       <IconButton
         label={bookmark ? t("verse.removeBookmark") : t("verse.bookmark")}
         onClick={() => userDataActions.toggleBookmark(surahNumber, n)}
@@ -144,6 +150,15 @@ export function VerseActions({
         verse={n}
         arabic={verse.arabic}
         translations={verse.translations.map((tr) => tr.text)}
+        card={
+          verse.translations[0]
+            ? {
+                text: verse.translations[0].text,
+                credit: editions?.[verse.translations[0].edition]?.name ?? "",
+                dir: editions?.[verse.translations[0].edition]?.direction ?? "ltr",
+              }
+            : undefined
+        }
         up={menuUp}
       />
     </div>
@@ -197,7 +212,7 @@ export default function VerseCard({
           </span>
           {isRead && <span className="hidden whitespace-nowrap text-xs text-muted-foreground sm:inline">{t("verse.read")}</span>}
         </div>
-        <VerseActions verse={verse} surahNumber={surahNumber} surahName={surahName} playing={playing} onPlay={onPlay} />
+        <VerseActions verse={verse} surahNumber={surahNumber} surahName={surahName} playing={playing} onPlay={onPlay} editions={editions} />
       </div>
 
       {mode === "reading" ? (

@@ -431,6 +431,19 @@ language with its default translation and tafsir (section "Languages"): update t
   URLs (`001001.mp3` is surah 1, verse 1) to see the order. `page.waitForFunction` does not work here (the CSP blocks it and
   the error is easy to swallow): poll with `page.evaluate` in a loop instead.
 
+### Reciters with whole surahs only (2026-11-24, issue #111)
+
+The CDN's own list (`/quran/info/by-surah/info.json`) was read on 2026-11-24: 155 Arabic editions have all 114 whole-surah
+files, only at 128 kbps (so no data saver for them; issue #108's second half stays blocked). 3 are our verse-by-verse reciters
+(Alafasy, Abdul Basit, Basfar: `surahBitrate` in `islamic-network.ts`, which gives them `surahUrls`), 145 are **reciters with
+whole surahs only** (`providers/islamic-network-surah-only.json`, named by the AlQuran.cloud API; 7 more editions have no name
+there and are left out; five surahs of each were fetched with HEAD). Their ids are `surah-<edition>` (stable: stored in
+readers' choices), they have `Qari.wholeSurahOnly`, no verse URLs, and `surahUrls` only. The reciter list puts them in a last
+group ("Whole surah only", `orderReciters`), the About page folds them in a `<details>`. **For such a reciter** the reader
+hides the verse play button (`VerseActions`: `verse.audio.length > 0`), the juz list (header and Settings) and the audio
+parts of the memorization panel (`withAudio`), and shows `reader.surahOnlyHint`; only "Play the surah" plays, with the usual
+end-of-surah modes. Re-run the check before adding or removing one (the CDN's list changes).
+
 ### Whole surah as one recording (2026-11-22)
 
 A "Play the surah" button (`PlaySurahButton`) in the surah header and in each surah's part of a mushaf page plays the surah as **one file**
@@ -588,6 +601,13 @@ Modelled on hadistweb, which has a page for each hadith (the owner's decision: u
   page's address (`shareText`). **The citation** is `QS. Al-Baqarah: 255` in Indonesian and `Qur'an 2:255 (Al-Baqarah)` in every other
   language (`shareReference`; a citation is a name and numbers, so it is not in the catalogs; add a language's own form there when
   someone who reads it asks). In the mushaf bar the menu opens upward (`menuUp`).
+- **Share as an image** (issue #48, 2026-11-24): the share menu draws a card on a canvas in the browser (`lib/verse-card.ts`,
+  the layout as pure functions tested with a stand-in measure; `lib/verse-card-canvas.ts`, the drawing): 1080 px wide, square for
+  a short verse and taller (up to 2160 px) for a long one, with the Arabic (the reader's Arabic text and font), the citation,
+  the first chosen translation, that edition's name as its credit and the site's address, in cream and gold on the brand's
+  teal in both themes. If even the smallest Arabic size does not fit, the translation is cut at a word and ends with "…": the
+  Arabic never is. Then `navigator.share({ files })` where the browser can share a file, otherwise a download
+  (`quranweb-<surah>-<verse>.png`). No server work, no library. The translation is drawn as published, footnote markers included.
 - **`sitemap/1.xml`** lists the 6,236 verse pages (`verseEntries`, from the surah list's verse counts, no text); `robots.ts` names it.
 
 ### Being found: robots, sitemap and link previews (roadmap phase 6, step 1; 2026-11-22)

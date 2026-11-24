@@ -7,10 +7,18 @@
 // rest (148) are whole-surah recordings only, which this player (verse by verse) cannot use. Each bitrate listed below has every
 // verse and answered for the first, the last and three random verses. The two reciters that EQuran.id has too (Alafasy and
 // As-Sudais) keep EQuran's ID, so this CDN is their fallback. Re-check before adding one.
+//
+// Whole surahs (issue #111, 2026-11-24): `{base}/quran/audio-surah/{bitrate}/{edition}/{surah}.mp3`. The CDN's own list
+// (`/quran/info/by-surah/info.json`) has 155 Arabic editions with all 114 files, only at 128 kbps (so no data saver for them);
+// 3 of them are ours (Alafasy, Abdul Basit, Basfar: `surahBitrate` below) and 145 are reciters with whole surahs only
+// (`islamic-network-surah-only.json`, named by the AlQuran.cloud API; 7 more editions have no name there and are left out).
+// Five surahs of every one of them were also fetched with a HEAD request. These reciters have no verse files, so they get
+// no verse URLs and `wholeSurahOnly`: the reader offers "Play the surah" only.
 
 import type { AudioProvider } from "../provider";
 import { ayahNumber } from "../ayah-number";
 import type { Qari, SourceInfo } from "../types";
+import surahOnly from "./islamic-network-surah-only.json";
 
 export const ISLAMIC_NETWORK_CDN = "https://cdn.islamic.network";
 
@@ -23,12 +31,14 @@ interface Reciter {
   bitrates: string[];
   name: string;
   arabicName: string;
+  /** The bitrate of the whole-surah files, when the CDN has them for this reciter as well. */
+  surahBitrate?: string;
 }
 
 export const ISLAMIC_NETWORK_RECITERS: Reciter[] = [
-  { id: "misyari-rasyid-al-afasi", edition: "ar.alafasy", bitrates: ["128", "64"], name: "Misyari Rasyid Al-Afasi", arabicName: "مشاري راشد العفاسي" },
+  { id: "misyari-rasyid-al-afasi", edition: "ar.alafasy", bitrates: ["128", "64"], surahBitrate: "128", name: "Misyari Rasyid Al-Afasi", arabicName: "مشاري راشد العفاسي" },
   { id: "abdurrahman-as-sudais", edition: "ar.abdurrahmaansudais", bitrates: ["64", "192"], name: "Abdurrahman As-Sudais", arabicName: "عبد الرحمن السديس" },
-  { id: "abdul-basit-abdus-samad", edition: "ar.abdulbasitmurattal", bitrates: ["64", "192"], name: "Abdul Basit Abdus Samad", arabicName: "عبد الباسط عبد الصمد" },
+  { id: "abdul-basit-abdus-samad", edition: "ar.abdulbasitmurattal", bitrates: ["64", "192"], surahBitrate: "128", name: "Abdul Basit Abdus Samad", arabicName: "عبد الباسط عبد الصمد" },
   { id: "abdul-basit-abdus-samad-2", edition: "ar.abdulsamad", bitrates: ["64"], name: "Abdul Basit Abdus Samad (2)", arabicName: "عبد الباسط عبد الصمد (٢)" },
   { id: "mahmoud-khalil-al-husary", edition: "ar.husary", bitrates: ["64"], name: "Mahmoud Khalil Al-Husary", arabicName: "محمود خليل الحصري" },
   { id: "mahmoud-khalil-al-husary-mujawwad", edition: "ar.husarymujawwad", bitrates: ["128", "64"], name: "Mahmoud Khalil Al-Husary (Mujawwad)", arabicName: "محمود خليل الحصري (المجود)" },
@@ -41,11 +51,22 @@ export const ISLAMIC_NETWORK_RECITERS: Reciter[] = [
   { id: "muhammad-ayyub", edition: "ar.muhammadayyoub", bitrates: ["128"], name: "Muhammad Ayyub", arabicName: "محمد أيوب" },
   { id: "muhammad-jibreel", edition: "ar.muhammadjibreel", bitrates: ["128"], name: "Muhammad Jibreel", arabicName: "محمد جبريل" },
   { id: "hani-ar-rifai", edition: "ar.hanirifai", bitrates: ["64", "192"], name: "Hani Ar-Rifai", arabicName: "هاني الرفاعي" },
-  { id: "abdullah-basfar", edition: "ar.abdullahbasfar", bitrates: ["64", "32"], name: "Abdullah Basfar", arabicName: "عبد الله بصفر" },
+  { id: "abdullah-basfar", edition: "ar.abdullahbasfar", bitrates: ["64", "32"], surahBitrate: "128", name: "Abdullah Basfar", arabicName: "عبد الله بصفر" },
   { id: "ayman-suwayd", edition: "ar.aymanswoaid", bitrates: ["64"], name: "Ayman Suwayd", arabicName: "أيمن سويد" },
   { id: "ibrahim-al-akhdar", edition: "ar.ibrahimakhbar", bitrates: ["32"], name: "Ibrahim Al-Akhdar", arabicName: "إبراهيم الأخضر" },
   { id: "shahriar-parhizgar", edition: "ar.parhizgar", bitrates: ["48"], name: "Shahriar Parhizgar", arabicName: "شهريار پرهيزگار" },
 ];
+
+interface SurahOnlyReciter {
+  edition: string;
+  name: string;
+  arabicName: string;
+  bitrate: string;
+}
+
+/** Our ID of a whole-surah-only reciter: stable (it is stored in readers' choices), from the edition's name. */
+const surahOnlyId = (edition: string) => `surah-${edition.replace(/^ar\./, "")}`;
+export const ISLAMIC_NETWORK_SURAH_ONLY: SurahOnlyReciter[] = surahOnly;
 
 const SOURCE: SourceInfo = {
   name: "AlQuran.cloud",
@@ -64,12 +85,37 @@ const SOURCE: SourceInfo = {
   },
 };
 
+const SURAH_ONLY_SOURCE: SourceInfo = {
+  name: "AlQuran.cloud",
+  url: "https://alquran.cloud/cdn",
+  attribution: {
+    en: "Whole-surah recording, via the AlQuran.cloud CDN (Islamic Network)",
+    id: "Rekaman satu surat penuh, melalui CDN AlQuran.cloud (Islamic Network)",
+  },
+};
+
 export function createIslamicNetworkAudioProvider(options: { baseUrl?: string } = {}): AudioProvider {
   const base = (options.baseUrl ?? ISLAMIC_NETWORK_CDN).replace(/\/$/, "");
   const byId = new Map(ISLAMIC_NETWORK_RECITERS.map((r) => [r.id, r]));
+  const surahOnlyById = new Map(ISLAMIC_NETWORK_SURAH_ONLY.map((r) => [surahOnlyId(r.edition), r]));
   return {
     id: "islamic-network",
-    qaris: (): Qari[] => ISLAMIC_NETWORK_RECITERS.map((r) => ({ id: r.id, name: r.name, arabicName: r.arabicName, source: SOURCE })),
+    qaris: (): Qari[] => [
+      ...ISLAMIC_NETWORK_RECITERS.map((r) => ({ id: r.id, name: r.name, arabicName: r.arabicName, source: SOURCE })),
+      ...ISLAMIC_NETWORK_SURAH_ONLY.map((r) => ({
+        id: surahOnlyId(r.edition),
+        name: r.name,
+        arabicName: r.arabicName,
+        source: SURAH_ONLY_SOURCE,
+        wholeSurahOnly: true,
+      })),
+    ],
+    surahUrls(qari, surah) {
+      const reciter = byId.get(qari);
+      const only = surahOnlyById.get(qari);
+      const edition = reciter?.surahBitrate ? { edition: reciter.edition, bitrate: reciter.surahBitrate } : only;
+      return edition ? [`${base}/quran/audio-surah/${edition.bitrate}/${edition.edition}/${surah}.mp3`] : [];
+    },
     urls(qari, surah, verse) {
       const reciter = byId.get(qari);
       if (!reciter) return [];

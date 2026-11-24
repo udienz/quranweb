@@ -1,0 +1,872 @@
+[
+ {
+  "edition": "ar.abdulazizazzahrani",
+  "name": "Abdul Aziz az-Zahrani",
+  "arabicName": "عبد العزيز الزهراني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulbariaththubaity",
+  "name": "Abdul Bari ath-Thubaity",
+  "arabicName": "عبد الباري الثبيتي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulbarimohammed",
+  "name": "Abdul Bari Mohammed",
+  "arabicName": "عبد الباري محمد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulbasitmujawwad",
+  "name": "Abdul Basit Abdus-Samad (Mujawwad)",
+  "arabicName": "عبد الباسط عبد الصمد (مجوَّد)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulkareemalhazmi",
+  "name": "Abdul Kareem al-Hazmi",
+  "arabicName": "عبد الكريم الحازمي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulmohsenalharthy",
+  "name": "Abdul Mohsen al-Harthy",
+  "arabicName": "عبد المحسن الحارثي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulmunimabdulmubdi",
+  "name": "Abdul Munim Abdul Mubdi",
+  "arabicName": "عبد المنعم عبد المبدئ",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdulwadoodhaneef",
+  "name": "Abdul Wadood Haneef",
+  "arabicName": "عبد الودود حنيف",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdullahkhulaifi",
+  "name": "Abdullah al-Khulaifi",
+  "arabicName": "عبد الله الخليفي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdullahalmatrood",
+  "name": "Abdullah al-Matrood",
+  "arabicName": "عبد الله المطرود",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdullahawadaljuhani",
+  "name": "Abdullah Awad al-Juhani",
+  "arabicName": "عبد الله عواد الجهني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdullahkhayat",
+  "name": "Abdullah Khayat",
+  "arabicName": "عبد الله خياط",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdurrasheedsufiabialhaarithanalkasaaee",
+  "name": "Abdur-Rasheed Sufi (Abul-Harith from al-Kisa'i)",
+  "arabicName": "عبد الرشيد صوفي (أبو الحارث عن الكسائي)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdurrasheedsufiaddoorianabiamr",
+  "name": "Abdur-Rasheed Sufi (ad-Doori from Abu Amr)",
+  "arabicName": "عبد الرشيد صوفي (الدوري عن أبي عمرو)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdurrasheedsufisoosi",
+  "name": "Abdur-Rasheed Sufi (as-Soosi)",
+  "arabicName": "عبد الرشيد صوفي (السوسي)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abdurrasheedsufishubahanasim",
+  "name": "Abdur-Rasheed Sufi (Shu'bah from Asim)",
+  "arabicName": "عبد الرشيد صوفي (شعبة عن عاصم)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abuabdullahmuniraltounsi",
+  "name": "Abu Abdullah Munir at-Tounsi",
+  "arabicName": "أبو عبد الله منير التونسي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.abubakraldhabi",
+  "name": "Abu Bakr adh-Dhabi",
+  "arabicName": "أبو بكر الذهبي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.adilkalbani",
+  "name": "Adil al-Kalbani",
+  "arabicName": "عادل الكلباني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmadalhawashy",
+  "name": "Ahmad al-Hawashy",
+  "arabicName": "أحمد الحواشي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmadkhaderaltarabulsi",
+  "name": "Ahmad Khader at-Tarabulsi",
+  "arabicName": "أحمد خضر الطرابلسي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmadsulaiman",
+  "name": "Ahmad Sulaiman",
+  "arabicName": "أحمد سليمان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedalajmi",
+  "name": "Ahmed al-Ajmi",
+  "arabicName": "أحمد العجمي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedalhammad",
+  "name": "Ahmed al-Hammad",
+  "arabicName": "أحمد الحماد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedalmisbahi",
+  "name": "Ahmed al-Misbahi",
+  "arabicName": "أحمد المصباحي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedamir",
+  "name": "Ahmed Amir",
+  "arabicName": "أحمد عامر",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedmohamedsalama",
+  "name": "Ahmed Mohamed Salama",
+  "arabicName": "أحمد محمد سلامة",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ahmedsaber",
+  "name": "Ahmed Saber",
+  "arabicName": "أحمد صابر",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alashryomran",
+  "name": "al-Ashry Omran",
+  "arabicName": "العشري عمران",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alfatehmuhammadzubair",
+  "name": "al-Fateh Muhammad Zubair",
+  "arabicName": "الفاتح محمد الزبير",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alhusaynialazazi",
+  "name": "al-Husayni al-Azazi",
+  "arabicName": "الحسيني العزازي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alhusaynialazazichildren",
+  "name": "al-Husayni al-Azazi (with children)",
+  "arabicName": "الحسيني العزازي (مع الأطفال)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.obeikan",
+  "name": "al-Obeikan",
+  "arabicName": "العبيكان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alzainmohamedahmed",
+  "name": "al-Zain Mohamed Ahmed",
+  "arabicName": "الزين محمد أحمد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.aliabdurrahmanalhuthaify",
+  "name": "Ali Abdur-Rahman al-Huthaify",
+  "arabicName": "علي عبد الرحمن الحذيفي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.aliabdurrahmanalhuthaifyqaloon",
+  "name": "Ali Abdur-Rahman al-Huthaify (Qaloon)",
+  "arabicName": "علي عبد الرحمن الحذيفي (قالون)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.alihajjajsouissi",
+  "name": "Ali Hajjaj Souissi",
+  "arabicName": "علي حجاج السويسي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.oimaoqataris",
+  "name": "ar.oimaoqataris",
+  "arabicName": "ar.oimaoqataris",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.aymanswed",
+  "name": "Ayman Swed",
+  "arabicName": "أيمن سويد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.azizalili",
+  "name": "Aziz Alili",
+  "arabicName": "عزيز عليلي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.basselabdulrahmanraoui",
+  "name": "Bassel Abdul-Rahman ar-Raoui",
+  "arabicName": "باسل عبد الرحمن الراوي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.benkirane",
+  "name": "Benkirane",
+  "arabicName": "بنكيران",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.darwishfarajdarwishalattar",
+  "name": "Darwish Faraj Darwish al-Attar",
+  "arabicName": "درويش فرج درويش العطار",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.emadalmansary",
+  "name": "Emad al-Mansary",
+  "arabicName": "عماد المنصري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ezzatsabri",
+  "name": "Ezzat Sabri",
+  "arabicName": "عزت صبري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.faresabbad",
+  "name": "Fares Abbad",
+  "arabicName": "فارس عباد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.fouadalkhamiri",
+  "name": "Fouad al-Khamiri",
+  "arabicName": "فؤاد الخامري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.hamadsinan",
+  "name": "Hamad Sinan",
+  "arabicName": "حمد سنان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.hamdyalsayedtolbasaad",
+  "name": "Hamdy al-Sayed Tolba Saad",
+  "arabicName": "حمدي السيد طلبة سعد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.haniarrifai",
+  "name": "Hani ar-Rifai",
+  "arabicName": "هاني الرفاعي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.hasanhashem",
+  "name": "Hasan Hashem",
+  "arabicName": "حسن هاشم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.hassansaleh",
+  "name": "Hassan Saleh",
+  "arabicName": "حسن صالح",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.hatemfarid",
+  "name": "Hatem Farid",
+  "arabicName": "حاتم فريد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ibrahimaldossari",
+  "name": "Ibrahim ad-Dossari",
+  "arabicName": "إبراهيم الدوسري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ibrahimalakhdar",
+  "name": "Ibrahim al-Akhdar",
+  "arabicName": "إبراهيم الأخضر",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ibrahimaljormy",
+  "name": "Ibrahim al-Jormy",
+  "arabicName": "إبراهيم الجرمي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.ilhantok",
+  "name": "Ilhan Tok",
+  "arabicName": "إلهان توك",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.imadzuhairhafez",
+  "name": "Imad Zuhair Hafez",
+  "arabicName": "عماد زهير حافظ",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.jamaanalosaimi",
+  "name": "Jamaan al-Osaimi",
+  "arabicName": "جمعان العصيمي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.jamalshakerabdullah",
+  "name": "Jamal Shaker Abdullah",
+  "arabicName": "جمال شاكر عبد الله",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.jazzaalswaileh",
+  "name": "Jazza al-Swaileh",
+  "arabicName": "جزاع الصويلح",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.kamel",
+  "name": "Kamel",
+  "arabicName": "كامل",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khaledalqahtani",
+  "name": "Khaled al-Qahtani",
+  "arabicName": "خالد القحطاني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khaledbarakat",
+  "name": "Khaled Barakat",
+  "arabicName": "خالد بركات",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khalidabdulkafi",
+  "name": "Khalid Abdul-Kafi",
+  "arabicName": "خالد عبد الكافي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khalidaljalil",
+  "name": "Khalid al-Jalil",
+  "arabicName": "خالد الجليل",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khalidalmohanna",
+  "name": "Khalid al-Mohanna",
+  "arabicName": "خالد المهنا",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.khalifaaltunaiji",
+  "name": "Khalifa at-Tunaiji",
+  "arabicName": "خليفة الطنيجي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.laayounelkouchi",
+  "name": "Laayoun el-Kouchi",
+  "arabicName": "العيون الكوشي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.lesaintcorantraduitenfrancais",
+  "name": "Le Saint Coran traduit en français",
+  "arabicName": "القرآن الكريم مترجمًا بالفرنسية",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahershakhashiro",
+  "name": "Maher Shakhashiro",
+  "arabicName": "ماهر شخاشيرو",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahmoodalrifai",
+  "name": "Mahmood al-Rifai",
+  "arabicName": "محمود الرفاعي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahmoudalialbanna",
+  "name": "Mahmoud Ali al-Banna",
+  "arabicName": "محمود علي البنا",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahmoudelsheimy",
+  "name": "Mahmoud el-Sheimy",
+  "arabicName": "محمود الشيمي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahmoudsaaddarouich",
+  "name": "Mahmoud Saad Darouich",
+  "arabicName": "محمود سعد درويش",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mahmoudsayedeltayeb",
+  "name": "Mahmoud Sayed el-Tayeb",
+  "arabicName": "محمود سيد الطيب",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.misharyrashidalafasy",
+  "name": "Mishary Rashid Alafasy",
+  "arabicName": "مشاري راشد العفاسي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.moeedhalharthi",
+  "name": "Moeedh al-Harthi",
+  "arabicName": "معيض الحارثي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedabdelaziz",
+  "name": "Mohamed Abdel-Aziz",
+  "arabicName": "محمد عبد العزيز",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedabdelhakimsaadalabdullah",
+  "name": "Mohamed Abdel-Hakim Saad al-Abdullah",
+  "arabicName": "محمد عبد الحكيم سعد العبد الله",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedaljaberyalheyani",
+  "name": "Mohamed al-Jabery al-Heyani",
+  "arabicName": "محمد الجابري الحياني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedalmohisni",
+  "name": "Mohamed al-Mohisni",
+  "arabicName": "محمد المحيسني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedtablawi",
+  "name": "Mohamed at-Tablawi",
+  "arabicName": "محمد الطبلاوي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedelkantaoui",
+  "name": "Mohamed el-Kantaoui",
+  "arabicName": "محمد القنطاوي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedhassan",
+  "name": "Mohamed Hassan",
+  "arabicName": "محمد حسان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedmaabad",
+  "name": "Mohamed Maabad",
+  "arabicName": "محمد معبد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedosmankhan",
+  "name": "Mohamed Osman Khan",
+  "arabicName": "محمد عثمان خان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohamedshaabanabuqarn",
+  "name": "Mohamed Shaaban Abu Qarn",
+  "arabicName": "محمد شعبان أبو قرن",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohammadismaeelalmuqaddim",
+  "name": "Mohammad Ismaeel al-Muqaddim",
+  "arabicName": "محمد إسماعيل المقدم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohammadrachadalshareef",
+  "name": "Mohammad Rachad al-Shareef",
+  "arabicName": "محمد رشاد الشريف",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mohammedbinsalehabuzaid",
+  "name": "Mohammed bin Saleh Abu Zaid",
+  "arabicName": "محمد بن صالح أبو زيد",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muftahalsaltany",
+  "name": "Muftah al-Saltany",
+  "arabicName": "مفتاح السلطني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadabdulkareem",
+  "name": "Muhammad Abdul-Kareem",
+  "arabicName": "محمد عبد الكريم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadalaalimaldokali",
+  "name": "Muhammad al-Aalim ad-Dokali",
+  "arabicName": "محمد العالم الدوكالي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadalluhaidan",
+  "name": "Muhammad al-Luhaidan",
+  "arabicName": "محمد اللحيدان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadalmehysni",
+  "name": "Muhammad al-Mehysni",
+  "arabicName": "محمد المحيسني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadanwarshahat",
+  "name": "Muhammad Anwar Shahat",
+  "arabicName": "محمد أنور شحات",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadalsubayyil",
+  "name": "Muhammad as-Subayyil",
+  "arabicName": "محمد السبيل",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadayyub",
+  "name": "Muhammad Ayyub",
+  "arabicName": "محمد أيوب",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadsalehalimshah",
+  "name": "Muhammad Saleh Alim Shah",
+  "arabicName": "محمد صالح عالم شاه",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadsiddiqalminshawimujawwad",
+  "name": "Muhammad Siddiq al-Minshawi (Mujawwad)",
+  "arabicName": "محمد صديق المنشاوي (مجوَّد)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.muhammadsulaimanpatel",
+  "name": "Muhammad Sulaiman Patel",
+  "arabicName": "محمد سليمان باتل",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.musabilal",
+  "name": "Musa Bilal",
+  "arabicName": "موسى بلال",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mustafaallahouni",
+  "name": "Mustafa al-Lahouni",
+  "arabicName": "مصطفى اللاهوني",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mustafaismail",
+  "name": "Mustafa Ismail",
+  "arabicName": "مصطفى إسماعيل",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mustafaraadalazzawi",
+  "name": "Mustafa Raad al-Azzawi",
+  "arabicName": "مصطفى رعد العزاوي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.mustaphagharbi",
+  "name": "Mustapha Gharbi",
+  "arabicName": "مصطفى غربي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.nabilarrifai",
+  "name": "Nabil ar-Rifai",
+  "arabicName": "نبيل الرفاعي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.nasseralqatami",
+  "name": "Nasser al-Qatami",
+  "arabicName": "ناصر القطامي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.neamahalhassan",
+  "name": "Neamah al-Hassan",
+  "arabicName": "نعمة الحسن",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.omaralkazabri",
+  "name": "Omar al-Kazabri",
+  "arabicName": "عمر القزابري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.osamabinalialghanim",
+  "name": "Osama bin Ali al-Ghanim",
+  "arabicName": "أسامة بن علي الغانم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.rachidbelalia",
+  "name": "Rachid Belalia",
+  "arabicName": "رشيد بلعالية",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.saberabdulhakam",
+  "name": "Saber Abdul-Hakam",
+  "arabicName": "صابر عبد الحكم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.sadaqatali",
+  "name": "Sadaqat Ali",
+  "arabicName": "صداقت علي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.sahlyasin",
+  "name": "Sahl Yasin",
+  "arabicName": "سهل ياسين",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.saidalshaalan",
+  "name": "Said ash-Shaalan",
+  "arabicName": "سعيد الشعلان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.salahalbudair",
+  "name": "Salah al-Budair",
+  "arabicName": "صلاح البدير",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.salahalhashem",
+  "name": "Salah al-Hashem",
+  "arabicName": "صلاح الهاشم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.salahbaothman",
+  "name": "Salah Ba-Othman",
+  "arabicName": "صلاح باعثمان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.samirbelaachya",
+  "name": "Samir Belaachya",
+  "arabicName": "سمير بلعشية",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.saudalshuraim",
+  "name": "Saud ash-Shuraim",
+  "arabicName": "سعود الشريم",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.sayedramadan",
+  "name": "Sayed Ramadan",
+  "arabicName": "سيد رمضان",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.shahriarparhizgar",
+  "name": "Shahriar Parhizgar",
+  "arabicName": "شهريار پرهيزگار",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.sudaisshuraymnaeemsultan",
+  "name": "Sudais & Shuraym (with Naeem Sultan translation)",
+  "arabicName": "السديس والشريم (مع ترجمة نعيم سلطان)",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.tamerislam",
+  "name": "Tamer Islam",
+  "arabicName": "تامر إسلام",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.tareqabdulganidaawob",
+  "name": "Tareq Abdul-Gani Daawob",
+  "arabicName": "طارق عبد الغني دعوب",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.tawfeeqassayegh",
+  "name": "Tawfeeq as-Sayegh",
+  "arabicName": "توفيق الصايغ",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.turkiebeidalmarri",
+  "name": "Turki Ebeid al-Marri",
+  "arabicName": "تركي عبيد المري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.waeldesouky",
+  "name": "Wael ad-Desouky",
+  "arabicName": "وائل الدسوقي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.waelradwanqureshi",
+  "name": "Wael Radwan Qureshi",
+  "arabicName": "وائل رضوان قريشي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.waleednaehi",
+  "name": "Waleed an-Naehi",
+  "arabicName": "وليد الناهي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.waleedidreesalmaneese",
+  "name": "Waleed Idrees al-Maneese",
+  "arabicName": "وليد إدريس المنيسي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.waleedsamiraliabdulmajidsorour",
+  "name": "Waleed Samir Ali Abdul-Majid Sorour",
+  "arabicName": "وليد سمير علي عبد المجيد سرور",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.walidalshatti",
+  "name": "Walid ash-Shatti",
+  "arabicName": "وليد الشطي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.walidfathibashta",
+  "name": "Walid Fathi Bashta",
+  "arabicName": "وليد فتحي بشتة",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yahyahawwa",
+  "name": "Yahya Hawwa",
+  "arabicName": "يحيى حوى",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yassenaljazairi",
+  "name": "Yassen al-Jazairi",
+  "arabicName": "ياسين الجزائري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yasseraldossari",
+  "name": "Yasser ad-Dossari",
+  "arabicName": "ياسر الدوسري",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yasseralmazroyee",
+  "name": "Yasser al-Mazroyee",
+  "arabicName": "ياسر المزروعي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yasserqureshi",
+  "name": "Yasser Qureshi",
+  "arabicName": "ياسر قريشي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yassersalama",
+  "name": "Yasser Salama",
+  "arabicName": "ياسر سلامة",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yassersarhaneldeeb",
+  "name": "Yasser Sarhan el-Deeb",
+  "arabicName": "ياسر سرحان الديب",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yousufalshoaey",
+  "name": "Yousuf ash-Shoaey",
+  "arabicName": "يوسف الشويعي",
+  "bitrate": "128"
+ },
+ {
+  "edition": "ar.yousufbinnoahahmad",
+  "name": "Yousuf bin Noah Ahmad",
+  "arabicName": "يوسف بن نوح أحمد",
+  "bitrate": "128"
+ }
+]

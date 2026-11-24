@@ -144,3 +144,17 @@ test("the lock screen names a whole surah that plays, and play and pause work", 
   await expect.poll(() => page.evaluate(() => navigator.mediaSession.playbackState)).toBe("playing");
   await expect(page.getByRole("button", { name: "Jeda surat" })).toHaveAttribute("aria-pressed", "true");
 });
+
+test("a reciter with whole surahs only: no verse play buttons, no juz, and Play the surah plays the surah's file", async ({ page, context, baseURL }) => {
+  const url = new URL(baseURL!);
+  const selection = encodeURIComponent(JSON.stringify({ qari: "surah-rachidbelalia" }));
+  await context.addCookies([{ name: "qw-sel", value: selection, domain: url.hostname, path: "/" }]);
+  const urls = await routeAudio(page);
+  await page.goto("/surah/112");
+  // The play button of a verse and the juz list are gone; the hint says why.
+  await expect(page.getByRole("button", { name: "Putar audio" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^Putar satu juz/ })).toHaveCount(0);
+  await expect(page.getByText("hanya punya rekaman satu surat penuh")).toBeVisible();
+  await page.getByRole("button", { name: "Putar surat", exact: true }).click();
+  await expect.poll(() => urls.some((u) => u.endsWith("/quran/audio-surah/128/ar.rachidbelalia/112.mp3"))).toBe(true);
+});

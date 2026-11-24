@@ -42,6 +42,8 @@ export interface Qari {
   source: SourceInfo;
   /** Set by the service: a smaller recording of this reciter exists, so data-saver mode plays something lighter. */
   dataSaver?: boolean;
+  /** The reciter has one recording per surah and none per verse: no verse buttons, no memorization by ear (issue #111). */
+  wholeSurahOnly?: boolean;
 }
 
 /** Surah metadata, independent of any edition. */
