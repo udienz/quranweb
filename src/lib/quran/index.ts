@@ -35,3 +35,9 @@ export function getQuran(): QuranService {
 
 export const getAllSurah = () => getQuran().getSurahList();
 export const getJuzList = () => getQuran().getJuzList();
+
+/** The translations and tafsir an interface language starts with, for the "use the ones in this language" button. */
+export function languageDefaults(locale: string): { translations: string[]; tafsir: string | null } {
+  const { translations, tafsir } = getQuran().resolveSelection({}, locale);
+  return { translations, tafsir };
+}

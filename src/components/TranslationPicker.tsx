@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import { languageNamer } from "@/lib/i18n/languages";
 import type { Edition } from "@/lib/quran";
+import { languageIn } from "@/lib/quran/edition-names";
 import { groupTranslations, initialTranslationLanguage } from "@/lib/quran/translation-groups";
-
-const selectClass = "w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
+import SearchableSelect from "./SearchableSelect";
 
 /**
  * Choose the translations to read, compactly: the ones chosen are shown as small removable labels, a list of languages (with
@@ -57,13 +57,18 @@ export default function TranslationPicker({
 
       {groups.length > 0 && (
         <>
-          <select aria-label={t("settings.translationLanguage")} className={selectClass} value={language} onChange={(e) => setChosen(e.target.value)}>
-            {groups.map((g) => (
-              <option key={g.language} value={g.language}>
-                {g.label} ({g.editions.length}){g.editions.some((e) => selected.includes(e.id)) ? " ✓" : ""}
-              </option>
-            ))}
-          </select>
+          <SearchableSelect
+            label={t("settings.translationLanguage")}
+            labelHidden
+            value={language ?? ""}
+            onChange={setChosen}
+            options={groups.map((g) => ({
+              value: g.language,
+              label: `${g.label} (${g.editions.length})${g.editions.some((e) => selected.includes(e.id)) ? " ✓" : ""}`,
+              // Found by its name in the interface language or in its own ("Indonesian" or "Indonesia").
+              keywords: `${languageIn(g.language, g.language)} ${g.language}`,
+            }))}
+          />
           <ul className="mt-1">
             {group?.editions.map((e) => (
               <li key={e.id}>

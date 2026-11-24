@@ -184,6 +184,8 @@ export const tr: Messages = {
     home: "Ana sayfaya dön",
   },
   common: {
+    search: "Ara",
+    noMatches: "Eşleşen bir şey yok.",
     verses: plural("{count} ayet"),
     reading: "Okuma",
     tafsir: "Tefsir",
@@ -295,6 +297,7 @@ export const tr: Messages = {
     pagingMushaf: "Mushaf sayfaları (604)",
     noTafsir: "Tefsir yok",
     savedInBrowser: "Seçimleriniz bu tarayıcıda saklanır.",
+    useLanguageDefaults: "{language} meal ve tefsiri kullan",
     allSettings: "Tüm ayarlar",
     show: { arabic: "Arapça metin", transliteration: "Okunuş", translation: "Meal" },
     languages: { ar: "Arapça", id: "Endonezce", en: "İngilizce", tr: "Türkçe" },

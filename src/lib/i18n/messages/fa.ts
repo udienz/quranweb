@@ -186,6 +186,8 @@ export const fa: Messages = {
     home: "بازگشت به صفحهٔ اصلی",
   },
   common: {
+    search: "جستجو",
+    noMatches: "موردی یافت نشد.",
     verses: plural("{count} آیه"),
     reading: "خواندن",
     tafsir: "تفسیر",
@@ -297,6 +299,7 @@ export const fa: Messages = {
     pagingMushaf: "صفحه‌های مصحف (604)",
     noTafsir: "بدون تفسیر",
     savedInBrowser: "انتخاب‌های شما در این مرورگر ذخیره می‌شوند.",
+    useLanguageDefaults: "از ترجمه و تفسیر به زبان {language} استفاده کنید",
     allSettings: "همهٔ تنظیمات",
     show: { arabic: "متن عربی", transliteration: "آوانویسی", translation: "ترجمه" },
     languages: { ar: "عربی", id: "اندونزیایی", en: "انگلیسی", tr: "ترکی" },

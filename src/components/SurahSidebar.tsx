@@ -13,16 +13,18 @@ export default function SurahSidebar({
   current,
 }: {
   surahs: SurahMeta[];
-  current?: number;
+  /** The surah open now, or the surahs on the open page of the mushaf (up to three). */
+  current?: number | number[];
 }) {
   const { t, locale } = useI18n();
   const [q, setQ] = useState("");
   const listRef = useRef<HTMLUListElement>(null);
+  const currentSet = new Set(Array.isArray(current) ? current : current === undefined ? [] : [current]);
 
   // Scroll the list to the open surah (inside the list only, not the page).
   useEffect(() => {
     const list = listRef.current;
-    const active = list?.querySelector<HTMLElement>("[aria-current=page]");
+    const active = list?.querySelector<HTMLElement>("[aria-current]");
     if (list && active) list.scrollTop = active.offsetTop - list.clientHeight / 2 + active.clientHeight / 2;
   }, []);
 
@@ -63,12 +65,12 @@ export default function SurahSidebar({
         )}
         <ul ref={listRef} className="thin-scroll relative max-h-[420px] overflow-y-auto border-t border-border">
           {filtered.map((s) => {
-            const active = s.number === current;
+            const active = currentSet.has(s.number);
             return (
               <li key={s.number}>
                 <Link
                   href={`/surah/${s.number}`}
-                  aria-current={active ? "page" : undefined}
+                  aria-current={active ? (currentSet.size > 1 ? "true" : "page") : undefined}
                   className={`flex items-center gap-3 border-s-2 px-4 py-2.5 text-sm transition hover:bg-muted ${
                     active ? "border-gold bg-primary-soft" : "border-transparent"
                   }`}

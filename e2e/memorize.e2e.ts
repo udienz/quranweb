@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { cards, logPlays, playing, plays, routeAudio } from "./helpers";
+import { cards, chooseOption, logPlays, playing, plays, routeAudio } from "./helpers";
 
 // Memorization: each verse several times, a range in rounds, and hiding the text.
 
@@ -23,8 +23,9 @@ test("a range across a page boundary, two rounds, then stop", async ({ page, con
   await routeAudio(page);
   await page.goto("/surah/2");
   await page.getByRole("button", { name: "Hafalan" }).click();
-  await page.getByRole("combobox", { name: "Dari ayat" }).selectOption("9");
-  await page.getByRole("combobox", { name: "Sampai ayat" }).selectOption("12");
+  // Al-Baqarah has 286 verses, so these lists have a search box (issue #128).
+  await chooseOption(page, "Dari ayat", "9");
+  await chooseOption(page, "Sampai ayat", "12");
   await page.getByRole("combobox", { name: "Berapa kali" }).selectOption("2");
   await page.getByRole("button", { name: "Mulai" }).click();
   await expect(page.getByRole("status").filter({ hasText: "Mengulang ayat 9–12" })).toBeVisible();

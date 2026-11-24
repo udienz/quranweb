@@ -186,6 +186,8 @@ export const ja: Messages = {
     home: "ホームに戻る",
   },
   common: {
+    search: "検索",
+    noMatches: "一致するものはありません。",
     verses: plural("{count} 節"),
     reading: "読む",
     tafsir: "タフスィール",
@@ -297,6 +299,7 @@ export const ja: Messages = {
     pagingMushaf: "ムスハフのページ（604）",
     noTafsir: "タフスィールなし",
     savedInBrowser: "選択はこのブラウザに保存されます。",
+    useLanguageDefaults: "{language}の翻訳とタフスィールを使う",
     allSettings: "すべての設定",
     show: { arabic: "アラビア語の本文", transliteration: "翻字", translation: "翻訳" },
     languages: { ar: "アラビア語", id: "インドネシア語", en: "英語", tr: "トルコ語" },

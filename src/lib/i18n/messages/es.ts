@@ -185,6 +185,8 @@ export const es: Messages = {
     home: "Volver a la página de inicio",
   },
   common: {
+    search: "Buscar",
+    noMatches: "No hay coincidencias.",
     verses: plural("{count} aleyas", "{count} aleya"),
     reading: "Lectura",
     tafsir: "Tafsir",
@@ -296,6 +298,7 @@ export const es: Messages = {
     pagingMushaf: "Páginas del mushaf (604)",
     noTafsir: "Sin tafsir",
     savedInBrowser: "Tus elecciones se guardan en este navegador.",
+    useLanguageDefaults: "Usar la traducción y el tafsir en {language}",
     allSettings: "Todos los ajustes",
     show: { arabic: "Texto árabe", transliteration: "Transliteración", translation: "Traducción" },
     languages: { ar: "Árabe", id: "Indonesio", en: "Inglés", tr: "Turco" },

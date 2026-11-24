@@ -31,7 +31,11 @@ describe("machine translation of the Qur'an text", () => {
 
   it("the language menu does not let the browser translate the language names and codes", () => {
     const menu = readFileSync("src/components/LanguageMenu.tsx", "utf8");
-    expect(menu.match(/translate="no"/g)?.length).toBeGreaterThanOrEqual(3); // the code, each menu item, each list option
+    expect(menu.match(/translate="no"/g)?.length).toBeGreaterThanOrEqual(2); // the code and each menu item
+    // The list on the settings page (a SearchableSelect) gives every option its `lang`, and those are not translated.
+    expect(menu).toMatch(/lang: code/);
+    const select = readFileSync("src/components/SearchableSelect.tsx", "utf8");
+    expect(select.match(/translate=\{o\.lang \? "no" : undefined\}/g)?.length).toBeGreaterThanOrEqual(3);
   });
 
   it("finds the components it is meant to check", () => {

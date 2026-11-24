@@ -74,3 +74,13 @@ export function watchConsole(page: Page): string[] {
   page.on("pageerror", (e) => problems.push(`pageerror: ${e.message}`));
   return problems;
 }
+
+/**
+ * Choose an option of a SearchableSelect that has more than 10 options (a combobox, not a select): open it with its button
+ * (named by its label and the value shown), type in the search box and pick the option.
+ */
+export async function chooseOption(page: Page, label: string, option: string) {
+  await page.getByRole("button", { name: new RegExp(`^${label}\\b`) }).click();
+  await page.locator("input[role=combobox]:visible").fill(option);
+  await page.getByRole("option", { name: option, exact: true }).click();
+}

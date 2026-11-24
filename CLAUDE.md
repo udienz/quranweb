@@ -170,7 +170,8 @@ own format.
   Show data with `liveBookmarks` and `liveProgress`, never by reading `bookmarks` or
   `progress` directly. Version 1 data (and backup files) is migrated when read; the stored
   copy becomes version 2 at the next change. The backup envelope stays `format: 1`.
-- **Display toggles** (Arabic, transliteration, translation) are browser-only (`PrefsProvider`). The theme and text
+- **Display toggles** (Arabic, transliteration, translation) are browser-only (`PrefsProvider`). The transliteration is
+  off by default since 2026-11-24 (we decided, issue #126); a reader's saved toggles are kept as they were. The theme and text
   size are kept in the browser too and also follow the account (see "Settings page, theme and text size").
 - This schema is designed to move to accounts later (roadmap phase 3).
 
@@ -288,6 +289,24 @@ language with its default translation and tafsir (section "Languages"): update t
   (`relative after:absolute after:-inset-1 after:rounded-full`; one step more when the button has a 1px border, because
   the layer is measured from inside it). Numbers use `tabular-nums` in the interface font, not monospace; small labels are
   sentence case. `docs/DESIGN.md` describes the system: update it with any visible change.
+
+### Long lists, the mushaf side panel and language defaults (2026-11-24, issues #125 to #128)
+
+- **Every choice list goes through `SearchableSelect`.** Up to `SEARCH_THRESHOLD` (10, we decided) options it renders a plain
+  `<select>` with `<optgroup>`s; a longer list is a button that opens a search box over the options (ARIA combobox: arrow keys,
+  Home, End, Enter, Escape, the option rows at least 44 px). The search ignores case and diacritics and looks at `keywords` too
+  (a language's own name, a surah's meaning). An option with `lang` gets `translate="no"`. Lists that are always long:
+  translation languages, tafsir, jump to a verse, play a juz, the memorization range of a long surah, the interface language
+  on `/settings`, the surah filter on `/search` (`FormChoice`); lists whose length varies (collections, the daily goal) switch on
+  their own. The header language menu has its own search field above the list. In the browser tests, pick from a long list
+  with `chooseOption` (`e2e/helpers.ts`): a combobox has no `selectOption`.
+- **The mushaf page has the side panel** (`SurahLayout`, the surah list marking the surahs on the page, the page box, the
+  reading settings; folded above the page on phones). The mushaf route does not follow the "Page division" cookie, so the
+  panel there gets `versesHref` (the surah page with the mushaf page's first verse) and choosing **10 verses** goes there.
+- **Changing the interface language never changes the chosen translations and tafsir.** `SettingsPanel` gets
+  `languageDefaults` (`languageDefaults(locale)` in `lib/quran`, the language's defaults) and shows "Use the translation and
+  tafsir in …" while the choice differs. The tafsir list is grouped by language with `groupTranslations`, the interface
+  language first (or, when it has no tafsir, the language of its default tafsir).
 
 ### Settings page, theme and text size
 
@@ -818,6 +837,8 @@ src/
     BookmarkList.tsx, DailyGoal.tsx   bookmark collections and the daily goal on My reading
     SettingsPanel.tsx          display toggles and edition/reciter choice (cookie)
     ReciterPicker.tsx          the reciter list: best known first, search in Latin and Arabic
+    SearchableSelect.tsx       every choice list: a plain select up to 10 options, a search box over a longer list (combobox);
+                               FormChoice.tsx wraps it for a GET form on a server page (`lib/search-text.ts` matches)
     TranslationPicker.tsx      the translations: chosen ones as removable labels, a language list, that language's editions
                                (`quran/translation-groups.ts`; language names from `i18n/languages.ts`, the catalogs first,
                                then `Intl.DisplayNames`, so a new language of translations needs no new message)

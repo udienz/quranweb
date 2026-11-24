@@ -185,6 +185,8 @@ export const bn: Messages = {
     home: "হোম পেজে ফিরে যান",
   },
   common: {
+    search: "খুঁজুন",
+    noMatches: "কিছুই মেলেনি।",
     verses: plural("{count}টি আয়াত"),
     reading: "পাঠ",
     tafsir: "তাফসির",
@@ -296,6 +298,7 @@ export const bn: Messages = {
     pagingMushaf: "মুসহাফের পৃষ্ঠা (604)",
     noTafsir: "তাফসির নেই",
     savedInBrowser: "আপনার পছন্দগুলো এই ব্রাউজারে রাখা হয়।",
+    useLanguageDefaults: "{language} ভাষার অনুবাদ ও তাফসির ব্যবহার করুন",
     allSettings: "সব সেটিংস",
     show: { arabic: "আরবি পাঠ", transliteration: "প্রতিবর্ণীকরণ", translation: "অনুবাদ" },
     languages: { ar: "আরবি", id: "ইন্দোনেশীয়", en: "ইংরেজি", tr: "তুর্কি" },

@@ -186,6 +186,8 @@ export const vi: Messages = {
     home: "Về trang chủ",
   },
   common: {
+    search: "Tìm kiếm",
+    noMatches: "Không có kết quả phù hợp.",
     verses: plural("{count} câu"),
     reading: "Đọc",
     tafsir: "Tafsir",
@@ -297,6 +299,7 @@ export const vi: Messages = {
     pagingMushaf: "Các trang mushaf (604)",
     noTafsir: "Không có tafsir",
     savedInBrowser: "Lựa chọn của bạn được lưu trong trình duyệt này.",
+    useLanguageDefaults: "Dùng bản dịch và tafsir bằng {language}",
     allSettings: "Tất cả cài đặt",
     show: { arabic: "Văn bản tiếng Ả Rập", transliteration: "Phiên âm", translation: "Bản dịch" },
     languages: { ar: "Tiếng Ả Rập", id: "Tiếng Indonesia", en: "Tiếng Anh", tr: "Tiếng Thổ Nhĩ Kỳ" },

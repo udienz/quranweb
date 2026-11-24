@@ -185,6 +185,8 @@ export const ha: Messages = {
     home: "Koma farko",
   },
   common: {
+    search: "Bincika",
+    noMatches: "Babu abin da ya dace.",
     verses: plural("ayoyi {count}", "aya {count}"),
     reading: "Karatu",
     tafsir: "Tafsiri",
@@ -296,6 +298,7 @@ export const ha: Messages = {
     pagingMushaf: "Shafukan mushafi (604)",
     noTafsir: "Babu tafsiri",
     savedInBrowser: "Ana ajiye zaɓuɓɓukanka a wannan burauzar.",
+    useLanguageDefaults: "Yi amfani da fassara da tafsiri a {language}",
     allSettings: "Duk saituna",
     show: { arabic: "Rubutun Larabci", transliteration: "Rubutun Latin", translation: "Fassara" },
     languages: { ar: "Larabci", id: "Indonesiyanci", en: "Turanci", tr: "Turkanci" },

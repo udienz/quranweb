@@ -186,6 +186,8 @@ export const bs: Messages = {
     home: "Nazad na početnu stranicu",
   },
   common: {
+    search: "Pretraži",
+    noMatches: "Nema rezultata.",
     verses: plural("{count} ajet", "{count} ajeta", "{count} ajeta"),
     reading: "Čitanje",
     tafsir: "Tefsir",
@@ -297,6 +299,7 @@ export const bs: Messages = {
     pagingMushaf: "Stranice mushafa (604)",
     noTafsir: "Bez tefsira",
     savedInBrowser: "Vaši izbori se čuvaju u ovom pregledniku.",
+    useLanguageDefaults: "Koristi prijevod i tefsir na jeziku: {language}",
     allSettings: "Sve postavke",
     show: { arabic: "Arapski tekst", transliteration: "Transliteracija", translation: "Prijevod" },
     languages: { ar: "Arapski", id: "Indonezijski", en: "Engleski", tr: "Turski" },

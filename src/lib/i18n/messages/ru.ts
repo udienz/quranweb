@@ -186,6 +186,8 @@ export const ru: Messages = {
     home: "На главную",
   },
   common: {
+    search: "Поиск",
+    noMatches: "Ничего не найдено.",
     verses: plural("{count} аят", "{count} аята", "{count} аятов", "{count} аята"),
     reading: "Чтение",
     tafsir: "Тафсир",
@@ -297,6 +299,7 @@ export const ru: Messages = {
     pagingMushaf: "Страницы мусхафа (604)",
     noTafsir: "Без тафсира",
     savedInBrowser: "Ваш выбор сохраняется в этом браузере.",
+    useLanguageDefaults: "Использовать перевод и тафсир на языке: {language}",
     allSettings: "Все настройки",
     show: { arabic: "Арабский текст", transliteration: "Транслитерация", translation: "Перевод" },
     languages: { ar: "Арабский", id: "Индонезийский", en: "Английский", tr: "Турецкий" },

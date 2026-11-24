@@ -8,7 +8,8 @@ export interface Prefs {
   translation: boolean;
 }
 
-const DEFAULTS: Prefs = { arabic: true, transliteration: true, translation: true };
+// The transliteration is hidden until a reader turns it on (we decided, issue #126); a saved choice is kept.
+const DEFAULTS: Prefs = { arabic: true, transliteration: false, translation: true };
 const KEY = "reading-prefs";
 
 const PrefsContext = createContext<{
@@ -33,7 +34,7 @@ export default function PrefsProvider({ children }: { children: React.ReactNode 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setPrefs({
           arabic: parsed.arabic ?? parsed.arab ?? true,
-          transliteration: parsed.transliteration ?? parsed.latin ?? true,
+          transliteration: parsed.transliteration ?? parsed.latin ?? DEFAULTS.transliteration,
           translation: parsed.translation ?? parsed.terjemahan ?? true,
         });
       }

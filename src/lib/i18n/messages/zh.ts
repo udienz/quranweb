@@ -186,6 +186,8 @@ export const zh: Messages = {
     home: "返回首页",
   },
   common: {
+    search: "搜索",
+    noMatches: "没有匹配项。",
     verses: plural("{count} 节"),
     reading: "阅读",
     tafsir: "经注",
@@ -297,6 +299,7 @@ export const zh: Messages = {
     pagingMushaf: "古兰经书页（604）",
     noTafsir: "不显示经注",
     savedInBrowser: "您的选择保存在本浏览器中。",
+    useLanguageDefaults: "使用{language}的译本和经注",
     allSettings: "所有设置",
     show: { arabic: "阿拉伯语原文", transliteration: "转写", translation: "译本" },
     languages: { ar: "阿拉伯语", id: "印度尼西亚语", en: "英语", tr: "土耳其语" },

@@ -184,6 +184,8 @@ export const en = {
     home: "Back to the home page",
   },
   common: {
+    search: "Search",
+    noMatches: "Nothing matches.",
     verses: plural("{count} verses", "{count} verse"),
     reading: "Reading",
     tafsir: "Tafsir",
@@ -295,6 +297,7 @@ export const en = {
     pagingMushaf: "Mushaf pages (604)",
     noTafsir: "No tafsir",
     savedInBrowser: "Your choices are saved in this browser.",
+    useLanguageDefaults: "Use the translation and tafsir in {language}",
     allSettings: "All settings",
     show: { arabic: "Arabic text", transliteration: "Transliteration", translation: "Translation" },
     languages: { ar: "Arabic", id: "Indonesian", en: "English", tr: "Turkish" },

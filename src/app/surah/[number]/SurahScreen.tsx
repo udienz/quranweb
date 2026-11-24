@@ -10,7 +10,7 @@ import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { surahFromSegment } from "@/lib/surah-number";
 import { getI18n, getLocale } from "@/lib/i18n/server";
 import { clampPage, PAGE_SIZE, pageCount, pageRange } from "@/lib/pagination";
-import { getQuran } from "@/lib/quran";
+import { getQuran, languageDefaults } from "@/lib/quran";
 import { parseSelectionCookie, SELECTION_COOKIE } from "@/lib/selection";
 import SettingsPanel from "@/components/SettingsPanel";
 import SurahLayout from "@/components/SurahLayout";
@@ -93,7 +93,7 @@ export default async function SurahScreen({ number, rawPage, legacy }: { number:
         // The column can be taller than the screen; it scrolls on its own so every setting stays reachable.
         <div className="thin-scroll sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto pe-1">
           <SurahSidebar surahs={surahs} current={surahNumber} />
-          <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} />
+          <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} languageDefaults={languageDefaults(locale)} />
         </div>
       }
     >
@@ -102,7 +102,7 @@ export default async function SurahScreen({ number, rawPage, legacy }: { number:
           <summary className="cursor-pointer px-4 py-3 font-display text-sm font-semibold">{t("reader.panel")}</summary>
           <div className="flex flex-col gap-4 px-2 pb-2">
             <SurahSidebar surahs={surahs} current={surahNumber} />
-            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} />
+            <SettingsPanel catalog={catalog} selection={view.selection} layout={layout} paging={paging} languageDefaults={languageDefaults(locale)} />
           </div>
         </details>
         <SurahReader
