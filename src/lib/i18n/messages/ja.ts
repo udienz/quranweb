@@ -130,7 +130,7 @@ export const ja: Messages = {
     unknownLicence: "出典を参照",
     providersTitle: "データの出どころ",
     providers:
-      "本文は 3 つの出典から来ています：EQuran.id の API、fawazahmed0/quran-api のコレクション、QuranEnc.com。このサイトは EQuran.id と fawazahmed0 の独自のコピーを持ち、そこから読み込みます。これらのコピーはミラーとして誰にでも公開されています。新しい翻訳とタフスィールは QuranEnc.com から直接読み込みます。朗誦は EQuran.id と AlQuran.cloud の音声 CDN から来ています。",
+      "本文は 3 つの出典から来ています：EQuran.id の API、fawazahmed0/quran-api のコレクション、QuranEnc.com。このサイトは EQuran.id と fawazahmed0 の独自のコピーを持ち、そこから読み込みます。これらのコピーはミラーとして誰にでも公開されています。新しい翻訳とタフスィールは QuranEnc.com から直接読み込みます。朗誦は EQuran.id と AlQuran.cloud の音声 CDN から来ています。ウルドゥー語のイブン・カスィール注釈は Quran Foundation の API（Quran.com）から直接読み込まれます。",
     codeTitle: "ソースコード",
     code: "このサイトのコードは公開されています：",
     privacyLink: "データの扱いについて：プライバシーポリシー。",
@@ -228,6 +228,7 @@ export const ja: Messages = {
     noteLabel: "この節のメモ",
     notePlaceholder: "個人的なメモ（このブラウザに保存）",
     tafsirNotSelected: "タフスィールが選ばれていません。読書の設定で選んでください。",
+    tafsirSharedWith: "この節は第 {verse} 節と合わせて解説されています",
     footnotes: "脚注",
   },
   settings: {

@@ -129,7 +129,7 @@ export const hi: Messages = {
     unknownLicence: "स्रोत देखें",
     providersTitle: "डेटा कहाँ से आता है",
     providers:
-      "पाठ तीन स्रोतों से आता है: EQuran.id का API, fawazahmed0/quran-api संग्रह और QuranEnc.com। यह साइट EQuran.id और fawazahmed0 की अपनी कॉपी रखती है और उसी से पढ़ती है; वे कॉपियाँ सबके लिए मिरर के रूप में भी खुली हैं। नए अनुवाद और तफ़सीर सीधे QuranEnc.com से पढ़े जाते हैं। तिलावत EQuran.id और AlQuran.cloud के ऑडियो CDN से आती है।",
+      "पाठ तीन स्रोतों से आता है: EQuran.id का API, fawazahmed0/quran-api संग्रह और QuranEnc.com। यह साइट EQuran.id और fawazahmed0 की अपनी कॉपी रखती है और उसी से पढ़ती है; वे कॉपियाँ सबके लिए मिरर के रूप में भी खुली हैं। नए अनुवाद और तफ़सीर सीधे QuranEnc.com से पढ़े जाते हैं। तिलावत EQuran.id और AlQuran.cloud के ऑडियो CDN से आती है। उर्दू तफ़सीर इब्ने कसीर सीधे Quran Foundation API (Quran.com) से पढ़ी जाती है।",
     codeTitle: "सोर्स कोड",
     code: "इस साइट का कोड खुला है:",
     privacyLink: "आपके डेटा के साथ क्या होता है: गोपनीयता नीति।",
@@ -227,6 +227,7 @@ export const hi: Messages = {
     noteLabel: "इस आयत का नोट",
     notePlaceholder: "निजी नोट (इस ब्राउज़र में रखा जाता है)",
     tafsirNotSelected: "कोई तफ़सीर नहीं चुनी गई। पढ़ने की सेटिंग्स में एक चुनें।",
+    tafsirSharedWith: "इस आयत की तफ़सीर आयत {verse} के साथ दी गई है",
     footnotes: "फ़ुटनोट",
   },
   settings: {

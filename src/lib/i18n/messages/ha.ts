@@ -129,7 +129,7 @@ export const ha: Messages = {
     unknownLicence: "Duba tushen",
     providersTitle: "Daga ina bayanai suke fitowa",
     providers:
-      "Rubutun yana fitowa daga tushe uku: API na EQuran.id, tarin fawazahmed0/quran-api, da QuranEnc.com. Wannan shafin yana da kwafinsa na EQuran.id da fawazahmed0 kuma yana karantawa daga gare su; waɗannan kwafin a buɗe suke ga kowa a matsayin madubi. Ana karanta sababbin fassarori da tafsiri kai tsaye daga QuranEnc.com. Karatun yana fitowa daga EQuran.id da CDN na sauti na AlQuran.cloud.",
+      "Rubutun yana fitowa daga tushe uku: API na EQuran.id, tarin fawazahmed0/quran-api, da QuranEnc.com. Wannan shafin yana da kwafinsa na EQuran.id da fawazahmed0 kuma yana karantawa daga gare su; waɗannan kwafin a buɗe suke ga kowa a matsayin madubi. Ana karanta sababbin fassarori da tafsiri kai tsaye daga QuranEnc.com. Karatun yana fitowa daga EQuran.id da CDN na sauti na AlQuran.cloud. Ana karanta Tafsirin Ibn Kathir na Urdu kai tsaye daga API na Quran Foundation (Quran.com).",
     codeTitle: "Lambar tushe",
     code: "Lambar wannan shafin a buɗe take:",
     privacyLink: "Yadda ake sarrafa bayananka: manufar sirri.",
@@ -227,6 +227,7 @@ export const ha: Messages = {
     noteLabel: "Bayani na wannan aya",
     notePlaceholder: "Bayani na sirri (ana ajiye shi a wannan burauzar)",
     tafsirNotSelected: "Ba a zaɓi tafsiri ba. Zaɓi ɗaya a saitunan karatu.",
+    tafsirSharedWith: "An fassara wannan aya tare da aya {verse}",
     footnotes: "Bayanan ƙasa",
   },
   settings: {

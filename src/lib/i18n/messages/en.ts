@@ -128,7 +128,7 @@ export const en = {
     unknownLicence: "See the source",
     providersTitle: "Where the data is fetched from",
     providers:
-      "The text comes from three sources: the EQuran.id API, the fawazahmed0/quran-api collection and QuranEnc.com. This site keeps its own copy of each and reads from it; the EQuran.id and fawazahmed0 copies are also open to anyone as a mirror. Recitations come from EQuran.id and from the AlQuran.cloud audio CDN.",
+      "The text comes from three sources: the EQuran.id API, the fawazahmed0/quran-api collection and QuranEnc.com. This site keeps its own copy of each and reads from it; the EQuran.id and fawazahmed0 copies are also open to anyone as a mirror. Recitations come from EQuran.id and from the AlQuran.cloud audio CDN. The Urdu Tafsir Ibn Kathir is read directly from the Quran Foundation API (Quran.com).",
     codeTitle: "Source code",
     code: "The code of this site is open:",
     privacyLink: "How your data is handled: the privacy policy.",
@@ -226,6 +226,7 @@ export const en = {
     noteLabel: "Note for this verse",
     notePlaceholder: "Personal note (saved in this browser)",
     tafsirNotSelected: "No tafsir selected. Choose one in the reading settings.",
+    tafsirSharedWith: "This verse is explained together with verse {verse}",
     footnotes: "Footnotes",
   },
   settings: {

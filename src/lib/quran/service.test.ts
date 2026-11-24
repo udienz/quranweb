@@ -369,3 +369,21 @@ describe("the mushaf pages", () => {
     await expect(createQuranService(withPages(undefined)).getMushafPages()).rejects.toThrow(/mushaf pages could not be loaded: no provider has them/);
   });
 });
+
+describe("a tafsir passage that explains several verses", () => {
+  it("gives the verses it covers an empty tafsir and the verse that holds it", async () => {
+    const grouped: TextProvider = {
+      ...textProvider("p1", EDITIONS),
+      async text(editionId, surah) {
+        const verses =
+          editionId === "ind-x-tafsir"
+            ? [{ number: 1, text: "one and two" }, { number: 2, text: "", sharedWith: 1 }]
+            : [1, 2].map((n) => ({ number: n, text: `${editionId}:${n}` }));
+        return { edition: editionId, surah, verses };
+      },
+    };
+    const view = await createQuranService(config({ textProviders: [grouped] })).getSurahView(1);
+    expect(view.verses.map((v) => [v.tafsir, v.tafsirSharedWith])).toEqual([["one and two", undefined], ["", 1]]);
+    expect("tafsirSharedWith" in view.verses[0]).toBe(false);
+  });
+});

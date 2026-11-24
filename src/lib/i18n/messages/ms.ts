@@ -129,7 +129,7 @@ export const ms: Messages = {
     unknownLicence: "Lihat sumbernya",
     providersTitle: "Dari mana data diambil",
     providers:
-      "Teks datang daripada tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api dan QuranEnc.com. Laman ini menyimpan salinannya sendiri bagi setiap sumber dan membaca daripadanya; salinan EQuran.id dan fawazahmed0 juga terbuka kepada sesiapa sahaja sebagai cermin. Bacaan datang daripada EQuran.id dan daripada CDN audio AlQuran.cloud.",
+      "Teks datang daripada tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api dan QuranEnc.com. Laman ini menyimpan salinannya sendiri bagi setiap sumber dan membaca daripadanya; salinan EQuran.id dan fawazahmed0 juga terbuka kepada sesiapa sahaja sebagai cermin. Bacaan datang daripada EQuran.id dan daripada CDN audio AlQuran.cloud. Tafsir Ibnu Kathir dalam bahasa Urdu dibaca terus daripada API Quran Foundation (Quran.com).",
     codeTitle: "Kod sumber",
     code: "Kod laman ini terbuka:",
     privacyLink: "Bagaimana data anda dikendalikan: dasar privasi.",
@@ -227,6 +227,7 @@ export const ms: Messages = {
     noteLabel: "Nota untuk ayat ini",
     notePlaceholder: "Nota peribadi (disimpan dalam pelayar ini)",
     tafsirNotSelected: "Tiada tafsir dipilih. Pilih satu dalam tetapan bacaan.",
+    tafsirSharedWith: "Ayat ini ditafsirkan bersama ayat {verse}",
     footnotes: "Nota kaki",
   },
   settings: {

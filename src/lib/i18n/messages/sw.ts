@@ -129,7 +129,7 @@ export const sw: Messages = {
     unknownLicence: "Tazama chanzo",
     providersTitle: "Data inatoka wapi",
     providers:
-      "Maandishi yanatoka vyanzo vitatu: API ya EQuran.id, mkusanyiko wa fawazahmed0/quran-api, na QuranEnc.com. Tovuti hii ina nakala yake ya EQuran.id na fawazahmed0 na inasoma kutoka humo; nakala hizo pia ziko wazi kwa kila mtu kama kioo. Tafsiri na tafsir mpya zaidi zinasomwa moja kwa moja kutoka QuranEnc.com. Kisomo kinatoka EQuran.id na CDN ya sauti ya AlQuran.cloud.",
+      "Maandishi yanatoka vyanzo vitatu: API ya EQuran.id, mkusanyiko wa fawazahmed0/quran-api, na QuranEnc.com. Tovuti hii ina nakala yake ya EQuran.id na fawazahmed0 na inasoma kutoka humo; nakala hizo pia ziko wazi kwa kila mtu kama kioo. Tafsiri na tafsir mpya zaidi zinasomwa moja kwa moja kutoka QuranEnc.com. Kisomo kinatoka EQuran.id na CDN ya sauti ya AlQuran.cloud. Tafsiri ya Ibn Kathir kwa Kiurdu inasomwa moja kwa moja kutoka API ya Quran Foundation (Quran.com).",
     codeTitle: "Msimbo chanzo",
     code: "Msimbo wa tovuti hii uko wazi:",
     privacyLink: "Jinsi data yako inavyoshughulikiwa: sera ya faragha.",
@@ -227,6 +227,7 @@ export const sw: Messages = {
     noteLabel: "Maelezo ya aya hii",
     notePlaceholder: "Maelezo binafsi (yanahifadhiwa kwenye kivinjari hiki)",
     tafsirNotSelected: "Hakuna tafsir iliyochaguliwa. Chagua moja kwenye mipangilio ya usomaji.",
+    tafsirSharedWith: "Aya hii imefafanuliwa pamoja na aya {verse}",
     footnotes: "Tanbihi",
   },
   settings: {

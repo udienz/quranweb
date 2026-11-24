@@ -93,7 +93,7 @@ our sources have no translation or no tafsir in a language, the site shows the E
 | Türkçe (Turkish) | Diyanet İşleri | Al-Mukhtasar |
 | Русский (Russian) | Elmir Kuliev | Al-Mukhtasar |
 | Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
-| اردو (Urdu) | Muhammad Junagarhi | English: Al-Mukhtasar |
+| اردو (Urdu) | Muhammad Junagarhi | Tafsir Ibn Kathir |
 | العربية (Arabic) | none (the Arabic text only) | Al-Mukhtasar in Arabic |
 | فارسی (Persian) | Rowwad Translation Center | Al-Mukhtasar |
 | हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
@@ -264,7 +264,7 @@ privacy policy: https://quranweb.udienz.web.id/privacy.
 
 The Arabic text, translations and tafsir come from published sources: [EQuran.id](https://equran.id) (the Arabic text,
 translation and tafsir of Kementerian Agama RI, and the recitations), [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api) and
-[QuranEnc.com](https://quranenc.com); more recitations come from the [AlQuran.cloud](https://alquran.cloud/cdn) audio CDN. The **About** page,
+[QuranEnc.com](https://quranenc.com), and the Urdu Tafsir Ibn Kathir from [Quran Foundation](https://quran.foundation/) (Quran.com); more recitations come from the [AlQuran.cloud](https://alquran.cloud/cdn) audio CDN. The **About** page,
 linked at the bottom of every page, lists the source, credit and licence of every text, translation, tafsir and
 recitation.
 

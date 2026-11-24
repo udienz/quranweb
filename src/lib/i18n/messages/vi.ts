@@ -130,7 +130,7 @@ export const vi: Messages = {
     unknownLicence: "Xem nguồn",
     providersTitle: "Dữ liệu đến từ đâu",
     providers:
-      "Văn bản đến từ ba nguồn: API của EQuran.id, bộ sưu tập fawazahmed0/quran-api và QuranEnc.com. Trang này giữ bản sao riêng của EQuran.id và fawazahmed0 và đọc từ đó; các bản sao này cũng mở cho mọi người như một bản phản chiếu. Các bản dịch và tafsir mới hơn được đọc trực tiếp từ QuranEnc.com. Âm thanh đọc kinh đến từ EQuran.id và CDN âm thanh của AlQuran.cloud.",
+      "Văn bản đến từ ba nguồn: API của EQuran.id, bộ sưu tập fawazahmed0/quran-api và QuranEnc.com. Trang này giữ bản sao riêng của EQuran.id và fawazahmed0 và đọc từ đó; các bản sao này cũng mở cho mọi người như một bản phản chiếu. Các bản dịch và tafsir mới hơn được đọc trực tiếp từ QuranEnc.com. Âm thanh đọc kinh đến từ EQuran.id và CDN âm thanh của AlQuran.cloud. Tafsir Ibn Kathir tiếng Urdu được đọc trực tiếp từ API của Quran Foundation (Quran.com).",
     codeTitle: "Mã nguồn",
     code: "Mã nguồn của trang này là mở:",
     privacyLink: "Cách dữ liệu của bạn được xử lý: chính sách quyền riêng tư.",
@@ -228,6 +228,7 @@ export const vi: Messages = {
     noteLabel: "Ghi chú cho câu này",
     notePlaceholder: "Ghi chú cá nhân (lưu trong trình duyệt này)",
     tafsirNotSelected: "Chưa chọn tafsir. Hãy chọn một trong cài đặt đọc.",
+    tafsirSharedWith: "Câu này được giải thích cùng với câu {verse}",
     footnotes: "Chú thích",
   },
   settings: {

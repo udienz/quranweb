@@ -95,7 +95,7 @@ berbahasa Inggris: sel itu bertuliskan "Inggris".
 | Türkçe (Turki) | Diyanet İşleri | Al-Mukhtasar |
 | Русский (Rusia) | Elmir Kuliev | Al-Mukhtasar |
 | Ўзбекча (Uzbek) | Rowwad Translation Center | Al-Mukhtasar |
-| اردو (Urdu) | Muhammad Junagarhi | Inggris: Al-Mukhtasar |
+| اردو (Urdu) | Muhammad Junagarhi | Tafsir Ibnu Katsir |
 | العربية (Arab) | tidak ada (hanya teks Arab) | Al-Mukhtasar berbahasa Arab |
 | فارسی (Persia) | Rowwad Translation Center | Al-Mukhtasar |
 | हिन्दी (Hindi) | Azizul Haq Al-Omari | Al-Mukhtasar |
@@ -269,7 +269,7 @@ privasi: https://quranweb.udienz.web.id/privacy.
 
 Teks Arab, terjemahan, dan tafsir berasal dari sumber yang sudah diterbitkan: [EQuran.id](https://equran.id) (teks Arab,
 terjemahan, dan tafsir Kementerian Agama RI, serta murottal), [fawazahmed0/quran-api](https://github.com/fawazahmed0/quran-api), dan
-[QuranEnc.com](https://quranenc.com); murottal lainnya dari CDN audio [AlQuran.cloud](https://alquran.cloud/cdn). Halaman
+[QuranEnc.com](https://quranenc.com), serta Tafsir Ibnu Katsir berbahasa Urdu dari [Quran Foundation](https://quran.foundation/) (Quran.com); murottal lainnya dari CDN audio [AlQuran.cloud](https://alquran.cloud/cdn). Halaman
 **Tentang**, yang ditautkan di bagian bawah setiap halaman, mencantumkan sumber, kredit, dan lisensi setiap teks,
 terjemahan, tafsir, dan murottal.
 

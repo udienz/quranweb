@@ -129,7 +129,7 @@ export const es: Messages = {
     unknownLicence: "Ver la fuente",
     providersTitle: "De dónde se obtienen los datos",
     providers:
-      "El texto viene de tres fuentes: la API de EQuran.id, la colección fawazahmed0/quran-api y QuranEnc.com. Este sitio guarda su propia copia de cada una y lee de ella; las copias de EQuran.id y fawazahmed0 también están abiertas a todos como espejo. Las recitaciones vienen de EQuran.id y de la CDN de audio de AlQuran.cloud.",
+      "El texto viene de tres fuentes: la API de EQuran.id, la colección fawazahmed0/quran-api y QuranEnc.com. Este sitio guarda su propia copia de cada una y lee de ella; las copias de EQuran.id y fawazahmed0 también están abiertas a todos como espejo. Las recitaciones vienen de EQuran.id y de la CDN de audio de AlQuran.cloud. El Tafsir Ibn Kathir en urdu se lee directamente de la API de Quran Foundation (Quran.com).",
     codeTitle: "Código fuente",
     code: "El código de este sitio es abierto:",
     privacyLink: "Cómo se tratan tus datos: la política de privacidad.",
@@ -227,6 +227,7 @@ export const es: Messages = {
     noteLabel: "Nota de esta aleya",
     notePlaceholder: "Nota personal (se guarda en este navegador)",
     tafsirNotSelected: "No hay tafsir elegido. Elige uno en los ajustes de lectura.",
+    tafsirSharedWith: "Este versículo se explica junto con el versículo {verse}",
     footnotes: "Notas al pie",
   },
   settings: {

@@ -124,7 +124,7 @@ export const id: Messages = {
     unknownLicence: "Lihat sumbernya",
     providersTitle: "Dari mana data diambil",
     providers:
-      "Teks berasal dari tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api, dan QuranEnc.com. Situs ini menyimpan salinan masing-masing dan membacanya dari sana; salinan EQuran.id dan fawazahmed0 juga terbuka untuk siapa saja sebagai mirror. Murotal berasal dari EQuran.id dan dari CDN audio AlQuran.cloud.",
+      "Teks berasal dari tiga sumber: API EQuran.id, koleksi fawazahmed0/quran-api, dan QuranEnc.com. Situs ini menyimpan salinan masing-masing dan membacanya dari sana; salinan EQuran.id dan fawazahmed0 juga terbuka untuk siapa saja sebagai mirror. Murotal berasal dari EQuran.id dan dari CDN audio AlQuran.cloud. Tafsir Ibnu Katsir berbahasa Urdu dibaca langsung dari API Quran Foundation (Quran.com).",
     codeTitle: "Kode sumber",
     code: "Kode situs ini terbuka:",
     privacyLink: "Cara data Anda diperlakukan: kebijakan privasi.",
@@ -227,6 +227,7 @@ export const id: Messages = {
     notePlaceholder: "Catatan pribadi (disimpan di browser ini)",
     footnotes: "Catatan kaki",
     tafsirNotSelected: "Tafsir tidak dipilih. Pilih tafsir di pengaturan bacaan.",
+    tafsirSharedWith: "Ayat ini ditafsirkan bersama ayat {verse}",
   },
   settings: {
     title: "Pengaturan bacaan",

@@ -129,7 +129,7 @@ export const ur: Messages = {
     unknownLicence: "ذریعہ دیکھیں",
     providersTitle: "ڈیٹا کہاں سے لیا جاتا ہے",
     providers:
-      "متن تین ذرائع سے آتا ہے: EQuran.id API، fawazahmed0/quran-api مجموعہ اور QuranEnc.com۔ یہ سائٹ ہر ایک کی اپنی نقل رکھتی ہے اور اسی سے پڑھتی ہے؛ EQuran.id اور fawazahmed0 کی نقول آئینے کے طور پر سب کے لیے کھلی بھی ہیں۔ تلاوتیں EQuran.id اور AlQuran.cloud کے آڈیو CDN سے آتی ہیں۔",
+      "متن تین ذرائع سے آتا ہے: EQuran.id API، fawazahmed0/quran-api مجموعہ اور QuranEnc.com۔ یہ سائٹ ہر ایک کی اپنی نقل رکھتی ہے اور اسی سے پڑھتی ہے؛ EQuran.id اور fawazahmed0 کی نقول آئینے کے طور پر سب کے لیے کھلی بھی ہیں۔ تلاوتیں EQuran.id اور AlQuran.cloud کے آڈیو CDN سے آتی ہیں۔ اردو تفسیر ابنِ کثیر براہِ راست Quran Foundation API (Quran.com) سے پڑھی جاتی ہے۔",
     codeTitle: "سورس کوڈ",
     code: "اس سائٹ کا کوڈ کھلا ہے:",
     privacyLink: "آپ کا ڈیٹا کیسے سنبھالا جاتا ہے: رازداری کی پالیسی۔",
@@ -227,6 +227,7 @@ export const ur: Messages = {
     noteLabel: "اس آیت کا نوٹ",
     notePlaceholder: "ذاتی نوٹ (اس براؤزر میں محفوظ)",
     tafsirNotSelected: "کوئی تفسیر منتخب نہیں۔ پڑھنے کی ترتیبات میں ایک منتخب کریں۔",
+    tafsirSharedWith: "اس آیت کی تفسیر آیت {verse} کے ساتھ ہے",
     footnotes: "حواشی",
   },
   settings: {

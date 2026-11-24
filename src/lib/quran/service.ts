@@ -270,18 +270,23 @@ export function createQuranService(config: QuranConfig) {
     const byEdition = new Map(texts.map((t) => [t.edition, t]));
     const textOf = (id: string, i: number) => byEdition.get(id)!.verses[i].text;
     const notesOf = (id: string, i: number) => byEdition.get(id)!.verses[i].notes;
+    const sharedWith = selection.tafsir ? (i: number) => byEdition.get(selection.tafsir!)!.verses[i].sharedWith : () => undefined;
 
-    const verses: VerseView[] = Array.from({ length: to - from + 1 }, (_, k) => k + from - 1).map((i) => ({
-      number: i + 1,
-      arabic: textOf(selection.arabic, i),
-      transliteration: selection.transliteration ? textOf(selection.transliteration, i) : null,
-      translations: selection.translations.map((id) => {
-        const notes = notesOf(id, i);
-        return { edition: id, text: textOf(id, i), ...(notes ? { notes } : {}) };
-      }),
-      tafsir: selection.tafsir ? textOf(selection.tafsir, i) : null,
-      ...audioUrls(selection.qari, number, i + 1),
-    }));
+    const verses: VerseView[] = Array.from({ length: to - from + 1 }, (_, k) => k + from - 1).map((i) => {
+      const tafsirSharedWith = sharedWith(i);
+      return {
+        number: i + 1,
+        arabic: textOf(selection.arabic, i),
+        transliteration: selection.transliteration ? textOf(selection.transliteration, i) : null,
+        translations: selection.translations.map((id) => {
+          const notes = notesOf(id, i);
+          return { edition: id, text: textOf(id, i), ...(notes ? { notes } : {}) };
+        }),
+        tafsir: selection.tafsir ? textOf(selection.tafsir, i) : null,
+        ...(tafsirSharedWith ? { tafsirSharedWith } : {}),
+        ...audioUrls(selection.qari, number, i + 1),
+      };
+    });
 
     const surahAudio = surahAudioUrls(selection.qari, number);
     return {

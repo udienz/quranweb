@@ -130,7 +130,7 @@ export const fa: Messages = {
     unknownLicence: "منبع را ببینید",
     providersTitle: "داده‌ها از کجا گرفته می‌شوند",
     providers:
-      "متن از سه منبع می‌آید: API سایت EQuran.id، مجموعهٔ fawazahmed0/quran-api و QuranEnc.com. این سایت نسخهٔ خودش از هرکدام را نگه می‌دارد و از آن می‌خواند؛ نسخه‌های EQuran.id و fawazahmed0 به‌عنوان آینه برای همه هم باز است. تلاوت‌ها از EQuran.id و از CDN صوتی AlQuran.cloud می‌آیند.",
+      "متن از سه منبع می‌آید: API سایت EQuran.id، مجموعهٔ fawazahmed0/quran-api و QuranEnc.com. این سایت نسخهٔ خودش از هرکدام را نگه می‌دارد و از آن می‌خواند؛ نسخه‌های EQuran.id و fawazahmed0 به‌عنوان آینه برای همه هم باز است. تلاوت‌ها از EQuran.id و از CDN صوتی AlQuran.cloud می‌آیند. تفسیر ابن کثیر به زبان اردو مستقیماً از API بنیاد Quran Foundation (Quran.com) خوانده می‌شود.",
     codeTitle: "کد منبع",
     code: "کد این سایت باز است:",
     privacyLink: "داده‌های شما چگونه پردازش می‌شود: سیاست حریم خصوصی.",
@@ -228,6 +228,7 @@ export const fa: Messages = {
     noteLabel: "یادداشت این آیه",
     notePlaceholder: "یادداشت شخصی (در این مرورگر ذخیره می‌شود)",
     tafsirNotSelected: "تفسیری انتخاب نشده است. یکی را در تنظیمات خواندن انتخاب کنید.",
+    tafsirSharedWith: "تفسیر این آیه همراه با آیهٔ {verse} است",
     footnotes: "پانوشت‌ها",
   },
   settings: {

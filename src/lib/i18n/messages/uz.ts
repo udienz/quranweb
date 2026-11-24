@@ -130,7 +130,7 @@ export const uz: Messages = {
     unknownLicence: "Манбага қаранг",
     providersTitle: "Маълумотлар қаердан олинади",
     providers:
-      "Матн учта манбадан олинади: EQuran.id API, fawazahmed0/quran-api тўплами ва QuranEnc.com. Бу сайт ҳар бирининг ўз нусхасини сақлайди ва ундан ўқийди; EQuran.id ва fawazahmed0 нусхалари кўзгу сифатида ҳаммага очиқ. Тиловатлар EQuran.id ва AlQuran.cloud аудио CDN дан олинади.",
+      "Матн учта манбадан олинади: EQuran.id API, fawazahmed0/quran-api тўплами ва QuranEnc.com. Бу сайт ҳар бирининг ўз нусхасини сақлайди ва ундан ўқийди; EQuran.id ва fawazahmed0 нусхалари кўзгу сифатида ҳаммага очиқ. Тиловатлар EQuran.id ва AlQuran.cloud аудио CDN дан олинади. Урду тилидаги Ибн Касир тафсири тўғридан-тўғри Quran Foundation API (Quran.com) дан ўқилади.",
     codeTitle: "Манба коди",
     code: "Бу сайт коди очиқ:",
     privacyLink: "Маълумотларингиз қандай ишланади: махфийлик сиёсати.",
@@ -228,6 +228,7 @@ export const uz: Messages = {
     noteLabel: "Бу оят учун эслатма",
     notePlaceholder: "Шахсий эслатма (бу браузерда сақланади)",
     tafsirNotSelected: "Тафсир танланмаган. Ўқиш созламаларида бирини танланг.",
+    tafsirSharedWith: "Бу оят {verse}-оят билан бирга тафсир қилинган",
     footnotes: "Изоҳлар",
   },
   settings: {

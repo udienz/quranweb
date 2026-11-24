@@ -130,7 +130,7 @@ export const zh: Messages = {
     unknownLicence: "见来源",
     providersTitle: "数据从哪里获取",
     providers:
-      "文本来自三个来源：EQuran.id API、fawazahmed0/quran-api 合集和 QuranEnc.com。本网站为每个来源保存自己的副本并从中读取；EQuran.id 和 fawazahmed0 的副本也作为镜像向所有人开放。诵读来自 EQuran.id 和 AlQuran.cloud 的音频 CDN。",
+      "文本来自三个来源：EQuran.id API、fawazahmed0/quran-api 合集和 QuranEnc.com。本网站为每个来源保存自己的副本并从中读取；EQuran.id 和 fawazahmed0 的副本也作为镜像向所有人开放。诵读来自 EQuran.id 和 AlQuran.cloud 的音频 CDN。乌尔都语《伊本·凯西尔经注》直接读取自 Quran Foundation API（Quran.com）。",
     codeTitle: "源代码",
     code: "本网站的代码是开源的：",
     privacyLink: "我们如何处理您的数据：隐私政策。",
@@ -228,6 +228,7 @@ export const zh: Messages = {
     noteLabel: "此节的笔记",
     notePlaceholder: "个人笔记（保存在本浏览器中）",
     tafsirNotSelected: "未选择经注。请在阅读设置中选择一个。",
+    tafsirSharedWith: "本节经文与第 {verse} 节一并注释",
     footnotes: "脚注",
   },
   settings: {

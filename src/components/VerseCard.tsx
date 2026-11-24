@@ -3,7 +3,8 @@
 import { useHiding } from "@/lib/useHiding";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
-import { verseId } from "@/lib/anchors";
+import Link from "next/link";
+import { verseHref, verseId } from "@/lib/anchors";
 import type { VerseView } from "@/lib/quran";
 import { findBookmark, progressOf } from "@/lib/userdata/schema";
 import { userDataActions, useUserData } from "@/lib/userdata/store";
@@ -226,9 +227,18 @@ export default function VerseCard({
           <p dir="rtl" lang="ar" translate="no" className="font-arabic mb-4 text-right text-[length:calc(1.5rem*var(--arabic-scale,1))] leading-loose text-muted-foreground">
             {verse.arabic}
           </p>
-          <p dir="auto" translate="no" className="whitespace-pre-line text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
-            {verse.tafsir ?? t("verse.tafsirNotSelected")}
-          </p>
+          {verse.tafsirSharedWith ? (
+            // One passage explains several verses and sits on the first of them (Tafsir Ibn Kathir): point there.
+            <p className="text-sm text-muted-foreground">
+              <Link href={verseHref(surahNumber, verse.tafsirSharedWith)} className="font-medium text-primary hover:underline">
+                {t("verse.tafsirSharedWith", { verse: `${surahNumber}:${verse.tafsirSharedWith}` })}
+              </Link>
+            </p>
+          ) : (
+            <p dir="auto" translate="no" className="whitespace-pre-line text-[length:calc(1rem*var(--latin-scale,1))] leading-relaxed">
+              {verse.tafsir ?? t("verse.tafsirNotSelected")}
+            </p>
+          )}
         </>
       )}
 
