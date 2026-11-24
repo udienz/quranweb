@@ -38,3 +38,19 @@ describe("matchesReciter", () => {
     expect(matchesReciter(qari("i", "Ibrahim", "إبراهيم"), "إِبْرَاهِيم")).toBe(true);
   });
 });
+
+describe("the reciters with whole surahs only", () => {
+  const q = (id: string, name: string, wholeSurahOnly = false) => ({ id, name, source: { name: "x", attribution: { en: "x" } }, ...(wholeSurahOnly ? { wholeSurahOnly } : {}) });
+  it("come in a group of their own, last, by name, and are never among the best known", () => {
+    const { bestKnown, others, surahOnly } = orderReciters([
+      q("yasser-al-dosari", "Yasser ad-Dossari", true),
+      q("misyari-rasyid-al-afasi", "Alafasy"),
+      q("zz", "Zed", true),
+      q("aa", "Aaa"),
+      q("bb", "Bbb", true),
+    ]);
+    expect(bestKnown.map((r) => r.id)).toEqual(["misyari-rasyid-al-afasi"]);
+    expect(others.map((r) => r.id)).toEqual(["aa"]);
+    expect(surahOnly.map((r) => r.id)).toEqual(["bb", "yasser-al-dosari", "zz"]);
+  });
+});

@@ -102,6 +102,8 @@ export default function SurahReader({
     }
   }, [meta.number, meta.verseCount, from, to, router]);
 
+  // A reciter with whole surahs only has no file for a verse: no juz list and no memorization by ear for it (issue #111).
+  const verseAudio = !view.qari.wholeSurahOnly;
   // The audio: which verse plays and what follows it (see useVersePlayer). The verses are this page's, all of this surah.
   const player = useVersePlayer({
     verses: verses.map((v) => ({ surah: meta.number, verse: v.number, audio: v.audio, audioSaver: v.audioSaver })),
@@ -179,7 +181,7 @@ export default function SurahReader({
               selectClassName={DARK_SELECT}
               triggerClassName={DARK_TRIGGER}
             />
-            {juzs.length > 0 && (
+            {verseAudio && juzs.length > 0 && (
               // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
               <SearchableSelect
                 label={t("reader.playJuz")}
@@ -204,7 +206,8 @@ export default function SurahReader({
             </button>
           </div>
         </div>
-        {memorizeOpen && <MemorizePanel surah={meta.number} verseCount={meta.verseCount} first={from} onStart={startRange} />}
+        {view.qari.wholeSurahOnly && <p className="mt-3 text-xs text-white/70">{t("reader.surahOnlyHint")}</p>}
+        {memorizeOpen && <MemorizePanel surah={meta.number} verseCount={meta.verseCount} first={from} onStart={startRange} withAudio={verseAudio} />}
         {rangeLoop !== null && rangeLoop.surah === meta.number && playingN !== null && (
           <p role="status" className="mt-3 flex flex-wrap items-center gap-3 text-sm text-gold">
             {rangeLoop.times === 0

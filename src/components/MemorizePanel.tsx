@@ -35,11 +35,14 @@ export default function MemorizePanel({
   verseCount,
   first,
   onStart,
+  withAudio = true,
 }: {
   surah: number;
   verseCount: number;
   first: number;
   onStart: (loop: RangeLoop) => void;
+  /** False for a reciter with whole surahs only: no verse is played, so only hiding the text is left (issue #111). */
+  withAudio?: boolean;
 }) {
   const { t } = useI18n();
   const repeat = useSyncExternalStore(subscribeVerseRepeat, readVerseRepeat, () => DEFAULT_VERSE_REPEAT);
@@ -52,59 +55,63 @@ export default function MemorizePanel({
 
   return (
     <div className="mt-4 flex flex-col gap-3 rounded-xl border border-white/15 p-3 text-sm text-white/85">
-      <label className="flex flex-wrap items-center gap-2">
-        <span>{t("memorize.eachVerse")}</span>
-        <select value={repeat} onChange={(e) => applyVerseRepeat(Number(e.target.value) as VerseRepeat)} className={selectClass}>
-          {VERSE_REPEATS.map((n) => (
-            <option key={n} value={n}>
-              {n === 1 ? t("memorize.once") : t("memorize.times", { count: n })}
-            </option>
-          ))}
-        </select>
-      </label>
-      <div className="flex flex-wrap items-center gap-2">
-        <span>{t("memorize.range")}</span>
-        {/* The two verses stay on one line, so "1 – 5" is never split on a phone. */}
-        <span className="flex items-center gap-2">
-          <SearchableSelect
-            label={t("memorize.from")}
-            labelHidden
-            value={String(from)}
-            onChange={(v) => setFrom(Number(v))}
-            options={verseOptions}
-            selectClassName={selectClass}
-            triggerClassName={TRIGGER_CLASS}
-          />
-          <span aria-hidden="true">–</span>
-          <SearchableSelect
-            label={t("memorize.to")}
-            labelHidden
-            value={String(to)}
-            onChange={(v) => setTo(Number(v))}
-            options={verseOptions}
-            selectClassName={selectClass}
-            triggerClassName={TRIGGER_CLASS}
-          />
-        </span>
-        <label className="flex items-center gap-2">
-          <span className="sr-only">{t("memorize.rounds")}</span>
-          <select value={times} onChange={(e) => setTimes(Number(e.target.value))} className={selectClass} aria-label={t("memorize.rounds")}>
-            {RANGE_TIMES.map((n) => (
-              <option key={n} value={n}>
-                {n === 0 ? t("memorize.untilStopped") : t("memorize.times", { count: n })}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button
-          type="button"
-          disabled={!range}
-          onClick={() => range && onStart(range)}
-          className="rounded-full bg-gold px-4 py-2 font-semibold text-[hsl(190_70%_12%)] disabled:opacity-50"
-        >
-          {t("memorize.start")}
-        </button>
-      </div>
+      {withAudio && (
+        <>
+          <label className="flex flex-wrap items-center gap-2">
+            <span>{t("memorize.eachVerse")}</span>
+            <select value={repeat} onChange={(e) => applyVerseRepeat(Number(e.target.value) as VerseRepeat)} className={selectClass}>
+              {VERSE_REPEATS.map((n) => (
+                <option key={n} value={n}>
+                  {n === 1 ? t("memorize.once") : t("memorize.times", { count: n })}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="flex flex-wrap items-center gap-2">
+            <span>{t("memorize.range")}</span>
+            {/* The two verses stay on one line, so "1 – 5" is never split on a phone. */}
+            <span className="flex items-center gap-2">
+              <SearchableSelect
+                label={t("memorize.from")}
+                labelHidden
+                value={String(from)}
+                onChange={(v) => setFrom(Number(v))}
+                options={verseOptions}
+                selectClassName={selectClass}
+                triggerClassName={TRIGGER_CLASS}
+              />
+              <span aria-hidden="true">–</span>
+              <SearchableSelect
+                label={t("memorize.to")}
+                labelHidden
+                value={String(to)}
+                onChange={(v) => setTo(Number(v))}
+                options={verseOptions}
+                selectClassName={selectClass}
+                triggerClassName={TRIGGER_CLASS}
+              />
+            </span>
+            <label className="flex items-center gap-2">
+              <span className="sr-only">{t("memorize.rounds")}</span>
+              <select value={times} onChange={(e) => setTimes(Number(e.target.value))} className={selectClass} aria-label={t("memorize.rounds")}>
+                {RANGE_TIMES.map((n) => (
+                  <option key={n} value={n}>
+                    {n === 0 ? t("memorize.untilStopped") : t("memorize.times", { count: n })}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              disabled={!range}
+              onClick={() => range && onStart(range)}
+              className="rounded-full bg-gold px-4 py-2 font-semibold text-[hsl(190_70%_12%)] disabled:opacity-50"
+            >
+              {t("memorize.start")}
+            </button>
+          </div>
+        </>
+      )}
       <label className="flex flex-wrap items-center gap-2">
         <span>{t("memorize.hide")}</span>
         <select value={hide} onChange={(e) => applyHideMode(e.target.value as HideMode)} className={selectClass}>

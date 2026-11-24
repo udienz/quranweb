@@ -138,6 +138,15 @@ export default async function VersePage({ params }: { params: Params }) {
             verse={ref.verse}
             arabic={verse.arabic}
             translations={verse.translations.map((tr) => tr.text)}
+            card={
+              verse.translations[0]
+                ? {
+                    text: verse.translations[0].text,
+                    credit: editions.get(verse.translations[0].edition) ? localized(editions.get(verse.translations[0].edition)!.name, locale) : "",
+                    dir: editions.get(verse.translations[0].edition)?.direction ?? "ltr",
+                  }
+                : undefined
+            }
           />
         </div>
       </article>

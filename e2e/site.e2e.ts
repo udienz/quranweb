@@ -183,3 +183,18 @@ test("the reciter list: best known first, search in Latin and Arabic, a CDN reci
   await expect.poll(() => urls[0]).toBe("https://cdn.islamic.network/quran/audio/128/ar.mahermuaiqly/1.mp3");
   expect(problems).toEqual([]);
 });
+
+test("a verse can be shared as an image: the card is a PNG, 1080 px wide, saved where the browser cannot share files", async ({ page }) => {
+  await page.goto("/surah/112/1");
+  await page.getByRole("button", { name: "Bagikan ayat" }).click();
+  const download = page.waitForEvent("download");
+  await page.getByRole("menuitem", { name: "Bagikan sebagai gambar" }).click();
+  const file = await download;
+  expect(file.suggestedFilename()).toBe("quranweb-112-1.png");
+  const path = await file.path();
+  const { readFileSync } = await import("node:fs");
+  const png = readFileSync(path);
+  expect(png.subarray(1, 4).toString()).toBe("PNG");
+  expect(png.readUInt32BE(16)).toBe(1080); // the width in the PNG header
+  expect(png.length).toBeGreaterThan(20_000); // the card has text on it, not a blank
+});

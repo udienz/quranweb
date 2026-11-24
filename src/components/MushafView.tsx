@@ -77,7 +77,7 @@ export default function MushafView({
             </span>
           </span>
           <div className="flex items-center gap-1">
-            <VerseActions verse={current} surahNumber={surahNumber} surahName={surahName} playing={playingN === current.number} onPlay={() => onPlay(current)} menuUp />
+            <VerseActions verse={current} surahNumber={surahNumber} surahName={surahName} playing={playingN === current.number} onPlay={() => onPlay(current)} editions={editions} menuUp />
             <button type="button" onClick={() => setSelected(null)} className="rounded-full px-3 py-1 text-xs text-muted-foreground hover:bg-muted">
               {t("mushaf.close")}
             </button>

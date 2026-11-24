@@ -30,7 +30,8 @@ export default function AudioSection({ catalog, selection: saved, juzs }: { cata
 
         <PlaybackModeSelect />
 
-        {juzs.length > 0 && (
+        {/* A reciter with whole surahs only has no verse files, so no juz can be played verse by verse (issue #111). */}
+        {juzs.length > 0 && catalog.qaris.find((q) => q.id === selection.qari)?.wholeSurahOnly !== true && (
           // The value stays empty: choosing starts the juz, and the same juz can be chosen again.
           <SearchableSelect
             label={t("reader.playJuz")}

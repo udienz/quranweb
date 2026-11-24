@@ -21,12 +21,14 @@ export default function ReciterPicker({ qaris, value, onChange }: { qaris: Qari[
     setQuery("");
   }, []);
   useDismiss(open, close, box);
-  const { bestKnown, others } = useMemo(() => orderReciters(qaris), [qaris]);
+  const { bestKnown, others, surahOnly } = useMemo(() => orderReciters(qaris), [qaris]);
   const current = qaris.find((q) => q.id === value);
   const filter = (list: Qari[]) => list.filter((q) => matchesReciter(q, query));
   const groups = [
     { label: t("settings.qariBestKnown"), list: filter(bestKnown) },
     { label: t("settings.qariOthers"), list: filter(others) },
+    // Reciters with one recording per surah and none per verse: "Play the surah" only (issue #111).
+    { label: t("settings.qariSurahOnly"), list: filter(surahOnly) },
   ].filter((g) => g.list.length > 0);
   const choose = (id: string) => {
     onChange(id);

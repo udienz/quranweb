@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import { useI18n } from "@/lib/i18n/client";
 import { shareReference, shareText, shareUrl, whatsappHref } from "@/lib/share";
+import { renderVerseCard } from "@/lib/verse-card-canvas";
 import { useDismiss } from "@/lib/useDismiss";
 
 const noSubscribe = () => () => {};
@@ -23,7 +24,8 @@ const iconProps = {
  * Share one verse: copy its text with the citation and link, copy only the link, the device's own share sheet (where the
  * browser has one, mostly on phones), or WhatsApp. The link is the verse's own page (`/surah/2/255`), which has a preview.
  * The text is what the reader sees, as published. `up` opens the menu above its button (for the bar at the bottom of the
- * screen in the mushaf layout).
+ * screen in the mushaf layout). "Share as an image" draws a card (the Arabic, the first translation, the citation, its credit)
+ * and hands it to the share sheet, or saves it where the browser cannot share a file (issue #48).
  */
 export default function ShareMenu({
   surah,
@@ -31,6 +33,7 @@ export default function ShareMenu({
   verse,
   arabic,
   translations,
+  card,
   up = false,
 }: {
   surah: number;
@@ -38,6 +41,8 @@ export default function ShareMenu({
   verse: number;
   arabic: string;
   translations: string[];
+  /** What the picture shows besides the Arabic: the first chosen translation and its credit (none when none is chosen). */
+  card?: { text: string; credit: string; dir: "ltr" | "rtl" };
   up?: boolean;
 }) {
   const { t, locale } = useI18n();
@@ -64,6 +69,27 @@ export default function ShareMenu({
       setTimeout(() => setCopied(false), 1500);
     } catch {}
     close();
+  }
+
+  async function shareImage() {
+    close();
+    try {
+      const blob = await renderVerseCard({ arabic, translation: card, reference, site: location.host });
+      const file = new File([blob], `quranweb-${surah}-${verse}.png`, { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: reference, text: url() });
+        return;
+      }
+      // No file sharing here (most desktop browsers): save the picture.
+      const href = URL.createObjectURL(blob);
+      const link = Object.assign(document.createElement("a"), { href, download: file.name });
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(href), 10_000);
+    } catch {
+      // The reader closed the share sheet, or the card could not be drawn: nothing to do.
+    }
   }
 
   async function nativeShare() {
@@ -107,6 +133,9 @@ export default function ShareMenu({
           </button>
           <button type="button" role="menuitem" onClick={() => copy(url())} className={item}>
             {t("verse.copyLink")}
+          </button>
+          <button type="button" role="menuitem" onClick={shareImage} className={item}>
+            {t("verse.shareImage")}
           </button>
           {canShare && (
             <button type="button" role="menuitem" onClick={nativeShare} className={item}>

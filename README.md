@@ -38,8 +38,8 @@ according to Cloudflare, sets no cookies and does not identify you (see the priv
 - **Read the pages of the printed mushaf**: the 604 pages of the Madinah mushaf, each with the Arabic text as one block and the
   translation beside it. Turn pages with buttons, a page number, the arrow keys or a swipe; the audio plays on across the surahs
   of a page and on to the next page. Choose it in Settings. ([how](#read-the-pages-of-the-mushaf))
-- **Listen** to the recitation verse by verse, from 23 reciters. The best known are at the top of the list, and you can
-  search by name. Playback moves on to the next verse by itself; at the end of a surah it stops, repeats the surah or goes
+- **Listen** to the recitation verse by verse, from 23 reciters, or a whole surah at a time from 145 more. The best known
+  are at the top of the list, and you can search by name. Playback moves on to the next verse by itself; at the end of a surah it stops, repeats the surah or goes
   on to the next one, as you choose. You can also **play a whole juz**, across surahs. ([how](#listen-to-a-recitation))
 - **Control the audio** from your phone's lock screen (pause, next verse), or on a computer with Space (play or pause) and
   N and P (next and previous verse). A data-saver mode plays smaller files on mobile data. ([how](#control-the-audio))
@@ -163,7 +163,8 @@ pages of 10 verses, which stay the default. The choice follows your account when
 ![The Audio section of the Settings page: reciter, audio quality, what happens when the surah ends, and a list to play a juz](docs/screenshots/en/how-listen.png)
 
 1. Choose a reciter in Reading settings or in the Audio section of the Settings page. Type part of a name in the search
-   box at the top of the list to find one.
+   box at the top of the list to find one. The last group, **Whole surah only**, has reciters with one recording per surah:
+   for them only **Play the surah** is there (no button on a verse, no juz, and memorizing by ear is left out).
 2. Press play on a verse. In the mushaf layout, tap the verse number first: a bar with the play button opens at the
    bottom.
 3. To choose what happens at the end of the surah, use the list in the surah header (Stop at the end, Repeat the surah,
@@ -254,8 +255,9 @@ are sent to our server to find the verses and are not kept with your account (se
 
 Press the share button on a verse and choose **Copy verse** (the Arabic and your translations, the reference such as
 "Qur'an 2:255 (Al-Baqarah)" and a link), **Copy link to verse**, **Share…** (your phone's own share sheet, where the browser
-has one) or **WhatsApp**. In the mushaf layout, tap the verse number first (picture under "Continue reading and mark your
-progress"). The link opens the verse on a page of its own, with a link to read it in the surah and to the verses before and
+has one), **Share as an image** or **WhatsApp**. The image is a card with the Arabic, your first translation, the reference,
+the translation's credit and the site's address; where your browser cannot share a file it is saved to your device. In the
+mushaf layout, tap the verse number first (picture under "Continue reading and mark your progress"). The link opens the verse on a page of its own, with a link to read it in the surah and to the verses before and
 after it.
 
 ### Install it as an app
